@@ -1,0 +1,22 @@
+@(url:String)
+@common.govMain("An unrecoverable error has occurred") {
+	
+    <div class="carers-allowance">
+
+        @common.protoType()
+
+        @common.helpLine()
+
+        <section class="error-statement">
+
+                    <h1>An unrecoverable error has occurred</h1>
+
+
+                <nav class="form-steps">
+                    <button type="submit" name="action" value="next" class="button secondary" onClick="location.href='@url'" aria-label="Restart claim button">Restart</button>
+                </nav>
+            </section>
+        </div>
+} {
+    <!-- Empty -->
+}

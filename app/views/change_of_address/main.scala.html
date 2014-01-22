@@ -1,0 +1,28 @@
+@(title: String, currentForm: Option[Form[_]] = None)(content: Html)
+
+@import helper._
+
+@common.govMain(title) {
+
+    <div class="carers-allowance">
+
+        @common.protoType()
+         
+        @common.helpLine()
+
+
+        <section>
+
+            <h1>Change of keeper section header goes here</h1>
+
+
+
+            @if(currentForm.isDefined) {
+                @errorsSummary(currentForm.get)
+            }
+
+            @content
+
+        </section>
+    </div>
+}

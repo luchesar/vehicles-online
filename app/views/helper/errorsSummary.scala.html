@@ -1,0 +1,21 @@
+@(form: Form[_])
+
+@import utils.helpers.CarersCrypto
+
+@if(form.hasErrors) {
+    <div class="validation-summary">
+        <h2>Please check the form</h2>
+        <p>Please fix the following:</p>
+
+        <ol>
+            @for(error <- form.errors) {
+                <li>
+                    <a href="#@CarersCrypto.encryptAES(error.key.replace(".","_"))">
+                        @Messages(error.key, error.args: _*) - @Messages(error.message, error.args: _*)
+                    </a>
+                </li>
+            }
+        </ol>
+    </div>
+}
+

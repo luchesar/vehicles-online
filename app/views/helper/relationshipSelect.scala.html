@@ -1,0 +1,21 @@
+@(field: Field,withNone:Boolean=false)
+
+@import helper._
+@import utils.helpers.CarersTemplate._
+@import views.html.helper.base._
+
+@{
+    carersOptGroupSelect(field,
+        optGroups = Seq(
+                "Common" -> Seq("wife"->"Wife or civil partner", "husband"->"Husband  or civil partner", "partner"->"Partner","son"->"Son","daughter"->"Daughter", "mother"->"Mother", "father"->"Father"),
+                "Other" -> (Seq("friend"->"Friend","other"->"Other")++(if (withNone)Seq("none"->"None") else Seq())),
+                "Parents" -> Seq("stepFather"->"Stepfather", "stepMother"->"Stepmother","stepDaughter"->"Stepdaughter","stepSon"->"Stepson"),
+                "Siblings" -> Seq("brother" -> "Brother","halfBrother"->"Half Brother","halfSister"->"Half Sister","sister"->"Sister","stepBrother"->"Stepbrother","stepSister"->"Stepsister"),
+                "Dependant" -> Seq("adoptedDaughter" -> "Adopted Daughter","adoptedSon" -> "Adopted Son"),
+                "Grandparents" -> Seq("grandMother"->"Grandmother","greatGrandMother"->"Great-Grandmother","grandFather"->"Grandfather","greatGrandFather"->"Great-Grandfather"),
+                "Grandchildren" -> Seq("grandSon"->"Grand Son","greatGrandSon"->"Great-Grandson","grandDaughter"->"Granddaughter", "greatGrandDaughter"->"Great-Granddaughter"),
+                "In-Laws" -> Seq("brotherInLaw"  ->"Brother-In-Law","daughterInLaw" ->"Daughter-In-Law","fatherInLaw"->"Father-In-Law","motherInLaw"->"Mother-In-Law","sisterInLaw"->"Sister-In-Law","sonInLaw"->"Son-In-Law"),
+                "Other Family" -> Seq("aunt" -> "Aunt","nephew"->"Nephew","niece"->"Niece","uncle"->"Uncle")
+            )
+    )
+}
