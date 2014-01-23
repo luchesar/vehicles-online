@@ -12,7 +12,11 @@ verifyidentity.name = Verify identity
 verifyidentity.body = This is the main text of the page
 verifyidentity.button = Use existing identity profile
 
-
+#page 4
+areyouregistered.title = Change of keeper - sign in
+areyouregistered.name = Sign in to GOV.UK
+areyouregistered.body = This is the main text of the page
+areyouregistered.button = Use existing identity profile
 
 ################
 

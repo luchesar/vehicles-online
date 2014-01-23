@@ -28,7 +28,7 @@ class VerifyIdentityIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Assert
-      titleMustEqual("Change of keeper - verify identity") //TODO We need to change this to look at page3
+      titleMustEqual("Change of keeper - sign in") //TODO We need to change this to look at page3
     }
 
   }

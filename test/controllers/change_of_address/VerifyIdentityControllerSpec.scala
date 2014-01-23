@@ -32,7 +32,7 @@ class VerifyIdentityControllerSpec extends Specification with Tags {
 
       // Assert
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result) mustEqual (Some("/verify-identity")) //TODO page should redirect to p3verifyidentity
+      redirectLocation(result) mustEqual (Some("/are-you-registered"))
     }
 
   }
