@@ -11,7 +11,7 @@
 
 main {
 	background: #fff;
-	border-bottom: 10px solid #D53880;
+	border-bottom: 10px solid #e0417f;
 	display: block;
 }
 
@@ -32,7 +32,7 @@ main {
     {border-top: 10px solid #f47738;}
 
 	   .prototype {
-		   background: #D53880;
+		   background: #e0417f;
 		   overflow: hidden;
 		   zoom: 1;
 		   padding: 0.7em 1em 0 1em;
@@ -78,7 +78,7 @@ main {
 	   padding: 10px 1em 10px 0;
 	   list-style: none;
 	   text-align: right;
-	   border-top: 10px solid #D53880;
+	   border-top: 10px solid #e0417f;
 	   @media screen and (max-width: 640px) {
 		   border: 0;
 		   padding-right: 0;
@@ -1916,7 +1916,7 @@ main {
 		}
         &.alpha {
           span {
-            background: #D53880;
+            background: #e0417f;
           }
         }
 		&.beta {
