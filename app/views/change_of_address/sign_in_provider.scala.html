@@ -1,16 +1,19 @@
 @()
 
 @import helper._
-<title>@Messages("signinprovider.title")</title>
 
-@main("signinprovider.name"){
-@form(action = controllers.change_of_address.routes.SignInProvider.submit) {
-<h1>@Messages("signinprovider.name")</h1>
-<p>@Messages("signinprovider.p1")</p>
+@main(Messages("signinprovider.title")){
+    @form(action = controllers.change_of_address.routes.SignInProvider.submit) {
+        <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
+            <legend>@Messages("signinprovider.name")</legend>
 
-    <div class="form-steps">
-        <button type="submit" name="action" value="next" class="button" aria-label="Next button">@Messages("signinprovider.button")</button>
-    </div>
-}
+            <p>@Messages("signinprovider.p1")</p>
+
+        </fieldset>
+
+        <div class="form-steps">
+            <button type="submit" name="action" value="next" class="button" aria-label="Next button">@Messages("signinprovider.button")</button>
+        </div>
+    }
 
 }
