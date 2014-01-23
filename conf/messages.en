@@ -1,14 +1,24 @@
 p1manageyourvehicles.name = Manage your vehicles
+
 p2keeperstatus.name = Change of keeper
 p2keeperstatus.body = This is the main text of the page
-p3verifyidentity.name = Change of keeper
-p4areyouregistered.name = Sign in to GOV.UK
-p5signinprovider.name = Sign in to GOV.UK
-p6loginpage.name = Verified login id
-p7loginconfirmation.name =
-p8authentication.name = Authentication
-p9V5csearch.name = Change of keeper
-p10confirmvehicledetails.name = Change of keeper
+p2keeperstatus.button = I'm a private individual
+
+#p3verifyidentity.name = Change of keeper
+
+#p4areyouregistered.name = Sign in to GOV.UK
+
+#p5signinprovider.name = Sign in to GOV.UK
+
+#p6loginpage.name = Verified login id
+
+#p7loginconfirmation.name =
+
+#p8authentication.name = Authentication
+
+#p9V5csearch.name = Change of keeper
+
+#p10confirmvehicledetails.name = Change of keeper
 
 
 ################

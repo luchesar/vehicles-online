@@ -14,7 +14,7 @@ object P2KeeperStatus extends Controller {
   }
 
   def submit = Action {
-    Ok(html.change_of_address.p2keeperstatus()) //TODO Change this to move to P3
+    Redirect(routes.P2KeeperStatus.present) //TODO Change this to move to P3
   }
 
 }

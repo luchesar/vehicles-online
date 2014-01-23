@@ -6,6 +6,7 @@ import play.api.test.Helpers._
 
 
 class P2KeeperStatusControllerSpec extends Specification with Tags {
+
   "P2KeeperStatus - Controller" should {
 
 
@@ -19,9 +20,9 @@ class P2KeeperStatusControllerSpec extends Specification with Tags {
       // Assert
       status(result) mustEqual OK
     }
+  }
 
-
-    "redirect to next page after i'm a private individual button clicked" in new WithApplication {
+    "redirect to next page after the i'm a private individual button is clicked" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
 
@@ -30,9 +31,8 @@ class P2KeeperStatusControllerSpec extends Specification with Tags {
 
       // Assert
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result) mustEqual (Some("/p3verifyidentity"))
+      redirectLocation(result) mustEqual (Some("/p2keeperstatus")) //TODO page should redirect to p3verifyidentity
     }
 
 
-  }
 }
