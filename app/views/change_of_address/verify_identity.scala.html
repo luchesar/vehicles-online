@@ -1,17 +1,21 @@
-
 @()
 
 @import helper._
-<title>@Messages("verifyidentity.title")</title>
 
-@main("Section name and page title goes here"){
-@form(action = controllers.change_of_address.routes.VerifyIdentity.submit) {
-<h1>@Messages("verifyidentity.name")</h1>
-<p>@Messages("verifyidentity.p1")</p><br>
-<p>@Messages("verifyidentity.p2")</p>
-<div class="form-steps">
-    <button type="submit" name="action" class="button" aria-label="Next button">@Messages("verifyidentity.button")</button>
-</div>
-        }
+@main(Messages("verifyidentity.title")) {
+    @form(action = controllers.change_of_address.routes.VerifyIdentity.submit) {
+        <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
+            <legend>@Messages("verifyidentity.name")</legend>
+
+            <p>@Messages("verifyidentity.p1")</p><br>
+
+            <p>@Messages("verifyidentity.p2")</p>
+
+        </fieldset>
+
+        <div class="form-steps">
+            <button type="submit" name="action" class="button" aria-label="Next button">@Messages("verifyidentity.button")</button>
+        </div>
+    }
 
 }
