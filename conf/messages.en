@@ -24,6 +24,17 @@ loginpage.instructions = Use your existing username and passsword to complete yo
 loginpage.username = Username / Email address
 loginpage.password = Password
 
+#page 7
+loginConfirmation.message = You've successfully authenticated with the PostOffice
+loginConfirmation.personaldetails = Personal details
+loginConfirmation.personaldetails.firstname = First name:
+loginConfirmation.personaldetails.surname = Surname:
+loginConfirmation.personaldetails.dob = Date of Birth:
+loginConfirmation.personaldetails.address = Address:
+loginConfirmation.consent = consent
+loginConfirmation.consent.message = Do you agree to allow the Post Office to send your personal details to the relying party from which you are authenticating?
+loginConfirmation.button.refuse = I refuse
+loginConfirmation.button.agree = I agree
 
 ################
 
