@@ -1,19 +1,26 @@
 @(loginPageForm: Form[models.domain.change_of_address.LoginPageModel])
 
 @import helper._
-
-<title>@Messages("loginpage.title")</title>
-
-<h1>@Messages("loginpage.title")</h1>
-
-<p>@Messages("Use your existing username and passsword to complete your Verified ID transaction.")</p>
-
-@form(action = controllers.change_of_address.routes.LoginPage.submit) {
-  @inputText(field = loginPageForm("username"), args = 'placeholder -> "", '_label -> Messages("loginpage.username"), '_showConstraints -> false)
-  @inputPassword(field = loginPageForm("password"), args = 'placeholder -> "", '_label -> Messages("loginpage.password"), '_showConstraints -> false)
+@import utils.helpers.CarersTemplate._
+@import views.html.helper.base._
 
 
-    <div class="form-steps">
-        <button type="submit" name="action" value="next" class="button" aria-label="I'm a private individual button">I'm a private individual</button>
-    </div>
+
+@main(Messages("loginpage.title")) {
+    @form(action = controllers.change_of_address.routes.LoginPage.submit) {
+        <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
+            <legend>@Messages("loginpage.title")</legend>
+            <p>@Messages("Use your existing username and passsword to complete your Verified ID transaction.")</p>
+
+                <ul>
+                    @carersInputText(loginPageForm("username"),'_label -> Messages("loginpage.username"), 'maxLength -> 100)
+
+                    @carersInputText(loginPageForm("password"),'_label -> Messages("loginpage.password"), 'maxLength -> 100)
+                </ul>
+        </fieldset>
+
+        <div class="form-steps">
+            <button type="submit" name="action" value="next" class="button" aria-label="I'm a private individual button">I'm a private individual</button>
+        </div>
+    }
 }
