@@ -7,10 +7,10 @@
 @main("keeperstatus.name"){
 @form(action = controllers.change_of_address.routes.KeeperStatus.submit) {
 <h1>@Messages("keeperstatus.name")</h1>
-<p>@Messages("keeperstatus.body")</p>
+<p>@Messages("keeperstatus.p1")</p>
 
 <div class="form-steps">
-    <button type="submit" name="action" class="button" aria-label="Next button">I'm a private individual</button>
+    <button type="submit" name="action" class="button" aria-label="Next button">@Messages("keeperstatus.button")</button>
 </div>
         }
 

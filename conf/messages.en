@@ -1,9 +1,19 @@
 p1manageyourvehicles.name = Manage your vehicles
 
+#page 1
+beforeyoustart.title = Change of keeper - before you start
+beforeyoustart.name = Before you start
+beforeyoustart.p1 = Use this service if you want to change the details of who is the legal keeper of a registered vehicle.
+beforeyoustart.p2 = Before you start you will need:
+beforeyoustart.p3 = 1. The vehicle in questions V5C (log book).
+beforeyoustart.p4 = 2. Either the current keeper or new keeper will need to prove their identify by logging into their identify profile during the process.
+beforeyoustart.p5 = 3. It is advisable that whoever oversees this 'Change of keeper' process (current or new keeper) obtains an identity profile before starting. It is however possible to register for an identity profile during the 'Change of keeper' process.
+beforeyoustart.button = Start now
+
 #page 2
 keeperstatus.title = Change of keeper - keeper status
 keeperstatus.name = Change of keeper
-keeperstatus.body = What is your status, as current keeper of the vehicle?
+keeperstatus.p1 = What is your status, as current keeper of the vehicle?
 keeperstatus.button = I'm a private individual
 
 #page 3
@@ -32,17 +42,6 @@ loginpage.instructions = Use your existing username and passsword to complete yo
 loginpage.username = Username / Email address
 loginpage.password = Password
 
-#page 7
-loginConfirmation.message = You've successfully authenticated with the PostOffice
-loginConfirmation.personaldetails = Personal details
-loginConfirmation.personaldetails.firstname = First name:
-loginConfirmation.personaldetails.surname = Surname:
-loginConfirmation.personaldetails.dob = Date of Birth:
-loginConfirmation.personaldetails.address = Address:
-loginConfirmation.consent = consent
-loginConfirmation.consent.message = Do you agree to allow the Post Office to send your personal details to the relying party from which you are authenticating?
-loginConfirmation.button.refuse = I refuse
-loginConfirmation.button.agree = I agree
 
 ################
 

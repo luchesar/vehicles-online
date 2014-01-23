@@ -3,7 +3,8 @@
 # ~~~~
 
 # Home page
-GET           /                         controllers.change_of_address.P1.present
+GET           /                         controllers.change_of_address.BeforeYouStart.present
+POST          /                         controllers.change_of_address.BeforeYouStart.submit
 
 # Page 2 Keeper status
 GET           /keeper-status            controllers.change_of_address.KeeperStatus.present

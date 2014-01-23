@@ -1,0 +1,20 @@
+
+@()
+
+@import helper._
+<title>@Messages("beforeyoustart.title")</title>
+
+@main("Section name and page title goes here"){
+@form(action = controllers.change_of_address.routes.BeforeYouStart.submit) {
+<h1>@Messages("beforeyoustart.name")</h1>
+<p>@Messages("beforeyoustart.p1")</p><br>
+<p>@Messages("beforeyoustart.p2")</p><br>
+<p>@Messages("beforeyoustart.p3")</p><br>
+<p>@Messages("beforeyoustart.p4")</p><br>
+<p>@Messages("beforeyoustart.p5")</p>
+<div class="form-steps">
+    <button type="submit" name="action" class="button" aria-label="Next button">@Messages("beforeyoustart.button")</button>
+</div>
+}
+
+}
