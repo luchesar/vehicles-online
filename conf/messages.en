@@ -18,6 +18,12 @@ areyouregistered.name = Sign in to GOV.UK
 areyouregistered.body = This is the main text of the page
 areyouregistered.button = Use existing identity profile
 
+#page 5
+signinprovider.title = Change of keeper - sign in provider
+signinprovider.name = Sign in to GOV.UK
+signinprovider.body = This is the main text of the page
+signinprovider.button = Post Office
+
 #page 6
 loginpage.title = Verified login id
 loginpage.instructions = Use your existing username and passsword to complete your Verified ID transaction.

@@ -5,21 +5,21 @@ import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
 
-class AreYouRegisteredIntegrationSpec extends Specification with Tags {
+class SignInProviderIntegrationSpec extends Specification with Tags {
 
-  "AreYouRegistered Integration" should {
+  "SignInProvider Integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      browser.goTo("/are-you-registered")
+      browser.goTo("/sign-in-provider")
 
       // Assert
-      titleMustContain("are you registered")
+      titleMustContain("sign in provider")
 
     }
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       // Arrange
-      browser.goTo("/are-you-registered")
+      browser.goTo("/sign-in-provider")
 
       // Act
       browser.submit("button[type='submit']")

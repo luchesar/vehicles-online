@@ -6,17 +6,16 @@ import play.api.test.Helpers._
 import controllers.change_of_address
 
 
-class AreYouRegisteredControllerSpec extends Specification with Tags {
+class SignInProviderControllerSpec extends Specification with Tags {
 
-  "AreYouRegistered - Controller" should {
-
+  "SignInProvider - Controller" should {
 
     "present" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
 
       // Act
-      val result = change_of_address.AreYouRegistered.present(request)
+      val result = change_of_address.SignInProvider.present(request)
 
       // Assert
       status(result) mustEqual OK
@@ -28,7 +27,7 @@ class AreYouRegisteredControllerSpec extends Specification with Tags {
       val request = FakeRequest().withSession()
 
       // Act
-      val result = change_of_address.AreYouRegistered.submit(request)
+      val result = change_of_address.SignInProvider.submit(request)
 
       // Assert
       status(result) mustEqual SEE_OTHER
