@@ -14,13 +14,13 @@ beforeyoustart.button = Start now
 keeperstatus.title = Change of keeper - keeper status
 keeperstatus.name = Change of keeper
 keeperstatus.p1 = What is your status, as current keeper of the vehicle?
-keeperstatus.button = I'm a private individual
+keeperstatus.button = I am a private individual
 
 #page 3
 verifyidentity.title = Change of keeper - verify identity
 verifyidentity.alert = Example alert message
 verifyidentity.name = Verify identity
-verifyidentity.p1 = Before you can start using the Change of Keeper service, you need to select the authorisation provider you wish to use:
+verifyidentity.p1 = Before you can start using the Change of Keeper service, you need to select the authentication provider you wish to use:
 verifyidentity.p2 = GOV.UK is the new way to use government services online. You will need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
 verifyidentity.button = Use existing identity profile
 
@@ -28,7 +28,7 @@ verifyidentity.button = Use existing identity profile
 areyouregistered.title = Change of keeper - are you registered
 areyouregistered.name = Sign in to GOV.UK
 areyouregistered.p1 = GOV.UK is the new way to use government services online. You will now need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
-areyouregistered.button = Use existing identity profile
+areyouregistered.button = Sign in
 
 #page 5
 signinprovider.title = Change of keeper - sign in provider
