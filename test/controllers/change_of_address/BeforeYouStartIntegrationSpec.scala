@@ -10,7 +10,7 @@ class BeforeYouStartIntegrationSpec extends Specification with Tags {
   "BeforeYouStart Integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      browser.goTo("/before-you-start")
+      browser.goTo("/")
 
       // Assert
       titleMustContain("before you start")
@@ -19,7 +19,7 @@ class BeforeYouStartIntegrationSpec extends Specification with Tags {
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       // Arrange
-      browser.goTo("/before-you-start")
+      browser.goTo("/")
 
       // Act
       browser.submit("button[type='submit']")
