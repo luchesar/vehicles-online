@@ -10,11 +10,11 @@ import views._
 object P2KeeperStatus extends Controller {
 
   def present = Action {
-    Ok(html.change_of_address.p2keeperstatus)
+    Ok(html.change_of_address.p2keeperstatus())
   }
 
   def submit = Action {
-    Ok(html.change_of_address.p2keeperstatus) //TODO Change this to move to P3
+    Ok(html.change_of_address.p2keeperstatus()) //TODO Change this to move to P3
   }
 
 }
