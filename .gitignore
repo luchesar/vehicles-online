@@ -39,3 +39,5 @@ dist
 *.idea
 *.settings
 *.target
+
+/.sass-cache
