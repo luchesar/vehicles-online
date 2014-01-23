@@ -7,3 +7,19 @@ GET           /                                                                 
 
 # Map static resources from the /public folder to the /assets URL path
 GET           /assets/*file                                                           controllers.Assets.at(path="/public", file)
+
+# Page 2 Keeper status
+GET           /p2keeperstatus                                                         controllers.change_of_address.P2KeeperStatus.present
+POST          /p2keeperstatus                                                         controllers.change_of_address.P2KeeperStatus.submit
+
+# Page 3 Keeper status
+GET           /p3verifyidentity                                                         controllers.change_of_address.p3verifyidentity.present
+POST          /p3verifyidentity                                                         controllers.change_of_address.p3verifyidentity.submit
+
+# Page 4 Keeper status
+GET           /p4areyouregistered                                                         controllers.change_of_address.p4areyouregistered.present
+POST          /p4areyouregistered                                                         controllers.change_of_address.p4areyouregistered.submit
+
+# Page 5 Keeper status
+GET           /p5signinprovider                                                         controllers.change_of_address.p5signinprovider.present
+POST          /p5signinprovider                                                         controllers.change_of_address.p5signinprovider.submit
