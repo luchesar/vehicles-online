@@ -6,34 +6,34 @@ import play.api.test.Helpers._
 import controllers.change_of_address
 
 
-class LoginPageControllerSpec extends Specification with Tags {
+class SignInProviderControllerSpec extends Specification with Tags {
 
-  "LoginPage - Controller" should {
-
+  "SignInProvider - Controller" should {
 
     "present" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
 
       // Act
-      val result = change_of_address.LoginPage.present(request)
+      val result = change_of_address.SignInProvider.present(request)
 
       // Assert
       status(result) mustEqual OK
     }
-  }
 
-    "redirect to next page after the i'm a private individual button is clicked" in new WithApplication {
+
+    "redirect to next page after the button is clicked" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
 
       // Act
-      val result = change_of_address.LoginPage.submit(request)
+      val result = change_of_address.SignInProvider.submit(request)
 
       // Assert
       status(result) mustEqual SEE_OTHER
-      //redirectLocation(result) mustEqual (Some("/keeper-status")) //TODO page should redirect to next page
+      redirectLocation(result) mustEqual (Some("/sign-in-provider")) //TODO update with next page url
     }
 
+  }
 
 }

@@ -32,7 +32,7 @@ class AreYouRegisteredControllerSpec extends Specification with Tags {
 
       // Assert
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result) mustEqual (Some("/are-you-registered")) //TODO update with next page url
+      redirectLocation(result) mustEqual (Some("/sign-in-provider")) //TODO update with next page url
     }
 
   }

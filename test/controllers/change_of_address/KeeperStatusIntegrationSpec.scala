@@ -20,7 +20,7 @@ class KeeperStatusIntegrationSpec extends Specification with Tags {
 
       }
 
-      "go to next page on i'm a private individual button click" in new WithBrowser with BrowserMatchers {
+      "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
         // Arrange
         browser.goTo("/keeper-status")
 
@@ -28,7 +28,7 @@ class KeeperStatusIntegrationSpec extends Specification with Tags {
         browser.submit("button[type='submit']")
 
         // Assert
-        titleMustEqual("Change of keeper - verify identity") //TODO We need to change this to look at page3
+        titleMustEqual("Change of keeper - verify identity")
       }
 
 
