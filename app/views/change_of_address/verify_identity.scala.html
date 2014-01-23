@@ -1,0 +1,17 @@
+
+@()
+
+@import helper._
+<title>@Messages("verifyidentity.title")</title>
+
+@main("Section name and page title goes here"){
+@form(action = controllers.change_of_address.routes.KeeperStatus.submit) {
+<h1>@Messages("verifyidentity.name")</h1>
+<p>@Messages("verifyidentity.body")</p>
+
+<div class="form-steps">
+    <button type="submit" name="action" class="button" aria-label="Next button">Use existing identity profile</button>
+</div>
+        }
+
+}

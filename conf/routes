@@ -3,11 +3,15 @@
 # ~~~~
 
 # Home page
-GET           /                                                                       controllers.change_of_address.P1.present
-
-# Map static resources from the /public folder to the /assets URL path
-GET           /assets/*file                                                           controllers.Assets.at(path="/public", file)
+GET           /                                                         controllers.change_of_address.P1.present
 
 # Page 2 Keeper status
-GET           /keeper-status                                                         controllers.change_of_address.KeeperStatus.present
-POST          /keeper-status                                                         controllers.change_of_address.KeeperStatus.submit
+GET           /keeper-status                                            controllers.change_of_address.KeeperStatus.present
+POST          /keeper-status                                            controllers.change_of_address.KeeperStatus.submit
+
+# Page 3 Keeper status
+GET           /verify-identity                                          controllers.change_of_address.VerifyIdentity.present
+POST          /verify-identity                                          controllers.change_of_address.VerifyIdentity.submit
+
+# Map static resources from the /public folder to the /assets URL path
+GET           /assets/*file                                             controllers.Assets.at(path="/public", file)

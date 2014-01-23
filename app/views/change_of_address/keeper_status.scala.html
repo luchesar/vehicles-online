@@ -1,11 +1,17 @@
+
 @()
 
 @import helper._
+<title>@Messages("keeperstatus.title")</title>
 
-@main("Section name and page title goes here"){
-<h1>@Messages("p2keeperstatus.name")</h1>
-<p>@Messages("p2keeperstatus.body")</p>
+@main("keeperstatus.name"){
+@form(action = controllers.change_of_address.routes.KeeperStatus.submit) {
+<h1>@Messages("keeperstatus.name")</h1>
+<p>@Messages("keeperstatus.body")</p>
 
-<input type="submit" id="submit" value="I'm a private individual" />
+<div class="form-steps">
+    <button type="submit" name="action" class="button" aria-label="Next button">I'm a private individual</button>
+</div>
+        }
 
 }

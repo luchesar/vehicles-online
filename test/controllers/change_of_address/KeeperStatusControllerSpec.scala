@@ -6,9 +6,9 @@ import play.api.test.Helpers._
 import controllers.change_of_address
 
 
-class P2KeeperStatusControllerSpec extends Specification with Tags {
+class KeeperStatusControllerSpec extends Specification with Tags {
 
-  "P2KeeperStatus - Controller" should {
+  "KeeperStatus - Controller" should {
 
 
     "present" in new WithApplication {
@@ -21,7 +21,7 @@ class P2KeeperStatusControllerSpec extends Specification with Tags {
       // Assert
       status(result) mustEqual OK
     }
-  }
+
 
     "redirect to next page after the i'm a private individual button is clicked" in new WithApplication {
       // Arrange
@@ -32,8 +32,9 @@ class P2KeeperStatusControllerSpec extends Specification with Tags {
 
       // Assert
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result) mustEqual (Some("/keeper-status")) //TODO page should redirect to p3verifyidentity
+      redirectLocation(result) mustEqual (Some("/verify-identity")) //TODO page should redirect to p3verifyidentity
     }
 
+  }
 
 }
