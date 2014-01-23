@@ -14,7 +14,7 @@ class LoginPageIntegrationSpec extends Specification with Tags {
       // Assert
       titleMustContain("Verified login id")
     }
-/*
+
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       // Arrange
       browser.goTo("/login-page")
@@ -23,9 +23,9 @@ class LoginPageIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Assert
-      titleMustEqual("Change of keeper - are you registered") //TODO We need to change this to look at page3
+      titleMustEqual("Verified login id") //TODO We need to change this to look at next page
     }
-*/
+
   }
 
 }

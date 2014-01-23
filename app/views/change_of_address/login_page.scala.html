@@ -11,6 +11,9 @@
 @form(action = controllers.change_of_address.routes.LoginPage.submit) {
   @inputText(field = loginPageForm("username"), args = 'placeholder -> "", '_label -> Messages("loginpage.username"), '_showConstraints -> false)
   @inputPassword(field = loginPageForm("password"), args = 'placeholder -> "", '_label -> Messages("loginpage.password"), '_showConstraints -> false)
-  <!-- button>Submit</button-->
-  <input type="submit" id="submit" value="I'm a private individual" />  
+
+
+    <div class="form-steps">
+        <button type="submit" name="action" value="next" class="button" aria-label="I'm a private individual button">I'm a private individual</button>
+    </div>
 }
