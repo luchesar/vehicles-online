@@ -7,13 +7,12 @@ import controllers.BrowserMatchers
 class LoginPageIntegrationSpec extends Specification with Tags {
 
   "LoginPage Integration" should {
-    /*"be presented" in new WithBrowser with BrowserMatchers {
+    "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       browser.goTo("/login-page")
 
       // Assert
       titleMustContain("Verified login id")
-
     }
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
@@ -24,9 +23,9 @@ class LoginPageIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Assert
-      titleMustEqual("Change of keeper - are you registered") //TODO We need to change this to look at page3
+      titleMustEqual("Verified login id") //TODO We need to change this to look at next page
     }
-*/
+
   }
 
 }
