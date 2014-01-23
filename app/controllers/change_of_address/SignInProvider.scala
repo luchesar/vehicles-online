@@ -6,14 +6,14 @@ import play.api.data.Forms._
 
 import views._
 
-object AreYouRegistered extends Controller {
+object SignInProvider extends Controller {
 
   def present = Action {
-    Ok(html.change_of_address.are_you_registered())
+    Ok(html.change_of_address.sign_in_provider())
   }
 
   def submit = Action {
-    Redirect(routes.SignInProvider.present) //TODO Change this to move to next page
+    Redirect(routes.SignInProvider.present)
   }
 
 }
