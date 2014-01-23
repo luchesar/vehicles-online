@@ -18,6 +18,13 @@ areyouregistered.name = Sign in to GOV.UK
 areyouregistered.body = This is the main text of the page
 areyouregistered.button = Use existing identity profile
 
+#page 6
+loginpage.title = Verified login id
+loginpage.instructions = Use your existing username and passsword to complete your Verified ID transaction.
+loginpage.username = Username / Email address
+loginpage.password = Password
+
+
 ################
 
 s1.name = eligibility

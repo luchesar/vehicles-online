@@ -18,6 +18,9 @@ POST          /verify-identity                                          controll
 GET           /are-you-registered                                       controllers.change_of_address.AreYouRegistered.present
 POST          /are-you-registered                                       controllers.change_of_address.AreYouRegistered.submit
 
+# Page 6 IDA login page
+GET    /login-page      controllers.change_of_address.LoginPage.present
+POST   /login-page      controllers.change_of_address.LoginPage.submit
 
 # Map static resources from the /public folder to the /assets URL path
 GET           /assets/*file                                             controllers.Assets.at(path="/public", file)

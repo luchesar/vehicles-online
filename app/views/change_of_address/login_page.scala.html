@@ -1,0 +1,13 @@
+@(loginPageForm: Form[models.domain.change_of_address.LoginPageModel])
+
+@import helper._
+
+<h1>@Messages("loginpage.title")</h1>
+<p>@Messages("Use your existing username and passsword to complete your Verified ID transaction.")</p>
+
+@form(action = controllers.change_of_address.routes.LoginPage.submit) {
+  @inputText(field = loginPageForm("username"), args = 'placeholder -> "", '_label -> Messages("loginpage.username"), '_showConstraints -> false)
+  @inputPassword(field = loginPageForm("password"), args = 'placeholder -> "", '_label -> Messages("loginpage.password"), '_showConstraints -> false)
+  <!-- button>Submit</button-->
+  <input type="submit" id="submit" value="I'm a private individual" />  
+}
