@@ -7,15 +7,14 @@ import controllers.BrowserMatchers
 class LoginPageIntegrationSpec extends Specification with Tags {
 
   "LoginPage Integration" should {
-    /*"be presented" in new WithBrowser with BrowserMatchers {
+    "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       browser.goTo("/login-page")
 
       // Assert
       titleMustContain("Verified login id")
-
     }
-
+/*
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       // Arrange
       browser.goTo("/login-page")
