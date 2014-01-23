@@ -25,7 +25,7 @@ class SignInProviderIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Assert
-      titleMustEqual("Change of keeper - sign in provider")
+      titleMustEqual("") //ToDo update with title of login page
     }
 
   }

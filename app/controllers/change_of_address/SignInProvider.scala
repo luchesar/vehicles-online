@@ -13,7 +13,7 @@ object SignInProvider extends Controller {
   }
 
   def submit = Action {
-    Redirect(routes.SignInProvider.present)
+    Redirect(routes.LoginPage.present)
   }
 
 }
