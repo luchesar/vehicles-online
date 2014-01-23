@@ -1,8 +1,9 @@
-package controllers
+package controllers.change_of_address
 
 import org.specs2.mutable._
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
+import controllers.change_of_address
 
 
 class P2KeeperStatusControllerSpec extends Specification with Tags {
@@ -15,7 +16,7 @@ class P2KeeperStatusControllerSpec extends Specification with Tags {
       val request = FakeRequest().withSession()
 
       // Act
-      val result = change_of_address.P2KeeperStatus.present(request)
+      val result = change_of_address.KeeperStatus.present(request)
 
       // Assert
       status(result) mustEqual OK
@@ -27,11 +28,11 @@ class P2KeeperStatusControllerSpec extends Specification with Tags {
       val request = FakeRequest().withSession()
 
       // Act
-      val result = change_of_address.P2KeeperStatus.submit(request)
+      val result = change_of_address.KeeperStatus.submit(request)
 
       // Assert
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result) mustEqual (Some("/p2keeperstatus")) //TODO page should redirect to p3verifyidentity
+      redirectLocation(result) mustEqual (Some("/keeper-status")) //TODO page should redirect to p3verifyidentity
     }
 
 

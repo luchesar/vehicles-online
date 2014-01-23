@@ -9,5 +9,5 @@ GET           /                                                                 
 GET           /assets/*file                                                           controllers.Assets.at(path="/public", file)
 
 # Page 2 Keeper status
-GET           /p2keeperstatus                                                         controllers.change_of_address.P2KeeperStatus.present
-POST          /p2keeperstatus                                                         controllers.change_of_address.P2KeeperStatus.submit
+GET           /keeper-status                                                         controllers.change_of_address.KeeperStatus.present
+POST          /keeper-status                                                         controllers.change_of_address.KeeperStatus.submit
