@@ -1,21 +1,20 @@
 @(loginPageForm: Form[models.domain.change_of_address.LoginPageModel])
 
 @import helper._
-@import utils.helpers.CarersTemplate._
 @import views.html.helper.base._
 
 
-
-@main(Messages("loginpage.title")) {
+<html>
+    <title>@Messages("loginpage.title"))</title>
     @form(action = controllers.change_of_address.routes.LoginPage.submit) {
         <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
             <legend>@Messages("loginpage.title")</legend>
             <p>@Messages("Use your existing username and passsword to complete your Verified ID transaction.")</p>
 
                 <ul>
-                    @carersInputText(loginPageForm("username"),'_label -> Messages("loginpage.username"), 'maxLength -> 100)
+                    @inputText(field = loginPageForm("username"), args = '_label -> Messages("loginpage.username"), '_showConstraints -> false)
+                    @inputPassword(field = loginPageForm("password"), args = '_label -> Messages("loginpage.password"), '_showConstraints -> false)
 
-                    @carersInputText(loginPageForm("password"),'_label -> Messages("loginpage.password"), 'maxLength -> 100)
                 </ul>
         </fieldset>
 
@@ -23,4 +22,4 @@
             <button type="submit" name="action" value="next" class="button" aria-label="I'm a private individual button">I'm a private individual</button>
         </div>
     }
-}
+</html>
