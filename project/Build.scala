@@ -15,18 +15,8 @@ object ApplicationBuild extends Build {
     cache,
     "org.specs2" %% "specs2" % "2.3.6" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
-    "com.typesafe.akka" %% "akka-testkit" % "2.2.3" % "test" withSources() withJavadoc(),
-    "com.typesafe.akka" %% "akka-agent" % "2.2.3" % "test" withSources() withJavadoc(),
-    "com.typesafe.akka" %% "akka-actor" % "2.2.3" % "test" withSources() withJavadoc(),
-    "com.typesafe.akka" %% "akka-remote" % "2.2.3" % "test" withSources() withJavadoc(),
     "com.dwp.carers" %% "carerscommon" % "0.81" ,
-    "postgresql" % "postgresql" % "9.1-901.jdbc4",
-    "me.moocar" % "logback-gelf" % "0.9.6p2",
-    "com.google.inject" % "guice" % "3.0",
-    "com.tzavellas" % "sse-guice" % "0.7.1",
-    "com.github.rjeschke" % "txtmark" % "0.10",
-    "org.jacoco" % "org.jacoco.core" % "0.6.4.201312101107",
-    "org.jacoco" % "org.jacoco.report" % "0.6.4.201312101107"
+    "org.scalatest" % "scalatest_2.10" % "2.0" % "test"
   )
 
   var sO: Seq[Def.Setting[_]] = Seq(scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls"))

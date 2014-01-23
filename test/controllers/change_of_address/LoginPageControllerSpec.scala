@@ -23,17 +23,17 @@ class LoginPageControllerSpec extends Specification with Tags {
     }
   }
 
-//    "redirect to next page after the i'm a private individual button is clicked" in new WithApplication {
-//      // Arrange
-//      val request = FakeRequest().withSession()
-//
-//      // Act
-//      val result = change_of_address.KeeperStatus.submit(request)
-//
-//      // Assert
-//      status(result) mustEqual SEE_OTHER
-//      redirectLocation(result) mustEqual (Some("/keeper-status")) //TODO page should redirect to p3verifyidentity
-//    }
+    "redirect to next page after the i'm a private individual button is clicked" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = change_of_address.LoginPage.submit(request)
+
+      // Assert
+      status(result) mustEqual SEE_OTHER
+      //redirectLocation(result) mustEqual (Some("/keeper-status")) //TODO page should redirect to next page
+    }
 
 
 }

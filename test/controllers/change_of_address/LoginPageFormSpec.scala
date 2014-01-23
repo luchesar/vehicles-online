@@ -1,33 +1,36 @@
 package controllers.change_of_address
 
-import org.specs2.mutable._
+import org.scalatest.WordSpec
+import org.scalatest.Matchers
 
-class LoginPageFormSpec extends Specification with Tags {
+class LoginPageFormSpec extends WordSpec with Matchers {
 
   "loginPage form" should {
+    val usernameId = "username"
+    val passwordId = "password"
+    val usernameValid = "testUsername"
+    val passwordValid = "testPassword"
 
     def loginPageForm(username: String, password: String) = {
       LoginPage.loginPageForm.bind(
         Map(
-          "username" -> username,
-          "password" -> password
+          usernameId -> username,
+          passwordId -> password
         )
       )
     }
-    /*
-    "Accept when all fields filled in correctly" in {
-      
-      loginPageForm(username = "test", password = "test").fold(
+
+    "Accept when only mandatory fields are filled in" in {
+      loginPageForm(username = usernameValid, password = passwordValid).fold(
         formWithErrors => {
-          failure("Should be success instead failure has occured")
+          fail("Should be success instead failure has occured")
         },
         f => {
-          f.username must equalTo("test")
-          f.password must equalTo("test")
+          f.username should equal(usernameValid)
+          f.password should equal(passwordValid)
         }
       )
-      
-    }    */
-    
+    }
   }
 }
+
