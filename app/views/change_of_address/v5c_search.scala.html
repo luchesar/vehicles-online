@@ -1,0 +1,28 @@
+@(v5cSearchForm: Form[models.domain.V5cSearchModel])
+
+@import helper._
+
+@main(Messages("v5csearch.title")) {
+    @form(action = controllers.change_of_address.routes.V5cSearch.submit) {
+        <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
+            <legend>@Messages("v5csearch.name")</legend>
+
+            <p>@Messages("v5csearch.p1")</p><br>
+
+            <p>@Messages("v5csearch.p2")</p><br>
+
+            <p>@Messages("v5csearch.p3")</p><br>
+
+            <p>@inputText(field = v5cSearchForm("V5cReferenceNumber"), args = '_label -> Messages("v5csearch.v5cinputlabel"), '_showConstraints -> false)</p><br>
+
+            <p>@inputText(field = v5cSearchForm("vehicleVRN"), args = '_label -> Messages("v5csearch.vrninputlabel"), '_showConstraints -> false)</p>
+
+
+        </fieldset>
+
+        <div class="form-steps">
+            <button type="submit" name="action" class="button" aria-label="Next button">@Messages("v5csearch.button")</button>
+        </div>
+    }
+
+}
