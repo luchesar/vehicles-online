@@ -9,7 +9,8 @@ import controllers.change_of_address
 class AuthenticationControllerSpec extends Specification with Tags {
 
   "Authentication - Controller" should {
-
+    val PINID = "PIN"
+    val PINValid = "123456"
 
     "present" in new WithApplication {
       // Arrange
@@ -23,16 +24,21 @@ class AuthenticationControllerSpec extends Specification with Tags {
     }
 
 
+
+
+
+
     "redirect to next page after the button is clicked" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(PINID -> PINValid)
 
       // Act
       val result = change_of_address.Authentication.submit(request)
 
       // Assert
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result) mustEqual (Some("/authentication")) //TODO update with next page url
+      redirectLocation(result) mustEqual (Some("/v5c-search"))
     }
 
   }

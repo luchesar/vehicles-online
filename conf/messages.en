@@ -70,7 +70,7 @@ confirm_vehicle_details.button = Confirm
 
 #Customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
-error.restricted.validVRNOnly = Please enter a valid vehicle registration number
+error.restricted.validVRNOnly = Please enter a valid vehicle registration number without spaces
 ################
 
 s1.name = eligibility
