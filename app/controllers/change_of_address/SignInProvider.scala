@@ -8,7 +8,7 @@ import views._
 
 object SignInProvider extends Controller {
 
-  def present = Action {
+  def present = Action { implicit request =>
     Ok(html.change_of_address.sign_in_provider())
   }
 

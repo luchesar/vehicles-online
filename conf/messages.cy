@@ -1,14 +1,14 @@
 p1manageyourvehicles.name = Manage your vehicles
 
 #page 1
-beforeyoustart.title = Change of keeper - before you start
-beforeyoustart.name = Before you start
-beforeyoustart.p1 = Use this service if you want to change the details of who is the legal keeper of a registered vehicle.
-beforeyoustart.p2 = Before you start you will need:
-beforeyoustart.p3 = 1. The vehicle in questions V5C (log book).
-beforeyoustart.p4 = 2. Either the current keeper or new keeper will need to prove their identify by logging into their identify profile during the process.
-beforeyoustart.p5 = 3. It is advisable that whoever oversees this 'Change of keeper' process (current or new keeper) obtains an identity profile before starting. It is however possible to register for an identity profile during the 'Change of keeper' process.
-beforeyoustart.button = Start now
+beforeyoustart.title = Newid ceidwad - cyn i chi ddechrau
+beforeyoustart.name = Cyn i chi ddechrau
+beforeyoustart.p1 = Defnyddiwch y gwasanaeth hwn os ydych am newid manylion pwy yw'r ceidwad cyfreithiol cerbyd cofrestredig.
+beforeyoustart.p2 = Cyn i chi ddechrau, bydd angen i chi:
+beforeyoustart.p3 = 1. Mae'r cerbyd yn y cwestiynau V5C (llyfr log).
+beforeyoustart.p4 = 2. Bydd angen Naill ai ceidwad cyfredol neu geidwad newydd i brofi eu nodi trwy fewngofnodi ar eu proffil yn nodi yn ystod y broses.
+beforeyoustart.p5 = 3. Mae'n ddoeth bod pwy bynnag sy'n goruchwylio'r hyn yn 'Newid ceidwad' proses (ceidwad presennol neu newydd) a dderbynnir proffil hunaniaeth cyn dechrau. Fodd bynnag, mae'n bosibl i gofrestru ar gyfer proffil hunaniaeth yn ystod y 'Newid ceidwad' broses.
+beforeyoustart.button = Dechrau nawr
 
 #page 2
 keeperstatus.title = Change of keeper - keeper status
@@ -17,24 +17,24 @@ keeperstatus.p1 = What is your status, as current keeper of the vehicle?
 keeperstatus.button = I am a private individual
 
 #page 3
-verifyidentity.title = Change of keeper - verify identity
-verifyidentity.alert = Example alert message
-verifyidentity.name = Verify identity
-verifyidentity.p1 = Before you can start using the Change of Keeper service, you need to select the authentication provider you wish to use:
-verifyidentity.p2 = GOV.UK is the new way to use government services online. You will need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
-verifyidentity.button = Use existing identity profile
+verifyidentity.title = Newid ceidwad - gwirio hunaniaeth
+verifyidentity.alert = Enghraifft neges rhybudd
+verifyidentity.name = Gwirio hunaniaeth
+verifyidentity.p1 = Cyn i chi allu dechrau defnyddio'r Newid gwasanaeth Ceidwad, mae angen i chi ddewis y darparwr dilysu yr hoffech eu defnyddio:
+verifyidentity.p2 = GOV.UK yw'r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
+verifyidentity.button = Defnyddio proffil hunaniaeth bresennol
 
 #page 4
-areyouregistered.title = Change of keeper - are you registered
-areyouregistered.name = Sign in to GOV.UK
-areyouregistered.p1 = GOV.UK is the new way to use government services online. You will now need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
-areyouregistered.button = Sign in
+areyouregistered.title = Newid ceidwad - ydych chi wedi cofrestru
+areyouregistered.name = Mewngofnodi i GOV.UK
+areyouregistered.p1 = GOV.UK yw'r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Nawr bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
+areyouregistered.button = Mewngofnodi
 
 #page 5
-signinprovider.title = Change of keeper - sign in provider
-signinprovider.name = Sign in to GOV.UK
-signinprovider.p1 = GOV.UK is the new way to use government services online. You will now need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
-signinprovider.button = Post Office
+signinprovider.title = Newid ceidwad - arwydd darparwr
+signinprovider.name = Mewngofnodi i GOV.UK
+signinprovider.p1 = GOV.UK yw'r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Nawr bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
+signinprovider.button = Swyddfa'r Post
 
 #page 6
 loginpage.title = Gwirio id mewngofnodi
