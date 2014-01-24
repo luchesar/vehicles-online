@@ -18,7 +18,7 @@ object V5cSearch extends Controller {
   def submit = Action { implicit request =>
     v5cSearchForm.bindFromRequest.fold(
       formWithErrors => BadRequest(html.change_of_address.v5c_search(formWithErrors)),
-      ToAddress => Ok(views.html.change_of_address.v5c_search(v5cSearchForm))
+      ToAddress => Ok(views.html.change_of_address.confirm_vehicle_details())
     )
   }
 
