@@ -45,9 +45,16 @@ loginpage.password = Password
 #page 8
 authentication.title = Change of keeper - authentication
 authentication.name = Authenticate your sign in
-authentication.p1 = Please authenticate your sign in to GOV.UK by entering the 6 digit pin that has been sent to your registered mobile device
+authentication.p1 = Please authenticate your sign in to GOV.UK by entering the 6 digit pin that has been sent to your registered mobile device.
 authentication.inputlabel = PIN
 authentication.button = Submit
+
+#page 10
+confirm_vehicle_details.title = Change of keeper - confirm vehicle details
+confirm_vehicle_details.name = Change of keeper
+confirm_vehicle_details.p1 = Please confirm that as the keeper of this vehicle and that this is the vehicle subject of this change of keeper process.
+confirm_vehicle_details.button = Confirm
+
 
 #Customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
