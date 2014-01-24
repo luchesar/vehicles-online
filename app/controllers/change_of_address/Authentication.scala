@@ -17,7 +17,7 @@ object Authentication extends Controller {
   def submit = Action { implicit request =>
     authenticationForm.bindFromRequest.fold(
       formWithErrors => BadRequest(html.change_of_address.authentication(formWithErrors)),
-      ToAddress => Ok(views.html.change_of_address.v5c_search(v5cSearchForm))
+      ToAddress => Redirect(routes.V5cSearch.present)
     )
   }
 
