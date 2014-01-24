@@ -46,7 +46,7 @@ loginpage.button.login.arialabel = Log In button
 
 #page 7
 loginconfirmation.title = Login confirmation
-loginconfirmation.message = You've successfully authenticated with the PostOffice
+loginconfirmation.message = You''ve successfully authenticated with the PostOffice
 loginconfirmation.personaldetails = Personal details
 loginconfirmation.personaldetails.firstname = First name:
 loginconfirmation.personaldetails.surname = Surname:
