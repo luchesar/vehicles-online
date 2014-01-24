@@ -6,16 +6,17 @@ import play.api.test.Helpers._
 import controllers.change_of_address
 
 
-class SignInProviderControllerSpec extends Specification with Tags {
+class ConfirmVehicleDetailsControllerSpec extends Specification with Tags {
 
-  "SignInProvider - Controller" should {
+  "ConfirmVehicleDetails - Controller" should {
+
 
     "present" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
 
       // Act
-      val result = change_of_address.SignInProvider.present(request)
+      val result = change_of_address.ConfirmVehicleDetails.present(request)
 
       // Assert
       status(result) mustEqual OK
@@ -27,11 +28,11 @@ class SignInProviderControllerSpec extends Specification with Tags {
       val request = FakeRequest().withSession()
 
       // Act
-      val result = change_of_address.SignInProvider.submit(request)
+      val result = change_of_address.ConfirmVehicleDetails.submit(request)
 
       // Assert
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result) mustEqual (Some("/login-page"))
+      redirectLocation(result) mustEqual (Some("/confirm-vehicle-details")) //TODO update with next page url
     }
 
   }

@@ -5,27 +5,27 @@ import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
 
-class SignInProviderIntegrationSpec extends Specification with Tags {
+class AuthenticationIntegrationSpec extends Specification with Tags {
 
-  "SignInProvider Integration" should {
+  "Authentication Integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      browser.goTo("/sign-in-provider")
+      browser.goTo("/authentication")
 
       // Assert
-      titleMustContain("sign in provider")
+      titleMustContain("authentication")
 
     }
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       // Arrange
-      browser.goTo("/sign-in-provider")
+      browser.goTo("/authentication")
 
       // Act
       browser.submit("button[type='submit']")
 
       // Assert
-      titleMustEqual("Verified login id") //ToDo update with title of login page
+      titleMustEqual("Change of keeper - authentication") // ToDo currently error with this test as page can not be changed without PIN input
     }
 
   }

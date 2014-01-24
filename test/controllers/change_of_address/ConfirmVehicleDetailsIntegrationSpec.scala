@@ -5,27 +5,27 @@ import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
 
-class SignInProviderIntegrationSpec extends Specification with Tags {
+class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
 
-  "SignInProvider Integration" should {
+  "ConfirmVehicleDetails Integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      browser.goTo("/sign-in-provider")
+      browser.goTo("/confirm-vehicle-details")
 
       // Assert
-      titleMustContain("sign in provider")
+      titleMustContain("confirm vehicle details")
 
     }
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       // Arrange
-      browser.goTo("/sign-in-provider")
+      browser.goTo("/confirm-vehicle-details")
 
       // Act
       browser.submit("button[type='submit']")
 
       // Assert
-      titleMustEqual("Verified login id") //ToDo update with title of login page
+      titleMustEqual("Change of keeper - confirm vehicle details")
     }
 
   }

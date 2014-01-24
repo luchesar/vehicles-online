@@ -2,6 +2,9 @@ package controllers
 
 import play.api.data.validation._
 import play.api.data.validation.ValidationError
+import play.api.data.Mapping
+import play.api.data.Forms._
+import play.api.data.validation.ValidationError
 
 object Mappings {
   object Name {
@@ -109,5 +112,34 @@ object Mappings {
       case false => Invalid(ValidationError("error.restricted.characters"))
     }
   }
+
+  def PIN (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[String] = {
+    nonEmptyText(minLength, maxLength) verifying validNumberOnly
+  }
+
+  def validNumberOnly: Constraint[String] = Constraint[String]("constraint.restrictedvalidNumberOnly") { input =>
+    val inputRegex = """^\d[0-9]*$""".r
+    inputRegex.pattern.matcher(input).matches match {
+      case true => Valid
+      case false => Invalid(ValidationError("error.restricted.validNumberOnly"))
+    }
+  }
+
+  def V5cReferenceNumber (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[String] = {
+    nonEmptyText(minLength, maxLength) verifying validNumberOnly
+  }
+
+  def vehicleVRN (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[String] = {
+    nonEmptyText(minLength, maxLength) verifying validVRN
+  }
+
+  def validVRN: Constraint[String] = Constraint[String]("constraint.restrictedvalidVRN") { input =>
+    val inputRegex = """^(([A-Za-z]{3}[0-9]{1,4})|([A-Za-z][0-9]{1,3}[A-Za-z]{3})|([A-Za-z]{3}[0-9]{1,3}[A-Za-z])|([A-Za-z]{2}[0-9]{2}[A-Za-z]{3})|([A-Za-z]{1,3}[0-9]{1,3})|([0-9]{1,3}[A-Za-z]{1,3})|([A-Za-z]{1,2}[0-9]{1,4}))*$""".r
+    inputRegex.pattern.matcher(input).matches match {
+      case true => Valid
+      case false => Invalid(ValidationError("error.restricted.validVRNOnly"))
+    }
+  }
+
 
 }
