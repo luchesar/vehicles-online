@@ -38,11 +38,11 @@ signinprovider.button = Post Office
 
 #page 6
 loginpage.title = Verified login id
-loginpage.instructions = Use your existing username and passsword to complete your Verified ID transaction.
+loginpage.instructions =  Sign in to access GOV.UK
 loginpage.username = Username / Email address
 loginpage.password = Password
-loginpage.button.login = Log In
-loginpage.button.login.arialabel = Log In button
+loginpage.button.login = Sign In
+loginpage.button.login.arialabel = Sign In button
 
 #page 7
 loginconfirmation.title = Login confirmation
@@ -62,9 +62,9 @@ loginconfirmation.button.agree.arialabel = I agree button
 #page 8
 authentication.title = Change of keeper - authentication
 authentication.name = Authenticate your sign in
-authentication.p1 = Please authenticate your sign in to GOV.UK by entering the 6 digit pin that has been sent to your registered mobile device.
-authentication.inputlabel = PIN
-authentication.button = Submit
+authentication.p1 = A text message with your unique one time code has been sent to: xxxxxxx6462
+authentication.inputlabel = Enter code
+authentication.button = Continue
 
 #page 9
 v5csearch.title = Change of keeper - retrieve a vehicle record
