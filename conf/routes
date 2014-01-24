@@ -34,9 +34,15 @@ POST        /login-page                controllers.change_of_address.LoginPage.s
 GET         /authentication            controllers.change_of_address.Authentication.present
 POST        /authentication            controllers.change_of_address.Authentication.submit
 
+
 # Page 9 V5c Search page
 GET         /v5c-search                controllers.change_of_address.V5cSearch.present
 POST        /v5c-search                controllers.change_of_address.V5cSearch.submit
+
+#Page 10 Confirm Vehicle Details
+GET         /confirm-vehicle-details   controllers.change_of_address.ConfirmVehicleDetails.present
+POST        /confirm-vehicle-details   controllers.change_of_address.ConfirmVehicleDetails.submit
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file              controllers.Assets.at(path="/public", file)
