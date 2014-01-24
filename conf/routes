@@ -30,5 +30,9 @@ POST        /sign-in-provider          controllers.change_of_address.SignInProvi
 GET         /login-page                controllers.change_of_address.LoginPage.present
 POST        /login-page                controllers.change_of_address.LoginPage.submit
 
+# Page 8 Authentication Page (SMS)
+GET         /authentication            controllers.change_of_address.Authentication.present
+POST        /authentication            controllers.change_of_address.Authentication.submit
+
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file              controllers.Assets.at(path="/public", file)

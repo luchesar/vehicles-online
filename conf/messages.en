@@ -42,6 +42,12 @@ loginpage.instructions = Use your existing username and passsword to complete yo
 loginpage.username = Username / Email address
 loginpage.password = Password
 
+#page 8
+authentication.title = Change of keeper - authentication
+authentication.name = Authenticate your sign in
+authentication.p1 = Please authenticate your sign in to GOV.UK by entering the 6 digit pin that has been sent to your registered mobile device
+authentication.button = Submit
+
 
 ################
 
