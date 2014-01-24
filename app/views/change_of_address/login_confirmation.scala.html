@@ -1,0 +1,28 @@
+@(loginConfirmationModel: models.domain.change_of_address.LoginConfirmationModel)
+
+@import helper._
+
+<title>@Messages("loginconfirmation.title")</title>
+
+<p>@Messages("loginconfirmation.message")</p>
+
+<p>@Messages("loginconfirmation.personaldetails")</p>
+<table>
+<tr><td>@Messages("loginconfirmation.personaldetails.firstname")</td><td>@loginConfirmationModel.firstName</td></tr>
+<tr><td>@Messages("loginconfirmation.personaldetails.surname")</td><td>@loginConfirmationModel.surname</td></tr>
+<tr><td>@Messages("loginconfirmation.personaldetails.dob")</td><td>@loginConfirmationModel.dob</td></tr>
+<tr><td>@Messages("loginconfirmation.personaldetails.address")</td><td>@loginConfirmationModel.address.line1</td></tr>
+<tr><td></td><td>@loginConfirmationModel.address.postcode</td></tr>
+<tr><td></td><td>@loginConfirmationModel.address.country</td></tr>
+</table>
+
+<p>@Messages("loginconfirmation.consent")</p>
+
+<p>@Messages("loginconfirmation.consent.message")</p>
+
+@form(action = controllers.change_of_address.routes.LoginConfirmation.submit) {
+  <div class="form-steps">
+    <button id="refuse" type="submit" name="action" value="next" class="button" aria-label="@Messages("loginconfirmation.button.refuse.arialabel")">@Messages("loginconfirmation.button.refuse")</button>
+    <button id="agree" type="submit" name="action" value="next" class="button" aria-label="@Messages("loginconfirmation.button.agree.arialabel")">@Messages("loginconfirmation.button.agree")</button>
+  </div>
+}

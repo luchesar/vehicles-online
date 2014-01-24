@@ -6,44 +6,34 @@ import play.api.test.Helpers._
 import controllers.change_of_address
 
 
-class AuthenticationControllerSpec extends Specification with Tags {
+class LoginConfirmationControllerSpec extends Specification with Tags {
 
-  "Authentication - Controller" should {
-    val PINID = "PIN"
-    val PINValid = "123456"
+  "LoginPage - Controller" should {
+
 
     "present" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
 
       // Act
-      val result = change_of_address.Authentication.present(request)
+      val result = change_of_address.LoginConfirmation.present(request)
 
       // Assert
       status(result) mustEqual OK
     }
+  }
 
-
-
-
-
-
-
-    "redirect to next page after the button is clicked" in new WithApplication {
+    "redirect to next page after the agree button is clicked" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(PINID -> PINValid)
 
       // Act
-      val result = change_of_address.Authentication.submit(request)
+      val result = change_of_address.LoginConfirmation.submit(request)
 
       // Assert
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result) mustEqual (Some("/v5c-search"))
+      //redirectLocation(result) mustEqual (Some("/keeper-status")) //TODO page should redirect to next page
     }
 
-
-
-  }
 
 }

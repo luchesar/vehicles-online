@@ -22,8 +22,8 @@ class LoginPageIntegrationSpec extends Specification with Tags {
       // Act
       browser.submit("button[type='submit']")
 
-      // Assert
-      titleMustEqual("Verified login id") //TODO We need to change this to look at next page
+      // Assert the title from the next page
+      titleMustEqual("Login confirmation")
     }
 
   }

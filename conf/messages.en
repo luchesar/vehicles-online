@@ -41,6 +41,23 @@ loginpage.title = Verified login id
 loginpage.instructions = Use your existing username and passsword to complete your Verified ID transaction.
 loginpage.username = Username / Email address
 loginpage.password = Password
+loginpage.button.login = Log In
+loginpage.button.login.arialabel = Log In button
+
+#page 7
+loginconfirmation.title = Login confirmation
+loginconfirmation.message = You''ve successfully authenticated with the PostOffice
+loginconfirmation.personaldetails = Personal details
+loginconfirmation.personaldetails.firstname = First name:
+loginconfirmation.personaldetails.surname = Surname:
+loginconfirmation.personaldetails.dob = Date of Birth:
+loginconfirmation.personaldetails.address = Address:
+loginconfirmation.consent = Consent
+loginconfirmation.consent.message = Do you agree to allow the Post Office to send your personal details to the relying party from which you are authenticating?
+loginconfirmation.button.refuse = I refuse
+loginconfirmation.button.refuse.arialabel = I refuse button
+loginconfirmation.button.agree = I agree
+loginconfirmation.button.agree.arialabel = I agree button
 
 #page 8
 authentication.title = Change of keeper - authentication
@@ -48,7 +65,6 @@ authentication.name = Authenticate your sign in
 authentication.p1 = Please authenticate your sign in to GOV.UK by entering the 6 digit pin that has been sent to your registered mobile device.
 authentication.inputlabel = PIN
 authentication.button = Submit
-
 
 #page 9
 v5csearch.title = Change of keeper - retrieve a vehicle record
@@ -67,10 +83,12 @@ confirm_vehicle_details.p1 = Please confirm that as the keeper of this vehicle a
 confirm_vehicle_details.button = Confirm
 
 
-
 #Customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
 error.restricted.validVRNOnly = Please enter a valid vehicle registration number without spaces
+
+
+
 ################
 
 s1.name = eligibility

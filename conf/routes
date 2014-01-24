@@ -17,7 +17,6 @@ POST        /keeper-status             controllers.change_of_address.KeeperStatu
 GET         /verify-identity           controllers.change_of_address.VerifyIdentity.present
 POST        /verify-identity           controllers.change_of_address.VerifyIdentity.submit
 
-
 # Page 4 are you registered
 GET         /are-you-registered        controllers.change_of_address.AreYouRegistered.present
 POST        /are-you-registered        controllers.change_of_address.AreYouRegistered.submit
@@ -30,10 +29,13 @@ POST        /sign-in-provider          controllers.change_of_address.SignInProvi
 GET         /login-page                controllers.change_of_address.LoginPage.present
 POST        /login-page                controllers.change_of_address.LoginPage.submit
 
+# Page 7 IDA login confirmation
+GET           /login-confirmation       controllers.change_of_address.LoginConfirmation.present
+POST          /login-confirmation       controllers.change_of_address.LoginConfirmation.submit
+
 # Page 8 Authentication Page (SMS)
 GET         /authentication            controllers.change_of_address.Authentication.present
 POST        /authentication            controllers.change_of_address.Authentication.submit
-
 
 # Page 9 V5c Search page
 GET         /v5c-search                controllers.change_of_address.V5cSearch.present
@@ -42,7 +44,6 @@ POST        /v5c-search                controllers.change_of_address.V5cSearch.s
 #Page 10 Confirm Vehicle Details
 GET         /confirm-vehicle-details   controllers.change_of_address.ConfirmVehicleDetails.present
 POST        /confirm-vehicle-details   controllers.change_of_address.ConfirmVehicleDetails.submit
-
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file              controllers.Assets.at(path="/public", file)
