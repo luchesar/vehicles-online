@@ -1,5 +1,5 @@
 package controllers.change_of_address
-/*
+
 import org.scalatest.WordSpec
 import org.scalatest.Matchers
 
@@ -33,5 +33,3 @@ class LoginPageFormSpec extends WordSpec with Matchers {
     }
   }
 }
-
-*/

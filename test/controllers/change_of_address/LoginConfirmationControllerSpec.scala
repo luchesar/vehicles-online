@@ -32,7 +32,7 @@ class LoginConfirmationControllerSpec extends Specification with Tags {
 
       // Assert
       status(result) mustEqual SEE_OTHER
-      //redirectLocation(result) mustEqual (Some("/keeper-status")) //TODO page should redirect to next page
+      redirectLocation(result) mustEqual (Some("/authentication")) //TODO page should redirect to next page
     }
 
 

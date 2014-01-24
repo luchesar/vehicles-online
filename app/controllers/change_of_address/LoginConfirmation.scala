@@ -14,7 +14,7 @@ object LoginConfirmation extends Controller {
   }
 
   def submit = Action {
-    Redirect(routes.LoginConfirmation.present) //TODO Change this to move to next page
+    Redirect(routes.Authentication.present)
 //    Ok("success")
   }
 
