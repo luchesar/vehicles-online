@@ -46,8 +46,11 @@ loginpage.password = Password
 authentication.title = Change of keeper - authentication
 authentication.name = Authenticate your sign in
 authentication.p1 = Please authenticate your sign in to GOV.UK by entering the 6 digit pin that has been sent to your registered mobile device
+authentication.inputlabel = PIN
 authentication.button = Submit
 
+#Customer validation messages
+error.restricted.validNumberOnly = This field only accepts numbers
 
 ################
 

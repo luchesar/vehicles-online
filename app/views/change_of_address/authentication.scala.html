@@ -1,4 +1,4 @@
-@()
+@(authenticationForm: Form[models.domain.AuthenticationModel])
 
 @import helper._
 
@@ -8,6 +8,8 @@
     <legend>@Messages("authentication.name")</legend>
 
     <p>@Messages("authentication.p1")</p>
+
+    <p>@inputText(field = authenticationForm("PIN"), args = '_label -> Messages("authentication.inputlabel"), '_showConstraints -> false)</p>
 
 </fieldset>
 

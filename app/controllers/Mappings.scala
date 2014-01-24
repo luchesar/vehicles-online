@@ -2,6 +2,9 @@ package controllers
 
 import play.api.data.validation._
 import play.api.data.validation.ValidationError
+import play.api.data.Mapping
+import play.api.data.Forms._
+import play.api.data.validation.ValidationError
 
 object Mappings {
   object Name {
@@ -107,6 +110,18 @@ object Mappings {
     restrictedStringPattern.pattern.matcher(restrictedString).matches match {
       case true => Valid
       case false => Invalid(ValidationError("error.restricted.characters"))
+    }
+  }
+
+  def PIN (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[String] = {
+    nonEmptyText(minLength, maxLength) verifying validNumberOnly
+  }
+
+  def validNumberOnly: Constraint[String] = Constraint[String]("constraint.restrictedvalidNumberOnly") { input =>
+    val inputRegex = """^\d[0-9]*$""".r
+    inputRegex.pattern.matcher(input).matches match {
+      case true => Valid
+      case false => Invalid(ValidationError("error.restricted.validNumberOnly"))
     }
   }
 

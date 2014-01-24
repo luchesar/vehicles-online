@@ -25,7 +25,7 @@ class AuthenticationIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Assert
-      titleMustEqual("Change of keeper - authentication")
+      titleMustEqual("Change of keeper - authentication") // ToDo currently error with this test as page can not be changed without PIN input
     }
 
   }
