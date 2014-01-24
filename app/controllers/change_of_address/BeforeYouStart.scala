@@ -10,7 +10,7 @@ import views._
 
 object BeforeYouStart extends Controller {
 
-  def present = Action {
+  def present = Action { implicit request =>
     Ok(html.change_of_address.before_you_start())
   }
 
