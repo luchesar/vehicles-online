@@ -17,12 +17,12 @@ keeperstatus.p1 = What is your status, as current keeper of the vehicle?
 keeperstatus.button = I am a private individual
 
 #page 3
-verifyidentity.title = Change of keeper - verify identity
-verifyidentity.alert = Example alert message
-verifyidentity.name = Verify identity
-verifyidentity.p1 = Before you can start using the Change of Keeper service, you need to select the authentication provider you wish to use:
-verifyidentity.p2 = GOV.UK is the new way to use government services online. You will need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
-verifyidentity.button = Use existing identity profile
+verifyidentity.title = Newid ceidwad - gwirio hunaniaeth
+verifyidentity.alert = Enghraifft neges rhybudd
+verifyidentity.name = Gwirio hunaniaeth
+verifyidentity.p1 = Cyn i chi allu dechrau defnyddio'r Newid gwasanaeth Ceidwad, mae angen i chi ddewis y darparwr dilysu yr hoffech eu defnyddio:
+verifyidentity.p2 = GOV.UK yw'r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
+verifyidentity.button = Defnyddio proffil hunaniaeth bresennol
 
 #page 4
 areyouregistered.title = Change of keeper - are you registered
