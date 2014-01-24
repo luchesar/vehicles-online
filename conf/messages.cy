@@ -31,10 +31,10 @@ areyouregistered.p1 = GOV.UK yw'r ffordd newydd i ddefnyddio gwasanaethau llywod
 areyouregistered.button = Mewngofnodi
 
 #page 5
-signinprovider.title = Change of keeper - sign in provider
-signinprovider.name = Sign in to GOV.UK
-signinprovider.p1 = GOV.UK is the new way to use government services online. You will now need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
-signinprovider.button = Post Office
+signinprovider.title = Newid ceidwad - arwydd darparwr
+signinprovider.name = Mewngofnodi i GOV.UK
+signinprovider.p1 = GOV.UK yw'r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Nawr bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
+signinprovider.button = Swyddfa'r Post
 
 #page 6
 loginpage.title = Gwirio id mewngofnodi
