@@ -25,10 +25,10 @@ verifyidentity.p2 = GOV.UK yw'r ffordd newydd i ddefnyddio gwasanaethau llywodra
 verifyidentity.button = Defnyddio proffil hunaniaeth bresennol
 
 #page 4
-areyouregistered.title = Change of keeper - are you registered
-areyouregistered.name = Sign in to GOV.UK
-areyouregistered.p1 = GOV.UK is the new way to use government services online. You will now need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
-areyouregistered.button = Sign in
+areyouregistered.title = Newid ceidwad - ydych chi wedi cofrestru
+areyouregistered.name = Mewngofnodi i GOV.UK
+areyouregistered.p1 = GOV.UK yw'r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Nawr bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
+areyouregistered.button = Mewngofnodi
 
 #page 5
 signinprovider.title = Change of keeper - sign in provider
