@@ -7,7 +7,6 @@ import play.api.data.Forms._
 import views._
 import models.domain.V5cSearchModel
 import controllers.Mappings._
-import controllers.routes
 
 object V5cSearch extends Controller {
 
@@ -19,17 +18,9 @@ object V5cSearch extends Controller {
   def submit = Action { implicit request =>
     v5cSearchForm.bindFromRequest.fold(
       formWithErrors => BadRequest(html.change_of_address.v5c_search(formWithErrors)),
-   //   ToAddress => Ok(views.html.change_of_address.confirm_vehicle_details())
         ToAddress => Redirect(routes.ConfirmVehicleDetails.present())
     )
   }
-
-  /*
-def submit = Action {
-  Redirect(routes.V5cSearch.present)
-}*/
-
-
 
 val v5cSearchForm = Form(
     mapping(

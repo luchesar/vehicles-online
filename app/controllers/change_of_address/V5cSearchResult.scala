@@ -1,9 +1,7 @@
 package controllers.change_of_address
 
-import play.api.data.Forms._
 import play.api.mvc._
 import views._
-import play.api.data.Form
 import models.domain.change_of_address.LoginConfirmationModel
 import models.domain.change_of_address.Address
 
@@ -14,8 +12,7 @@ object V5cSearchResult extends Controller {
   }
 
   def submit = Action {
-    Redirect(routes.LoginConfirmation.present) //TODO Change this to move to next page
-//    Ok("success")
+    Redirect(routes.LoginConfirmation.present)
   }
 
   def fetchData(): LoginConfirmationModel = {
