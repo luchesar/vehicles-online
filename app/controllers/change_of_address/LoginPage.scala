@@ -20,7 +20,7 @@ object LoginPage extends Controller {
   }
 
   def submit = Action {
-    Redirect(routes.LoginPage.present) //TODO Change this to move to P3
+    Redirect(routes.LoginConfirmation.present)
   }
 
 }

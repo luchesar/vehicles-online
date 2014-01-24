@@ -29,18 +29,23 @@ loginpage.title = Verified login id
 loginpage.instructions = Use your existing username and passsword to complete your Verified ID transaction.
 loginpage.username = Username / Email address
 loginpage.password = Password
+loginpage.button.login = Log In
+loginpage.button.login.arialabel = Log In button
 
 #page 7
-loginConfirmation.message = You've successfully authenticated with the PostOffice
-loginConfirmation.personaldetails = Personal details
-loginConfirmation.personaldetails.firstname = First name:
-loginConfirmation.personaldetails.surname = Surname:
-loginConfirmation.personaldetails.dob = Date of Birth:
-loginConfirmation.personaldetails.address = Address:
-loginConfirmation.consent = consent
-loginConfirmation.consent.message = Do you agree to allow the Post Office to send your personal details to the relying party from which you are authenticating?
-loginConfirmation.button.refuse = I refuse
-loginConfirmation.button.agree = I agree
+loginconfirmation.title = Login confirmation
+loginconfirmation.message = You've successfully authenticated with the PostOffice
+loginconfirmation.personaldetails = Personal details
+loginconfirmation.personaldetails.firstname = First name:
+loginconfirmation.personaldetails.surname = Surname:
+loginconfirmation.personaldetails.dob = Date of Birth:
+loginconfirmation.personaldetails.address = Address:
+loginconfirmation.consent = Consent
+loginconfirmation.consent.message = Do you agree to allow the Post Office to send your personal details to the relying party from which you are authenticating?
+loginconfirmation.button.refuse = I refuse
+loginconfirmation.button.refuse.arialabel = I refuse button
+loginconfirmation.button.agree = I agree
+loginconfirmation.button.agree.arialabel = I agree button
 
 ################
 
