@@ -15,16 +15,16 @@ class LoginConfirmationIntegrationSpec extends Specification with Tags {
       titleMustContain("Login confirmation")
     }
 
-//    "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
-//      // Arrange
-//      browser.goTo("/login-confirmation")
-//
-//      // Act
-//      browser.submit("button[type='submit']")
-//
-//      // Assert 
-//      titleMustEqual("Login confirmation") // TODO check the title of the next page - currently redirecting to original
-//    }
+    "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
+      // Arrange
+      browser.goTo("/login-confirmation")
+
+      // Act
+      browser.submit("button[id='agree']")
+
+      // Assert 
+      titleMustEqual("Login confirmation") // TODO check the title of the next page - currently redirecting to original
+    }
 
   }
 

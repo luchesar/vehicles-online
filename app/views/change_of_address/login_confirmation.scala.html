@@ -22,7 +22,7 @@
 
 @form(action = controllers.change_of_address.routes.LoginConfirmation.submit) {
   <div class="form-steps">
-    <button type="submit" name="action" value="next" class="button" aria-label="@Messages("loginconfirmation.button.refuse.arialabel")">@Messages("loginconfirmation.button.refuse")</button>
-    <!-- button type="submit" name="action" value="next" class="button" aria-label="@Messages("loginconfirmation.button.agree.arialabel")">@Messages("loginconfirmation.button.agree")</button-->
+    <button id="refuse" type="submit" name="action" value="next" class="button" aria-label="@Messages("loginconfirmation.button.refuse.arialabel")">@Messages("loginconfirmation.button.refuse")</button>
+    <button id="agree" type="submit" name="action" value="next" class="button" aria-label="@Messages("loginconfirmation.button.agree.arialabel")">@Messages("loginconfirmation.button.agree")</button>
   </div>
 }
