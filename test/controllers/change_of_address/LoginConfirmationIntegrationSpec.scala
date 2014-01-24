@@ -23,7 +23,7 @@ class LoginConfirmationIntegrationSpec extends Specification with Tags {
       browser.submit("button[id='agree']")
 
       // Assert 
-      titleMustEqual("Login confirmation") // TODO check the title of the next page - currently redirecting to original
+      titleMustEqual("Change of keeper - authentication")
     }
 
   }
