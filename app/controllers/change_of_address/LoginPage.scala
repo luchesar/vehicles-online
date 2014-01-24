@@ -5,6 +5,8 @@ import play.api.mvc._
 import views._
 import play.api.data.Form
 import models.domain.change_of_address.LoginPageModel
+import play.api.i18n.Messages
+import play.api.i18n.Lang
 
 object LoginPage extends Controller {
 
@@ -14,8 +16,10 @@ object LoginPage extends Controller {
       "password" -> nonEmptyText
     )(LoginPageModel.apply)(LoginPageModel.unapply)
   )  
-  
-  def present = Action {
+
+  // Note that the request must be made implicit so play can extract the language header for I18N
+  def present = Action { implicit request =>
+    println("Preferred languages (in order) from browser: " + request.acceptLanguages.map(_.code).mkString(", "))
     Ok(html.change_of_address.login_page(loginPageForm))
   }
 
