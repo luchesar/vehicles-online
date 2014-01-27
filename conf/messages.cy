@@ -84,8 +84,9 @@ v5csearch.p1 = Adfer cofnod gerbyd
 v5csearch.p2 = Roger Booth ei lofnodi i mewn
 v5csearch.p3 = Roger Booth yw''r ceidwad presennol y cerbyd sy''n destun y '' Newid ceidwad '' broses.
 v5csearch.button = Look-up
+v5csearch.button2 = Diddymu
 v5csearch.v5cinputlabel = * Rhif Cyfeirnod y ddogfen V5C
-v5csearch.vrninputlabel = * Rhif cofrestru'r cerbyd
+v5csearch.vrninputlabel = * Rhif cofrestru''r cerbyd
 
 #page 10
 confirm_vehicle_details.title = Newid ceidwad - cadarnhau manylion y cerbyd
