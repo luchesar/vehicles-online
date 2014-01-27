@@ -120,4 +120,12 @@ package object app {
     def getProperty(property:String,default:Boolean) = Try(Play.current.configuration.getBoolean(property).getOrElse(default)) match { case Success(s) => s case _ => default}
     def getProperty(property:String,default:Long) = Try(Play.current.configuration.getLong(property).getOrElse(default)) match { case Success(s) => s case _ => default}
   }
+
+  object ChangeOfAddress {
+    val PINFormID = "PIN"
+    val V5cReferenceNumberNID = "V5cReferenceNumber"
+    val vehicleVRNID = "VehicleRegistrationNumber"
+    val usernameId = "username"
+    val passwordId = "password"
+  }
 }

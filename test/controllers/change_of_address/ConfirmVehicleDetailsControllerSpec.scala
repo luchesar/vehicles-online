@@ -1,15 +1,13 @@
 package controllers.change_of_address
 
-import org.specs2.mutable._
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.change_of_address
+import org.scalatest.{Matchers, WordSpec}
 
-
-class ConfirmVehicleDetailsControllerSpec extends Specification with Tags {
+class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers {
 
   "ConfirmVehicleDetails - Controller" should {
-
 
     "present" in new WithApplication {
       // Arrange
@@ -19,9 +17,8 @@ class ConfirmVehicleDetailsControllerSpec extends Specification with Tags {
       val result = change_of_address.ConfirmVehicleDetails.present(request)
 
       // Assert
-      status(result) mustEqual OK
+      status(result) should equal(OK)
     }
-
 
     "redirect to next page after the button is clicked" in new WithApplication {
       // Arrange
@@ -31,10 +28,8 @@ class ConfirmVehicleDetailsControllerSpec extends Specification with Tags {
       val result = change_of_address.ConfirmVehicleDetails.submit(request)
 
       // Assert
-      status(result) mustEqual SEE_OTHER
-      redirectLocation(result) mustEqual (Some("/confirm-vehicle-details")) //TODO update with next page url
+      status(result) should equal(SEE_OTHER)
+      redirectLocation(result) should equal (Some("/confirm-vehicle-details"))
     }
-
   }
-
 }

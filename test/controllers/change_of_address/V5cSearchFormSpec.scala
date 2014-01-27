@@ -1,18 +1,12 @@
 package controllers.change_of_address
 
-import org.specs2.mutable._
-import org.specs2.runner._
-import org.junit.runner._
 import org.scalatest.{Matchers, WordSpec}
+import app.ChangeOfAddress._
 
-
-@RunWith(classOf[JUnitRunner])
 class V5cSearchFormSpec extends WordSpec with Matchers {
   "V5cSearch Form" should {
 
-    val V5cReferenceNumberNID = "V5cReferenceNumber"
     val V5cReferenceNumberValid = "12345678910"
-    val vehicleVRNID = "VehicleRegistrationNumber"
     val vehicleVRNValid = "a1"
 
     def v5cSearchFiller(V5cReferenceNumber: String,vehicleVRN: String ) = {

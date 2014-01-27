@@ -2,12 +2,12 @@ package controllers.change_of_address
 
 import org.scalatest.WordSpec
 import org.scalatest.Matchers
+import app.ChangeOfAddress._
 
 class LoginPageFormSpec extends WordSpec with Matchers {
 
   "loginPage form" should {
-    val usernameId = "username"
-    val passwordId = "password"
+
     val usernameValid = "testUsername"
     val passwordValid = "testPassword"
 

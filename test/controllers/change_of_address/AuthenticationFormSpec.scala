@@ -1,12 +1,10 @@
-package controllers.change_of_address
+import controllers.change_of_address.Authentication
+import app.ChangeOfAddress._
 
 import org.scalatest.{Matchers, WordSpec}
 
-
 class AuthenticationFormSpec extends WordSpec with Matchers {
   "Authentication Form" should {
-    //title values
-    val PINFormID = "PIN"
     val PINValid = "123456"
 
     def authenticationFiller(PIN: String) = {
