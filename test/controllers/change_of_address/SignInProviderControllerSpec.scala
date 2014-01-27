@@ -1,12 +1,11 @@
 package controllers.change_of_address
 
-import org.specs2.mutable._
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.change_of_address
+import org.scalatest.{Matchers, WordSpec}
 
-
-class SignInProviderControllerSpec extends Specification with Tags {
+class SignInProviderControllerSpec extends WordSpec with Matchers {
 
   "SignInProvider - Controller" should {
 
@@ -18,7 +17,7 @@ class SignInProviderControllerSpec extends Specification with Tags {
       val result = change_of_address.SignInProvider.present(request)
 
       // Assert
-      status(result) mustEqual OK
+      status(result) should equal(OK)
     }
 
 
@@ -30,8 +29,8 @@ class SignInProviderControllerSpec extends Specification with Tags {
       val result = change_of_address.SignInProvider.submit(request)
 
       // Assert
-      status(result) mustEqual SEE_OTHER
-      redirectLocation(result) mustEqual (Some("/login-page"))
+      status(result) should equal(SEE_OTHER)
+      redirectLocation(result) should equal (Some("/login-page"))
     }
 
   }

@@ -22,7 +22,7 @@ import org.scalatest.selenium.{HtmlUnit}
       // Arrange
       val validPIN = "123456"
       go to (host + "authentication")
-      textField("PIN").value = validPIN
+      textField("#PIN").value = validPIN
 
       // Act
       click on id("submit")

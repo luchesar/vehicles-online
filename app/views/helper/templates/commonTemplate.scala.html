@@ -1,7 +1,8 @@
-@(elements: helper.FieldElements)
+@(elements: helper.FieldElements)()
+
 
 @if(elements.hasErrors) {
-    <p class="error">@elements.errors.mkString(", ")</p>
+    <p class="error">@{elements.errors(elements.lang).mkString(", ")}</p>
 }
 
 @if(elements.args.contains('prompt)) {

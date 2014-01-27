@@ -1,15 +1,13 @@
 package controllers.change_of_address
 
-import org.specs2.mutable._
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.change_of_address
+import org.scalatest.{Matchers, WordSpec}
 
-
-class LoginPageControllerSpec extends Specification with Tags {
+class LoginPageControllerSpec extends WordSpec with Matchers {
 
   "LoginPage - Controller" should {
-
 
     "present" in new WithApplication {
       // Arrange
@@ -19,11 +17,11 @@ class LoginPageControllerSpec extends Specification with Tags {
       val result = change_of_address.LoginPage.present(request)
 
       // Assert
-      status(result) mustEqual OK
+      status(result)should equal(OK)
     }
   }
 
-    "redirect to next page after the i'm a private individual button is clicked" in new WithApplication {
+    "redirect to next page after the next button is clicked" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
 
@@ -31,9 +29,7 @@ class LoginPageControllerSpec extends Specification with Tags {
       val result = change_of_address.LoginPage.submit(request)
 
       // Assert
-      status(result) mustEqual SEE_OTHER
-      //redirectLocation(result) mustEqual (Some("/keeper-status")) //TODO page should redirect to next page
+      status(result) should equal(SEE_OTHER)
+      redirectLocation(result) should equal (Some("/login-confirmation"))
     }
-
-
 }
