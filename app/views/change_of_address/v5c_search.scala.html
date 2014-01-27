@@ -1,6 +1,7 @@
 @(v5cSearchForm: Form[models.domain.V5cSearchModel])(implicit lang: Lang)
 
 @import helper._
+@import helper.twitterBootstrap._
 
 @main(Messages("v5csearch.title")) {
     @form(action = controllers.change_of_address.routes.V5cSearch.submit) {
