@@ -1,6 +1,7 @@
 @(v5csearchConfirmationModel: models.domain.V5cSearchConfirmationModel)(implicit lang: Lang)
 
 @import helper._
+@import helper.twitterBootstrap._
 
 @main(Messages("confirm_vehicle_details.title")){
     @form(action = controllers.change_of_address.routes.ConfirmVehicleDetails.submit) {

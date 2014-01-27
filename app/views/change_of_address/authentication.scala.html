@@ -1,13 +1,16 @@
 @(authenticationForm: Form[models.domain.AuthenticationModel])(implicit lang: Lang)
 
-    @import helper._
+@import helper._
+
 
     <html>
         <title>@Messages("authentication.title")</title>
 
+
         <body>
         @form(action = controllers.change_of_address.routes.Authentication.submit) {
             <p><font size="5" color="red">@Messages("authentication.name")</font></p>
+
 
             <div style="background-color:pink">
                 <p>@Messages("authentication.p1")</p>

@@ -9,11 +9,11 @@ import views._
 
 object KeeperStatus extends Controller {
 
-  def present = Action {
+  def present = Action { implicit request =>
     Ok(html.change_of_address.keeper_status())
   }
 
-  def submit = Action { implicit request =>
+  def submit = Action { 
     Redirect(routes.VerifyIdentity.present)
   }
 
