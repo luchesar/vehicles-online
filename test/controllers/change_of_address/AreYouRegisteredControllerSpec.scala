@@ -4,9 +4,10 @@ import org.specs2.mutable._
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.change_of_address
+import org.scalatest.{Matchers, WordSpec}
 
 
-class AreYouRegisteredControllerSpec extends Specification with Tags {
+class AreYouRegisteredControllerSpec  extends WordSpec with Matchers {
 
   "AreYouRegistered - Controller" should {
 
@@ -19,7 +20,7 @@ class AreYouRegisteredControllerSpec extends Specification with Tags {
       val result = change_of_address.AreYouRegistered.present(request)
 
       // Assert
-      status(result) mustEqual OK
+      status(result) should equal(OK)
     }
 
 
@@ -31,8 +32,8 @@ class AreYouRegisteredControllerSpec extends Specification with Tags {
       val result = change_of_address.AreYouRegistered.submit(request)
 
       // Assert
-      status(result) mustEqual SEE_OTHER
-      redirectLocation(result) mustEqual (Some("/sign-in-provider")) //TODO update with next page url
+      status(result) should equal(SEE_OTHER)
+      redirectLocation(result) should equal(Some("/sign-in-provider")) //TODO update with next page url
     }
 
   }
