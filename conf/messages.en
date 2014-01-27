@@ -86,6 +86,7 @@ loginconfirmation.button.agree.arialabel = I agree button
 authentication.title = Change of keeper - authentication
 authentication.name = Authenticate your sign in
 authentication.p1 = Please authenticate your sign in to GOV.UK by entering the 6 digit pin that has been sent to your registered mobile device.
+authentication.resend = Resend unique code
 authentication.inputlabel = * PIN
 authentication.button = Submit
 authentication.button2 = Cancel
