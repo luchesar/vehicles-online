@@ -125,3 +125,4 @@ error.restricted.validVRNOnly = Rhowch rhif cofrestru cerbyd dilys heb fylchau
 #default validation messages
 error.required = Mae angen y cae
 error.minLength = Isafswm hyd yw {0}
+error.maxLength = Uchafswm hyd yn {0}
