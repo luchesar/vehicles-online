@@ -44,8 +44,13 @@ areyouregistered.button2text = angen i mi gofrestru ar gyfer proffil hunaniaeth
 #page 5
 signinprovider.title = Newid ceidwad - arwydd darparwr
 signinprovider.name = Mewngofnodi i GOV.UK
-signinprovider.p1 = GOV.UK yw'r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Nawr bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
-signinprovider.button = Swyddfa'r Post
+signinprovider.infomessage = Rydych yn ceisio cael mynediad Newid ceidwad
+signinprovider.p1 = GOV.UK yw''r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Nawr bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
+signinprovider.buttontext = Mae gen i broffil hunaniaeth
+signinprovider.button = Swyddfa''r Post
+signinprovider.button2 = Experian
+signinprovider.button3text = angen i mi gofrestru ar gyfer proffil hunaniaeth
+signinprovider.button3 = Cofrestru Nawr
 
 #page 6
 loginpage.title = Gwirio id mewngofnodi
@@ -76,6 +81,7 @@ authentication.name = Dilysu eich arwydd yn
 authentication.p1 = Os gwelwch yn dda dilysu eich arwydd i mewn i GOV.UK drwy fynd i mewn i''r pin 6 digid a anfonwyd at eich dyfais symudol cofrestredig.
 authentication.inputlabel = PIN
 authentication.button = Cyflwyno
+authentication.button2 = Diddymu
 
 #page 9
 v5csearch.title = Newid ceidwad - adfer cofnod gerbyd
@@ -90,9 +96,15 @@ v5csearch.vrninputlabel = * Rhif cofrestru''r cerbyd
 
 #page 10
 confirm_vehicle_details.title = Newid ceidwad - cadarnhau manylion y cerbyd
-confirm_vehicle_details.name = Newid ceidwad
-confirm_vehicle_details.p1 = Os gwelwch yn dda gadarnhau bod fel ceidwad y cerbyd hwn a bod hyn yn y cerbyd destun y newid hwn o broses ceidwad .
+confirm_vehicle_details.name = gerbyd Cadarnhau
+confirm_vehicle_details.p1 = Os gwelwch yn dda gadarnhau eich bod yn ceidwad y cerbyd hwn a bod hyn yn y cerbyd sy''n destun y ''Newid ceidwad'' broses.
+confirm_vehicle_details.vrn = cofrestru:
+confirm_vehicle_details.make = Gwneud:
+confirm_vehicle_details.model = Model
+confirm_vehicle_details.firstregistered = cofrestru cyntaf:
+confirm_vehicle_details.acquired = Caffaeledig:
 confirm_vehicle_details.button = Cadarnhau
+confirm_vehicle_details.button2 = Diddymu
 
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen
