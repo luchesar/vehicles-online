@@ -92,7 +92,7 @@ v5csearch.p3 = Roger Booth is the current keeper of the vehicle that is the subj
 v5csearch.button = Look-up
 v5csearch.button2 = Cancel
 v5csearch.v5cinputlabel = * V5C Document reference number
-v5csearch.vrninputlabel = * Vehicle registraion number
+v5csearch.vrninputlabel = * Vehicle registration number
 
 #page 10
 confirm_vehicle_details.title = Change of keeper - confirm vehicle details
