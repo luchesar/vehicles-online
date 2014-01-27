@@ -20,7 +20,6 @@ class BeforeYouStartControllerSpec extends WordSpec with Matchers {
       status(result) should equal(OK)
     }
 
-
     "redirect to next page after the button is clicked" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
@@ -32,7 +31,5 @@ class BeforeYouStartControllerSpec extends WordSpec with Matchers {
       status(result) should equal(SEE_OTHER)
       redirectLocation(result) should equal (Some("/keeper-status"))
     }
-
   }
-
 }
