@@ -16,7 +16,8 @@ object ApplicationBuild extends Build {
     "org.specs2" %% "specs2" % "2.3.6" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
     "com.dwp.carers" %% "carerscommon" % "0.81" ,
-    "org.scalatest" % "scalatest_2.10" % "2.0" % "test"
+    "org.scalatest" % "scalatest_2.10" % "2.0" % "test",
+    "org.seleniumhq.selenium" % "selenium-java" % "2.35.0" % "test"
   )
 
   var sO: Seq[Def.Setting[_]] = Seq(scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls"))
