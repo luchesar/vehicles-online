@@ -1,15 +1,13 @@
 package controllers.change_of_address
 
-import org.specs2.mutable._
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.change_of_address
+import org.scalatest.{Matchers, WordSpec}
 
-
-class BeforeYouStartControllerSpec extends Specification with Tags {
+class BeforeYouStartControllerSpec extends WordSpec with Matchers {
 
   "BeforeYouStart - Controller" should {
-
 
     "present" in new WithApplication {
       // Arrange
@@ -19,7 +17,7 @@ class BeforeYouStartControllerSpec extends Specification with Tags {
       val result = change_of_address.BeforeYouStart.present(request)
 
       // Assert
-      status(result) mustEqual OK
+      status(result) should equal(OK)
     }
 
 
@@ -31,8 +29,8 @@ class BeforeYouStartControllerSpec extends Specification with Tags {
       val result = change_of_address.BeforeYouStart.submit(request)
 
       // Assert
-      status(result) mustEqual SEE_OTHER
-      redirectLocation(result) mustEqual (Some("/keeper-status"))
+      status(result) should equal(SEE_OTHER)
+      redirectLocation(result) should equal (Some("/keeper-status"))
     }
 
   }
