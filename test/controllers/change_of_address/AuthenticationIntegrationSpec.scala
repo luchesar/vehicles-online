@@ -55,20 +55,21 @@ class AuthenticationIntegrationSpec extends WordSpec with Matchers with HtmlUnit
     }
 
 
-/*
-    "go to next page after the button is clicked" in new WithBrowser {
+
+    "go to next page after the button is clicked" in {
       val validPIN = "123456"
 
       // Arrange
-      browser.goTo("/authentication")
-      browser.fill("#PIN") `with` "123456"
+      go to (host + "authentication")
+      textField("PIN").value = "123456"
 
       // Act
-      browser.fill("#PIN") `with` validPIN
-      browser.submit("button[type='submit']")
+      //browser.submit("button[type='submit']")
+      //click on "submit"
+      click on id("submit")
 
       // Assert
-      titleMustEqual("Change of keeper - retrieve a vehicle record")
-    }*/
+      pageTitle should be ("Change of keeper - retrieve a vehicle record")
+    }
   }
 }
