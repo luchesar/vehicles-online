@@ -34,8 +34,12 @@ verifyidentity.button2text2 = Llywodraeth gofrestru i fanteisio ar y gwasanaeth
 #page 4
 areyouregistered.title = Newid ceidwad - ydych chi wedi cofrestru
 areyouregistered.name = Mewngofnodi i GOV.UK
-areyouregistered.p1 = GOV.UK yw'r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Nawr bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
+areyouregistered.p1 = GOV.UK yw''r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Nawr bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
+areyouregistered.infomessage = Rydych yn ceisio cael mynediad Newid ceidwad
 areyouregistered.button = Mewngofnodi
+areyouregistered.buttontext = Mae gen i broffil hunaniaeth
+areyouregistered.button2 = Cofrestru Nawr
+areyouregistered.button2text = angen i mi gofrestru ar gyfer proffil hunaniaeth
 
 #page 5
 signinprovider.title = Newid ceidwad - arwydd darparwr
