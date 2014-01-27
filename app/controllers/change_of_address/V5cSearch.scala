@@ -11,12 +11,12 @@ import controllers.Mappings._
 object V5cSearch extends Controller {
 
   def present = Action { implicit request =>
-    Ok(html.change_of_address.v5c_search(v5cSearchForm))
+    Ok(html.change_of_address.v5c_search(v5cSearchForm, fetchData))
   }
 
   def submit = Action { implicit request =>
     v5cSearchForm.bindFromRequest.fold(
-      formWithErrors => BadRequest(html.change_of_address.v5c_search(formWithErrors)),
+      formWithErrors => BadRequest(html.change_of_address.v5c_search(formWithErrors, fetchData())),
         ToAddress => Redirect(routes.ConfirmVehicleDetails.present())
     )
   }
@@ -28,4 +28,7 @@ object V5cSearch extends Controller {
     )(V5cSearchModel.apply)(V5cSearchModel.unapply)
   )
 
+  def fetchData(): String = {
+    "Roger Booth"
+  }  
 }
