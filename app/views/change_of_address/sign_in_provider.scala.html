@@ -9,11 +9,17 @@
 
             <p>@Messages("signinprovider.p1")</p>
 
+            <p class="info">@Messages("areyouregistered.infomessage")</p>
+
         </fieldset>
 
         <div class="form-steps">
+            <p>@Messages("signinprovider.button3text")<br>
+                <button type="reset" name="action" class="button" aria-label="Next button">@Messages("signinprovider.button3")</button></p> <br>
+
+            <p>@Messages("signinprovider.buttontext")<br>
             <button type="submit" name="action" value="next" class="button" aria-label="Next button">@Messages("signinprovider.button")</button><br>
-            <button type="reset" name="action" value="next" class="button" aria-label="Next button">@Messages("signinprovider.button2")</button>
+            <button type="reset" name="action" value="next" class="button" aria-label="Next button">@Messages("signinprovider.button2")</button></p>
         </div>
     }
 

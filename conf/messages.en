@@ -22,33 +22,45 @@ keeperstatus.button3 = Neither private nor business
 verifyidentity.title = Change of keeper - verify identity
 verifyidentity.alert = Example alert message
 verifyidentity.name = Verify identity
+verifyidentity.infomessage = It is a criminal offcence to obtain someone else's personal information without their permission.
 verifyidentity.p1 = Before you can start using the Change of Keeper service, you need to select the authentication provider you wish to use:
 verifyidentity.p2 = GOV.UK is the new way to use government services online. You will need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
 verifyidentity.button = Use existing identity profile
+verifyidentity.button1text = Dont have an identity profile?
 verifyidentity.button2 = Create an identity profile
+verifyidentity.button2text = Sign in using your identity profile
+verifyidentity.button2text2 = Government gate users must register to access service
+
 
 
 #page 4
 areyouregistered.title = Change of keeper - are you registered
 areyouregistered.name = Sign in to GOV.UK
 areyouregistered.p1 = GOV.UK is the new way to use government services online. You will now need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
+areyouregistered.infomessage = You are trying to access Change of keeper
 areyouregistered.button = Sign in
+areyouregistered.buttontext = I already have an identity profile
 areyouregistered.button2 = Register now
+areyouregistered.button2text = I need to register for an identity profile
 
 #page 5
 signinprovider.title = Change of keeper - sign in provider
 signinprovider.name = Sign in to GOV.UK
+signinprovider.infomessage = You are trying to access Change of keeper
 signinprovider.p1 = GOV.UK is the new way to use government services online. You will now need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
+signinprovider.buttontext = I already have an identity profile
 signinprovider.button = Post Office
 signinprovider.button2 = Experian
+signinprovider.button3text = I need to register for an identity profile
+signinprovider.button3 = Register now
 
 #page 6
 loginpage.title = Verified login id
-loginpage.instructions = Use your existing username and passsword to complete your Verified ID transaction.
+loginpage.instructions =  Sign in to access GOV.UK
 loginpage.username = Username / Email address
 loginpage.password = Password
-loginpage.button.login = Log In
-loginpage.button.login.arialabel = Log In button
+loginpage.button.login = Sign In
+loginpage.button.login.arialabel = Sign In button
 
 #page 7
 loginconfirmation.title = Login confirmation

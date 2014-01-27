@@ -5,21 +5,24 @@
 
 
 <html>
-<title>@Messages("loginpage.title")</title>
-<p>@Messages("loginpage.instructions")</p>
+    <title>@Messages("loginpage.title")</title>
 
-    @form(action = controllers.change_of_address.routes.LoginPage.submit) {
-        <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
-            <legend>@Messages("loginpage.title")</legend>
-            <p>@Messages("loginpage.instructions")</p>
+    <body>
+        @form(action = controllers.change_of_address.routes.LoginPage.submit) {
+                <p><font size="5" color="red">@Messages("loginpage.instructions")</font></p>
                 <ul>
                     @inputText(field = loginPageForm("username"), args = '_label -> Messages("loginpage.username"), '_showConstraints -> false)
                     @inputPassword(field = loginPageForm("password"), args = '_label -> Messages("loginpage.password"), '_showConstraints -> false)
-
+                    <font color="red"><a href="http://localhost:9000">Forgotten your password?</a></font>
                 </ul>
-        </fieldset>
 
-  <div class="form-steps">
-    <button type="submit" name="action" value="next" class="button" aria-label="@Messages("loginpage.button.login.arialabel")">@Messages("loginpage.button.login")</button>
-  </div>
-}
+
+
+            <div>
+                <button style="background-color:red" type="submit" name="action" value="next" class="button" aria-label="@Messages("loginpage.button.login.arialabel")">@Messages("loginpage.button.login")</button>
+            </div>
+
+            <font color="red"><a href="">Cancel and return to transaction</a></font>
+        }
+    </body>
+</html>
