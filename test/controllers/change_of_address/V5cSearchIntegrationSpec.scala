@@ -18,18 +18,21 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
     }
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
+      val validvehicleVRN = "A2"
+      val validV5cReferenceNumber = "12345678910"
+
       // Arrange
       browser.goTo("/v5c-search")
-      browser.fill("#V5cReferenceNumber") `with` "12345678910"
-      browser.fill("#vehicleVRN") `with` "a1"
+      browser.fill("#V5cReferenceNumber") `with` validV5cReferenceNumber
+      browser.fill("#vehicleVRN") `with` validvehicleVRN
 
       // Act
       browser.submit("button[type='submit']")
 
       // Assert
-      titleMustEqual("Change of keeper - confirm vehicle details") //TODO ensure valid VRN details are entered
-    }
+      titleMustEqual("Change of keeper - confirm vehicle details")
 
   }
 
+}
 }
