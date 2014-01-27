@@ -4,8 +4,8 @@
 
 @if(form.hasErrors) {
     <div class="validation-summary">
-        <h2>Please check the form</h2>
-        <p>Please fix the following:</p>
+        <h2>@Messages("errorsummary.title")</h2>
+        <p>@Messages("errorsummary.p1")</p>
 
         <ol>
             @for(error <- form.errors) {
