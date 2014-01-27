@@ -13,7 +13,7 @@ class AuthenticationIntegrationSpec extends WordSpec with Matchers with HtmlUnit
       go to (host + "authentication")
 
       // Assert
-      pageTitle should be ("Change of keeper - authentication")
+      pageTitle should equal ("Change of keeper - authentication")
     }
 
     "go to next page after the button is clicked" in {
@@ -26,7 +26,7 @@ class AuthenticationIntegrationSpec extends WordSpec with Matchers with HtmlUnit
       click on id("submit")
 
       // Assert
-      pageTitle should be ("Change of keeper - retrieve a vehicle record")
+      pageTitle should equal ("Change of keeper - retrieve a vehicle record")
     }
   }
 }
