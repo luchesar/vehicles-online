@@ -22,9 +22,14 @@ keeperstatus.button3 = Ddim yn breifat nac busnes
 verifyidentity.title = Newid ceidwad - gwirio hunaniaeth
 verifyidentity.alert = Enghraifft neges rhybudd
 verifyidentity.name = Gwirio hunaniaeth
-verifyidentity.p1 = Cyn i chi allu dechrau defnyddio'r Newid gwasanaeth Ceidwad, mae angen i chi ddewis y darparwr dilysu yr hoffech eu defnyddio:
-verifyidentity.p2 = GOV.UK yw'r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
-verifyidentity.button = Defnyddio proffil hunaniaeth bresennol
+verifyidentity.infomessage = Mae'n offcence troseddol i gael gwybodaeth bersonol rhywun arall heb eu caniatad.
+verifyidentity.p1 = Cyn i chi allu dechrau defnyddio''r Newid gwasanaeth Ceidwad, mae angen i chi ddewis y darparwr dilysu yr hoffech eu defnyddio:
+verifyidentity.p2 = GOV.UK yw''r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
+verifyidentity.button = Defnyddio proffil hunaniaeth presennol
+verifyidentity.button1text = Dont Mae proffil hunaniaeth?
+verifyidentity.button2 = Creu proffil hunaniaeth
+verifyidentity.button2text = Mewngofnodi wrth ddefnyddio eich proffil hunaniaeth Rhaid i ddefnyddwyr giat 
+verifyidentity.button2text2 = Llywodraeth gofrestru i fanteisio ar y gwasanaeth
 
 #page 4
 areyouregistered.title = Newid ceidwad - ydych chi wedi cofrestru
