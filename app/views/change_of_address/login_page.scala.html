@@ -13,7 +13,7 @@
                 <ul>
                     @inputText(field = loginPageForm("username"), args = '_label -> Messages("loginpage.username"), '_showConstraints -> false)
                     @inputPassword(field = loginPageForm("password"), args = '_label -> Messages("loginpage.password"), '_showConstraints -> false)
-                    <font color="red"><a href="http://localhost:9000">Forgotten your password?</a></font>
+                    <font color="red"><a href="http://localhost:9000">@Messages("loginpage.forgottenPassword")</a></font>
                 </ul>
 
 
@@ -22,7 +22,7 @@
                 <button style="background-color:red" type="submit" name="action" value="next" class="button" aria-label="@Messages("loginpage.button.login.arialabel")">@Messages("loginpage.button.login")</button>
             </div>
 
-            <font color="red"><a href="">Cancel and return to transaction</a></font>
+            <font color="red"><a href="">@Messages("loginpage.cancel")</a></font>
         }
     </body>
 </html>

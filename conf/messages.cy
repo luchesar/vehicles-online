@@ -59,6 +59,8 @@ loginpage.username = Enw Defnyddiwr / Cyfeiriad e-bost
 loginpage.password = Cyfrinair
 loginpage.button.login = Mewngofnodi
 loginpage.button.login.arialabel = Mewngofnodi botwm
+loginpage.forgottenPassword = Wedi anghofio eich cyfrinair?
+loginpage.cancel = Diddymu a dychwelyd i''r trafodiad
 
 #page 7
 loginconfirmation.title = Mewngofnodi cadarnhad
