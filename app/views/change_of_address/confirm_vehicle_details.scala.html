@@ -1,4 +1,4 @@
-@()
+@(v5csearchConfirmationModel: models.domain.V5cSearchConfirmationModel)(implicit lang: Lang)
 
 @import helper._
 
@@ -7,7 +7,16 @@
         <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
             <legend>@Messages("confirm_vehicle_details.name")</legend>
 
-            <p>@Messages("confirm_vehicle_details.p1")</p>
+            <p>@Messages("confirm_vehicle_details.p1")</p><br>
+
+            <table>
+                <tr><td>@Messages("v5csearchConfirmationModel.vrn")</td><td>@v5csearchConfirmationModel.vrn</td></tr>
+                <tr><td>@Messages("v5csearchConfirmationModel.make")</td><td>@v5csearchConfirmationModel.make</td></tr>
+                <tr><td>@Messages("v5csearchConfirmationModel.model")</td><td>@v5csearchConfirmationModel.model</td></tr>
+                <tr><td>@Messages("v5csearchConfirmationModel.firstregistered")</td><td>@v5csearchConfirmationModel.firstRegistered</td></tr>
+                <tr><td>@Messages("v5csearchConfirmationModel.acquired")</td><td>@v5csearchConfirmationModel.acquired</td></tr>
+
+            </table>
 
         </fieldset>
 

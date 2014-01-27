@@ -80,6 +80,13 @@ v5csearch.vrninputlabel = * Vehicle registraion number
 confirm_vehicle_details.title = Change of keeper - confirm vehicle details
 confirm_vehicle_details.name = Change of keeper
 confirm_vehicle_details.p1 = Please confirm that as the keeper of this vehicle and that this is the vehicle subject of this change of keeper process.
+
+v5csearchConfirmationModel.vrn = Registration:
+v5csearchConfirmationModel.make = Make:
+v5csearchConfirmationModel.model= Model
+v5csearchConfirmationModel.firstregistered = First registered:
+v5csearchConfirmationModel.acquired = Acquired:
+
 confirm_vehicle_details.button = Confirm
 
 
