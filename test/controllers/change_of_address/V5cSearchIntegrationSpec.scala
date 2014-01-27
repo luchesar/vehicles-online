@@ -26,7 +26,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Assert
-      titleMustEqual("Change of keeper - retrieve a vehicle record") //TODO We need to change this to look at page10
+      titleMustEqual("Change of keeper - confirm vehicle details") //TODO ensure valid VRN details are entered
     }
 
   }
