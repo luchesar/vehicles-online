@@ -1,4 +1,6 @@
 import controllers.change_of_address.Authentication
+
+import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mutable._
 import org.specs2.runner._
 import org.junit.runner._
@@ -7,7 +9,7 @@ import play.api.test._
 import play.api.test.Helpers._
 
 @RunWith(classOf[JUnitRunner])
-class AuthenticationFormSpec extends Specification with Tags {
+class AuthenticationFormSpec extends WordSpec with Matchers {
   "Authentication Form" should {
     //title values
     val PINFormID = "PIN"
@@ -24,50 +26,50 @@ class AuthenticationFormSpec extends Specification with Tags {
     "reject when PIN is empty" in {
       authenticationFiller(PIN="").fold(
         formWithErrors => {
-          formWithErrors.errors.length must equalTo(3)
+          formWithErrors.errors.length should equal(3)
           //errors for min length, regex, required
         },
-        f => "An error should occur" must equalTo("Valid")
+        f => "An error should occur" should equal("Valid")
       )
     }
 
     "reject when PIN contains letters" in {
       authenticationFiller(PIN="abcdef").fold(
         formWithErrors => {
-          formWithErrors.errors.length must equalTo(1)
+          formWithErrors.errors.length should equal(1)
           //error for regex
         },
-        f => "An error should occur" must equalTo("Valid")
+        f => "An error should occur" should equal("Valid")
       )
     }
 
     "reject when PIN contains special characters" in {
       authenticationFiller(PIN="£").fold(
         formWithErrors => {
-          formWithErrors.errors.length must equalTo(2)
+          formWithErrors.errors.length should equal(2)
           //errors for regex and min length
         },
-        f => "An error should occur" must equalTo("Valid")
+        f => "An error should occur" should equal("Valid")
       )
     }
 
     "reject when PIN is less than min length" in {
       authenticationFiller(PIN="12345").fold(
         formWithErrors => {
-          formWithErrors.errors.length must equalTo(1)
+          formWithErrors.errors.length should equal(1)
           //error for min length
         },
-        f => "An error should occur" must equalTo("Valid")
+        f => "An error should occur" should equal("Valid")
       )
     }
 
     "reject when PIN is more than max length" in {
       authenticationFiller(PIN="1234567").fold(
         formWithErrors => {
-          formWithErrors.errors.length must equalTo(1)
+          formWithErrors.errors.length should equal(1)
           //error for max length
         },
-        f => "An error should occur" must equalTo("Valid")
+        f => "An error should occur" should equal("Valid")
       )
     }
 /* TODO Get acceptance test working currently parameter error
