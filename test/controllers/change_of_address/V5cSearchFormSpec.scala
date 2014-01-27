@@ -12,7 +12,7 @@ class V5cSearchFormSpec extends Specification with Tags {
 
     val V5cReferenceNumberNID = "V5cReferenceNumber"
     val V5cReferenceNumberValid = "12345678910"
-    val vehicleVRNID = "vehicleVRN"
+    val vehicleVRNID = "VehicleRegistrationNumber"
     val vehicleVRNValid = "a1"
 
     def v5cSearchFiller(V5cReferenceNumber: String,vehicleVRN: String ) = {

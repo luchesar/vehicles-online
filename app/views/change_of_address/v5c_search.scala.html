@@ -1,4 +1,4 @@
-@(v5cSearchForm: Form[models.domain.V5cSearchModel])(implicit lang: Lang)
+@(v5cSearchForm: Form[models.domain.V5cSearchModel], name: String)(implicit lang: Lang)
 
 @import helper._
 @import utils.helpers.CarersTemplate._
@@ -16,13 +16,13 @@
             <ul>
                 <p>@Messages("v5csearch.p1")</p><br>
 
-                <p>@Messages("v5csearch.p2")</p><br>
+                <p>@Messages("v5csearch.p2", name)</p><br>
 
-                <p>@Messages("v5csearch.p3")</p><br>
+                <p>@Messages("v5csearch.p3", name)</p><br>
 
                 @carersInputText(v5cSearchForm("V5cReferenceNumber"), args = '_label -> Messages("v5csearch.v5cinputlabel"), '_showConstraints -> false)
 
-                @carersInputText(v5cSearchForm("vehicleVRN"), args = '_label -> Messages("v5csearch.vrninputlabel"), '_showConstraints -> false)
+                @carersInputText(v5cSearchForm("VehicleRegistrationNumber"), args = '_label -> Messages("v5csearch.vrninputlabel"), '_showConstraints -> false)
             </ul>
 
         </fieldset>

@@ -11,7 +11,7 @@ class V5cSearchControllerSpec extends Specification with Tags {
   "V5cSearch - Controller" should {
     val V5cReferenceNumberNID = "V5cReferenceNumber"
     val V5cReferenceNumberValid = "12345678910"
-    val vehicleVRNID = "vehicleVRN"
+    val vehicleVRNID = "VehicleRegistrationNumber"
     val vehicleVRNValid = "a1"
 
     "present" in new WithApplication {

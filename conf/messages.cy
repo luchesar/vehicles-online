@@ -22,15 +22,24 @@ keeperstatus.button3 = Ddim yn breifat nac busnes
 verifyidentity.title = Newid ceidwad - gwirio hunaniaeth
 verifyidentity.alert = Enghraifft neges rhybudd
 verifyidentity.name = Gwirio hunaniaeth
-verifyidentity.p1 = Cyn i chi allu dechrau defnyddio'r Newid gwasanaeth Ceidwad, mae angen i chi ddewis y darparwr dilysu yr hoffech eu defnyddio:
-verifyidentity.p2 = GOV.UK yw'r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
-verifyidentity.button = Defnyddio proffil hunaniaeth bresennol
+verifyidentity.infomessage = Mae'n offcence troseddol i gael gwybodaeth bersonol rhywun arall heb eu caniatad.
+verifyidentity.p1 = Cyn i chi allu dechrau defnyddio''r Newid gwasanaeth Ceidwad, mae angen i chi ddewis y darparwr dilysu yr hoffech eu defnyddio:
+verifyidentity.p2 = GOV.UK yw''r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
+verifyidentity.button = Defnyddio proffil hunaniaeth presennol
+verifyidentity.button1text = Dont Mae proffil hunaniaeth?
+verifyidentity.button2 = Creu proffil hunaniaeth
+verifyidentity.button2text = Mewngofnodi wrth ddefnyddio eich proffil hunaniaeth Rhaid i ddefnyddwyr giat 
+verifyidentity.button2text2 = Llywodraeth gofrestru i fanteisio ar y gwasanaeth
 
 #page 4
 areyouregistered.title = Newid ceidwad - ydych chi wedi cofrestru
 areyouregistered.name = Mewngofnodi i GOV.UK
-areyouregistered.p1 = GOV.UK yw'r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Nawr bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
+areyouregistered.p1 = GOV.UK yw''r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Nawr bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
+areyouregistered.infomessage = Rydych yn ceisio cael mynediad Newid ceidwad
 areyouregistered.button = Mewngofnodi
+areyouregistered.buttontext = Mae gen i broffil hunaniaeth
+areyouregistered.button2 = Cofrestru Nawr
+areyouregistered.button2text = angen i mi gofrestru ar gyfer proffil hunaniaeth
 
 #page 5
 signinprovider.title = Newid ceidwad - arwydd darparwr
@@ -72,11 +81,12 @@ authentication.button = Cyflwyno
 v5csearch.title = Newid ceidwad - adfer cofnod gerbyd
 v5csearch.name = Adfer cofnod gerbyd
 v5csearch.p1 = Adfer cofnod gerbyd
-v5csearch.p2 = Roger Booth ei lofnodi i mewn
-v5csearch.p3 = Roger Booth yw''r ceidwad presennol y cerbyd sy''n destun y '' Newid ceidwad '' broses.
+v5csearch.p2 = {0} ei lofnodi i mewn
+v5csearch.p3 = {0} yw''r ceidwad presennol y cerbyd sy''n destun y '' Newid ceidwad '' broses.
 v5csearch.button = Look-up
+v5csearch.button2 = Diddymu
 v5csearch.v5cinputlabel = * Rhif Cyfeirnod y ddogfen V5C
-v5csearch.vrninputlabel = * Rhif cofrestru'r cerbyd
+v5csearch.vrninputlabel = * Rhif cofrestru''r cerbyd
 
 #page 10
 confirm_vehicle_details.title = Newid ceidwad - cadarnhau manylion y cerbyd
@@ -84,6 +94,10 @@ confirm_vehicle_details.name = Newid ceidwad
 confirm_vehicle_details.p1 = Os gwelwch yn dda gadarnhau bod fel ceidwad y cerbyd hwn a bod hyn yn y cerbyd destun y newid hwn o broses ceidwad .
 confirm_vehicle_details.button = Cadarnhau
 
-#Customer validation messages
+#customer validation messages
 error.restricted.validNumberOnly = Mae''r maes hwn yn unig yn derbyn rhifau
 error.restricted.validVRNOnly = Rhowch rhif cofrestru cerbyd dilys heb fylchau
+
+#default validation messages
+error.required = Mae angen y cae
+error.minLength = Isafswm hyd yw {0}

@@ -31,8 +31,6 @@ verifyidentity.button2 = Create an identity profile
 verifyidentity.button2text = Sign in using your identity profile
 verifyidentity.button2text2 = Government gate users must register to access service
 
-
-
 #page 4
 areyouregistered.title = Change of keeper - are you registered
 areyouregistered.name = Sign in to GOV.UK
@@ -89,16 +87,16 @@ authentication.button2 = Cancel
 v5csearch.title = Change of keeper - retrieve a vehicle record
 v5csearch.name = Retrieve a vehicle record
 v5csearch.p1 = Retrieve a vehicle record
-v5csearch.p2 = Roger Booth is signed in.
-v5csearch.p3 = Roger Booth is the current keeper of the vehicle that is the subject of this 'Change of keeper' process.
+v5csearch.p2 = {0} is signed in.
+v5csearch.p3 = {0} is the current keeper of the vehicle that is the subject of this 'Change of keeper' process.
 v5csearch.button = Look-up
 v5csearch.button2 = Cancel
 v5csearch.v5cinputlabel = * V5C Document reference number
-v5csearch.vrninputlabel = * Vehicle registraion number
+v5csearch.vrninputlabel = * Vehicle registration number
 
 #page 10
 confirm_vehicle_details.title = Change of keeper - confirm vehicle details
-confirm_vehicle_details.name = Change of keeper
+confirm_vehicle_details.name = Confirm vehicle details
 confirm_vehicle_details.p1 = Please confirm that you are the keeper of this vehicle and that this is the vehicle that is the subject of this 'Change of keeper' process.
 v5csearchConfirmationModel.vrn = Registration:
 v5csearchConfirmationModel.make = Make:
