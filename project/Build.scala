@@ -5,7 +5,7 @@ import net.litola.SassPlugin
 import de.johoop.jacoco4sbt.JacocoPlugin._
 
 object ApplicationBuild extends Build {
-  val appName         = "c3"
+  val appName         = "vehicles-online"
 
   val appVersion      = "1.0-SNAPSHOT"
 
