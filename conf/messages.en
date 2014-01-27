@@ -15,6 +15,8 @@ keeperstatus.title = Change of keeper - keeper status
 keeperstatus.name = Change of keeper
 keeperstatus.p1 = What is your status, as current keeper of the vehicle?
 keeperstatus.button = I am a private individual
+keeperstatus.button2 = I represent a business
+keeperstatus.button3 = Neither private nor business
 
 #page 3
 verifyidentity.title = Change of keeper - verify identity
@@ -23,18 +25,22 @@ verifyidentity.name = Verify identity
 verifyidentity.p1 = Before you can start using the Change of Keeper service, you need to select the authentication provider you wish to use:
 verifyidentity.p2 = GOV.UK is the new way to use government services online. You will need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
 verifyidentity.button = Use existing identity profile
+verifyidentity.button2 = Create an identity profile
+
 
 #page 4
 areyouregistered.title = Change of keeper - are you registered
 areyouregistered.name = Sign in to GOV.UK
 areyouregistered.p1 = GOV.UK is the new way to use government services online. You will now need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
 areyouregistered.button = Sign in
+areyouregistered.button2 = Register now
 
 #page 5
 signinprovider.title = Change of keeper - sign in provider
 signinprovider.name = Sign in to GOV.UK
 signinprovider.p1 = GOV.UK is the new way to use government services online. You will now need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
 signinprovider.button = Post Office
+signinprovider.button2 = Experian
 
 #page 6
 loginpage.title = Verified login id
@@ -63,8 +69,9 @@ loginconfirmation.button.agree.arialabel = I agree button
 authentication.title = Change of keeper - authentication
 authentication.name = Authenticate your sign in
 authentication.p1 = Please authenticate your sign in to GOV.UK by entering the 6 digit pin that has been sent to your registered mobile device.
-authentication.inputlabel = PIN
+authentication.inputlabel = * PIN
 authentication.button = Submit
+authentication.button2 = Cancel
 
 #page 9
 v5csearch.title = Change of keeper - retrieve a vehicle record
@@ -73,6 +80,7 @@ v5csearch.p1 = Retrieve a vehicle record
 v5csearch.p2 = Roger Booth is signed in.
 v5csearch.p3 = Roger Booth is the current keeper of the vehicle that is the subject of this 'Change of keeper' process.
 v5csearch.button = Look-up
+v5csearch.button2 = Cancel
 v5csearch.v5cinputlabel = * V5C Document reference number
 v5csearch.vrninputlabel = * Vehicle registraion number
 
@@ -80,14 +88,13 @@ v5csearch.vrninputlabel = * Vehicle registraion number
 confirm_vehicle_details.title = Change of keeper - confirm vehicle details
 confirm_vehicle_details.name = Change of keeper
 confirm_vehicle_details.p1 = Please confirm that as the keeper of this vehicle and that this is the vehicle subject of this change of keeper process.
-
 v5csearchConfirmationModel.vrn = Registration:
 v5csearchConfirmationModel.make = Make:
 v5csearchConfirmationModel.model= Model
 v5csearchConfirmationModel.firstregistered = First registered:
 v5csearchConfirmationModel.acquired = Acquired:
-
 confirm_vehicle_details.button = Confirm
+confirm_vehicle_details.button2 = Cancel
 
 
 #Customer validation messages
