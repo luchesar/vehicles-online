@@ -1,22 +1,29 @@
 @(v5cSearchForm: Form[models.domain.V5cSearchModel])(implicit lang: Lang)
 
 @import helper._
+@import utils.helpers.CarersTemplate._
+@import views.html.helper.base._
+@import views.html.common._
+@import views.html.helper._
 
 @main(Messages("v5csearch.title")) {
+    @errorsSummary(v5cSearchForm)
+
     @form(action = controllers.change_of_address.routes.V5cSearch.submit) {
         <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
             <legend>@Messages("v5csearch.name")</legend>
 
-            <p>@Messages("v5csearch.p1")</p><br>
+            <ul>
+                <p>@Messages("v5csearch.p1")</p><br>
 
-            <p>@Messages("v5csearch.p2")</p><br>
+                <p>@Messages("v5csearch.p2")</p><br>
 
-            <p>@Messages("v5csearch.p3")</p><br>
+                <p>@Messages("v5csearch.p3")</p><br>
 
-            <p>@inputText(field = v5cSearchForm("V5cReferenceNumber"), args = '_label -> Messages("v5csearch.v5cinputlabel"), '_showConstraints -> false)</p><br>
+                @carersInputText(v5cSearchForm("V5cReferenceNumber"), args = '_label -> Messages("v5csearch.v5cinputlabel"), '_showConstraints -> false)
 
-            <p>@inputText(field = v5cSearchForm("vehicleVRN"), args = '_label -> Messages("v5csearch.vrninputlabel"), '_showConstraints -> false)</p>
-
+                @carersInputText(v5cSearchForm("vehicleVRN"), args = '_label -> Messages("v5csearch.vrninputlabel"), '_showConstraints -> false)
+            </ul>
 
         </fieldset>
 
