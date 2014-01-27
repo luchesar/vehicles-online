@@ -27,7 +27,7 @@ object Global extends GlobalSettings {
 
   override def onStart(app: Application) {
 
-    Logger.info("c3 Started") // used for operations, do not remove
+    Logger.info("vehicles-online Started") // used for operations, do not remove
   }
 
   override def onLoadConfig(configuration: Configuration, path: File, classloader: ClassLoader, mode: Mode.Mode): Configuration = {
@@ -41,7 +41,7 @@ object Global extends GlobalSettings {
 
   override def onStop(app: Application) {
     super.onStop(app)
-    Logger.info("c3 Stopped") // used for operations, do not remove
+    Logger.info("vehicles-online Stopped") // used for operations, do not remove
   }
 
   // 404 - page not found error http://alvinalexander.com/scala/handling-scala-play-framework-2-404-500-errors
