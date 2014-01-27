@@ -1,18 +1,10 @@
 import controllers.change_of_address.Authentication
+import app.ChangeOfAddress._
 
 import org.scalatest.{Matchers, WordSpec}
-import org.specs2.mutable._
-import org.specs2.runner._
-import org.junit.runner._
 
-import play.api.test._
-import play.api.test.Helpers._
-
-@RunWith(classOf[JUnitRunner])
 class AuthenticationFormSpec extends WordSpec with Matchers {
   "Authentication Form" should {
-    //title values
-    val PINFormID = "PIN"
     val PINValid = "123456"
 
     def authenticationFiller(PIN: String) = {
