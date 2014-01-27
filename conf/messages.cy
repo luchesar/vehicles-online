@@ -54,7 +54,7 @@ signinprovider.button3 = Cofrestru Nawr
 
 #page 6
 loginpage.title = Gwirio id mewngofnodi
-loginpage.instructions = Defnyddiwch eich enw defnyddiwr a passsword bresennol i gwblhau eich trafodiad Gwirio adnabod.
+loginpage.instructions = Cofrestrwch i gael gafael ar GOV.UK
 loginpage.username = Enw Defnyddiwr / Cyfeiriad e-bost
 loginpage.password = Cyfrinair
 loginpage.button.login = Mewngofnodi
@@ -81,6 +81,7 @@ loginconfirmation.button.agree.arialabel = wyf yn cytuno botwm
 authentication.title = Newid ceidwad - dilysu
 authentication.name = Dilysu eich arwydd yn
 authentication.p1 = Os gwelwch yn dda dilysu eich arwydd i mewn i GOV.UK drwy fynd i mewn i''r pin 6 digid a anfonwyd at eich dyfais symudol cofrestredig.
+authentication.resend = cod Ail-anfon un
 authentication.inputlabel = PIN
 authentication.button = Cyflwyno
 authentication.button2 = Diddymu

@@ -14,7 +14,7 @@
 
             <div style="background-color:pink">
                 <p>@Messages("authentication.p1")</p>
-                <a id="js-resend-code" href="#">Resend unique code</a>
+                <a id="js-resend-code" href="#">@Messages("authentication.resend")</a>
             </div>
 
             <p>@inputText(field = authenticationForm("PIN"), args = '_label -> Messages("authentication.inputlabel"), '_showConstraints -> false)</p>
