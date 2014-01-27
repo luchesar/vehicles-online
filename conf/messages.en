@@ -106,7 +106,10 @@ v5csearchConfirmationModel.acquired = Acquired:
 confirm_vehicle_details.button = Confirm
 confirm_vehicle_details.button2 = Cancel
 
+#widget messages
+errorsummary.title = Please check the form
+errorsummary.p1 = Please fix the following:
 
-#Customer validation messages
+#customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
 error.restricted.validVRNOnly = Please enter a valid vehicle registration number without spaces

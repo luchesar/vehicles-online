@@ -94,6 +94,10 @@ confirm_vehicle_details.name = Newid ceidwad
 confirm_vehicle_details.p1 = Os gwelwch yn dda gadarnhau bod fel ceidwad y cerbyd hwn a bod hyn yn y cerbyd destun y newid hwn o broses ceidwad .
 confirm_vehicle_details.button = Cadarnhau
 
+#widget messages
+errorsummary.title = Gwiriwch y ffurflen
+errorsummary.p1 = Trwsiwch y canlynol:
+
 #customer validation messages
 error.restricted.validNumberOnly = Mae''r maes hwn yn unig yn derbyn rhifau
 error.restricted.validVRNOnly = Rhowch rhif cofrestru cerbyd dilys heb fylchau
