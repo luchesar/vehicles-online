@@ -15,6 +15,8 @@ keeperstatus.title = Newid ceidwad - statws ceidwad
 keeperstatus.name = Newid ceidwad
 keeperstatus.p1 = Beth yw eich statws, fel ceidwad presennol y cerbyd?
 keeperstatus.button = Rwyf yn unigolyn preifat
+keeperstatus.button2 = Rwy'n cynrychioli busnes
+keeperstatus.button3 = Ddim yn breifat nac busnes
 
 #page 3
 verifyidentity.title = Newid ceidwad - gwirio hunaniaeth
