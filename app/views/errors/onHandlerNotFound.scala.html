@@ -1,9 +1,9 @@
-@(request: RequestHeader)
+@(request: RequestHeader)(implicit lang: Lang)
 
 @import helper._
 
 
-@common.govMain("GOV.UK - The best place to find government services and information") {
+@common.govMain("GOV.UK - The best place to find government services and information", lang) {
     <div class="carers-allowance">
 
         @common.protoType()

@@ -1,4 +1,9 @@
-p1manageyourvehicles.name = Manage your vehicles
+#main
+main.banner = Cerbydau ar-lein
+
+#prototype
+prototype.banner = Mae hyn yn prototeip. Ni allwch newid ceidwad ddefnyddio'r gwasanaeth hwn.
+prototype.link = Newid ceidwad sy'n defnyddio'r gwasanaeth yn fyw
 
 #page 1
 beforeyoustart.title = Newid ceidwad - cyn i chi ddechrau
@@ -100,10 +105,10 @@ v5csearch.vrninputlabel = * Rhif cofrestru''r cerbyd
 confirm_vehicle_details.title = Newid ceidwad - cadarnhau manylion y cerbyd
 confirm_vehicle_details.name = gerbyd Cadarnhau
 confirm_vehicle_details.p1 = Os gwelwch yn dda gadarnhau eich bod yn ceidwad y cerbyd hwn a bod hyn yn y cerbyd sy''n destun y ''Newid ceidwad'' broses.
-confirm_vehicle_details.vrn = cofrestru:
+confirm_vehicle_details.vrn = Cofrestru:
 confirm_vehicle_details.make = Gwneud:
 confirm_vehicle_details.model = Model
-confirm_vehicle_details.firstregistered = cofrestru cyntaf:
+confirm_vehicle_details.firstregistered = Cofrestru cyntaf:
 confirm_vehicle_details.acquired = Caffaeledig:
 confirm_vehicle_details.button = Cadarnhau
 confirm_vehicle_details.button2 = Diddymu

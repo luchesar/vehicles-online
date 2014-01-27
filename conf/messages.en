@@ -1,4 +1,9 @@
-p1manageyourvehicles.name = Manage your vehicles
+#main
+main.banner = Vehicles online
+
+#prototype
+prototype.banner = This is a prototype. You cannot change keeper using this service.
+prototype.link = Change keeper using the live service
 
 #page 1
 beforeyoustart.title = Change of keeper - before you start
