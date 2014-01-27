@@ -23,10 +23,10 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
 
       // Arrange
       browser.goTo("/v5c-search")
-
-      // Act
       browser.fill("#V5cReferenceNumber") `with` validV5cReferenceNumber
       browser.fill("#vehicleVRN") `with` validvehicleVRN
+
+      // Act
       browser.submit("button[type='submit']")
 
       // Assert

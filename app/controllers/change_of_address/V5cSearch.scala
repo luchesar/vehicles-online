@@ -10,7 +10,7 @@ import controllers.Mappings._
 
 object V5cSearch extends Controller {
 
-  def present = Action {
+  def present = Action { implicit request =>
     Ok(html.change_of_address.v5c_search(v5cSearchForm))
   }
 

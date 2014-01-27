@@ -9,7 +9,7 @@ import models.domain.change_of_address.Address
 
 object LoginConfirmation extends Controller {
   
-  def present = Action {
+  def present = Action { implicit request =>
     Ok(html.change_of_address.login_confirmation(fetchData()))
   }
 

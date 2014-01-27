@@ -10,7 +10,7 @@ import controllers.Mappings._
 
 object Authentication extends Controller {
 
-  def present = Action {
+  def present = Action { implicit request =>
     Ok(html.change_of_address.authentication(authenticationForm))
   }
 

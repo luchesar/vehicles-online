@@ -45,44 +45,43 @@ loginpage.button.login = Mewngofnodi
 loginpage.button.login.arialabel = Mewngofnodi botwm
 
 #page 7
-loginconfirmation.title = Login confirmation
-loginconfirmation.message = You''ve successfully authenticated with the PostOffice
-loginconfirmation.personaldetails = Personal details
-loginconfirmation.personaldetails.firstname = First name:
-loginconfirmation.personaldetails.surname = Surname:
-loginconfirmation.personaldetails.dob = Date of Birth:
-loginconfirmation.personaldetails.address = Address:
-loginconfirmation.consent = Consent
-loginconfirmation.consent.message = Do you agree to allow the Post Office to send your personal details to the relying party from which you are authenticating?
-loginconfirmation.button.refuse = I refuse
-loginconfirmation.button.refuse.arialabel = I refuse button
-loginconfirmation.button.agree = I agree
-loginconfirmation.button.agree.arialabel = I agree button
+loginconfirmation.title = Mewngofnodi cadarnhad
+loginconfirmation.message = Rydych '' wedi dilysu yn llwyddiannus gyda''r postoffice
+loginconfirmation.personaldetails = Manylion personol
+loginconfirmation.personaldetails.firstname = Enw cyntaf :
+loginconfirmation.personaldetails.surname = Cyfenw :
+loginconfirmation.personaldetails.dob = Dyddiad Geni :
+loginconfirmation.personaldetails.address = Cyfeiriad :
+loginconfirmation.consent = Caniatad
+loginconfirmation.consent.message = Ydych chi''n cytuno i ganiatau i''r Swyddfa''r Post i anfon eich manylion personol i''r parti dibynnu o ble rydych yn dilysu ?
+loginconfirmation.button.refuse = wyf yn gwrthod
+loginconfirmation.button.refuse.arialabel = wyf yn gwrthod botwm
+loginconfirmation.button.agree = wyf yn cytuno
+loginconfirmation.button.agree.arialabel = wyf yn cytuno botwm
 
 #page 8
-authentication.title = Change of keeper - authentication
-authentication.name = Authenticate your sign in
-authentication.p1 = Please authenticate your sign in to GOV.UK by entering the 6 digit pin that has been sent to your registered mobile device.
+authentication.title = Newid ceidwad - dilysu
+authentication.name = Dilysu eich arwydd yn
+authentication.p1 = Os gwelwch yn dda dilysu eich arwydd i mewn i GOV.UK drwy fynd i mewn i''r pin 6 digid a anfonwyd at eich dyfais symudol cofrestredig.
 authentication.inputlabel = PIN
-authentication.button = Submit
+authentication.button = Cyflwyno
 
 #page 9
-v5csearch.title = Change of keeper - retrieve a vehicle record
-v5csearch.name = Retrieve a vehicle record
-v5csearch.p1 = Retrieve a vehicle record
-v5csearch.p2 = Roger Booth is signed in.
-v5csearch.p3 = Roger Booth is the current keeper of the vehicle that is the subject of this 'Change of keeper' process.
+v5csearch.title = Newid ceidwad - adfer cofnod gerbyd
+v5csearch.name = Adfer cofnod gerbyd
+v5csearch.p1 = Adfer cofnod gerbyd
+v5csearch.p2 = Roger Booth ei lofnodi i mewn
+v5csearch.p3 = Roger Booth yw''r ceidwad presennol y cerbyd sy''n destun y '' Newid ceidwad '' broses.
 v5csearch.button = Look-up
-v5csearch.v5cinputlabel = * V5C Document reference number
-v5csearch.vrninputlabel = * Vehicle registraion number
+v5csearch.v5cinputlabel = * Rhif Cyfeirnod y ddogfen V5C
+v5csearch.vrninputlabel = * Rhif cofrestru'r cerbyd
 
 #page 10
-confirm_vehicle_details.title = Change of keeper - confirm vehicle details
-confirm_vehicle_details.name = Change of keeper
-confirm_vehicle_details.p1 = Please confirm that as the keeper of this vehicle and that this is the vehicle subject of this change of keeper process.
-confirm_vehicle_details.button = Confirm
-
+confirm_vehicle_details.title = Newid ceidwad - cadarnhau manylion y cerbyd
+confirm_vehicle_details.name = Newid ceidwad
+confirm_vehicle_details.p1 = Os gwelwch yn dda gadarnhau bod fel ceidwad y cerbyd hwn a bod hyn yn y cerbyd destun y newid hwn o broses ceidwad .
+confirm_vehicle_details.button = Cadarnhau
 
 #Customer validation messages
-error.restricted.validNumberOnly = This field only accepts numbers
-error.restricted.validVRNOnly = Please enter a valid vehicle registration number without spaces
+error.restricted.validNumberOnly = Mae''r maes hwn yn unig yn derbyn rhifau
+error.restricted.validVRNOnly = Rhowch rhif cofrestru cerbyd dilys heb fylchau

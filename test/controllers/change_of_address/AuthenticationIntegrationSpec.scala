@@ -22,6 +22,7 @@ class AuthenticationIntegrationSpec extends Specification with Tags {
 
       // Arrange
       browser.goTo("/authentication")
+      browser.fill("#PIN") `with` "123456"
 
       // Act
       browser.fill("#PIN") `with` validPIN
