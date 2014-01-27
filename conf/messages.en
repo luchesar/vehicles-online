@@ -59,6 +59,8 @@ loginpage.username = Username / Email address
 loginpage.password = Password
 loginpage.button.login = Sign In
 loginpage.button.login.arialabel = Sign In button
+loginpage.forgottenPassword = Forgotten your password?
+loginpage.cancel = Cancel and return to transaction
 
 #page 7
 loginconfirmation.title = Login confirmation
