@@ -1,15 +1,13 @@
 package controllers.change_of_address
 
-import org.specs2.mutable._
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.change_of_address
+import org.scalatest.{Matchers, WordSpec}
 
-
-class VerifyIdentityControllerSpec extends Specification with Tags {
+class VerifyIdentityControllerSpec extends WordSpec with Matchers {
 
   "VerifyIdentity - Controller" should {
-
 
     "present" in new WithApplication {
       // Arrange
@@ -19,9 +17,8 @@ class VerifyIdentityControllerSpec extends Specification with Tags {
       val result = change_of_address.VerifyIdentity.present(request)
 
       // Assert
-      status(result) mustEqual OK
+      status(result) should equal(OK)
     }
-
 
     "redirect to next page after the button is clicked" in new WithApplication {
       // Arrange
@@ -31,10 +28,8 @@ class VerifyIdentityControllerSpec extends Specification with Tags {
       val result = change_of_address.VerifyIdentity.submit(request)
 
       // Assert
-      status(result) mustEqual SEE_OTHER
-      redirectLocation(result) mustEqual (Some("/are-you-registered"))
+      status(result) should equal(SEE_OTHER)
+      redirectLocation(result) should equal(Some("/are-you-registered"))
     }
-
   }
-
 }
