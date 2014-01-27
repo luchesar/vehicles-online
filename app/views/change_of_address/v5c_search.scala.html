@@ -1,4 +1,4 @@
-@(v5cSearchForm: Form[models.domain.V5cSearchModel])
+@(v5cSearchForm: Form[models.domain.V5cSearchModel])(implicit lang: Lang)
 
 @import helper._
 
@@ -21,7 +21,8 @@
         </fieldset>
 
         <div class="form-steps">
-            <button type="submit" name="action" class="button" aria-label="Next button">@Messages("v5csearch.button")</button>
+            <button type="reset" name="action" class="button" aria-label="Next button">@Messages("v5csearch.button")</button>
+            <button type="submit" name="action" class="button" aria-label="Next button">@Messages("v5csearch.button2")</button>
         </div>
     }
 

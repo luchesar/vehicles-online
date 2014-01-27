@@ -20,12 +20,13 @@ class AuthenticationIntegrationSpec extends Specification with Tags {
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       // Arrange
       browser.goTo("/authentication")
+      browser.fill("#PIN") `with` "123456"
 
       // Act
       browser.submit("button[type='submit']")
 
       // Assert
-      titleMustEqual("Change of keeper - authentication") // ToDo currently error with this test as page can not be changed without PIN input
+      titleMustEqual("Change of keeper - retrieve a vehicle record") // ToDo input a value for PIN
     }
 
   }

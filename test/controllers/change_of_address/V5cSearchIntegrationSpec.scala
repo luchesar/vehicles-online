@@ -20,13 +20,14 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       // Arrange
       browser.goTo("/v5c-search")
+      browser.fill("#V5cReferenceNumber") `with` "12345678910"
+      browser.fill("#vehicleVRN") `with` "a1"
 
       // Act
-
       browser.submit("button[type='submit']")
 
       // Assert
-      titleMustEqual("Change of keeper - retrieve a vehicle record") //TODO We need to change this to look at page10
+      titleMustEqual("Change of keeper - confirm vehicle details") //TODO ensure valid VRN details are entered
     }
 
   }

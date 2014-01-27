@@ -11,10 +11,10 @@ beforeyoustart.p5 = 3. Mae'n ddoeth bod pwy bynnag sy'n goruchwylio'r hyn yn 'Ne
 beforeyoustart.button = Dechrau nawr
 
 #page 2
-keeperstatus.title = Change of keeper - keeper status
-keeperstatus.name = Change of keeper
-keeperstatus.p1 = What is your status, as current keeper of the vehicle?
-keeperstatus.button = I am a private individual
+keeperstatus.title = Newid ceidwad - statws ceidwad
+keeperstatus.name = Newid ceidwad
+keeperstatus.p1 = Beth yw eich statws, fel ceidwad presennol y cerbyd?
+keeperstatus.button = Rwyf yn unigolyn preifat
 
 #page 3
 verifyidentity.title = Newid ceidwad - gwirio hunaniaeth
