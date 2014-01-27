@@ -72,14 +72,13 @@ class AuthenticationFormSpec extends WordSpec with Matchers {
         f => "An error should occur" should equal("Valid")
       )
     }
-/* TODO Get acceptance test working currently parameter error
+
     "accept when PIN is valid" in {
       authenticationFiller(PIN=PINValid).fold(
-        formWithErrors => {failure("An error should occur")
+        formWithErrors => {fail("An error should occur")
         },
-        f => f.PIN must equalTo(PINValid)
+        f => f.PIN should equal(PINValid)
       )
     }
-*/
   }
 }
