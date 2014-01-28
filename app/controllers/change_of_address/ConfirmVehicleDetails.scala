@@ -6,7 +6,7 @@ import play.api.data._
 import play.api.data.Forms._
 
 import views._
-import models.domain.V5cSearchConfirmationModel
+import models.domain.change_of_address.V5cSearchConfirmationModel
 
 
 object ConfirmVehicleDetails extends Controller {
