@@ -15,7 +15,7 @@ object ApplicationBuild extends Build {
     cache,
     "org.specs2" %% "specs2" % "2.3.6" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
-    "com.dwp.carers" %% "carerscommon" % "0.81" ,
+//    "com.dwp.carers" %% "carerscommon" % "0.81" ,
     "org.scalatest" % "scalatest_2.10" % "2.0" % "test",
     "org.seleniumhq.selenium" % "selenium-java" % "2.35.0" % "test"
   )
@@ -24,7 +24,7 @@ object ApplicationBuild extends Build {
 
   var sV: Seq[Def.Setting[_]] = Seq(scalaVersion := "2.10.3")
 
-  var sR: Seq[Def.Setting[_]] = Seq(resolvers += "Carers repo" at "http://build.3cbeta.co.uk:8080/artifactory/repo/")
+//  var sR: Seq[Def.Setting[_]] = Seq(resolvers += "Carers repo" at "http://build.3cbeta.co.uk:8080/artifactory/repo/")
 
   var sTest: Seq[Def.Setting[_]] = Seq()
 
@@ -45,7 +45,8 @@ object ApplicationBuild extends Build {
 
   var jcoco: Seq[Def.Setting[_]] = Seq(parallelExecution in jacoco.Config := false)
 
-  var appSettings: Seq[Def.Setting[_]] =  SassPlugin.sassSettings ++ sV ++ sO ++ sR ++ gS ++ sTest ++ jO ++ f ++ jcoco
+//  var appSettings: Seq[Def.Setting[_]] =  SassPlugin.sassSettings ++ sV ++ sO ++ sR ++ gS ++ sTest ++ jO ++ f ++ jcoco
+  var appSettings: Seq[Def.Setting[_]] =  SassPlugin.sassSettings ++ sV ++ sO ++ gS ++ sTest ++ jO ++ f ++ jcoco
 
   val main = play.Project(appName, appVersion, appDependencies, settings = play.Project.playScalaSettings ++ jacoco.settings).settings(appSettings: _*)
 }
