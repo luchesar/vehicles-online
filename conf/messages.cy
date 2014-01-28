@@ -7,17 +7,17 @@ footer.builtbyintro = Adeiladwyd gan
 footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
 
 #prototype
-prototype.banner = Mae hyn yn prototeip. Ni allwch newid ceidwad ddefnyddio'r gwasanaeth hwn.
-prototype.link = Newid ceidwad sy'n defnyddio'r gwasanaeth yn fyw
+prototype.banner = Mae hyn yn prototeip. Ni allwch newid ceidwad ddefnyddio''r gwasanaeth hwn.
+prototype.link = Newid ceidwad sy''n defnyddio''r gwasanaeth yn fyw
 
 #page 1
 beforeyoustart.title = Newid ceidwad - cyn i chi ddechrau
 beforeyoustart.name = Cyn i chi ddechrau
-beforeyoustart.p1 = Defnyddiwch y gwasanaeth hwn os ydych am newid manylion pwy yw'r ceidwad cyfreithiol cerbyd cofrestredig.
+beforeyoustart.p1 = Defnyddiwch y gwasanaeth hwn os ydych am newid manylion pwy yw''r ceidwad cyfreithiol cerbyd cofrestredig.
 beforeyoustart.p2 = Cyn i chi ddechrau, bydd angen i chi:
-beforeyoustart.p3 = 1. Mae'r cerbyd yn y cwestiynau V5C (llyfr log).
+beforeyoustart.p3 = 1. Mae''r cerbyd yn y cwestiynau V5C (llyfr log).
 beforeyoustart.p4 = 2. Bydd angen Naill ai ceidwad cyfredol neu geidwad newydd i brofi eu nodi trwy fewngofnodi ar eu proffil yn nodi yn ystod y broses.
-beforeyoustart.p5 = 3. Mae'n ddoeth bod pwy bynnag sy'n goruchwylio'r hyn yn 'Newid ceidwad' proses (ceidwad presennol neu newydd) a dderbynnir proffil hunaniaeth cyn dechrau. Fodd bynnag, mae'n bosibl i gofrestru ar gyfer proffil hunaniaeth yn ystod y 'Newid ceidwad' broses.
+beforeyoustart.p5 = 3. Mae''n fuddiol bod pwy bynnag sy''n goruchwylio''r hyn yn 'Newid ceidwad' proses (ceidwad presennol neu newydd) a dderbynnir proffil hunaniaeth cyn dechrau. Fodd bynnag, mae''n bosibl i gofrestru ar gyfer proffil hunaniaeth yn ystod y 'Newid ceidwad' broses.
 beforeyoustart.button = Dechrau nawr
 
 #page 2
