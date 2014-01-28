@@ -4,24 +4,33 @@
 @import helper.twitterBootstrap._
 
 @main(Messages("signinprovider.title")) {
-    @form(action = controllers.change_of_address.routes.SignInProvider.submit) {
-        <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
-            <legend>@Messages("signinprovider.name")</legend>
+@form(action = controllers.change_of_address.routes.SignInProvider.submit) {
+<fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
+    <legend>@Messages("signinprovider.name")</legend>
 
-            <p>@Messages("signinprovider.p1")</p>
+    <p>@Messages("signinprovider.p1")</p>
 
-            <p class="info">@Messages("areyouregistered.infomessage")</p>
+    <p class="info">@Messages("areyouregistered.infomessage")</p>
 
-        </fieldset>
+</fieldset>
 
-        <div class="form-steps">
-            <p>@Messages("signinprovider.button3text")<br>
-                <button type="reset" name="action" class="button" aria-label="Next button">@Messages("signinprovider.button3")</button></p> <br>
+<div class="form-steps">
+    <p>@Messages("signinprovider.button3text")<br>
+        <button type="reset" name="action" class="button" aria-label="Next button">@Messages("signinprovider.button3")
+        </button>
+    </p>
+    <br>
 
-            <p>@Messages("signinprovider.buttontext")<br>
-            <button type="submit" name="action" value="next" class="button" aria-label="Next button">@Messages("signinprovider.button")</button><br>
-            <button type="reset" name="action" value="next" class="button" aria-label="Next button">@Messages("signinprovider.button2")</button></p>
-        </div>
-    }
+    <p>@Messages("signinprovider.buttontext")<br>
+        <button type="submit" name="action" value="next" class="button" aria-label="Next button">
+            @Messages("signinprovider.button")
+        </button>
+        <br>
+        <button type="reset" name="action" value="next" class="button" aria-label="Next button">
+            @Messages("signinprovider.button2")
+        </button>
+    </p>
+</div>
+}
 
 }

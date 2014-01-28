@@ -3,26 +3,31 @@
 @import helper._
 
 
-    <html>
-        <title>@Messages("authentication.title")</title>
+<html>
+<title>@Messages("authentication.title")</title>
 
 
-        <body>
-        @form(action = controllers.change_of_address.routes.Authentication.submit) {
-            <p><font size="5" color="red">@Messages("authentication.name")</font></p>
+<body>
+@form(action = controllers.change_of_address.routes.Authentication.submit) {
+<p><font size="5" color="red">@Messages("authentication.name")</font></p>
 
 
-            <div style="background-color:pink">
-                <p>@Messages("authentication.p1")</p>
-                <a id="js-resend-code" href="#">@Messages("authentication.resend")</a>
-            </div>
+<div style="background-color:pink">
+    <p>@Messages("authentication.p1")</p>
+    <a id="js-resend-code" href="#">@Messages("authentication.resend")</a>
+</div>
 
-            <p>@inputText(field = authenticationForm("PIN"), args = '_label -> Messages("authentication.inputlabel"), '_showConstraints -> false)</p>
+<p>@inputText(field = authenticationForm("PIN"), args = '_label -> Messages("authentication.inputlabel"),
+    '_showConstraints -> false)</p>
 
-            <div class="form-steps">
-                <button id="submit" type="submit" name="action" class="button" aria-label="Next button">@Messages("authentication.button")</button>
-                <button id="reset" type="reset" name="action" class="button" aria-label="Next button">@Messages("authentication.button2")</button>
-            </div>
-        }
-        </body>
-    </html>
+<div class="form-steps">
+    <button id="submit" type="submit" name="action" class="button" aria-label="Next button">
+        @Messages("authentication.button")
+    </button>
+    <button id="reset" type="reset" name="action" class="button" aria-label="Next button">
+        @Messages("authentication.button2")
+    </button>
+</div>
+}
+</body>
+</html>
