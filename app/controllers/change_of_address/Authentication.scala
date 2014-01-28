@@ -5,7 +5,7 @@ import play.api.data._
 import play.api.data.Forms._
 
 import views._
-import models.domain.{V5cSearchModel, AuthenticationModel}
+import models.domain.change_of_address._
 import controllers.Mappings._
 
 object Authentication extends Controller {

@@ -6,7 +6,7 @@ import play.api.test.WithBrowser
 import controllers.BrowserMatchers
 
 class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
-
+/*
   "ConfirmVehicleDetails Integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
@@ -29,5 +29,6 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
     }
 
   }
+  */
 
 }
