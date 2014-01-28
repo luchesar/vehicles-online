@@ -1,6 +1,11 @@
 #main
 main.banner = Cerbydau ar-lein
 
+footer.helpdesk = Desg Gymorth
+footer.privacypolicy = Privacy & Cookies
+footer.builtbyintro = Adeiladwyd gan
+footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
+
 #prototype
 prototype.banner = Mae hyn yn prototeip. Ni allwch newid ceidwad ddefnyddio'r gwasanaeth hwn.
 prototype.link = Newid ceidwad sy'n defnyddio'r gwasanaeth yn fyw
