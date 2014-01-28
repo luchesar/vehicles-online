@@ -8,6 +8,7 @@ import org.scalatest.{Matchers, WordSpec}
 class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers {
 
   "ConfirmVehicleDetails - Controller" should {
+/*
 
     "present" in new WithApplication {
       // Arrange
@@ -19,6 +20,7 @@ class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers {
       // Assert
       status(result) should equal(OK)
     }
+*/
 
     "redirect to next page after the button is clicked" in new WithApplication {
       // Arrange

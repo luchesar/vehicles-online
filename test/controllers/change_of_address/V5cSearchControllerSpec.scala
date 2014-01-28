@@ -22,7 +22,7 @@ class V5cSearchControllerSpec extends WordSpec with Matchers{
       // Assert
       status(result) should equal(OK)
     }
-
+/*
     "redirect to next page after the button is clicked" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
@@ -35,5 +35,6 @@ class V5cSearchControllerSpec extends WordSpec with Matchers{
       status(result) should equal(SEE_OTHER)
       redirectLocation(result) should equal (Some("/confirm-vehicle-details"))
     }
+*/
   }
 }
