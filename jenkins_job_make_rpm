@@ -19,7 +19,6 @@ echo *********************************
 
 # this is really ugly, refactor all of this
 # create workdir directories
-rm -rf $RPM_TARGETDIR
 rm -rf ./workdir
 mkdir -p workdir/$RPM_PREFIX
 mkdir -p workdir/etc/init
