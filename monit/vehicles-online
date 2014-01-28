@@ -1,0 +1,7 @@
+check process vehicles-online
+  with pidfile /var/run/vehicles-online.pid
+  start program = "/sbin/start vehicles-online"
+  stop program = "/sbin/stop vehicles-online"
+  if failed host 127.0.0.1 port 9000 then restart
+  if 5 restarts within 5 cycles then timeout
+
