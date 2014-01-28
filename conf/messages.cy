@@ -101,6 +101,7 @@ v5csearch.button = Look-up
 v5csearch.button2 = Diddymu
 v5csearch.v5cinputlabel = * Rhif Cyfeirnod y ddogfen V5C
 v5csearch.vrninputlabel = * Rhif cofrestru''r cerbyd
+v5csearch.v5cinputlabel.refNumIncorrect = Mae''n rhaid i chi fynd i mewn i nifer sydd â hyd o 11 digid
 
 #page 10
 confirm_vehicle_details.title = Newid ceidwad - cadarnhau manylion y cerbyd

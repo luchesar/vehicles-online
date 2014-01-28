@@ -12,7 +12,7 @@ beforeyoustart.p1 = Use this service if you want to change the details of who is
 beforeyoustart.p2 = Before you start you will need:
 beforeyoustart.p3 = 1. The vehicle in questions V5C (log book).
 beforeyoustart.p4 = 2. Either the current keeper or new keeper will need to prove their identify by logging into their identify profile during the process.
-beforeyoustart.p5 = 3. It is advisable that whoever oversees this 'Change of keeper' process (current or new keeper) obtains an identity profile before starting. It is however possible to register for an identity profile during the 'Change of keeper' process.
+beforeyoustart.p5 = 3. It is advisable that whoever oversees this 'change of keeper' process (current or new keeper) obtains an identity profile before starting. It is however possible to register for an identity profile during the 'Change of keeper' process.
 beforeyoustart.button = Start now
 
 #page 2
@@ -28,7 +28,7 @@ verifyidentity.title = Change of keeper - verify identity
 verifyidentity.alert = Example alert message
 verifyidentity.name = Verify identity
 verifyidentity.infomessage = It is a criminal offcence to obtain someone else's personal information without their permission.
-verifyidentity.p1 = Before you can start using the Change of Keeper service, you need to select the authentication provider you wish to use:
+verifyidentity.p1 = Before you can start using the change of Keeper service, you need to select the authentication provider you wish to use:
 verifyidentity.p2 = GOV.UK is the new way to use government services online. You will need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
 verifyidentity.button = Use existing identity profile
 verifyidentity.button1text = Dont have an identity profile?
@@ -40,7 +40,7 @@ verifyidentity.button2text2 = Government gate users must register to access serv
 areyouregistered.title = Change of keeper - are you registered
 areyouregistered.name = Sign in to GOV.UK
 areyouregistered.p1 = GOV.UK is the new way to use government services online. You will now need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
-areyouregistered.infomessage = You are trying to access Change of keeper
+areyouregistered.infomessage = You are trying to access change of keeper
 areyouregistered.button = Sign in
 areyouregistered.buttontext = I already have an identity profile
 areyouregistered.button2 = Register now
@@ -49,7 +49,7 @@ areyouregistered.button2text = I need to register for an identity profile
 #page 5
 signinprovider.title = Change of keeper - sign in provider
 signinprovider.name = Sign in to GOV.UK
-signinprovider.infomessage = You are trying to access Change of keeper
+signinprovider.infomessage = You are trying to access change of keeper
 signinprovider.p1 = GOV.UK is the new way to use government services online. You will now need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
 signinprovider.buttontext = I already have an identity profile
 signinprovider.button = Post Office
@@ -96,16 +96,17 @@ v5csearch.title = Change of keeper - retrieve a vehicle record
 v5csearch.name = Retrieve a vehicle record
 v5csearch.p1 = Retrieve a vehicle record
 v5csearch.p2 = {0} is signed in.
-v5csearch.p3 = {0} is the current keeper of the vehicle that is the subject of this 'Change of keeper' process.
+v5csearch.p3 = {0} is the current keeper of the vehicle that is the subject of this 'change of keeper' process.
 v5csearch.button = Look-up
 v5csearch.button2 = Cancel
 v5csearch.v5cinputlabel = * V5C Document reference number
 v5csearch.vrninputlabel = * Vehicle registration number
+v5csearch.v5cinputlabel.refNumIncorrect = You must enter a number with a length of 11 digits
 
 #page 10
 confirm_vehicle_details.title = Change of keeper - confirm vehicle details
 confirm_vehicle_details.name = Confirm vehicle details
-confirm_vehicle_details.p1 = Please confirm that you are the keeper of this vehicle and that this is the vehicle that is the subject of this 'Change of keeper' process.
+confirm_vehicle_details.p1 = Please confirm that you are the keeper of this vehicle and that this is the vehicle that is the subject of this 'change of keeper' process.
 confirm_vehicle_details.vrn = Registration:
 confirm_vehicle_details.make = Make:
 confirm_vehicle_details.model= Model

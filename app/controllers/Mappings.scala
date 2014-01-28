@@ -7,6 +7,12 @@ import play.api.data.Forms._
 import play.api.data.validation.ValidationError
 
 object Mappings {
+  object V5C {
+    val minLength = 11
+    val maxLength = 11
+    val pattern = s"\\d{$minLength,$maxLength}" // Digits only with specified size.
+  }
+
   object Name {
     val maxLength = 35
   }
@@ -125,7 +131,7 @@ object Mappings {
     }
   }
 
-  def V5cReferenceNumber (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[String] = {
+  def V5cReferenceNumber (minLength: Int = V5C.minLength, maxLength: Int = V5C.maxLength): Mapping[String] = {
     nonEmptyText(minLength, maxLength) verifying validNumberOnly
   }
 

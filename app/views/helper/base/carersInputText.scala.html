@@ -6,10 +6,20 @@
 @import views.html.helper.base._
 
 @input(field, args ++
-              Seq('autocomplete -> "off") ++
-              (args.find(_._1 == 'maxLength) match{ case Some(_) => Seq() case _ => Seq('maxLength -> Mappings.sixty)}):_* ) { (id, name, value, htmlArgs) =>
+              Seq('autocomplete -> "off") ++ // ALways turn off autocomplete to protect user details.
+              (
+                  args.find(_._1 == 'maxLength) match{
+                    case Some(_) => Seq() // If maxLength is already defined then no change.
+                    case _ => Seq('maxLength -> Mappings.sixty) // Else default to this value otherwise people can send gigabyte of data and crash the server.
+                    }
+                  ):_* ) { (id, name, value, htmlArgs) =>
 
     @carersLabel(field, args: _*)
 
+@{
+    //println(s"*** $id $htmlArgs")
+}
+
     <input type="text" id="@CarersCrypto.encryptAES(id)" name="@CarersCrypto.encryptAES(name)" value="@value" @toHtmlArgs(htmlArgs)>
 }
+
