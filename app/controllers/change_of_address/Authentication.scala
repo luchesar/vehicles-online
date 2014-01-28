@@ -29,7 +29,7 @@ object Authentication extends Controller {
 
   val v5cSearchForm = Form(
     mapping(
-      "V5cReferenceNumber" -> V5cReferenceNumber(minLength = 11, maxLength = 11),
+      "V5cReferenceNumber" -> V5cReferenceNumber(),
       "vehicleVRN" -> vehicleVRN(minLength = 2, maxLength = 8)
     )(V5cSearchModel.apply)(V5cSearchModel.unapply)
   )

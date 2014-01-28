@@ -101,6 +101,7 @@ v5csearch.button = Look-up
 v5csearch.button2 = Cancel
 v5csearch.v5cinputlabel = * V5C Document reference number
 v5csearch.vrninputlabel = * Vehicle registration number
+v5csearch.v5cinputlabel.refNumIncorrect = You must enter a number with a length of 11 digits
 
 #page 10
 confirm_vehicle_details.title = Change of keeper - confirm vehicle details
