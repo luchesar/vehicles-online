@@ -1,7 +1,11 @@
+import com.google.inject.Guice
+import modules.DevModule
 import play.api.Play
 import scala.util.{Success, Try}
 
 package object app {
+
+
 
   object AccountStatus {
     val BankBuildingAccount = 'bankBuildingAccount

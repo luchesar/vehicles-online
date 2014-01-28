@@ -29,6 +29,6 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
     }
 
   }
-  */
+*/
 
 }

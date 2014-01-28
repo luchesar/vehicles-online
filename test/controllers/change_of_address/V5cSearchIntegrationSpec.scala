@@ -32,7 +32,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       // Assert
       titleMustEqual("Change of keeper - confirm vehicle details")
 
-  }
-  */
+  }*/
+
   }
 }

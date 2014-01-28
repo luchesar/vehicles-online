@@ -1,6 +1,9 @@
+import com.google.inject.Guice
+import com.tzavellas.sse.guice.ScalaModule
 import java.io.File
 import com.typesafe.config.ConfigFactory
 import java.util.UUID
+import modules.DevModule
 import play.api._
 import play.api.Configuration
 import play.api.mvc._
@@ -25,6 +28,7 @@ import ExecutionContext.Implicits.global
 
 object Global extends GlobalSettings {
 
+
   override def onStart(app: Application) {
 
     Logger.info("vehicles-online Started") // used for operations, do not remove
@@ -47,3 +51,4 @@ object Global extends GlobalSettings {
   // 404 - page not found error http://alvinalexander.com/scala/handling-scala-play-framework-2-404-500-errors
   override def onHandlerNotFound(request: RequestHeader): Future[SimpleResult] = Future(NotFound(views.html.errors.onHandlerNotFound(request)))
 }
+
