@@ -24,18 +24,21 @@
                 @carersInputText(v5cSearchForm("V5cReferenceNumber"), args =
                     '_label -> Messages("v5csearch.v5cinputlabel"),
                     '_showConstraints -> false,
-                    'pattern -> Mappings.V5C.pattern,
-                    'maxLength -> Mappings.V5C.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                    'pattern -> Mappings.V5CReferenceNumber.pattern,
+                    'maxLength -> Mappings.V5CReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                     'title -> Messages("v5csearch.v5cinputlabel.refNumIncorrect"))
 
-                @carersInputText(v5cSearchForm("VehicleRegistrationNumber"), args = '_label -> Messages("v5csearch.vrninputlabel"), '_showConstraints -> false)
+                @carersInputText(v5cSearchForm("VehicleRegistrationNumber"), args = 
+                  '_label -> Messages("v5csearch.vrninputlabel"),
+                  'maxLength -> Mappings.V5CRegistrationNumber.maxLength,
+                  '_showConstraints -> false)
             </ul>
 
         </fieldset>
 
         <div class="form-steps">
             <button type="submit" name="action" class="button" aria-label="Next button">@Messages("v5csearch.button")</button>
-            <button type="reset" name="action" class="button" aria-label="Reset button">@Messages("v5csearch.button2")</button>
+            <button type="reset" name="action" class="button-not-implemented" aria-label="Reset button">@Messages("v5csearch.button2")</button>
         </div>
     }
 

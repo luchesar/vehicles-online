@@ -4,46 +4,29 @@
 @import helper.twitterBootstrap._
 
 @main(Messages("confirm_vehicle_details.title")){
-@form(action = controllers.change_of_address.routes.ConfirmVehicleDetails.submit) {
-<fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
-    <legend>@Messages("confirm_vehicle_details.name")</legend>
 
-    <p>@Messages("confirm_vehicle_details.p1")</p><br>
+    @form(action = controllers.change_of_address.routes.ConfirmVehicleDetails.submit) {
+        <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
+            <legend>@Messages("confirm_vehicle_details.name")</legend>
 
-    <table>
-        <tr>
-            <td>@Messages("confirm_vehicle_details.vrn")</td>
-            <td>@v5csearchConfirmationModel.vrn</td>
-        </tr>
-        <tr>
-            <td>@Messages("confirm_vehicle_details.make")</td>
-            <td>@v5csearchConfirmationModel.make</td>
-        </tr>
-        <tr>
-            <td>@Messages("confirm_vehicle_details.model")</td>
-            <td>@v5csearchConfirmationModel.model</td>
-        </tr>
-        <tr>
-            <td>@Messages("confirm_vehicle_details.firstregistered")</td>
-            <td>@v5csearchConfirmationModel.firstRegistered</td>
-        </tr>
-        <tr>
-            <td>@Messages("confirm_vehicle_details.acquired")</td>
-            <td>@v5csearchConfirmationModel.acquired</td>
-        </tr>
+            <p>@Messages("confirm_vehicle_details.p1")</p><br>
 
-    </table>
+            <table>
+                <tr><td>@Messages("confirm_vehicle_details.vrn")</td><td>@v5csearchConfirmationModel.vrn</td></tr>
+                <tr><td>@Messages("confirm_vehicle_details.make")</td><td>@v5csearchConfirmationModel.make</td></tr>
+                <tr><td>@Messages("confirm_vehicle_details.model")</td><td>@v5csearchConfirmationModel.model</td></tr>
+                <tr><td>@Messages("confirm_vehicle_details.firstregistered")</td><td>@v5csearchConfirmationModel.firstRegistered</td></tr>
+                <tr><td>@Messages("confirm_vehicle_details.acquired")</td><td>@v5csearchConfirmationModel.acquired</td></tr>
 
-</fieldset>
+            </table>
 
-<div class="form-steps">
-    <button type="submit" name="action" class="button" aria-label="Next button">
-        @Messages("confirm_vehicle_details.button")
-    </button>
-    <button type="reset" name="action" class="button" aria-label="Next button">
-        @Messages("confirm_vehicle_details.button2")
-    </button>
-</div>
-}
+        </fieldset>
+
+        <div class="form-steps">
+            <button type="submit" name="action" class="button" aria-label="Next button">@Messages("confirm_vehicle_details.button")</button>
+            <button type="reset" name="action" class="button-not-implemented" aria-label="Next button">@Messages("confirm_vehicle_details.button2")</button>
+        </div>
+    }
+
 
 }
