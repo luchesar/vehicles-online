@@ -11,10 +11,12 @@ object Mappings {
     val minLength = 11
     val maxLength = 11
     val pattern = s"\\d{$minLength,$maxLength}" // Digits only with specified size.
+    val key = "V5cReferenceNumber"
   }
 
   object V5CRegistrationNumber {
     val maxLength = 7
+    val key = "V5cRegistrationNumber"
   }
   
   object Name {
