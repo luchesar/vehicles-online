@@ -1,4 +1,4 @@
-RPM_VERSION=$( git rev-parse HEAD | cut -c1-10)
+RPM_VERSION="date +'%Y%m%d%H%M%S'"
 RPM_NAME="vehicles-online"
 RPM_OWNER="jenkins@dvla"
 RPM_DESCRIPTION="SPIKE"
