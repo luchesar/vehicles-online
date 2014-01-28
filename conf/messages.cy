@@ -7,8 +7,8 @@ footer.builtbyintro = Adeiladwyd gan
 footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
 
 #prototype
-prototype.banner = Mae hyn yn prototeip. Ni allwch newid ceidwad ddefnyddio''r gwasanaeth hwn.
-prototype.link = Newid ceidwad sy''n defnyddio''r gwasanaeth yn fyw
+prototype.banner = Mae hyn yn prototeip. Ni allwch newid ceidwad trwy ddefnyddio''r gwasanaeth hwn.
+prototype.link = Newid ceidwad trwy defnyddio''r gwasanaeth yn fyw
 
 #page 1
 beforeyoustart.title = Newid ceidwad - cyn i chi ddechrau
@@ -17,7 +17,7 @@ beforeyoustart.p1 = Defnyddiwch y gwasanaeth hwn os ydych am newid manylion pwy 
 beforeyoustart.p2 = Cyn i chi ddechrau, bydd angen i chi:
 beforeyoustart.p3 = 1. Mae''r cerbyd yn y cwestiynau V5C (llyfr log).
 beforeyoustart.p4 = 2. Bydd angen Naill ai ceidwad cyfredol neu geidwad newydd i brofi eu nodi trwy fewngofnodi ar eu proffil yn nodi yn ystod y broses.
-beforeyoustart.p5 = 3. Mae''n fuddiol bod pwy bynnag sy''n goruchwylio''r hyn yn 'Newid ceidwad' proses (ceidwad presennol neu newydd) a dderbynnir proffil hunaniaeth cyn dechrau. Fodd bynnag, mae''n bosibl i gofrestru ar gyfer proffil hunaniaeth yn ystod y 'Newid ceidwad' broses.
+beforeyoustart.p5 = 3. Mae''n fuddiol bod pwy bynnag sy''n goruchwylio''r hyn yn 'newid ceidwad' proses (ceidwad presennol neu newydd) a dderbynnir proffil hunaniaeth cyn dechrau. Fodd bynnag, mae''n bosibl i gofrestru ar gyfer proffil hunaniaeth yn ystod y 'Newid ceidwad' broses.
 beforeyoustart.button = Dechrau nawr
 
 #page 2
@@ -32,13 +32,13 @@ keeperstatus.button3 = Ddim yn breifat nac busnes
 verifyidentity.title = Newid ceidwad - gwirio hunaniaeth
 verifyidentity.alert = Enghraifft neges rhybudd
 verifyidentity.name = Gwirio hunaniaeth
-verifyidentity.infomessage = Mae'n offcence troseddol i gael gwybodaeth bersonol rhywun arall heb eu caniatad.
+verifyidentity.infomessage = Mae''n drosedd i gael gwybodaeth bersonol rhywun arall heb eu caniatad.
 verifyidentity.p1 = Cyn i chi allu dechrau defnyddio''r Newid gwasanaeth Ceidwad, mae angen i chi ddewis y darparwr dilysu yr hoffech eu defnyddio:
 verifyidentity.p2 = GOV.UK yw''r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
 verifyidentity.button = Defnyddio proffil hunaniaeth presennol
-verifyidentity.button1text = Dont Mae proffil hunaniaeth?
+verifyidentity.button1text = Oes gennych proffil hunaniaeth?
 verifyidentity.button2 = Creu proffil hunaniaeth
-verifyidentity.button2text = Mewngofnodi wrth ddefnyddio eich proffil hunaniaeth Rhaid i ddefnyddwyr giat 
+verifyidentity.button2text = Rhaid i ddefnyddwyr giat mewngofnodi trwy ddefnyddio ei proffil hunaniaeth  
 verifyidentity.button2text2 = Llywodraeth gofrestru i fanteisio ar y gwasanaeth
 
 #page 4
@@ -49,7 +49,7 @@ areyouregistered.infomessage = Rydych yn ceisio cael mynediad Newid ceidwad
 areyouregistered.button = Mewngofnodi
 areyouregistered.buttontext = Mae gen i broffil hunaniaeth
 areyouregistered.button2 = Cofrestru Nawr
-areyouregistered.button2text = angen i mi gofrestru ar gyfer proffil hunaniaeth
+areyouregistered.button2text = Angen i mi gofrestru ar gyfer proffil hunaniaeth
 
 #page 5
 signinprovider.title = Newid ceidwad - arwydd darparwr
@@ -59,7 +59,7 @@ signinprovider.p1 = GOV.UK yw''r ffordd newydd i ddefnyddio gwasanaethau llywodr
 signinprovider.buttontext = Mae gen i broffil hunaniaeth
 signinprovider.button = Swyddfa''r Post
 signinprovider.button2 = Experian
-signinprovider.button3text = angen i mi gofrestru ar gyfer proffil hunaniaeth
+signinprovider.button3text = Angen i mi gofrestru ar gyfer proffil hunaniaeth
 signinprovider.button3 = Cofrestru Nawr
 
 #page 6
@@ -90,8 +90,8 @@ loginconfirmation.button.agree.arialabel = wyf yn cytuno botwm
 #page 8
 authentication.title = Newid ceidwad - dilysu
 authentication.name = Dilysu eich arwydd yn
-authentication.p1 = Os gwelwch yn dda dilysu eich arwydd i mewn i GOV.UK drwy fynd i mewn i''r pin 6 digid a anfonwyd at eich dyfais symudol cofrestredig.
-authentication.resend = cod Ail-anfon un
+authentication.p1 = Os gwelwch yn dda dilyswch eich arwydd i mewn i GOV.UK drwy fynd i mewn i''r pin 6 digid a anfonwyd at eich dyfais symudol cofrestredig.
+authentication.resend = Ail-anfon cod unigryw
 authentication.inputlabel = PIN
 authentication.button = Cyflwyno
 authentication.button2 = Diddymu
@@ -100,7 +100,7 @@ authentication.button2 = Diddymu
 v5csearch.title = Newid ceidwad - adfer cofnod gerbyd
 v5csearch.name = Adfer cofnod gerbyd
 v5csearch.p1 = Adfer cofnod gerbyd
-v5csearch.p2 = {0} ei lofnodi i mewn
+v5csearch.p2 = Mae {0} wedi ei lofnodi i mewn
 v5csearch.p3 = {0} yw''r ceidwad presennol y cerbyd sy''n destun y '' Newid ceidwad '' broses.
 v5csearch.button = Look-up
 v5csearch.button2 = Diddymu
@@ -110,8 +110,8 @@ v5csearch.v5cinputlabel.refNumIncorrect = Mae''n rhaid i chi fynd i mewn i nifer
 
 #page 10
 confirm_vehicle_details.title = Newid ceidwad - cadarnhau manylion y cerbyd
-confirm_vehicle_details.name = gerbyd Cadarnhau
-confirm_vehicle_details.p1 = Os gwelwch yn dda gadarnhau eich bod yn ceidwad y cerbyd hwn a bod hyn yn y cerbyd sy''n destun y ''Newid ceidwad'' broses.
+confirm_vehicle_details.name = Cadarnhau gwybodaeth cerbyd 
+confirm_vehicle_details.p1 = Os gwelwch yn dda cadarnhewch eich bod yn ceidwad y cerbyd hwn a bod hyn yn y cerbyd sy''n destun y ''Newid ceidwad'' broses.
 confirm_vehicle_details.vrn = Cofrestru:
 confirm_vehicle_details.make = Gwneud:
 confirm_vehicle_details.model = Model
@@ -121,14 +121,14 @@ confirm_vehicle_details.button = Cadarnhau
 confirm_vehicle_details.button2 = Diddymu
 
 #widget messages
-errorsummary.title = Gwiriwch y ffurflen
+errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda
 errorsummary.p1 = Trwsiwch y canlynol:
 
 #customer validation messages
-error.restricted.validNumberOnly = Mae''r maes hwn yn unig yn derbyn rhifau
+error.restricted.validNumberOnly = Mae''r maes hwn yn derbyn rhifau yn unig 
 error.restricted.validVRNOnly = Rhowch rhif cofrestru cerbyd dilys heb fylchau
 
 #default validation messages
-error.required = Mae angen y cae
+error.required = Mae angen y maes hwn
 error.minLength = Isafswm hyd yw {0}
 error.maxLength = Uchafswm hyd yn {0}
