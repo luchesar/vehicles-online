@@ -16,7 +16,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       titleMustContain("retrieve a vehicle record")
 
     }
-/*
+
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       val validvehicleVRN = "A2"
       val validV5cReferenceNumber = "12345678910"
@@ -32,7 +32,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       // Assert
       titleMustEqual("Change of keeper - confirm vehicle details")
 
-  }*/
+  }
 
   }
 }
