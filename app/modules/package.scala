@@ -1,21 +1,13 @@
 package object modules {
+
   import com.tzavellas.sse.guice.ScalaModule
   import services._
-
-
-  import app.ConfigProperties._
-  import java.io.File
-  import java.net.InetAddress
-  import com.typesafe.config.ConfigFactory
-  import java.util.UUID
-  import org.slf4j.MDC
   import play.api._
-  import play.api.Configuration
-  import play.api.mvc._
-  import play.api.mvc.Results._
   import play.api.Play.current
   import com.google.inject.Guice
-  import scala.concurrent.{ExecutionContext, Future}
+  import models.domain.change_of_address.{V5cSearchConfirmationModel, V5cSearchResponse, V5cSearchModel}
+  import scala.concurrent.Future
+  import scala.concurrent.ExecutionContext
   import ExecutionContext.Implicits.global
 
   def module = if (Play.isTest) TestModule else DevModule
@@ -31,12 +23,19 @@ package object modules {
   }
 
   object TestModule extends ScalaModule {
+
+    case class FakeV5cSearchResponseWebService() extends WebService {
+      override def invoke(cmd: V5cSearchModel): Future[V5cSearchResponse] = Future {
+        V5cSearchResponse(true, "All ok ", V5cSearchConfirmationModel("vrn", "make", "model", "firstRegistered", "acquired"))
+      }
+    }
+
+
     def configure() {
       println("Guice is loading TestModule")
-      //val fakeWebService = V5cSearchResponseWebService
 
-      //bind[WebService].toInstance(fakeWebService)
-      bind[WebService].to[V5cSearchResponseWebService]
+      bind[WebService].to[FakeV5cSearchResponseWebService]
     }
   }
+
 }
