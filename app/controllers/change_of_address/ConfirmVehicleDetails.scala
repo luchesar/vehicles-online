@@ -1,11 +1,11 @@
 package controllers.change_of_address
 
-
 import play.api.mvc._
 import play.api.cache.Cache
 import play.api.Play.current
 import play.api.data._
 import play.api.data.Forms._
+import play.api.Logger
 
 import views._
 import models.domain.change_of_address.V5cSearchConfirmationModel
@@ -34,7 +34,7 @@ object ConfirmVehicleDetails extends Controller {
         v5cReferenceNumberOption match {
           case Some(v5cReferenceNumber) => {
             val key = v5cReferenceNumber + "." + v5cRegistrationNumber
-            println(key)
+            Logger.debug(s"Cache key = ${key}")
             Cache.getAs[V5cSearchConfirmationModel](key)
           }
           case None => None
