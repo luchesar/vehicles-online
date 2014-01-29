@@ -13,7 +13,7 @@ object AreYouRegistered extends Controller {
   }
 
   def submit = Action {
-    Redirect(routes.SignInProvider.present) //TODO Change this to move to next page
+    Redirect(routes.SignInProvider.present)
   }
 
 }
