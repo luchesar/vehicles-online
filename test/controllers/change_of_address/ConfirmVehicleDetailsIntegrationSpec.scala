@@ -14,7 +14,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
       val validV5cReferenceNumber = "12345678910"
       browser.goTo("/v5c-search")
       browser.fill("#V5cReferenceNumber") `with` validV5cReferenceNumber
-      browser.fill("#VehicleRegistrationNumber") `with` validvehicleVRN
+      browser.fill("#V5CRegistrationNumber") `with` validvehicleVRN
       browser.submit("button[type='submit']")
 
       // Assert
@@ -27,7 +27,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
       val validV5cReferenceNumber = "12345678910"
       browser.goTo("/v5c-search")
       browser.fill("#V5cReferenceNumber") `with` validV5cReferenceNumber
-      browser.fill("#VehicleRegistrationNumber") `with` validvehicleVRN
+      browser.fill("#V5CRegistrationNumber") `with` validvehicleVRN
       browser.submit("button[type='submit']")
 
       // Act

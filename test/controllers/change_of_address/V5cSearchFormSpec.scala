@@ -9,17 +9,17 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     val V5cReferenceNumberValid = "12345678910"
     val vehicleVRNValid = "a1"
 
-    def v5cSearchFiller(V5cReferenceNumber: String,vehicleVRN: String ) = {
+    def v5cSearchFiller(V5cReferenceNumber: String,V5CRegistrationNumber: String ) = {
       V5cSearch.v5cSearchForm.bind(
         Map(
           V5cReferenceNumberNID -> V5cReferenceNumber,
-          vehicleVRNID-> vehicleVRN
+          V5CRegistrationNumberID-> V5CRegistrationNumber
         )
       )
     }
     /*Test V5cReferenceNumber*/
     "reject if V5cReferenceNumber is blank" in {
-      v5cSearchFiller(V5cReferenceNumber = "", vehicleVRN = vehicleVRNValid  ).fold(
+      v5cSearchFiller(V5cReferenceNumber = "", V5CRegistrationNumber = vehicleVRNValid  ).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(3)
         },
@@ -28,7 +28,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     }
 
     "reject if V5cReferenceNumber is less than minimun" in {
-      v5cSearchFiller(V5cReferenceNumber = "1", vehicleVRN = vehicleVRNValid  ).fold(
+      v5cSearchFiller(V5cReferenceNumber = "1", V5CRegistrationNumber = vehicleVRNValid  ).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
@@ -37,7 +37,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     }
 
     "reject if V5cReferenceNumber is more than maximum" in {
-      v5cSearchFiller(V5cReferenceNumber = "123456789101", vehicleVRN = vehicleVRNValid  ).fold(
+      v5cSearchFiller(V5cReferenceNumber = "123456789101", V5CRegistrationNumber = vehicleVRNValid  ).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
@@ -46,7 +46,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     }
 
     "reject if V5cReferenceNumber contains letters" in {
-      v5cSearchFiller(V5cReferenceNumber = "1234567891l", vehicleVRN = vehicleVRNValid  ).fold(
+      v5cSearchFiller(V5cReferenceNumber = "1234567891l", V5CRegistrationNumber = vehicleVRNValid  ).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
@@ -55,7 +55,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     }
 
     "reject if V5cReferenceNumber contains special characters" in {
-      v5cSearchFiller(V5cReferenceNumber = "1234567891%", vehicleVRN = vehicleVRNValid  ).fold(
+      v5cSearchFiller(V5cReferenceNumber = "1234567891%", V5CRegistrationNumber = vehicleVRNValid  ).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
@@ -64,7 +64,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     }
 
     "accept if V5cReferenceNumber contains valid input" in {
-      v5cSearchFiller(V5cReferenceNumber=V5cReferenceNumberValid,vehicleVRN=vehicleVRNValid).fold(
+      v5cSearchFiller(V5cReferenceNumber=V5cReferenceNumberValid,V5CRegistrationNumber=vehicleVRNValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f =>
@@ -74,7 +74,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
 
     /*Test VRN*/
     "reject if vehicleVRN is blank" in {
-      v5cSearchFiller(V5cReferenceNumber = V5cReferenceNumberValid, vehicleVRN = "").fold(
+      v5cSearchFiller(V5cReferenceNumber = V5cReferenceNumberValid, V5CRegistrationNumber = "").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(2)
           //errors for required field and min length
@@ -84,7 +84,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     }
 
     "reject if vehicleVRN is less than minimun" in {
-      v5cSearchFiller(V5cReferenceNumber = V5cReferenceNumberValid, vehicleVRN = "a").fold(
+      v5cSearchFiller(V5cReferenceNumber = V5cReferenceNumberValid, V5CRegistrationNumber = "a").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(2)
           //errors for regex and min length
@@ -94,7 +94,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     }
 
     "reject if vehicleVRN is more than maximum" in {
-      v5cSearchFiller(V5cReferenceNumber = V5cReferenceNumberValid, vehicleVRN = "AB55CMWE").fold(
+      v5cSearchFiller(V5cReferenceNumber = V5cReferenceNumberValid, V5CRegistrationNumber = "AB55CMWE").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(2)
           //errors for regex and max length
@@ -103,7 +103,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
       )
     }
     "reject if vehicleVRN contains special characters" in {
-      v5cSearchFiller(V5cReferenceNumber = V5cReferenceNumberValid, vehicleVRN = "%^").fold(
+      v5cSearchFiller(V5cReferenceNumber = V5cReferenceNumberValid, V5CRegistrationNumber = "%^").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
           //error for regex
@@ -113,7 +113,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     }
 
     "reject if vehicleVRN input not in correct format" in {
-      v5cSearchFiller(V5cReferenceNumber = V5cReferenceNumberValid, vehicleVRN = "ABCDF12").fold(
+      v5cSearchFiller(V5cReferenceNumber = V5cReferenceNumberValid, V5CRegistrationNumber = "ABCDF12").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
           //error for regex
@@ -123,7 +123,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     }
 
     "accept if vehicleVRN contains valid input" in {
-      v5cSearchFiller(V5cReferenceNumber=V5cReferenceNumberValid,vehicleVRN=vehicleVRNValid).fold(
+      v5cSearchFiller(V5cReferenceNumber=V5cReferenceNumberValid,V5CRegistrationNumber=vehicleVRNValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f =>

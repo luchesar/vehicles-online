@@ -151,7 +151,7 @@ object Mappings {
     nonEmptyText(minLength, maxLength) verifying validNumberOnly
   }
 
-  def vehicleVRN (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[String] = {
+  def V5CRegistrationNumber (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[String] = {
     nonEmptyText(minLength, maxLength) verifying validVRN
   }
 

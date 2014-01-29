@@ -8,6 +8,7 @@ import models.domain.change_of_address.V5cSearchConfirmationModel
 
 class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers {
   "ConfirmVehicleDetails - Controller" should {
+
     "present" in new WithApplication {
       // Arrange
       val V5cReferenceNumberValid = "12345678910"
