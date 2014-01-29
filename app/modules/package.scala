@@ -17,7 +17,7 @@ package object modules {
 
   object DevModule extends ScalaModule {
     def configure() {
-      println("Guice is loading DevModule")
+      Logger.debug("Guice is loading DevModule")
       bind[WebService].to[V5cSearchResponseWebService]
     }
   }
@@ -32,7 +32,7 @@ package object modules {
 
 
     def configure() {
-      println("Guice is loading TestModule")
+      Logger.debug("Guice is loading TestModule")
 
       bind[WebService].to[FakeV5cSearchResponseWebService]
     }

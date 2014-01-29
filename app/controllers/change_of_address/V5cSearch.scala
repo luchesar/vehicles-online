@@ -45,10 +45,13 @@ object V5cSearch extends Controller {
   def submit = Action.async {
     implicit request => {
       v5cSearchForm.bindFromRequest.fold(
-        formWithErrors => Future { BadRequest(html.change_of_address.v5c_search(formWithErrors, fetchData())) },
+        formWithErrors => Future {
+          Logger.debug("Form validation failed posted data = ${v5cSearchForm}")
+          BadRequest(html.change_of_address.v5c_search(formWithErrors, fetchData())) },
         v5cForm => {
           val key = v5cForm.V5cReferenceNumber + "." + v5cForm.vehicleVRN
           Logger.debug("Form validation has passed")
+          Logger.debug("==========================")
           Logger.debug("Calling V5C micro service...")
           val webService = injector.getInstance(classOf[services.WebService])
           val result = webService.invoke(v5cForm).map { resp => {
@@ -58,12 +61,15 @@ object V5cSearch extends Controller {
             Cache.set(key, resp.v5cSearchConfirmationModel)
             Redirect(routes.ConfirmVehicleDetails.present())
           }}
-            .fallbackTo{ Future { 
-//            	Logger.debug("Web service call failed")
-//            	Logger.debug(s"******* http response code from microservice was: ${resp.status}")
-            	BadRequest("The remote server didn't like the request.") }}
-
-          result
+            .recoverWith{
+              case e: Throwable => {
+                Future { 
+            	  Logger.debug("Web service call failed")            	
+            	  BadRequest("The remote server didn't like the request.")
+                }
+              }
+            }
+            result
         }
       )
     }
@@ -73,7 +79,3 @@ object V5cSearch extends Controller {
     "Roger Booth"
   }
 }
-
-
-
-
