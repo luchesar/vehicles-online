@@ -5,7 +5,7 @@ import play.api.data._
 import play.api.data.Forms._
 
 import views._
-import models.domain.change_of_address.{V5cSearchModel, V5cSearchResponse, V5cSearchConfirmationModel}
+import models.domain.change_of_address.{LoginConfirmationModel, V5cSearchModel, V5cSearchResponse, V5cSearchConfirmationModel}
 import controllers.Mappings._
 import scala.concurrent.Future
 import play.api.libs.json.Json
@@ -28,6 +28,8 @@ object V5cSearch extends Controller {
   )
 
   def present = Action { implicit request =>
+
+
     Ok(html.change_of_address.v5c_search(v5cSearchForm, fetchData))
   }
 
@@ -69,6 +71,12 @@ object V5cSearch extends Controller {
   }
 
   def fetchData(): String = {
-    "Roger Booth"
+    val key = Mappings.LoginConfirmationModel.key
+    val result = Cache.getAs[LoginConfirmationModel](key)
+
+    result match {
+      case Some(loginConfirmationModel) => loginConfirmationModel.firstName
+      case _ => "Roger Booth"
+    }
   }
 }
