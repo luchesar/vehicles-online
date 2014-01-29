@@ -46,7 +46,7 @@ object V5cSearch extends Controller {
     implicit request => {
       v5cSearchForm.bindFromRequest.fold(
         formWithErrors => Future {
-          Logger.debug("Form validation failed posted data = ${v5cSearchForm}")
+          Logger.debug("Form validation failed posted data = ${formWithErrors.errors}")
           BadRequest(html.change_of_address.v5c_search(formWithErrors, fetchData())) },
         v5cForm => {
 
