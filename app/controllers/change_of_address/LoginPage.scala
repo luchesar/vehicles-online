@@ -30,7 +30,7 @@ object LoginPage extends Controller {
 
   // Note that the request must be made implicit so play can extract the language header for I18N
   def present = Action { implicit request =>
-    println("Preferred languages (in order) from browser: " + request.acceptLanguages.map(_.code).mkString(", "))
+    Logger.info("LoginPage Preferred languages (in order) from browser: " + request.acceptLanguages.map(_.code).mkString(", "))
     Ok(html.change_of_address.login_page(loginPageForm))
   }
 /*

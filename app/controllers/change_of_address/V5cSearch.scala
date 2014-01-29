@@ -56,10 +56,11 @@ object V5cSearch extends Controller {
           val webService = injector.getInstance(classOf[services.WebService])
           val result = webService.invoke(v5cForm).map { resp => {
             Logger.debug(s"Web service call successful - response = ${resp}")
-            Cache.set(Mappings.V5CRegistrationNumber.key, v5cForm.vehicleVRN)
-            Cache.set(Mappings.V5CReferenceNumber.key, v5cForm.V5cReferenceNumber)
+            play.api.cache.Cache.set(Mappings.V5CRegistrationNumber.key, v5cForm.vehicleVRN)
+            play.api.cache.Cache.set(Mappings.V5CReferenceNumber.key, v5cForm.V5cReferenceNumber)
             val key = v5cForm.V5cReferenceNumber + "." + v5cForm.vehicleVRN
-            Cache.set(key, resp.v5cSearchConfirmationModel)
+            Logger.debug(s"V5cSearch looking for value for key: $key")
+            play.api.cache.Cache.set(key, resp.v5cSearchConfirmationModel)
             Redirect(routes.ConfirmVehicleDetails.present())
           }}
             .recoverWith{

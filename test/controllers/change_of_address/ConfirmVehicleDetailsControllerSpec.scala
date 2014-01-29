@@ -1,33 +1,30 @@
 package controllers.change_of_address
 
-import app.ChangeOfAddress._
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
-import controllers.change_of_address
+import controllers.{Mappings, change_of_address}
 import org.scalatest.{Matchers, WordSpec}
-import scala.Some
+import models.domain.change_of_address.V5cSearchConfirmationModel
 
 class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers {
-
   "ConfirmVehicleDetails - Controller" should {
-
-   "present" in new WithApplication {
-     /*
+    "present" in new WithApplication {
       // Arrange
       val V5cReferenceNumberValid = "12345678910"
       val vehicleVRNValid = "a1"
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(V5cReferenceNumberNID -> V5cReferenceNumberValid,vehicleVRNID -> vehicleVRNValid)
 
-      change_of_address.V5cSearch.submit(request)
-      val request2 = FakeRequest().withSession()
+      play.api.cache.Cache.set(Mappings.V5CReferenceNumber.key, V5cReferenceNumberValid)
+      play.api.cache.Cache.set(Mappings.V5CRegistrationNumber.key, vehicleVRNValid)
+      val key = V5cReferenceNumberValid + "." + vehicleVRNValid
+
+      play.api.cache.Cache.set(key, V5cSearchConfirmationModel("a", "b", "c", "d", "e"))
 
       // Act
-      val result = change_of_address.ConfirmVehicleDetails.present(request2)
+      val result = change_of_address.ConfirmVehicleDetails.present(request)
 
       // Assert
-      status(result) should equal(OK)*/
-     org.scalatest.Pending
+      status(result) should equal(OK)
     }
 
 
@@ -40,7 +37,7 @@ class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers {
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some("/confirm-vehicle-details"))
+      redirectLocation(result) should equal(Some("/confirm-vehicle-details"))
     }
   }
 }
