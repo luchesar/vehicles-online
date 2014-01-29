@@ -1,3 +1,7 @@
+import models.domain.change_of_address.Address
+import models.domain.change_of_address.LoginConfirmationModel
+import models.domain.change_of_address.LoginPageModel
+
 package object modules {
 
   import com.tzavellas.sse.guice.ScalaModule
@@ -6,6 +10,7 @@ package object modules {
   import play.api.Play.current
   import com.google.inject.Guice
   import models.domain.change_of_address.{V5cSearchConfirmationModel, V5cSearchResponse, V5cSearchModel}
+  import models.domain.change_of_address.{LoginConfirmationModel, LoginResponse, LoginPageModel}
   import scala.concurrent.Future
   import scala.concurrent.ExecutionContext
   import ExecutionContext.Implicits.global
@@ -19,6 +24,7 @@ package object modules {
     def configure() {
       Logger.debug("Guice is loading DevModule")
       bind[WebService].to[V5cSearchResponseWebService]
+      bind[LoginWebService].to[LoginServiceImpl]
     }
   }
 
@@ -30,11 +36,17 @@ package object modules {
       }
     }
 
+    case class FakeLoginResponseWebService() extends LoginWebService {
+      override def invoke(cmd: LoginPageModel): Future[LoginResponse] = Future {
+        LoginResponse(true, "All ok ", LoginConfirmationModel("Roger", "Booth", "21/05/1977", Address(line1 = "115 Park Avenue", line2 = None, line3 = None, line4 = Some("United Kingdom"), postCode = "SA6 8HY")))
+      }
+    }
 
     def configure() {
       Logger.debug("Guice is loading TestModule")
 
       bind[WebService].to[FakeV5cSearchResponseWebService]
+      bind[LoginWebService].to[FakeLoginResponseWebService]
     }
   }
 

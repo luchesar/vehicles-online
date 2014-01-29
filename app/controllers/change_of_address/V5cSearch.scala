@@ -22,8 +22,8 @@ object V5cSearch extends Controller {
 
   val v5cSearchForm = Form(
     mapping(
-      "V5cReferenceNumber" -> V5cReferenceNumber(minLength = 11, maxLength = 11),
-      "VehicleRegistrationNumber" -> vehicleVRN(minLength = 2, maxLength = 7)
+      app.ChangeOfAddress.V5cReferenceNumberNID -> V5cReferenceNumber(minLength = 11, maxLength = 11),
+      app.ChangeOfAddress.vehicleVRNID -> vehicleVRN(minLength = 2, maxLength = 7)
     )(V5cSearchModel.apply)(V5cSearchModel.unapply)
   )
 
@@ -49,7 +49,7 @@ object V5cSearch extends Controller {
           Logger.debug("Form validation failed posted data = ${v5cSearchForm}")
           BadRequest(html.change_of_address.v5c_search(formWithErrors, fetchData())) },
         v5cForm => {
-          val key = v5cForm.V5cReferenceNumber + "." + v5cForm.vehicleVRN
+
           Logger.debug("Form validation has passed")
           Logger.debug("==========================")
           Logger.debug("Calling V5C micro service...")
@@ -58,6 +58,7 @@ object V5cSearch extends Controller {
             Logger.debug(s"Web service call successful - response = ${resp}")
             Cache.set(Mappings.V5CRegistrationNumber.key, v5cForm.vehicleVRN)
             Cache.set(Mappings.V5CReferenceNumber.key, v5cForm.V5cReferenceNumber)
+            val key = v5cForm.V5cReferenceNumber + "." + v5cForm.vehicleVRN
             Cache.set(key, resp.v5cSearchConfirmationModel)
             Redirect(routes.ConfirmVehicleDetails.present())
           }}

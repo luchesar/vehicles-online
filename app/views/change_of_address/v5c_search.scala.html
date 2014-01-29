@@ -21,14 +21,14 @@
 
                 <p>@Messages("v5csearch.p3", name)</p><br>
 
-                @carersInputText(v5cSearchForm("V5cReferenceNumber"), args =
+                @carersInputText(v5cSearchForm(app.ChangeOfAddress.V5cReferenceNumberNID), args =
                     '_label -> Messages("v5csearch.v5cinputlabel"),
                     '_showConstraints -> false,
                     'pattern -> Mappings.V5CReferenceNumber.pattern,
                     'maxLength -> Mappings.V5CReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                     'title -> Messages("v5csearch.v5cinputlabel.refNumIncorrect"))
 
-                @carersInputText(v5cSearchForm("VehicleRegistrationNumber"), args = 
+                @carersInputText(v5cSearchForm(app.ChangeOfAddress.vehicleVRNID), args =
                   '_label -> Messages("v5csearch.vrninputlabel"),
                   'maxLength -> Mappings.V5CRegistrationNumber.maxLength,
                   '_showConstraints -> false)

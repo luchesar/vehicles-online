@@ -20,6 +20,8 @@ class LoginPageIntegrationSpec extends Specification with Tags {
       browser.goTo("/login-page")
 
       // Act
+      browser.fill("#username") `with` "roger"
+      browser.fill("#password") `with` "examplepassword"
       browser.submit("button[type='submit']")
 
       // Assert the title from the next page

@@ -8,8 +8,13 @@ class LoginConfirmationIntegrationSpec extends Specification with Tags {
 
   "LoginConfirmation Integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      browser.goTo("/login-confirmation")
+      // Arrange
+      browser.goTo("/login-page")
+
+      //Act
+      browser.fill("#username") `with` "roger"
+      browser.fill("#password") `with` "examplepassword"
+      browser.submit("button[type='submit']")
 
       // Assert
       titleMustContain("Login confirmation")
@@ -17,7 +22,11 @@ class LoginConfirmationIntegrationSpec extends Specification with Tags {
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       // Arrange
-      browser.goTo("/login-confirmation")
+      browser.goTo("/login-page")
+
+      browser.fill("#username") `with` "roger"
+      browser.fill("#password") `with` "examplepassword"
+      browser.submit("button[type='submit']")
 
       // Act
       browser.submit("button[id='agree']")
@@ -25,7 +34,6 @@ class LoginConfirmationIntegrationSpec extends Specification with Tags {
       // Assert 
       titleMustEqual("Change of keeper - authentication")
     }
-
   }
 
 }
