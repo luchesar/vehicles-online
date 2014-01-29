@@ -23,7 +23,6 @@ object LoginConfirmation extends Controller {
 
   def submit = Action {
     Redirect(routes.Authentication.present)
-//    Ok("success")
   }
 
   def fetchData(): Option[LoginConfirmationModel] = {
