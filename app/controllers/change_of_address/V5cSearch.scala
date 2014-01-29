@@ -56,7 +56,7 @@ object V5cSearch extends Controller {
             .recoverWith{
               case e: Throwable => {
                 Future { 
-            	  Logger.debug("Web service call failed")            	
+            	  Logger.debug(s"Web service call failed. Stacktrace: ${e.getStackTrace}")
             	  BadRequest("The remote server didn't like the request.")
                 }
               }

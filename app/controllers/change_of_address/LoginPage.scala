@@ -58,7 +58,7 @@ object LoginPage extends Controller {
             .recoverWith{
               case e: Throwable => {
                 Future { 
-            	  Logger.debug("Web service call failed")            	
+            	  Logger.error("Web service call failed")
             	  BadRequest("The remote server didn't like the request.")
                 }
               }

@@ -25,7 +25,7 @@ class SignInProviderIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Assert
-      titleMustEqual("Verified login id") //ToDo update with title of login page
+      titleMustEqual("Verified login id")
     }
 
   }
