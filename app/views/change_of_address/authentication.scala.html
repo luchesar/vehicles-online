@@ -17,7 +17,11 @@
     <a id="js-resend-code" href="#">@Messages("authentication.resend")</a>
 </div>
 
-<p>@inputText(field = authenticationForm("PIN"), args = '_label -> Messages("authentication.inputlabel"),
+<p>@inputText(field = authenticationForm("PIN"), args = 
+    '_label -> Messages("authentication.inputlabel"),
+    'pattern -> Mappings.Authentication.pattern,
+    'maxLength -> Mappings.Authentication.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+    'title -> Messages("authentication.pin.incorrect"),    
     '_showConstraints -> false)</p>
 
 <div class="form-steps">

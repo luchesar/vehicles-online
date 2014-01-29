@@ -7,6 +7,12 @@ import play.api.data.Forms._
 import play.api.data.validation.ValidationError
 
 object Mappings {
+  object Authentication {
+    val minLength = 6
+    val maxLength = 6
+    val pattern = s"\\d{$minLength,$maxLength}" // Digits only with specified size.     
+  }
+  
   object V5CReferenceNumber {
     val minLength = 11
     val maxLength = 11
