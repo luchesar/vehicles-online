@@ -13,7 +13,7 @@ case class LoginServiceImpl() extends LoginWebService {
 val endPoint = "http://localhost:8080/vehicles/login-page"
     val futureOfResponse = WS
       .url("http://localhost:8080/vehicles/login-page").post(Json.toJson(cmd))
-    Logger.debug(s"Calling V5C micro service on ${endPoint}...")
+    Logger.debug(s"Calling Login micro service on ${endPoint}...")
 
     futureOfResponse.map{ resp =>
       implicit val address = Json.reads[Address]
