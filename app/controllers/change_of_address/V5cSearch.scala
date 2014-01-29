@@ -42,7 +42,6 @@ object V5cSearch extends Controller {
   */
 
 
-
   def submit = Action.async {
     implicit request => {
       v5cSearchForm.bindFromRequest.fold(
