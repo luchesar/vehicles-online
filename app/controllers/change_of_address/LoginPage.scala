@@ -17,8 +17,6 @@ import scala.concurrent.{ExecutionContext, Future, Await}
 import ExecutionContext.Implicits.global
 import play.api.Play.current
 
-
-
 object LoginPage extends Controller {
 
   val loginPageForm = Form(
@@ -45,9 +43,8 @@ object LoginPage extends Controller {
         formWithErrors => Future { BadRequest(html.change_of_address.login_page(formWithErrors)) },
         loginPageForm => {
 
-          Logger.debug("Form validation has passed")
-          Logger.debug("==========================")
-          Logger.debug("LoginPage Calling Login micro service...")
+          Logger.debug("LoginPage form validation has passed")
+          Logger.debug("LoginPage calling login micro service...")
 
           val webService = injector.getInstance(classOf[services.LoginWebService])
           val result = webService.invoke(loginPageForm).map { resp => {

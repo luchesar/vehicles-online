@@ -28,8 +28,6 @@ object V5cSearch extends Controller {
   )
 
   def present = Action { implicit request =>
-
-
     Ok(html.change_of_address.v5c_search(v5cSearchForm, fetchData))
   }
 
@@ -41,8 +39,7 @@ object V5cSearch extends Controller {
           BadRequest(html.change_of_address.v5c_search(formWithErrors, fetchData())) },
         v5cForm => {
 
-          Logger.debug("Form validation has passed")
-          Logger.debug("==========================")
+          Logger.debug("V5cSearch form validation has passed")
           Logger.debug("Calling V5C micro service...")
           val webService = injector.getInstance(classOf[services.WebService])
           val result = webService.invoke(v5cForm).map { resp => {
