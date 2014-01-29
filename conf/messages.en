@@ -95,6 +95,7 @@ authentication.resend = Resend unique code
 authentication.inputlabel = * PIN
 authentication.button = Submit
 authentication.button2 = Cancel
+authentication.pin.incorrect = You must enter a number with a length of 6 digits
 
 #page 9
 v5csearch.title = Change of keeper - retrieve a vehicle record

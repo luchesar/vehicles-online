@@ -11,15 +11,16 @@ import ExecutionContext.Implicits.global
 case class V5cSearchResponseWebService() extends WebService {
   override def invoke(cmd: V5cSearchModel): Future[V5cSearchResponse] = {
     implicit val V5cSearch = Json.writes[V5cSearchModel]
-
+    val endPoint = "http://localhost:8080/vehicles/v5c-search"
+    Logger.debug(s"Calling V5C micro service on ${endPoint}...")
     val futureOfResponse = WS
-      .url("http://localhost:8080/vehicles/v5c-search").post(Json.toJson(cmd))
+      .url(endPoint).post(Json.toJson(cmd))
 
     futureOfResponse.map{ resp =>
       implicit val v5cSearchConfirmationModel = Json.reads[V5cSearchConfirmationModel]
       implicit val v5cSearchResponse = Json.reads[V5cSearchResponse]
 
-      Logger.debug(s"******* http response code from microservice was: ${resp.status}")
+      Logger.debug(s"Http response code from V5C micro service was: ${resp.status}")
 
       resp.json.as[V5cSearchResponse]
     }

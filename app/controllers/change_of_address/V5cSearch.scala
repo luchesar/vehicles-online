@@ -49,16 +49,20 @@ object V5cSearch extends Controller {
         v5cForm => {
 
           Logger.debug("Form validation has passed")
-
+          Logger.debug("Calling V5C micro service...")
           val webService = injector.getInstance(classOf[services.WebService])
           val result = webService.invoke(v5cForm).map { resp => {
+            Logger.debug(s"Web service call successful - response = ${resp}")
             Cache.set(Mappings.V5CRegistrationNumber.key, v5cForm.vehicleVRN)
             Cache.set(Mappings.V5CReferenceNumber.key, v5cForm.V5cReferenceNumber)
             val key = v5cForm.V5cReferenceNumber + "." + v5cForm.vehicleVRN
             Cache.set(key, resp.v5cSearchConfirmationModel)
             Redirect(routes.ConfirmVehicleDetails.present())
           }}
-            .fallbackTo{ Future { BadRequest("The remote server didn't like the request.") }}
+            .fallbackTo{ Future { 
+//            	Logger.debug("Web service call failed")
+//            	Logger.debug(s"******* http response code from microservice was: ${resp.status}")
+            	BadRequest("The remote server didn't like the request.") }}
 
           result
         }

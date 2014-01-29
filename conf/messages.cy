@@ -95,6 +95,7 @@ authentication.resend = Ail-anfon cod unigryw
 authentication.inputlabel = PIN
 authentication.button = Cyflwyno
 authentication.button2 = Diddymu
+authentication.pin.incorrect = Rhaid i chi roi nifer sydd a hyd o 6 digid
 
 #page 9
 v5csearch.title = Newid ceidwad - adfer cofnod gerbyd
