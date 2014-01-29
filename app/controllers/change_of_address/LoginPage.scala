@@ -54,11 +54,18 @@ object LoginPage extends Controller {
             Logger.debug(s"LoginPage Web service call successful - response = ${resp}")
 
             val key = Mappings.LoginConfirmationModel.key
-            Logger.debug(s"V5cSearch looking for value for key: $key")
+            Logger.debug(s"LoginPage looking for value for key: $key")
             Cache.set(key, resp.loginConfirmationModel)
             Redirect(routes.LoginConfirmation.present())
           }}
-            .fallbackTo{ Future { BadRequest("The remote server didn't like the request.") }}
+            .recoverWith{
+              case e: Throwable => {
+                Future { 
+            	  Logger.debug("Web service call failed")            	
+            	  BadRequest("The remote server didn't like the request.")
+                }
+              }
+            }          
           result
         }
       )
