@@ -38,7 +38,7 @@ package object modules {
 
     case class FakeLoginResponseWebService() extends LoginWebService {
       override def invoke(cmd: LoginPageModel): Future[LoginResponse] = Future {
-        LoginResponse(true, "All ok ", LoginConfirmationModel("Roger", "Booth", "21/05/1977", Address(line1 = "115 Park Avenue", line2 = None, line3 = None, line4 = Some("United Kingdom"), postCode = "SA6 8HY")))
+        LoginResponse(true, "All ok ", LoginConfirmationModel("Roger", "Booth", "21/05/1977", Address(line1 = "115 Park Avenue", line4 = Some("United Kingdom"), postCode = "SA6 8HY")))
       }
     }
 

@@ -1,11 +1,29 @@
 import com.google.inject.Guice
+import models.domain.change_of_address._
+import models.domain.change_of_address.Address
+import models.domain.change_of_address.LoginConfirmationModel
+import models.domain.change_of_address.V5cSearchConfirmationModel
+import models.domain.change_of_address.V5cSearchResponse
 import modules.DevModule
+import play.api.libs.json.Json
 import play.api.Play
+import scala.Some
+import scala.util.Success
 import scala.util.{Success, Try}
 
 package object app {
 
 
+  object JsonSupport {
+    implicit val writeV5cSearch = Json.writes[V5cSearchModel]
+    implicit val v5cSearchConfirmationModel = Json.reads[V5cSearchConfirmationModel]
+    implicit val v5cSearchResponse = Json.reads[V5cSearchResponse]
+
+    implicit val writeLoginPage = Json.writes[LoginPageModel]
+    implicit val address = Json.reads[Address]
+    implicit val loginConfirmationModel = Json.reads[LoginConfirmationModel]
+    implicit val loginResponse = Json.reads[LoginResponse]
+  }
 
   object AccountStatus {
     val BankBuildingAccount = 'bankBuildingAccount
