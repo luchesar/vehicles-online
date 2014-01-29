@@ -68,7 +68,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
         formWithErrors => {fail("An error should occur")
         },
         f =>
-          f.V5cReferenceNumber should equal(V5cReferenceNumberValid)
+          f.v5cReferenceNumber should equal(V5cReferenceNumberValid)
       )
     }
 
@@ -127,7 +127,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
         formWithErrors => {fail("An error should occur")
         },
         f =>
-          f.V5cReferenceNumber should equal(V5cReferenceNumberValid)
+          f.v5cReferenceNumber should equal(V5cReferenceNumberValid)
       )
     }
   }

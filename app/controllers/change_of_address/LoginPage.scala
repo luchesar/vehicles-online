@@ -46,10 +46,15 @@ object LoginPage extends Controller {
         loginPageForm => {
 
           Logger.debug("Form validation has passed")
+          Logger.debug("==========================")
+          Logger.debug("LoginPage Calling Login micro service...")
 
           val webService = injector.getInstance(classOf[services.LoginWebService])
           val result = webService.invoke(loginPageForm).map { resp => {
+            Logger.debug(s"LoginPage Web service call successful - response = ${resp}")
+
             val key = Mappings.LoginConfirmationModel.key
+            Logger.debug(s"V5cSearch looking for value for key: $key")
             Cache.set(key, resp.loginConfirmationModel)
             Redirect(routes.LoginConfirmation.present())
           }}
