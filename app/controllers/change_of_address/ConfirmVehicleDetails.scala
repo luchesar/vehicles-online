@@ -26,10 +26,10 @@ object ConfirmVehicleDetails extends Controller {
   }
 
   def fetchData(): Option[V5cSearchConfirmationModel] = {
+    println("************** ************")
     val v5cRegistrationNumberOption = Cache.getAs[String](Mappings.V5CRegistrationNumber.key)
     v5cRegistrationNumberOption match {
       case Some(v5cRegistrationNumber) => {
-
         val v5cReferenceNumberOption = Cache.getAs[String](Mappings.V5CReferenceNumber.key)
         v5cReferenceNumberOption match {
           case Some(v5cReferenceNumber) => {
@@ -37,10 +37,16 @@ object ConfirmVehicleDetails extends Controller {
             println(key)
             Cache.getAs[V5cSearchConfirmationModel](key)
           }
-          case None => None
+          case None => {
+            None
+          }
+
         }
       }
-      case None => None
+      case None => {
+        println("**************None************")
+        None
+      }
     }
   }
 

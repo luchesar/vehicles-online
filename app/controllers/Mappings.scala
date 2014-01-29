@@ -18,6 +18,10 @@ object Mappings {
     val maxLength = 7
     val key = "V5cRegistrationNumber"
   }
+
+  object LoginConfirmationModel {
+    val key = "LoginConfirmationModel"
+  }
   
   object Name {
     val maxLength = 35

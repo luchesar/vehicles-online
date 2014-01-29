@@ -6,11 +6,19 @@ import views._
 import play.api.data.Form
 import models.domain.change_of_address.LoginConfirmationModel
 import models.domain.change_of_address.Address
+import play.api.cache.Cache
+import controllers.Mappings
+import scala.concurrent.{ExecutionContext, Future, Await}
+import ExecutionContext.Implicits.global
+import play.api.Play.current
 
 object LoginConfirmation extends Controller {
-  
+
   def present = Action { implicit request =>
-    Ok(html.change_of_address.login_confirmation(fetchData()))
+    fetchData() match {
+      case Some(loginConfirmationModel) => Ok(html.change_of_address.login_confirmation(loginConfirmationModel))
+      case None => Redirect(routes.LoginPage.present())
+    }
   }
 
   def submit = Action {
@@ -18,8 +26,9 @@ object LoginConfirmation extends Controller {
 //    Ok("success")
   }
 
-  def fetchData(): LoginConfirmationModel = {
-    LoginConfirmationModel("Roger", "Booth", "21/05/1977", Address("115 Park Avenue", "SA6 8HY", "United Kingdom"))
+  def fetchData(): Option[LoginConfirmationModel] = {
+      val key = Mappings.LoginConfirmationModel.key
+      val result = Cache.getAs[LoginConfirmationModel](key)
+    result
   }
-  
 }
