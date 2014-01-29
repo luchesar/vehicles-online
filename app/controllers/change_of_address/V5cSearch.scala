@@ -48,7 +48,7 @@ object V5cSearch extends Controller {
             play.api.cache.Cache.set(Mappings.V5CRegistrationNumber.key, v5cForm.v5cRegistrationNumber)
             play.api.cache.Cache.set(Mappings.V5CReferenceNumber.key, v5cForm.v5cReferenceNumber)
             val key = v5cForm.v5cReferenceNumber + "." + v5cForm.v5cRegistrationNumber
-            Logger.debug(s"V5cSearch looking for value for key: $key")
+            Logger.debug(s"V5cSearch storing data returned from micro service in cache using key: $key")
             play.api.cache.Cache.set(key, resp.v5cSearchConfirmationModel)
 
             Redirect(routes.ConfirmVehicleDetails.present())
