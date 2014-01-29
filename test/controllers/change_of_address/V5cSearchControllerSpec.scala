@@ -10,7 +10,7 @@ class V5cSearchControllerSpec extends WordSpec with Matchers{
 
   "V5cSearch - Controller" should {
     val V5cReferenceNumberValid = "12345678910"
-    val vehicleVRNValid = "a1"
+    val V5CRegistrationNumberValid = "a1"
 
     "present" in new WithApplication {
       // Arrange
@@ -26,7 +26,7 @@ class V5cSearchControllerSpec extends WordSpec with Matchers{
     "redirect to next page after the button is clicked" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(V5cReferenceNumberNID -> V5cReferenceNumberValid,vehicleVRNID-> vehicleVRNValid)
+        .withFormUrlEncodedBody(V5cReferenceNumberNID -> V5cReferenceNumberValid,V5CRegistrationNumberID-> V5CRegistrationNumberValid)
 
       // Act
       val result = change_of_address.V5cSearch.submit(request)

@@ -23,7 +23,7 @@ object V5cSearch extends Controller {
   val v5cSearchForm = Form(
     mapping(
       app.ChangeOfAddress.V5cReferenceNumberNID -> V5cReferenceNumber(minLength = 11, maxLength = 11),
-      app.ChangeOfAddress.vehicleVRNID -> vehicleVRN(minLength = 2, maxLength = 7)
+      app.ChangeOfAddress.V5CRegistrationNumberID -> V5CRegistrationNumber(minLength = 2, maxLength = 7)
     )(V5cSearchModel.apply)(V5cSearchModel.unapply)
   )
 
@@ -56,9 +56,9 @@ object V5cSearch extends Controller {
           val webService = injector.getInstance(classOf[services.WebService])
           val result = webService.invoke(v5cForm).map { resp => {
             Logger.debug(s"Web service call successful - response = ${resp}")
-            Cache.set(Mappings.V5CRegistrationNumber.key, v5cForm.vehicleVRN)
+            Cache.set(Mappings.V5CRegistrationNumber.key, v5cForm.V5CRegistrationNumber)
             Cache.set(Mappings.V5CReferenceNumber.key, v5cForm.V5cReferenceNumber)
-            val key = v5cForm.V5cReferenceNumber + "." + v5cForm.vehicleVRN
+            val key = v5cForm.V5cReferenceNumber + "." + v5cForm.V5CRegistrationNumber
             Cache.set(key, resp.v5cSearchConfirmationModel)
             Redirect(routes.ConfirmVehicleDetails.present())
           }}

@@ -12,12 +12,12 @@ class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers {
   "ConfirmVehicleDetails - Controller" should {
 
    "present" in new WithApplication {
-     /*
+
       // Arrange
       val V5cReferenceNumberValid = "12345678910"
-      val vehicleVRNValid = "a1"
+      val V5CRegistrationNumberValid = "a1"
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(V5cReferenceNumberNID -> V5cReferenceNumberValid,vehicleVRNID -> vehicleVRNValid)
+        .withFormUrlEncodedBody(V5cReferenceNumberNID -> V5cReferenceNumberValid,V5CRegistrationNumberID -> V5CRegistrationNumberValid)
 
       change_of_address.V5cSearch.submit(request)
       val request2 = FakeRequest().withSession()
@@ -26,8 +26,7 @@ class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers {
       val result = change_of_address.ConfirmVehicleDetails.present(request2)
 
       // Assert
-      status(result) should equal(OK)*/
-     org.scalatest.Pending
+      status(result) should equal(OK)
     }
 
 
