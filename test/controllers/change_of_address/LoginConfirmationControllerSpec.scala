@@ -37,38 +37,15 @@ class LoginConfirmationControllerSpec extends WordSpec with Matchers with Mockit
     }
   }
 
-  "present v5c search page when user is logged in but has not entered vehicle details" in new WithApplication {
-    // Arrange
-
-    //TODO:add this to the helper as reusable code!
-    val address = mock[Address]
-    address.line1 returns "mock line1"
-    address.postCode returns "mock postcode"
-    val loginConfirmationModel = mock[LoginConfirmationModel]
-    loginConfirmationModel.firstName returns "mock firstName"
-    loginConfirmationModel.surname returns "mock surname"
-    loginConfirmationModel.address returns address
-    val key = Mappings.LoginConfirmationModel.key
-    play.api.cache.Cache.set(key, loginConfirmationModel)
-
-    val request = FakeRequest().withSession()
-
-    // Act
-    val result = change_of_address.ConfirmVehicleDetails.present(request)
-
-    // Assert
-    redirectLocation(result) should equal (Some("/v5c-search"))
-  }
-
   "present login page when user is not logged in" in new WithApplication {
     // Arrange
     val request = FakeRequest().withSession()
 
     // Act
-    val result = change_of_address.AreYouRegistered.present(request)
+    val result = change_of_address.LoginConfirmation.present(request)
 
     // Assert
-    status(result) should equal(OK)
+    redirectLocation(result) should equal(Some("/are-you-registered"))
   }
 
     "redirect to next page after the agree button is clicked" in new WithApplication {
