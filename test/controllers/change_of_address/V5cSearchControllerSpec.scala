@@ -34,15 +34,16 @@ class V5cSearchControllerSpec extends WordSpec with Matchers with Mockito{
       // Assert
       status(result) should equal(OK)
     }
+
     "present login page when user is not logged in" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
 
       // Act
-      val result = change_of_address.AreYouRegistered.present(request)
+      val result = change_of_address.V5cSearch.present(request)
 
       // Assert
-      status(result) should equal(OK)
+      redirectLocation(result) should equal(Some("/are-you-registered"))
     }
 
     "redirect to next page after the button is clicked" in new WithApplication {
