@@ -71,6 +71,7 @@ loginpage.button.login = Sign In
 loginpage.button.login.arialabel = Sign In button
 loginpage.forgottenPassword = Forgotten your password?
 loginpage.cancel = Cancel and return to transaction
+loginpage.disclaimer = This is not a page from the real website, it has been created so that we can demonstrate the user journey. It is calling a micro service we have created that returns details that are used on the following pages.
 
 #page 7
 loginconfirmation.title = Login confirmation
@@ -86,6 +87,7 @@ loginconfirmation.button.refuse = I refuse
 loginconfirmation.button.refuse.arialabel = I refuse button
 loginconfirmation.button.agree = I agree
 loginconfirmation.button.agree.arialabel = I agree button
+loginconfirmation.disclaimer = This is not a page from the real website, it has been created so that we can demonstrate the user journey. It has received data from a micro service we have created.
 
 #page 8
 authentication.title = Change of keeper - authentication
@@ -100,9 +102,7 @@ authentication.pin.incorrect = You must enter a number with a length of 6 digits
 #page 9
 v5csearch.title = Change of keeper - retrieve a vehicle record
 v5csearch.name = Retrieve a vehicle record
-v5csearch.p1 = Retrieve a vehicle record
-v5csearch.p2 = {0} is signed in.
-v5csearch.p3 = {0} is the current keeper of the vehicle that is the subject of this 'change of keeper' process.
+v5csearch.p1 = {0} is signed in to the change of keeper service.
 v5csearch.button = Look-up
 v5csearch.button2 = Cancel
 v5csearch.v5cinputlabel = * V5C Document reference number

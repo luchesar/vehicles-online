@@ -71,6 +71,7 @@ loginpage.button.login = Mewngofnodi
 loginpage.button.login.arialabel = Mewngofnodi botwm
 loginpage.forgottenPassword = Wedi anghofio eich cyfrinair?
 loginpage.cancel = Diddymu a dychwelyd i''r trafodiad
+loginpage.disclaimer = Nid yw hyn yn dudalen o wefan go iawn, mae wedi ei greu fel y gallwn ddangos y daith y defnyddiwr. Mae''n galw gwasanaeth micro, rydym wedi creu sy''n dychwelyd manylion sy''n cael eu defnyddio ar y tudalennau canlynol.
 
 #page 7
 loginconfirmation.title = Mewngofnodi cadarnhad
@@ -86,6 +87,7 @@ loginconfirmation.button.refuse = wyf yn gwrthod
 loginconfirmation.button.refuse.arialabel = wyf yn gwrthod botwm
 loginconfirmation.button.agree = wyf yn cytuno
 loginconfirmation.button.agree.arialabel = wyf yn cytuno botwm
+loginconfirmation.disclaimer = Nid yw hyn yn dudalen o wefan go iawn, mae wedi ei greu fel y gallwn ddangos y daith y defnyddiwr. Mae wedi derbyn data o wasanaeth micro rydym wedi creu.
 
 #page 8
 authentication.title = Newid ceidwad - dilysu

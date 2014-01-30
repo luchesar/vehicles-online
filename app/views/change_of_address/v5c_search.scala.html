@@ -15,11 +15,7 @@
             <legend>@Messages("v5csearch.name")</legend>
 
             <ul>
-                <p>@Messages("v5csearch.p1")</p><br>
-
-                <p>@Messages("v5csearch.p2", name)</p><br>
-
-                <p>@Messages("v5csearch.p3", name)</p><br>
+                <p>@Messages("v5csearch.p1", name)</p>
 
                 @carersInputText(v5cSearchForm(app.ChangeOfAddress.v5cReferenceNumberID), args =
                     '_label -> Messages("v5csearch.v5cinputlabel"),
