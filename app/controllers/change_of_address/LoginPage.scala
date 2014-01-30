@@ -37,6 +37,7 @@ object LoginPage extends Controller {
   }
   */
 
+  // TODO [SKW] break the method below into several smaller methods to make it more readable.
   def submit = Action.async {
     implicit request => {
       loginPageForm.bindFromRequest.fold(
@@ -51,8 +52,8 @@ object LoginPage extends Controller {
             Logger.debug(s"LoginPage Web service call successful - response = ${resp}")
 
             val key = Mappings.LoginConfirmationModel.key
-            Logger.debug(s"LoginPage looking for value for key: $key")
             Cache.set(key, resp.loginConfirmationModel)
+            Logger.debug(s"LoginPage set value for key: $key")
             Redirect(routes.LoginConfirmation.present())
           }}
             .recoverWith{
