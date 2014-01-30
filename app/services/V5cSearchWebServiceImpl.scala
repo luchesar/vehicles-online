@@ -8,11 +8,12 @@ import play.api.Logger
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import app.JsonSupport._
+import utils.helpers.Environment
 
 case class V5cSearchWebServiceImpl() extends V5cSearchWebService {
   
   override def invoke(cmd: V5cSearchModel): Future[V5cSearchResponse] = {
-    val endPoint = "http://localhost:8080/vehicles/v5c-search"
+    val endPoint = s"${Environment.microServiceUrlBase}/vehicles/v5c-search"      
     Logger.debug(s"Calling V5C micro service on ${endPoint}...")
     val futureOfResponse = WS.url(endPoint).post(Json.toJson(cmd))
 
