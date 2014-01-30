@@ -37,7 +37,7 @@ object V5cSearch extends Controller {
 
           Logger.debug("V5cSearch form validation has passed")
           Logger.debug("Calling V5C micro service...")
-          val webService = injector.getInstance(classOf[services.V5CSearchWebService])
+          val webService = injector.getInstance(classOf[services.V5cSearchWebService])
           val result = webService.invoke(v5cForm).map { resp => {
             Logger.debug(s"Web service call successful - response = ${resp}")
 
