@@ -25,7 +25,7 @@ object LoginConfirmation extends Controller {
     Redirect(routes.Authentication.present)
   }
 
-  def fetchData(): Option[LoginConfirmationModel] = {
+  private def fetchData(): Option[LoginConfirmationModel] = {
       val key = Mappings.LoginConfirmationModel.key
       val result = Cache.getAs[LoginConfirmationModel](key)
     result

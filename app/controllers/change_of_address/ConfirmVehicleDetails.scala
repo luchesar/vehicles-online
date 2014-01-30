@@ -8,7 +8,6 @@ import models.domain.change_of_address.V5cSearchConfirmationModel
 import controllers.Mappings
 import play.api.cache.Cache
 
-
 object ConfirmVehicleDetails extends Controller {
 
   def present = Action { implicit request =>

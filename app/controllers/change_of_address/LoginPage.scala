@@ -31,11 +31,6 @@ object LoginPage extends Controller {
     Logger.info("LoginPage Preferred languages (in order) from browser: " + request.acceptLanguages.map(_.code).mkString(", "))
     Ok(html.change_of_address.login_page(loginPageForm))
   }
-/*
-  def submit = Action {
-    Redirect(routes.LoginConfirmation.present)
-  }
-  */
 
   // TODO [SKW] break the method below into several smaller methods to make it more readable.
   def submit = Action.async {
