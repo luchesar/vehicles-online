@@ -6,18 +6,23 @@ import play.api.Play.current
 import play.api.data._
 import play.api.data.Forms._
 import play.api.Logger
-
 import views._
 import models.domain.change_of_address.V5cSearchConfirmationModel
 import controllers.Mappings
+import controllers.change_of_address.Helpers._
 
 
 object ConfirmVehicleDetails extends Controller {
 
   def present = Action { implicit request =>
-    fetchData() match {
-      case Some(v5csearchConfirmationModel) => Ok(html.change_of_address.confirm_vehicle_details(v5csearchConfirmationModel))
-      case None => Redirect(routes.V5cSearch.present())
+    isUserLoggedIn() match {
+      case true =>  {
+        fetchData() match {
+          case Some(v5csearchConfirmationModel) => Ok(html.change_of_address.confirm_vehicle_details(v5csearchConfirmationModel))
+          case None => Redirect(routes.V5cSearch.present())
+        }
+      }
+      case false => Redirect(routes.LoginPage.present())
     }
   }
 
@@ -40,7 +45,6 @@ object ConfirmVehicleDetails extends Controller {
             Logger.warn(s"ConfirmVehicleDetails could not find value in Cache for key ${Mappings.V5cReferenceNumber.key}")
             None
           }
-
         }
       }
       case None => {

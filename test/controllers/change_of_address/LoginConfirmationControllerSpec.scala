@@ -24,9 +24,6 @@ class LoginConfirmationControllerSpec extends WordSpec with Matchers with Mockit
       loginConfirmationModel.firstName returns "mock firstName"
       loginConfirmationModel.surname returns "mock surname"
       loginConfirmationModel.address returns address
-
-      //val loginConfirmationModel = LoginConfirmationModel("a","b","c", address) //mock[LoginConfirmationModel]
-
       val key = Mappings.LoginConfirmationModel.key
       play.api.cache.Cache.set(key, loginConfirmationModel)
 

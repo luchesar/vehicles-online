@@ -11,11 +11,12 @@ import controllers.Mappings
 import scala.concurrent.{ExecutionContext, Future, Await}
 import ExecutionContext.Implicits.global
 import play.api.Play.current
+import controllers.change_of_address.Helpers._
 
 object LoginConfirmation extends Controller {
 
   def present = Action { implicit request =>
-    fetchData() match {
+    userLoginCredentials() match {
       case Some(loginConfirmationModel) => Ok(html.change_of_address.login_confirmation(loginConfirmationModel))
       case None => Redirect(routes.LoginPage.present())
     }
@@ -23,11 +24,5 @@ object LoginConfirmation extends Controller {
 
   def submit = Action {
     Redirect(routes.Authentication.present)
-  }
-
-  def fetchData(): Option[LoginConfirmationModel] = {
-      val key = Mappings.LoginConfirmationModel.key
-      val result = Cache.getAs[LoginConfirmationModel](key)
-    result
   }
 }
