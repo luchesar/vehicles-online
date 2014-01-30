@@ -17,6 +17,7 @@ class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers with Mo
       val request = FakeRequest().withSession()
       val address = mock[Address]
 
+      //TODO: refactor and add to helper
       address.line1 returns "mock line1"
       address.postCode returns "mock postcode"
       val loginConfirmationModel = mock[LoginConfirmationModel]
@@ -37,6 +38,28 @@ class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers with Mo
 
       // Assert
       status(result) should equal(OK)
+    }
+
+    "redirect to v5c search page when user is logged in but not entered vehicle details" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+      val address = mock[Address]
+
+      //TODO: refactor and add to helper
+      address.line1 returns "mock line1"
+      address.postCode returns "mock postcode"
+      val loginConfirmationModel = mock[LoginConfirmationModel]
+      loginConfirmationModel.firstName returns "mock firstName"
+      loginConfirmationModel.surname returns "mock surname"
+      loginConfirmationModel.address returns address
+      val key = Mappings.LoginConfirmationModel.key
+      play.api.cache.Cache.set(key, loginConfirmationModel)
+
+      // Act
+      val result = change_of_address.ConfirmVehicleDetails.present(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some("/v5c-search"))
     }
 
   "redirect to start page if the details are not in the cache" in new WithApplication {

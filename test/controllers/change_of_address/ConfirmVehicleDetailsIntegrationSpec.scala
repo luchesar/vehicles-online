@@ -30,6 +30,15 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
 
     }
 
+    "redirect to login when login cache is empty" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      browser.goTo("/confirm-vehicle-details")
+
+      // Assert
+      titleMustContain("Change of keeper - are you registered")
+
+    }
+
     "v5c search page is presented when user is logged in but not entered vehicle details" in new WithBrowser with BrowserMatchers {
       //Arrange / Act
 
