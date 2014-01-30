@@ -26,10 +26,10 @@ object ConfirmVehicleDetails extends Controller {
   }
 
   def fetchData(): Option[V5cSearchConfirmationModel] = {
-    val v5cRegistrationNumberOption = play.api.cache.Cache.getAs[String](Mappings.V5CRegistrationNumber.key)
+    val v5cRegistrationNumberOption = play.api.cache.Cache.getAs[String](Mappings.V5cRegistrationNumber.key)
     v5cRegistrationNumberOption match {
       case Some(v5cRegistrationNumber) => {
-        val v5cReferenceNumberOption = play.api.cache.Cache.getAs[String](Mappings.V5CReferenceNumber.key)
+        val v5cReferenceNumberOption = play.api.cache.Cache.getAs[String](Mappings.V5cReferenceNumber.key)
         v5cReferenceNumberOption match {
           case Some(v5cReferenceNumber) => {
             val key = v5cReferenceNumber + "." + v5cRegistrationNumber
@@ -37,14 +37,14 @@ object ConfirmVehicleDetails extends Controller {
             play.api.cache.Cache.getAs[V5cSearchConfirmationModel](key)
           }
           case None => {
-            Logger.warn(s"ConfirmVehicleDetails could not find value in Cache for key ${Mappings.V5CReferenceNumber.key}")
+            Logger.warn(s"ConfirmVehicleDetails could not find value in Cache for key ${Mappings.V5cReferenceNumber.key}")
             None
           }
 
         }
       }
       case None => {
-        Logger.warn(s"ConfirmVehicleDetails could not find value in Cache for key ${Mappings.V5CRegistrationNumber.key}")
+        Logger.warn(s"ConfirmVehicleDetails could not find value in Cache for key ${Mappings.V5cRegistrationNumber.key}")
         None
       }
     }

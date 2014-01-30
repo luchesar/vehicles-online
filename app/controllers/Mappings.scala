@@ -13,14 +13,14 @@ object Mappings {
     val pattern = s"\\d{$minLength,$maxLength}" // Digits only with specified size.     
   }
   
-  object V5CReferenceNumber {
+  object V5cReferenceNumber {
     val minLength = 11
     val maxLength = 11
     val pattern = s"\\d{$minLength,$maxLength}" // Digits only with specified size.
     val key = "V5cReferenceNumber"
   }
 
-  object V5CRegistrationNumber {
+  object V5cRegistrationNumber {
     val maxLength = 7
     val key = "V5cRegistrationNumber"
   }
@@ -147,7 +147,7 @@ object Mappings {
     }
   }
 
-  def V5cReferenceNumber (minLength: Int = V5CReferenceNumber.minLength, maxLength: Int = V5CReferenceNumber.maxLength): Mapping[String] = {
+  def V5cReferenceNumber (minLength: Int = V5cReferenceNumber.minLength, maxLength: Int = V5cReferenceNumber.maxLength): Mapping[String] = {
     nonEmptyText(minLength, maxLength) verifying validNumberOnly
   }
 

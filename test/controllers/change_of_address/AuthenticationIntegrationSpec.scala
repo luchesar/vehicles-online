@@ -6,7 +6,7 @@ import controllers.BrowserMatchers
 
 class AuthenticationIntegrationSpec extends Specification with Tags {
 
-  val PINValid = "123456"
+  val pinValid = "123456"
 
   "Authentication Integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
@@ -23,7 +23,7 @@ class AuthenticationIntegrationSpec extends Specification with Tags {
       browser.goTo("/authentication")
 
       // Act
-      browser.fill("#PIN") `with` PINValid
+      browser.fill("#PIN") `with` pinValid
       browser.submit("button[type='submit']")
 
       // Assert

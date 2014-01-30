@@ -9,7 +9,7 @@ import app.ChangeOfAddress._
 class AuthenticationControllerSpec extends WordSpec with Matchers {
 
   "Authentication - Controller" should {
-    val PINValid = "123456"
+    val pinValid = "123456"
 
     "present" in new WithApplication {
       // Arrange
@@ -25,7 +25,7 @@ class AuthenticationControllerSpec extends WordSpec with Matchers {
     "redirect to next page after the button is clicked" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(PINFormID -> PINValid)
+        .withFormUrlEncodedBody(pinFormID -> pinValid)
 
       // Act
       val result = change_of_address.Authentication.submit(request)

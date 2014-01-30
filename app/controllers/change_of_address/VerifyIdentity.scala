@@ -15,5 +15,4 @@ object VerifyIdentity extends Controller {
   def submit = Action {
     Redirect(routes.AreYouRegistered.present)
   }
-
 }

@@ -11,13 +11,13 @@ class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers {
 
     "present" in new WithApplication {
       // Arrange
-      val V5cReferenceNumberValid = "12345678910"
+      val v5cReferenceNumberValid = "12345678910"
       val vehicleVRNValid = "a1"
       val request = FakeRequest().withSession()
 
-      play.api.cache.Cache.set(Mappings.V5CReferenceNumber.key, V5cReferenceNumberValid)
-      play.api.cache.Cache.set(Mappings.V5CRegistrationNumber.key, vehicleVRNValid)
-      val key = V5cReferenceNumberValid + "." + vehicleVRNValid
+      play.api.cache.Cache.set(Mappings.V5cReferenceNumber.key, v5cReferenceNumberValid)
+      play.api.cache.Cache.set(Mappings.V5cRegistrationNumber.key, vehicleVRNValid)
+      val key = v5cReferenceNumberValid + "." + vehicleVRNValid
 
       play.api.cache.Cache.set(key, V5cSearchConfirmationModel("a", "b", "c", "d", "e"))
 
