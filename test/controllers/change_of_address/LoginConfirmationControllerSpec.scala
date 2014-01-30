@@ -1,28 +1,38 @@
 package controllers.change_of_address
 
-import app.ChangeOfAddress._
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
-import controllers.change_of_address
+import controllers.{Mappings, change_of_address}
 import org.scalatest.{Matchers, WordSpec}
+import play.api.cache.Cache
+import models.domain.change_of_address.{Address, LoginConfirmationModel}
+import org.specs2.mock.Mockito
 
 
-class LoginConfirmationControllerSpec extends WordSpec with Matchers {
+class LoginConfirmationControllerSpec extends WordSpec with Matchers with Mockito {
 
   "LoginConfirmation - Controller" should {
 
     "present" in new WithApplication {
       // Arrange
-      val usernameValid = "Roger"
-      val passwordValid = "examplepassword"
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(usernameId -> usernameValid, passwordId -> passwordValid)
 
-      change_of_address.LoginPage.submit(request)
-      val request2 = FakeRequest().withSession()
+      val address = mock[Address]
+      address.line1 returns "mock line1"
+      address.postCode returns "mock postcode"
+      val loginConfirmationModel = mock[LoginConfirmationModel]
+      loginConfirmationModel.firstName returns "mock firstName"
+      loginConfirmationModel.surname returns "mock surname"
+      loginConfirmationModel.address returns address
+
+      //val loginConfirmationModel = LoginConfirmationModel("a","b","c", address) //mock[LoginConfirmationModel]
+
+      val key = Mappings.LoginConfirmationModel.key
+      play.api.cache.Cache.set(key, loginConfirmationModel)
+
 
       // Act
-      val result = change_of_address.LoginConfirmation.present(request2)
+      val result = change_of_address.LoginConfirmation.present(request)
 
       // Assert
       status(result) should equal(OK)
