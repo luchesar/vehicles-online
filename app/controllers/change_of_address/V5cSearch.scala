@@ -34,7 +34,6 @@ object V5cSearch extends Controller { // TODO rename object to VehicleSearch
           Logger.debug(s"Form validation failed posted data = ${formWithErrors.errors}")
           BadRequest(html.change_of_address.v5c_search(formWithErrors, fetchData())) },
         v5cForm => {
-
           Logger.debug("V5cSearch form validation has passed")
           Logger.debug("Calling V5C micro service...")
           val webService = injector.getInstance(classOf[services.V5cSearchWebService])
@@ -63,7 +62,7 @@ object V5cSearch extends Controller { // TODO rename object to VehicleSearch
     }
   }
 
-  def fetchData(): String = {
+  private def fetchData(): String = {
     val key = Mappings.LoginConfirmationModel.key
     val result = Cache.getAs[LoginConfirmationModel](key)
 
