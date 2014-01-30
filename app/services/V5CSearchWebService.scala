@@ -9,7 +9,7 @@ import scala.concurrent.Future
 /**
  * Defines the V5CSearchWebService 
  */
-trait WebService {
+trait V5CSearchWebService {
   def invoke(cmd: V5cSearchModel): Future[V5cSearchResponse]
 }
 

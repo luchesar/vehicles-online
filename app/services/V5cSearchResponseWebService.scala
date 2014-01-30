@@ -9,7 +9,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import app.JsonSupport._
 
-case class V5cSearchResponseWebService() extends WebService {
+case class V5cSearchResponseWebService() extends V5CSearchWebService {
   
   override def invoke(cmd: V5cSearchModel): Future[V5cSearchResponse] = {
     val endPoint = "http://localhost:8080/vehicles/v5c-search"
