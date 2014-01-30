@@ -2,7 +2,7 @@ package controllers.change_of_address
 
 import org.specs2.mutable.{Tags, Specification}
 import play.api.test.WithBrowser
-import controllers.BrowserMatchers
+import controllers.{Formulate, BrowserMatchers}
 
 class AuthenticationIntegrationSpec extends Specification with Tags {
 
@@ -17,7 +17,12 @@ class AuthenticationIntegrationSpec extends Specification with Tags {
     }
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
-      // Arrange
+      //Arrange / Act
+      Formulate.loginPageDetails(browser)
+
+      // Find the submit button on the login page and click it
+      browser.submit("button[type='submit']")
+
       browser.goTo("/authentication")
 
       browser.fill("#PIN") `with` "123456"

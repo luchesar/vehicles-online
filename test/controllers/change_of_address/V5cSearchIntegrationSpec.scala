@@ -8,12 +8,32 @@ import controllers.{Formulate, BrowserMatchers}
 class V5cSearchIntegrationSpec extends Specification with Tags {
 
   "V5cSearch Integration" should {
-    "be presented" in new WithBrowser with BrowserMatchers {
+    "be presented when the login cache is complete" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
+      // Pass credentials through login page
+      Formulate.loginPageDetails(browser)
+
+      // Find the submit button on the login page and click it
+      browser.submit("button[type='submit']")
+
+      // Complete validation page by entering a pin
+      browser.goTo("/authentication")
+      browser.fill("#PIN") `with` "123456"
+      browser.submit("button[type='submit']")
+
       browser.goTo("/v5c-search")
 
       // Assert
       titleMustContain("retrieve a vehicle record")
+
+    }
+
+    "redirect to login when login cache is empty" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      browser.goTo("/v5c-search")
+
+      // Assert
+      titleMustContain("Change of keeper - are you registered")
 
     }
 

@@ -39,20 +39,16 @@ class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers with Mo
       status(result) should equal(OK)
     }
 
-  "redirect to loginpage if the details are not in the cache" in new WithApplication {
-    /*  // Arrange
+  "redirect to start page if the details are not in the cache" in new WithApplication {
+      // Arrange
       val request = FakeRequest().withSession()
 
       // Act
-      val result = change_of_address.LoginPage.present(request)
+      val result = change_of_address.AreYouRegistered.present(request)
 
       // Assert
-      status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal(Some("/login-page"))
-    */
+      status(result) should equal(OK)
     }
-
-
 
     "redirect to next page after the button is clicked" in new WithApplication {
       // Arrange

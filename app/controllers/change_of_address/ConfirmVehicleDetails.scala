@@ -16,10 +16,10 @@ object ConfirmVehicleDetails extends Controller {
         case true => {
           fetchSearchConfirmationModelFromCache match {
             case Some(v5csearchConfirmationModel) => Ok(views.html.change_of_address.confirm_vehicle_details(v5csearchConfirmationModel))
-            case None => Redirect(routes.V5cSearch.present())
+            case None => Redirect(routes.V5cSearch.present)
           }
         }
-        case false => Redirect(routes.LoginPage.present())
+        case false => Redirect(routes.AreYouRegistered.present)
       }
   }
 

@@ -10,6 +10,7 @@ import scala.concurrent.{ExecutionContext, Future, Await}
 import ExecutionContext.Implicits.global
 import play.api.cache.Cache
 import play.api.Play.current
+import controllers.change_of_address.Helpers._
 import controllers.Mappings
 import modules.{injector}
 
@@ -23,8 +24,11 @@ object V5cSearch extends Controller { // TODO rename object to VehicleSearch
   )
 
   def present = Action { implicit request =>
-    Ok(views.html.change_of_address.v5c_search(v5cSearchForm, fetchData))
-  }
+       isUserLoggedIn() match {
+        case true => Ok(views.html.change_of_address.v5c_search(v5cSearchForm, fetchData))
+        case false => Redirect(routes.AreYouRegistered.present)
+      }
+}
 
   def submit = Action.async {
     implicit request => {
