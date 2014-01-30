@@ -42,7 +42,7 @@ package object modules {
   object DevModule extends ScalaModule {
     def configure() {
       Logger.debug("Guice is loading DevModule")
-      bind[WebService].to[V5cSearchResponseWebService]
+      bind[V5cSearchWebService].to[V5cSearchWebServiceImpl]
       bind[LoginWebService].to[LoginServiceImpl]
     }
   }
@@ -55,7 +55,7 @@ package object modules {
     /**
      * Fake implementation of the WebService trait with in memory data
      */
-    case class FakeV5cSearchResponseWebService() extends WebService {
+    case class FakeV5cSearchWebService() extends V5cSearchWebService {
       override def invoke(cmd: V5cSearchModel): Future[V5cSearchResponse] = Future {
         V5cSearchResponse(true, "All ok ", V5cSearchConfirmationModel("vrn", "make", "model", "firstRegistered", "acquired"))
       }
@@ -64,7 +64,7 @@ package object modules {
     /**
      * Fake implementation of the LoginWebService trait with in memory data
      */
-    case class FakeLoginResponseWebService() extends LoginWebService {
+    case class FakeLoginWebService() extends LoginWebService {
       override def invoke(cmd: LoginPageModel): Future[LoginResponse] = Future {
         LoginResponse(true, "All ok ", LoginConfirmationModel("Roger", "Booth", "21/05/1977", Address(line1 = "115 Park Avenue", line4 = Some("United Kingdom"), postCode = "SA6 8HY")))
       }
@@ -76,8 +76,8 @@ package object modules {
     def configure() {
       Logger.debug("Guice is loading TestModule")
 
-      bind[WebService].to[FakeV5cSearchResponseWebService]
-      bind[LoginWebService].to[FakeLoginResponseWebService]
+      bind[V5cSearchWebService].to[FakeV5cSearchWebService]
+      bind[LoginWebService].to[FakeLoginWebService]
     }
   }
 
