@@ -47,7 +47,7 @@ object V5cSearch extends Controller {
             Logger.debug(s"V5cSearch storing data returned from micro service in cache using key: $key")
             play.api.cache.Cache.set(key, resp.v5cSearchConfirmationModel)
 
-            Redirect(routes.ConfirmVehicleDetails.present())
+            Redirect(routes.ConfirmVehicleDetails.present)
           }}
             .recoverWith{
               case e: Throwable => {
