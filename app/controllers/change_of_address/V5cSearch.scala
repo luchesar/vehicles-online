@@ -14,7 +14,7 @@ import play.api.Play.current
 import controllers.Mappings
 import modules.{injector}
 
-object V5cSearch extends Controller {
+object V5cSearch extends Controller { // TODO rename object to VehicleSearch
 
   val v5cSearchForm = Form(
     mapping(
