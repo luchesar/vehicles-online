@@ -13,7 +13,6 @@ import scala.util.{Success, Try}
 
 package object app {
 
-
   object JsonSupport {
     implicit val writeV5cSearch = Json.writes[V5cSearchModel]
     implicit val v5cSearchConfirmationModel = Json.reads[V5cSearchConfirmationModel]
@@ -145,7 +144,7 @@ package object app {
 
   object ChangeOfAddress {
     val pinFormID = "PIN"
-    val v5cReferenceNumberNID = "V5cReferenceNumber"
+    val v5cReferenceNumberID = "V5cReferenceNumber"
     val v5cRegistrationNumberID = "V5CRegistrationNumber"
     val usernameId = "username"
     val passwordId = "password"

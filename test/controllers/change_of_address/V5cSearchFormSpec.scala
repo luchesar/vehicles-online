@@ -12,7 +12,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     def v5cSearchFiller(v5cReferenceNumber: String,v5cRegistrationNumber: String ) = {
       V5cSearch.v5cSearchForm.bind(
         Map(
-          v5cReferenceNumberNID -> v5cReferenceNumber,
+          v5cReferenceNumberID -> v5cReferenceNumber,
           v5cRegistrationNumberID-> v5cRegistrationNumber
         )
       )

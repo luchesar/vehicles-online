@@ -26,7 +26,7 @@ class V5cSearchControllerSpec extends WordSpec with Matchers{
       val v5cReferenceNumberValid = "12345678910"
       val v5cRegistrationNumberValid = "a1"
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberNID -> v5cReferenceNumberValid,v5cRegistrationNumberID-> v5cRegistrationNumberValid)
+        .withFormUrlEncodedBody(v5cReferenceNumberID -> v5cReferenceNumberValid,v5cRegistrationNumberID-> v5cRegistrationNumberValid)
 
       // Act
       val result = change_of_address.V5cSearch.submit(request)
