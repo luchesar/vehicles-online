@@ -13,7 +13,7 @@ object LoginConfirmation extends Controller {
     implicit request =>
       userLoginCredentials() match {
         case Some(loginConfirmationModel) => Ok(views.html.change_of_address.login_confirmation(loginConfirmationModel))
-        case None => Redirect(routes.LoginPage.present())
+        case None => Redirect(routes.AreYouRegistered.present)
       }
   }
 

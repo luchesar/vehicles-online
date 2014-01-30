@@ -8,17 +8,26 @@ class LoginConfirmationIntegrationSpec extends Specification with Tags {
 
   "LoginConfirmation Integration" should {
 
-      "be presented" in new WithBrowser with BrowserMatchers {
+    "be presented when user login is cached" in new WithBrowser with BrowserMatchers {
 
-       //Arrange / Act
-        Formulate.loginPageDetails(browser)
+      //Arrange / Act
+      Formulate.loginPageDetails(browser)
 
-        // Find the submit button on the login page and click it
-        browser.submit("button[type='submit']")
+      // Find the submit button on the login page and click it
+      browser.submit("button[type='submit']")
 
-        // Assert
-        titleMustContain("Login confirmation")
-      }
+      // Assert
+      titleMustContain("Login confirmation")
+    }
+
+    "be presented when user login is not cached" in new WithBrowser with BrowserMatchers {
+
+      //Arrange / Act
+      browser.goTo("/login-confirmation")
+
+      // Assert
+      titleMustContain("are you registered")
+    }
 
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {

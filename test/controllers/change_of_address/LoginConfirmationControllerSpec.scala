@@ -17,6 +17,7 @@ class LoginConfirmationControllerSpec extends WordSpec with Matchers with Mockit
       // Arrange
       val request = FakeRequest().withSession()
 
+      //TODO: refactor so we can re use this block of code from the helper in other tests
       val address = mock[Address]
       address.line1 returns "mock line1"
       address.postCode returns "mock postcode"
@@ -36,6 +37,17 @@ class LoginConfirmationControllerSpec extends WordSpec with Matchers with Mockit
     }
   }
 
+  "present login page when user is not logged in" in new WithApplication {
+    // Arrange
+    val request = FakeRequest().withSession()
+
+    // Act
+    val result = change_of_address.AreYouRegistered.present(request)
+
+    // Assert
+    status(result) should equal(OK)
+  }
+  
     "redirect to next page after the agree button is clicked" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
