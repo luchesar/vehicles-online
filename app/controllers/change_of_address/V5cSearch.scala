@@ -3,7 +3,6 @@ package controllers.change_of_address
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
-import views._
 import models.domain.change_of_address.{LoginConfirmationModel, V5cSearchModel, V5cSearchResponse, V5cSearchConfirmationModel}
 import controllers.Mappings._
 import play.api.Logger
@@ -24,7 +23,7 @@ object V5cSearch extends Controller { // TODO rename object to VehicleSearch
   )
 
   def present = Action { implicit request =>
-    Ok(html.change_of_address.v5c_search(v5cSearchForm, fetchData))
+    Ok(views.html.change_of_address.v5c_search(v5cSearchForm, fetchData))
   }
 
   def submit = Action.async {
@@ -32,7 +31,7 @@ object V5cSearch extends Controller { // TODO rename object to VehicleSearch
       v5cSearchForm.bindFromRequest.fold(
         formWithErrors => Future {
           Logger.debug(s"Form validation failed posted data = ${formWithErrors.errors}")
-          BadRequest(html.change_of_address.v5c_search(formWithErrors, fetchData())) },
+          BadRequest(views.html.change_of_address.v5c_search(formWithErrors, fetchData())) },
         v5cForm => {
           Logger.debug("V5cSearch form validation has passed")
           Logger.debug("Calling V5C micro service...")
