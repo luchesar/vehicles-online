@@ -1,17 +1,12 @@
 package controllers.change_of_address
 
-
 import play.api.mvc._
-import play.api.data._
-import play.api.data.Forms._
-
-import views._
-
 
 object BeforeYouStart extends Controller {
 
-  def present = Action { implicit request =>
-    Ok(html.change_of_address.before_you_start())
+  def present = Action {
+    implicit request => // TODO change intellij config so that implicit lambda will be on the same line as the previous open curly brace.
+      Ok(views.html.change_of_address.before_you_start())
   }
 
   def submit = Action {

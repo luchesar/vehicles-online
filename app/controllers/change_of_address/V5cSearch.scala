@@ -14,7 +14,7 @@ import play.api.Play.current
 import controllers.Mappings
 import modules.{injector}
 
-object V5cSearch extends Controller {
+object V5cSearch extends Controller { // TODO rename object to VehicleSearch
 
   val v5cSearchForm = Form(
     mapping(
@@ -34,10 +34,9 @@ object V5cSearch extends Controller {
           Logger.debug(s"Form validation failed posted data = ${formWithErrors.errors}")
           BadRequest(html.change_of_address.v5c_search(formWithErrors, fetchData())) },
         v5cForm => {
-
           Logger.debug("V5cSearch form validation has passed")
           Logger.debug("Calling V5C micro service...")
-          val webService = injector.getInstance(classOf[services.WebService])
+          val webService = injector.getInstance(classOf[services.V5cSearchWebService])
           val result = webService.invoke(v5cForm).map { resp => {
             Logger.debug(s"Web service call successful - response = ${resp}")
 
@@ -47,7 +46,7 @@ object V5cSearch extends Controller {
             Logger.debug(s"V5cSearch storing data returned from micro service in cache using key: $key")
             play.api.cache.Cache.set(key, resp.v5cSearchConfirmationModel)
 
-            Redirect(routes.ConfirmVehicleDetails.present())
+            Redirect(routes.ConfirmVehicleDetails.present)
           }}
             .recoverWith{
               case e: Throwable => {
@@ -63,7 +62,7 @@ object V5cSearch extends Controller {
     }
   }
 
-  def fetchData(): String = {
+  private def fetchData(): String = {
     val key = Mappings.LoginConfirmationModel.key
     val result = Cache.getAs[LoginConfirmationModel](key)
 

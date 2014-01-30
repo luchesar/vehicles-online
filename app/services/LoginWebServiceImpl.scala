@@ -8,7 +8,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import app.JsonSupport._
 
-case class LoginServiceImpl() extends LoginWebService {
+case class LoginWebServiceImpl() extends LoginWebService {
   
   override def invoke(cmd: LoginPageModel): Future[LoginResponse] = {
     val endPoint = "http://localhost:8080/vehicles/login-page"

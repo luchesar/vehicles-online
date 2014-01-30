@@ -4,24 +4,11 @@ import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
 
-import views._
 import models.domain.change_of_address._
 import controllers.Mappings._
 
 object Authentication extends Controller {
-
-  def present = Action { implicit request =>
-    Ok(html.change_of_address.authentication(authenticationForm))
-  }
-
-  def submit = Action { implicit request =>
-    authenticationForm.bindFromRequest.fold(
-      formWithErrors => BadRequest(html.change_of_address.authentication(formWithErrors)),
-      ToAddress => Redirect(routes.V5cSearch.present)
-    )
-  }
-
-  val authenticationForm = Form(
+  val authenticationForm = Form( // TODO Should we move forms into a separate file.
     mapping(
       "PIN" -> PIN(minLength = 6, maxLength = 6)
     )(AuthenticationModel.apply)(AuthenticationModel.unapply)
@@ -33,5 +20,16 @@ object Authentication extends Controller {
       "V5CRegistrationNumber" -> V5CRegistrationNumber(minLength = 2, maxLength = 8)
     )(V5cSearchModel.apply)(V5cSearchModel.unapply)
   )
+
+  def present = Action { implicit request =>
+    Ok(views.html.change_of_address.authentication(authenticationForm))
+  }
+
+  def submit = Action { implicit request =>
+    authenticationForm.bindFromRequest.fold(
+      formWithErrors => BadRequest(views.html.change_of_address.authentication(formWithErrors)),
+      _ => Redirect(routes.V5cSearch.present)
+    )
+  }
 
 }
