@@ -34,6 +34,7 @@ class V5cSearchControllerSpec extends WordSpec with Matchers with Mockito{
       // Assert
       status(result) should equal(OK)
     }
+
     "present login page when user is not logged in" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()

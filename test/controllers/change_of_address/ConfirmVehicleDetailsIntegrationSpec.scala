@@ -29,6 +29,28 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
       titleMustEqual("Change of keeper - confirm vehicle details")
 
     }
+
+    "v5c search page is presented when user is logged in but not entered vehicle details" in new WithBrowser with BrowserMatchers {
+      //Arrange / Act
+
+      // Pass credentials through login page
+      Formulate.loginPageDetails(browser)
+
+      // Find the submit button on the login page and click it
+      browser.submit("button[type='submit']")
+
+      // Complete validation page by entering a pin
+      browser.goTo("/authentication")
+      browser.fill("#PIN") `with` "123456"
+      browser.submit("button[type='submit']")
+
+      browser.goTo("/confirm-vehicle-details")
+
+      // Assert
+      titleMustEqual("Change of keeper - retrieve a vehicle record")
+
+    }
+
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       //Arrange / Act
 
