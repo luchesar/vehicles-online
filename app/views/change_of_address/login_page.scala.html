@@ -8,21 +8,30 @@
     <title>@Messages("loginpage.title")</title>
 
     <body>
+        <h1>This is not a page from the real website, it has been created so that we can demonstrate the user journey. It is calling a micro service we have created that returns details that are used on the following pages.</h1>
+
+        <br/><br/>
+
         @form(action = controllers.change_of_address.routes.LoginPage.submit) {
-                <p><font size="5" color="red">@Messages("loginpage.instructions")</font></p>
+            <font size="18">
+                <p><font color="red">@Messages("loginpage.instructions")</font></p>
                 <ul>
                     @inputText(field = loginPageForm("username"), args = '_label -> Messages("loginpage.username"), '_showConstraints -> false)
                     @inputPassword(field = loginPageForm("password"), args = '_label -> Messages("loginpage.password"), '_showConstraints -> false)
                     <font color="red"><a href="http://localhost:9000">@Messages("loginpage.forgottenPassword")</a></font>
                 </ul>
 
-
+            <br/><br/>
 
             <div>
-                <button style="background-color:red" type="submit" name="action" value="next" class="button" aria-label="@Messages("loginpage.button.login.arialabel")">@Messages("loginpage.button.login")</button>
+                <button style="background-color:green" type="submit" name="action" value="next" class="button" aria-label="@Messages("loginpage.button.login.arialabel")">@Messages("loginpage.button.login")</button>
             </div>
 
+            <br/><br/>
+
             <font color="red"><a href="">@Messages("loginpage.cancel")</a></font>
+
+            </font>
         }
     </body>
 </html>
