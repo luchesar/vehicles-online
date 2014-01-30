@@ -24,13 +24,13 @@
                 @carersInputText(v5cSearchForm(app.ChangeOfAddress.v5cReferenceNumberNID), args =
                     '_label -> Messages("v5csearch.v5cinputlabel"),
                     '_showConstraints -> false,
-                    'pattern -> Mappings.V5CReferenceNumber.pattern,
-                    'maxLength -> Mappings.V5CReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                    'pattern -> Mappings.V5cReferenceNumber.pattern,
+                    'maxLength -> Mappings.V5cReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                     'title -> Messages("v5csearch.v5cinputlabel.refNumIncorrect"))
 
-                @carersInputText(v5cSearchForm(app.ChangeOfAddress.V5CRegistrationNumberID), args =
+                @carersInputText(v5cSearchForm(app.ChangeOfAddress.v5cRegistrationNumberID), args =
                   '_label -> Messages("v5csearch.vrninputlabel"),
-                  'maxLength -> Mappings.V5CRegistrationNumber.maxLength,
+                  'maxLength -> Mappings.V5cRegistrationNumber.maxLength,
                   '_showConstraints -> false)
             </ul>
 
