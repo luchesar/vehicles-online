@@ -6,6 +6,9 @@ import play.api.data.Forms._
 
 import models.domain.change_of_address._
 import controllers.Mappings._
+import controllers.change_of_address.Helpers._
+import models.domain.change_of_address.AuthenticationModel
+import models.domain.change_of_address.V5cSearchModel
 
 object Authentication extends Controller {
   val authenticationForm = Form( // TODO Should we move forms into a separate file.
@@ -22,7 +25,10 @@ object Authentication extends Controller {
   )
 
   def present = Action { implicit request =>
-    Ok(views.html.change_of_address.authentication(authenticationForm))
+    isUserLoggedIn() match {
+      case true =>  Ok(views.html.change_of_address.authentication(authenticationForm))
+      case false => Redirect(routes.AreYouRegistered.present)
+    }
   }
 
   def submit = Action { implicit request =>

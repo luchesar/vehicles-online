@@ -1,7 +1,6 @@
 package controllers
 
 import play.api.data.validation._
-import play.api.data.validation.ValidationError
 import play.api.data.Mapping
 import play.api.data.Forms._
 import play.api.data.validation.ValidationError
@@ -77,7 +76,6 @@ object Mappings {
     }
   }
 
-
   def validDecimalNumber: Constraint[String] = Constraint[String]("constraint.decimal") { decimal =>
     val decimalPattern = """^[0-9]{1,12}(\.[0-9]{1,2})?$""".r
 
@@ -104,7 +102,6 @@ object Mappings {
       case _ => Invalid(ValidationError("yesNo.invalid"))
     }
   }
-
 
   def validNationality: Constraint[String] = Constraint[String]("constraint.nationality") { nationality =>
     val nationalityPattern = """[a-zA-Z \-]{1,60}""".r
@@ -162,6 +159,5 @@ object Mappings {
       case false => Invalid(ValidationError("error.restricted.validVRNOnly"))
     }
   }
-
 
 }

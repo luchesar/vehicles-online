@@ -5,7 +5,7 @@ import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
 
-class lAreYouRegisteredIntegrationSpec extends Specification with Tags {
+class AreYouRegisteredIntegrationSpec extends Specification with Tags {
 
   "AreYouRegistered Integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {

@@ -3,7 +3,6 @@ package controllers.change_of_address
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
-import views._
 import models.domain.change_of_address.{LoginConfirmationModel, V5cSearchModel, V5cSearchResponse, V5cSearchConfirmationModel}
 import controllers.Mappings._
 import play.api.Logger
@@ -11,6 +10,7 @@ import scala.concurrent.{ExecutionContext, Future, Await}
 import ExecutionContext.Implicits.global
 import play.api.cache.Cache
 import play.api.Play.current
+import controllers.change_of_address.Helpers._
 import controllers.Mappings
 import modules.{injector}
 
@@ -24,15 +24,18 @@ object V5cSearch extends Controller { // TODO rename object to VehicleSearch
   )
 
   def present = Action { implicit request =>
-    Ok(html.change_of_address.v5c_search(v5cSearchForm, fetchData))
-  }
+       isUserLoggedIn() match {
+        case true => Ok(views.html.change_of_address.v5c_search(v5cSearchForm, fetchData))
+        case false => Redirect(routes.AreYouRegistered.present)
+      }
+}
 
   def submit = Action.async {
     implicit request => {
       v5cSearchForm.bindFromRequest.fold(
         formWithErrors => Future {
           Logger.debug(s"Form validation failed posted data = ${formWithErrors.errors}")
-          BadRequest(html.change_of_address.v5c_search(formWithErrors, fetchData())) },
+          BadRequest(views.html.change_of_address.v5c_search(formWithErrors, fetchData())) },
         v5cForm => {
           Logger.debug("V5cSearch form validation has passed")
           Logger.debug("Calling V5C micro service...")
