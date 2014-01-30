@@ -43,7 +43,7 @@ package object modules {
     def configure() {
       Logger.debug("Guice is loading DevModule")
       bind[V5cSearchWebService].to[V5cSearchWebServiceImpl]
-      bind[LoginWebService].to[LoginServiceImpl]
+      bind[LoginWebService].to[LoginWebServiceImpl]
     }
   }
 
