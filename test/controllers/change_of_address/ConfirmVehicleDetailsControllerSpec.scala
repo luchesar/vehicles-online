@@ -6,7 +6,7 @@ import controllers.{Mappings, change_of_address}
 import org.scalatest.{Matchers, WordSpec}
 import models.domain.change_of_address.{LoginConfirmationModel, Address, V5cSearchConfirmationModel}
 import org.specs2.mock.Mockito
-import controllers.Formulate._
+import controllers.TestHelper._
 
 class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers with Mockito {
   "ConfirmVehicleDetails - Controller" should {

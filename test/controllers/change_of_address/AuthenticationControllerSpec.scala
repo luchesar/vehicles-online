@@ -7,7 +7,7 @@ import org.scalatest.{Matchers, WordSpec}
 import app.ChangeOfAddress._
 import models.domain.change_of_address.{LoginConfirmationModel, Address}
 import org.specs2.mock.Mockito
-import controllers.Formulate.loginCachePopulate
+import controllers.TestHelper.loginCachePopulate
 
 class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito{
 

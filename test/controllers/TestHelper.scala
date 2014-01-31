@@ -6,7 +6,7 @@ import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
 import play.api.Play.current
 
-object Formulate extends WordSpec with Matchers with Mockito {
+object TestHelper extends WordSpec with Matchers with Mockito {
 
   def loginPagePopulate(browser: TestBrowser) = {
     browser.goTo("/login-page")
