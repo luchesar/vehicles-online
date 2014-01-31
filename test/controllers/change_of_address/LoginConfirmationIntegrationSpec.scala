@@ -10,7 +10,7 @@ class LoginConfirmationIntegrationSpec extends Specification with Tags {
 
     "be presented when user login is cached" in new WithBrowser with BrowserMatchers {
       //Arrange / Act
-      Formulate.loginPageDetails(browser)
+      Formulate.loginPagePopulate(browser)
 
       // Assert
       titleMustContain("Login confirmation")
@@ -27,7 +27,7 @@ class LoginConfirmationIntegrationSpec extends Specification with Tags {
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       //Arrange
-      Formulate.loginPageDetails(browser)
+      Formulate.loginPagePopulate(browser)
 
       // Act
       browser.submit("button[id='agree']")

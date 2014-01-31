@@ -7,14 +7,15 @@ import org.specs2.mock.Mockito
 import play.api.Play.current
 
 object Formulate extends WordSpec with Matchers with Mockito {
-  def loginPageDetails(browser: TestBrowser) = {
+
+  def loginPagePopulate(browser: TestBrowser) = {
     browser.goTo("/login-page")
     browser.fill("#username") `with` "roger"
     browser.fill("#password") `with` "examplepassword"
     browser.submit("button[type='submit']")
   }
 
-  def v5cSearchPageDetails(browser: TestBrowser) = {
+  def v5cSearchPagePopulate(browser: TestBrowser) = {
     browser.goTo("/v5c-search")
     browser.fill("#V5cReferenceNumber") `with` "12345678910"
     browser.fill("#V5CRegistrationNumber") `with` "A2"

@@ -9,7 +9,7 @@ class AuthenticationIntegrationSpec extends Specification with Tags {
   "Authentication Integration" should {
     "be presented when we have a valid login in cache" in new WithBrowser with BrowserMatchers {
       //Arrange / Act
-      Formulate.loginPageDetails(browser)
+      Formulate.loginPagePopulate(browser)
 
       browser.goTo("/authentication")
 
@@ -26,7 +26,7 @@ class AuthenticationIntegrationSpec extends Specification with Tags {
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       //Arrange / Act
-      Formulate.loginPageDetails(browser)
+      Formulate.loginPagePopulate(browser)
 
       browser.goTo("/authentication")
       browser.fill("#PIN") `with` "123456"

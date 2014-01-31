@@ -17,7 +17,7 @@ class LoginPageIntegrationSpec extends Specification with Tags {
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       //Arrange / Act
-      Formulate.loginPageDetails(browser)
+      Formulate.loginPagePopulate(browser)
 
       // Assert the title from the next page
       titleMustEqual("Login confirmation")
