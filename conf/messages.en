@@ -98,6 +98,7 @@ authentication.inputlabel = * PIN
 authentication.button = Submit
 authentication.button2 = Cancel
 authentication.pin.incorrect = You must enter a number with a length of 6 digits
+authentication.disclaimer = This is not a page from the real website, it has been created so that we can demonstrate the user journey. 
 
 #page 9
 v5csearch.title = Change of keeper - retrieve a vehicle record

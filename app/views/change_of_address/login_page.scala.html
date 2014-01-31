@@ -8,12 +8,22 @@
     <title>@Messages("loginpage.title")</title>
 
     <body>
-        <h1>@Messages("loginpage.disclaimer")</h1>
 
-        <br/><br/>
+    <div style="padding: 16px 0px 20px;background: none repeat scroll 0% 0% rgb(50,50,50);position: relative;z-index: 1000;">
 
+
+        <div style="width: 50%;margin: 0px auto;padding: 0px 19px;">
+            <p style="font-weight:bold; color:white !important">@Messages("loginpage.disclaimer")</p>
+        </div>
+
+    </div>
+
+
+
+
+<div style="font-size:24px; ">
         @form(action = controllers.change_of_address.routes.LoginPage.submit) {
-            <font size="18">
+
                 <p><font color="red">@Messages("loginpage.instructions")</font></p>
                 <ul>
                     @inputText(field = loginPageForm("username"), args = '_label -> Messages("loginpage.username"), '_showConstraints -> false)
@@ -21,17 +31,18 @@
                     <font color="red"><a href="http://localhost:9000">@Messages("loginpage.forgottenPassword")</a></font>
                 </ul>
 
-            <br/><br/>
+
 
             <div>
-                <button style="background-color:green" type="submit" name="action" value="next" class="button" aria-label="@Messages("loginpage.button.login.arialabel")">@Messages("loginpage.button.login")</button>
+                <button style="background-color:green; color:white; padding:8px 18px;" type="submit" name="action" value="next" class="button" aria-label="@Messages("loginpage.button.login.arialabel")">@Messages("loginpage.button.login")</button>
             </div>
 
-            <br/><br/>
+            <br/>
 
             <font color="red"><a href="">@Messages("loginpage.cancel")</a></font>
 
-            </font>
+
         }
+    </div>
     </body>
 </html>

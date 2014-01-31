@@ -3,7 +3,7 @@ package controllers.change_of_address
 
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
-import controllers.{Formulate, BrowserMatchers}
+import controllers.{TestHelper, BrowserMatchers}
 
 class V5cSearchIntegrationSpec extends Specification with Tags {
 
@@ -11,7 +11,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
     "be presented when the login cache is complete" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       // Pass credentials through login page and click submit
-      Formulate.loginPagePopulate(browser)
+      TestHelper.loginPagePopulate(browser)
 
       // Complete validation page by entering a pin
       browser.goTo("/authentication")
@@ -35,7 +35,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       //Arrange & Act
       // Pass credentials through login page
-      Formulate.loginPagePopulate(browser)
+      TestHelper.loginPagePopulate(browser)
 
       // Complete validation page by entering a pin
       browser.goTo("/authentication")
@@ -43,7 +43,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Complete V5c search page
-       Formulate.v5cSearchPagePopulate(browser)
+       TestHelper.v5cSearchPagePopulate(browser)
 
       // Assert
       titleMustEqual("Change of keeper - confirm vehicle details")
