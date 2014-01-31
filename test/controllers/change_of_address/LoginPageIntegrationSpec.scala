@@ -2,7 +2,7 @@ package controllers.change_of_address
 
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
-import controllers.BrowserMatchers
+import controllers.{Formulate, BrowserMatchers}
 
 class LoginPageIntegrationSpec extends Specification with Tags {
 
@@ -16,11 +16,8 @@ class LoginPageIntegrationSpec extends Specification with Tags {
     }
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
-      // Arrange
-      browser.goTo("/login-page")
-
-      // Act
-      browser.submit("button[type='submit']")
+      //Arrange / Act
+      Formulate.loginPagePopulate(browser)
 
       // Assert the title from the next page
       titleMustEqual("Login confirmation")

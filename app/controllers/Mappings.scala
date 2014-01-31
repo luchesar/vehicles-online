@@ -1,22 +1,31 @@
 package controllers
 
 import play.api.data.validation._
-import play.api.data.validation.ValidationError
 import play.api.data.Mapping
 import play.api.data.Forms._
 import play.api.data.validation.ValidationError
 
 object Mappings {
-  object V5CReferenceNumber {
+  object Authentication {
+    val minLength = 6
+    val maxLength = 6
+    val pattern = s"\\d{$minLength,$maxLength}" // Digits only with specified size.     
+  }
+  
+  object V5cReferenceNumber {
     val minLength = 11
     val maxLength = 11
     val pattern = s"\\d{$minLength,$maxLength}" // Digits only with specified size.
     val key = "V5cReferenceNumber"
   }
 
-  object V5CRegistrationNumber {
+  object V5cRegistrationNumber {
     val maxLength = 7
     val key = "V5cRegistrationNumber"
+  }
+
+  object LoginConfirmationModel {
+    val key = "LoginConfirmationModel"
   }
   
   object Name {
@@ -67,7 +76,6 @@ object Mappings {
     }
   }
 
-
   def validDecimalNumber: Constraint[String] = Constraint[String]("constraint.decimal") { decimal =>
     val decimalPattern = """^[0-9]{1,12}(\.[0-9]{1,2})?$""".r
 
@@ -94,7 +102,6 @@ object Mappings {
       case _ => Invalid(ValidationError("yesNo.invalid"))
     }
   }
-
 
   def validNationality: Constraint[String] = Constraint[String]("constraint.nationality") { nationality =>
     val nationalityPattern = """[a-zA-Z \-]{1,60}""".r
@@ -137,21 +144,20 @@ object Mappings {
     }
   }
 
-  def V5cReferenceNumber (minLength: Int = V5CReferenceNumber.minLength, maxLength: Int = V5CReferenceNumber.maxLength): Mapping[String] = {
+  def V5cReferenceNumber (minLength: Int = V5cReferenceNumber.minLength, maxLength: Int = V5cReferenceNumber.maxLength): Mapping[String] = {
     nonEmptyText(minLength, maxLength) verifying validNumberOnly
   }
 
-  def vehicleVRN (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[String] = {
+  def V5CRegistrationNumber (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[String] = {
     nonEmptyText(minLength, maxLength) verifying validVRN
   }
 
   def validVRN: Constraint[String] = Constraint[String]("constraint.restrictedvalidVRN") { input =>
-    val inputRegex = """^(([A-Za-z]{3}[0-9]{1,4})|([A-Za-z][0-9]{1,3}[A-Za-z]{3})|([A-Za-z]{3}[0-9]{1,3}[A-Za-z])|([A-Za-z]{2}[0-9]{2}[A-Za-z]{3})|([A-Za-z]{1,3}[0-9]{1,3})|([0-9]{1,3}[A-Za-z]{1,3})|([A-Za-z]{1,2}[0-9]{1,4}))*$""".r
+    val inputRegex = """^(([A-Za-z]{3}[0-9]{1,4})|([A-Za-z][0-9]{1,3}[A-Za-z]{3})|([A-Za-z]{3}[0-9]{1,3}[A-Za-z])|([A-Za-z]{2}[0-9]{2}[A-Za-z]{3})|([A-Za-z]{1,3}[0-9]{1,3})|([0-9]{1,3}[A-Za-z]{1,3})|([0-9]{1,4}[A-Za-z]{1})|([0-9]{1,4}[A-Za-z]{1,3})|([0-9]{1,4}[A-Za-z]{1,3})|([A-Za-z]{1,2}[0-9]{1,4}))*$""".r
     inputRegex.pattern.matcher(input).matches match {
       case true => Valid
       case false => Invalid(ValidationError("error.restricted.validVRNOnly"))
     }
   }
-
 
 }

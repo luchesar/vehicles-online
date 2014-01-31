@@ -6,7 +6,9 @@ import play.api.libs.ws.WS
 import play.api.Logger
 import scala.concurrent.Future
 
-trait WebService {
+/**
+ * Defines the V5cSearchWebService 
+ */
+trait V5cSearchWebService {
   def invoke(cmd: V5cSearchModel): Future[V5cSearchResponse]
 }
-

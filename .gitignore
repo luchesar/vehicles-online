@@ -42,3 +42,6 @@ dist
 
 /.sass-cache
 /bin
+test.sc
+*.worksheet
+
