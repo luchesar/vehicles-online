@@ -12,7 +12,7 @@ import utils.helpers.Environment
 case class LoginWebServiceImpl() extends LoginWebService {
   
   override def invoke(cmd: LoginPageModel): Future[LoginResponse] = {
-    val endPoint = s"${Environment.microServiceUrlBase}/vehicles/login-page"
+    val endPoint = s"${Environment.microServiceUrlBase}/login-page"
     Logger.debug(s"Calling Login micro service on ${endPoint}...")
     val futureOfResponse = WS.url(endPoint).post(Json.toJson(cmd))
 
