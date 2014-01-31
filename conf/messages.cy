@@ -102,9 +102,7 @@ authentication.pin.incorrect = Rhaid i chi roi nifer sydd a hyd o 6 digid
 #page 9
 v5csearch.title = Newid ceidwad - adfer cofnod gerbyd
 v5csearch.name = Adfer cofnod gerbyd
-v5csearch.p1 = Adfer cofnod gerbyd
-v5csearch.p2 = Mae {0} wedi ei lofnodi i mewn
-v5csearch.p3 = {0} yw''r ceidwad presennol y cerbyd sy''n destun y '' Newid ceidwad '' broses.
+v5csearch.p1 = {0} wedi''i lofnodi i mewn i''r newid gwasanaeth ceidwad
 v5csearch.button = Look-up
 v5csearch.button2 = Diddymu
 v5csearch.v5cinputlabel = * Rhif Cyfeirnod y ddogfen V5C
