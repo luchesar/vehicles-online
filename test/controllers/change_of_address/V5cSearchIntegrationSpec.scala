@@ -10,22 +10,17 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
   "V5cSearch Integration" should {
     "be presented when the login cache is complete" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      // Pass credentials through login page
+      // Pass credentials through login page and click submit
       Formulate.loginPageDetails(browser)
-
-      // Find the submit button on the login page and click it
-      browser.submit("button[type='submit']")
 
       // Complete validation page by entering a pin
       browser.goTo("/authentication")
       browser.fill("#PIN") `with` "123456"
       browser.submit("button[type='submit']")
-
       browser.goTo("/v5c-search")
 
       // Assert
       titleMustContain("retrieve a vehicle record")
-
     }
 
     "redirect to login when login cache is empty" in new WithBrowser with BrowserMatchers {
@@ -38,12 +33,9 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
     }
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
-
+      //Arrange & Act
       // Pass credentials through login page
       Formulate.loginPageDetails(browser)
-
-      // Find the submit button on the login page and click it
-      browser.submit("button[type='submit']")
 
       // Complete validation page by entering a pin
       browser.goTo("/authentication")
@@ -55,8 +47,6 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
 
       // Assert
       titleMustEqual("Change of keeper - confirm vehicle details")
-
-  }
-
+    }
   }
 }

@@ -6,6 +6,7 @@ import controllers.{Mappings, change_of_address}
 import org.scalatest.{Matchers, WordSpec}
 import models.domain.change_of_address.{LoginConfirmationModel, Address, V5cSearchConfirmationModel}
 import org.specs2.mock.Mockito
+import controllers.Formulate._
 
 class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers with Mockito {
   "ConfirmVehicleDetails - Controller" should {
@@ -15,17 +16,8 @@ class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers with Mo
       val v5cReferenceNumberValid = "12345678910"
       val vehicleVRNValid = "a1"
       val request = FakeRequest().withSession()
-      val address = mock[Address]
 
-      //TODO: refactor and add to helper
-      address.line1 returns "mock line1"
-      address.postCode returns "mock postcode"
-      val loginConfirmationModel = mock[LoginConfirmationModel]
-      loginConfirmationModel.firstName returns "mock firstName"
-      loginConfirmationModel.surname returns "mock surname"
-      loginConfirmationModel.address returns address
-      val key = Mappings.LoginConfirmationModel.key
-      play.api.cache.Cache.set(key, loginConfirmationModel)
+      PopulateLoginCache()
 
       play.api.cache.Cache.set(Mappings.V5cReferenceNumber.key, v5cReferenceNumberValid)
       play.api.cache.Cache.set(Mappings.V5cRegistrationNumber.key, vehicleVRNValid)

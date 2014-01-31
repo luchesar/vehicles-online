@@ -7,6 +7,7 @@ import org.scalatest.{Matchers, WordSpec}
 import app.ChangeOfAddress._
 import models.domain.change_of_address.{LoginConfirmationModel, Address}
 import org.specs2.mock.Mockito
+import controllers.Formulate.PopulateLoginCache
 
 class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito{
 
@@ -14,17 +15,7 @@ class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito{
 
     "present" in new WithApplication {
       // Arrange
-      //TODO:add this to the helper as reusable code!
-      val address = mock[Address]
-      address.line1 returns "mock line1"
-      address.postCode returns "mock postcode"
-      val loginConfirmationModel = mock[LoginConfirmationModel]
-      loginConfirmationModel.firstName returns "mock firstName"
-      loginConfirmationModel.surname returns "mock surname"
-      loginConfirmationModel.address returns address
-      val key = Mappings.LoginConfirmationModel.key
-      play.api.cache.Cache.set(key, loginConfirmationModel)
-
+      PopulateLoginCache()
       val request = FakeRequest().withSession()
 
       // Act

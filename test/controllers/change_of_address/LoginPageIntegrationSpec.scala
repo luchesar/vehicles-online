@@ -16,12 +16,8 @@ class LoginPageIntegrationSpec extends Specification with Tags {
     }
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
-
       //Arrange / Act
       Formulate.loginPageDetails(browser)
-
-      // Find the submit button on the login page and click it
-      browser.submit("button[type='submit']")
 
       // Assert the title from the next page
       titleMustEqual("Login confirmation")
