@@ -7,7 +7,7 @@ import org.scalatest.{Matchers, WordSpec}
 import play.api.cache.Cache
 import models.domain.change_of_address.{Address, LoginConfirmationModel}
 import org.specs2.mock.Mockito
-import controllers.Formulate.PopulateLoginCache
+import controllers.Formulate.loginCachePopulate
 
 class LoginConfirmationControllerSpec extends WordSpec with Matchers with Mockito {
 
@@ -16,7 +16,7 @@ class LoginConfirmationControllerSpec extends WordSpec with Matchers with Mockit
     "present" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-      PopulateLoginCache
+      loginCachePopulate
 
       // Act
       val result = change_of_address.LoginConfirmation.present(request)

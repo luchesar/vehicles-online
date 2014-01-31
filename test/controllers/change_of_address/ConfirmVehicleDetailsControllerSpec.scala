@@ -13,17 +13,9 @@ class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers with Mo
 
     "present" in new WithApplication {
       // Arrange
-      val v5cReferenceNumberValid = "12345678910"
-      val vehicleVRNValid = "a1"
       val request = FakeRequest().withSession()
-
-      PopulateLoginCache()
-
-      play.api.cache.Cache.set(Mappings.V5cReferenceNumber.key, v5cReferenceNumberValid)
-      play.api.cache.Cache.set(Mappings.V5cRegistrationNumber.key, vehicleVRNValid)
-      val v5ckey = v5cReferenceNumberValid + "." + vehicleVRNValid
-
-      play.api.cache.Cache.set(v5ckey, V5cSearchConfirmationModel("a", "b", "c", "d", "e"))
+      loginCachePopulate()
+      v5cCachePopulate()
 
       // Act
       val result = change_of_address.ConfirmVehicleDetails.present(request)
@@ -35,17 +27,7 @@ class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers with Mo
     "redirect to v5c search page when user is logged in but not entered vehicle details" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-      val address = mock[Address]
-
-      //TODO: refactor and add to helper
-      address.line1 returns "mock line1"
-      address.postCode returns "mock postcode"
-      val loginConfirmationModel = mock[LoginConfirmationModel]
-      loginConfirmationModel.firstName returns "mock firstName"
-      loginConfirmationModel.surname returns "mock surname"
-      loginConfirmationModel.address returns address
-      val key = Mappings.LoginConfirmationModel.key
-      play.api.cache.Cache.set(key, loginConfirmationModel)
+      loginCachePopulate()
 
       // Act
       val result = change_of_address.ConfirmVehicleDetails.present(request)
@@ -62,8 +44,7 @@ class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers with Mo
       val result = change_of_address.ConfirmVehicleDetails.present(request)
 
       // Assert
-    redirectLocation(result) should equal(Some("/are-you-registered"))
-
+      redirectLocation(result) should equal(Some("/are-you-registered"))
   }
 
     "redirect to next page after the button is clicked" in new WithApplication {

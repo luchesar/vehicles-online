@@ -7,7 +7,7 @@ import org.scalatest.{Matchers, WordSpec}
 import app.ChangeOfAddress._
 import models.domain.change_of_address.{LoginConfirmationModel, Address}
 import org.specs2.mock.Mockito
-import controllers.Formulate.PopulateLoginCache
+import controllers.Formulate.loginCachePopulate
 
 class V5cSearchControllerSpec extends WordSpec with Matchers with Mockito{
 
@@ -15,7 +15,7 @@ class V5cSearchControllerSpec extends WordSpec with Matchers with Mockito{
 
     "present when user has logged in" in new WithApplication {
       // Arrange
-      PopulateLoginCache()
+      loginCachePopulate()
 
       val request = FakeRequest().withSession()
 

@@ -25,6 +25,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
       titleMustEqual("Change of keeper - confirm vehicle details")
     }
 
+
     "redirect to login when login cache is empty" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       browser.goTo("/confirm-vehicle-details")
@@ -32,6 +33,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
       // Assert
       titleMustContain("Change of keeper - are you registered")
     }
+
 
     "v5c search page is presented when user is logged in but not entered vehicle details" in new WithBrowser with BrowserMatchers {
       //Arrange
@@ -50,6 +52,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
       // Assert
       titleMustEqual("Change of keeper - retrieve a vehicle record")
     }
+
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       //Arrange / Act
