@@ -4,16 +4,17 @@ import models.domain.change_of_address.LoginConfirmationModel
 import controllers.Mappings
 import play.api.cache.Cache
 import play.api.Play.current
+import play.api.Logger
 
 object Helpers {
   def isUserLoggedIn(): Boolean = {
     userLoginCredentials() match {
       case Some(loginConfirmationModel) => {
-        println("********* user logged in ************")
+        Logger.debug("********* user logged in ************")
         true
       }
       case None => {
-        println("********* user not logged in *********")
+        Logger.debug("********* user not logged in *********")
         false
       }
     }
