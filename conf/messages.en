@@ -4,6 +4,11 @@ main.banner = Vehicles online
 global.cookiemessage = GOV.UK uses cookies to make the site simpler.
 global.cookiefindoutmore = Find out more about cookies
 
+global.browserprompt = For a safer, faster, better experience online you should upgrade your browser.
+global.browserfindoutmore = Find out more about browsers
+global.browserclosetitle = Dismiss this message
+global.browserclosemessage = Close
+
 footer.helpdesk = Helpdesk
 footer.privacypolicy = Privacy & Cookies
 footer.builtbyintro = Built by
