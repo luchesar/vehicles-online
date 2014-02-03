@@ -4,6 +4,11 @@ main.banner = Cerbydau ar-lein
 global.cookiemessage = GOV.UK yn defnyddio cwcis i wneud y safle yn symlach.
 global.cookiefindoutmore = Cael gwybod mwy am gwcis
 
+global.browserprompt = Am yn, yn gyflymach, yn fwy diogel profiad gwell ar-lein, dylech uwchraddio eich porwr.
+global.browserfindoutmore = Cael gwybod mwy am borwyr
+global.browserclosetitle = Gwrthod neges hon
+global.browserclosemessage = Cau
+
 footer.helpdesk = Desg Gymorth
 footer.privacypolicy = Privacy & Cookies
 footer.builtbyintro = Adeiladwyd gan
