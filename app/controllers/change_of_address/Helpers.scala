@@ -10,11 +10,11 @@ object Helpers {
   def isUserLoggedIn(): Boolean = {
     userLoginCredentials() match {
       case Some(loginConfirmationModel) => {
-        Logger.debug("********* user logged in ************")
+        Logger.debug("******** user logged in ********")
         true
       }
       case None => {
-        Logger.debug("********* user not logged in *********")
+        Logger.debug("******** user not logged in ********")
         false
       }
     }
