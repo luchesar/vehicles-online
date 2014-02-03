@@ -4,11 +4,15 @@
 
 
 <html>
-<title>@Messages("authentication.title")</title>
+  <head>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("identity-assurance.min.css")">
+  </head>
+  <title>@Messages("authentication.title")</title>
 
 
 <body>
 
+<div class="out-of-scope">
 <div style="padding: 16px 0px 20px;background: none repeat scroll 0% 0% rgb(50,50,50);position: relative;z-index: 1000;">
 
 
@@ -43,5 +47,6 @@
     </button>
 </div>
 }
+</div>
 </body>
 </html>
