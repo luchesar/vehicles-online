@@ -110,8 +110,8 @@ authentication.disclaimer = Nid yw hyn yn dudalen o wefan go iawn, mae wedi ei g
 
 #page 9
 v5csearch.title = Newid cyfeiriad ceidwad
-v5csearch.name = Adfer cofnod gerbyd
-v5csearch.p1 = {0} wedi''i lofnodi i mewn i''r newid gwasanaeth ceidwad
+v5csearch.name = 4. Adfer cofnod gerbyd
+v5csearch.p1 = {0} wedi''i lofnodi i mewn i''r Newid'' ceidwad gyfeiriad'' gwasanaeth
 v5csearch.button = Look-up
 v5csearch.button2 = Diddymu
 v5csearch.v5cinputlabel = * Rhif Cyfeirnod y ddogfen V5C
@@ -120,8 +120,8 @@ v5csearch.v5cinputlabel.refNumIncorrect = Mae''n rhaid i chi fynd i mewn i nifer
 
 #page 10
 confirm_vehicle_details.title = Newid cyfeiriad ceidwad
-confirm_vehicle_details.name = Cadarnhau gwybodaeth cerbyd 
-confirm_vehicle_details.p1 = Os gwelwch yn dda cadarnhewch eich bod yn ceidwad y cerbyd hwn a bod hyn yn y cerbyd sy''n destun y ''Newid ceidwad'' broses.
+confirm_vehicle_details.name = 5. Cadarnhau gwybodaeth cerbyd 
+confirm_vehicle_details.p1 = A wnewch chi gadarnhau mai chi yw''r ceidwad y cerbyd hwn a bod hyn yn y cerbyd sy''n destun y ''Newid ceidwad cyfeiriad'' gwasanaeth.
 confirm_vehicle_details.vrn = Cofrestru:
 confirm_vehicle_details.make = Gwneud:
 confirm_vehicle_details.model = Model

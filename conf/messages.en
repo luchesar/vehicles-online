@@ -110,8 +110,8 @@ authentication.disclaimer = This is not a page from the real website, it has bee
 
 #page 9
 v5csearch.title = Change of keeper address
-v5csearch.name = Retrieve a vehicle record
-v5csearch.p1 = {0} is signed in to the change of keeper service.
+v5csearch.name = 4. Retrieve a vehicle record
+v5csearch.p1 = {0} is signed in to the ''Change of keeper address'' service.
 v5csearch.button = Look-up
 v5csearch.button2 = Cancel
 v5csearch.v5cinputlabel = * V5C Document reference number
@@ -120,8 +120,8 @@ v5csearch.v5cinputlabel.refNumIncorrect = You must enter a number with a length 
 
 #page 10
 confirm_vehicle_details.title = Change of keeper address
-confirm_vehicle_details.name = Confirm vehicle details
-confirm_vehicle_details.p1 = Please confirm that you are the keeper of this vehicle and that this is the vehicle that is the subject of this 'change of keeper' process.
+confirm_vehicle_details.name = 5. Confirm vehicle details
+confirm_vehicle_details.p1 = Please confirm that you are the keeper of this vehicle and that this is the vehicle that is the subject of this ''Change of keeper address'' service.
 confirm_vehicle_details.vrn = Registration:
 confirm_vehicle_details.make = Make:
 confirm_vehicle_details.model= Model
