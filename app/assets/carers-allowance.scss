@@ -1335,6 +1335,12 @@ main {
 		   border: 1px solid #015399;
 		   padding: 1em 1.25em;
 		   margin-top: 1.2em;
+       -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+       filter: alpha(opacity=70);
+       -moz-opacity: 0.7;
+       -khtml-opacity: 0.7;
+       opacity: 0.7;
+		   
 		   p {
 			   font-size: 1.6rem;
 			   margin-top: 1em;
@@ -1788,7 +1794,7 @@ main {
 		   }
 		   .ie7 & {
 			   padding: .2em 1em;
-			   float: left;
+/*			   float: left;*/
 		   }
 		   .ie8 & {
 			   padding: .4em 1em;
@@ -1869,7 +1875,7 @@ main {
        }
        .ie7 & {
          padding: .2em 1em;
-         float: left;
+/*         float: left;*/
        }
        .ie8 & {
          padding: .4em 1em;
@@ -2128,6 +2134,8 @@ color:rgb(222, 49, 52);
   background:#FFF url('images/out-of-scope.gif') center center no-repeat;
 }
 
-.in-scope {
-  background-image: none;
+@media screen and (max-width: 767px) {
+  .out-of-scope {
+    background:#FFF url('images/out-of-scope-sml.gif') center center repeat;
+  }
 }
