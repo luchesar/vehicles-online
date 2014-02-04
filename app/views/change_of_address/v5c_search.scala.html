@@ -1,4 +1,4 @@
-@(v5cSearchForm: Form[models.domain.change_of_address.V5cSearchModel], name: String)(implicit lang: Lang)
+@(vehicleSearchForm: Form[models.domain.change_of_address.V5cSearchModel], name: String)(implicit lang: Lang)
 
 @import helper._
 @import utils.helpers.CarersTemplate._
@@ -8,7 +8,7 @@
 
 
 @main(Messages("v5csearch.title")) {
-    @errorsSummary(v5cSearchForm)
+    @errorsSummary(vehicleSearchForm)
 
     @form(action = controllers.change_of_address.routes.V5cSearch.submit) {
         <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
@@ -17,14 +17,14 @@
             <ul>
                 <p>@Messages("v5csearch.p1", name + " Booth")</p>
 
-                @carersInputText(v5cSearchForm(app.ChangeOfAddress.v5cReferenceNumberID), args =
+                @carersInputText(vehicleSearchForm(app.ChangeOfAddress.v5cReferenceNumberID), args =
                     '_label -> Messages("v5csearch.v5cinputlabel"),
                     '_showConstraints -> false,
                     'pattern -> Mappings.V5cReferenceNumber.pattern,
                     'maxLength -> Mappings.V5cReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                     'title -> Messages("v5csearch.v5cinputlabel.refNumIncorrect"))
 
-                @carersInputText(v5cSearchForm(app.ChangeOfAddress.v5cRegistrationNumberID), args =
+                @carersInputText(vehicleSearchForm(app.ChangeOfAddress.v5cRegistrationNumberID), args =
                   '_label -> Messages("v5csearch.vrninputlabel"),
                   'maxLength -> Mappings.V5cRegistrationNumber.maxLength,
                   '_showConstraints -> false)

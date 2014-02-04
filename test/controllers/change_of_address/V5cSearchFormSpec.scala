@@ -10,7 +10,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     val vehicleVRNValid = "a1"
 
     def v5cSearchFiller(v5cReferenceNumber: String,v5cRegistrationNumber: String ) = {
-      V5cSearch.v5cSearchForm.bind(
+      VehicleSearch.vehicleSearchForm.bind(
         Map(
           v5cReferenceNumberID -> v5cReferenceNumber,
           v5cRegistrationNumberID-> v5cRegistrationNumber
