@@ -30,8 +30,8 @@ beforeyoustart.button = Dechrau nawr
 
 #page 2
 keeperstatus.title = Newid cyfeiriad ceidwad
-keeperstatus.name = Newid ceidwad
-keeperstatus.p1 = Beth yw eich statws, fel ceidwad presennol y cerbyd?
+keeperstatus.name = 1. Eich statws
+keeperstatus.p1 = Beth yw eich statws, fel ceidwad y cerbyd o dan sylw?
 keeperstatus.button = Rwyf yn unigolyn preifat
 keeperstatus.button2 = Rwy'n cynrychioli busnes
 keeperstatus.button3 = Ddim yn breifat nac busnes

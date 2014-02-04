@@ -30,8 +30,8 @@ beforeyoustart.button = Start now
 
 #page 2
 keeperstatus.title = Change of keeper address
-keeperstatus.name = Change of keeper
-keeperstatus.p1 = What is your status, as current keeper of the vehicle?
+keeperstatus.name = 1. Your status
+keeperstatus.p1 = What is your status, as the keeper of the vehicle in question?
 keeperstatus.button = I am a private individual
 keeperstatus.button2 = I represent a business
 keeperstatus.button3 = Neither private nor business
