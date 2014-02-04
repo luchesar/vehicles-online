@@ -114,8 +114,8 @@ v5csearch.name = 4. Adfer cofnod gerbyd
 v5csearch.p1 = {0} wedi''i lofnodi i mewn i''r Newid'' ceidwad gyfeiriad'' gwasanaeth
 v5csearch.button = Look-up
 v5csearch.button2 = Diddymu
-v5csearch.v5cinputlabel = * Rhif Cyfeirnod y ddogfen V5C
-v5csearch.vrninputlabel = * Rhif cofrestru''r cerbyd
+v5csearch.v5cinputlabel = Rhif Cyfeirnod y ddogfen V5C
+v5csearch.vrninputlabel = Rhif cofrestru''r cerbyd
 v5csearch.v5cinputlabel.refNumIncorrect = Mae''n rhaid i chi fynd i mewn i nifer sydd â hyd o 11 digid
 
 #page 10
