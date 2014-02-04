@@ -51,7 +51,7 @@ verifyidentity.button2text2 = Government gate users must register to access serv
 
 #page 4
 areyouregistered.title = Change of keeper address
-areyouregistered.name = Sign in to GOV.UK
+areyouregistered.name = 3. Sign in to GOV.UK
 areyouregistered.p1 = GOV.UK is the new way to use government services online. You will now need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
 areyouregistered.infomessage = You are trying to access change of keeper
 areyouregistered.button = Sign in
@@ -61,7 +61,7 @@ areyouregistered.button2text = I need to register for an identity profile
 
 #page 5
 signinprovider.title = Change of keeper address
-signinprovider.name = Sign in to GOV.UK
+signinprovider.name = 3. Sign in to GOV.UK
 signinprovider.infomessage = You are trying to access change of keeper
 signinprovider.p1 = GOV.UK is the new way to use government services online. You will now need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
 signinprovider.buttontext = I already have an identity profile
