@@ -14,7 +14,7 @@ import controllers.change_of_address.Helpers._
 import controllers.Mappings
 import modules.{injector}
 
-object VehicleSearch extends Controller { // TODO rename object to VehicleSearch
+object VehicleSearch extends Controller {
 
   val vehicleSearchForm = Form(
     mapping(
