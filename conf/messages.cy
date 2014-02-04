@@ -19,7 +19,7 @@ prototype.banner = Mae hyn yn prototeip. Ni allwch newid ceidwad trwy ddefnyddio
 prototype.link = Newid ceidwad trwy defnyddio''r gwasanaeth yn fyw
 
 #page 1
-beforeyoustart.title = Newid ceidwad - cyn i chi ddechrau
+beforeyoustart.title = Newid cyfeiriad ceidwad
 beforeyoustart.name = Cyn i chi ddechrau
 beforeyoustart.p1 = Defnyddiwch y gwasanaeth hwn os ydych am newid manylion pwy yw''r ceidwad cyfreithiol cerbyd cofrestredig.
 beforeyoustart.p2 = Cyn i chi ddechrau, bydd angen i chi:
@@ -29,7 +29,7 @@ beforeyoustart.p5 = 3. Mae''n fuddiol bod pwy bynnag sy''n goruchwylio''r hyn yn
 beforeyoustart.button = Dechrau nawr
 
 #page 2
-keeperstatus.title = Newid ceidwad - statws ceidwad
+keeperstatus.title = Newid cyfeiriad ceidwad
 keeperstatus.name = Newid ceidwad
 keeperstatus.p1 = Beth yw eich statws, fel ceidwad presennol y cerbyd?
 keeperstatus.button = Rwyf yn unigolyn preifat
@@ -37,7 +37,7 @@ keeperstatus.button2 = Rwy'n cynrychioli busnes
 keeperstatus.button3 = Ddim yn breifat nac busnes
 
 #page 3
-verifyidentity.title = Newid ceidwad - gwirio hunaniaeth
+verifyidentity.title = Newid cyfeiriad ceidwad
 verifyidentity.alert = Enghraifft neges rhybudd
 verifyidentity.name = Gwirio hunaniaeth
 verifyidentity.infomessage = Mae''n drosedd i gael gwybodaeth bersonol rhywun arall heb eu caniatad.
@@ -50,7 +50,7 @@ verifyidentity.button2text = Rhaid i ddefnyddwyr giat mewngofnodi trwy ddefnyddi
 verifyidentity.button2text2 = Llywodraeth gofrestru i fanteisio ar y gwasanaeth
 
 #page 4
-areyouregistered.title = Newid ceidwad - ydych chi wedi cofrestru
+areyouregistered.title = Newid cyfeiriad ceidwad
 areyouregistered.name = Mewngofnodi i GOV.UK
 areyouregistered.p1 = GOV.UK yw''r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Nawr bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
 areyouregistered.infomessage = Rydych yn ceisio cael mynediad Newid ceidwad
@@ -60,7 +60,7 @@ areyouregistered.button2 = Cofrestru Nawr
 areyouregistered.button2text = Angen i mi gofrestru ar gyfer proffil hunaniaeth
 
 #page 5
-signinprovider.title = Newid ceidwad - arwydd darparwr
+signinprovider.title = Newid cyfeiriad ceidwad
 signinprovider.name = Mewngofnodi i GOV.UK
 signinprovider.infomessage = Rydych yn ceisio cael mynediad Newid ceidwad
 signinprovider.p1 = GOV.UK yw''r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Nawr bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
@@ -98,7 +98,7 @@ loginconfirmation.button.agree.arialabel = wyf yn cytuno botwm
 loginconfirmation.disclaimer = Nid yw hyn yn dudalen o wefan go iawn, mae wedi ei greu fel y gallwn ddangos y daith y defnyddiwr. Mae wedi derbyn data o wasanaeth micro rydym wedi creu.
 
 #page 8
-authentication.title = Newid ceidwad - dilysu
+authentication.title = Newid cyfeiriad ceidwad
 authentication.name = Dilysu eich arwydd yn
 authentication.p1 = Os gwelwch yn dda dilyswch eich arwydd i mewn i GOV.UK drwy fynd i mewn i''r pin 6 digid a anfonwyd at eich dyfais symudol cofrestredig.
 authentication.resend = Ail-anfon cod unigryw
@@ -109,7 +109,7 @@ authentication.pin.incorrect = Rhaid i chi roi nifer sydd a hyd o 6 digid
 authentication.disclaimer = Nid yw hyn yn dudalen o wefan go iawn, mae wedi ei greu fel y gallwn ddangos y daith y defnyddiwr. 
 
 #page 9
-v5csearch.title = Newid ceidwad - adfer cofnod gerbyd
+v5csearch.title = Newid cyfeiriad ceidwad
 v5csearch.name = Adfer cofnod gerbyd
 v5csearch.p1 = {0} wedi''i lofnodi i mewn i''r newid gwasanaeth ceidwad
 v5csearch.button = Look-up
@@ -119,7 +119,7 @@ v5csearch.vrninputlabel = * Rhif cofrestru''r cerbyd
 v5csearch.v5cinputlabel.refNumIncorrect = Mae''n rhaid i chi fynd i mewn i nifer sydd â hyd o 11 digid
 
 #page 10
-confirm_vehicle_details.title = Newid ceidwad - cadarnhau manylion y cerbyd
+confirm_vehicle_details.title = Newid cyfeiriad ceidwad
 confirm_vehicle_details.name = Cadarnhau gwybodaeth cerbyd 
 confirm_vehicle_details.p1 = Os gwelwch yn dda cadarnhewch eich bod yn ceidwad y cerbyd hwn a bod hyn yn y cerbyd sy''n destun y ''Newid ceidwad'' broses.
 confirm_vehicle_details.vrn = Cofrestru:
