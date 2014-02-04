@@ -13,7 +13,7 @@ class AreYouRegisteredIntegrationSpec extends Specification with Tags {
       browser.goTo("/are-you-registered")
 
       // Assert
-      titleMustContain("are you registered")
+      titleMustContain("Change of keeper address")
 
     }
 
@@ -25,7 +25,7 @@ class AreYouRegisteredIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Assert
-      titleMustEqual("Change of keeper - sign in provider")
+      titleMustEqual("Change of keeper address")
     }
 
   }

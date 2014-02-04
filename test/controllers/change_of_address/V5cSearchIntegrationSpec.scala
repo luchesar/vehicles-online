@@ -20,7 +20,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       browser.goTo("/v5c-search")
 
       // Assert
-      titleMustContain("retrieve a vehicle record")
+      titleMustContain("Change of keeper address")
     }
 
     "redirect to login when login cache is empty" in new WithBrowser with BrowserMatchers {
@@ -28,7 +28,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       browser.goTo("/v5c-search")
 
       // Assert
-      titleMustContain("Change of keeper - are you registered")
+      titleMustContain("Change of keeper address")
 
     }
 
@@ -46,7 +46,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
        TestHelper.v5cSearchPagePopulate(browser)
 
       // Assert
-      titleMustEqual("Change of keeper - confirm vehicle details")
+      titleMustEqual("Change of keeper address")
     }
   }
 }

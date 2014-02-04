@@ -14,14 +14,14 @@ class AuthenticationIntegrationSpec extends Specification with Tags {
       browser.goTo("/authentication")
 
       // Assert
-      titleMustContain("authentication")
+      titleMustContain("Change of keeper address")
     }
-    "be redirected to logint page when we do not have a valid login in cache" in new WithBrowser with BrowserMatchers {
+    "be redirected to login page when we do not have a valid login in cache" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       browser.goTo("/authentication")
 
       // Assert
-      titleMustContain("are you registered")
+      titleMustContain("Change of keeper address")
     }
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
@@ -33,7 +33,7 @@ class AuthenticationIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Assert
-      titleMustEqual("Change of keeper - retrieve a vehicle record")
+      titleMustEqual("Change of keeper address")
     }
   }
 }
