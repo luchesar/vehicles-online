@@ -21,11 +21,11 @@ prototype.link = Newid ceidwad trwy defnyddio''r gwasanaeth yn fyw
 #page 1
 beforeyoustart.title = Newid cyfeiriad ceidwad
 beforeyoustart.name = Cyn i chi ddechrau
-beforeyoustart.p1 = Defnyddiwch y gwasanaeth hwn os ydych am newid manylion pwy yw''r ceidwad cyfreithiol cerbyd cofrestredig.
+beforeyoustart.p1 = Defnyddiwch y gwasanaeth hwn os ydych am newid cyfeiriad y ceidwad cofrestredig cerbyd.
 beforeyoustart.p2 = Cyn i chi ddechrau, bydd angen i chi:
-beforeyoustart.p3 = 1. Mae''r cerbyd yn y cwestiynau V5C (llyfr log).
-beforeyoustart.p4 = 2. Bydd angen Naill ai ceidwad cyfredol neu geidwad newydd i brofi eu nodi trwy fewngofnodi ar eu proffil yn nodi yn ystod y broses.
-beforeyoustart.p5 = 3. Mae''n fuddiol bod pwy bynnag sy''n goruchwylio''r hyn yn 'newid ceidwad' proses (ceidwad presennol neu newydd) a dderbynnir proffil hunaniaeth cyn dechrau. Fodd bynnag, mae''n bosibl i gofrestru ar gyfer proffil hunaniaeth yn ystod y 'Newid ceidwad' broses.
+beforeyoustart.p3 = 1. Mae'r llyfr log ar gyfer pob cerbyd a effeithir gan y newid cyfeiriad ceidwad.
+beforeyoustart.p4 = 2. Dylai ceidwad y cerbyd yn defnyddio'r gwasanaeth hwn i newid eu cyfeiriad eu hunain, ac yn ystod y broses bydd angen iddynt brofi pwy ydynt trwy fewngofnodi ar eu proffil hunaniaeth. 
+beforeyoustart.p5 = 3. Mae'n ddoeth bod ceidwad cerbyd gael proffil hunaniaeth cyn dechrau defnyddio'r gwasanaeth. Y mae, fodd bynnag, yn bosibl i gofrestru ar gyfer proffil hunaniaeth wrth ddefnyddio'r gwasanaeth hwn. 
 beforeyoustart.button = Dechrau nawr
 
 #page 2
