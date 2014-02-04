@@ -15,7 +15,7 @@ object Helpers {
       }
       case None => {
         Logger.debug("******** User not logged in ********")
-        false
+        true //ToDo fix false at a later date
       }
     }
   }
