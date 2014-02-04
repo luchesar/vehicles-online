@@ -39,9 +39,9 @@ keeperstatus.button3 = Neither private nor business
 #page 3
 verifyidentity.title = Change of keeper address
 verifyidentity.alert = Example alert message
-verifyidentity.name = Verify identity
+verifyidentity.name = 2. Verify your identity 
 verifyidentity.infomessage = It is a criminal offence to obtain someone else''s personal information without their permission.
-verifyidentity.p1 = Before you can start using the change of Keeper service, you need to select the authentication provider you wish to use:
+verifyidentity.p1 = Before you can start using the ''Change of keeper address'' service, you need to select the authentication provider you wish to use: 
 verifyidentity.p2 = GOV.UK is the new way to use government services online. You will need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
 verifyidentity.button = Use existing identity profile
 verifyidentity.button1text = Don''t have an identity profile?
