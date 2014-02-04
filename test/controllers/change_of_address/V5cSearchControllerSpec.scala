@@ -20,7 +20,7 @@ class V5cSearchControllerSpec extends WordSpec with Matchers with Mockito{
       val request = FakeRequest().withSession()
 
       // Act
-      val result = change_of_address.V5cSearch.present(request)
+      val result = change_of_address.VehicleSearch.present(request)
 
       // Assert
       status(result) should equal(OK)
@@ -31,7 +31,7 @@ class V5cSearchControllerSpec extends WordSpec with Matchers with Mockito{
       val request = FakeRequest().withSession()
 
       // Act
-      val result = change_of_address.V5cSearch.present(request)
+      val result = change_of_address.VehicleSearch.present(request)
 
       // Assert
       redirectLocation(result) should equal(Some("/are-you-registered"))
@@ -45,7 +45,7 @@ class V5cSearchControllerSpec extends WordSpec with Matchers with Mockito{
         .withFormUrlEncodedBody(v5cReferenceNumberID -> v5cReferenceNumberValid,v5cRegistrationNumberID-> v5cRegistrationNumberValid)
 
       // Act
-      val result = change_of_address.V5cSearch.submit(request)
+      val result = change_of_address.VehicleSearch.submit(request)
 
       // Assert
       status(result) should equal(SEE_OTHER)

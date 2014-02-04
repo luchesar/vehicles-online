@@ -2,36 +2,43 @@
 
 @import helper._
 
-<title>@Messages("loginconfirmation.title")</title>
+<html>
+  <head>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("identity-assurance.min.css")">
+  </head>
 
-<div style="padding: 16px 0px 20px;background: none repeat scroll 0% 0% rgb(50,50,50);position: relative;z-index: 1000;">
+  <title>@Messages("loginconfirmation.title")</title>
 
-
-    <div style="width: 50%;margin: 0px auto;padding: 0px 19px;">
+  <body>
+    <div class="out-of-scope">
+    <div style="padding: 16px 0px 20px;background: none repeat scroll 0% 0% rgb(50,50,50);position: relative;z-index: 1000;">
+      <div style="width: 50%;margin: 0px auto;padding: 0px 19px;">
         <p style="font-weight:bold; color:white !important">@Messages("loginconfirmation.disclaimer")</p>
+      </div>
     </div>
 
-</div>
+    <p>@Messages("loginconfirmation.message")</p>
 
-<p>@Messages("loginconfirmation.message")</p>
+    <p>@Messages("loginconfirmation.personaldetails")</p>
+    <table>
+      <tr><td>@Messages("loginconfirmation.personaldetails.firstname")</td><td>@loginConfirmationModel.firstName</td></tr>
+      <tr><td>@Messages("loginconfirmation.personaldetails.surname")</td><td>@loginConfirmationModel.surname</td></tr>
+      <tr><td>@Messages("loginconfirmation.personaldetails.dob")</td><td>@loginConfirmationModel.dob</td></tr>
+      <tr><td>@Messages("loginconfirmation.personaldetails.address")</td><td>@loginConfirmationModel.address.line1</td></tr>
+      <tr><td></td><td>@loginConfirmationModel.address.line4</td></tr>
+      <tr><td></td><td>@loginConfirmationModel.address.postCode</td></tr>
+    </table>
 
-<p>@Messages("loginconfirmation.personaldetails")</p>
-<table>
-<tr><td>@Messages("loginconfirmation.personaldetails.firstname")</td><td>@loginConfirmationModel.firstName</td></tr>
-<tr><td>@Messages("loginconfirmation.personaldetails.surname")</td><td>@loginConfirmationModel.surname</td></tr>
-<tr><td>@Messages("loginconfirmation.personaldetails.dob")</td><td>@loginConfirmationModel.dob</td></tr>
-<tr><td>@Messages("loginconfirmation.personaldetails.address")</td><td>@loginConfirmationModel.address.line1</td></tr>
-<tr><td></td><td>@loginConfirmationModel.address.line4</td></tr>
-<tr><td></td><td>@loginConfirmationModel.address.postCode</td></tr>
-</table>
+    <p>@Messages("loginconfirmation.consent")</p>
 
-<p>@Messages("loginconfirmation.consent")</p>
+    <p>@Messages("loginconfirmation.consent.message")</p>
 
-<p>@Messages("loginconfirmation.consent.message")</p>
-
-@form(action = controllers.change_of_address.routes.LoginConfirmation.submit) {
-  <div class="form-steps">
-    <button id="refuse" type="submit" name="action" value="next" class="button" aria-label="@Messages("loginconfirmation.button.refuse.arialabel")">@Messages("loginconfirmation.button.refuse")</button>
-    <button id="agree" type="submit" name="action" value="next" class="button" aria-label="@Messages("loginconfirmation.button.agree.arialabel")">@Messages("loginconfirmation.button.agree")</button>
-  </div>
-}
+    @form(action = controllers.change_of_address.routes.LoginConfirmation.submit) {
+      <div class="form-steps">
+        <button id="refuse" type="submit" name="action" value="next" class="button" aria-label="@Messages("loginconfirmation.button.refuse.arialabel")">@Messages("loginconfirmation.button.refuse")</button>
+        <button id="agree" type="submit" name="action" value="next" class="button" aria-label="@Messages("loginconfirmation.button.agree.arialabel")">@Messages("loginconfirmation.button.agree")</button>
+      </div>
+    }
+    </div>
+  </body>
+</html>

@@ -14,9 +14,9 @@ import controllers.change_of_address.Helpers._
 import controllers.Mappings
 import modules.{injector}
 
-object V5cSearch extends Controller { // TODO rename object to VehicleSearch
+object VehicleSearch extends Controller {
 
-  val v5cSearchForm = Form(
+  val vehicleSearchForm = Form(
     mapping(
       app.ChangeOfAddress.v5cReferenceNumberID -> V5cReferenceNumber(minLength = 11, maxLength = 11),
       app.ChangeOfAddress.v5cRegistrationNumberID -> V5CRegistrationNumber(minLength = 2, maxLength = 7)
@@ -25,14 +25,14 @@ object V5cSearch extends Controller { // TODO rename object to VehicleSearch
 
   def present = Action { implicit request =>
        isUserLoggedIn() match {
-        case true => Ok(views.html.change_of_address.v5c_search(v5cSearchForm, fetchData))
+        case true => Ok(views.html.change_of_address.v5c_search(vehicleSearchForm, fetchData))
         case false => Redirect(routes.AreYouRegistered.present)
       }
 }
 
   def submit = Action.async {
     implicit request => {
-      v5cSearchForm.bindFromRequest.fold(
+      vehicleSearchForm.bindFromRequest.fold(
         formWithErrors => Future {
           Logger.debug(s"Form validation failed posted data = ${formWithErrors.errors}")
           BadRequest(views.html.change_of_address.v5c_search(formWithErrors, fetchData())) },

@@ -19,49 +19,49 @@ prototype.banner = This is a prototype. You cannot change keeper using this serv
 prototype.link = Change keeper using the live service
 
 #page 1
-beforeyoustart.title = Change of keeper - before you start
+beforeyoustart.title = Change of keeper address
 beforeyoustart.name = Before you start
-beforeyoustart.p1 = Use this service if you want to change the details of who is the legal keeper of a registered vehicle.
+beforeyoustart.p1 = Use this service if you want to change the address of the registered keeper of a vehicle.
 beforeyoustart.p2 = Before you start you will need:
-beforeyoustart.p3 = 1. The vehicle in questions V5C (log book).
-beforeyoustart.p4 = 2. Either the current keeper or new keeper will need to prove their identify by logging into their identify profile during the process.
-beforeyoustart.p5 = 3. It is advisable that whoever oversees this 'change of keeper' process (current or new keeper) obtains an identity profile before starting. It is however possible to register for an identity profile during the 'Change of keeper' process.
+beforeyoustart.p3 = 1. The log book for each vehicle affected by the change of keeper address.
+beforeyoustart.p4 = 2. A vehicle keeper should use this service to change their own address, and during the process they will need to prove who they are by logging into their identity profile.
+beforeyoustart.p5 = 3. It is advisable that a vehicle keeper obtain an identity profile before starting to use the service. It is, however, possible to register for an identity profile while using this service.
 beforeyoustart.button = Start now
 
 #page 2
-keeperstatus.title = Change of keeper - keeper status
-keeperstatus.name = Change of keeper
-keeperstatus.p1 = What is your status, as current keeper of the vehicle?
+keeperstatus.title = Change of keeper address
+keeperstatus.name = 1. Your status
+keeperstatus.p1 = What is your status, as the keeper of the vehicle in question?
 keeperstatus.button = I am a private individual
 keeperstatus.button2 = I represent a business
 keeperstatus.button3 = Neither private nor business
 
 #page 3
-verifyidentity.title = Change of keeper - verify identity
+verifyidentity.title = Change of keeper address
 verifyidentity.alert = Example alert message
-verifyidentity.name = Verify identity
-verifyidentity.infomessage = It is a criminal offcence to obtain someone else's personal information without their permission.
-verifyidentity.p1 = Before you can start using the change of Keeper service, you need to select the authentication provider you wish to use:
+verifyidentity.name = 2. Verify your identity 
+verifyidentity.infomessage = It is a criminal offence to obtain someone else''s personal information without their permission.
+verifyidentity.p1 = Before you can start using the ''Change of keeper address'' service, you need to select the authentication provider you wish to use: 
 verifyidentity.p2 = GOV.UK is the new way to use government services online. You will need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
 verifyidentity.button = Use existing identity profile
-verifyidentity.button1text = Dont have an identity profile?
+verifyidentity.button1text = Don''t have an identity profile?
 verifyidentity.button2 = Create an identity profile
 verifyidentity.button2text = Sign in using your identity profile
 verifyidentity.button2text2 = Government gate users must register to access service
 
 #page 4
-areyouregistered.title = Change of keeper - are you registered
-areyouregistered.name = Sign in to GOV.UK
+areyouregistered.title = Change of keeper address
+areyouregistered.name = 3. Sign in to GOV.UK
 areyouregistered.p1 = GOV.UK is the new way to use government services online. You will now need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
-areyouregistered.infomessage = You are trying to access change of keeper
+areyouregistered.infomessage = You are trying to access ''Change of keeper address''
 areyouregistered.button = Sign in
 areyouregistered.buttontext = I already have an identity profile
 areyouregistered.button2 = Register now
 areyouregistered.button2text = I need to register for an identity profile
 
 #page 5
-signinprovider.title = Change of keeper - sign in provider
-signinprovider.name = Sign in to GOV.UK
+signinprovider.title = Change of keeper address
+signinprovider.name = 3. Sign in to GOV.UK
 signinprovider.infomessage = You are trying to access change of keeper
 signinprovider.p1 = GOV.UK is the new way to use government services online. You will now need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
 signinprovider.buttontext = I already have an identity profile
@@ -98,7 +98,7 @@ loginconfirmation.button.agree.arialabel = I agree button
 loginconfirmation.disclaimer = This is not a page from the real website, it has been created so that we can demonstrate the user journey. It has received data from a micro service we have created.
 
 #page 8
-authentication.title = Change of keeper - authentication
+authentication.title = Change of keeper address
 authentication.name = Authenticate your sign in
 authentication.p1 = Please authenticate your sign in to GOV.UK by entering the 6 digit pin that has been sent to your registered mobile device.
 authentication.resend = Resend unique code
@@ -109,19 +109,19 @@ authentication.pin.incorrect = You must enter a number with a length of 6 digits
 authentication.disclaimer = This is not a page from the real website, it has been created so that we can demonstrate the user journey. 
 
 #page 9
-v5csearch.title = Change of keeper - retrieve a vehicle record
-v5csearch.name = Retrieve a vehicle record
-v5csearch.p1 = {0} is signed in to the change of keeper service.
+v5csearch.title = Change of keeper address
+v5csearch.name = 4. Retrieve a vehicle record
+v5csearch.p1 = {0} is signed in to the ''Change of keeper address'' service.
 v5csearch.button = Look-up
 v5csearch.button2 = Cancel
-v5csearch.v5cinputlabel = * V5C Document reference number
-v5csearch.vrninputlabel = * Vehicle registration number
+v5csearch.v5cinputlabel = V5C Document reference number
+v5csearch.vrninputlabel = Vehicle registration number
 v5csearch.v5cinputlabel.refNumIncorrect = You must enter a number with a length of 11 digits
 
 #page 10
-confirm_vehicle_details.title = Change of keeper - confirm vehicle details
-confirm_vehicle_details.name = Confirm vehicle details
-confirm_vehicle_details.p1 = Please confirm that you are the keeper of this vehicle and that this is the vehicle that is the subject of this 'change of keeper' process.
+confirm_vehicle_details.title = Change of keeper address
+confirm_vehicle_details.name = 5. Confirm vehicle details
+confirm_vehicle_details.p1 = Please confirm that you are the keeper of this vehicle and that this is the vehicle that is the subject of this ''Change of keeper address'' service.
 confirm_vehicle_details.vrn = Registration:
 confirm_vehicle_details.make = Make:
 confirm_vehicle_details.model= Model

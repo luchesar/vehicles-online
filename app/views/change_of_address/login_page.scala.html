@@ -5,23 +5,21 @@
 
 
 <html>
+    <head>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("identity-assurance.min.css")">
+    </head>
     <title>@Messages("loginpage.title")</title>
 
     <body>
 
     <div style="padding: 16px 0px 20px;background: none repeat scroll 0% 0% rgb(50,50,50);position: relative;z-index: 1000;">
-
-
         <div style="width: 50%;margin: 0px auto;padding: 0px 19px;">
             <p style="font-weight:bold; color:white !important">@Messages("loginpage.disclaimer")</p>
         </div>
-
     </div>
 
 
-
-
-<div style="font-size:24px; ">
+<div class="out-of-scope" style="font-size:24px; ">
         @form(action = controllers.change_of_address.routes.LoginPage.submit) {
 
                 <p><font color="red">@Messages("loginpage.instructions")</font></p>
@@ -30,8 +28,6 @@
                     @inputPassword(field = loginPageForm("password"), args = '_label -> Messages("loginpage.password"), '_showConstraints -> false)
                     <font color="red"><a href="http://localhost:9000">@Messages("loginpage.forgottenPassword")</a></font>
                 </ul>
-
-
 
             <div>
                 <button style="background-color:green; color:white; padding:8px 18px;" type="submit" name="action" value="next" class="button" aria-label="@Messages("loginpage.button.login.arialabel")">@Messages("loginpage.button.login")</button>
