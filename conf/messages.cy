@@ -53,7 +53,7 @@ verifyidentity.button2text2 = Llywodraeth gofrestru i fanteisio ar y gwasanaeth
 areyouregistered.title = Newid cyfeiriad ceidwad
 areyouregistered.name = 3. Mewngofnodi i GOV.UK
 areyouregistered.p1 = GOV.UK yw''r ffordd newydd i ddefnyddio gwasanaethau llywodraeth ar-lein. Nawr bydd angen i chi proffil hunaniaeth i wneud pethau fel adnewyddu eich trwydded yrru, yn talu treth neu wneud cais am basport.
-areyouregistered.infomessage = Rydych yn ceisio cael mynediad Newid ceidwad
+areyouregistered.infomessage = Rydych yn ceisio cael mynediad ''Newid cyfeiriad ceidwad''
 areyouregistered.button = Mewngofnodi
 areyouregistered.buttontext = Mae gen i broffil hunaniaeth
 areyouregistered.button2 = Cofrestru Nawr
@@ -114,8 +114,8 @@ v5csearch.name = 4. Adfer cofnod gerbyd
 v5csearch.p1 = {0} wedi''i lofnodi i mewn i''r Newid'' ceidwad gyfeiriad'' gwasanaeth
 v5csearch.button = Look-up
 v5csearch.button2 = Diddymu
-v5csearch.v5cinputlabel = * Rhif Cyfeirnod y ddogfen V5C
-v5csearch.vrninputlabel = * Rhif cofrestru''r cerbyd
+v5csearch.v5cinputlabel = Rhif Cyfeirnod y ddogfen V5C
+v5csearch.vrninputlabel = Rhif cofrestru''r cerbyd
 v5csearch.v5cinputlabel.refNumIncorrect = Mae''n rhaid i chi fynd i mewn i nifer sydd â hyd o 11 digid
 
 #page 10

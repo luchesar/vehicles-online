@@ -1,12 +1,14 @@
 .out-of-scope {
-  background:#FFF url('images/out-of-scope.gif') center center no-repeat;
+  background:#FFF url('images/out-of-scope-sml.gif') center center repeat;  
 }
 
+/*
 @media screen and (max-width: 767px) {
   .out-of-scope {
     background:#FFF url('images/out-of-scope-sml.gif') center center repeat;
   }
 }
+*/
 
 .info-secondary { 
   background-color:pink;
