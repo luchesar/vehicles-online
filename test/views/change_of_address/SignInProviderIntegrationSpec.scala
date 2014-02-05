@@ -1,16 +1,15 @@
-
-package controllers.change_of_address
+package views.change_of_address
 
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
 
-class BeforeYouStartIntegrationSpec extends Specification with Tags {
+class SignInProviderIntegrationSpec extends Specification with Tags {
 
-  "BeforeYouStart Integration" should {
+  "SignInProvider Integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      browser.goTo("/")
+      browser.goTo("/sign-in-provider")
 
       // Assert
       titleMustContain("Change of keeper address")
@@ -19,13 +18,13 @@ class BeforeYouStartIntegrationSpec extends Specification with Tags {
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       // Arrange
-      browser.goTo("/")
+      browser.goTo("/sign-in-provider")
 
       // Act
       browser.submit("button[type='submit']")
 
       // Assert
-      titleMustEqual("Change of keeper address")
+      titleMustEqual("Verified login id")
     }
 
   }

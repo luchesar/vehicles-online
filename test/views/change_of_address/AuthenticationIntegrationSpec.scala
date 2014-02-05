@@ -1,4 +1,4 @@
-package controllers.change_of_address
+package views.change_of_address
 
 import org.specs2.mutable.{Tags, Specification}
 import play.api.test.WithBrowser
