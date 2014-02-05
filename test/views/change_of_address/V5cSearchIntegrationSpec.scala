@@ -89,11 +89,9 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       // Complete V5c search page
       TestHelper.v5cSearchPagePopulate(browser, "12345678901234567890")
 
-      pending("to make this test work we need to disable HTML5 validation (in this case it is stopping the test from entering > 11 characters)")
-
       // Assert
       findMustEqualSize("div[class=validation-summary] ol li", 1)
-    } // TODO Make this test work, see pending message
+    }
 
     "reject submit when V5cReferenceNumber contains letters" in new WithBrowser with BrowserMatchers {
       //Arrange & Act
