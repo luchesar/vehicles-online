@@ -25,6 +25,7 @@ object TestHelper extends WordSpec with Matchers with Mockito {
     browser.goTo("/v5c-search")
     browser.fill("#V5cReferenceNumber") `with` v5cReferenceNumber
     browser.fill("#V5CRegistrationNumber") `with` "A2"
+    browser.fill("#Postcode") `with` "SA991BD"
     browser.submit("button[type='submit']")
   }
 
