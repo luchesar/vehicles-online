@@ -19,7 +19,8 @@ object VehicleSearch extends Controller {
   val vehicleSearchForm = Form(
     mapping(
       app.ChangeOfAddress.v5cReferenceNumberID -> V5cReferenceNumber(minLength = 11, maxLength = 11),
-      app.ChangeOfAddress.v5cRegistrationNumberID -> V5CRegistrationNumber(minLength = 2, maxLength = 7)
+      app.ChangeOfAddress.v5cRegistrationNumberID -> V5CRegistrationNumber(minLength = 2, maxLength = 7),
+        app.ChangeOfAddress.postcodeId -> Postcode(minLength = 5, maxLength = 8)
     )(V5cSearchModel.apply)(V5cSearchModel.unapply)
   )
 
@@ -45,6 +46,7 @@ object VehicleSearch extends Controller {
 
             play.api.cache.Cache.set(Mappings.V5cRegistrationNumber.key, v5cForm.v5cRegistrationNumber)
             play.api.cache.Cache.set(Mappings.V5cReferenceNumber.key, v5cForm.v5cReferenceNumber)
+
             val key = v5cForm.v5cReferenceNumber + "." + v5cForm.v5cRegistrationNumber
             Logger.debug(s"V5cSearch storing data returned from micro service in cache using key: $key")
             play.api.cache.Cache.set(key, resp.v5cSearchConfirmationModel)

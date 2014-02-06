@@ -117,6 +117,8 @@ v5csearch.button2 = Diddymu
 v5csearch.v5cinputlabel = Rhif Cyfeirnod y ddogfen V5C
 v5csearch.vrninputlabel = Rhif cofrestru''r cerbyd
 v5csearch.v5cinputlabel.refNumIncorrect = Mae''n rhaid i chi fynd i mewn i nifer sydd â hyd o 11 digid
+v5csearch.postcode.label = Cod post
+v5csearch.postcode.validation = Mae'n rhaid i chi fynd i mewn i god post dilys
 
 #page 10
 confirm_vehicle_details.title = Newid cyfeiriad ceidwad
@@ -137,6 +139,7 @@ errorsummary.p1 = Trwsiwch y canlynol:
 #customer validation messages
 error.restricted.validNumberOnly = Mae''r maes hwn yn derbyn rhifau yn unig 
 error.restricted.validVRNOnly = Rhowch rhif cofrestru cerbyd dilys heb fylchau
+error.restricted.validPostcode = Rhaid i cod post fod yn y fformat PR2 8AE
 
 #default validation messages
 error.required = Mae angen y maes hwn

@@ -44,14 +44,6 @@ object Mappings {
 
   val no = "no"
 
-  def validPostcode: Constraint[String] = Constraint[String]("constraint.postcode") { postcode =>
-    val postcodePattern = """^(?i)(GIR 0AA)|((([A-Z][0-9][0-9]?)|(([A-Z][A-HJ-Y][0-9][0-9]?)|(([A-Z][0-9][A-Z])|([A-Z][A-HJ-Y][0-9]?[A-Z]))))[ ]?[0-9][A-Z]{2})$""".r
-
-    postcodePattern.pattern.matcher(postcode).matches match {
-      case true => Valid
-      case false => Invalid(ValidationError("error.postcode"))
-    }
-  }
 
   def validPhoneNumber: Constraint[String] = Constraint[String]("constraint.phoneNumber") { phoneNumber =>
     val phoneNumberPattern = """[0-9 \-]{1,20}""".r
@@ -157,6 +149,28 @@ object Mappings {
     inputRegex.pattern.matcher(input).matches match {
       case true => Valid
       case false => Invalid(ValidationError("error.restricted.validVRNOnly"))
+    }
+  }
+
+
+  object Postcode {
+    val minLength = 5
+    val maxLength = 8
+    // val pattern = s"\\d{$minLength,$maxLength}" // Digits only with specified size.
+    val key = "Postcode"
+  }
+
+  def Postcode (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[String] = {
+    nonEmptyText(minLength, maxLength) verifying validPostcode
+  }
+
+
+  def validPostcode: Constraint[String] = Constraint[String]("constraint.restrictedvalidPostcode") { input =>
+    val inputRegex = """^(?i)(GIR 0AA)|((([A-Z][0-9][0-9]?)|(([A-Z][A-HJ-Y][0-9][0-9]?)|(([A-Z][0-9][A-Z])|([A-Z][A-HJ-Y][0-9]?[A-Z]))))[ ]?[0-9][A-Z]{2})$""".r
+
+    inputRegex.pattern.matcher(input).matches match {
+      case true => Valid
+      case false => Invalid(ValidationError("error.restricted.validPostcode"))
     }
   }
 

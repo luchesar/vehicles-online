@@ -117,6 +117,9 @@ v5csearch.button2 = Cancel
 v5csearch.v5cinputlabel = V5C Document reference number
 v5csearch.vrninputlabel = Vehicle registration number
 v5csearch.v5cinputlabel.refNumIncorrect = You must enter a number with a length of 11 digits
+v5csearch.postcode.label = Post code
+v5csearch.postcode.validation = You must enter a valid postcode
+
 
 #page 10
 confirm_vehicle_details.title = Change of keeper address
@@ -137,3 +140,4 @@ errorsummary.p1 = Please fix the following:
 #customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
 error.restricted.validVRNOnly = Please enter a valid vehicle registration number without spaces
+error.restricted.validPostcode = A post code must be in the format PR2 8AE
