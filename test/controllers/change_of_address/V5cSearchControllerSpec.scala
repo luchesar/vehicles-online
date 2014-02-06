@@ -41,8 +41,9 @@ class V5cSearchControllerSpec extends WordSpec with Matchers with Mockito{
       // Arrange
       val v5cReferenceNumberValid = "12345678910"
       val v5cRegistrationNumberValid = "a1"
+      val v5cPostcodeValid = "sa44dw"
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberID -> v5cReferenceNumberValid,v5cRegistrationNumberID-> v5cRegistrationNumberValid)
+        .withFormUrlEncodedBody(v5cReferenceNumberID -> v5cReferenceNumberValid,v5cRegistrationNumberID-> v5cRegistrationNumberValid, v5cPostcodeID -> v5cPostcodeValid)
 
       // Act
       val result = change_of_address.VehicleSearch.submit(request)
