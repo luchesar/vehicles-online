@@ -148,6 +148,6 @@ package object app {
     val v5cRegistrationNumberID = "V5CRegistrationNumber"
     val usernameId = "username"
     val passwordId = "password"
-    val postcodeId = "postcode"
+    val postcodeId = "Postcode"
   }
 }
