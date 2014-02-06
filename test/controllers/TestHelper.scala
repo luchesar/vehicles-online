@@ -15,9 +15,15 @@ object TestHelper extends WordSpec with Matchers with Mockito {
     browser.submit("button[type='submit']")
   }
 
-  def v5cSearchPagePopulate(browser: TestBrowser) = {
+  def authenticationPopulate(browser: TestBrowser) = {
+    browser.goTo("/authentication")
+    browser.fill("#PIN") `with` "123456"
+    browser.submit("button[type='submit']")
+  }
+
+  def v5cSearchPagePopulate(browser: TestBrowser, v5cReferenceNumber: String = "12345678910") = {
     browser.goTo("/v5c-search")
-    browser.fill("#V5cReferenceNumber") `with` "12345678910"
+    browser.fill("#V5cReferenceNumber") `with` v5cReferenceNumber
     browser.fill("#V5CRegistrationNumber") `with` "A2"
     browser.submit("button[type='submit']")
   }
