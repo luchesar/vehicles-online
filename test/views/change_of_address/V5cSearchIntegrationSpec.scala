@@ -19,7 +19,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       browser.goTo("/v5c-search")
 
       // Assert
-      titleMustContain("Change of keeper address")
+      titleMustContain("Change of keeper address9")
     }
 
     "redirect to login when login cache is empty" in new WithBrowser with BrowserMatchers {
@@ -27,7 +27,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       browser.goTo("/v5c-search")
 
       // Assert
-      titleMustContain("Change of keeper address")
+      titleMustContain("Change of keeper address4")
 
     }
 
@@ -42,10 +42,10 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Complete V5c search page
-       TestHelper.v5cSearchPagePopulate(browser)
+      TestHelper.v5cSearchPagePopulate(browser)
 
       // Assert
-      titleMustEqual("Change of keeper address")
+      titleMustEqual("Change of keeper address10")
     }
 
     "reject submit when V5cReferenceNumber is blank" in new WithBrowser with BrowserMatchers {
@@ -60,7 +60,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       TestHelper.v5cSearchPagePopulate(browser, "")
 
       // Assert
-      findMustEqualSize("div[class=validation-summary] ol li", 4)
+      findMustEqualSize("div[class=validation-summary] ol li", 3)
     }
 
     "reject submit when V5cReferenceNumber contains less than minimum characters" in new WithBrowser with BrowserMatchers {
@@ -75,7 +75,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       TestHelper.v5cSearchPagePopulate(browser, "123")
 
       // Assert
-      findMustEqualSize("div[class=validation-summary] ol li", 2)
+      findMustEqualSize("div[class=validation-summary] ol li", 1)
     }
 
     "reject submit when V5cReferenceNumber contains more than maximum characters" in new WithBrowser with BrowserMatchers {
@@ -90,7 +90,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       TestHelper.v5cSearchPagePopulate(browser, "12345678901234567890")
 
       // Assert
-      findMustEqualSize("div[class=validation-summary] ol li", 2)
+      findMustEqualSize("div[class=validation-summary] ol li", 1)
     }
 
     "reject submit when V5cReferenceNumber contains letters" in new WithBrowser with BrowserMatchers {
@@ -105,7 +105,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       TestHelper.v5cSearchPagePopulate(browser, "qwertyuiopa")
 
       // Assert
-      findMustEqualSize("div[class=validation-summary] ol li", 2)
+      findMustEqualSize("div[class=validation-summary] ol li", 1)
     }
 
   }

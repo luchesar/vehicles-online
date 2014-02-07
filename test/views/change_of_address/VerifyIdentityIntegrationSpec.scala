@@ -12,7 +12,7 @@ class VerifyIdentityIntegrationSpec extends Specification with Tags {
       browser.goTo("/verify-identity")
 
       // Assert
-      titleMustContain("Change of keeper address")
+      titleMustContain("Change of keeper address3")
     }
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
@@ -23,7 +23,7 @@ class VerifyIdentityIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Assert
-      titleMustEqual("Change of keeper address")
+      titleMustEqual("Change of keeper address4")
     }
   }
 }

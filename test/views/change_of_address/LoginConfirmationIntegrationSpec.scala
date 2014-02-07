@@ -21,7 +21,7 @@ class LoginConfirmationIntegrationSpec extends Specification with Tags {
       browser.goTo("/login-confirmation")
 
       // Assert
-      titleMustContain("Change of keeper address")
+      titleMustContain("Change of keeper address4")
     }
 
 
@@ -33,7 +33,7 @@ class LoginConfirmationIntegrationSpec extends Specification with Tags {
       browser.submit("button[id='agree']")
 
       // Assert
-      titleMustEqual("Change of keeper address")
+      titleMustEqual("Change of keeper address8")
     }
   }
 

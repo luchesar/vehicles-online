@@ -23,7 +23,7 @@ prototype.banner = This is a prototype. You cannot change keeper using this serv
 prototype.link = Change keeper using the live service
 
 #page 1
-beforeyoustart.title = Change of keeper address
+beforeyoustart.title = Change of keeper address1
 beforeyoustart.name = Before you start
 beforeyoustart.p1 = Use this service if you want to change the address of the registered keeper of a vehicle.
 beforeyoustart.p2 = Before you start you will need:
@@ -33,7 +33,7 @@ beforeyoustart.p5 = 3. It is advisable that a vehicle keeper obtain an identity 
 beforeyoustart.button = Start now
 
 #page 2
-keeperstatus.title = Change of keeper address
+keeperstatus.title = Change of keeper address2
 keeperstatus.name = 1. Your status
 keeperstatus.p1 = What is your status, as the keeper of the vehicle in question?
 keeperstatus.button = I am a private individual
@@ -41,7 +41,7 @@ keeperstatus.button2 = I represent a business
 keeperstatus.button3 = Neither private nor business
 
 #page 3
-verifyidentity.title = Change of keeper address
+verifyidentity.title = Change of keeper address3
 verifyidentity.alert = Example alert message
 verifyidentity.name = 2. Verify your identity 
 verifyidentity.infomessage = It is a criminal offence to obtain someone else''s personal information without their permission.
@@ -54,7 +54,7 @@ verifyidentity.button2text = Sign in using your identity profile
 verifyidentity.button2text2 = Government gate users must register to access service
 
 #page 4
-areyouregistered.title = Change of keeper address
+areyouregistered.title = Change of keeper address4
 areyouregistered.name = 3. Sign in to GOV.UK
 areyouregistered.p1 = GOV.UK is the new way to use government services online. You will now need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
 areyouregistered.infomessage = You are trying to access ''Change of keeper address''
@@ -64,7 +64,7 @@ areyouregistered.button2 = Register now
 areyouregistered.button2text = I need to register for an identity profile
 
 #page 5
-signinprovider.title = Change of keeper address
+signinprovider.title = Change of keeper address5
 signinprovider.name = 3. Sign in to GOV.UK
 signinprovider.infomessage = You are trying to access change of keeper
 signinprovider.p1 = GOV.UK is the new way to use government services online. You will now need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
@@ -102,7 +102,7 @@ loginconfirmation.button.agree.arialabel = I agree button
 loginconfirmation.disclaimer = This is not a page from the real website, it has been created so that we can demonstrate the user journey. It has received data from a micro service we have created.
 
 #page 8
-authentication.title = Change of keeper address
+authentication.title = Change of keeper address8
 authentication.name = Authenticate your sign in
 authentication.p1 = Please authenticate your sign in to GOV.UK by entering the 6 digit pin that has been sent to your registered mobile device.
 authentication.resend = Resend unique code
@@ -113,7 +113,7 @@ authentication.pin.incorrect = You must enter a number with a length of 6 digits
 authentication.disclaimer = This is not a page from the real website, it has been created so that we can demonstrate the user journey. 
 
 #page 9
-v5csearch.title = Change of keeper address
+v5csearch.title = Change of keeper address9
 v5csearch.name = 4. Retrieve a vehicle record
 v5csearch.p1 = {0} is signed in to the ''Change of keeper address'' service.
 v5csearch.button = Look-up
@@ -126,7 +126,7 @@ v5csearch.postcode.validation = You must enter a valid postcode
 
 
 #page 10
-confirm_vehicle_details.title = Change of keeper address
+confirm_vehicle_details.title = Change of keeper address10
 confirm_vehicle_details.name = 5. Confirm vehicle details
 confirm_vehicle_details.p1 = Please confirm that you are the keeper of this vehicle and that this is the vehicle that is the subject of this ''Change of keeper address'' service.
 confirm_vehicle_details.vrn = Registration:

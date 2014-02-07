@@ -21,7 +21,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
       TestHelper.v5cSearchPagePopulate(browser)
 
       // Assert
-      titleMustEqual("Change of keeper address")
+      titleMustEqual("Change of keeper address10")
     }
 
 
@@ -30,7 +30,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
       browser.goTo("/confirm-vehicle-details")
 
       // Assert
-      titleMustContain("Change of keeper address")
+      titleMustContain("Change of keeper address4")
     }
 
 
@@ -49,7 +49,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
       browser.goTo("/confirm-vehicle-details")
 
       // Assert
-      titleMustEqual("Change of keeper address")
+      titleMustEqual("Change of keeper address9")
     }
 
 
@@ -67,7 +67,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
       TestHelper.v5cSearchPagePopulate(browser)
 
       // Assert
-      titleMustEqual("Change of keeper address") //TODO: Need to point at next page once it is built
+      titleMustEqual("Change of keeper address10") //TODO: Need to point at next page once it is built
     }
   }
 }
