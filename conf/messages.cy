@@ -10,7 +10,7 @@ global.browserclosetitle = Gwrthod neges hon
 global.browserclosemessage = Cau
 
 footer.helpdesk = Desg Gymorth
-footer.privacypolicy = Privacy & Cookies
+footer.privacypolicy = Preifatrwydd & Cwcis
 footer.builtbyintro = Adeiladwyd gan
 footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
 
@@ -141,6 +141,20 @@ disposal_dispose.disposevehicleto = gwared gerbyd
 disposal_dispose.consent = gennyf ganiatad y ceidwad presennol i gael gwared ar y cerbyd hwn
 disposal_dispose.consentnotgiven = Nodwch gennych ganiatad y ceidwad presennol
 disposal_dispose.submitbutton = Gwaredu
+
+disposal_disposeconfirmation.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion
+disposal_disposeconfirmation.disposaldetails = Gwaredu
+disposal_disposeconfirmation.vehiclemake = Gwneud
+disposal_disposeconfirmation.vehiclemodel = Model
+disposal_disposeconfirmation.vehiclekeeper = Ceidwad
+disposal_disposeconfirmation.disposedto = Werthwyd i
+disposal_disposeconfirmation.exkeeper = Ar gyfer y cyn-geidwad
+disposal_disposeconfirmation.exkeeperlettersend = Bydd llythyr yn cael ei anfon at
+disposal_disposeconfirmation.exkeeperlettertext = Bydd y llythyr yn cadarnhau y gwarediad. Os byddai''n well gennych dderbyn e-bost cydnabyddiaeth ar unwaith, rhowch gyfeiriad e-bost
+disposal_disposeconfirmation.email = Cyfeiriad e-bost
+disposal_disposeconfirmation.sendbutton = Anfon
+disposal_disposeconfirmation.transactionid = Trafodiad yn
+disposal_disposeconfirmation.newdisposalbutton = gwaredu Newydd
 
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda
