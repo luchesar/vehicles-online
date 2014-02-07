@@ -21,11 +21,10 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
         )
       )
     }
-
+//v5cReferenceNumber tests
     "reject if v5cReferenceNumber is blank" in {
       vehicleLookupFiller(v5cReferenceNumber = "", v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
         formWithErrors => {
-          println(formWithErrors.errors)
           formWithErrors.errors.length should equal(3)
         },
         f => "An error should occur" should equal("Valid")
@@ -33,27 +32,167 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
     }
 
     "reject if v5cReferenceNumber is less than min length" in {
-      pending
+      vehicleLookupFiller(v5cReferenceNumber = "1234567891", v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
+        formWithErrors => {
+          formWithErrors.errors.length should equal(1)
+        },
+        f => "An error should occur" should equal("Valid")
+      )
     }
 
     "reject if v5cReferenceNumber is greater than max length" in {
-      pending
+      vehicleLookupFiller(v5cReferenceNumber = "123456789101", v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
+        formWithErrors => {
+          formWithErrors.errors.length should equal(1)
+        },
+        f => "An error should occur" should equal("Valid")
+      )
     }
 
     "reject if v5cReferenceNumber contains letters" in {
-      pending
+      vehicleLookupFiller(v5cReferenceNumber = "qwertyuiopl", v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
+        formWithErrors => {
+          formWithErrors.errors.length should equal(1)
+        },
+        f => "An error should occur" should equal("Valid")
+      )
     }
 
     "reject if v5cReferenceNumber contains special characters" in {
-      pending
+      vehicleLookupFiller(v5cReferenceNumber = "£££££££££££", v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
+        formWithErrors => {
+          formWithErrors.errors.length should equal(1)
+        },
+        f => "An error should occur" should equal("Valid")
+      )
     }
 
-    "accept if all values contain valid entries" in {
+    "accept if v5cReferenceNumber is valid" in {
       vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f =>
           f.v5cReferenceNumber should equal(v5cReferenceNumberValid)
+      )
+    }
+
+//v5cRegistrationNumber tests
+    "reject if v5cRegistrationNumber is empty" in {
+      vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = "", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
+        formWithErrors => {
+          formWithErrors.errors.length should equal(2)
+        },
+        f => "An error should occur" should equal("Valid")
+      )
+    }
+
+    "reject if v5cRegistrationNumber is less than min length" in {
+      vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = "a", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
+        formWithErrors => {
+          formWithErrors.errors.length should equal(1)
+        },
+        f => "An error should occur" should equal("Valid")
+      )
+    }
+
+    "reject if v5cRegistrationNumber is more than max length" in {
+      vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = "AB53 WERT", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
+        formWithErrors => {
+          formWithErrors.errors.length should equal(1)
+        },
+        f => "An error should occur" should equal("Valid")
+      )
+    }
+
+    "reject if v5cRegistrationNumber contains special characters" in {
+      vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = "ab53ab%", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
+        formWithErrors => {
+          formWithErrors.errors.length should equal(1)
+        },
+        f => "An error should occur" should equal("Valid")
+      )
+    }
+
+    "accept if v5cRegistrationNumber is valid" in {
+      vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
+        formWithErrors => {fail("An error should occur")
+        },
+        f =>
+          f.v5cRegistrationNumber should equal(v5cRegistrationNumberValid)
+      )
+    }
+
+//v5cKeeperName tests
+    "reject if v5cKeeperName is empty" in {
+      vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = "", v5cPostcode = v5cPostcodeValid).fold(
+        formWithErrors => {
+          formWithErrors.errors.length should equal(2)
+        },
+        f => "An error should occur" should equal("Valid")
+      )
+    }
+
+    "reject if v5cKeeperName is more than max length" in {
+      vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopq", v5cPostcode = v5cPostcodeValid).fold(
+        formWithErrors => {
+          formWithErrors.errors.length should equal(1)
+        },
+        f => "An error should occur" should equal("Valid")
+      )
+    }
+
+    "accept if v5cKeeperName is valid" in {
+      vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
+        formWithErrors => {fail("An error should occur")
+        },
+        f =>
+          f.v5cKeeperName should equal(v5cKeeperNameValid)
+      )
+    }
+
+//v5cPostcode tests
+    "reject if v5cPostcode is empty" in {
+      vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = "").fold(
+        formWithErrors => {
+          formWithErrors.errors.length should equal(3)
+        },
+        f => "An error should occur" should equal("Valid")
+      )
+    }
+
+    "reject if v5cPostcode is less than min length" in {
+      vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = "sa91").fold(
+        formWithErrors => {
+          formWithErrors.errors.length should equal(2)
+        },
+        f => "An error should occur" should equal("Valid")
+      )
+    }
+
+    "reject if v5cPostcode is more than max length" in {
+      vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = "sa991bdsp").fold(
+        formWithErrors => {
+          formWithErrors.errors.length should equal(2)
+        },
+        f => "An error should occur" should equal("Valid")
+      )
+    }
+
+    "reject if v5cPostcode contains special characters" in {
+      vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = "sa991d£").fold(
+        formWithErrors => {
+          formWithErrors.errors.length should equal(1)
+        },
+        f => "An error should occur" should equal("Valid")
+      )
+    }
+
+    "accept if v5cPostcode is valid" in {
+      vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
+        formWithErrors => {fail("An error should occur")
+        },
+        f =>
+          f.v5cPostcode should equal(v5cPostcodeValid)
       )
     }
   }
