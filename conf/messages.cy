@@ -132,6 +132,16 @@ confirm_vehicle_details.acquired = Caffaeledig:
 confirm_vehicle_details.button = Cadarnhau
 confirm_vehicle_details.button2 = Diddymu
 
+disposal_dispose.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion
+disposal_dispose.vehicledetails = cerbyd
+disposal_dispose.vehiclemake = Gwneud
+disposal_dispose.vehiclemodel = Model
+disposal_dispose.vehiclekeeper = Ceidwad
+disposal_dispose.disposevehicleto = gwared gerbyd
+disposal_dispose.consent = gennyf ganiatad y ceidwad presennol i gael gwared ar y cerbyd hwn
+disposal_dispose.consentnotgiven = Nodwch gennych ganiatad y ceidwad presennol
+disposal_dispose.submitbutton = Gwaredu
+
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda
 errorsummary.p1 = Trwsiwch y canlynol:

@@ -20,7 +20,7 @@ object VehicleSearch extends Controller {
     mapping(
       app.ChangeOfAddress.v5cReferenceNumberID -> V5cReferenceNumber(minLength = 11, maxLength = 11),
       app.ChangeOfAddress.v5cRegistrationNumberID -> V5CRegistrationNumber(minLength = 2, maxLength = 7),
-        app.ChangeOfAddress.v5cPostcodeID -> Postcode(minLength = 5, maxLength = 8)
+      app.ChangeOfAddress.v5cPostcodeID -> Postcode(minLength = 5, maxLength = 8)
     )(V5cSearchModel.apply)(V5cSearchModel.unapply)
   )
 

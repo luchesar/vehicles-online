@@ -186,4 +186,12 @@ disposal_vehiclelookup.keepernamelabel = Full keeper name
 disposal_vehiclelookup.keeperpostcodelabel = Keeper postcode
 disposal_vehiclelookup.button = Find
 
-
+disposal_dispose.title = Dispose a vehicle into the motor trade
+disposal_dispose.vehicledetails = Vehicle details
+disposal_dispose.vehiclemake = Make
+disposal_dispose.vehiclemodel = Model
+disposal_dispose.vehiclekeeper = Keeper
+disposal_dispose.disposevehicleto = Dispose vehicle to
+disposal_dispose.consent = I have the consent of the current keeper to dispose of this vehicle
+disposal_dispose.consentnotgiven = Please indicate you have the current keeper's consent
+disposal_dispose.submitbutton = Dispose
