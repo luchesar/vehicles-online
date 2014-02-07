@@ -180,4 +180,14 @@ object Mappings {
     val key = "KeeperName"
   }
 
+  def consent: Mapping[Boolean] = {
+    boolean verifying validConsent
+  }
+
+  def validConsent: Constraint[Boolean] = Constraint[Boolean]("constraint.validConsent") { input =>
+    input match {
+      case true => Valid
+      case false => Invalid(ValidationError("disposal_dispose.consentnotgiven"))
+    }
+  }
 }

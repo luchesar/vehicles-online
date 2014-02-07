@@ -1,17 +1,18 @@
 package controllers.disposal_of_vehicle
 
 import play.api.mvc._
-import play.api.data.Form
+import play.api.data.{Mapping, Form}
 import play.api.data.Forms._
 import controllers.Mappings._
 import models.domain.disposal_of_vehicle.{DisposeFormModel, Address, DisposeModel, VehicleLookupModel}
 import play.api.i18n.Messages
+import play.api.data.validation.{ValidationError, Invalid, Valid, Constraint}
 
 object Dispose extends Controller {
 
   val disposeForm = Form(
     mapping(
-      "consent" -> checked(Messages("disposal_dispose.consentnotgiven"))
+      "consent" -> consent
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 
