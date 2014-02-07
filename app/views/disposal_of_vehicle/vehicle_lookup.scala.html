@@ -1,0 +1,52 @@
+@(vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupModel])(implicit lang: Lang)
+
+@import helper._
+@import utils.helpers.CarersTemplate._
+@import views.html.helper.base._
+@import views.html.common._
+@import views.html.helper._
+
+
+@main(Messages("disposal_vehiclelookup.title")) {
+    @errorsSummary(vehicleLookupForm)
+
+    @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit) {
+        <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
+            <legend>@Messages("disposal_vehiclelookup.name")</legend>
+
+            <ul>
+                <p>@Messages("disposal_vehiclelookup.p1")</p>
+
+                @carersInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cReferenceNumberID), args =
+                    '_label -> Messages("disposal_vehiclelookup.v5cinputlabel"),
+                    '_showConstraints -> false,
+                    'pattern -> Mappings.V5cReferenceNumber.pattern,
+                    'maxLength -> Mappings.V5cReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                    'title -> Messages("disposal_vehiclelookup.v5cinputlabel.refNumIncorrect"))
+
+                @carersInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cRegistrationNumberID), args =
+                  '_label -> Messages("disposal_vehiclelookup.vrninputlabel"),
+                  'maxLength -> Mappings.V5cRegistrationNumber.maxLength,
+                  '_showConstraints -> false)
+
+                @carersInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cKeeperNameID), args =
+                '_label -> Messages("disposal_vehiclelookup.keepernamelabel"),
+                '_showConstraints -> false,
+                'maxLength -> Mappings.Postcode.maxLength,
+                'title -> Messages("disposal_vehiclelookup.keepername.validation"))
+
+                @carersInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cPostcodeID), args =
+                '_label -> Messages("disposal_vehiclelookup.keeperpostcodelabel"),
+                '_showConstraints -> false,
+                'maxLength -> Mappings.Postcode.maxLength,
+                'title -> Messages("disposal_vehiclelookup.keeperpostcode.validation"))
+            </ul>
+
+        </fieldset>
+
+        <div class="form-steps">
+            <button type="submit" name="action" class="button" aria-label="Next button">@Messages("v5csearch.button")</button>
+            <button type="reset" name="action" class="button-not-implemented" aria-label="Reset button">@Messages("v5csearch.button2")</button>
+        </div>
+    }
+}

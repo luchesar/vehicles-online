@@ -151,4 +151,11 @@ package object app {
     val passwordId = "password"
     val postcodeId = "Postcode"
   }
+
+  object DisposalOfVehicle {
+    val v5cReferenceNumberID = "v5cReferenceNumber"
+    val v5cRegistrationNumberID = "v5cRegistrationNumber"
+    val v5cKeeperNameID = "v5cKeeperName"
+    val v5cPostcodeID = "v5cPostcode"
+  }
 }
