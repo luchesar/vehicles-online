@@ -114,5 +114,50 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       titleMustContain("Dispose a vehicle into the motor trade")
       checkNumberOfValidationErrors(1)
     }
+
+    "display ten validation error messages when no details are entered" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      vehicleLookupIntegrationHelper(browser, v5cReferenceNumber = "", v5cVehicleRegistrationNumber = "", v5cKeeperName = "", v5cPostcode = "")
+
+      //Assert
+      titleMustContain("Dispose a vehicle into the motor trade")
+      checkNumberOfValidationErrors(10)
+    }
+
+    "display seven validation error messages when only a valid v5cReferenceNumber is entered" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      vehicleLookupIntegrationHelper(browser, v5cVehicleRegistrationNumber = "", v5cKeeperName = "", v5cPostcode = "")
+
+      //Assert
+      titleMustContain("Dispose a vehicle into the motor trade")
+      checkNumberOfValidationErrors(7)
+    }
+
+    "display eight validation error messages when only a valid v5cRegistrationNumber is entered" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      vehicleLookupIntegrationHelper(browser, v5cReferenceNumber = "", v5cKeeperName = "", v5cPostcode = "")
+
+      //Assert
+      titleMustContain("Dispose a vehicle into the motor trade")
+      checkNumberOfValidationErrors(8)
+    }
+
+    "display eight validation error messages when only a valid v5cKeeperName is entered" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      vehicleLookupIntegrationHelper(browser, v5cReferenceNumber = "", v5cVehicleRegistrationNumber = "", v5cPostcode = "")
+
+      //Assert
+      titleMustContain("Dispose a vehicle into the motor trade")
+      checkNumberOfValidationErrors(8)
+    }
+
+    "display seven validation error messages when only a valid v5cPostcode is entered" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      vehicleLookupIntegrationHelper(browser, v5cReferenceNumber = "", v5cVehicleRegistrationNumber = "", v5cKeeperName = "")
+
+      //Assert
+      titleMustContain("Dispose a vehicle into the motor trade")
+      checkNumberOfValidationErrors(7)
+    }
   }
 }
