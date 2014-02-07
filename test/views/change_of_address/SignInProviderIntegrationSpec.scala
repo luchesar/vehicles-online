@@ -12,7 +12,7 @@ class SignInProviderIntegrationSpec extends Specification with Tags {
       browser.goTo("/sign-in-provider")
 
       // Assert
-      titleMustContain("Change of keeper address")
+      titleMustContain("Change of keeper address5")
 
     }
 
