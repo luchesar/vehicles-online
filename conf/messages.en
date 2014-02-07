@@ -185,5 +185,6 @@ disposal_vehiclelookup.vrninputlabel = Vehicle registration number
 disposal_vehiclelookup.keepernamelabel = Full keeper name
 disposal_vehiclelookup.keeperpostcodelabel = Keeper postcode
 disposal_vehiclelookup.button = Find
+disposal_vehiclelookup.button2 = Edit
 
 

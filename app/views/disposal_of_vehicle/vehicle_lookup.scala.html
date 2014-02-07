@@ -14,15 +14,15 @@
 
         <div id="TraderDetailsDiv" style="float:left;width:25%; margin: 2em 18% 0px 0px; margin-right:65px; min-width:260px;">
 
-            <p style="font-weight: 600;font-size: 2.4rem;padding: 0.12em 0px 0.5em;position: relative;line-height: 1.2em;color: rgb(51, 51, 153);">Vehicle disposed to</p><br>
+            <p style="font-weight: 600;font-size: 2.4rem;padding: 0px 0px 0.5em;position: relative;line-height: 1.2em;color: rgb(51, 51, 153);">Vehicle disposed to</p><br>
             <ul>
                 <p style="font-weight:bold; font-size:1.3em;">Car Giant</p>
                 <p>44 Hythe Road</p>
                 <p>White City</p>
                 <p>LONDON</p>
                 <p>NW106RJ</p>
-                <br>
-                <a href="#" class="button-not-implemented" aria-label="Edit button" style="padding:9px 35px;">Edit</a>
+
+                <button type="reset" name="action" class="button-not-implemented" aria-label="Edit button">@Messages("disposal_vehiclelookup.button2")</button>
             </ul>
         </div>
 
@@ -61,9 +61,10 @@
 
         </fieldset>
 
+            <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_vehiclelookup.button")</button>
+
          </div>
-        <div class="form-steps"">
-            <button type="submit" name="action" class="button" aria-label="Next button" style="float:right; margin-right:345px;">@Messages("v5csearch.button")</button>
-        </div>
+        <div id="clear-container" style="clear:both"></div>
+
     }
 }
