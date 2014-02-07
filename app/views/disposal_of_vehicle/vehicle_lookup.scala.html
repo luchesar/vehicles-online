@@ -11,11 +11,26 @@
     @errorsSummary(vehicleLookupForm)
 
     @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit) {
-        <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
-            <legend>@Messages("disposal_vehiclelookup.name")</legend>
+
+        <div id="TraderDetailsDiv" style="float:left;width:25%; margin: 2em 18% 0px 0px; margin-right:65px; min-width:260px;">
+
+            <p style="font-weight: 600;font-size: 2.4rem;padding: 0px 0px 0.5em;position: relative;line-height: 1.2em;color: rgb(51, 51, 153);">Vehicle disposed to</p><br>
+            <ul>
+                <p style="font-weight:bold; font-size:1.3em;">Car Giant</p>
+                <p>44 Hythe Road</p>
+                <p>White City</p>
+                <p>LONDON</p>
+                <p>NW106RJ</p>
+
+                <button type="reset" name="action" class="button-not-implemented" aria-label="Edit button">@Messages("disposal_vehiclelookup.button2")</button>
+            </ul>
+        </div>
+
+        <div id="FindAVehicleDiv" style="float:left;width:60%">
+            <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
+            <legend>@Messages("disposal_vehiclelookup.p1")</legend>
 
             <ul>
-                <p>@Messages("disposal_vehiclelookup.p1")</p>
 
                 @carersInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cReferenceNumberID), args =
                     '_label -> Messages("disposal_vehiclelookup.v5cinputlabel"),
@@ -42,11 +57,14 @@
                 'title -> Messages("disposal_vehiclelookup.keeperpostcode.validation"))
             </ul>
 
+                <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_vehiclelookup.button")</button>
+                
         </fieldset>
 
-        <div class="form-steps">
-            <button type="submit" name="action" class="button" aria-label="Next button">@Messages("v5csearch.button")</button>
-            <button type="reset" name="action" class="button-not-implemented" aria-label="Reset button">@Messages("v5csearch.button2")</button>
-        </div>
+
+
+         </div>
+        <div id="clear-container" style="clear:both"></div>
+
     }
 }

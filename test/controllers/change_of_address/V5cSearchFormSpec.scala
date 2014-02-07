@@ -23,7 +23,6 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     "reject if v5cReferenceNumber is blank" in {
       v5cSearchFiller(v5cReferenceNumber = "", v5cRegistrationNumber = vehicleVRNValid, v5cPostcode = v5cPostcodeValid).fold(
         formWithErrors => {
-          println(formWithErrors.errors)
           formWithErrors.errors.length should equal(3)
         },
         f => "An error should occur" should equal("Valid")
@@ -89,7 +88,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     "reject if vehicleVRN is less than minimun" in {
       v5cSearchFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = "a", v5cPostcode = v5cPostcodeValid).fold(
         formWithErrors => {
-          formWithErrors.errors.length should equal(2)
+          formWithErrors.errors.length should equal(1)
           //errors for regex and min length
         },
         f => "An error should occur" should equal("Valid")
@@ -99,7 +98,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     "reject if vehicleVRN is more than maximum" in {
       v5cSearchFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = "AB55CMWE", v5cPostcode = v5cPostcodeValid).fold(
         formWithErrors => {
-          formWithErrors.errors.length should equal(2)
+          formWithErrors.errors.length should equal(1)
           //errors for regex and max length
         },
         f => "An error should occur" should equal("Valid")
@@ -107,16 +106,6 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     }
     "reject if vehicleVRN contains special characters" in {
       v5cSearchFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = "%^", v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-          //error for regex
-        },
-        f => "An error should occur" should equal("Valid")
-      )
-    }
-
-    "reject if vehicleVRN input not in correct format" in {
-      v5cSearchFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = "ABCDF12", v5cPostcode = v5cPostcodeValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
           //error for regex
