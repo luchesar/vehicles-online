@@ -1,9 +1,9 @@
 import com.google.inject.Guice
 import models.domain.change_of_address._
-import models.domain.change_of_address.Address
 import models.domain.change_of_address.LoginConfirmationModel
 import models.domain.change_of_address.V5cSearchConfirmationModel
 import models.domain.change_of_address.V5cSearchResponse
+import models.domain.common.Address
 import modules.DevModule
 import play.api.libs.json.Json
 import play.api.Play

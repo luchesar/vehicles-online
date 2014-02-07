@@ -5,7 +5,7 @@ import play.api.test.Helpers._
 import controllers.{Mappings, change_of_address}
 import org.scalatest.{Matchers, WordSpec}
 import app.ChangeOfAddress._
-import models.domain.change_of_address.{LoginConfirmationModel, Address}
+import models.domain.change_of_address.LoginConfirmationModel
 import org.specs2.mock.Mockito
 import controllers.TestHelper.loginCachePopulate
 

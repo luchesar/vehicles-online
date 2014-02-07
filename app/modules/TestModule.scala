@@ -13,6 +13,7 @@ import models.domain.change_of_address.LoginConfirmationModel
 import models.domain.change_of_address.V5cSearchModel
 import play.api.Logger
 import ExecutionContext.Implicits.global
+import models.domain.common.Address
 
 
 /**
