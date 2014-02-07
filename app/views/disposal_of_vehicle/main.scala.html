@@ -1,0 +1,29 @@
+@(title: String, currentForm: Option[Form[_]] = None)(content: Html)(implicit lang: Lang)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@common.govMain(title, lang) {
+
+<div class="carers-allowance">
+
+    @common.protoType()
+
+    @common.helpLine()
+
+
+    <section>
+
+        <h1>@title</h1>
+
+
+
+        @if(currentForm.isDefined) {
+        @errorsSummary(currentForm.get)
+        }
+
+        @content
+
+    </section>
+</div>
+}

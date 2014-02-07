@@ -2,9 +2,12 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+######################
+## CHANGE OF KEEPER
+######################
 # Home page
 
-GET         /                               controllers.Application.index
+
 GET         /before-you-start               controllers.change_of_address.BeforeYouStart.present
 POST        /before-you-start               controllers.change_of_address.BeforeYouStart.submit
 
@@ -46,3 +49,11 @@ POST        /confirm-vehicle-details        controllers.change_of_address.Confir
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                   controllers.Assets.at(path="/public", file)
+
+######################
+## DISPOSAL OF VEHICLE
+######################
+
+GET         /                                                   controllers.Application.index
+GET         /disposal-of-vehicle/before-you-start               controllers.disposal_of_vehicle.BeforeYouStart.present
+POST        /disposal-of-vehicle/before-you-start               controllers.disposal_of_vehicle.BeforeYouStart.submit

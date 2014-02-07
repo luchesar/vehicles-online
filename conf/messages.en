@@ -1,3 +1,7 @@
+##
+# CHANGE OF ADDRESS
+##
+
 #main
 main.banner = Vehicles online
 
@@ -141,3 +145,32 @@ errorsummary.p1 = Please fix the following:
 error.restricted.validNumberOnly = This field only accepts numbers
 error.restricted.validVRNOnly = Please enter a valid vehicle registration number without spaces
 error.restricted.validPostcode = A post code must be in the format PR2 8AE
+
+
+
+
+##
+# DISPOSAL OF VEHICLE
+##
+
+#main
+main.banner = Vehicles online
+
+global.cookiemessage = GOV.UK uses cookies to make the site simpler.
+global.cookiefindoutmore = Find out more about cookies
+
+global.browserprompt = For a safer, faster, better experience online you should upgrade your browser.
+global.browserfindoutmore = Find out more about browsers
+global.browserclosetitle = Dismiss this message
+global.browserclosemessage = Close
+
+
+#prototype
+prototype.banner = This is a prototype. You cannot dispose of a vehicle using this service.
+prototype.link = Dispose of a vehicle using the live service
+
+#page 1
+disposal_beforeyoustart.title = Dispose a vehicle into the motor trade
+disposal_beforeyoustart.name = Selling or transfering a vehicle to a motor trader, insurer or dismantler
+disposal_beforeyoustart.p1 = Use this service if you are a motor trader, insurer or dismantler, and you have the consent of a vehicle keeper to dispose of that vehicle to yourself.
+disposal_beforeyoustart.button = Start now

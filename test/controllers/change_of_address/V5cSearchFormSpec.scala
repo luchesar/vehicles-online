@@ -57,7 +57,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
       )
     }
 
-    "reject if v5cReferenceNumber contains special characters" in {
+    "reject if v5cReferenceNumber contains special charapostcodecters" in {
       v5cSearchFiller(v5cReferenceNumber = "1234567891%", v5cRegistrationNumber = vehicleVRNValid, v5cPostcode = v5cPostcodeValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
