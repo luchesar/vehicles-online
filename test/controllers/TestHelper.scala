@@ -1,10 +1,11 @@
 package controllers
 
 import play.api.test.TestBrowser
-import models.domain.change_of_address.{V5cSearchConfirmationModel, LoginConfirmationModel, Address}
+import models.domain.change_of_address.{V5cSearchConfirmationModel, LoginConfirmationModel}
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
 import play.api.Play.current
+import models.domain.common.Address
 
 object TestHelper extends WordSpec with Matchers with Mockito {
 

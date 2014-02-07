@@ -4,9 +4,8 @@ import play.api.mvc._
 import play.api.data.{Mapping, Form}
 import play.api.data.Forms._
 import controllers.Mappings._
-import models.domain.disposal_of_vehicle.{DisposeFormModel, Address, DisposeModel, VehicleLookupModel}
-import play.api.i18n.Messages
-import play.api.data.validation.{ValidationError, Invalid, Valid, Constraint}
+import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeModel}
+import models.domain.common.Address
 
 object Dispose extends Controller {
 
