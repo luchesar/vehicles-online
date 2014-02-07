@@ -7,26 +7,28 @@ import controllers.Mappings._
 import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeModel}
 import models.domain.common.Address
 
-object Dispose extends Controller {
+object DisposeConfirmation extends Controller {
 
-  val disposeForm = Form(
-    mapping(
-      "consent" -> consent
-    )(DisposeFormModel.apply)(DisposeFormModel.unapply)
-  )
+//  val disposeForm = Form(
+//    mapping(
+//      "consent" -> consent
+//    )(DisposeFormModel.apply)(DisposeFormModel.unapply)
+//  )
 
   def present = Action {
     implicit request =>
-      Ok(views.html.disposal_of_vehicle.dispose(fetchData, disposeForm))
+//      Ok(views.html.disposal_of_vehicle.dispose(fetchData, disposeForm))
+      Ok(views.html.disposal_of_vehicle.dispose_confirmation(fetchData))
   }
 
   def submit = Action {
     implicit request => {
       println("Submitted dispose form ")
-      disposeForm.bindFromRequest.fold(
-        formWithErrors => BadRequest(views.html.disposal_of_vehicle.dispose(fetchData, formWithErrors)),
-        f => Redirect(routes.DisposeConfirmation.present)
-      )
+//      disposeForm.bindFromRequest.fold(
+//        formWithErrors => BadRequest(views.html.disposal_of_vehicle.dispose(fetchData, formWithErrors)),
+//        f => {println(f.consent); Ok("success")}//Redirect(routes.VehicleLookup.present)
+//      )
+      Ok("success")
     }
   }
 

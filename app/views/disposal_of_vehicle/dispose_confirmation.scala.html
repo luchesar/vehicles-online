@@ -1,0 +1,52 @@
+@(data: models.domain.disposal_of_vehicle.DisposeModel)(implicit lang: Lang)
+
+@import helper._
+
+@main(Messages("disposal_disposeconfirmation.title")){
+
+    <p>@Messages("disposal_disposeconfirmation.disposaldetails")</p>
+    <table>
+        <tr><td>@Messages("disposal_disposeconfirmation.vehiclemake")</td><td>@data.vehicleMake</td></tr>
+        <tr><td>@Messages("disposal_disposeconfirmation.vehiclemodel")</td><td>@data.vehicleModel</td></tr>
+        <tr><td>@Messages("disposal_disposeconfirmation.vehiclekeeper")</td><td>@data.keeperName</td></tr>
+        <tr><td></td><td>@data.keeperAddress.line1</td></tr>
+        <tr><td></td><td>@data.keeperAddress.line2</td></tr>
+        <tr><td></td><td>@data.keeperAddress.line3</td></tr>
+        <tr><td></td><td>@data.keeperAddress.postCode</td></tr>
+    </table>
+    </br>
+    <p>@Messages("disposal_disposeconfirmation.disposedto")</p>
+    <table>
+        <tr><td>@data.dealerName</td></tr>
+        <tr><td>@data.dealerAddress.line1</td></tr>
+        <tr><td>@data.dealerAddress.line2</td></tr>
+        <tr><td>@data.dealerAddress.line3</td></tr>
+        <tr><td>@data.dealerAddress.postCode</td></tr>
+    </table>
+    </br>
+    <p>@Messages("disposal_disposeconfirmation.exkeeper")</p>
+    <p>@Messages("disposal_disposeconfirmation.exkeeperlettersend")</p>
+    <table>
+        <tr><td>@data.keeperName</td></tr>
+        <tr><td>@data.keeperAddress.line1</td></tr>
+        <tr><td>@data.keeperAddress.line2</td></tr>
+        <tr><td>@data.keeperAddress.line3</td></tr>
+        <tr><td>@data.keeperAddress.postCode</td></tr>
+    </table>
+    </br>
+    <p>@Messages("disposal_disposeconfirmation.exkeeperlettertext")</p>
+
+
+@{ /*
+    @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit) {
+        <fieldset class="form-elements">
+            <p>@Messages("disposal_dispose.disposevehicleto")</p>
+        </fieldset>
+
+        <div class="form-steps">
+            <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_dispose.submitbutton")
+            </button>
+        </div>
+    }
+*/ }
+}

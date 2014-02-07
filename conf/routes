@@ -65,3 +65,7 @@ POST        /disposal-of-vehicle/vehicle-lookup                 controllers.disp
 
 GET         /disposal-of-vehicle/dispose                        controllers.disposal_of_vehicle.Dispose.present
 POST        /disposal-of-vehicle/dispose                        controllers.disposal_of_vehicle.Dispose.submit
+
+GET         /disposal-of-vehicle/dispose-confirmation           controllers.disposal_of_vehicle.DisposeConfirmation.present
+POST        /disposal-of-vehicle/dispose-confirmation           controllers.disposal_of_vehicle.DisposeConfirmation.submit
+

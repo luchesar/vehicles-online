@@ -17,7 +17,6 @@
     @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit) {
         <fieldset class="form-elements">
             <p>@Messages("disposal_dispose.disposevehicleto")</p>
-            @{ /*<p><input type="checkbox" id="consent" name="consent" value="consent">@Messages("disposal_dispose.consent")</p>*/ }
             <p>@checkbox(disposeForm("consent"), 'id -> "consent", '_showConstraints -> false, '_label -> "", '_text -> Messages("disposal_dispose.consent"))</p>
             <table>
                 <tr><td>@data.dealerName</td></tr>
