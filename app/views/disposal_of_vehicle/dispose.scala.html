@@ -3,6 +3,7 @@
 @import helper._
 
 @main(Messages("disposal_dispose.title")){
+    @errorsSummary(disposeForm)
     <p>@Messages("disposal_dispose.vehicledetails")</p>
     <table>
         <tr><td>@Messages("disposal_dispose.vehiclemake")</td><td>@data.vehicleMake</td></tr>

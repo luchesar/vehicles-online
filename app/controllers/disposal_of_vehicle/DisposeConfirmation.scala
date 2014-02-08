@@ -3,32 +3,29 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.data.{Mapping, Form}
 import play.api.data.Forms._
-import controllers.Mappings._
-import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeModel}
+import models.domain.disposal_of_vehicle.{DisposeConfirmationFormModel, DisposeModel}
 import models.domain.common.Address
 
 object DisposeConfirmation extends Controller {
 
-//  val disposeForm = Form(
-//    mapping(
-//      "consent" -> consent
-//    )(DisposeFormModel.apply)(DisposeFormModel.unapply)
-//  )
+  val disposeConfirmationForm = Form(
+    mapping(
+      "emailAddress" -> text
+    )(DisposeConfirmationFormModel.apply)(DisposeConfirmationFormModel.unapply)
+  )
 
   def present = Action {
     implicit request =>
-//      Ok(views.html.disposal_of_vehicle.dispose(fetchData, disposeForm))
-      Ok(views.html.disposal_of_vehicle.dispose_confirmation(fetchData))
+      Ok(views.html.disposal_of_vehicle.dispose_confirmation(fetchData, disposeConfirmationForm))
   }
 
   def submit = Action {
     implicit request => {
-      println("Submitted dispose form ")
-//      disposeForm.bindFromRequest.fold(
-//        formWithErrors => BadRequest(views.html.disposal_of_vehicle.dispose(fetchData, formWithErrors)),
-//        f => {println(f.consent); Ok("success")}//Redirect(routes.VehicleLookup.present)
-//      )
-      Ok("success")
+      println("Submitted dispose confirmation form ")
+      disposeConfirmationForm.bindFromRequest.fold(
+        formWithErrors => BadRequest(views.html.disposal_of_vehicle.dispose_confirmation(fetchData, formWithErrors)),
+        f => {println(s"Form submitted email address = <<${f.emailAddress}>>"); Ok("success")} //Redirect(routes.VehicleLookup.present)
+      )
     }
   }
 

@@ -1,9 +1,16 @@
-@(data: models.domain.disposal_of_vehicle.DisposeModel)(implicit lang: Lang)
+@(data: models.domain.disposal_of_vehicle.DisposeModel, disposeConfirmationForm: Form[models.domain.disposal_of_vehicle.DisposeConfirmationFormModel])(implicit lang: Lang)
 
 @import helper._
+@import views.html.helper.base._
+
+@import helper._
+@import utils.helpers.CarersTemplate._
+@import views.html.helper.base._
+@import views.html.common._
+@import views.html.helper._
+
 
 @main(Messages("disposal_disposeconfirmation.title")){
-
     <p>@Messages("disposal_disposeconfirmation.disposaldetails")</p>
     <table>
         <tr><td>@Messages("disposal_disposeconfirmation.vehiclemake")</td><td>@data.vehicleMake</td></tr>
@@ -36,17 +43,20 @@
     </br>
     <p>@Messages("disposal_disposeconfirmation.exkeeperlettertext")</p>
 
-
-@{ /*
-    @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit) {
-        <fieldset class="form-elements">
-            <p>@Messages("disposal_dispose.disposevehicleto")</p>
-        </fieldset>
-
-        <div class="form-steps">
-            <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_dispose.submitbutton")
-            </button>
-        </div>
+    @form(action = controllers.disposal_of_vehicle.routes.DisposeConfirmation.submit) {
+        <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
+            <ul>
+                @carersInputText(disposeConfirmationForm("emailAddress"), args =
+                '_label -> Messages("disposal_disposeconfirmation.emaillabel"),
+                '_showConstraints -> false)
+            </ul>
+            <div class="form-steps">
+                <button type="submit" name="send-email" class="button" aria-label="Next button">@Messages("disposal_disposeconfirmation.sendbutton")</button>
+            </div>
+            <p>@Messages("disposal_disposeconfirmation.transactionid", "123-654-REP")</p>
+            <div class="form-steps">
+                <button type="submit" name="new-disposal" class="button" aria-label="Next button">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
+            </div>
+         </fieldset>
     }
-*/ }
 }
