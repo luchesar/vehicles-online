@@ -1,0 +1,36 @@
+@(traderLookupForm: Form[models.domain.disposal_of_vehicle.SetupTradeDetailsModel])(implicit lang: Lang)
+
+@import helper._
+@import utils.helpers.CarersTemplate._
+@import views.html.helper.base._
+@import views.html.common._
+@import views.html.helper._
+
+
+@main(Messages("disposal_setuptradedetails.title")) {
+    @errorsSummary(traderLookupForm)
+
+    @form(action = controllers.disposal_of_vehicle.routes.SetUpTradeDetails.submit) {
+
+<fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
+    <legend>@Messages("disposal_vehiclelookup.p1")</legend>
+    <ul>
+        @carersInputText(traderLookupForm(app.DisposalOfVehicle.traderBusinessNameID), args =
+        '_label -> Messages("disposal_setuptradedetails.tradernamelabel"),
+        '_showConstraints -> false)
+
+        @carersInputText(traderLookupForm(app.DisposalOfVehicle.traderPostcodeID), args =
+        '_label -> Messages("disposal_setuptradedetails.traderpostcodelabel"),
+        '_showConstraints -> false,
+        'maxLength -> Mappings.Postcode.maxLength,
+        'title -> Messages("disposal_setuptradedetails.traderpostcode.validation"))
+    </ul>
+
+</fieldset>
+
+<div class="form-steps">
+    <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_setuptradedetails.button")</button>
+</div>
+
+    }
+}

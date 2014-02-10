@@ -175,6 +175,14 @@ disposal_beforeyoustart.name = Selling or transfering a vehicle to a motor trade
 disposal_beforeyoustart.p1 = Use this service if you are a motor trader, insurer or dismantler, and you have the consent of a vehicle keeper to dispose of that vehicle to yourself.
 disposal_beforeyoustart.button = Start now
 
+disposal_setuptradedetails.title = Dispose a vehicle into the motor trade
+disposal_setuptradedetails.name = Dispose a vehicle into the motor trade
+disposal_setuptradedetails.p1 = Set-up trade details
+disposal_setuptradedetails.tradernamelabel = Business name
+disposal_setuptradedetails.traderpostcodelabel = Postcode
+disposal_setuptradedetails.traderpostcodelabel.validation = Please enter a valid business postcode
+disposal_setuptradedetails.button = Look-up
+
 #page not known - Vehicle Lookup
 disposal_vehiclelookup.title = Dispose a vehicle into the motor trade
 disposal_vehiclelookup.name = Dispose a vehicle into the motor trade

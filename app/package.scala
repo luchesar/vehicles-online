@@ -153,6 +153,8 @@ package object app {
   }
 
   object DisposalOfVehicle {
+    val traderBusinessNameID = "traderBusinessName"
+    val traderPostcodeID = "traderPostcode"
     val v5cReferenceNumberID = "v5cReferenceNumber"
     val v5cRegistrationNumberID = "v5cRegistrationNumber"
     val v5cKeeperNameID = "v5cKeeperName"

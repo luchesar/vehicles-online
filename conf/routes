@@ -59,7 +59,9 @@ GET         /                                                   controllers.Appl
 GET         /disposal-of-vehicle/before-you-start               controllers.disposal_of_vehicle.BeforeYouStart.present
 POST        /disposal-of-vehicle/before-you-start               controllers.disposal_of_vehicle.BeforeYouStart.submit
 
-#page not known  - Vehicle Lookup
+GET         /disposal-of-vehicle/setup-trade-details            controllers.disposal_of_vehicle.SetUpTradeDetails.present
+POST        /disposal-of-vehicle/setup-trade-details            controllers.disposal_of_vehicle.SetUpTradeDetails.submit
+
 GET         /disposal-of-vehicle/vehicle-lookup                 controllers.disposal_of_vehicle.VehicleLookup.present
 POST        /disposal-of-vehicle/vehicle-lookup                 controllers.disposal_of_vehicle.VehicleLookup.submit
 
