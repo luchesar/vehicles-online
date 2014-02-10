@@ -8,6 +8,12 @@ import play.api.Play.current
 import models.domain.common.Address
 
 object TestHelper extends WordSpec with Matchers with Mockito {
+  val v5cDocumentReferenceNumberValid = "12345678910"
+  val v5cVehicleRegistrationNumberValid = "AB12AWR"
+  val v5cKeeperNameValid = "John Smith"
+  val v5cPostcodeValid = "Sa991DD"
+
+  val businessNameValid = "DVLA"
 
   def loginPagePopulate(browser: TestBrowser) = {
     browser.goTo("/login-page")
@@ -53,7 +59,6 @@ object TestHelper extends WordSpec with Matchers with Mockito {
 
   def vehicleLookupIntegrationHelper(browser: TestBrowser, v5cReferenceNumber: String = v5cDocumentReferenceNumberValid, v5cVehicleRegistrationNumber: String = v5cVehicleRegistrationNumberValid, v5cKeeperName: String = v5cKeeperNameValid, v5cPostcode: String = v5cPostcodeValid) = {
     browser.goTo("/disposal-of-vehicle/vehicle-lookup")
-
     browser.fill("#v5cReferenceNumber") `with` v5cReferenceNumber
     browser.fill("#v5cRegistrationNumber") `with` v5cVehicleRegistrationNumber
     browser.fill("#v5cKeeperName") `with` v5cKeeperName
@@ -61,8 +66,10 @@ object TestHelper extends WordSpec with Matchers with Mockito {
     browser.submit("button[type='submit']")
   }
 
-  val v5cDocumentReferenceNumberValid = "12345678910"
-  val v5cVehicleRegistrationNumberValid = "AB12AWR"
-  val v5cKeeperNameValid = "John Smith"
-  val v5cPostcodeValid = "Sa991DD"
+  // page 3 business-choose-your-address
+  def businessChooseYourAddressPopulate(browser: TestBrowser, businessName: String = businessNameValid) = {
+    browser.goTo("/disposal-of-vehicle/business-choose-your-address")
+    browser.fill(s"#${app.DisposalOfVehicle.businessNameID}") `with` businessName
+    browser.submit("button[type='submit']")
+  }
 }

@@ -183,6 +183,12 @@ disposal_setuptradedetails.traderpostcodelabel = Postcode
 disposal_setuptradedetails.traderpostcodelabel.validation = Please enter a valid business postcode
 disposal_setuptradedetails.button = Look-up
 
+#page 3
+disposal_businessChooseYourAddress_title = Business: Choose your address
+disposal_businessChooseYourAddress_legend = Set up trade details
+disposal_businessChooseYourAddress_businessName = Business name
+disposal_businessChooseYourAddress_businessName_label = Business name
+
 #page not known - Vehicle Lookup
 disposal_vehiclelookup.title = Dispose a vehicle into the motor trade
 disposal_vehiclelookup.name = Dispose a vehicle into the motor trade

@@ -1,0 +1,31 @@
+@(businessChooseYourAddressForm: Form[models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel])(implicit lang: Lang)
+
+@import helper._
+@import utils.helpers.CarersTemplate._
+@import views.html.helper.base._
+@import views.html.common._
+@import views.html.helper._
+
+
+@main(Messages("disposal_businessChooseYourAddress_title")) {
+    @errorsSummary(businessChooseYourAddressForm)
+
+    @form(action = controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit) {
+
+        <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
+            <legend>@Messages("disposal_businessChooseYourAddress_legend")</legend>
+            <ul>
+                @carersInputText(businessChooseYourAddressForm(app.DisposalOfVehicle.businessNameID), args =
+                    '_label -> Messages("disposal_businessChooseYourAddress_businessName_label"),
+                    '_showConstraints -> false,
+                    'maxLength -> Mappings.sixty)
+            </ul>
+
+        </fieldset>
+
+        <div class="form-steps">
+            <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_setuptradedetails.button")</button>
+        </div>
+
+    }
+}

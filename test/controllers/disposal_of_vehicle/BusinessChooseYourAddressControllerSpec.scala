@@ -9,7 +9,7 @@ import scala.Some
 
 class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
 
-  "BusinessChooseYourAddress - Controller" should {
+  "businessChooseYourAddress - Controller" should {
 
     "present" in new WithApplication {
       // Arrange

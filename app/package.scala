@@ -161,6 +161,6 @@ package object app {
     val v5cPostcodeID = "v5cPostcode"
 
     // page 3 - business choose your address
-    val businessNameID = "businessName"
+    val businessNameID = "disposal_businessChooseYourAddress_businessName"
   }
 }
