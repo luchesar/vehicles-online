@@ -17,6 +17,7 @@ object TestHelper extends WordSpec with Matchers with Mockito {
   val traderPostcodeValid = "SA99 1DD"
 
   val businessNameValid = "DVLA"
+  val addressValid = "1"
 
   def loginPagePopulate(browser: TestBrowser) = {
     browser.goTo("/login-page")
@@ -71,8 +72,10 @@ object TestHelper extends WordSpec with Matchers with Mockito {
 
   // page 3 business-choose-your-address
   def businessChooseYourAddressPopulate(browser: TestBrowser, businessName: String = businessNameValid) = {
+    import app.DisposalOfVehicle.BusinessAddressSelect._
     browser.goTo("/disposal-of-vehicle/business-choose-your-address")
-    browser.fill(s"#${app.DisposalOfVehicle.businessNameID}") `with` businessName
+    browser.fill(s"#${businessNameID}") `with` businessName
+    browser.click(s"#${addressSelectId} option[value='${FirstAddress}']")
     browser.submit("button[type='submit']")
   }
 
