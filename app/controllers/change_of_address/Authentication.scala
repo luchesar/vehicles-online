@@ -19,9 +19,9 @@ object Authentication extends Controller {
 
   val v5cSearchForm = Form(
     mapping(
-      "V5cReferenceNumber" -> V5cReferenceNumber(),
-      "V5CRegistrationNumber" -> V5CRegistrationNumber(minLength = 2, maxLength = 8),
-      "Postcode" -> Postcode(minLength = 5, maxLength = 8)
+      V5cReferenceNumber.key -> V5cReferenceNumber(minLength = V5cReferenceNumber.minLength, maxLength = V5cReferenceNumber.maxLength),
+      V5cRegistrationNumber.key -> V5CRegistrationNumber(minLength = V5cRegistrationNumber.minLength, maxLength = V5cRegistrationNumber.maxLength),
+      Postcode.key -> Postcode(minLength = Postcode.minLength, maxLength = Postcode.maxLength)
     )(V5cSearchModel.apply)(V5cSearchModel.unapply)
   )
 

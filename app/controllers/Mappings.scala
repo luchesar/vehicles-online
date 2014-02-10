@@ -25,7 +25,8 @@ object Mappings {
   }
 
   object V5cRegistrationNumber {
-    val maxLength = 7
+    val minLength = 2
+    val maxLength = 8
     val key = "V5cRegistrationNumber"
   }
 
