@@ -12,7 +12,7 @@ class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers {
     def chooseYourAddressFiller(businessName: String= businessNameValid, addressSelected: String = addressSelectedValid) = {
       BusinessChooseYourAddress.businessChooseYourAddressForm.bind(
         Map(
-          businessNameID -> businessName,
+          businessNameId -> businessName,
           addressSelectId -> addressSelected
         )
       )
@@ -32,10 +32,10 @@ class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers {
       chooseYourAddressFiller(businessName = "", addressSelected = "").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(3)
-          formWithErrors.errors(0).key should equal(businessNameID)
+          formWithErrors.errors(0).key should equal(businessNameId)
           formWithErrors.errors(0).message should equal("error.minLength")
 
-          formWithErrors.errors(1).key should equal(businessNameID)
+          formWithErrors.errors(1).key should equal(businessNameId)
           formWithErrors.errors(1).message should equal("error.required")
 
           formWithErrors.errors(2).key should equal(addressSelectId)
@@ -49,7 +49,7 @@ class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers {
       chooseYourAddressFiller(businessName = "1234567890123456789012345678901234567890123456789012345678901234567890").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
-          formWithErrors.errors(0).key should equal(businessNameID)
+          formWithErrors.errors(0).key should equal(businessNameId)
           formWithErrors.errors(0).message should equal("error.maxLength")
         },
         f => fail("An error should occur")

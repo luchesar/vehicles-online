@@ -16,7 +16,7 @@ object BusinessChooseYourAddress extends Controller {
 
   val businessChooseYourAddressForm = Form(
     mapping(
-      businessNameID -> nonEmptyText(minLength = 1, maxLength = sixty),
+      businessNameId -> nonEmptyText(minLength = 1, maxLength = sixty),
       addressSelectId -> dropDown(dropDownOptions)
     )(BusinessChooseYourAddressModel.apply)(BusinessChooseYourAddressModel.unapply)
   )

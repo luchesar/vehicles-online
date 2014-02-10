@@ -164,7 +164,7 @@ package object app {
 
 
     object BusinessAddressSelect {
-      val businessNameID = "disposal_businessChooseYourAddress_businessName"
+      val businessNameId = "disposal_businessChooseYourAddress_businessName"
       val addressSelectId = "disposal_businessChooseYourAddress_addressSelect"
       val FirstAddress = "1"
       val SecondAddress = "2"
