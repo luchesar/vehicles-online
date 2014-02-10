@@ -32,25 +32,25 @@
 
             <ul>
 
-                @carersInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cReferenceNumberID), args =
+                @valtechInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cReferenceNumberID), args =
                     '_label -> Messages("disposal_vehiclelookup.v5cinputlabel"),
                     '_showConstraints -> false,
                     'pattern -> Mappings.V5cReferenceNumber.pattern,
                     'maxLength -> Mappings.V5cReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                     'title -> Messages("disposal_vehiclelookup.v5cinputlabel.refNumIncorrect"))
 
-                @carersInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cRegistrationNumberID), args =
+                @valtechInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cRegistrationNumberID), args =
                   '_label -> Messages("disposal_vehiclelookup.vrninputlabel"),
                   'maxLength -> Mappings.V5cRegistrationNumber.maxLength,
                   '_showConstraints -> false)
 
-                @carersInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cKeeperNameID), args =
+                @valtechInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cKeeperNameID), args =
                 '_label -> Messages("disposal_vehiclelookup.keepernamelabel"),
                 '_showConstraints -> false,
                 'maxLength -> Mappings.KeeperName.maxLength,
                 'title -> Messages("disposal_vehiclelookup.keepername.validation"))
 
-                @carersInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cPostcodeID), args =
+                @valtechInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cPostcodeID), args =
                 '_label -> Messages("disposal_vehiclelookup.keeperpostcodelabel"),
                 '_showConstraints -> false,
                 'maxLength -> Mappings.Postcode.maxLength,

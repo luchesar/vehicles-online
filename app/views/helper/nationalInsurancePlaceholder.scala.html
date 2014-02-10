@@ -1,6 +1,6 @@
 @(field: play.api.data.Field)
 
-@import views.html.helper.base.carersInputText
+@import views.html.helper.base.valtechInputText
 @import views.html.helper.base.carersInputTel
 @import utils.helpers.CarersCrypto
 @import utils.helpers.EmptyTemplate._
@@ -9,7 +9,7 @@
 @checkConstraintRequired(field)
 <ul class="inline ni-number label-strip" id="@field.id">
     <li>
-        @carersInputText(field("ni1"), 'placeholder -> "VO", 'maxlength -> 2)
+        @valtechInputText(field("ni1"), 'placeholder -> "VO", 'maxlength -> 2)
     </li>
 
     <li>
@@ -25,6 +25,6 @@
     </li>
 
     <li>
-        @carersInputText(field("ni5"), 'placeholder -> "D", 'maxlength -> 1, 'class -> "single")
+        @valtechInputText(field("ni5"), 'placeholder -> "D", 'maxlength -> 1, 'class -> "single")
     </li>
 </ul>
