@@ -1,6 +1,6 @@
 package controllers.disposal_of_vehicle
 
-import app.DisposalOfVehicle._
+import app.DisposalOfVehicle.BusinessAddressSelect._
 import org.scalatest.{Matchers, WordSpec}
 import play.api.test.{FakeRequest, WithApplication}
 import controllers.disposal_of_vehicle
@@ -9,7 +9,7 @@ import scala.Some
 
 class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
 
-  "businessChooseYourAddress - Controller" should {
+  "BusinessChooseYourAddress - Controller" should {
 
     "present" in new WithApplication {
       // Arrange
@@ -25,9 +25,11 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
     "redirect to next page after a valid submit" in new WithApplication {
       // Arrange
       val businessNameValid = "DVLA"
+      val addressSelectValid = "1"
 
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(businessNameID -> businessNameValid)
+        .withFormUrlEncodedBody(businessNameID -> businessNameValid,
+          addressSelectId -> addressSelectValid)
 
       // Act
       val result = disposal_of_vehicle.BusinessChooseYourAddress.submit(request)
@@ -40,7 +42,8 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
     "return a bad request after an invalid submission" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(businessNameID -> "")
+        .withFormUrlEncodedBody(businessNameID -> "",
+          addressSelectId -> "")
 
       // Act
       val result = disposal_of_vehicle.BusinessChooseYourAddress.submit(request)

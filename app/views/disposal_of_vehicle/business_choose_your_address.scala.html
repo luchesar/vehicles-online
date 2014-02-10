@@ -1,11 +1,11 @@
-@(businessChooseYourAddressForm: Form[models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel])(implicit lang: Lang)
+@(businessChooseYourAddressForm: Form[models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel], dropDownOptions: Map[String, String])(implicit lang: Lang)
 
 @import helper._
 @import utils.helpers.CarersTemplate._
 @import views.html.helper.base._
 @import views.html.common._
 @import views.html.helper._
-
+@import app.DisposalOfVehicle.BusinessAddressSelect._
 
 @main(Messages("disposal_businessChooseYourAddress_title")) {
     @errorsSummary(businessChooseYourAddressForm)
@@ -15,10 +15,15 @@
         <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
             <legend>@Messages("disposal_businessChooseYourAddress_legend")</legend>
             <ul>
-                @carersInputText(businessChooseYourAddressForm(app.DisposalOfVehicle.businessNameID), args =
+                @valtechInputText(businessChooseYourAddressForm(businessNameID), args =
                     '_label -> Messages("disposal_businessChooseYourAddress_businessName_label"),
                     '_showConstraints -> false,
                     'maxLength -> Mappings.sixty)
+
+                @valtechSelect(businessChooseYourAddressForm(addressSelectId),
+                    options = dropDownOptions.toSeq,
+                    '_label -> Messages("disposal_businessChooseYourAddress_addressSelect_label")
+                )
             </ul>
 
         </fieldset>

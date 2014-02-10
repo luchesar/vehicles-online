@@ -6,6 +6,8 @@ import play.api.data.Forms._
 import play.api.data.validation.ValidationError
 
 object Mappings {
+
+
   object Authentication {
     val minLength = 6
     val maxLength = 6
@@ -189,5 +191,27 @@ object Mappings {
       case true => Valid
       case false => Invalid(ValidationError("disposal_dispose.consentnotgiven"))
     }
+  }
+
+  def dropDown(dropDownOptions: Map[String, String]): Mapping[String] = {
+    nonEmptyText(maxLength = 12) verifying validDropDown(dropDownOptions)
+  }
+
+  def validDropDown(dropDownOptions: Map[String, String]): Constraint[String] = Constraint[String]("constraint.validDropDown") { input =>
+    dropDownOptions.contains(input) match {
+      case true => Valid
+      case false => Invalid(ValidationError("error.dropDownInvalid"))
+    }
+  }
+
+  object Mileage {
+    val minLength = 1
+    val maxLength = 6
+    val pattern = s"\\d{$minLength,$maxLength}" // Digits only with specified size.
+    val key = "Mileage"
+  }
+
+  def Mileage (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[Option[Int]] = {
+    optional(number(minLength, maxLength))
   }
 }

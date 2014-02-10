@@ -12,6 +12,7 @@
 
     @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit) {
 
+<<<<<<< HEAD
 		<div class="two-col clearfix">
 		
 			<div id="TraderDetailsDiv" class="first-col">
@@ -28,35 +29,90 @@
 				<h2>@Messages("disposal_vehiclelookup.p1")</h2>
 				<div class="form-elements">
 					<ul>
-						@carersInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cReferenceNumberID), args =
-						'_label -> Messages("disposal_vehiclelookup.v5cinputlabel"),
-						'_showConstraints -> false,
-						'pattern -> Mappings.V5cReferenceNumber.pattern,
-						'maxLength -> Mappings.V5cReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-						'title -> Messages("disposal_vehiclelookup.v5cinputlabel.refNumIncorrect"))
-						
-						@carersInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cRegistrationNumberID), args =
-						'_label -> Messages("disposal_vehiclelookup.vrninputlabel"),
-						'maxLength -> Mappings.V5cRegistrationNumber.maxLength,
-						'_showConstraints -> false)
-						
-						@carersInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cKeeperNameID), args =
-						'_label -> Messages("disposal_vehiclelookup.keepernamelabel"),
-						'_showConstraints -> false,
-						'maxLength -> Mappings.KeeperName.maxLength,
-						'title -> Messages("disposal_vehiclelookup.keepername.validation"))
-						
-						@carersInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cPostcodeID), args =
-						'_label -> Messages("disposal_vehiclelookup.keeperpostcodelabel"),
-						'_showConstraints -> false,
-						'maxLength -> Mappings.Postcode.maxLength,
-						'title -> Messages("disposal_vehiclelookup.keeperpostcode.validation"))
+						@valtechInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cReferenceNumberID), args =
+                    '_label -> Messages("disposal_vehiclelookup.v5cinputlabel"),
+                    '_showConstraints -> false,
+                    'pattern -> Mappings.V5cReferenceNumber.pattern,
+                    'maxLength -> Mappings.V5cReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                    'title -> Messages("disposal_vehiclelookup.v5cinputlabel.refNumIncorrect"))
+
+                @valtechInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cRegistrationNumberID), args =
+                  '_label -> Messages("disposal_vehiclelookup.vrninputlabel"),
+                  'maxLength -> Mappings.V5cRegistrationNumber.maxLength,
+                  '_showConstraints -> false)
+
+                @valtechInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cKeeperNameID), args =
+                '_label -> Messages("disposal_vehiclelookup.keepernamelabel"),
+                '_showConstraints -> false,
+                'maxLength -> Mappings.KeeperName.maxLength,
+                'title -> Messages("disposal_vehiclelookup.keepername.validation"))
+
+                @valtechInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cPostcodeID), args =
+                '_label -> Messages("disposal_vehiclelookup.keeperpostcodelabel"),
+                '_showConstraints -> false,
+                'maxLength -> Mappings.Postcode.maxLength,
+                'title -> Messages("disposal_vehiclelookup.keeperpostcode.validation"))
 					</ul>
 					<button type="submit" name="action" class="button" aria-label="Lookup vehicle">@Messages("disposal_vehiclelookup.button")</button>
 				</div>
 			</div>
 		
 		</div>
+=======
+        <div id="TraderDetailsDiv" style="float:left;width:25%; margin: 2em 18% 0px 0px; margin-right:65px; min-width:260px;">
+
+            <p style="font-weight: 600;font-size: 2.4rem;padding: 0px 0px 0.5em;position: relative;line-height: 1.2em;color: rgb(51, 51, 153);">Vehicle disposed to</p><br>
+            <ul>
+                <p style="font-weight:bold; font-size:1.3em;">Car Giant</p>
+                <p>44 Hythe Road</p>
+                <p>White City</p>
+                <p>LONDON</p>
+                <p>NW10 6RJ</p>
+
+                <button type="reset" name="action" class="button-not-implemented" aria-label="Edit button">@Messages("disposal_vehiclelookup.button2")</button>
+            </ul>
+        </div>
+
+        <div id="FindAVehicleDiv" style="float:left;width:60%">
+            <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
+            <legend>@Messages("disposal_vehiclelookup.p1")</legend>
+
+            <ul>
+
+                @valtechInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cReferenceNumberID), args =
+                    '_label -> Messages("disposal_vehiclelookup.v5cinputlabel"),
+                    '_showConstraints -> false,
+                    'pattern -> Mappings.V5cReferenceNumber.pattern,
+                    'maxLength -> Mappings.V5cReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                    'title -> Messages("disposal_vehiclelookup.v5cinputlabel.refNumIncorrect"))
+
+                @valtechInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cRegistrationNumberID), args =
+                  '_label -> Messages("disposal_vehiclelookup.vrninputlabel"),
+                  'maxLength -> Mappings.V5cRegistrationNumber.maxLength,
+                  '_showConstraints -> false)
+
+                @valtechInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cKeeperNameID), args =
+                '_label -> Messages("disposal_vehiclelookup.keepernamelabel"),
+                '_showConstraints -> false,
+                'maxLength -> Mappings.KeeperName.maxLength,
+                'title -> Messages("disposal_vehiclelookup.keepername.validation"))
+
+                @valtechInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cPostcodeID), args =
+                '_label -> Messages("disposal_vehiclelookup.keeperpostcodelabel"),
+                '_showConstraints -> false,
+                'maxLength -> Mappings.Postcode.maxLength,
+                'title -> Messages("disposal_vehiclelookup.keeperpostcode.validation"))
+            </ul>
+
+                <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_vehiclelookup.button")</button>
+                
+        </fieldset>
+
+
+
+         </div>
+        <div id="clear-container" style="clear:both"></div>
+>>>>>>> d2086b1646d9f10ba57301c2fdde5df1a252afa1
 
     }
 }

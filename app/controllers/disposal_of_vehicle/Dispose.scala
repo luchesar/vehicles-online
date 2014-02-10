@@ -5,13 +5,18 @@ import play.api.data.{Mapping, Form}
 import play.api.data.Forms._
 import controllers.Mappings._
 import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeModel}
+import models.domain.disposal_of_vehicle.DisposeFormModel
+import scala.Some
+import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.common.Address
 
 object Dispose extends Controller {
 
   val disposeForm = Form(
     mapping(
-      "consent" -> consent
+      "consent" -> consent,
+      "mileage" -> Mileage(minLength = 0, maxLength = 999999)
+
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 
@@ -22,10 +27,10 @@ object Dispose extends Controller {
 
   def submit = Action {
     implicit request => {
-      println("Submitted dispose form ")
+      println("Submitted dispose form...")
       disposeForm.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.disposal_of_vehicle.dispose(fetchData, formWithErrors)),
-        f => Redirect(routes.DisposeConfirmation.present)
+        f => {println(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}"); Redirect(routes.DisposeConfirmation.present)}
       )
     }
   }

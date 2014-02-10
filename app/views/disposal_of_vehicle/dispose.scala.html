@@ -1,6 +1,8 @@
 @(data: models.domain.disposal_of_vehicle.DisposeModel, disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel])(implicit lang: Lang)
 
 @import helper._
+@import helper.base.valtechInputText
+@import utils.helpers.CarersTemplate._
 
 @main(Messages("disposal_dispose.title")){
     @errorsSummary(disposeForm)
