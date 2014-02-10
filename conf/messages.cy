@@ -9,6 +9,10 @@ global.browserfindoutmore = Cael gwybod mwy am borwyr
 global.browserclosetitle = Gwrthod neges hon
 global.browserclosemessage = Cau
 
+global.buttonnavback = Yn ôl
+global.buttonnavcancel = Ganslo
+global.buttonnavupdate = Diweddariad
+
 footer.helpdesk = Desg Gymorth
 footer.privacypolicy = Preifatrwydd & Cwcis
 footer.builtbyintro = Adeiladwyd gan

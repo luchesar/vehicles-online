@@ -13,6 +13,10 @@ global.browserfindoutmore = Find out more about browsers
 global.browserclosetitle = Dismiss this message
 global.browserclosemessage = Close
 
+global.buttonnavback = Back
+global.buttonnavcancel = Cancel
+global.buttonnavupdate = Update
+
 footer.helpdesk = Helpdesk
 footer.privacypolicy = Privacy & Cookies
 footer.builtbyintro = Built by

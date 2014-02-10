@@ -6,17 +6,12 @@
 @main(Messages("disposal_beforeyoustart.title")){
 
     @form(action = controllers.disposal_of_vehicle.routes.BeforeYouStart.submit) {
-    <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
-        <legend>@Messages("disposal_beforeyoustart.name")</legend>
 
+		<h2>@Messages("disposal_beforeyoustart.name")</h2>
         <p>@Messages("disposal_beforeyoustart.p1")</p><br>
 
-
-    </fieldset>
-
     <div class="form-steps">
-        <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_beforeyoustart.button")
-        </button>
+        <a href="@controllers.disposal_of_vehicle.SetUpTradeDetails.submit" class="button" aria-label="Next button">@Messages("disposal_beforeyoustart.button")</a>
     </div>
     }
 
