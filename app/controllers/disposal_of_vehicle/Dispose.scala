@@ -15,8 +15,8 @@ object Dispose extends Controller {
   val disposeForm = Form(
     mapping(
       "consent" -> consent,
-      "mileage" -> Mileage(minLength = 0, maxLength = 999999)
-
+      "mileage" -> Mileage(minLength = 0, maxLength = 999999),
+      "dateOfDisposal" -> dayMonthYear.verifying(validDate)
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 
@@ -30,7 +30,7 @@ object Dispose extends Controller {
       println("Submitted dispose form...")
       disposeForm.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.disposal_of_vehicle.dispose(fetchData, formWithErrors)),
-        f => {println(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}"); Redirect(routes.DisposeConfirmation.present)}
+        f => {println(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}"); Redirect(routes.DisposeConfirmation.present)}
       )
     }
   }

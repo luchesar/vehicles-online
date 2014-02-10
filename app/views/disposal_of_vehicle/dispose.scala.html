@@ -3,6 +3,7 @@
 @import helper._
 @import helper.base.valtechInputText
 @import utils.helpers.CarersTemplate._
+@import helper.dates.inputDayMonthYear
 
 @main(Messages("disposal_dispose.title")){
     @errorsSummary(disposeForm)
@@ -35,6 +36,9 @@
                 'pattern -> Mappings.Mileage.pattern,
                 'maxLength -> Mappings.Mileage.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                 'title -> Messages("disposal_dispose.mileage.validation"))
+            </ul>
+            <ul>
+                @inputDayMonthYear(disposeForm("dateOfDisposal"), args = '_label -> Messages("disposal_dispose.dateofdisposal.label"))
             </ul>
         </fieldset>
 
