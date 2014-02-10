@@ -24,7 +24,7 @@ class BeforeYouStartIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade") //TODO: This will need to check the next page - currently reloading same page
+      titleMustEqual("Dispose a vehicle into the motor trade")
     }
 
   }
