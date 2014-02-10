@@ -1,6 +1,8 @@
 @(data: models.domain.disposal_of_vehicle.DisposeModel, disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel])(implicit lang: Lang)
 
 @import helper._
+@import helper.base.valtechInputText
+@import utils.helpers.CarersTemplate._
 
 @main(Messages("disposal_dispose.title")){
     @errorsSummary(disposeForm)
@@ -26,6 +28,14 @@
                 <tr><td>@data.dealerAddress.line3</td></tr>
                 <tr><td>@data.dealerAddress.postCode</td></tr>
             </table>
+            <ul>
+                @valtechInputText(disposeForm("mileage"), args =
+                '_label -> Messages("disposal_dispose.mileage.label"),
+                '_showConstraints -> false,
+                'pattern -> Mappings.Mileage.pattern,
+                'maxLength -> Mappings.Mileage.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                'title -> Messages("disposal_dispose.mileage.validation"))
+            </ul>
         </fieldset>
 
         <div class="form-steps">

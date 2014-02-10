@@ -173,6 +173,8 @@ disposal_dispose.vehiclekeeper = Ceidwad
 disposal_dispose.disposevehicleto = gwared gerbyd
 disposal_dispose.consent = gennyf ganiatad y ceidwad presennol i gael gwared ar y cerbyd hwn
 disposal_dispose.consentnotgiven = Nodwch gennych ganiatad y ceidwad presennol
+disposal_dispose.mileage.label = milltiroedd cerbydau
+disposal_dispose.mileage.validation = Mae''n rhaid i chi fynd i mewn milltiroedd dilys rhwng 0 a 999,999
 disposal_dispose.submitbutton = Gwaredu
 
 disposal_disposeconfirmation.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion
