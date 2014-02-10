@@ -5,7 +5,7 @@ import play.api.Play
 import play.api.Play.current
 
 // TODO Need a better name for this file & object.
-object HtmlArgsSanitiser {
+object HtmlArgsExtensions {
   def maxLength(htmlArgs: Map[Symbol, Any]) = {
     htmlArgs.contains('maxLength) match {
       case true => {
