@@ -13,6 +13,9 @@ object TestHelper extends WordSpec with Matchers with Mockito {
   val v5cKeeperNameValid = "John Smith"
   val v5cPostcodeValid = "Sa991DD"
 
+  val traderBusinessNameValid = "example trader name"
+  val traderPostcodeValid = "SA99 1DD"
+
   val businessNameValid = "DVLA"
 
   def loginPagePopulate(browser: TestBrowser) = {
@@ -70,6 +73,14 @@ object TestHelper extends WordSpec with Matchers with Mockito {
   def businessChooseYourAddressPopulate(browser: TestBrowser, businessName: String = businessNameValid) = {
     browser.goTo("/disposal-of-vehicle/business-choose-your-address")
     browser.fill(s"#${app.DisposalOfVehicle.businessNameID}") `with` businessName
+    browser.submit("button[type='submit']")
+  }
+
+  def traderLookupIntegrationHelper(browser: TestBrowser, traderBusinessName: String = traderBusinessNameValid, traderPostcode: String = traderPostcodeValid) = {
+    browser.goTo("/disposal-of-vehicle/setup-trade-details")
+
+    browser.fill("#traderBusinessName") `with` traderBusinessName
+    browser.fill("#traderPostcode") `with` traderPostcode
     browser.submit("button[type='submit']")
   }
 }

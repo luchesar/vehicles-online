@@ -10,7 +10,7 @@ object BeforeYouStart extends Controller {
   }
 
   def submit = Action {
-    Redirect(routes.BeforeYouStart.present)
+    Redirect(routes.SetUpTradeDetails.present)
   }
 
 }
