@@ -175,6 +175,7 @@ disposal_dispose.consent = gennyf ganiatad y ceidwad presennol i gael gwared ar 
 disposal_dispose.consentnotgiven = Nodwch gennych ganiatad y ceidwad presennol
 disposal_dispose.mileage.label = milltiroedd cerbydau
 disposal_dispose.mileage.validation = Mae''n rhaid i chi fynd i mewn milltiroedd dilys rhwng 0 a 999,999
+disposal_dispose.dateofdisposal.label = Dyddiad y gwaredu
 disposal_dispose.submitbutton = Gwaredu
 
 disposal_disposeconfirmation.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion
@@ -199,6 +200,21 @@ errorsummary.p1 = Trwsiwch y canlynol:
 error.restricted.validNumberOnly = Mae''r maes hwn yn derbyn rhifau yn unig 
 error.restricted.validVRNOnly = Rhowch rhif cofrestru cerbyd dilys heb fylchau
 error.restricted.validPostcode = Rhaid i cod post fod yn y fformat PR2 8AE
+
+datePlaceholder.day = Day
+datePlaceholder.month = Mis
+datePlaceholder.January = Ionawr
+datePlaceholder.February = Chwefror
+datePlaceholder.March = Mawrth
+datePlaceholder.April = Ebrill
+datePlaceholder.May = Mai
+datePlaceholder.June = Mehefin
+datePlaceholder.July = Gorffennaf
+datePlaceholder.August = Awst
+datePlaceholder.September = Medi
+datePlaceholder.October = Hydref
+datePlaceholder.November = Tachwedd
+datePlaceholder.December = Rhagfyr
 
 #default validation messages
 error.required = Mae angen y maes hwn

@@ -146,7 +146,20 @@ error.restricted.validNumberOnly = This field only accepts numbers
 error.restricted.validVRNOnly = Please enter a valid vehicle registration number without spaces
 error.restricted.validPostcode = A post code must be in the format PR2 8AE
 
-
+datePlaceholder.day=Day
+datePlaceholder.month=Month
+datePlaceholder.January=January
+datePlaceholder.February=February
+datePlaceholder.March=March
+datePlaceholder.April=April
+datePlaceholder.May=May
+datePlaceholder.June=June
+datePlaceholder.July=July
+datePlaceholder.August=August
+datePlaceholder.September=September
+datePlaceholder.October=October
+datePlaceholder.November=November
+datePlaceholder.December=December
 
 
 ##
@@ -214,6 +227,7 @@ disposal_dispose.consent = I have the consent of the current keeper to dispose o
 disposal_dispose.consentnotgiven = Please indicate you have the current keeper''s consent
 disposal_dispose.mileage.label = Vehicle mileage
 disposal_dispose.mileage.validation = You must enter a valid mileage between 0 and 999999
+disposal_dispose.dateofdisposal.label = Date of disposal
 disposal_dispose.submitbutton = Dispose
 
 disposal_disposeconfirmation.title = Dispose a vehicle into the motor trade
