@@ -203,4 +203,15 @@ object Mappings {
       case false => Invalid(ValidationError("error.dropDownInvalid"))
     }
   }
+
+  object Mileage {
+    val minLength = 1
+    val maxLength = 6
+    val pattern = s"\\d{$minLength,$maxLength}" // Digits only with specified size.
+    val key = "Mileage"
+  }
+
+  def Mileage (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[Option[Int]] = {
+    optional(number(minLength, maxLength))
+  }
 }

@@ -212,6 +212,8 @@ disposal_dispose.vehiclekeeper = Keeper
 disposal_dispose.disposevehicleto = Dispose vehicle to
 disposal_dispose.consent = I have the consent of the current keeper to dispose of this vehicle
 disposal_dispose.consentnotgiven = Please indicate you have the current keeper''s consent
+disposal_dispose.mileage.label = Vehicle mileage
+disposal_dispose.mileage.validation = You must enter a valid mileage between 0 and 999999
 disposal_dispose.submitbutton = Dispose
 
 disposal_disposeconfirmation.title = Dispose a vehicle into the motor trade
