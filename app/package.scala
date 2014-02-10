@@ -143,6 +143,8 @@ package object app {
   }
 
   object ChangeOfAddress {
+
+
     val pinFormID = "PIN"
     val v5cReferenceNumberID = "V5cReferenceNumber"
     val v5cRegistrationNumberID = "V5CRegistrationNumber"
@@ -153,16 +155,18 @@ package object app {
   }
 
   object DisposalOfVehicle {
-    val traderBusinessNameID = "traderBusinessName"
-    val traderPostcodeID = "traderPostcode"
     val v5cReferenceNumberID = "v5cReferenceNumber"
     val v5cRegistrationNumberID = "v5cRegistrationNumber"
     val v5cKeeperNameID = "v5cKeeperName"
     val v5cPostcodeID = "v5cPostcode"
 
+    // page 2 - setup-trade-details
+    object SetupTradeDetails {
+      val traderBusinessNameID = "traderBusinessName"
+      val traderPostcodeID = "traderPostcode"
+    }
+
     // page 3 - business choose your address
-
-
     object BusinessAddressSelect {
       val businessNameId = "disposal_businessChooseYourAddress_businessName"
       val addressSelectId = "disposal_businessChooseYourAddress_addressSelect"

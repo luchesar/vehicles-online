@@ -5,7 +5,7 @@
 @import views.html.helper.base._
 @import views.html.common._
 @import views.html.helper._
-
+@import app.DisposalOfVehicle.SetupTradeDetails._
 
 @main(Messages("disposal_setuptradedetails.title")) {
     @errorsSummary(traderLookupForm)
@@ -15,11 +15,11 @@
 <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
     <legend>@Messages("disposal_setuptradedetails.p1")</legend>
     <ul>
-        @valtechInputText(traderLookupForm(app.DisposalOfVehicle.traderBusinessNameID), args =
+        @valtechInputText(traderLookupForm(traderBusinessNameID), args =
         '_label -> Messages("disposal_setuptradedetails.tradernamelabel"),
         '_showConstraints -> false)
 
-        @valtechInputText(traderLookupForm(app.DisposalOfVehicle.traderPostcodeID), args =
+        @valtechInputText(traderLookupForm(traderPostcodeID), args =
         '_label -> Messages("disposal_setuptradedetails.traderpostcodelabel"),
         '_showConstraints -> false,
         'maxLength -> Mappings.Postcode.maxLength,

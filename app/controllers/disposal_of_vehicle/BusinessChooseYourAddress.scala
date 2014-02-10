@@ -30,7 +30,7 @@ object BusinessChooseYourAddress extends Controller {
     implicit request => {
       businessChooseYourAddressForm.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, dropDownOptions)),
-        f => Redirect(routes.VehicleLookup.present) //TODO: This needs to look at the correct next page
+        f => Redirect(routes.VehicleLookup.present)
       )
     }
   }
