@@ -159,5 +159,8 @@ package object app {
     val v5cRegistrationNumberID = "v5cRegistrationNumber"
     val v5cKeeperNameID = "v5cKeeperName"
     val v5cPostcodeID = "v5cPostcode"
+
+    // page 3 - business choose your address
+    val businessNameID = "businessName"
   }
 }
