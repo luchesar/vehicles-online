@@ -24,7 +24,7 @@ object SetUpTradeDetails extends Controller {
     implicit request => {
       traderLookupForm.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithErrors)),
-        f => Redirect(routes.VehicleLookup.present)
+        f => Redirect(routes.SetUpTradeDetails.present)
       )
     }
   }
