@@ -1,0 +1,19 @@
+@(field: play.api.data.Field, options: Seq[(String, String)], args: (Symbol, Any)*)(implicit handler: helper.FieldConstructor, lang: Lang)
+
+@import views.html.helper.base.carersLabel
+@import utils.helpers.CarersCrypto
+@import utils.helpers._
+@import utils.helpers.SelectHelper._
+@import play.api.templates.PlayMagic.toHtmlArgs
+
+@helper.input(field, args: _*) { (id, name, selectedKey, htmlArgs) =>
+    @carersLabel(field, args: _*)
+
+    <select id="@CarersCrypto.encryptAES(field.id)" name="@CarersCrypto.encryptAES(name)" @toHtmlArgs(htmlArgs)>
+        @defaultOption(htmlArgs)
+
+        @options.map { case (mappingValue, humanReadableLabel) =>
+            <option value="@mappingValue" @(if(selectedKey == Some(mappingValue)) "selected" else "")>@humanReadableLabel</option>
+        }
+    </select>
+}

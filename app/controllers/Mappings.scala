@@ -9,6 +9,8 @@ import scala.util.{Failure, Success, Try}
 import org.joda.time.DateTime
 
 object Mappings {
+
+
   object Authentication {
     val minLength = 6
     val maxLength = 6
@@ -191,6 +193,17 @@ object Mappings {
     input match {
       case true => Valid
       case false => Invalid(ValidationError("disposal_dispose.consentnotgiven"))
+    }
+  }
+
+  def dropDown(dropDownOptions: Map[String, String]): Mapping[String] = {
+    nonEmptyText(maxLength = 12) verifying validDropDown(dropDownOptions)
+  }
+
+  def validDropDown(dropDownOptions: Map[String, String]): Constraint[String] = Constraint[String]("constraint.validDropDown") { input =>
+    dropDownOptions.contains(input) match {
+      case true => Valid
+      case false => Invalid(ValidationError("error.dropDownInvalid"))
     }
   }
 

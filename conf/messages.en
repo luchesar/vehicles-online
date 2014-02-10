@@ -201,6 +201,8 @@ disposal_businessChooseYourAddress_title = Business: Choose your address
 disposal_businessChooseYourAddress_legend = Set up trade details
 disposal_businessChooseYourAddress_businessName = Business name
 disposal_businessChooseYourAddress_businessName_label = Business name
+disposal_businessChooseYourAddress_addressSelect = Choose your address
+disposal_businessChooseYourAddress_addressSelect_label = Choose your address
 
 #page not known - Vehicle Lookup
 disposal_vehiclelookup.title = Dispose a vehicle into the motor trade
