@@ -69,10 +69,10 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
 
     "accept if v5cReferenceNumber is valid" in {
       vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
+        formWithErrors => {
+          fail("An error should occur")
         },
-        f =>
-          f.v5cReferenceNumber should equal(v5cReferenceNumberValid)
+        f => f.v5cReferenceNumber should equal(v5cReferenceNumberValid)
       )
     }
 
@@ -117,8 +117,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
       vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
         formWithErrors => {fail("An error should occur")
         },
-        f =>
-          f.v5cRegistrationNumber should equal(v5cRegistrationNumberValid)
+        f => f.v5cRegistrationNumber should equal(v5cRegistrationNumberValid)
       )
     }
 
@@ -143,10 +142,10 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
 
     "accept if v5cKeeperName is valid" in {
       vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
+        formWithErrors => {
+          fail("An error should occur")
         },
-        f =>
-          f.v5cKeeperName should equal(v5cKeeperNameValid)
+        f => f.v5cKeeperName should equal(v5cKeeperNameValid)
       )
     }
 
@@ -189,10 +188,10 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
 
     "accept if v5cPostcode is valid" in {
       vehicleLookupFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = v5cRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
+        formWithErrors => {
+          fail("An error should occur")
         },
-        f =>
-          f.v5cPostcode should equal(v5cPostcodeValid)
+        f => f.v5cPostcode should equal(v5cPostcodeValid)
       )
     }
   }
