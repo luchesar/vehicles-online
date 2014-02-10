@@ -22,7 +22,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade") //TODO: This will need to check the next page - currently reloading same page
+      titleMustEqual("Dispose a vehicle into the motor trade")
     }
 
     "display three validation error messages when no v5cReferenceNumber is entered" in new WithBrowser with BrowserMatchers {
