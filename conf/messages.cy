@@ -139,7 +139,14 @@ disposal_beforeyoustart.name = Gwerthu neu drosglwyddo cerbyd i fasnachwr moduro
 disposal_beforeyoustart.p1 = Defnyddiwch y gwasanaeth hwn os ydych yn fasnachwr moduron, yswiriwr neu dismantler, ac mae gennych yr cydsyniad ceidwad cerbyd i gael gwared ar y cerbyd i chi eich hun.
 disposal_beforeyoustart.button = Ddechrau nawr
 
-#page not known - Vehicle Lookup
+disposal_setuptradedetails.title = Gwaredu cerbyd i mewn i'r fasnach foduron
+disposal_setuptradedetails.name = Gwaredu cerbyd i mewn i'r fasnach foduron
+disposal_setuptradedetails.p1 = Manylion masnach sefydlu
+disposal_setuptradedetails.tradernamelabel = Enw'r busnes
+disposal_setuptradedetails.traderpostcodelabel = Cod post
+disposal_setuptradedetails.traderpostcodelabel.validation = Teipiwch eich côd post busnes dilys
+disposal_setuptradedetails.button = Am-edrych
+
 disposal_vehiclelookup.title = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_vehiclelookup.name = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_vehiclelookup.p1 = Dod o hyd i gerbyd

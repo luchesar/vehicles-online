@@ -29,7 +29,7 @@ class BeforeYouStartControllerSpec extends WordSpec with Matchers {
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some("/disposal-of-vehicle/before-you-start")) //TODO: This needs to not look at itself but at the next page
+      redirectLocation(result) should equal (Some("/disposal-of-vehicle/setup-trade-details")) //TODO: This needs to not look at itself but at the next page
      }
   }
 }

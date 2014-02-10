@@ -65,4 +65,15 @@ object TestHelper extends WordSpec with Matchers with Mockito {
   val v5cVehicleRegistrationNumberValid = "AB12AWR"
   val v5cKeeperNameValid = "John Smith"
   val v5cPostcodeValid = "Sa991DD"
+
+  def traderLookupIntegrationHelper(browser: TestBrowser, traderBusinessName: String = traderBusinessNameValid, traderPostcode: String = traderPostcodeValid) = {
+    browser.goTo("/disposal-of-vehicle/setup-trade-details")
+
+    browser.fill("#traderBusinessName") `with` traderBusinessName
+    browser.fill("#traderPostcode") `with` traderPostcode
+    browser.submit("button[type='submit']")
+  }
+
+  val traderBusinessNameValid = "example trader name"
+  val traderPostcodeValid = "SA99 1DD"
 }
