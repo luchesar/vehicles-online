@@ -22,7 +22,7 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
       traderLookupIntegrationHelper(browser)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade") //TODO: This will need to check the next page - currently reloading same page
+      titleMustEqual("Business: Choose your address") //TODO: This will need to check the next page - currently reloading same page
     }
 
     "display five validation error messages when no details are entered" in new WithBrowser with BrowserMatchers {
