@@ -1,17 +1,20 @@
-@(field: play.api.data.Field, args: (Symbol, Any)*)(implicit handler: helper.FieldConstructor, lang: play.api.i18n.Lang)
+@(field: play.api.data.Field, args: (Symbol, Any)*)(implicit handler: helper.FieldConstructor, lang: Lang)
 
-@import helper._
-@import utils.helpers.CarersCrypto
-@import utils.helpers._
-@import views.html.helper.base._
+    @import helper._
+    @import utils.helpers.CarersCrypto
+    @import utils.helpers._
+    @import views.html.helper.base._
+    @import utils.helpers.HtmlArgsExtensions._
+    @import play.api.templates.PlayMagic.toHtmlArgs
 
-@input(field, args ++
-              Seq('autocomplete -> "off")  // Always turn off autocomplete to protect user details.
-              :_* ) { (id, name, value, htmlArgs) =>
+    @input(field, args:_*) { (id, name, value, htmlArgs) =>
 
-    @carersLabel(field, args: _*)
+        @carersLabel(field, args: _*)
 
-
-    <input type="text" id="@CarersCrypto.encryptAES(id)" name="@CarersCrypto.encryptAES(name)" value="@value" @toHtmlArgs(HtmlArgsSanitiser.maxLength(htmlArgs))>
-}
+    <input type="text"
+    id="@CarersCrypto.encryptAES(id)"
+    name="@CarersCrypto.encryptAES(name)"
+    value="@value"
+        @toHtmlArgs(htmlArgs.maxLengthRules.autoCompleteRules)>
+    }
 

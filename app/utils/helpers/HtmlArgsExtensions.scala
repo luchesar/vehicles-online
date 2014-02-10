@@ -3,23 +3,33 @@ package utils.helpers
 import controllers.Mappings
 import play.api.Play
 import play.api.Play.current
+import scala.language.implicitConversions
 
-// TODO Need a better name for this file & object.
+// See the Scala docs for value scala.language.implicitConversions for a discussion why the feature should be explicitly enabled.
+
 object HtmlArgsExtensions {
-  def maxLength(htmlArgs: Map[Symbol, Any]) = {
-    htmlArgs.contains('maxLength) match {
-      case true => {
-        Play.isTest match {
-          case true => htmlArgs - 'maxLength // Remove maxLength when testing so we can have integration tests cause server side validation errors.
-          case false => htmlArgs
-        }
+  class RichHtmlArgs(htmlArgs: Map[Symbol, Any], validationOff: Boolean = Play.isTest) {
+    // Always have a maxLength on production, so if you forgot to add one then the default is used. We need to be able to override this behaviour when running integration tests that check that server-side error messages are shown in non-html5 browser
+    def maxLengthRules = {
+      (htmlArgs.contains('maxLength), validationOff) match {
+        case (true, true) => htmlArgs - 'maxLength // Remove maxLength when testing so we can have integration tests cause server side validation errors.
+        case (true, false) => htmlArgs // No change
+        case (false, true) => htmlArgs // No change
+        case (false, false) => htmlArgs + ('maxLength -> Mappings.sixty) // On production we should have a maxLength, so if you forgot to add one then the default is used.
       }
-      case false => {
-        Play.isTest match {
-          case true => htmlArgs
-          case false => htmlArgs + ('maxLength -> Mappings.sixty) // On production we should have a maxLength, so if you forgot to add one then the default is used.
-        }
+    }
+
+    // Always turn off autocomplete to protect user details.
+    def autoCompleteRules: Map[Symbol, Any] = {
+      htmlArgs.get('autocomplete) match {
+        case Some(value) => { value match {
+          case "on" => htmlArgs + ('autocomplete -> "off")
+          case "off" => htmlArgs
+        }}
+        case None => htmlArgs + ('autocomplete -> "off")
       }
     }
   }
+
+  implicit def richHtmlArgs(htmlArgs: Map[Symbol, Any]) = new RichHtmlArgs(htmlArgs)
 }

@@ -6,7 +6,7 @@ import controllers.BrowserMatchers
 import controllers.TestHelper._
 
 class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
-  "businessChooseYourAddress Integration" should {
+  "business_choose_your_address Integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       browser.goTo("/disposal-of-vehicle/business-choose-your-address")
@@ -34,9 +34,9 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
     "display one validation error messages when businessName is longer than maxLength" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       businessChooseYourAddressPopulate(browser, businessName = "1234567890123456789012345678901234567890123456789012345678901234567890")
-pending("Need to copy code from valtech_views that deals with maxLength in test mode")
+
       //Assert
-      checkNumberOfValidationErrors(2)
+      checkNumberOfValidationErrors(1)
     }
   }
 }
