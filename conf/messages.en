@@ -179,6 +179,7 @@ disposal_beforeyoustart.button = Start now
 disposal_vehiclelookup.title = Dispose a vehicle into the motor trade
 disposal_vehiclelookup.name = Dispose a vehicle into the motor trade
 disposal_vehiclelookup.p1 = Find a vehicle
+disposal_vehiclelookup.p2 = Vehicle disposed to
 disposal_vehiclelookup.v5cinputlabel = V5C Document reference number
 disposal_vehiclelookup.v5cinputlabel.refNumIncorrect = You must enter a number with a length of 11 digits
 disposal_vehiclelookup.vrninputlabel = Vehicle registration number

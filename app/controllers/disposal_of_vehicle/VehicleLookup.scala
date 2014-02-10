@@ -26,7 +26,7 @@ object VehicleLookup extends Controller {
     implicit request => {
       vehicleLookupForm.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(formWithErrors)),
-        f => Redirect(routes.VehicleLookup.present)
+        f => Redirect(routes.Dispose.present)
       )
     }
   }

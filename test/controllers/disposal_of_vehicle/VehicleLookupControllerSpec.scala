@@ -36,7 +36,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers {
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some("/disposal-of-vehicle/vehicle-lookup")) //TODO: This needs to not look at itself but at the next page
+      redirectLocation(result) should equal (Some("/disposal-of-vehicle/dispose")) //TODO: This needs to not look at itself but at the next page
      }
   }
 }

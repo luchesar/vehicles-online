@@ -132,6 +132,25 @@ confirm_vehicle_details.acquired = Caffaeledig:
 confirm_vehicle_details.button = Cadarnhau
 confirm_vehicle_details.button2 = Diddymu
 
+##disposal prototype##
+
+disposal_beforeyoustart.title = Gwaredu cerbyd i mewn i'r fasnach foduron
+disposal_beforeyoustart.name = Gwerthu neu drosglwyddo cerbyd i fasnachwr moduron, yswiriwr neu dismantler
+disposal_beforeyoustart.p1 = Defnyddiwch y gwasanaeth hwn os ydych yn fasnachwr moduron, yswiriwr neu dismantler, ac mae gennych yr cydsyniad ceidwad cerbyd i gael gwared ar y cerbyd i chi eich hun.
+disposal_beforeyoustart.button = Ddechrau nawr
+
+#page not known - Vehicle Lookup
+disposal_vehiclelookup.title = Gwaredu cerbyd i mewn i'r fasnach foduron
+disposal_vehiclelookup.name = Gwaredu cerbyd i mewn i'r fasnach foduron
+disposal_vehiclelookup.p1 = Dod o hyd i gerbyd
+disposal_vehiclelookup.v5cinputlabel = V5C Rhif cyfeirnod y ddogfen
+disposal_vehiclelookup.v5cinputlabel.refNumIncorrect = Mae'n rhaid i chi fynd i mewn i nifer sydd â hyd o 11 digid
+disposal_vehiclelookup.vrninputlabel = Rhif cofrestru cerbyd
+disposal_vehiclelookup.keepernamelabel = Enw llawn ceidwad
+disposal_vehiclelookup.keeperpostcodelabel = Ceidwad cod post
+disposal_vehiclelookup.button = Dod o hyd i
+disposal_vehiclelookup.button2 = Golygu
+
 disposal_dispose.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion
 disposal_dispose.vehicledetails = cerbyd
 disposal_dispose.vehiclemake = Gwneud
