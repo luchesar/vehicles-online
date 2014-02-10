@@ -64,8 +64,8 @@ GET         /disposal-of-vehicle/setup-trade-details            controllers.disp
 POST        /disposal-of-vehicle/setup-trade-details            controllers.disposal_of_vehicle.SetUpTradeDetails.submit
 
 #page 3 - business choose your address
-#GET         /disposal-of-vehicle/business-choose-your-address            controllers.disposal_of_vehicle.BusinesssChooseYourAddress.present
-#POST        /disposal-of-vehicle/business-choose-your-address            controllers.disposal_of_vehicle.BusinesssChooseYourAddress.submit
+GET         /disposal-of-vehicle/business-choose-your-address   controllers.disposal_of_vehicle.BusinessChooseYourAddress.present
+POST        /disposal-of-vehicle/business-choose-your-address   controllers.disposal_of_vehicle.BusinessChooseYourAddress.submit
 
 
 GET         /disposal-of-vehicle/vehicle-lookup                 controllers.disposal_of_vehicle.VehicleLookup.present

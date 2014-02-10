@@ -21,7 +21,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers {
       status(result) should equal(OK)
     }
 
-    "redirect to next page after the button is clicked" in new WithApplication {
+    "redirect to next page after a valid submit" in new WithApplication {
       // Arrange
       val v5cReferenceNumberValid = "12345678910"
       val v5cRegistrationNumberValid = "ABC123"

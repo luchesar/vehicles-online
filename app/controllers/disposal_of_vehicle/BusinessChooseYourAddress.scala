@@ -16,15 +16,15 @@ object BusinessChooseYourAddress extends Controller {
 
   def present = Action {
     implicit request =>
-      ??? //Ok(views.html.disposal_of_vehicle.vehicle_lookup(vehicleLookupForm))
+      Ok("Hello world") //Ok(views.html.disposal_of_vehicle.vehicle_lookup(vehicleLookupForm))
   }
 
   def submit = Action {
-    implicit request => ??? /*{
-      vehicleLookupForm.bindFromRequest.fold(
-        formWithErrors => BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(formWithErrors)),
-        f => Redirect(routes.Dispose.present)
+    implicit request => {
+      businesssChooseYourAddressForm.bindFromRequest.fold(
+        formWithErrors => BadRequest("Hello") , //BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(formWithErrors)),
+        f => Redirect(routes.VehicleLookup.present) //TODO: This needs to look at the correct next page
       )
-    }*/
+    }
   }
 }
