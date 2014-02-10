@@ -1,18 +1,17 @@
 package modules
 
+import app.DisposalOfVehicle.BusinessAddressSelect._
 import com.tzavellas.sse.guice.ScalaModule
-import services.{LoginWebService, V5cSearchWebService}
-import models.domain.change_of_address._
+import services.{AddressLookupService, LoginWebService, V5cSearchWebService}
 import scala.concurrent.{ExecutionContext, Future}
+import play.api.Logger
+import ExecutionContext.Implicits.global
 import models.domain.change_of_address.V5cSearchConfirmationModel
 import models.domain.change_of_address.V5cSearchResponse
 import models.domain.change_of_address.LoginPageModel
 import models.domain.change_of_address.LoginResponse
-import scala.Some
 import models.domain.change_of_address.LoginConfirmationModel
 import models.domain.change_of_address.V5cSearchModel
-import play.api.Logger
-import ExecutionContext.Implicits.global
 import models.domain.common.Address
 
 
@@ -40,6 +39,17 @@ object TestModule extends ScalaModule {
   }
 
   /**
+   * Fake implementation of the FakeAddressLookupService trait
+   */
+  case class FakeAddressLookupService() extends AddressLookupService {
+    override def invoke(postcode: String): Map[String, String] = Map(
+      "" -> "Please select",
+      FirstAddress -> "This is the first option",
+      SecondAddress -> "This is the second option"
+    )
+  }
+
+  /**
    * Bind the fake implementations the traits
    */
   def configure() {
@@ -47,5 +57,6 @@ object TestModule extends ScalaModule {
 
     bind[V5cSearchWebService].to[FakeV5cSearchWebService]
     bind[LoginWebService].to[FakeLoginWebService]
+    bind[AddressLookupService].to[FakeAddressLookupService]
   }
 }

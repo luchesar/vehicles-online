@@ -6,7 +6,7 @@ import play.api.data.Forms._
 import controllers.Mappings._
 import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeModel}
 import models.domain.disposal_of_vehicle.DisposeFormModel
-import scala.Some
+
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.common.Address
 
