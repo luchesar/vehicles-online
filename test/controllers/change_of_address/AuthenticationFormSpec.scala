@@ -21,7 +21,7 @@ class AuthenticationFormSpec extends WordSpec with Matchers {
           formWithErrors.errors.length should equal(3)
           //errors for min length, regex, required
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -31,7 +31,7 @@ class AuthenticationFormSpec extends WordSpec with Matchers {
           formWithErrors.errors.length should equal(1)
           //error for regex
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -41,7 +41,7 @@ class AuthenticationFormSpec extends WordSpec with Matchers {
           formWithErrors.errors.length should equal(2)
           //errors for regex and min length
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -51,7 +51,7 @@ class AuthenticationFormSpec extends WordSpec with Matchers {
           formWithErrors.errors.length should equal(1)
           //error for min length
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -61,7 +61,7 @@ class AuthenticationFormSpec extends WordSpec with Matchers {
           formWithErrors.errors.length should equal(1)
           //error for max length
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 

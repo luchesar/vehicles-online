@@ -27,7 +27,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(3)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -36,7 +36,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -45,7 +45,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -54,7 +54,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -63,7 +63,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -82,7 +82,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(2)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -91,7 +91,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -100,7 +100,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -109,7 +109,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -128,7 +128,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(2)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -137,7 +137,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -156,7 +156,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(3)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -165,7 +165,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(2)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -174,7 +174,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(2)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -183,7 +183,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 

@@ -25,7 +25,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(3)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -34,7 +34,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -43,7 +43,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -52,7 +52,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -61,7 +61,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -81,7 +81,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
           formWithErrors.errors.length should equal(2)
           //errors for required field and min length
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -91,7 +91,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
           formWithErrors.errors.length should equal(1)
           //errors for regex and min length
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
@@ -101,7 +101,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
           formWithErrors.errors.length should equal(1)
           //errors for regex and max length
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
     "reject if vehicleVRN contains special characters" in {
@@ -110,7 +110,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
           formWithErrors.errors.length should equal(1)
           //error for regex
         },
-        f => "An error should occur" should equal("Valid")
+        f => fail("An error should occur")
       )
     }
 
