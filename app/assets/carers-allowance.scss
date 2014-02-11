@@ -1764,11 +1764,6 @@ main {
 			   padding: .4em 1em;
 		   }
 	   }
-	   .button-primary {
-		   float:right;
-		   display: inline;
-		   margin-right:38%;
-	   }
 	   @media screen and (max-width: 640px) {
 	   		button,
 	   		button.button-not-implemented {
@@ -1776,9 +1771,11 @@ main {
 		   		display: block;
 		   		width:100%;
 	   		}
-	   		a.button {
+	   		a.button,
+	   		a.button-not-implemented {
 		   		display: block;
 		   		clear:both;
+		   		text-align: center;
 	   		}
 	   }
    }
@@ -2019,7 +2016,7 @@ main {
 	}
 	
 	.summary-detail-list {
-		margin:0;
+		margin:3rem 0 0 0;
 		padding:0;
 		dt, dd {
 			margin:0 0 1rem 0;

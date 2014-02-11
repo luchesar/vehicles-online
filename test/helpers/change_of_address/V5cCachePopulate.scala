@@ -1,11 +1,11 @@
-package helpers
+package helpers.change_of_address
 
-import models.domain.change_of_address.{V5cSearchConfirmationModel, LoginConfirmationModel}
+import models.domain.change_of_address.V5cSearchConfirmationModel
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
 import play.api.Play.current
 import controllers.Mappings
-import helpers.ValidValues._
+import helpers.change_of_address.COAValidValues._
 
 object V5cCachePopulate extends WordSpec with Matchers with Mockito {
   def v5cCachePopulate() = {

@@ -1,6 +1,6 @@
-package helpers
+package helpers.disposal_of_vehicle
 
-object ValidValues {
+object DOVValidValues {
   val v5cDocumentReferenceNumberValid = "12345678910"
   val v5cVehicleRegistrationNumberValid = "AB12AWR"
   val v5cKeeperNameValid = "John Smith"
@@ -10,9 +10,4 @@ object ValidValues {
   val traderBusinessNameValid = "example trader name"
   val traderPostcodeValid = "SA99 1DD"
   val traderaddressValid = "1"
-
-  val usernameValid = "roger"
-  val passwordValid = "examplepassword"
-
-  val pinValid = "123456"
 }
