@@ -1,6 +1,6 @@
 package modules
 
-import app.DisposalOfVehicle.BusinessAddressSelect._
+import mappings.disposal_of_vehicle.BusinessAddressSelect._
 import com.tzavellas.sse.guice.ScalaModule
 import services.{AddressLookupService, LoginWebService, V5cSearchWebService}
 import scala.concurrent.{ExecutionContext, Future}

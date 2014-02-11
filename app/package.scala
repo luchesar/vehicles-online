@@ -42,17 +42,9 @@ package object app {
     // TODO make sure all html pages, controllers, formSpec & controllerSpec, integrationSpec use the IDs from this package
 
   object DisposalOfVehicle {
-    // page 2 - setup-trade-details
-    object SetupTradeDetails {
-
-    }
-
     // page 3 - business choose your address
     object BusinessAddressSelect {
-      val businessNameId = "disposal_businessChooseYourAddress_businessName"
-      val addressSelectId = "disposal_businessChooseYourAddress_addressSelect"
-      val FirstAddress = "1"
-      val SecondAddress = "2"
+
     }
 
     // vehicle-lookup
