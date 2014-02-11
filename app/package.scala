@@ -36,21 +36,4 @@ package object app {
     def getProperty(property:String,default:Boolean) = Try(Play.current.configuration.getBoolean(property).getOrElse(default)) match { case Success(s) => s case _ => default}
     def getProperty(property:String,default:Long) = Try(Play.current.configuration.getLong(property).getOrElse(default)) match { case Success(s) => s case _ => default}
   }
-
-
-
-    // TODO make sure all html pages, controllers, formSpec & controllerSpec, integrationSpec use the IDs from this package
-
-  object DisposalOfVehicle {
-    // vehicle-lookup
-    object VehicleLookup {
-
-    }
-
-    object Dispose {
-      val consentId = "consent"
-      val mileageId = "mileage"
-      val dateOfDisposalId = "dateOfDisposal"
-    }
-  }
 }

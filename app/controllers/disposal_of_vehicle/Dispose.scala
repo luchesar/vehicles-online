@@ -8,7 +8,7 @@ import models.domain.disposal_of_vehicle.DisposeFormModel
 
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.common.Address
-import app.DisposalOfVehicle.Dispose._
+import mappings.disposal_of_vehicle.Dispose._
 import mappings.Consent._
 import mappings.Mileage._
 import mappings.DayMonthYear._
