@@ -1,9 +1,6 @@
-import com.google.inject.Guice
-import com.tzavellas.sse.guice.ScalaModule
 import java.io.File
 import com.typesafe.config.ConfigFactory
 import java.util.UUID
-import modules.DevModule
 import play.api._
 import play.api.Configuration
 import play.api.mvc._

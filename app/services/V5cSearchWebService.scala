@@ -1,9 +1,7 @@
 package services
 
-import models.domain.change_of_address.{V5cSearchConfirmationModel, V5cSearchResponse, V5cSearchModel}
-import play.api.libs.json.Json
-import play.api.libs.ws.WS
-import play.api.Logger
+import models.domain.change_of_address.{V5cSearchResponse, V5cSearchModel}
+
 import scala.concurrent.Future
 
 /**
