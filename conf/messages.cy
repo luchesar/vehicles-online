@@ -162,6 +162,7 @@ disposal_setuptradedetails.button = Am-edrych
 disposal_vehiclelookup.title = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_vehiclelookup.name = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_vehiclelookup.p1 = Dod o hyd i gerbyd
+disposal_vehiclelookup.p2 = Cerbyd waredu i
 disposal_vehiclelookup.v5cinputlabel = V5C Rhif cyfeirnod y ddogfen
 disposal_vehiclelookup.v5cinputlabel.refNumIncorrect = Mae'n rhaid i chi fynd i mewn i nifer sydd â hyd o 11 digid
 disposal_vehiclelookup.vrninputlabel = Rhif cofrestru cerbyd
