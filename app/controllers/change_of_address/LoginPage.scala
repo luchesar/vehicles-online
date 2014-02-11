@@ -28,40 +28,43 @@ object LoginPage extends Controller {
       Ok(views.html.change_of_address.login_page(loginPageForm))
   }
 
-  // TODO [SKW] break the method below into several smaller methods to make it more readable.
   def submit = Action.async {
     implicit request => {
+
+
       loginPageForm.bindFromRequest.fold(
         formWithErrors => Future {
           BadRequest(views.html.change_of_address.login_page(formWithErrors))
         },
-        loginPageForm => {
-
+        loginPageForm => { // TODO this is not really a form, it is a model. We need to rename in all controllers.
           Logger.debug("LoginPage form validation has passed")
           Logger.debug("LoginPage calling login micro service...")
 
           val webService = injector.getInstance(classOf[services.LoginWebService])
-          val result = webService.invoke(loginPageForm).map {
-            resp => {
-              Logger.debug(s"LoginPage Web service call successful - response = ${resp}")
-
-              val key = Mappings.LoginConfirmationModel.key
-              Cache.set(key, resp.loginConfirmationModel)
-              Logger.debug(s"LoginPage set value for key: $key")
-              Redirect(routes.LoginConfirmation.present())
-            }
-          }
-            .recoverWith {
-            case e: Throwable => {
-              Future {
-                Logger.error("Web service call failed")
-                BadRequest("The remote server didn't like the request.")
-              }
-            }
-          }
-          result
+          confirmLogin(webService, loginPageForm)
         }
       )
+    }
+  }
+
+  private def confirmLogin(webService: services.LoginWebService, loginPageForm: LoginPageModel) : Future[SimpleResult] = {
+    webService.invoke(loginPageForm).map {
+      resp => {
+        Logger.debug(s"LoginPage Web service call successful - response = ${resp}")
+
+        val key = Mappings.LoginConfirmationModel.key
+        Cache.set(key, resp.loginConfirmationModel)
+        Logger.debug(s"LoginPage set value for key: $key")
+        Redirect(routes.LoginConfirmation.present())
+      }
+    }
+      .recoverWith {
+      case e: Throwable => {
+        Future {
+          Logger.error("Web service call failed")
+          BadRequest("The remote server didn't like the request.")
+        }
+      }
     }
   }
 

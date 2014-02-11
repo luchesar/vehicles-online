@@ -11,7 +11,7 @@ import models.domain.change_of_address.AuthenticationModel
 import models.domain.change_of_address.V5cSearchModel
 
 object Authentication extends Controller {
-  val authenticationForm = Form( // TODO Should we move forms into a separate file.
+  val authenticationForm = Form(
     mapping(
       "PIN" -> PIN(minLength = 6, maxLength = 6)
     )(AuthenticationModel.apply)(AuthenticationModel.unapply)

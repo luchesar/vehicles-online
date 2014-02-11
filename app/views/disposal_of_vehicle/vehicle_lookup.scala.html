@@ -5,7 +5,7 @@
 @import views.html.helper.base._
 @import views.html.common._
 @import views.html.helper._
-
+@import app.DisposalOfVehicle.VehicleLookup._
 
 @main(Messages("disposal_vehiclelookup.title")) {
     @errorsSummary(vehicleLookupForm)
@@ -28,25 +28,25 @@
 				<h2>@Messages("disposal_vehiclelookup.p1")</h2>
 				<div class="form-elements">
 					<ul>
-						@valtechInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cReferenceNumberID), args =
+						@valtechInputText(vehicleLookupForm(v5cReferenceNumberID), args =
                     '_label -> Messages("disposal_vehiclelookup.v5cinputlabel"),
                     '_showConstraints -> false,
                     'pattern -> Mappings.V5cReferenceNumber.pattern,
                     'maxLength -> Mappings.V5cReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                     'title -> Messages("disposal_vehiclelookup.v5cinputlabel.refNumIncorrect"))
 
-                @valtechInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cRegistrationNumberID), args =
+                @valtechInputText(vehicleLookupForm(v5cRegistrationNumberID), args =
                   '_label -> Messages("disposal_vehiclelookup.vrninputlabel"),
                   'maxLength -> Mappings.V5cRegistrationNumber.maxLength,
                   '_showConstraints -> false)
 
-                @valtechInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cKeeperNameID), args =
+                @valtechInputText(vehicleLookupForm(v5cKeeperNameID), args =
                 '_label -> Messages("disposal_vehiclelookup.keepernamelabel"),
                 '_showConstraints -> false,
                 'maxLength -> Mappings.KeeperName.maxLength,
                 'title -> Messages("disposal_vehiclelookup.keepername.validation"))
 
-                @valtechInputText(vehicleLookupForm(app.DisposalOfVehicle.v5cPostcodeID), args =
+                @valtechInputText(vehicleLookupForm(v5cPostcodeID), args =
                 '_label -> Messages("disposal_vehiclelookup.keeperpostcodelabel"),
                 '_showConstraints -> false,
                 'maxLength -> Mappings.Postcode.maxLength,
