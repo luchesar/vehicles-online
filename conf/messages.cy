@@ -12,6 +12,7 @@ global.browserclosemessage = Cau
 global.buttonnavback = Yn ôl
 global.buttonnavcancel = Ganslo
 global.buttonnavupdate = Diweddariad
+global.buttonnavprint = Print
 
 footer.helpdesk = Desg Gymorth
 footer.privacypolicy = Preifatrwydd & Cwcis
