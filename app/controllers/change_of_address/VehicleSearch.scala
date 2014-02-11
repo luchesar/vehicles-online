@@ -72,7 +72,7 @@ object VehicleSearch extends Controller {
   }
 
   private def fetchData(): String = {
-    val key = Mappings.LoginConfirmationModel.key
+    val key = mappings.LoginConfirmation.key
     val result = Cache.getAs[LoginConfirmationModel](key)
 
     result match {

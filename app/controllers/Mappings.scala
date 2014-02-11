@@ -7,13 +7,10 @@ import play.api.data.validation.ValidationError
 import models.DayMonthYear
 import scala.util.{Failure, Success, Try}
 import org.joda.time.DateTime
-import constraints.NumberOnly._
-import mappings._
+
 
 object Mappings {
-  object LoginConfirmationModel {
-    val key = "LoginConfirmationModel"
-  }
+
   
   object Name {
     val maxLength = 35
