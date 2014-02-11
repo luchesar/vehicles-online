@@ -7,17 +7,11 @@ import play.api.data.validation.ValidationError
 import models.DayMonthYear
 import scala.util.{Failure, Success, Try}
 import org.joda.time.DateTime
-import constraints.NumberOnly._
-import mappings._
+
 
 object Mappings {
-  object LoginConfirmationModel {
-    val key = "LoginConfirmationModel"
-  }
-  
-  object Name {
-    val maxLength = 35
-  }
+
+
 
   val fifty = 50
 
@@ -41,54 +35,21 @@ object Mappings {
 
 
 
-  object Postcode {
-    val minLength = 5
-    val maxLength = 8
-    // val pattern = s"\\d{$minLength,$maxLength}" // Digits only with specified size.
-    val key = "Postcode"
-  }
-
-  def Postcode (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[String] = {
-    nonEmptyText(minLength, maxLength) verifying validPostcode
-  }
 
 
-  def validPostcode: Constraint[String] = Constraint[String]("constraint.restrictedvalidPostcode") { input =>
-    val inputRegex = """^(?i)(GIR 0AA)|((([A-Z][0-9][0-9]?)|(([A-Z][A-HJ-Y][0-9][0-9]?)|(([A-Z][0-9][A-Z])|([A-Z][A-HJ-Y][0-9]?[A-Z]))))[ ]?[0-9][A-Z]{2})$""".r
 
-    inputRegex.pattern.matcher(input).matches match {
-      case true => Valid
-      case false => Invalid(ValidationError("error.restricted.validPostcode"))
-    }
-  }
 
-  object KeeperName {
-    val minLength = 1
-    val maxLength = 100
-    val key = "KeeperName"
-  }
 
-  def consent: Mapping[Boolean] = {
-    boolean verifying validConsent
-  }
 
-  def validConsent: Constraint[Boolean] = Constraint[Boolean]("constraint.validConsent") { input =>
-    input match {
-      case true => Valid
-      case false => Invalid(ValidationError("disposal_dispose.consentnotgiven"))
-    }
-  }
 
-  def dropDown(dropDownOptions: Map[String, String]): Mapping[String] = {
-    nonEmptyText(maxLength = 12) verifying validDropDown(dropDownOptions)
-  }
 
-  def validDropDown(dropDownOptions: Map[String, String]): Constraint[String] = Constraint[String]("constraint.validDropDown") { input =>
-    dropDownOptions.contains(input) match {
-      case true => Valid
-      case false => Invalid(ValidationError("error.dropDownInvalid"))
-    }
-  }
+
+
+
+
+
+
+
 
   object Mileage {
     val minLength = 1

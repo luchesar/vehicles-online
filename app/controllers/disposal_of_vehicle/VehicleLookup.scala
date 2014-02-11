@@ -8,6 +8,7 @@ import models.domain.disposal_of_vehicle.VehicleLookupModel
 import app.DisposalOfVehicle.VehicleLookup._
 import mappings.V5cReferenceNumber._
 import mappings.V5cRegistrationNumber._
+import mappings.Postcode._
 
 object VehicleLookup extends Controller {
 
@@ -16,7 +17,7 @@ object VehicleLookup extends Controller {
       v5cReferenceNumberID -> v5cReferenceNumber(minLength = 11, maxLength = 11),
       v5cRegistrationNumberID -> v5CRegistrationNumber(minLength = 2, maxLength = 8),
       v5cKeeperNameID -> nonEmptyText(minLength = 2, maxLength = 100),
-      v5cPostcodeID -> Postcode(minLength = 5, maxLength = 8)
+      v5cPostcodeID -> postcode()
     )(VehicleLookupModel.apply)(VehicleLookupModel.unapply)
   )
 

@@ -3,7 +3,6 @@ package controllers.change_of_address
 import play.api.mvc._
 import models.domain.change_of_address.LoginConfirmationModel
 import play.api.cache.Cache
-import controllers.Mappings
 import play.api.Play.current
 import controllers.change_of_address.Helpers._
 
@@ -22,7 +21,7 @@ object LoginConfirmation extends Controller {
   }
 
   private def fetchData(): Option[LoginConfirmationModel] = {
-    val key = Mappings.LoginConfirmationModel.key
+    val key = mappings.LoginConfirmation.key
     val result = Cache.getAs[LoginConfirmationModel](key)
     result
   }
