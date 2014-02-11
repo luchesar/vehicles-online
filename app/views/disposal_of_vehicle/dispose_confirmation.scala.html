@@ -11,53 +11,72 @@
 
 
 @main(Messages("disposal_disposeconfirmation.title")){
-    <p>@Messages("disposal_disposeconfirmation.disposaldetails")</p>
-    <table>
-        <tr><td>@Messages("disposal_disposeconfirmation.vehiclemake")</td><td>@data.vehicleMake</td></tr>
-        <tr><td>@Messages("disposal_disposeconfirmation.vehiclemodel")</td><td>@data.vehicleModel</td></tr>
-        <tr><td>@Messages("disposal_disposeconfirmation.vehiclekeeper")</td><td>@data.keeperName</td></tr>
-        <tr><td></td><td>@data.keeperAddress.line1</td></tr>
-        <tr><td></td><td>@data.keeperAddress.line2</td></tr>
-        <tr><td></td><td>@data.keeperAddress.line3</td></tr>
-        <tr><td></td><td>@data.keeperAddress.postCode</td></tr>
-    </table>
-    </br>
-    <p>@Messages("disposal_disposeconfirmation.disposedto")</p>
-    <table>
-        <tr><td>@data.dealerName</td></tr>
-        <tr><td>@data.dealerAddress.line1</td></tr>
-        <tr><td>@data.dealerAddress.line2</td></tr>
-        <tr><td>@data.dealerAddress.line3</td></tr>
-        <tr><td>@data.dealerAddress.postCode</td></tr>
-    </table>
-    </br>
-    <p>@Messages("disposal_disposeconfirmation.exkeeper")</p>
-    <p>@Messages("disposal_disposeconfirmation.exkeeperlettersend")</p>
-    <table>
-        <tr><td>@data.keeperName</td></tr>
-        <tr><td>@data.keeperAddress.line1</td></tr>
-        <tr><td>@data.keeperAddress.line2</td></tr>
-        <tr><td>@data.keeperAddress.line3</td></tr>
-        <tr><td>@data.keeperAddress.postCode</td></tr>
-    </table>
-    </br>
-    <p>@Messages("disposal_disposeconfirmation.exkeeperlettertext")</p>
 
-    @form(action = controllers.disposal_of_vehicle.routes.DisposeConfirmation.submit) {
-        <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
-            <ul>
-                @valtechInputText(disposeConfirmationForm("emailAddress"), args =
-                '_label -> Messages("disposal_disposeconfirmation.emaillabel"),
-                '_showConstraints -> false)
-            </ul>
-            <div class="form-steps">
-                <button type="submit" name="send-email" class="button" aria-label="Next button">@Messages("disposal_disposeconfirmation.sendbutton")</button>
+<div class="two-col clearfix">
+
+	<div class="first-col">
+	
+		<h2>@Messages("disposal_disposeconfirmation.disposaldetails")</h2>
+		<dl>
+			<dt>@Messages("disposal_disposeconfirmation.vehiclemake")</dt>
+			<dd>@data.vehicleMake</dd>
+			<dt>@Messages("disposal_disposeconfirmation.vehiclemodel")</dt>
+			<dd>@data.vehicleModel</dd>
+			<dt>@Messages("disposal_disposeconfirmation.vehiclekeeper")</dt>
+			<dd>
+				@data.keeperName<br />
+				@data.keeperAddress.line1<br />
+				@data.keeperAddress.line2<br />
+				@data.keeperAddress.line3<br />
+				@data.keeperAddress.postCode
+			</dd>
+			<dt>@Messages("disposal_disposeconfirmation.disposedto")</dt>
+			<dd>
+				@data.dealerName<br />
+				@data.dealerAddress.line1<br />
+				@data.dealerAddress.line2<br />
+				@data.dealerAddress.line3<br />
+				@data.dealerAddress.postCode
+			</dd>
+		</dl>
+	
+	</div>
+	
+	<div class="second-col">
+	
+		<h2>@Messages("disposal_disposeconfirmation.exkeeper")</h2>
+	    <p><strong>@Messages("disposal_disposeconfirmation.exkeeperlettersend")</strong></p>
+	    
+	    @form(action = controllers.disposal_of_vehicle.routes.DisposeConfirmation.submit) {
+	    <div class="form-elements">
+	    	<ul>
+	    		<li>
+			    	@data.keeperName<br />
+			    	@data.keeperAddress.line1<br />
+			    	@data.keeperAddress.line2<br />
+			    	@data.keeperAddress.line3<br />
+			    	@data.keeperAddress.postCode
+	    		</li>
+	    		<li>@Messages("disposal_disposeconfirmation.exkeeperlettertext")</li>
+	    		@valtechInputText(disposeConfirmationForm("emailAddress"), args =
+		                '_label -> Messages("disposal_disposeconfirmation.emaillabel"),
+		                '_showConstraints -> false)
+		        <button type="submit" name="send-email" class="button" aria-label="Next button">@Messages("disposal_disposeconfirmation.sendbutton")</button>
+		        <li>@Messages("disposal_disposeconfirmation.transactionid", "123-654-REP")</li>
+	    	</ul>
+	    	<div class="form-steps">
+                <button type="submit" name="new-disposal" class="button-not-implemented" aria-label="Print">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
+                <button type="submit" name="new-disposal" class="button-not-implemented" aria-label="Print">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
             </div>
-            <br>
-            <p>@Messages("disposal_disposeconfirmation.transactionid", "123-654-REP")</p>
-            <div class="form-steps">
-                <button type="submit" name="new-disposal" class="button" aria-label="Next button">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
-            </div>
-         </fieldset>
-    }
+	    </div>
+	    }
+    
+	</div>
+
+    
+
+
+    
+</div>
+    
 }
