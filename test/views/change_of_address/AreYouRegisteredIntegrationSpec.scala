@@ -12,7 +12,7 @@ class AreYouRegisteredIntegrationSpec extends Specification with Tags {
       browser.goTo("/are-you-registered")
 
       // Assert
-      titleMustContain("Change of keeper address4")
+      titleMustEqual("Change of keeper address4")
 
     }
 

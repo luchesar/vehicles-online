@@ -37,6 +37,8 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
     "display two validation error messages when a valid postcode is entered with no business name" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       traderLookupIntegrationHelper(browser, traderBusinessName = "")
+
+      // Assert
       checkNumberOfValidationErrors(2)
     }
 
@@ -53,6 +55,7 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
       traderLookupIntegrationHelper(browser, traderBusinessName = "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopq")
 
       // Assert
+
       checkNumberOfValidationErrors(1)
     }
 

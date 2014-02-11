@@ -8,13 +8,13 @@ import helpers.disposal_of_vehicle.VehicleLookup._
 class VehicleLookupIntegrationSpec extends Specification with Tags {
 
 
-  "BeforeYouStart Integration" should {
+  "VehicleLookupIntegrationSpec Integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       browser.goTo("/disposal-of-vehicle/vehicle-lookup")
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
+      titleMustEqual("Dispose a vehicle into the motor trade 4")
     }
 
     "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
@@ -22,7 +22,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
+      titleMustEqual("Dispose a vehicle into the motor trade 5")
     }
 
     "display three validation error messages when no v5cReferenceNumber is entered" in new WithBrowser with BrowserMatchers {
@@ -30,7 +30,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser, v5cReferenceNumber = "")
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
       checkNumberOfValidationErrors(3)
     }
 
@@ -39,7 +38,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser, v5cVehicleRegistrationNumber = "")
 
       //Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
       checkNumberOfValidationErrors(2)
     }
 
@@ -48,7 +46,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser, v5cVehicleRegistrationNumber = "a")
 
       //Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
       checkNumberOfValidationErrors(1)
     }
 
@@ -57,7 +54,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser, v5cVehicleRegistrationNumber = "$^")
 
       //Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
       checkNumberOfValidationErrors(1)
     }
 
@@ -66,7 +62,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser, v5cKeeperName = "")
 
       //Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
       checkNumberOfValidationErrors(2)
     }
 
@@ -75,7 +70,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser, v5cKeeperName = "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopq")
 
       //Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
       checkNumberOfValidationErrors(1)
     }
 
@@ -84,7 +78,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser, v5cPostcode = "")
 
       //Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
       checkNumberOfValidationErrors(3)
     }
 
@@ -93,7 +86,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser, v5cPostcode = "SA99")
 
       //Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
       checkNumberOfValidationErrors(2)
     }
 
@@ -102,7 +94,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser, v5cPostcode = "SA991B%")
 
       //Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
       checkNumberOfValidationErrors(1)
     }
 
@@ -111,7 +102,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser, v5cPostcode = "SA9999")
 
       //Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
       checkNumberOfValidationErrors(1)
     }
 
@@ -120,7 +110,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser, v5cReferenceNumber = "", v5cVehicleRegistrationNumber = "", v5cKeeperName = "", v5cPostcode = "")
 
       //Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
       checkNumberOfValidationErrors(10)
     }
 
@@ -129,7 +118,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser, v5cVehicleRegistrationNumber = "", v5cKeeperName = "", v5cPostcode = "")
 
       //Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
       checkNumberOfValidationErrors(7)
     }
 
@@ -138,7 +126,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser, v5cReferenceNumber = "", v5cKeeperName = "", v5cPostcode = "")
 
       //Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
       checkNumberOfValidationErrors(8)
     }
 
@@ -147,7 +134,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser, v5cReferenceNumber = "", v5cVehicleRegistrationNumber = "", v5cPostcode = "")
 
       //Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
       checkNumberOfValidationErrors(8)
     }
 
@@ -156,7 +142,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser, v5cReferenceNumber = "", v5cVehicleRegistrationNumber = "", v5cKeeperName = "")
 
       //Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
       checkNumberOfValidationErrors(7)
     }
   }

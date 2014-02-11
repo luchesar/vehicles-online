@@ -23,7 +23,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       browser.goTo("/v5c-search")
 
       // Assert
-      titleMustContain("Change of keeper address9")
+      titleMustEqual("Change of keeper address9")
     }
 
     "redirect to login when login cache is empty" in new WithBrowser with BrowserMatchers {
@@ -31,7 +31,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       browser.goTo("/v5c-search")
 
       // Assert
-      titleMustContain("Change of keeper address4")
+      titleMustEqual("Change of keeper address4")
 
     }
 

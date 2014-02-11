@@ -14,7 +14,7 @@ class DisposalIntegrationSpec extends Specification with Tags {
       browser.goTo(disposeUrl)
 
       // Check the page title is correct
-      titleMustContain("Dispose a vehicle into the motor trade - 5")
+      titleMustEqual("Dispose a vehicle into the motor trade 5")
     }
 
     "display the next page when mandatory data is entered and dispose button is clicked" in new WithBrowser with BrowserMatchers {
@@ -30,7 +30,7 @@ class DisposalIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Verify we have moved to the next screen
-      titleMustContain("Dispose a vehicle into the motor trade - 6")
+      titleMustEqual("Dispose a vehicle into the motor trade 6")
     }
   }
 }
