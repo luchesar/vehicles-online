@@ -4,7 +4,7 @@ import play.api.test.TestBrowser
 import models.domain.change_of_address.LoginConfirmationModel
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
-import helpers.ValidValues._
+import helpers.disposal_of_vehicle.DOVValidValues._
 
 object VehicleLookup extends WordSpec with Matchers with Mockito {
 
