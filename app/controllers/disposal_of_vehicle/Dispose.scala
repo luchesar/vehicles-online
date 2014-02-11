@@ -11,13 +11,14 @@ import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.common.Address
 import app.DisposalOfVehicle.Dispose._
 import mappings.Consent._
+import mappings.Mileage._
 
 object Dispose extends Controller {
 
   val disposeForm = Form(
     mapping(
       consentId -> consent,
-      mileageId -> Mileage(minLength = 0, maxLength = 999999),
+      mileageId -> mileage(),
       dateOfDisposalId -> dayMonthYear.verifying(validDate)
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )

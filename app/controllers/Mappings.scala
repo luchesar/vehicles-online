@@ -33,35 +33,6 @@ object Mappings {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  object Mileage {
-    val minLength = 1
-    val maxLength = 6
-    val pattern = s"\\d{$minLength,$maxLength}" // Digits only with specified size.
-    val key = "Mileage"
-  }
-
-  def Mileage (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[Option[Int]] = {
-    optional(number(minLength, maxLength))
-  }
-
   val dayMonthYear: Mapping[DayMonthYear] = mapping(
     "day" -> optional(number(max = 100)),
     "month" -> optional(number(max = 100)),
