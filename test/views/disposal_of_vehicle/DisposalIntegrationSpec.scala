@@ -3,6 +3,7 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Tags, Specification}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
+import app.DisposalOfVehicle.Dispose._
 
 class DisposalIntegrationSpec extends Specification with Tags {
 
@@ -21,11 +22,11 @@ class DisposalIntegrationSpec extends Specification with Tags {
 
       // Fill in mandatory data
       browser.goTo(disposeUrl)
-      browser.click("#consent")
+      browser.click(s"#${consentId}")
 
-      browser.click("#dateOfDisposal_day option[value='1']")
-      browser.click("#dateOfDisposal_month option[value='1']")
-      browser.fill("#dateOfDisposal_year") `with` "2000"
+      browser.click(s"#${dateOfDisposalId}_day option[value='1']")
+      browser.click(s"#${dateOfDisposalId}_month option[value='1']")
+      browser.fill(s"#${dateOfDisposalId}_year") `with` "2000"
 
       browser.submit("button[type='submit']")
 
