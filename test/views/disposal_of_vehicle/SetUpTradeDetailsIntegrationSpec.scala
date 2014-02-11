@@ -15,7 +15,7 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
       browser.goTo("/disposal-of-vehicle/setup-trade-details")
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade 2")
+      titleMustEqual("Dispose a vehicle into the motor trade: set-up")
     }
 
     "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {

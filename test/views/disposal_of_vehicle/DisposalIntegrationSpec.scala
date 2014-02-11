@@ -8,13 +8,13 @@ class DisposalIntegrationSpec extends Specification with Tags {
 
   val disposeUrl = "/disposal-of-vehicle/dispose"
 
-  "V5cSearch Integration" should {
+  "Disposal Integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       browser.goTo(disposeUrl)
 
       // Check the page title is correct
-      titleMustEqual("Dispose a vehicle into the motor trade 5")
+      titleMustEqual("Dispose a vehicle into the motor trade: confirm")
     }
 
     "display the next page when mandatory data is entered and dispose button is clicked" in new WithBrowser with BrowserMatchers {
@@ -30,7 +30,7 @@ class DisposalIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Verify we have moved to the next screen
-      titleMustEqual("Dispose a vehicle into the motor trade 6")
+      titleMustEqual("Dispose a vehicle into the motor trade: summary")
     }
   }
 }

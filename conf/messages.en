@@ -188,13 +188,13 @@ prototype.banner = This is a prototype. You cannot dispose of a vehicle using th
 prototype.link = Dispose of a vehicle using the live service
 
 #page 1 - Before You Start
-disposal_beforeyoustart.title = Dispose a vehicle into the motor trade 1
+disposal_beforeyoustart.title = Dispose a vehicle into the motor trade: start
 disposal_beforeyoustart.name = Selling or transfering a vehicle to a motor trader, insurer or dismantler
 disposal_beforeyoustart.p1 = Use this service if you are a motor trader, insurer or dismantler, and you have the consent of a vehicle keeper to dispose of that vehicle to yourself.
 disposal_beforeyoustart.button = Start now
 
 #page 2 - set-up trade details
-disposal_setuptradedetails.title = Dispose a vehicle into the motor trade 2
+disposal_setuptradedetails.title = Dispose a vehicle into the motor trade: set-up
 disposal_setuptradedetails.name = Dispose a vehicle into the motor trade
 disposal_setuptradedetails.p1 = Set-up trade details
 disposal_setuptradedetails.tradernamelabel = Business name
@@ -211,7 +211,7 @@ disposal_businessChooseYourAddress_addressSelect = Choose your address
 disposal_businessChooseYourAddress_addressSelect_label = Choose your address
 
 #page 4 - vehicle Lookup
-disposal_vehiclelookup.title = Dispose a vehicle into the motor trade 4
+disposal_vehiclelookup.title = Dispose a vehicle into the motor trade: vehicle
 disposal_vehiclelookup.name = Dispose a vehicle into the motor trade
 disposal_vehiclelookup.p1 = Find a vehicle
 disposal_vehiclelookup.p2 = Vehicle disposed to
@@ -223,7 +223,8 @@ disposal_vehiclelookup.keeperpostcodelabel = Keeper postcode
 disposal_vehiclelookup.button = Find
 disposal_vehiclelookup.button2 = Edit
 
-disposal_dispose.title = Dispose a vehicle into the motor trade 5
+#page 5 - confirm disposal
+disposal_dispose.title = Dispose a vehicle into the motor trade: confirm
 disposal_dispose.vehicledetails = Vehicle details
 disposal_dispose.vehiclemake = Make
 disposal_dispose.vehiclemodel = Model
@@ -236,7 +237,8 @@ disposal_dispose.mileage.validation = You must enter a valid mileage between 0 a
 disposal_dispose.dateofdisposal.label = Date of disposal
 disposal_dispose.submitbutton = Dispose
 
-disposal_disposeconfirmation.title = Dispose a vehicle into the motor trade 6
+#page 6 - summary
+disposal_disposeconfirmation.title = Dispose a vehicle into the motor trade: summary
 disposal_disposeconfirmation.disposaldetails = Disposal details
 disposal_disposeconfirmation.vehiclemake = Make
 disposal_disposeconfirmation.vehiclemodel = Model
