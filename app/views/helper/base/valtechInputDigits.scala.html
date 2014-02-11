@@ -1,7 +1,7 @@
 @(field: play.api.data.Field, args: (Symbol, Any)*)(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import helper._
-@import utils.helpers.CarersCrypto
+@import utils.helpers.ValtechCrypto
 @import utils.helpers._
 @import views.html.helper.base._
 
@@ -11,5 +11,5 @@
 
     @valtechLabel(field,args:_*)
     
-    <input type="tel" id="@CarersCrypto.encryptAES(id)" name="@CarersCrypto.encryptAES(name)" pattern="[0-9]{1,20}" title="Must be numbers only" value="@value" @toHtmlArgs(htmlArgs)>
+    <input type="tel" id="@ValtechCrypto.encryptAES(id)" name="@ValtechCrypto.encryptAES(name)" pattern="[0-9]{1,20}" title="Must be numbers only" value="@value" @toHtmlArgs(htmlArgs)>
 }
