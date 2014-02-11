@@ -24,6 +24,7 @@
 
                 <p><font color="red">@Messages("loginpage.instructions")</font></p>
                 <ul>
+
                     @inputText(field = loginPageForm(usernameId), args = '_label -> Messages("loginpage.username"), '_showConstraints -> false)
                     @inputPassword(field = loginPageForm(passwordId), args = '_label -> Messages("loginpage.password"), '_showConstraints -> false)
                     <font color="red"><a href="http://localhost:9000">@Messages("loginpage.forgottenPassword")</a></font>

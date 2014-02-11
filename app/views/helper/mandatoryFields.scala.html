@@ -5,14 +5,14 @@
 }
 
 @{
-    def getMappings(mappings: Seq[Mapping[_]]):Seq[Mapping[_]] = {
+    def getMappings(mappings: Seq[Mapping[_]]):Seq[Mapping[_]] = { // TODO move to helper and rewrite in a functional style.
         var m = mappings
         for(a <- 0 to m.size){
             m = m ++ m(a).mappings
         }
         m
     }
-    def anyRequired(mappings: Seq[Mapping[_]]):Boolean = {
+    def anyRequired(mappings: Seq[Mapping[_]]):Boolean = { // TODO move to helper and rewrite in a functional style.
         for(mapping <- mappings){
             if (mapping.constraints.exists(c => c != null && c.name.getOrElse("") == "constraint.required")) return true
         }
