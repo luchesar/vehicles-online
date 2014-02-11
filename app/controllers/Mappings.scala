@@ -44,16 +44,8 @@ object Mappings {
 
 
 
-  def consent: Mapping[Boolean] = {
-    boolean verifying validConsent
-  }
 
-  def validConsent: Constraint[Boolean] = Constraint[Boolean]("constraint.validConsent") { input =>
-    input match {
-      case true => Valid
-      case false => Invalid(ValidationError("disposal_dispose.consentnotgiven"))
-    }
-  }
+
 
   def dropDown(dropDownOptions: Map[String, String]): Mapping[String] = {
     nonEmptyText(maxLength = 12) verifying validDropDown(dropDownOptions)
