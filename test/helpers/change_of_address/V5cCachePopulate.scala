@@ -4,7 +4,6 @@ import models.domain.change_of_address.V5cSearchConfirmationModel
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
 import play.api.Play.current
-import controllers.Mappings
 import helpers.change_of_address.COAValidValues._
 import mappings.{V5cRegistrationNumber, V5cReferenceNumber}
 
