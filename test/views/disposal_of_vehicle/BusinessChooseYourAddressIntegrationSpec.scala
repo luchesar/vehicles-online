@@ -20,7 +20,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
       businessChooseYourAddressPopulate(browser)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade 4")
+      titleMustEqual("Dispose a vehicle into the motor trade: vehicle")
     }
 
     "display two validation error messages when no businessName is entered" in new WithBrowser with BrowserMatchers {

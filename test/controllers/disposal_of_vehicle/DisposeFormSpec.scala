@@ -1,6 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import org.scalatest.{Matchers, WordSpec}
+import app.DisposalOfVehicle.Dispose._
 
 class DisposeFormSpec extends WordSpec with Matchers {
   "Dispose Form" should {
@@ -14,11 +15,11 @@ class DisposeFormSpec extends WordSpec with Matchers {
     def disposeFormFiller(consent: String, mileage: String, day: String, month: String, year: String) = {
       Dispose.disposeForm.bind(
         Map(
-          "consent" -> consent,
-          "mileage" -> mileage,
-          "dateOfDisposal.day" -> day,
-          "dateOfDisposal.month" -> month,
-          "dateOfDisposal.year" -> year
+          consentId -> consent,
+          mileageId -> mileage,
+          s"${dateOfDisposalId}.day" -> day,
+          s"${dateOfDisposalId}.month" -> month,
+          s"${dateOfDisposalId}.year" -> year
         )
       )
     }

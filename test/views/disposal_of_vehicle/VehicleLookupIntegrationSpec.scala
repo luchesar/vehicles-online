@@ -14,7 +14,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       browser.goTo("/disposal-of-vehicle/vehicle-lookup")
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade 4")
+      titleMustEqual("Dispose a vehicle into the motor trade: vehicle")
     }
 
     "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
@@ -22,7 +22,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       vehicleLookupIntegrationHelper(browser)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade 5")
+      titleMustEqual("Dispose a vehicle into the motor trade: confirm")
     }
 
     "display three validation error messages when no v5cReferenceNumber is entered" in new WithBrowser with BrowserMatchers {

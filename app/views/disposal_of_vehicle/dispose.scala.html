@@ -4,6 +4,7 @@
 @import helper.base.valtechInputText
 @import utils.helpers.ValtechTemplate._
 @import helper.dates.inputDayMonthYear
+@import app.DisposalOfVehicle.Dispose._
 
 @main(Messages("disposal_dispose.title")){
     @errorsSummary(disposeForm)
@@ -41,15 +42,12 @@
     </div>
     
     <div class="second-col">
-
-	    
-	    
 	    	<h2>@Messages("disposal_dispose.disposevehicleto")</h2>
 	    	
 	        <div class="form-elements">
 	            
 	            <ul>
-	            	@checkbox(disposeForm("consent"), 'id -> "consent", '_showConstraints -> false, '_label -> "", '_text -> Messages("disposal_dispose.consent"))
+	            	@checkbox(disposeForm(consentId), 'id -> "consent", '_showConstraints -> false, '_label -> "", '_text -> Messages("disposal_dispose.consent"))
 	            <li>
 			        @data.dealerName<br />
 			        @data.dealerAddress.line1<br />
@@ -57,7 +55,7 @@
 			        @data.dealerAddress.line3<br />
 			        @data.dealerAddress.postCode
 		        </li>
-	                @valtechInputText(disposeForm("mileage"), args =
+	                @valtechInputText(disposeForm(mileageId), args =
 	                '_label -> Messages("disposal_dispose.mileage.label"),
 	                '_showConstraints -> false,
 	                'pattern -> Mappings.Mileage.pattern,
@@ -65,7 +63,7 @@
 	                'title -> Messages("disposal_dispose.mileage.validation"))
 	            </ul>
 	            <ul>
-	                @inputDayMonthYear(disposeForm("dateOfDisposal"), args = '_label -> Messages("disposal_dispose.dateofdisposal.label"))
+	                @inputDayMonthYear(disposeForm(dateOfDisposalId), args = '_label -> Messages("disposal_dispose.dateofdisposal.label"))
 	            </ul>
 	        </div>
 	
