@@ -15,7 +15,7 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
       browser.goTo("/disposal-of-vehicle/setup-trade-details")
 
       // Assert
-      titleMustContain("Dispose a vehicle into the motor trade")
+      titleMustEqual("Dispose a vehicle into the motor trade 2")
     }
 
     "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
@@ -32,7 +32,7 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
       checkNumberOfValidationErrors(5)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
+      titleMustEqual("Dispose a vehicle into the motor trade 2")
     }
 
     "display two validation error messages when a valid postcode is entered with no business name" in new WithBrowser with BrowserMatchers {
@@ -41,7 +41,7 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
       checkNumberOfValidationErrors(2)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
+      titleMustEqual("Dispose a vehicle into the motor trade 2")
     }
 
     "display one validation error message when a valid postcode is entered with a business name less than min length" in new WithBrowser with BrowserMatchers {
@@ -50,7 +50,7 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
       checkNumberOfValidationErrors(1)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
+      titleMustEqual("Dispose a vehicle into the motor trade 2")
     }
 
     "display one validation error message when a valid postcode is entered with a business name more than max length" in new WithBrowser with BrowserMatchers {
@@ -59,7 +59,7 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
       checkNumberOfValidationErrors(1)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
+      titleMustEqual("Dispose a vehicle into the motor trade 2")
     }
 
     "display three validation error messages when a valid business name is entered with no postcode" in new WithBrowser with BrowserMatchers {
@@ -68,7 +68,7 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
       checkNumberOfValidationErrors(3)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
+      titleMustEqual("Dispose a vehicle into the motor trade 2")
     }
 
     "display two validation error messages when a valid business name is entered with a postcode less than min length" in new WithBrowser with BrowserMatchers {
@@ -77,7 +77,7 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
       checkNumberOfValidationErrors(2)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
+      titleMustEqual("Dispose a vehicle into the motor trade 2")
     }
 
     "display two validation error messages when a valid business name is entered with a postcode more than max length" in new WithBrowser with BrowserMatchers {
@@ -86,7 +86,7 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
       checkNumberOfValidationErrors(2)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
+      titleMustEqual("Dispose a vehicle into the motor trade 2")
     }
 
     "display one validation error message when a valid business name is entered with a postcode containing an incorrect format" in new WithBrowser with BrowserMatchers {
@@ -95,7 +95,7 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
       checkNumberOfValidationErrors(1)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
+      titleMustEqual("Dispose a vehicle into the motor trade 2")
     }
   }
 }
