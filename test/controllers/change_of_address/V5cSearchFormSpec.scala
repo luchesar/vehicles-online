@@ -19,6 +19,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
         )
       )
     }
+    
     /*Test v5cReferenceNumber*/
     "reject if v5cReferenceNumber is blank" in {
       v5cSearchFiller(v5cReferenceNumber = "", v5cRegistrationNumber = vehicleVRNValid, v5cPostcode = v5cPostcodeValid).fold(
@@ -29,7 +30,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
       )
     }
 
-    "reject if v5cReferenceNumber is less than minimun" in {
+    "reject if v5cReferenceNumber is less than minimum" in {
       v5cSearchFiller(v5cReferenceNumber = "1", v5cRegistrationNumber = vehicleVRNValid, v5cPostcode = v5cPostcodeValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)

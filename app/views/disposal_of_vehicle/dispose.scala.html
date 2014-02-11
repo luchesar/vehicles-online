@@ -8,6 +8,8 @@
 @main(Messages("disposal_dispose.title")){
     @errorsSummary(disposeForm)
     
+    @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit) {
+    
 <div class="two-col clearfix"> 
     
     <div class="first-col">
@@ -40,21 +42,21 @@
     
     <div class="second-col">
 
-	    @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit) {
+	    
 	    
 	    	<h2>@Messages("disposal_dispose.disposevehicleto")</h2>
 	    	
 	        <div class="form-elements">
 	            
-	            <p>@checkbox(disposeForm("consent"), 'id -> "consent", '_showConstraints -> false, '_label -> "", '_text -> Messages("disposal_dispose.consent"))</p>
-	            <p>
+	            <ul>
+	            	@checkbox(disposeForm("consent"), 'id -> "consent", '_showConstraints -> false, '_label -> "", '_text -> Messages("disposal_dispose.consent"))
+	            <li>
 			        @data.dealerName<br />
 			        @data.dealerAddress.line1<br />
 			        @data.dealerAddress.line2<br />
 			        @data.dealerAddress.line3<br />
 			        @data.dealerAddress.postCode
-		        </p>
-	            <ul>
+		        </li>
 	                @valtechInputText(disposeForm("mileage"), args =
 	                '_label -> Messages("disposal_dispose.mileage.label"),
 	                '_showConstraints -> false,
@@ -68,17 +70,18 @@
 	        </div>
 	
 	        <div class="form-steps">
-	            <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_dispose.submitbutton")
-	            </button>
+	            
 	        </div>
-	    }
     
     </div>
     
     <div class="form-steps">
-        
-        <button type="reset" name="action" class="button-not-implemented" aria-label="Back button">@Messages("global.buttonnavback")</button>
-        <button type="reset" name="action" class="button-not-implemented" aria-label="Cancel button">@Messages("global.buttonnavcancel")</button>
+        <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_dispose.submitbutton")</button>
+        <div class="two-col-spacer">
+	        <button type="reset" name="action" class="button-not-implemented" aria-label="Back button">@Messages("global.buttonnavback")</button>
+	        <button type="reset" name="action" class="button-not-implemented" aria-label="Cancel button">@Messages("global.buttonnavcancel")</button>
+        </div>
     </div>
     
+    }
 }

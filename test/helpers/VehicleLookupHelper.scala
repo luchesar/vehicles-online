@@ -8,7 +8,6 @@ import play.api.Play.current
 import models.domain.common.Address
 
 object VehicleLookupHelper extends WordSpec with Matchers with Mockito {
-
   val v5cDocumentReferenceNumberValid = "12345678910"
   val v5cVehicleRegistrationNumberValid = "AB12AWR"
   val v5cKeeperNameValid = "John Smith"

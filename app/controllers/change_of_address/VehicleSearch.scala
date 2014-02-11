@@ -30,7 +30,7 @@ object VehicleSearch extends Controller {
         case true => Ok(views.html.change_of_address.v5c_search(vehicleSearchForm, fetchData))
         case false => Redirect(routes.AreYouRegistered.present)
       }
-}
+  }
 
   def submit = Action.async {
     implicit request => {
