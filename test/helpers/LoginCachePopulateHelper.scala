@@ -11,7 +11,10 @@ object LoginCachePopulateHelper extends WordSpec with Matchers with Mockito {
   val address = mock[Address]
   val loginConfirmationModel = mock[LoginConfirmationModel]
 
+
   def loginCachePopulate() = {
+    val key = Mappings.LoginConfirmationModel.key
+
     address.line1 returns "mock line1"
     address.postCode returns "mock postcode"
 
@@ -19,7 +22,6 @@ object LoginCachePopulateHelper extends WordSpec with Matchers with Mockito {
     loginConfirmationModel.surname returns "mock surname"
     loginConfirmationModel.address returns address
 
-    val key = Mappings.LoginConfirmationModel.key
     play.api.cache.Cache.set(key, loginConfirmationModel)
   }
 
