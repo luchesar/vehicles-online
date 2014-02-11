@@ -1,14 +1,11 @@
-import com.google.inject.Guice
 import models.domain.change_of_address._
 import models.domain.change_of_address.LoginConfirmationModel
 import models.domain.change_of_address.V5cSearchConfirmationModel
 import models.domain.change_of_address.V5cSearchResponse
 import models.domain.common.Address
-import modules.DevModule
 import play.api.libs.json.Json
 import play.api.Play
 
-import scala.util.Success
 import scala.util.{Success, Try}
 
 package object app {
@@ -83,6 +80,12 @@ package object app {
       val v5cRegistrationNumberID = "v5cRegistrationNumber"
       val v5cKeeperNameID = "v5cKeeperName"
       val v5cPostcodeID = "v5cPostcode"
+    }
+
+    object Dispose {
+      val consentId = "consent"
+      val mileageId = "mileage"
+      val dateOfDisposalId = "dateOfDisposal"
     }
   }
 }

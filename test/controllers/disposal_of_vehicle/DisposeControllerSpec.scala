@@ -2,8 +2,9 @@ package controllers.disposal_of_vehicle
 
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
-import controllers.{Mappings, disposal_of_vehicle}
+import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
+import app.DisposalOfVehicle.Dispose._
 import org.specs2.mock.Mockito
 
 class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
@@ -31,11 +32,11 @@ class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
 
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
-          "consent" -> consentValid,
-          "mileage" -> mileageValid,
-          "dateOfDisposal.day" -> dateOfDisposalDayValid,
-          "dateOfDisposal.month" -> dateOfDisposalMonthValid,
-          "dateOfDisposal.year" -> dateOfDisposalYearValid
+          consentId -> consentValid,
+          mileageId -> mileageValid,
+          s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
+          s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
+          s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid
         )
 
       // Act
