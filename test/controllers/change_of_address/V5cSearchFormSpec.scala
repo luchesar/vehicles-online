@@ -19,7 +19,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
         )
       )
     }
-    
+
     /*Test v5cReferenceNumber*/
     "reject if v5cReferenceNumber is blank" in {
       v5cSearchFiller(v5cReferenceNumber = "", v5cRegistrationNumber = vehicleVRNValid, v5cPostcode = v5cPostcodeValid).fold(
