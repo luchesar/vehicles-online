@@ -17,7 +17,7 @@
 	<div class="first-col">
 	
 		<h2>@Messages("disposal_disposeconfirmation.disposaldetails")</h2>
-		<dl>
+		<dl class="summary-detail-list">
 			<dt>@Messages("disposal_disposeconfirmation.vehiclemake")</dt>
 			<dd>@data.vehicleMake</dd>
 			<dt>@Messages("disposal_disposeconfirmation.vehiclemodel")</dt>
@@ -45,12 +45,12 @@
 	<div class="second-col">
 	
 		<h2>@Messages("disposal_disposeconfirmation.exkeeper")</h2>
-	    <p><strong>@Messages("disposal_disposeconfirmation.exkeeperlettersend")</strong></p>
 	    
-	    @form(action = controllers.disposal_of_vehicle.routes.DisposeConfirmation.submit) {
 	    <div class="form-elements">
+	    	@form(action = controllers.disposal_of_vehicle.routes.DisposeConfirmation.submit) {
 	    	<ul>
 	    		<li>
+	    			<strong>@Messages("disposal_disposeconfirmation.exkeeperlettersend")</strong><br />
 			    	@data.keeperName<br />
 			    	@data.keeperAddress.line1<br />
 			    	@data.keeperAddress.line2<br />
@@ -61,15 +61,31 @@
 	    		@valtechInputText(disposeConfirmationForm("emailAddress"), args =
 		                '_label -> Messages("disposal_disposeconfirmation.emaillabel"),
 		                '_showConstraints -> false)
-		        <button type="submit" name="send-email" class="button" aria-label="Next button">@Messages("disposal_disposeconfirmation.sendbutton")</button>
-		        <li>@Messages("disposal_disposeconfirmation.transactionid", "123-654-REP")</li>
+		        <li>
+		        	<div class="form-steps">
+		        		<button type="submit" name="send-email" class="button" aria-label="Send confirmation email">@Messages("disposal_disposeconfirmation.sendbutton")</button>
+		        	</div>
+		        </li>
+		        
+		        <!-- 
+		        	DEVELOPER NOTE:
+		        	We need to work to work out a way of having helpers that output form elements without wrapper markup
+		        	and potentially without labels too for extra flexibility.
+		        	James Chapman 11/02/2014
+		        -->
+		        
+		        <li>@Messages("disposal_disposeconfirmation.transactionid", ": 123-654-REP")</li>
 	    	</ul>
+	    	}
+	    	
 	    	<div class="form-steps">
-                <button type="submit" name="new-disposal" class="button-not-implemented" aria-label="Print">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
-                <button type="submit" name="new-disposal" class="button-not-implemented" aria-label="Print">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
+	    	
+	    		<a class="button-not-implemented">@Messages("global.buttonnavprint")</a>
+	    		<a class="button" href="@controllers.disposal_of_vehicle.routes.BeforeYouStart.present">@Messages("disposal_disposeconfirmation.newdisposalbutton")</a>
+                   
             </div>
+            
 	    </div>
-	    }
     
 	</div>
 
