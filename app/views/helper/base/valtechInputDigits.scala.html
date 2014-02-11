@@ -9,7 +9,7 @@
               Seq('autocomplete -> "off") ++
               (args.find(_._1 == 'maxLength) match{ case Some(_) => Seq() case _ => Seq('maxLength -> Mappings.sixty)}):_* ) { (id, name, value, htmlArgs) =>
 
-    @carersLabel(field,args:_*)
+    @valtechLabel(field,args:_*)
     
     <input type="tel" id="@CarersCrypto.encryptAES(id)" name="@CarersCrypto.encryptAES(name)" pattern="[0-9]{1,20}" title="Must be numbers only" value="@value" @toHtmlArgs(htmlArgs)>
 }
