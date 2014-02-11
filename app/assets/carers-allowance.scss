@@ -26,10 +26,16 @@ main {
    .ie6 & {
 	   width: 980px;
    }
-   @media screen and (max-width: 500px)
-   	{padding-left: .75em; padding-right: .75em;}
-   @media screen and (max-width: 640px)
-    {border-top: 10px solid #f47738;}
+   @media screen and (max-width: 500px) {
+   		padding-left: .75em; padding-right: .75em;
+   	}
+   @media screen and (max-width: 640px) {
+   		border-top: 10px solid #f47738;
+   	}
+
+   	h2, p {
+	   	margin-bottom:1rem;
+   	} 
 
 	   .prototype {
 		   background: #e0417f;
@@ -486,7 +492,6 @@ main {
 	   
 	   
 	   p {
-		   margin: 0;
 		   font-size: 1.9rem;
 		   font-weight: 400;
 		   line-height: 1.4em;
@@ -1764,11 +1769,6 @@ main {
 			   padding: .4em 1em;
 		   }
 	   }
-	   .button-primary {
-		   float:right;
-		   display: inline;
-		   margin-right:38%;
-	   }
 	   @media screen and (max-width: 640px) {
 	   		button,
 	   		button.button-not-implemented {
@@ -1776,9 +1776,11 @@ main {
 		   		display: block;
 		   		width:100%;
 	   		}
-	   		a.button {
+	   		a.button,
+	   		a.button-not-implemented {
 		   		display: block;
 		   		clear:both;
+		   		text-align: center;
 	   		}
 	   }
    }
@@ -2019,7 +2021,7 @@ main {
 	}
 	
 	.summary-detail-list {
-		margin:0;
+		margin:3rem 0 0 0;
 		padding:0;
 		dt, dd {
 			margin:0 0 1rem 0;

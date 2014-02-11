@@ -12,8 +12,7 @@ class BeforeYouStartIntegrationSpec extends Specification with Tags {
       browser.goTo("/disposal-of-vehicle/before-you-start")
 
       // Assert
-      titleMustContain("Dispose a vehicle into the motor trade")
-
+      titleMustEqual("Dispose a vehicle into the motor trade 1")
     }
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
@@ -21,12 +20,10 @@ class BeforeYouStartIntegrationSpec extends Specification with Tags {
       browser.goTo("/disposal-of-vehicle/before-you-start")
 
       // Act
-      browser.submit("button[type='submit']")
+      browser.click("#next")
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade")
+      titleMustEqual("Dispose a vehicle into the motor trade 2")
     }
-
   }
-
 }

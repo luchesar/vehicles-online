@@ -3,7 +3,7 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.BusinessChooseYourAddress._
+import helpers.disposal_of_vehicle.BusinessChooseYourAddress._
 
 class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
   "business_choose_your_address Integration" should {
@@ -12,7 +12,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
       browser.goTo("/disposal-of-vehicle/business-choose-your-address")
 
       // Assert
-      titleMustContain("Business: Choose your address")
+      titleMustEqual("Business: Choose your address")
     }
 
     "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
