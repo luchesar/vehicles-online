@@ -5,7 +5,7 @@ import play.api.test.Helpers._
 import org.scalatest.{Matchers, WordSpec}
 import app.ChangeOfAddress.Authentication._
 import org.specs2.mock.Mockito
-import helpers.LoginCachePopulateHelper._
+import helpers.LoginCachePopulate._
 
 class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito{
 

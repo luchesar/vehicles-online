@@ -3,7 +3,7 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.VehicleLookupHelper._
+import helpers.VehicleLookup._
 
 class VehicleLookupIntegrationSpec extends Specification with Tags {
 

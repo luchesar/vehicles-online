@@ -3,8 +3,8 @@ package views.change_of_address
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.V5cSearchPagePopulateHelper._
-import helpers.LoginPagePopulateHelper._
+import helpers.V5cSearchPagePopulate._
+import helpers.LoginPagePopulate._
 
 class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
 
