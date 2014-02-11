@@ -5,7 +5,6 @@ import play.api.data.{Mapping, Form}
 import play.api.data.Forms._
 import play.api.Logger
 import controllers.Mappings._
-import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeModel}
 import models.domain.disposal_of_vehicle.DisposeFormModel
 
 import models.domain.disposal_of_vehicle.DisposeModel

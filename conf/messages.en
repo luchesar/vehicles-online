@@ -222,7 +222,7 @@ disposal_vehiclelookup.keeperpostcodelabel = Keeper postcode
 disposal_vehiclelookup.button = Find
 disposal_vehiclelookup.button2 = Edit
 
-disposal_dispose.title = Dispose a vehicle into the motor trade
+disposal_dispose.title = Dispose a vehicle into the motor trade - 5
 disposal_dispose.vehicledetails = Vehicle details
 disposal_dispose.vehiclemake = Make
 disposal_dispose.vehiclemodel = Model
@@ -235,7 +235,7 @@ disposal_dispose.mileage.validation = You must enter a valid mileage between 0 a
 disposal_dispose.dateofdisposal.label = Date of disposal
 disposal_dispose.submitbutton = Dispose
 
-disposal_disposeconfirmation.title = Dispose a vehicle into the motor trade
+disposal_disposeconfirmation.title = Dispose a vehicle into the motor trade - 6
 disposal_disposeconfirmation.disposaldetails = Disposal details
 disposal_disposeconfirmation.vehiclemake = Make
 disposal_disposeconfirmation.vehiclemodel = Model
