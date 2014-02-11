@@ -40,22 +40,9 @@ package object app {
   object ChangeOfAddress {
 
     // TODO make sure all html pages, controllers, formSpec & controllerSpec, integrationSpec use the IDs from this package
-    // Page 6 IDA login page
-    object LoginPage {
-      val usernameId = "username"
-      val passwordId = "password"
-    }
-
-    // Page 8
-    object Authentication {
-      val pinFormID = "PIN"
-    }
-
     // Page 9
     object V5cSearch {
-      val v5cReferenceNumberID = "V5cReferenceNumber"
-      val v5cRegistrationNumberID = "V5CRegistrationNumber"
-      val v5cPostcodeID = "V5cPostcode"
+
     }
   }
 

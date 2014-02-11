@@ -3,7 +3,7 @@ package helpers.change_of_address
 import play.api.test.TestBrowser
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
-import app.ChangeOfAddress.V5cSearch._
+import mappings.V5cSearch._
 import helpers.change_of_address.COAValidValues._
 
 object V5cSearchPagePopulate extends WordSpec with Matchers with Mockito {

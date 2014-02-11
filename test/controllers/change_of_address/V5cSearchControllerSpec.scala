@@ -4,7 +4,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.change_of_address
 import org.scalatest.{Matchers, WordSpec}
-import app.ChangeOfAddress.V5cSearch._
+import mappings.V5cSearch._
 import org.specs2.mock.Mockito
 import helpers.change_of_address.LoginCachePopulate
 import LoginCachePopulate._

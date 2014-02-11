@@ -1,6 +1,6 @@
 package controllers.change_of_address
 
-import app.ChangeOfAddress.Authentication._
+import mappings.Authentication._
 import org.scalatest.{Matchers, WordSpec}
 
 class AuthenticationFormSpec extends WordSpec with Matchers {
