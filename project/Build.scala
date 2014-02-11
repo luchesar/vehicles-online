@@ -16,9 +16,8 @@ object ApplicationBuild extends Build {
     "org.specs2" %% "specs2" % "2.3.7" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
     "org.scalatest" % "scalatest_2.10" % "2.0" % "test",
-    "org.seleniumhq.selenium" % "selenium-java" % "2.39.0" % "test",
     "com.google.inject" % "guice" % "3.0",
-    "com.tzavellas" % "sse-guice" % "0.7.1"
+    "com.tzavellas" % "sse-guice" % "0.7.1" // Scala DSL for Guice
   )
 
   val sOrg = Seq(organization := "Driver & Vehicle Licensing Agency")
