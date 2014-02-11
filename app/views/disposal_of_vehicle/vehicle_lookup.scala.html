@@ -9,6 +9,7 @@
 @import mappings.V5cReferenceNumber
 @import mappings.V5cRegistrationNumber
 @import mappings.Postcode
+@import mappings.KeeperName
 
 @main(Messages("disposal_vehiclelookup.title")) {
     @errorsSummary(vehicleLookupForm)
@@ -48,7 +49,7 @@
                 @valtechInputText(vehicleLookupForm(v5cKeeperNameID), args =
                 '_label -> Messages("disposal_vehiclelookup.keepernamelabel"),
                 '_showConstraints -> false,
-                'maxLength -> Mappings.KeeperName.maxLength,
+                'maxLength -> KeeperName.maxLength,
                 'title -> Messages("disposal_vehiclelookup.keepername.validation"))
 
                 @valtechInputText(vehicleLookupForm(v5cPostcodeID), args =

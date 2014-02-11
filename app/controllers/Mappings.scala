@@ -42,11 +42,7 @@ object Mappings {
 
 
 
-  object KeeperName {
-    val minLength = 1
-    val maxLength = 100
-    val key = "KeeperName"
-  }
+
 
   def consent: Mapping[Boolean] = {
     boolean verifying validConsent
