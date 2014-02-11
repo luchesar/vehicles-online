@@ -12,7 +12,7 @@ class KeeperStatusIntegrationSpec extends Specification with Tags {
         browser.goTo("/keeper-status")
 
         // Assert
-        titleMustContain("Change of keeper address2")
+        titleMustEqual("Change of keeper address2")
       }
 
       "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {

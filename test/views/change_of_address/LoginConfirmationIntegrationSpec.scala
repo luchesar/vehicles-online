@@ -14,7 +14,7 @@ class LoginConfirmationIntegrationSpec extends Specification with Tags {
       loginPagePopulate(browser)
 
       // Assert
-      titleMustContain("Login confirmation")
+      titleMustEqual("Login confirmation")
     }
 
     "be presented when user login is not cached" in new WithBrowser with BrowserMatchers {
@@ -22,7 +22,7 @@ class LoginConfirmationIntegrationSpec extends Specification with Tags {
       browser.goTo("/login-confirmation")
 
       // Assert
-      titleMustContain("Change of keeper address4")
+      titleMustEqual("Change of keeper address4")
     }
 
 

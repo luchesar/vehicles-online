@@ -13,7 +13,7 @@ class LoginPageIntegrationSpec extends Specification with Tags {
       browser.goTo("/login-page")
 
       // Assert
-      titleMustContain("Verified login id")
+      titleMustEqual("Verified login id")
     }
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {

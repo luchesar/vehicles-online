@@ -12,7 +12,7 @@ class VerifyIdentityIntegrationSpec extends Specification with Tags {
       browser.goTo("/verify-identity")
 
       // Assert
-      titleMustContain("Change of keeper address3")
+      titleMustEqual("Change of keeper address3")
     }
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
