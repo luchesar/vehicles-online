@@ -1,4 +1,4 @@
-package helpers
+package helpers.change_of_address
 
 import play.api.test.TestBrowser
 import org.scalatest.{Matchers, WordSpec}
