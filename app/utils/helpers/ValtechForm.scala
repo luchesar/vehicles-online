@@ -6,7 +6,7 @@ import play.api.mvc.{AnyContent, Request}
 import scala.util.{Failure, Success, Try}
 import play.api.Logger
 
-object CarersForm {
+object ValtechForm { // TODO come up with a better name
   implicit def formBinding[T](form: Form[T])(implicit request: Request[_]) = new FormCryptBind[T](form)
 
   class FormCryptBind[T](form: Form[T])(implicit request: Request[_]) {
