@@ -37,20 +37,14 @@ package object app {
     def getProperty(property:String,default:Long) = Try(Play.current.configuration.getLong(property).getOrElse(default)) match { case Success(s) => s case _ => default}
   }
 
-  object ChangeOfAddress {
+
 
     // TODO make sure all html pages, controllers, formSpec & controllerSpec, integrationSpec use the IDs from this package
-    // Page 9
-    object V5cSearch {
-
-    }
-  }
 
   object DisposalOfVehicle {
     // page 2 - setup-trade-details
     object SetupTradeDetails {
-      val traderBusinessNameID = "traderBusinessName"
-      val traderPostcodeID = "traderPostcode"
+
     }
 
     // page 3 - business choose your address
