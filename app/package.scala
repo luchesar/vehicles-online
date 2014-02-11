@@ -144,9 +144,13 @@ package object app {
 
   object ChangeOfAddress {
 
-    val usernameId = "username"
-    val passwordId = "password"
     val postcodeId = "Postcode"
+
+    // Page 6 IDA login page
+    object LoginPage {
+      val usernameId = "username"
+      val passwordId = "password"
+    }
 
     // Page 8
     object Authentication {
