@@ -54,10 +54,10 @@ GET         /assets/*file                   controllers.Assets.at(path="/public"
 ## DISPOSAL OF VEHICLE
 ######################
 
-#page 1 - Before You Start
+#page 1 - Before You Start (GET request not POST on submission because we are not posting any data)
 GET         /                                                   controllers.Application.index
 GET         /disposal-of-vehicle/before-you-start               controllers.disposal_of_vehicle.BeforeYouStart.present
-POST        /disposal-of-vehicle/before-you-start               controllers.disposal_of_vehicle.BeforeYouStart.submit
+GET         /disposal-of-vehicle/before-you-start               controllers.disposal_of_vehicle.BeforeYouStart.submit
 
 #page 2 - setup-trade-details
 GET         /disposal-of-vehicle/setup-trade-details            controllers.disposal_of_vehicle.SetUpTradeDetails.present

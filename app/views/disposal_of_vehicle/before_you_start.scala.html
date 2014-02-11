@@ -5,14 +5,13 @@
 
 @main(Messages("disposal_beforeyoustart.title")){
 
-    @form(action = controllers.disposal_of_vehicle.routes.BeforeYouStart.submit) {
+	<h2>@Messages("disposal_beforeyoustart.name")</h2>
+    <p>@Messages("disposal_beforeyoustart.p1")</p><br>
 
-		<h2>@Messages("disposal_beforeyoustart.name")</h2>
-        <p>@Messages("disposal_beforeyoustart.p1")</p><br>
 
     <div class="form-steps">
-        <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_beforeyoustart.button")</button>
+        @{ /* Note the reverse routing syntax for the hyperlink */ }
+        <a class="button" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.submit">@Messages("disposal_beforeyoustart.button")</a>
     </div>
-    }
 
 }
