@@ -8,6 +8,7 @@
 @import app.ChangeOfAddress.V5cSearch._
 @import mappings.V5cReferenceNumber
 @import mappings.V5cRegistrationNumber
+@import mappings.Postcode
 
 @main(Messages("v5csearch.title")) {
     @errorsSummary(vehicleSearchForm)
@@ -34,7 +35,7 @@
                 @valtechInputText(vehicleSearchForm(v5cPostcodeID), args =
                 '_label -> Messages("v5csearch.postcode.label"),
                 '_showConstraints -> false,
-                'maxLength -> Mappings.Postcode.maxLength,
+                'maxLength -> Postcode.maxLength,
                 'title -> Messages("v5csearch.postcode.validation"))
             </ul>
 

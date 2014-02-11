@@ -8,6 +8,7 @@
 @import app.DisposalOfVehicle.VehicleLookup._
 @import mappings.V5cReferenceNumber
 @import mappings.V5cRegistrationNumber
+@import mappings.Postcode
 
 @main(Messages("disposal_vehiclelookup.title")) {
     @errorsSummary(vehicleLookupForm)
@@ -53,7 +54,7 @@
                 @valtechInputText(vehicleLookupForm(v5cPostcodeID), args =
                 '_label -> Messages("disposal_vehiclelookup.keeperpostcodelabel"),
                 '_showConstraints -> false,
-                'maxLength -> Mappings.Postcode.maxLength,
+                'maxLength -> Postcode.maxLength,
                 'title -> Messages("disposal_vehiclelookup.keeperpostcode.validation"))
 					</ul>
 					

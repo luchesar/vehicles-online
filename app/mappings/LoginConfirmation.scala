@@ -1,5 +1,5 @@
 package mappings
 
 object LoginConfirmation {
-  val key = "LoginConfirmationModel"
+  val key = "LoginConfirmation"
 }

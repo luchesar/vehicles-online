@@ -14,9 +14,10 @@ import controllers.change_of_address.Helpers._
 import controllers.Mappings
 import modules.{injector}
 import app.ChangeOfAddress.V5cSearch._
-import mappings.{V5cRegistrationNumber, V5cReferenceNumber}
+import mappings.{Postcode, V5cRegistrationNumber, V5cReferenceNumber}
 import mappings.V5cReferenceNumber._
 import mappings.V5cRegistrationNumber._
+import mappings.Postcode._
 
 object VehicleSearch extends Controller {
 
@@ -24,7 +25,7 @@ object VehicleSearch extends Controller {
     mapping(
       v5cReferenceNumberID -> v5cReferenceNumber(minLength = 11, maxLength = 11),
       v5cRegistrationNumberID -> v5CRegistrationNumber(minLength = 2, maxLength = 7),
-      v5cPostcodeID -> Postcode(minLength = 5, maxLength = 8)
+      v5cPostcodeID -> postcode()
     )(V5cSearchModel.apply)(V5cSearchModel.unapply)
   )
 
