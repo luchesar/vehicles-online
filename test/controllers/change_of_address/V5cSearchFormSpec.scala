@@ -1,8 +1,7 @@
 package controllers.change_of_address
 
 import org.scalatest.{Matchers, WordSpec}
-import app.ChangeOfAddress._
-import controllers.disposal_of_vehicle.Dispose
+import app.ChangeOfAddress.V5cSearch._
 
 class V5cSearchFormSpec extends WordSpec with Matchers {
   "V5cSearch Form" should {
@@ -11,8 +10,8 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     val vehicleVRNValid = "a1"
     val v5cPostcodeValid = "SA44DW"
 
-    def v5cSearchFiller(consent: Boolean, mileage: String, v5cPostcode: String ) = {
-      Dispose.disposeForm.bind(
+    def v5cSearchFiller(v5cReferenceNumber: String,v5cRegistrationNumber: String, v5cPostcode: String ) = {
+      VehicleSearch.vehicleSearchForm.bind(
         Map(
           v5cReferenceNumberID -> v5cReferenceNumber,
           v5cRegistrationNumberID-> v5cRegistrationNumber,
@@ -20,6 +19,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
         )
       )
     }
+
     /*Test v5cReferenceNumber*/
     "reject if v5cReferenceNumber is blank" in {
       v5cSearchFiller(v5cReferenceNumber = "", v5cRegistrationNumber = vehicleVRNValid, v5cPostcode = v5cPostcodeValid).fold(

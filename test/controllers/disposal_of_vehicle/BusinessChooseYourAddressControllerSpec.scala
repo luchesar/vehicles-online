@@ -36,7 +36,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some("/disposal-of-vehicle/vehicle-lookup")) //TODO: This needs to look at the correct next page
+      redirectLocation(result) should equal (Some("/disposal-of-vehicle/vehicle-lookup"))
     }
 
     "return a bad request after an invalid submission" in new WithApplication {
