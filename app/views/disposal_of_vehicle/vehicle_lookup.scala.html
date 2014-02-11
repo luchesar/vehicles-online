@@ -21,7 +21,9 @@
 				White City<br />
 				LONDON<br />
 				NW10 6RJ</p>  
-				<p><a class="button-not-implemented">@Messages("disposal_vehiclelookup.button2")</a></p>
+				<div class="form-steps">
+					<a class="button-not-implemented" title="Edit disposal address">@Messages("disposal_vehiclelookup.button2")</a></p>
+				</div>
 			</div>
 			
 			<div id="FindAVehicleDiv" class="second-col">
@@ -52,8 +54,13 @@
                 'maxLength -> Mappings.Postcode.maxLength,
                 'title -> Messages("disposal_vehiclelookup.keeperpostcode.validation"))
 					</ul>
+					
+				</div>
+				
+				<div class="form-steps">
 					<button type="submit" name="action" class="button" aria-label="Lookup vehicle">@Messages("disposal_vehiclelookup.button")</button>
 				</div>
+				
 			</div>
 		
 		</div>
