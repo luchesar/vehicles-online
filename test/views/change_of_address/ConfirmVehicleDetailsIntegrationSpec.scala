@@ -6,6 +6,7 @@ import controllers.BrowserMatchers
 import helpers.change_of_address.V5cSearchPagePopulate
 import V5cSearchPagePopulate._
 import helpers.change_of_address.LoginPagePopulate._
+import helpers.change_of_address.AuthenticationPopulate._
 
 class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
 
@@ -16,9 +17,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
       loginPagePopulate(browser)
 
       // Complete validation page by entering a pin
-      browser.goTo("/authentication")
-      browser.fill("#PIN") `with` "123456"
-      browser.submit("button[type='submit']")
+      authenticationPopulate(browser)
 
       // Complete V5c search page with vehicle details
       v5cSearchPagePopulate(browser)
@@ -43,9 +42,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
       loginPagePopulate(browser)
 
       // Complete validation page by entering a pin
-      browser.goTo("/authentication")
-      browser.fill("#PIN") `with` "123456"
-      browser.submit("button[type='submit']")
+      authenticationPopulate(browser)
 
       //Act
       //Try to access confirm vehicle details page without entering V5c details
@@ -62,9 +59,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
       loginPagePopulate(browser)
 
       // Complete validation page by entering a pin
-      browser.goTo("/authentication")
-      browser.fill("#PIN") `with` "123456"
-      browser.submit("button[type='submit']")
+      authenticationPopulate(browser)
 
       // Complete V5c search page
       v5cSearchPagePopulate(browser)
