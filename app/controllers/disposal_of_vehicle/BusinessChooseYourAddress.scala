@@ -5,7 +5,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import controllers.Mappings._
 import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel
-import app.DisposalOfVehicle.BusinessAddressSelect._
+import mappings.disposal_of_vehicle.BusinessAddressSelect._
 import modules._
 import mappings.DropDown._
 

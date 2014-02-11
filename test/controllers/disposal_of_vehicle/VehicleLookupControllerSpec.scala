@@ -4,7 +4,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
-import app.DisposalOfVehicle.VehicleLookup._
+import mappings.disposal_of_vehicle.VehicleLookup._
 
 class VehicleLookupControllerSpec extends WordSpec with Matchers {
 

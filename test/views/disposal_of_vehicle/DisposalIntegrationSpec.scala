@@ -3,7 +3,7 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Tags, Specification}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import app.DisposalOfVehicle.Dispose._
+import mappings.disposal_of_vehicle.Dispose._
 
 class DisposalIntegrationSpec extends Specification with Tags {
 

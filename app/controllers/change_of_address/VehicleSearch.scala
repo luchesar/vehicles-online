@@ -13,7 +13,7 @@ import play.api.Play.current
 import controllers.change_of_address.Helpers._
 import controllers.Mappings
 import modules.{injector}
-import app.ChangeOfAddress.V5cSearch._
+import mappings.V5cSearch._
 import mappings.{Postcode, V5cRegistrationNumber, V5cReferenceNumber}
 import mappings.V5cReferenceNumber._
 import mappings.V5cRegistrationNumber._

@@ -38,7 +38,6 @@ package object app {
   }
 
   object ChangeOfAddress {
-
     // TODO make sure all html pages, controllers, formSpec & controllerSpec, integrationSpec use the IDs from this package
     // Page 6 IDA login page
     object LoginPage {

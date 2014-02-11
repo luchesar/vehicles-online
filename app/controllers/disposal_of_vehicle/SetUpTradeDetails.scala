@@ -5,7 +5,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import controllers.Mappings._
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
-import app.DisposalOfVehicle.SetupTradeDetails._
+import mappings.disposal_of_vehicle.SetupTradeDetails._
 import mappings.Postcode
 import mappings.Postcode._
 

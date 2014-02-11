@@ -1,7 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import org.scalatest.{Matchers, WordSpec}
-import app.DisposalOfVehicle.SetupTradeDetails._
+import mappings.disposal_of_vehicle.SetupTradeDetails._
 
 class SetUpTradeDetailsFormSpec extends WordSpec with Matchers {
   "SetUpTradeDetails form" should {

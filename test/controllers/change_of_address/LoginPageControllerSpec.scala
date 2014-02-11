@@ -1,6 +1,6 @@
 package controllers.change_of_address
 
-import app.ChangeOfAddress.LoginPage._
+import mappings.LoginPage._
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.change_of_address

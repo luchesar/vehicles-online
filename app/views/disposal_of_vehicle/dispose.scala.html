@@ -4,7 +4,8 @@
 @import helper.base.valtechInputText
 @import utils.helpers.ValtechTemplate._
 @import helper.dates.inputDayMonthYear
-@import app.DisposalOfVehicle.Dispose._
+@import mappings.disposal_of_vehicle.Dispose._
+@import mappings.Mileage
 
 @main(Messages("disposal_dispose.title")){
     @errorsSummary(disposeForm)
@@ -58,8 +59,8 @@
 	                @valtechInputText(disposeForm(mileageId), args =
 	                '_label -> Messages("disposal_dispose.mileage.label"),
 	                '_showConstraints -> false,
-	                'pattern -> Mappings.Mileage.pattern,
-	                'maxLength -> Mappings.Mileage.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+	                'pattern -> Mileage.pattern,
+	                'maxLength -> Mileage.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
 	                'title -> Messages("disposal_dispose.mileage.validation"))
 	            </ul>
 	            <ul>

@@ -1,9 +1,10 @@
 package controllers.disposal_of_vehicle
 
-import app.DisposalOfVehicle.SetupTradeDetails._
+import mappings.disposal_of_vehicle.SetupTradeDetails._
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
+import mappings.disposal_of_vehicle.SetupTradeDetails._
 import org.scalatest.{Matchers, WordSpec}
 
 

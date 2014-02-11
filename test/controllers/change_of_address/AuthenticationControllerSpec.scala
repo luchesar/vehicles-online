@@ -3,7 +3,7 @@ package controllers.change_of_address
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import org.scalatest.{Matchers, WordSpec}
-import app.ChangeOfAddress.Authentication._
+import mappings.Authentication._
 import org.specs2.mock.Mockito
 import helpers.change_of_address.LoginCachePopulate
 import LoginCachePopulate._
