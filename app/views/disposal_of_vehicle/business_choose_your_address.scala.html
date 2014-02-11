@@ -12,8 +12,8 @@
 
     @form(action = controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit) {
 
-        <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
-            <legend>@Messages("disposal_businessChooseYourAddress_legend")</legend>
+            <h2>@Messages("disposal_businessChooseYourAddress_legend")</h2>
+        <div class="form-elements">
             <ul>
                 @valtechInputText(businessChooseYourAddressForm(businessNameId), args =
                     '_label -> Messages("disposal_businessChooseYourAddress_businessName_label"),
@@ -25,8 +25,7 @@
                     '_label -> Messages("disposal_businessChooseYourAddress_addressSelect_label")
                 )
             </ul>
-
-        </fieldset>
+        </div>
 
         <div class="form-steps">
             <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_setuptradedetails.button")</button>

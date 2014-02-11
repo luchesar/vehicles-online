@@ -651,7 +651,10 @@ main {
 	   }
    }
 
-   
+   .two-col-spacer {
+	   	    float:left;
+	   	    width:48.3%;
+   	    } 
    
    
    /* form elements */
@@ -659,6 +662,7 @@ main {
    	   margin: 2em 18% 0 0;
    	    @media screen and (max-width: 780px) {margin-right: 0;}
    	    @media screen and (max-width: 500px) {padding-left: 0;}
+   	    
    	    &.form-eligibility {
 	   	    padding-left: 1.9em;
 	   	    @media screen and (max-width: 640px) {padding-left: 2.6em;}
@@ -1997,7 +2001,7 @@ main {
 			}
 		}
 		.second-col {
-			float:right;
+			float:left;
 			width:48%;
 			@media screen and (max-width: 640px) {
 				float:none;
