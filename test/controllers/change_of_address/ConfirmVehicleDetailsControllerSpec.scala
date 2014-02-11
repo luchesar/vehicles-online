@@ -2,9 +2,8 @@ package controllers.change_of_address
 
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
-import controllers.{Mappings, change_of_address}
+import controllers.{change_of_address}
 import org.scalatest.{Matchers, WordSpec}
-import models.domain.change_of_address.{LoginConfirmationModel, V5cSearchConfirmationModel}
 import org.specs2.mock.Mockito
 import helpers.change_of_address.{V5cCachePopulate, LoginCachePopulate}
 import LoginCachePopulate._
