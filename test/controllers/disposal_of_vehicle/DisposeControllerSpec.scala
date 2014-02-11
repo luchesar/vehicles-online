@@ -6,7 +6,7 @@ import controllers.{Mappings, disposal_of_vehicle}
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
 
-class DisposeControllerSpec extends WordSpec with Matchers with Mockito{
+class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
 
   "Disposal - Controller" should {
 
