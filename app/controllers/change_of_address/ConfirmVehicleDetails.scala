@@ -4,7 +4,6 @@ import play.api.mvc._
 import play.api.Play.current
 import controllers.change_of_address.Helpers._
 import models.domain.change_of_address.V5cSearchConfirmationModel
-import controllers.Mappings
 import play.api.cache.Cache
 import mappings.{V5cRegistrationNumber, V5cReferenceNumber}
 
