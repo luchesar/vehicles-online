@@ -31,7 +31,9 @@ object Dispose extends Controller {
       Logger.debug("Submitted dispose form...")
       disposeForm.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.disposal_of_vehicle.dispose(fetchData, formWithErrors)),
-        f => {Logger.debug(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}"); Redirect(routes.DisposeConfirmation.present)}
+        f => {
+          Logger.debug(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
+          Redirect(routes.DisposeConfirmation.present)}
       )
     }
   }
