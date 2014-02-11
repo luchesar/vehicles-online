@@ -1,7 +1,7 @@
 package controllers.change_of_address
 
 import org.scalatest.{Matchers, WordSpec}
-import app.ChangeOfAddress._
+import app.ChangeOfAddress.V5cSearch._
 
 class V5cSearchFormSpec extends WordSpec with Matchers {
   "V5cSearch Form" should {

@@ -144,17 +144,20 @@ package object app {
 
   object ChangeOfAddress {
 
-
-
-    val v5cReferenceNumberID = "V5cReferenceNumber"
-    val v5cRegistrationNumberID = "V5CRegistrationNumber"
-    val v5cPostcodeID = "V5cPostcode"
     val usernameId = "username"
     val passwordId = "password"
     val postcodeId = "Postcode"
 
+    // Page 8
     object Authentication {
       val pinFormID = "PIN"
+    }
+
+    // Page 9
+    object V5cSearch {
+      val v5cReferenceNumberID = "V5cReferenceNumber"
+      val v5cRegistrationNumberID = "V5CRegistrationNumber"
+      val v5cPostcodeID = "V5cPostcode"
     }
   }
 
