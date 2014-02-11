@@ -3,6 +3,7 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.data.{Mapping, Form}
 import play.api.data.Forms._
+import play.api.Logger
 import controllers.Mappings._
 import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeModel}
 import models.domain.disposal_of_vehicle.DisposeFormModel
@@ -27,10 +28,10 @@ object Dispose extends Controller {
 
   def submit = Action {
     implicit request => {
-      println("Submitted dispose form...")
+      Logger.debug("Submitted dispose form...")
       disposeForm.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.disposal_of_vehicle.dispose(fetchData, formWithErrors)),
-        f => {println(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}"); Redirect(routes.DisposeConfirmation.present)}
+        f => {Logger.debug(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}"); Redirect(routes.DisposeConfirmation.present)}
       )
     }
   }
