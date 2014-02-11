@@ -2,7 +2,9 @@ package views.change_of_address
 
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
-import controllers.{TestHelper, BrowserMatchers}
+import controllers.BrowserMatchers
+import helpers.V5cSearchPagePopulateHelper._
+import helpers.LoginPagePopulateHelper._
 
 class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
 
@@ -10,7 +12,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
     "be presented" in new WithBrowser with BrowserMatchers {
       //Arrange / Act
       // Pass credentials through login page
-      TestHelper.loginPagePopulate(browser)
+      loginPagePopulate(browser)
 
       // Complete validation page by entering a pin
       browser.goTo("/authentication")
@@ -18,7 +20,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Complete V5c search page with vehicle details
-      TestHelper.v5cSearchPagePopulate(browser)
+      v5cSearchPagePopulate(browser)
 
       // Assert
       titleMustEqual("Change of keeper address10")
@@ -37,7 +39,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
     "v5c search page is presented when user is logged in but not entered vehicle details" in new WithBrowser with BrowserMatchers {
       //Arrange
       // Pass credentials through login page
-      TestHelper.loginPagePopulate(browser)
+      loginPagePopulate(browser)
 
       // Complete validation page by entering a pin
       browser.goTo("/authentication")
@@ -56,7 +58,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
       //Arrange / Act
       // Pass credentials through login page and click submit
-      TestHelper.loginPagePopulate(browser)
+      loginPagePopulate(browser)
 
       // Complete validation page by entering a pin
       browser.goTo("/authentication")
@@ -64,7 +66,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Complete V5c search page
-      TestHelper.v5cSearchPagePopulate(browser)
+      v5cSearchPagePopulate(browser)
 
       // Assert
       titleMustEqual("Change of keeper address10") //TODO: Need to point at next page once it is built
