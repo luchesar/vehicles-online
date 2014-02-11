@@ -36,6 +36,11 @@ $(function() {
 
     // Nino auto jump
 	$('.ni-number input, .sort-code input').autotab_magic();
+	
+	// Disabled clicking on disabled buttons
+	$('.button-not-implemented').click(function() {
+		return false;
+	});
 
     // smooth scroll
     $('a[href^="#"]').bind('click.smoothscroll', function (e) {

@@ -63,7 +63,7 @@
 		                '_showConstraints -> false)
 		        <li>
 		        	<div class="form-steps">
-		        		<button type="submit" onclick="return false;" name="send-email" class="button-not-implemented" aria-label="Send confirmation email">@Messages("disposal_disposeconfirmation.sendbutton")</button>
+		        		<button type="submit" name="send-email" class="button-not-implemented" aria-disabled="true" disabled>@Messages("disposal_disposeconfirmation.sendbutton")</button>
 		        	</div>
 		        </li>
 		        
@@ -80,7 +80,7 @@
 	    	
 	    	<div class="form-steps">
 	    	
-	    		<a class="button-not-implemented">@Messages("global.buttonnavprint")</a>
+	    		<a class="button-not-implemented" aria-disabled="true" disabled>@Messages("global.buttonnavprint")</a>
 	    		<a class="button" href="@controllers.disposal_of_vehicle.routes.BeforeYouStart.present">@Messages("disposal_disposeconfirmation.newdisposalbutton")</a>
                    
             </div>
