@@ -5,15 +5,16 @@ import play.api.data.Form
 import play.api.data.Forms._
 import controllers.Mappings._
 import models.domain.disposal_of_vehicle.VehicleLookupModel
+import app.DisposalOfVehicle.VehicleLookup._
 
 object VehicleLookup extends Controller {
 
   val vehicleLookupForm = Form(
     mapping(
-      app.DisposalOfVehicle.v5cReferenceNumberID -> V5cReferenceNumber(minLength = 11, maxLength = 11),
-      app.DisposalOfVehicle.v5cRegistrationNumberID -> V5CRegistrationNumber(minLength = 2, maxLength = 8),
-      app.DisposalOfVehicle.v5cKeeperNameID -> nonEmptyText(minLength = 2, maxLength = 100),
-      app.DisposalOfVehicle.v5cPostcodeID -> Postcode(minLength = 5, maxLength = 8)
+      v5cReferenceNumberID -> V5cReferenceNumber(minLength = 11, maxLength = 11),
+      v5cRegistrationNumberID -> V5CRegistrationNumber(minLength = 2, maxLength = 8),
+      v5cKeeperNameID -> nonEmptyText(minLength = 2, maxLength = 100),
+      v5cPostcodeID -> Postcode(minLength = 5, maxLength = 8)
     )(VehicleLookupModel.apply)(VehicleLookupModel.unapply)
   )
 

@@ -155,11 +155,6 @@ package object app {
   }
 
   object DisposalOfVehicle {
-    val v5cReferenceNumberID = "v5cReferenceNumber"
-    val v5cRegistrationNumberID = "v5cRegistrationNumber"
-    val v5cKeeperNameID = "v5cKeeperName"
-    val v5cPostcodeID = "v5cPostcode"
-
     // page 2 - setup-trade-details
     object SetupTradeDetails {
       val traderBusinessNameID = "traderBusinessName"
@@ -172,6 +167,14 @@ package object app {
       val addressSelectId = "disposal_businessChooseYourAddress_addressSelect"
       val FirstAddress = "1"
       val SecondAddress = "2"
+    }
+
+    // vehicle-lookup
+    object VehicleLookup {
+      val v5cReferenceNumberID = "v5cReferenceNumber"
+      val v5cRegistrationNumberID = "v5cRegistrationNumber"
+      val v5cKeeperNameID = "v5cKeeperName"
+      val v5cPostcodeID = "v5cPostcode"
     }
   }
 }
