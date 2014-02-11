@@ -44,8 +44,8 @@ object TestModule extends ScalaModule {
   case class FakeAddressLookupService() extends AddressLookupService {
     override def invoke(postcode: String): Map[String, String] = Map(
       "" -> "Please select",
-      FirstAddress -> "This is the first option",
-      SecondAddress -> "This is the second option"
+      firstAddress -> "This is the first option",
+      secondAddress -> "This is the second option"
     )
   }
 

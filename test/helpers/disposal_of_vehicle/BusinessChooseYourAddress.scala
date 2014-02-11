@@ -10,7 +10,7 @@ object BusinessChooseYourAddress extends WordSpec with Matchers with Mockito {
   def businessChooseYourAddressPopulate(browser: TestBrowser, businessName: String = traderBusinessNameValid) = {
     browser.goTo("/disposal-of-vehicle/business-choose-your-address")
     browser.fill(s"#${businessNameId}") `with` businessName
-    browser.click(s"#${addressSelectId} option[value='${FirstAddress}']")
+    browser.click(s"#${addressSelectId} option[value='${firstAddress}']")
     browser.submit("button[type='submit']")
   }
 }
