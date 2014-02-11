@@ -1,6 +1,5 @@
 package controllers.disposal_of_vehicle
 
-import app.DisposalOfVehicle
 import org.scalatest.{Matchers, WordSpec}
 import app.DisposalOfVehicle.BusinessAddressSelect._
 
