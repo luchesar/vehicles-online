@@ -4,21 +4,22 @@
 @import utils.helpers.EmptyTemplate._
 @import views.html.helper._
 @import views.html.helper.base._
-@import utils.helpers.CarersCrypto
+@import utils.helpers.ValtechCrypto
 @import scala.language.postfixOps
 @import views.html.helper.dateConstraintRequired
+@import views.html.helper.base.valtechSelect
 
 <fieldset class="question-group">
 
 @dateConstraintRequired(field, args:_*) <!-- datePlaceholder -->
 
-<ul class="inline year" id="@CarersCrypto.encryptAES(id)">
+<ul class="inline year" id="@ValtechCrypto.encryptAES(id)">
     <li>
-        @carersSelect(field("day"), options = Seq("" -> Messages("datePlaceholder.day")) ++ ((1 to 31) map(v => (v toString) -> (if (v < 10) "0" + v else (v toString)))).asInstanceOf[Seq[(String, String)]])
+        @valtechSelect(field("day"), options = Seq("" -> Messages("datePlaceholder.day")) ++ ((1 to 31) map(v => (v toString) -> (if (v < 10) "0" + v else (v toString)))).asInstanceOf[Seq[(String, String)]])
     </li>
 
     <li>
-        @carersSelect(field("month"), options = Seq("" -> Messages("datePlaceholder.month"),
+        @valtechSelect(field("month"), options = Seq("" -> Messages("datePlaceholder.month"),
             "1" -> Messages("datePlaceholder.January"),
             "2" -> Messages("datePlaceholder.February"),
             "3" -> Messages("datePlaceholder.March"),

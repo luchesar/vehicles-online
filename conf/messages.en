@@ -16,6 +16,7 @@ global.browserclosemessage = Close
 global.buttonnavback = Back
 global.buttonnavcancel = Cancel
 global.buttonnavupdate = Update
+global.buttonnavprint = Print
 
 footer.helpdesk = Helpdesk
 footer.privacypolicy = Privacy & Cookies

@@ -2,7 +2,7 @@ package controllers.change_of_address
 
 import org.scalatest.WordSpec
 import org.scalatest.Matchers
-import app.ChangeOfAddress._
+import app.ChangeOfAddress.LoginPage._
 
 class LoginPageFormSpec extends WordSpec with Matchers {
 
