@@ -22,8 +22,11 @@ object Dispose extends Controller {
   )
 
   def present = Action {
-    implicit request =>
-      Ok(views.html.disposal_of_vehicle.dispose(fetchData, disposeForm))
+    implicit request => {
+      // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
+      val filledForm = disposeForm.fill(DisposeFormModel(consent = true, dateOfDisposal = models.DayMonthYear.today))
+      Ok(views.html.disposal_of_vehicle.dispose(fetchData, filledForm))
+    }
   }
 
   def submit = Action {

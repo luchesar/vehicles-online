@@ -22,7 +22,9 @@ class DisposalIntegrationSpec extends Specification with Tags {
 
       // Fill in mandatory data
       browser.goTo(disposeUrl)
-      browser.click(s"#${consentId}")
+
+      // Do not click the consent checkbow as it already pre-populated
+//      browser.click(s"#${consentId}")
 
       browser.click(s"#${dateOfDisposalId}_day option[value='1']")
       browser.click(s"#${dateOfDisposalId}_month option[value='1']")
