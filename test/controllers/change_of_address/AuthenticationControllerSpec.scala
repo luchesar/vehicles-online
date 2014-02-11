@@ -2,10 +2,8 @@ package controllers.change_of_address
 
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
-import controllers.{Mappings, change_of_address}
 import org.scalatest.{Matchers, WordSpec}
-import app.ChangeOfAddress._
-import models.domain.change_of_address.LoginConfirmationModel
+import app.ChangeOfAddress.Authentication._
 import org.specs2.mock.Mockito
 import controllers.TestHelper.loginCachePopulate
 
@@ -19,7 +17,7 @@ class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito{
       val request = FakeRequest().withSession()
 
       // Act
-      val result = change_of_address.Authentication.present(request)
+      val result = Authentication.present(request)
 
       // Assert
       status(result) should equal(OK)
@@ -30,7 +28,7 @@ class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito{
       val request = FakeRequest().withSession()
 
       // Act
-      val result = change_of_address.Authentication.present(request)
+      val result = Authentication.present(request)
 
       // Assert
       redirectLocation(result) should equal(Some("/are-you-registered"))
@@ -42,7 +40,7 @@ class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito{
         .withFormUrlEncodedBody(pinFormID -> "123456")
 
       // Act
-      val result = change_of_address.Authentication.submit(request)
+      val result = Authentication.submit(request)
 
       // Assert
       status(result) should equal(SEE_OTHER)

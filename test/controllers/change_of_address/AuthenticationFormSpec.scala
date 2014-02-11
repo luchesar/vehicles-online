@@ -1,6 +1,6 @@
-import controllers.change_of_address.Authentication
-import app.ChangeOfAddress._
+package controllers.change_of_address
 
+import app.ChangeOfAddress.Authentication._
 import org.scalatest.{Matchers, WordSpec}
 
 class AuthenticationFormSpec extends WordSpec with Matchers {
@@ -48,8 +48,7 @@ class AuthenticationFormSpec extends WordSpec with Matchers {
     "reject when pin is less than min length" in {
       authenticationFiller(pin="12345").fold(
         formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-          //error for min length
+          formWithErrors.errors.length should equal(1) //error for min length
         },
         f => fail("An error should occur")
       )

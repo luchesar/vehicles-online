@@ -145,13 +145,17 @@ package object app {
   object ChangeOfAddress {
 
 
-    val pinFormID = "PIN"
+
     val v5cReferenceNumberID = "V5cReferenceNumber"
     val v5cRegistrationNumberID = "V5CRegistrationNumber"
     val v5cPostcodeID = "V5cPostcode"
     val usernameId = "username"
     val passwordId = "password"
     val postcodeId = "Postcode"
+
+    object Authentication {
+      val pinFormID = "PIN"
+    }
   }
 
   object DisposalOfVehicle {
