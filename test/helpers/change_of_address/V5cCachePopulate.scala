@@ -6,12 +6,12 @@ import org.specs2.mock.Mockito
 import play.api.Play.current
 import controllers.Mappings
 import helpers.change_of_address.COAValidValues._
-import mappings.V5cReferenceNumber
+import mappings.{V5cRegistrationNumber, V5cReferenceNumber}
 
 object V5cCachePopulate extends WordSpec with Matchers with Mockito {
   def v5cCachePopulate() = {
     play.api.cache.Cache.set(V5cReferenceNumber.key, v5cDocumentReferenceNumberValid)
-    play.api.cache.Cache.set(Mappings.V5cRegistrationNumber.key, v5cVehicleRegistrationNumberValid)
+    play.api.cache.Cache.set(V5cRegistrationNumber.key, v5cVehicleRegistrationNumberValid)
     play.api.cache.Cache.set(v5ckey, V5cSearchConfirmationModel("a", "b", "c", "d", "e"))
   }
 }

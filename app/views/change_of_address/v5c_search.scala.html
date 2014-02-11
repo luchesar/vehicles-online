@@ -7,6 +7,7 @@
 @import views.html.helper._
 @import app.ChangeOfAddress.V5cSearch._
 @import mappings.V5cReferenceNumber
+@import mappings.V5cRegistrationNumber
 
 @main(Messages("v5csearch.title")) {
     @errorsSummary(vehicleSearchForm)
@@ -27,7 +28,7 @@
 
                 @valtechInputText(vehicleSearchForm(v5cRegistrationNumberID), args =
                   '_label -> Messages("v5csearch.vrninputlabel"),
-                  'maxLength -> Mappings.V5cRegistrationNumber.maxLength,
+                  'maxLength -> V5cRegistrationNumber.maxLength,
                   '_showConstraints -> false)
 
                 @valtechInputText(vehicleSearchForm(v5cPostcodeID), args =

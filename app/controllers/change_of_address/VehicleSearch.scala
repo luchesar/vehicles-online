@@ -14,7 +14,7 @@ import controllers.change_of_address.Helpers._
 import controllers.Mappings
 import modules.{injector}
 import app.ChangeOfAddress.V5cSearch._
-import mappings.V5cReferenceNumber
+import mappings.{V5cRegistrationNumber, V5cReferenceNumber}
 
 object VehicleSearch extends Controller {
 
@@ -46,7 +46,7 @@ object VehicleSearch extends Controller {
           val result = webService.invoke(v5cForm).map { resp => {
             Logger.debug(s"Web service call successful - response = ${resp}")
 
-            play.api.cache.Cache.set(Mappings.V5cRegistrationNumber.key, v5cForm.v5cRegistrationNumber)
+            play.api.cache.Cache.set(V5cRegistrationNumber.key, v5cForm.v5cRegistrationNumber)
             play.api.cache.Cache.set(V5cReferenceNumber.key, v5cForm.v5cReferenceNumber)
 
             val key = v5cForm.v5cReferenceNumber + "." + v5cForm.v5cRegistrationNumber

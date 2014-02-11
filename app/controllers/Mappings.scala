@@ -11,14 +11,6 @@ import constraints.Constraints._
 import mappings._
 
 object Mappings {
-
-
-  object V5cRegistrationNumber {
-    val minLength = 2
-    val maxLength = 8
-    val key = "V5cRegistrationNumber"
-  }
-
   object LoginConfirmationModel {
     val key = "LoginConfirmationModel"
   }
