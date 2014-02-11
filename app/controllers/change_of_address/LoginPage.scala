@@ -52,7 +52,7 @@ object LoginPage extends Controller {
       resp => {
         Logger.debug(s"LoginPage Web service call successful - response = ${resp}")
 
-        val key = Mappings.LoginConfirmationModel.key
+        val key = mappings.LoginConfirmation.key
         Cache.set(key, resp.loginConfirmationModel)
         Logger.debug(s"LoginPage set value for key: $key")
         Redirect(routes.LoginConfirmation.present())

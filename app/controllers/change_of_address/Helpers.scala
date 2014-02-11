@@ -1,7 +1,6 @@
 package controllers.change_of_address
 
 import models.domain.change_of_address.LoginConfirmationModel
-import controllers.Mappings
 import play.api.cache.Cache
 import play.api.Play.current
 import play.api.Logger
@@ -21,7 +20,7 @@ object Helpers {
   }
 
   def userLoginCredentials(): Option[LoginConfirmationModel] = {
-    val key = Mappings.LoginConfirmationModel.key
+    val key = mappings.LoginConfirmation.key
     val result = Cache.getAs[LoginConfirmationModel](key)
     result
   }

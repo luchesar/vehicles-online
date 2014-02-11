@@ -17,9 +17,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       loginPagePopulate(browser)
 
       // Complete validation page by entering a pin
-      browser.goTo("/authentication")
-      browser.fill("#PIN") `with` "123456"
-      browser.submit("button[type='submit']")
+      authenticationPopulate(browser)
       browser.goTo("/v5c-search")
 
       // Assert
@@ -41,9 +39,7 @@ class V5cSearchIntegrationSpec extends Specification with Tags {
       loginPagePopulate(browser)
 
       // Complete validation page by entering a pin
-      browser.goTo("/authentication")
-      browser.fill("#PIN") `with` "123456"
-      browser.submit("button[type='submit']")
+      authenticationPopulate(browser)
 
       // Complete V5c search page
       v5cSearchPagePopulate(browser)

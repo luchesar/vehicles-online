@@ -14,14 +14,18 @@ import controllers.change_of_address.Helpers._
 import controllers.Mappings
 import modules.{injector}
 import app.ChangeOfAddress.V5cSearch._
+import mappings.{Postcode, V5cRegistrationNumber, V5cReferenceNumber}
+import mappings.V5cReferenceNumber._
+import mappings.V5cRegistrationNumber._
+import mappings.Postcode._
 
 object VehicleSearch extends Controller {
 
   val vehicleSearchForm = Form(
     mapping(
-      v5cReferenceNumberID -> V5cReferenceNumber(minLength = 11, maxLength = 11),
-      v5cRegistrationNumberID -> V5CRegistrationNumber(minLength = 2, maxLength = 7),
-      v5cPostcodeID -> Postcode(minLength = 5, maxLength = 8)
+      v5cReferenceNumberID -> v5cReferenceNumber(minLength = 11, maxLength = 11),
+      v5cRegistrationNumberID -> v5CRegistrationNumber(minLength = 2, maxLength = 7),
+      v5cPostcodeID -> postcode()
     )(V5cSearchModel.apply)(V5cSearchModel.unapply)
   )
 
@@ -45,8 +49,8 @@ object VehicleSearch extends Controller {
           val result = webService.invoke(v5cForm).map { resp => {
             Logger.debug(s"Web service call successful - response = ${resp}")
 
-            play.api.cache.Cache.set(Mappings.V5cRegistrationNumber.key, v5cForm.v5cRegistrationNumber)
-            play.api.cache.Cache.set(Mappings.V5cReferenceNumber.key, v5cForm.v5cReferenceNumber)
+            play.api.cache.Cache.set(V5cRegistrationNumber.key, v5cForm.v5cRegistrationNumber)
+            play.api.cache.Cache.set(V5cReferenceNumber.key, v5cForm.v5cReferenceNumber)
 
             val key = v5cForm.v5cReferenceNumber + "." + v5cForm.v5cRegistrationNumber
             Logger.debug(s"V5cSearch storing data returned from micro service in cache using key: $key")
@@ -69,7 +73,7 @@ object VehicleSearch extends Controller {
   }
 
   private def fetchData(): String = {
-    val key = Mappings.LoginConfirmationModel.key
+    val key = mappings.LoginConfirmation.key
     val result = Cache.getAs[LoginConfirmationModel](key)
 
     result match {

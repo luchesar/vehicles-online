@@ -7,6 +7,7 @@ import controllers.Mappings._
 import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel
 import app.DisposalOfVehicle.BusinessAddressSelect._
 import modules._
+import mappings.DropDown._
 
 object BusinessChooseYourAddress extends Controller {
   val dropDownOptions = {

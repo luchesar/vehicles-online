@@ -4,6 +4,7 @@ import org.specs2.mutable.{Tags, Specification}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
 import helpers.change_of_address.LoginPagePopulate._
+import helpers.change_of_address.AuthenticationPopulate._
 
 class AuthenticationIntegrationSpec extends Specification with Tags {
 
@@ -29,9 +30,7 @@ class AuthenticationIntegrationSpec extends Specification with Tags {
       //Arrange / Act
       loginPagePopulate(browser)
 
-      browser.goTo("/authentication")
-      browser.fill("#PIN") `with` "123456"
-      browser.submit("button[type='submit']")
+      authenticationPopulate(browser)
 
       // Assert
       titleMustEqual("Change of keeper address9")

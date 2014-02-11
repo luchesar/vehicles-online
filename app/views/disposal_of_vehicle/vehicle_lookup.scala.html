@@ -6,6 +6,10 @@
 @import views.html.common._
 @import views.html.helper._
 @import app.DisposalOfVehicle.VehicleLookup._
+@import mappings.V5cReferenceNumber
+@import mappings.V5cRegistrationNumber
+@import mappings.Postcode
+@import mappings.KeeperName
 
 @main(Messages("disposal_vehiclelookup.title")) {
     @errorsSummary(vehicleLookupForm)
@@ -22,7 +26,7 @@
 				LONDON<br />
 				NW10 6RJ</p>  
 				<div class="form-steps">
-					<a class="button-not-implemented" title="Edit disposal address">@Messages("disposal_vehiclelookup.button2")</a></p>
+					<a class="button-not-implemented" title="Edit disposal address" aria-disabled="true" disabled>@Messages("disposal_vehiclelookup.button2")</a></p>
 				</div>
 			</div>
 			
@@ -33,25 +37,25 @@
 						@valtechInputText(vehicleLookupForm(v5cReferenceNumberID), args =
                     '_label -> Messages("disposal_vehiclelookup.v5cinputlabel"),
                     '_showConstraints -> false,
-                    'pattern -> Mappings.V5cReferenceNumber.pattern,
-                    'maxLength -> Mappings.V5cReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                    'pattern -> V5cReferenceNumber.pattern,
+                    'maxLength -> V5cReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                     'title -> Messages("disposal_vehiclelookup.v5cinputlabel.refNumIncorrect"))
 
                 @valtechInputText(vehicleLookupForm(v5cRegistrationNumberID), args =
                   '_label -> Messages("disposal_vehiclelookup.vrninputlabel"),
-                  'maxLength -> Mappings.V5cRegistrationNumber.maxLength,
+                  'maxLength -> V5cRegistrationNumber.maxLength,
                   '_showConstraints -> false)
 
                 @valtechInputText(vehicleLookupForm(v5cKeeperNameID), args =
                 '_label -> Messages("disposal_vehiclelookup.keepernamelabel"),
                 '_showConstraints -> false,
-                'maxLength -> Mappings.KeeperName.maxLength,
+                'maxLength -> KeeperName.maxLength,
                 'title -> Messages("disposal_vehiclelookup.keepername.validation"))
 
                 @valtechInputText(vehicleLookupForm(v5cPostcodeID), args =
                 '_label -> Messages("disposal_vehiclelookup.keeperpostcodelabel"),
                 '_showConstraints -> false,
-                'maxLength -> Mappings.Postcode.maxLength,
+                'maxLength -> Postcode.maxLength,
                 'title -> Messages("disposal_vehiclelookup.keeperpostcode.validation"))
 					</ul>
 					

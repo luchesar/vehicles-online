@@ -3,25 +3,27 @@ package controllers.change_of_address
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
-
-import models.domain.change_of_address._
-import controllers.Mappings._
 import controllers.change_of_address.Helpers._
 import models.domain.change_of_address.AuthenticationModel
 import models.domain.change_of_address.V5cSearchModel
+import mappings.Pin._
+import mappings.{Postcode, V5cRegistrationNumber, V5cReferenceNumber}
+import mappings.V5cReferenceNumber._
+import mappings.V5cRegistrationNumber._
+import mappings.Postcode._
 
 object Authentication extends Controller {
   val authenticationForm = Form(
     mapping(
-      "PIN" -> PIN(minLength = 6, maxLength = 6)
+      "PIN" -> pin(minLength = 6, maxLength = 6)
     )(AuthenticationModel.apply)(AuthenticationModel.unapply)
   )
 
   val v5cSearchForm = Form(
     mapping(
-      V5cReferenceNumber.key -> V5cReferenceNumber(minLength = V5cReferenceNumber.minLength, maxLength = V5cReferenceNumber.maxLength),
-      V5cRegistrationNumber.key -> V5CRegistrationNumber(minLength = V5cRegistrationNumber.minLength, maxLength = V5cRegistrationNumber.maxLength),
-      Postcode.key -> Postcode(minLength = Postcode.minLength, maxLength = Postcode.maxLength)
+      V5cReferenceNumber.key -> v5cReferenceNumber(minLength = V5cReferenceNumber.minLength, maxLength = V5cReferenceNumber.maxLength),
+      V5cRegistrationNumber.key -> v5CRegistrationNumber(minLength = V5cRegistrationNumber.minLength, maxLength = V5cRegistrationNumber.maxLength),
+      Postcode.key -> postcode()
     )(V5cSearchModel.apply)(V5cSearchModel.unapply)
   )
 

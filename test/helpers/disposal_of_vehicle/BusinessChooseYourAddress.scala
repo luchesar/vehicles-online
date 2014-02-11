@@ -1,7 +1,6 @@
 package helpers.disposal_of_vehicle
 
 import play.api.test.TestBrowser
-import models.domain.change_of_address.V5cSearchConfirmationModel
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
 import helpers.disposal_of_vehicle.DOVValidValues._

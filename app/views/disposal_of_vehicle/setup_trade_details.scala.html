@@ -6,6 +6,7 @@
 @import views.html.common._
 @import views.html.helper._
 @import app.DisposalOfVehicle.SetupTradeDetails._
+@import mappings.Postcode
 
 @main(Messages("disposal_setuptradedetails.title")) {
     @errorsSummary(traderLookupForm)
@@ -22,7 +23,7 @@
 	        @valtechInputText(traderLookupForm(traderPostcodeID), args =
 	        '_label -> Messages("disposal_setuptradedetails.traderpostcodelabel"),
 	        '_showConstraints -> false,
-	        'maxLength -> Mappings.Postcode.maxLength,
+	        'maxLength -> Postcode.maxLength,
 	        'title -> Messages("disposal_setuptradedetails.traderpostcode.validation"))
 	    </ul>
     </div>
