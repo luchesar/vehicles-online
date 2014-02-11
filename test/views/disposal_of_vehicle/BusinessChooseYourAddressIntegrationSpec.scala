@@ -12,7 +12,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
       browser.goTo("/disposal-of-vehicle/business-choose-your-address")
 
       // Assert
-      titleMustContain("Business: Choose your address")
+      titleMustEqual("Business: Choose your address")
     }
 
     "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
