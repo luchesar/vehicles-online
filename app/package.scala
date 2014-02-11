@@ -87,5 +87,9 @@ package object app {
       val mileageId = "mileage"
       val dateOfDisposalId = "dateOfDisposal"
     }
+
+    object DisposeConfirmation {
+      val emailAddressId = "emailAddress"
+    }
   }
 }
