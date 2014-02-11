@@ -36,17 +36,9 @@ object Mappings {
 
 
 
-  def v5CRegistrationNumber (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[String] = {
-    nonEmptyText(minLength, maxLength) verifying validVRN
-  }
 
-  def validVRN: Constraint[String] = Constraint[String]("constraint.restrictedvalidVRN") { input =>
-    val inputRegex = """^[A-Za-z0-9 _]*$""".r
-    inputRegex.pattern.matcher(input).matches match {
-      case true => Valid
-      case false => Invalid(ValidationError("error.restricted.validVRNOnly"))
-    }
-  }
+
+
 
 
   object Postcode {

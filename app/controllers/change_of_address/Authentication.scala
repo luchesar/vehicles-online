@@ -9,7 +9,8 @@ import models.domain.change_of_address.AuthenticationModel
 import models.domain.change_of_address.V5cSearchModel
 import mappings.Pin._
 import mappings.{V5cRegistrationNumber, V5cReferenceNumber}
-import constraints.V5cReferenceNumber._
+import mappings.V5cReferenceNumber._
+import mappings.V5cRegistrationNumber._
 
 object Authentication extends Controller {
   val authenticationForm = Form(
