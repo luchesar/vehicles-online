@@ -5,7 +5,7 @@ import org.scalatest.{Matchers, WordSpec}
 import play.api.test.{FakeRequest, WithApplication}
 import controllers.disposal_of_vehicle
 import play.api.test.Helpers._
-import scala.Some
+
 
 class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
 
@@ -28,7 +28,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
       val addressSelectValid = "1"
 
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(businessNameID -> businessNameValid,
+        .withFormUrlEncodedBody(businessNameId -> businessNameValid,
           addressSelectId -> addressSelectValid)
 
       // Act
@@ -42,7 +42,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
     "return a bad request after an invalid submission" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(businessNameID -> "",
+        .withFormUrlEncodedBody(businessNameId -> "",
           addressSelectId -> "")
 
       // Act

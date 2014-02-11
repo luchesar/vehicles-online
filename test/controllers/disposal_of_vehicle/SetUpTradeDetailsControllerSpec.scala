@@ -1,11 +1,11 @@
 package controllers.disposal_of_vehicle
 
-import app.DisposalOfVehicle._
+import app.DisposalOfVehicle.SetupTradeDetails._
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
-import scala.Some
+
 
 class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
 
@@ -35,7 +35,7 @@ class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some("/disposal-of-vehicle/business-choose-your-address")) //TODO: This needs to not look at itself but at the next page
+      redirectLocation(result) should equal (Some("/disposal-of-vehicle/business-choose-your-address"))
     }
   }
 }

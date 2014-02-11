@@ -5,13 +5,14 @@ import play.api.data.Form
 import play.api.data.Forms._
 import controllers.Mappings._
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
+import app.DisposalOfVehicle.SetupTradeDetails._
 
 object SetUpTradeDetails extends Controller {
 
   val traderLookupForm = Form(
     mapping(
-      app.DisposalOfVehicle.traderBusinessNameID -> nonEmptyText(minLength = 2, maxLength = 100),
-      app.DisposalOfVehicle.traderPostcodeID -> Postcode(minLength = 5, maxLength = 8)
+      traderBusinessNameID -> nonEmptyText(minLength = 2, maxLength = 100),
+      traderPostcodeID -> Postcode(minLength = 5, maxLength = 8)
     )(SetupTradeDetailsModel.apply)(SetupTradeDetailsModel.unapply)
   )
 

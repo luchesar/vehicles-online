@@ -7,7 +7,7 @@ import models.domain.common.Address
 import modules.DevModule
 import play.api.libs.json.Json
 import play.api.Play
-import scala.Some
+
 import scala.util.Success
 import scala.util.{Success, Try}
 
@@ -143,6 +143,8 @@ package object app {
   }
 
   object ChangeOfAddress {
+
+
     val pinFormID = "PIN"
     val v5cReferenceNumberID = "V5cReferenceNumber"
     val v5cRegistrationNumberID = "V5CRegistrationNumber"
@@ -153,18 +155,20 @@ package object app {
   }
 
   object DisposalOfVehicle {
-    val traderBusinessNameID = "traderBusinessName"
-    val traderPostcodeID = "traderPostcode"
     val v5cReferenceNumberID = "v5cReferenceNumber"
     val v5cRegistrationNumberID = "v5cRegistrationNumber"
     val v5cKeeperNameID = "v5cKeeperName"
     val v5cPostcodeID = "v5cPostcode"
 
+    // page 2 - setup-trade-details
+    object SetupTradeDetails {
+      val traderBusinessNameID = "traderBusinessName"
+      val traderPostcodeID = "traderPostcode"
+    }
+
     // page 3 - business choose your address
-
-
     object BusinessAddressSelect {
-      val businessNameID = "disposal_businessChooseYourAddress_businessName"
+      val businessNameId = "disposal_businessChooseYourAddress_businessName"
       val addressSelectId = "disposal_businessChooseYourAddress_addressSelect"
       val FirstAddress = "1"
       val SecondAddress = "2"

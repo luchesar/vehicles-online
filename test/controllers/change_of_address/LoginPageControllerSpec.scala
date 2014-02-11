@@ -5,7 +5,6 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.change_of_address
 import org.scalatest.{Matchers, WordSpec}
-import scala.Some
 
 class LoginPageControllerSpec extends WordSpec with Matchers {
 
