@@ -42,17 +42,9 @@ package object app {
     // TODO make sure all html pages, controllers, formSpec & controllerSpec, integrationSpec use the IDs from this package
 
   object DisposalOfVehicle {
-    // page 3 - business choose your address
-    object BusinessAddressSelect {
-
-    }
-
     // vehicle-lookup
     object VehicleLookup {
-      val v5cReferenceNumberID = "v5cReferenceNumber"
-      val v5cRegistrationNumberID = "v5cRegistrationNumber"
-      val v5cKeeperNameID = "v5cKeeperName"
-      val v5cPostcodeID = "v5cPostcode"
+
     }
 
     object Dispose {

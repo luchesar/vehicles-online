@@ -1,7 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import org.scalatest.{Matchers, WordSpec}
-import app.DisposalOfVehicle.VehicleLookup._
+import mappings.disposal_of_vehicle.VehicleLookup._
 
 class VehicleLookupFormSpec extends WordSpec with Matchers {
   "V5cSearch Form" should {

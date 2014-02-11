@@ -5,7 +5,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import controllers.Mappings._
 import models.domain.disposal_of_vehicle.VehicleLookupModel
-import app.DisposalOfVehicle.VehicleLookup._
+import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.V5cReferenceNumber._
 import mappings.V5cRegistrationNumber._
 import mappings.Postcode._
