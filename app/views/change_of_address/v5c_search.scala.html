@@ -6,7 +6,7 @@
 @import views.html.common._
 @import views.html.helper._
 @import app.ChangeOfAddress.V5cSearch._
-
+@import mappings.V5cReferenceNumber
 
 @main(Messages("v5csearch.title")) {
     @errorsSummary(vehicleSearchForm)
@@ -21,8 +21,8 @@
                 @valtechInputText(vehicleSearchForm(v5cReferenceNumberID), args =
                     '_label -> Messages("v5csearch.v5cinputlabel"),
                     '_showConstraints -> false,
-                    'pattern -> Mappings.V5cReferenceNumber.pattern,
-                    'maxLength -> Mappings.V5cReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                    'pattern -> V5cReferenceNumber.pattern,
+                    'maxLength -> V5cReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                     'title -> Messages("v5csearch.v5cinputlabel.refNumIncorrect"))
 
                 @valtechInputText(vehicleSearchForm(v5cRegistrationNumberID), args =

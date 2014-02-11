@@ -6,6 +6,7 @@
 @import views.html.common._
 @import views.html.helper._
 @import app.DisposalOfVehicle.VehicleLookup._
+@import mappings.V5cReferenceNumber
 
 @main(Messages("disposal_vehiclelookup.title")) {
     @errorsSummary(vehicleLookupForm)
@@ -33,8 +34,8 @@
 						@valtechInputText(vehicleLookupForm(v5cReferenceNumberID), args =
                     '_label -> Messages("disposal_vehiclelookup.v5cinputlabel"),
                     '_showConstraints -> false,
-                    'pattern -> Mappings.V5cReferenceNumber.pattern,
-                    'maxLength -> Mappings.V5cReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                    'pattern -> V5cReferenceNumber.pattern,
+                    'maxLength -> V5cReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                     'title -> Messages("disposal_vehiclelookup.v5cinputlabel.refNumIncorrect"))
 
                 @valtechInputText(vehicleLookupForm(v5cRegistrationNumberID), args =
