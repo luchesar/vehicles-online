@@ -1876,7 +1876,7 @@ main {
        box-shadow: 0 3px 0 #000;
        border: 0;
        padding: 0.4em 1em 0.25em 1em;
-       cursor: pointer;
+       cursor: not-allowed;
        -webkit-appearance: none;
        display: inline-block;
        margin: .8em .25em 0 0;
@@ -1911,7 +1911,7 @@ main {
        }
        &:hover {
          /*background: #004b27;*/
-         cursor: default;
+         cursor: not-allowed;
        }
        &:active { 
           /* top: 3px;
