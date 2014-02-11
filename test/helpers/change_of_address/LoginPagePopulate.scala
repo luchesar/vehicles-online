@@ -4,7 +4,7 @@ import play.api.test.TestBrowser
 import models.domain.change_of_address.V5cSearchConfirmationModel
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
-import helpers.ValidValues._
+import helpers.change_of_address.COAValidValues._
 
 object LoginPagePopulate extends WordSpec with Matchers with Mockito {
   def loginPagePopulate(browser: TestBrowser) = {
