@@ -1,4 +1,4 @@
-package helpers
+package helpers.disposal_of_vehicle
 
 import play.api.test.TestBrowser
 import org.scalatest.{Matchers, WordSpec}

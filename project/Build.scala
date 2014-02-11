@@ -15,11 +15,9 @@ object ApplicationBuild extends Build {
     cache,
     "org.specs2" %% "specs2" % "2.3.7" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
-//    "com.dwp.carers" %% "carerscommon" % "0.81" ,
     "org.scalatest" % "scalatest_2.10" % "2.0" % "test",
-    "org.seleniumhq.selenium" % "selenium-java" % "2.35.0" % "test",
     "com.google.inject" % "guice" % "3.0",
-    "com.tzavellas" % "sse-guice" % "0.7.1"
+    "com.tzavellas" % "sse-guice" % "0.7.1" // Scala DSL for Guice
   )
 
   val sOrg = Seq(organization := "Driver & Vehicle Licensing Agency")
@@ -27,8 +25,6 @@ object ApplicationBuild extends Build {
   val sO = Seq(scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls"))
 
   val sV = Seq(scalaVersion := "2.10.3")
-
-//  var sR: Seq[Def.Setting[_]] = Seq(resolvers += "Carers repo" at "http://build.3cbeta.co.uk:8080/artifactory/repo/")
 
   val sTest =
   if (System.getProperty("include") != null ) {

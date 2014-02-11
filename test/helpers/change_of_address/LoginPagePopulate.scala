@@ -1,7 +1,7 @@
-package helpers
+package helpers.change_of_address
 
 import play.api.test.TestBrowser
-import models.domain.change_of_address.{V5cSearchConfirmationModel, LoginConfirmationModel}
+import models.domain.change_of_address.V5cSearchConfirmationModel
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
 import helpers.ValidValues._
