@@ -6,7 +6,7 @@ import play.api.mvc.{AnyContent, Request}
 import scala.util.{Failure, Success, Try}
 import play.api.Logger
 
-object CarersForm {
+object ValtechForm { // TODO come up with a better name
   implicit def formBinding[T](form: Form[T])(implicit request: Request[_]) = new FormCryptBind[T](form)
 
   class FormCryptBind[T](form: Form[T])(implicit request: Request[_]) {
@@ -23,7 +23,7 @@ object CarersForm {
       form.bind(
         map.foldLeft(Map.empty[String, String]) {
           case (s, (key, values)) =>
-            val cKey = Try(CarersCrypto.decryptAES(key)) match {
+            val cKey = Try(ValtechCrypto.decryptAES(key)) match {
               case Success(k) =>
                 Logger.trace(s"Field decryption: $key -> $k")
                 k

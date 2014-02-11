@@ -652,9 +652,13 @@ main {
    }
 
    .two-col-spacer {
-	   	    float:left;
-	   	    width:48.3%;
-   	    } 
+   	    float:left;
+   	    width:48.3%;
+   	    @media screen and (max-width: 640px) {
+   	    	width:auto;
+   	    	float:none;
+   	    }
+   	} 
    
    
    /* form elements */

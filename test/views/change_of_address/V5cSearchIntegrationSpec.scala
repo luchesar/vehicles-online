@@ -3,9 +3,9 @@ package views.change_of_address
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.LoginPagePopulateHelper._
-import helpers.V5cSearchPagePopulateHelper._
-import helpers.AuthenticationPopulateHelper._
+import helpers.LoginPagePopulate._
+import helpers.V5cSearchPagePopulate._
+import helpers.AuthenticationPopulate._
 
 class V5cSearchIntegrationSpec extends Specification with Tags {
 

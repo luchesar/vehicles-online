@@ -3,7 +3,7 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.BusinessChooseYourAddressHelper._
+import helpers.BusinessChooseYourAddress._
 
 class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
   "business_choose_your_address Integration" should {

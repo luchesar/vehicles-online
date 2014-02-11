@@ -7,7 +7,7 @@ import org.scalatest.{Matchers, WordSpec}
 import app.ChangeOfAddress.V5cSearch._
 import models.domain.change_of_address.LoginConfirmationModel
 import org.specs2.mock.Mockito
-import helpers.LoginCachePopulateHelper._
+import helpers.LoginCachePopulate._
 
 class V5cSearchControllerSpec extends WordSpec with Matchers with Mockito{
 

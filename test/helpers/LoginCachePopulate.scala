@@ -7,12 +7,10 @@ import play.api.Play.current
 import models.domain.common.Address
 import controllers.Mappings
 
-object LoginCachePopulateHelper extends WordSpec with Matchers with Mockito {
-  val address = mock[Address]
-  val loginConfirmationModel = mock[LoginConfirmationModel]
-
-
+object LoginCachePopulate extends WordSpec with Matchers with Mockito {
   def loginCachePopulate() = {
+    val address = mock[Address]
+    val loginConfirmationModel = mock[LoginConfirmationModel]
     val key = Mappings.LoginConfirmationModel.key
 
     address.line1 returns "mock line1"

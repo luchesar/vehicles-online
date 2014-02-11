@@ -3,7 +3,7 @@ package views.change_of_address
 import org.specs2.mutable.{Tags, Specification}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.LoginPagePopulateHelper._
+import helpers.LoginPagePopulate._
 
 class AuthenticationIntegrationSpec extends Specification with Tags {
 
