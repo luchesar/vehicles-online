@@ -20,7 +20,7 @@ object Dispose extends Controller {
     mapping(
       consentId -> consent,
       mileageId -> mileage(),
-      dateOfDisposalId -> dayMonthYear.verifying(validDate)
+      dateOfDisposalId -> dayMonthYear.verifying(rules)
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 
