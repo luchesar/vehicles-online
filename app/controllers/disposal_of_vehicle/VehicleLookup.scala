@@ -6,6 +6,7 @@ import play.api.data.Forms._
 import controllers.Mappings._
 import models.domain.disposal_of_vehicle.VehicleLookupModel
 import app.DisposalOfVehicle.VehicleLookup._
+import constraints.V5cReferenceNumber._
 
 object VehicleLookup extends Controller {
 

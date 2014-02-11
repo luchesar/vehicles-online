@@ -15,6 +15,7 @@ import controllers.Mappings
 import modules.{injector}
 import app.ChangeOfAddress.V5cSearch._
 import mappings.{V5cRegistrationNumber, V5cReferenceNumber}
+import constraints.V5cReferenceNumber._
 
 object VehicleSearch extends Controller {
 

@@ -7,7 +7,7 @@ import play.api.data.validation.ValidationError
 import models.DayMonthYear
 import scala.util.{Failure, Success, Try}
 import org.joda.time.DateTime
-import constraints.Constraints._
+import constraints.NumberOnly._
 import mappings._
 
 object Mappings {
@@ -34,9 +34,7 @@ object Mappings {
 
 
 
-  def v5cReferenceNumber (minLength: Int = V5cReferenceNumber.minLength, maxLength: Int = V5cReferenceNumber.maxLength): Mapping[String] = {
-    nonEmptyText(minLength, maxLength) verifying validNumberOnly
-  }
+
 
   def v5CRegistrationNumber (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[String] = {
     nonEmptyText(minLength, maxLength) verifying validVRN

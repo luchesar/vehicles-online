@@ -3,14 +3,13 @@ package controllers.change_of_address
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
-
-import models.domain.change_of_address._
 import controllers.Mappings._
 import controllers.change_of_address.Helpers._
 import models.domain.change_of_address.AuthenticationModel
 import models.domain.change_of_address.V5cSearchModel
 import mappings.Pin._
 import mappings.{V5cRegistrationNumber, V5cReferenceNumber}
+import constraints.V5cReferenceNumber._
 
 object Authentication extends Controller {
   val authenticationForm = Form(
