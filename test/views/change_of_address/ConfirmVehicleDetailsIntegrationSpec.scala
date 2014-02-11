@@ -33,7 +33,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
       browser.goTo("/confirm-vehicle-details")
 
       // Assert
-      titleMustContain("Change of keeper address4")
+      titleMustEqual("Change of keeper address4")
     }
 
 

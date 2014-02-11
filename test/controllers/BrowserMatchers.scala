@@ -16,12 +16,6 @@ trait BrowserMatchers extends MustMatchers {
     }
   }
 
-  def titleMustContain(title: String) = {
-    browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {
-      browser.title.toLowerCase must contain(title.toLowerCase)
-    }
-  }
-
   def titleMustNotEqual(title: String) = {
     browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {
       browser.title.toLowerCase mustNotEqual title.toLowerCase

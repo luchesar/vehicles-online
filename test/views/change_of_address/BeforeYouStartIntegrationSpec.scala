@@ -12,7 +12,7 @@ class BeforeYouStartIntegrationSpec extends Specification with Tags {
       browser.goTo("/before-you-start")
 
       // Assert
-      titleMustContain("Change of keeper address1")
+      titleMustEqual("Change of keeper address1")
 
     }
 
