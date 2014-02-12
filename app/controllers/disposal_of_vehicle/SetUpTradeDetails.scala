@@ -28,12 +28,16 @@ object SetUpTradeDetails extends Controller {
       traderLookupForm.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithErrors)),
         f => {
-          val key = mappings.disposal_of_vehicle.SetupTradeDetails.dealerNameId
-          play.api.cache.Cache.set(key, f.traderBusinessName)
-          Logger.debug(s"SetUpTradeDetails stored data in cache: key = $key, value = ${f.traderBusinessName}")
+          storeDealerNameInCache(f)
           Redirect(routes.BusinessChooseYourAddress.present)
         }
       )
     }
+  }
+
+  private def storeDealerNameInCache(f: SetupTradeDetailsModel) = {
+    val key = mappings.disposal_of_vehicle.SetupTradeDetails.dealerNameId
+    play.api.cache.Cache.set(key, f.traderBusinessName)
+    Logger.debug(s"SetUpTradeDetails stored data in cache: key = $key, value = ${f.traderBusinessName}")
   }
 }
