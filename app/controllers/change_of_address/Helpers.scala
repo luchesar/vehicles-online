@@ -21,7 +21,6 @@ object Helpers {
 
   def userLoginCredentials(): Option[LoginConfirmationModel] = {
     val key = mappings.LoginConfirmation.key
-    val result = Cache.getAs[LoginConfirmationModel](key)
-    result
+    Cache.getAs[LoginConfirmationModel](key)
   }
 }

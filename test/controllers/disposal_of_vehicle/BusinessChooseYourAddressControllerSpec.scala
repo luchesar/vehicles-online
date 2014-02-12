@@ -5,7 +5,7 @@ import org.scalatest.{Matchers, WordSpec}
 import play.api.test.{FakeRequest, WithApplication}
 import controllers.disposal_of_vehicle
 import play.api.test.Helpers._
-
+import helpers.disposal_of_vehicle.SetUpTradeDetailsPopulate
 
 class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
 
@@ -13,6 +13,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
 
     "present" in new WithApplication {
       // Arrange
+      SetUpTradeDetailsPopulate.setupCache
       val request = FakeRequest().withSession()
 
       // Act
@@ -24,11 +25,12 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
 
     "redirect to next page after a valid submit" in new WithApplication {
       // Arrange
+      SetUpTradeDetailsPopulate.setupCache
       val businessNameValid = "DVLA"
       val addressSelectValid = "1"
 
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(businessNameId -> businessNameValid,
+        .withFormUrlEncodedBody(
           addressSelectId -> addressSelectValid)
 
       // Act
@@ -41,8 +43,9 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
 
     "return a bad request after an invalid submission" in new WithApplication {
       // Arrange
+      SetUpTradeDetailsPopulate.setupCache
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(businessNameId -> "",
+        .withFormUrlEncodedBody(
           addressSelectId -> "")
 
       // Act
@@ -50,6 +53,17 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
 
       // Assert
       status(result) should equal(BAD_REQUEST)
+    }
+
+    "redirect to setupTradeDetails page when user is not logged in" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.BusinessChooseYourAddress.present(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some("/disposal-of-vehicle/setup-trade-details"))
     }
   }
 }

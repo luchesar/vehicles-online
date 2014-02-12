@@ -1,4 +1,4 @@
-@(businessChooseYourAddressForm: Form[models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel], dropDownOptions: Map[String, String])(implicit lang: Lang)
+@(businessChooseYourAddressForm: Form[models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel], traderBusinessName: String, dropDownOptions: Map[String, String])(implicit lang: Lang)
 
 @import helper._
 @import utils.helpers.ValtechTemplate._
@@ -12,13 +12,10 @@
 
     @form(action = controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit) {
 
-            <h2>@Messages("disposal_businessChooseYourAddress_legend")</h2>
+        <h2>@Messages("disposal_businessChooseYourAddress_legend")</h2>
         <div class="form-elements">
             <ul>
-                @valtechInputText(businessChooseYourAddressForm(businessNameId), args =
-                    '_label -> Messages("disposal_businessChooseYourAddress_businessName_label"),
-                    '_showConstraints -> false,
-                    'maxLength -> Mappings.sixty)
+            <li>@Messages("disposal_businessChooseYourAddress_businessName", traderBusinessName)</li>
 
                 @valtechSelect(businessChooseYourAddressForm(addressSelectId),
                     options = dropDownOptions.toSeq,

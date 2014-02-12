@@ -15,8 +15,8 @@ class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers with Mo
     "present" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-      loginCachePopulate()
-      v5cCachePopulate()
+      setupCache()
+      happyPath()
 
       // Act
       val result = change_of_address.ConfirmVehicleDetails.present(request)
@@ -28,7 +28,7 @@ class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers with Mo
     "redirect to v5c search page when user is logged in but not entered vehicle details" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-      loginCachePopulate()
+      setupCache()
 
       // Act
       val result = change_of_address.ConfirmVehicleDetails.present(request)

@@ -6,6 +6,8 @@ import play.api.data.Forms._
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import mappings.Postcode._
+import play.api.Logger
+import play.api.Play.current
 
 object SetUpTradeDetails extends Controller {
 
@@ -25,7 +27,12 @@ object SetUpTradeDetails extends Controller {
     implicit request => {
       traderLookupForm.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithErrors)),
-        f => Redirect(routes.BusinessChooseYourAddress.present)
+        f => {
+          val key = mappings.disposal_of_vehicle.SetupTradeDetails.traderBusinessNameId
+          play.api.cache.Cache.set(key, f.traderBusinessName)
+          Logger.debug(s"SetUpTradeDetails set value for key: $key")
+          Redirect(routes.BusinessChooseYourAddress.present)
+        }
       )
     }
   }
