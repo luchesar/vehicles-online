@@ -42,11 +42,22 @@ object TestModule extends ScalaModule {
    * Fake implementation of the FakeAddressLookupService trait
    */
   case class FakeAddressLookupService() extends AddressLookupService {
-    override def invoke(postcode: String): Map[String, String] = Map(
-      "" -> "Please select",
-      firstAddress -> "This is the first option",
-      secondAddress -> "This is the second option"
-    )
+    override def fetchAddress(postcode: String): Map[String, String] = {
+      Map(
+        "" -> "Please select",
+        address1.toViewFormat() -> address1.toViewFormat(),
+        address2.toViewFormat() -> address2.toViewFormat()
+      ) // TODO this should come from call to GDS lookup.
+    }
+
+    override def lookupAddress(address: String): Address = {
+      val addresses= Map(
+        address1.toViewFormat() -> address1,
+        address2.toViewFormat() -> address2
+      ) // TODO this should come from call to GDS lookup.
+
+      addresses(address)
+    }
   }
 
   /**

@@ -1,5 +1,8 @@
 package services
 
+import models.domain.common.Address
+
 trait AddressLookupService {
-  def invoke(postcode: String): Map[String, String]
+  def fetchAddress(postcode: String): Map[String, String]
+  def lookupAddress(address: String): Address
 }
