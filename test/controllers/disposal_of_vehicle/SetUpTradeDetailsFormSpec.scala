@@ -2,13 +2,10 @@ package controllers.disposal_of_vehicle
 
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.SetupTradeDetails._
+import helpers.disposal_of_vehicle.Helper._
 
 class SetUpTradeDetailsFormSpec extends WordSpec with Matchers {
   "SetUpTradeDetails form" should {
-
-    val traderBusinessNameValid = "Example trader"
-    val traderPostcodeValid = "SA99 1BD"
-
     def traderLookupFiller(traderBusinessName: String, traderPostcode: String ) = {
      SetUpTradeDetails.traderLookupForm.bind(
         Map(

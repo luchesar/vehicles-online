@@ -7,6 +7,7 @@ import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.Dispose._
 import org.specs2.mock.Mockito
 import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetUpTradeDetailsPage}
+import helpers.disposal_of_vehicle.Helper._
 
 class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
 
@@ -27,12 +28,6 @@ class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
 
     "redirect to next page after the dispose button is clicked" in new WithApplication {
       // Arrange
-      val consentValid = "true"
-      val mileageValid = "20000"
-      val dateOfDisposalDayValid = "25"
-      val dateOfDisposalMonthValid = "11"
-      val dateOfDisposalYearValid = "1970"
-
       SetUpTradeDetailsPage.setupCache
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(

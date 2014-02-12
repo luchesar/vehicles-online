@@ -10,4 +10,10 @@ object Helper {
   val traderBusinessNameValid = "example trader name"
   val traderPostcodeValid = "SA99 1DD"
   val traderaddressValid = "1"
+
+  val consentValid = "true"
+  val mileageValid = "20000"
+  val dateOfDisposalDayValid = "25"
+  val dateOfDisposalMonthValid = "11"
+  val dateOfDisposalYearValid = "1970"
 }
