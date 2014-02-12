@@ -28,8 +28,8 @@ object VehicleLookup extends Controller {
   def present = Action {
     implicit request =>
     {
-      fetchDealerNameFromCache match {
-        case Some(traderBusinessName) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(fetchData, vehicleLookupForm))
+      fetchDealerDetailsFromCache match {
+        case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm))
         case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
       }
     }
@@ -39,19 +39,14 @@ object VehicleLookup extends Controller {
     implicit request => {
       vehicleLookupForm.bindFromRequest.fold(
         formWithErrors => {
-          fetchDealerNameFromCache match {
-            case Some(traderBusinessName) => BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(fetchData, formWithErrors))
+          fetchDealerDetailsFromCache match {
+            case Some(dealerDetails) => BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithErrors))
             case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
           }
         },
         f => Redirect(routes.Dispose.present)
       )
     }
-  }
-
-  private def fetchData: DealerDetailsModel  = {
-    DealerDetailsModel(dealerName = "Dealer name",
-      dealerAddress = Address("Address line 1", Some("Address line 2"), Some("Address line 3"), None, "Postcode"))
   }
 }
 

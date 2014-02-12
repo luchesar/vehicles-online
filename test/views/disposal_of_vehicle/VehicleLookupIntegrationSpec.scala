@@ -73,7 +73,8 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
     "display one validation error message when no v5cKeeperName is entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.happyPath(browser)
+      SetUpTradeDetailsPage.setupCache
+      BusinessChooseYourAddressPage.setupCache
       VehicleLookupPopulate.happyPath(browser, v5cKeeperName = "")
 
       //Assert
@@ -132,7 +133,8 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
     "display ten validation error messages when no details are entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.happyPath(browser)
+      SetUpTradeDetailsPage.setupCache
+      BusinessChooseYourAddressPage.setupCache
       VehicleLookupPopulate.happyPath(browser, v5cReferenceNumber = "", v5cVehicleRegistrationNumber = "", v5cKeeperName = "", v5cPostcode = "")
 
       //Assert
@@ -141,7 +143,8 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
     "display seven validation error messages when only a valid v5cReferenceNumber is entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.happyPath(browser)
+      SetUpTradeDetailsPage.setupCache
+      BusinessChooseYourAddressPage.setupCache
       VehicleLookupPopulate.happyPath(browser, v5cVehicleRegistrationNumber = "", v5cKeeperName = "", v5cPostcode = "")
 
       //Assert
