@@ -17,7 +17,7 @@ class AddressSpec extends WordSpec with Matchers {
 
       val result = address.toViewFormat()
 
-      result should equal("a, , , , e")
+      result should equal("a, e")
     }
   }
 }
