@@ -48,7 +48,7 @@ object BusinessChooseYourAddress extends Controller {
         f => {
           fetchDealerNameFromCache match {
             case Some(dealerName) => {
-              saveDealerDetailsToCache(f, dealerName)
+              storeDealerDetailsInCache(f, dealerName)
               Redirect(routes.VehicleLookup.present)
             }
             case None => {
@@ -61,7 +61,7 @@ object BusinessChooseYourAddress extends Controller {
     }
   }
 
-  private def saveDealerDetailsToCache(f: BusinessChooseYourAddressModel, dealerName: String) = {
+  private def storeDealerDetailsInCache(f: BusinessChooseYourAddressModel, dealerName: String) = {
     val key = DealerDetails.cacheKey
     val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = addressLookupService.lookupAddress(f.addressSelected))
     play.api.cache.Cache.set(key, value)
