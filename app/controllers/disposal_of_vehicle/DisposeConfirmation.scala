@@ -6,6 +6,7 @@ import play.api.data.Forms._
 import models.domain.disposal_of_vehicle.{DisposeConfirmationFormModel, DisposeModel}
 import models.domain.common.Address
 import app.DisposalOfVehicle.DisposeConfirmation._
+import controllers.disposal_of_vehicle.Helpers._
 
 object DisposeConfirmation extends Controller {
 
@@ -16,15 +17,24 @@ object DisposeConfirmation extends Controller {
   )
 
   def present = Action {
-    implicit request =>
-      Ok(views.html.disposal_of_vehicle.dispose_confirmation(fetchData, disposeConfirmationForm))
+    implicit request => {
+      retrieveTraderBusinessName match {
+        case Some(traderBusinessName) => Ok(views.html.disposal_of_vehicle.dispose_confirmation(fetchData, disposeConfirmationForm))
+        case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
+      }
+    }
   }
 
   def submit = Action {
     implicit request => {
       println("Submitted dispose confirmation form ")
       disposeConfirmationForm.bindFromRequest.fold(
-        formWithErrors => BadRequest(views.html.disposal_of_vehicle.dispose_confirmation(fetchData, formWithErrors)),
+        formWithErrors => {
+          retrieveTraderBusinessName match {
+            case Some(traderBusinessName) => BadRequest(views.html.disposal_of_vehicle.dispose_confirmation(fetchData, formWithErrors))
+            case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
+          }
+        },
         f => {println(s"Form submitted email address = <<${f.emailAddress}>>"); Ok("success")} //Redirect(routes.VehicleLookup.present)
       )
     }
