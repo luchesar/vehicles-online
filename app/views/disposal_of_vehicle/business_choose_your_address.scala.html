@@ -13,9 +13,13 @@
     @form(action = controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit) {
 
         <h2>@Messages("disposal_businessChooseYourAddress_legend")</h2>
+    	<dl class="summary-detail-list">
+        	<dt>@Messages("disposal_businessChooseYourAddress_businessName_label"):</dt>
+        	<dd>@Messages("disposal_businessChooseYourAddress_businessName", traderBusinessName)</dd>
+    	</dl>
+        	
         <div class="form-elements">
             <ul>
-            <li>@Messages("disposal_businessChooseYourAddress_businessName", traderBusinessName)</li>
 
                 @valtechSelect(businessChooseYourAddressForm(addressSelectId),
                     options = dropDownOptions.toSeq,
