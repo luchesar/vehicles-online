@@ -3,13 +3,14 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
-import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel
+import models.domain.disposal_of_vehicle.{DealerDetailsModel, BusinessChooseYourAddressModel}
 import mappings.disposal_of_vehicle.BusinessAddressSelect._
 import modules._
 import mappings.DropDown._
 import controllers.disposal_of_vehicle.Helpers._
 import play.api.Logger
 import play.api.Play.current
+import mappings.disposal_of_vehicle.DealerDetails
 
 object BusinessChooseYourAddress extends Controller {
   val addressLookupService = injector.getInstance(classOf[services.AddressLookupService])
@@ -27,7 +28,7 @@ object BusinessChooseYourAddress extends Controller {
   def present = Action {
     implicit request =>
     {
-      retrieveTraderBusinessName match {
+      fetchDealerNameFromCache match {
         case Some(traderBusinessName) => Ok(views.html.disposal_of_vehicle.business_choose_your_address(businessChooseYourAddressForm, traderBusinessName, dropDownOptions))
         case None => Redirect(routes.SetUpTradeDetails.present)
       }
@@ -38,19 +39,34 @@ object BusinessChooseYourAddress extends Controller {
     implicit request => {
       businessChooseYourAddressForm.bindFromRequest.fold(
         formWithErrors => {
-          retrieveTraderBusinessName match {
+          fetchDealerNameFromCache match {
             case Some(traderBusinessName) => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, traderBusinessName, dropDownOptions))
-            case None => Redirect(routes.SetUpTradeDetails.present)
+            case None => {
+              Logger.error("failed to find dealer name in cache for formWithErrors, redirecting...")
+              Redirect(routes.SetUpTradeDetails.present)
+            }
           }
         },
         f => {
-          val key = mappings.disposal_of_vehicle.BusinessAddressSelect.addressSelectId
-          val value = addressLookupService.lookupAddress(f.addressSelected)
-          play.api.cache.Cache.set(key, value)
-          Logger.debug(s"BusinessChooseYourAddress stored data in cache: key = $key, value = ${value}")
-          Redirect(routes.VehicleLookup.present)
+          fetchDealerNameFromCache match {
+            case Some(traderBusinessName) => {
+              saveDealerDetailsToCache(f)
+              Redirect(routes.VehicleLookup.present)
+            }
+            case None => {
+              Logger.error("failed to find dealer name in cache on submit, redirecting...")
+              Redirect(routes.SetUpTradeDetails.present)
+            }
+          }
         }
       )
     }
+  }
+
+  private def saveDealerDetailsToCache(f: BusinessChooseYourAddressModel) = {
+    val key = DealerDetails.cacheKey
+    val value = DealerDetailsModel(dealerName = "", dealerAddress = addressLookupService.lookupAddress(f.addressSelected))
+    play.api.cache.Cache.set(key, value)
+    Logger.debug(s"BusinessChooseYourAddress stored data in cache: key = $key, value = ${value}")
   }
 }

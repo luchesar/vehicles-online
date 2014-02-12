@@ -31,7 +31,7 @@ object Dispose extends Controller {
 
   def present = Action {
     implicit request => {
-      retrieveTraderBusinessName match {
+      fetchDealerNameFromCache match {
         case Some(traderBusinessName) => {
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
           val filledForm = disposeForm.fill(DisposeFormModel(consent = true, dateOfDisposal = models.DayMonthYear.today))
@@ -47,7 +47,7 @@ object Dispose extends Controller {
       Logger.debug("Submitted dispose form...")
       disposeForm.bindFromRequest.fold(
         formWithErrors => {
-          retrieveTraderBusinessName match {
+          fetchDealerNameFromCache match {
             case Some(traderBusinessName) => BadRequest(views.html.disposal_of_vehicle.dispose(fetchData, formWithErrors))
             case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
           }
