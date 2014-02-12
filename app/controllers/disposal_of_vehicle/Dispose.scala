@@ -4,10 +4,6 @@ import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
-import models.domain.disposal_of_vehicle.DisposeFormModel
-
-import models.domain.disposal_of_vehicle.DisposeModel
-import models.domain.common.Address
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.Consent._
 import mappings.Mileage._
@@ -31,8 +27,9 @@ object Dispose extends Controller {
 
   def present = Action {
     implicit request => {
-      fetchDealerNameFromCache match {
-        case Some(traderBusinessName) => {
+      fetchDealerDetailsFromCache match {
+        case Some(dealerDetails) => {
+          Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
           val filledForm = disposeForm.fill(DisposeFormModel(consent = true, dateOfDisposal = models.DayMonthYear.today))
           Ok(views.html.disposal_of_vehicle.dispose(fetchData, filledForm))
@@ -47,9 +44,12 @@ object Dispose extends Controller {
       Logger.debug("Submitted dispose form...")
       disposeForm.bindFromRequest.fold(
         formWithErrors => {
-          fetchDealerNameFromCache match {
-            case Some(traderBusinessName) => BadRequest(views.html.disposal_of_vehicle.dispose(fetchData, formWithErrors))
-            case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
+          fetchDealerDetailsFromCache match {
+            case Some(dealerDetails) => BadRequest(views.html.disposal_of_vehicle.dispose(fetchData, formWithErrors))
+            case None => {
+              Logger.error("could not find dealer details in cache on Dispose submit")
+              Redirect(routes.SetUpTradeDetails.present)}
+              // TODO write controller and integration tests for re-routing when not logged in.
           }
         },
         f => {

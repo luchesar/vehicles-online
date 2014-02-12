@@ -5,7 +5,7 @@ import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.VehicleLookup._
-import helpers.disposal_of_vehicle.SetUpTradeDetailsPopulate
+import helpers.disposal_of_vehicle.SetUpTradeDetailsPage
 
 class VehicleLookupControllerSpec extends WordSpec with Matchers {
 
@@ -13,7 +13,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers {
 
     "present" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPopulate.setupCache
+      SetUpTradeDetailsPage.setupCache
       val request = FakeRequest().withSession()
 
       // Act
@@ -30,7 +30,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers {
       val v5cKeeperNameValid = "John"
       val v5cPostcodeValid = "SA99 1BD" //TODO make use for helper values
 
-      SetUpTradeDetailsPopulate.setupCache
+      SetUpTradeDetailsPage.setupCache
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cReferenceNumberValid, v5cRegistrationNumberId -> v5cRegistrationNumberValid, v5cKeeperNameId -> v5cKeeperNameValid, v5cPostcodeId -> v5cPostcodeValid)
 

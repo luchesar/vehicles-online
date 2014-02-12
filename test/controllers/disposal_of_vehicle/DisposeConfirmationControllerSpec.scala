@@ -6,7 +6,7 @@ import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import app.DisposalOfVehicle.DisposeConfirmation._
 import org.specs2.mock.Mockito
-import helpers.disposal_of_vehicle.SetUpTradeDetailsPopulate
+import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetUpTradeDetailsPage}
 
 class DisposeConfirmationControllerSpec extends WordSpec with Matchers with Mockito {
 
@@ -14,7 +14,8 @@ class DisposeConfirmationControllerSpec extends WordSpec with Matchers with Mock
 
     "present" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPopulate.setupCache
+      SetUpTradeDetailsPage.setupCache
+      BusinessChooseYourAddressPage.setupCache
       val request = FakeRequest().withSession()
 
       // Act
@@ -25,7 +26,7 @@ class DisposeConfirmationControllerSpec extends WordSpec with Matchers with Mock
     }
 
     "redirect to next page after the new disposal button is clicked" in new WithApplication {
-      SetUpTradeDetailsPopulate.setupCache
+      SetUpTradeDetailsPage.setupCache
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           emailAddressId -> ""

@@ -5,7 +5,7 @@ import org.scalatest.{Matchers, WordSpec}
 import play.api.test.{FakeRequest, WithApplication}
 import controllers.disposal_of_vehicle
 import play.api.test.Helpers._
-import helpers.disposal_of_vehicle.SetUpTradeDetailsPopulate
+import helpers.disposal_of_vehicle.SetUpTradeDetailsPage
 import mappings.disposal_of_vehicle.BusinessAddressSelect._
 
 class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
@@ -14,7 +14,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
 
     "present" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPopulate.setupCache
+      SetUpTradeDetailsPage.setupCache
       val request = FakeRequest().withSession()
 
       // Act
@@ -26,7 +26,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
 
     "redirect to next page after a valid submit" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPopulate.setupCache
+      SetUpTradeDetailsPage.setupCache
 
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
@@ -42,7 +42,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
 
     "return a bad request after an invalid submission" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPopulate.setupCache
+      SetUpTradeDetailsPage.setupCache
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           addressSelectId -> "")

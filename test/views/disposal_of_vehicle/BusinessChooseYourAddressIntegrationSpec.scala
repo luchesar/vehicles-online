@@ -3,14 +3,14 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPopulate, SetUpTradeDetailsPopulate}
+import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetUpTradeDetailsPage}
 
 class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
   "business_choose_your_address Integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPopulate.happyPath(browser)
-      browser.goTo(BusinessChooseYourAddressPopulate.url)
+      SetUpTradeDetailsPage.happyPath(browser)
+      browser.goTo(BusinessChooseYourAddressPage.url)
 
       // Assert
       titleMustEqual("Business: Choose your address")
@@ -18,8 +18,8 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
 
     "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPopulate.happyPath(browser)
-      BusinessChooseYourAddressPopulate.happyPath(browser)
+      SetUpTradeDetailsPage.happyPath(browser)
+      BusinessChooseYourAddressPage.happyPath(browser)
 
       // Assert
       titleMustEqual("Dispose a vehicle into the motor trade: vehicle")
@@ -27,7 +27,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
 
     "redirect when no traderBusinessName is cached" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      browser.goTo(BusinessChooseYourAddressPopulate.url)
+      browser.goTo(BusinessChooseYourAddressPage.url)
 
       // Assert
       titleMustEqual("Dispose a vehicle into the motor trade: set-up")
@@ -35,8 +35,8 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
 
     "display one validation error messages when addressSelected is not in the list" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPopulate.happyPath(browser)
-      BusinessChooseYourAddressPopulate.sadPath(browser)
+      SetUpTradeDetailsPage.happyPath(browser)
+      BusinessChooseYourAddressPage.sadPath(browser)
 
       //Assert
       checkNumberOfValidationErrors(1)

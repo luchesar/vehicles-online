@@ -6,7 +6,7 @@ import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.Dispose._
 import org.specs2.mock.Mockito
-import helpers.disposal_of_vehicle.SetUpTradeDetailsPopulate
+import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetUpTradeDetailsPage}
 
 class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
 
@@ -14,7 +14,8 @@ class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
 
     "present" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPopulate.setupCache
+      SetUpTradeDetailsPage.setupCache
+      BusinessChooseYourAddressPage.setupCache
       val request = FakeRequest().withSession()
 
       // Act
@@ -32,7 +33,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
       val dateOfDisposalMonthValid = "11"
       val dateOfDisposalYearValid = "1970"
 
-      SetUpTradeDetailsPopulate.setupCache
+      SetUpTradeDetailsPage.setupCache
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           consentId -> consentValid,

@@ -1,13 +1,23 @@
 package helpers.disposal_of_vehicle
 
 import play.api.test.TestBrowser
-import org.scalatest.{Matchers, WordSpec}
-import org.specs2.mock.Mockito
-import helpers.disposal_of_vehicle.Helper._
 import mappings.disposal_of_vehicle.BusinessAddressSelect._
+import play.api.Play.current
+import play.api.Logger
+import models.domain.disposal_of_vehicle.DealerDetailsModel
+import mappings.disposal_of_vehicle.BusinessAddressSelect
 
-object BusinessChooseYourAddressPopulate {
+object BusinessChooseYourAddressPage {
   val url = "/disposal-of-vehicle/business-choose-your-address"
+
+  def setupCache() = {
+    val key = mappings.disposal_of_vehicle.DealerDetails.cacheKey
+    val value = DealerDetailsModel(dealerName = "", dealerAddress = BusinessAddressSelect.address1)
+
+
+    play.api.cache.Cache.set(key, value)
+    Logger.debug(s"BusinessChooseYourAddressPage stored data in cache: key = $key, value = ${value}")
+  }
 
   def happyPath(browser: TestBrowser, addressSelected: String = address1.toViewFormat()) = {
     browser.goTo(url)

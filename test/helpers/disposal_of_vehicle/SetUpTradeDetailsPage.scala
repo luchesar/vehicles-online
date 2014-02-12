@@ -5,7 +5,7 @@ import play.api.test.TestBrowser
 import helpers.disposal_of_vehicle.Helper._
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 
-object SetUpTradeDetailsPopulate {
+object SetUpTradeDetailsPage {
   val url = "/disposal-of-vehicle/setup-trade-details"
 
   def setupCache() = {
