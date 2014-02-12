@@ -6,6 +6,7 @@ import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.Dispose._
 import org.specs2.mock.Mockito
+import helpers.disposal_of_vehicle.SetUpTradeDetailsPopulate
 
 class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
 
@@ -13,6 +14,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
 
     "present" in new WithApplication {
       // Arrange
+      SetUpTradeDetailsPopulate.setupCache
       val request = FakeRequest().withSession()
 
       // Act
@@ -30,6 +32,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
       val dateOfDisposalMonthValid = "11"
       val dateOfDisposalYearValid = "1970"
 
+      SetUpTradeDetailsPopulate.setupCache
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           consentId -> consentValid,
@@ -47,5 +50,15 @@ class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
       redirectLocation(result) should equal (Some("/disposal-of-vehicle/dispose-confirmation"))
     }
 
+    "redirect to setupTradeDetails page when user is not logged in" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.Dispose.present(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some("/disposal-of-vehicle/setup-trade-details"))
+    }
   }
 }

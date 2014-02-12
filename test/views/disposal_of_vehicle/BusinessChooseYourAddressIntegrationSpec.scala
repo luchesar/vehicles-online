@@ -3,14 +3,14 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.BusinessChooseYourAddressPopulate
-import helpers.disposal_of_vehicle.SetUpTradeDetailsPopulate
+import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPopulate, SetUpTradeDetailsPopulate}
 
 class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
   "business_choose_your_address Integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       SetUpTradeDetailsPopulate.happyPath(browser)
+      browser.goTo(BusinessChooseYourAddressPopulate.url)
 
       // Assert
       titleMustEqual("Business: Choose your address")
@@ -27,7 +27,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
 
     "redirect when no traderBusinessName is cached" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      browser.goTo("/disposal-of-vehicle/business-choose-your-address")
+      browser.goTo(BusinessChooseYourAddressPopulate.url)
 
       // Assert
       titleMustEqual("Dispose a vehicle into the motor trade: set-up")

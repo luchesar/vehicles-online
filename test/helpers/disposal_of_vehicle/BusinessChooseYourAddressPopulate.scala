@@ -7,14 +7,16 @@ import helpers.disposal_of_vehicle.Helper._
 import mappings.disposal_of_vehicle.BusinessAddressSelect._
 
 object BusinessChooseYourAddressPopulate {
+  val url = "/disposal-of-vehicle/business-choose-your-address"
+
   def happyPath(browser: TestBrowser, addressSelected: String = firstAddress) = {
-    browser.goTo("/disposal-of-vehicle/business-choose-your-address")
+    browser.goTo(url)
     browser.click(s"#${addressSelectId} option[value='${addressSelected}']")
     browser.submit("button[type='submit']")
   }
 
   def sadPath(browser: TestBrowser) = {
-    browser.goTo("/disposal-of-vehicle/business-choose-your-address")
+    browser.goTo(url)
     browser.submit("button[type='submit']")
   }
 }
