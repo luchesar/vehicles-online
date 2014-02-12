@@ -3,8 +3,7 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
-import controllers.Mappings._
-import models.domain.disposal_of_vehicle.VehicleLookupModel
+import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.V5cReferenceNumber._
 import mappings.V5cRegistrationNumber._
@@ -18,7 +17,7 @@ object VehicleLookup extends Controller {
       v5cRegistrationNumberId -> v5CRegistrationNumber(minLength = 2, maxLength = 8),
       v5cKeeperNameId -> nonEmptyText(minLength = 2, maxLength = 100),
       v5cPostcodeId -> postcode()
-    )(VehicleLookupModel.apply)(VehicleLookupModel.unapply)
+    )(VehicleLookupFormModel.apply)(VehicleLookupFormModel.unapply)
   )
 
   def present = Action {
@@ -34,4 +33,13 @@ object VehicleLookup extends Controller {
       )
     }
   }
+
+//  private def fetchData: DisposeModel  = {
+//    Model(vehicleMake = "PEUGEOT",
+//      vehicleModel = "307 CC",
+//      keeperName = "Mrs Anne Shaw",
+//      keeperAddress = Address("1 The Avenue", Some("Earley"), Some("Reading"), None, "RG12 6HT"),
+//      dealerName = "Car Giant",
+//      dealerAddress = Address("44 Hythe Road", Some("White City"), Some("London"), None, "NW10 6RJ"))
+//  }
 }

@@ -1,4 +1,4 @@
-@(vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupModel])(implicit lang: Lang)
+@(vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang)
 
 @import helper._
 @import utils.helpers.ValtechTemplate._
@@ -20,11 +20,11 @@
 		
 			<div id="TraderDetailsDiv" class="first-col">
 				<h2>@Messages("disposal_vehiclelookup.p2")</h2>
-				<p><strong>Car Giant</strong><br />
-				44 Hythe Road<br />
-				White City<br />
-				LONDON<br />
-				NW10 6RJ</p>  
+				<p><strong>Dealer name will go here</strong><br />
+				Address line 1<br />
+				Address line 2<br />
+				Address line 3<br />
+				Postcode</p>
 				<div class="form-steps">
 					<a class="button-not-implemented" title="Edit disposal address" aria-disabled="true" disabled>@Messages("disposal_vehiclelookup.button2")</a></p>
 				</div>
