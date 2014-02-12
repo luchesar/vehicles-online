@@ -16,11 +16,11 @@
     <h2>@Messages("disposal_setuptradedetails.p1")</h2>
     <div class="form-elements">
 	    <ul>
-	        @valtechInputText(traderLookupForm(traderBusinessNameId), args =
+	        @valtechInputText(traderLookupForm(dealerNameId), args =
 	        '_label -> Messages("disposal_setuptradedetails.tradernamelabel"),
 	        '_showConstraints -> false)
 	
-	        @valtechInputText(traderLookupForm(traderPostcodeId), args =
+	        @valtechInputText(traderLookupForm(dealerPostcodeId), args =
 	        '_label -> Messages("disposal_setuptradedetails.traderpostcodelabel"),
 	        '_showConstraints -> false,
 	        'maxLength -> Postcode.maxLength,

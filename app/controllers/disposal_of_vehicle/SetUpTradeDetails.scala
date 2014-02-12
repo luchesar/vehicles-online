@@ -13,8 +13,8 @@ object SetUpTradeDetails extends Controller {
 
   val traderLookupForm = Form(
     mapping(
-      traderBusinessNameId -> nonEmptyText(minLength = 2, maxLength = 100),
-      traderPostcodeId -> postcode()
+      dealerNameId -> nonEmptyText(minLength = 2, maxLength = 100),
+      dealerPostcodeId -> postcode()
     )(SetupTradeDetailsModel.apply)(SetupTradeDetailsModel.unapply)
   )
 
@@ -28,7 +28,7 @@ object SetUpTradeDetails extends Controller {
       traderLookupForm.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithErrors)),
         f => {
-          val key = mappings.disposal_of_vehicle.SetupTradeDetails.traderBusinessNameId
+          val key = mappings.disposal_of_vehicle.SetupTradeDetails.dealerNameId
           play.api.cache.Cache.set(key, f.traderBusinessName)
           Logger.debug(s"SetUpTradeDetails stored data in cache: key = $key, value = ${f.traderBusinessName}")
           Redirect(routes.BusinessChooseYourAddress.present)

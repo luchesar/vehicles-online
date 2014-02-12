@@ -15,13 +15,11 @@ import mappings.disposal_of_vehicle.DealerDetails
 object BusinessChooseYourAddress extends Controller {
   val addressLookupService = injector.getInstance(classOf[services.AddressLookupService])
 
-  def dropDownOptions = {
-    addressLookupService.fetchAddress("TEST") // TODO pass in postcode submitted on the previous page.
-  }
-
+  val fetchAddresses = addressLookupService.fetchAddress("TEST") // TODO pass in postcode submitted on the previous page.
+  
   val businessChooseYourAddressForm = Form(
     mapping(
-      addressSelectId -> dropDown(dropDownOptions)
+      addressSelectId -> dropDown(fetchAddresses)
     )(BusinessChooseYourAddressModel.apply)(BusinessChooseYourAddressModel.unapply)
   )
 
@@ -29,7 +27,7 @@ object BusinessChooseYourAddress extends Controller {
     implicit request =>
     {
       fetchDealerNameFromCache match {
-        case Some(traderBusinessName) => Ok(views.html.disposal_of_vehicle.business_choose_your_address(businessChooseYourAddressForm, traderBusinessName, dropDownOptions))
+        case Some(traderBusinessName) => Ok(views.html.disposal_of_vehicle.business_choose_your_address(businessChooseYourAddressForm, traderBusinessName, fetchAddresses))
         case None => Redirect(routes.SetUpTradeDetails.present)
       }
     }
@@ -40,7 +38,7 @@ object BusinessChooseYourAddress extends Controller {
       businessChooseYourAddressForm.bindFromRequest.fold(
         formWithErrors => {
           fetchDealerNameFromCache match {
-            case Some(traderBusinessName) => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, traderBusinessName, dropDownOptions))
+            case Some(traderBusinessName) => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, traderBusinessName, fetchAddresses))
             case None => {
               Logger.error("failed to find dealer name in cache for formWithErrors, redirecting...")
               Redirect(routes.SetUpTradeDetails.present)
@@ -49,8 +47,8 @@ object BusinessChooseYourAddress extends Controller {
         },
         f => {
           fetchDealerNameFromCache match {
-            case Some(traderBusinessName) => {
-              saveDealerDetailsToCache(f)
+            case Some(dealerName) => {
+              saveDealerDetailsToCache(f, dealerName)
               Redirect(routes.VehicleLookup.present)
             }
             case None => {
@@ -63,9 +61,9 @@ object BusinessChooseYourAddress extends Controller {
     }
   }
 
-  private def saveDealerDetailsToCache(f: BusinessChooseYourAddressModel) = {
+  private def saveDealerDetailsToCache(f: BusinessChooseYourAddressModel, dealerName: String) = {
     val key = DealerDetails.cacheKey
-    val value = DealerDetailsModel(dealerName = "", dealerAddress = addressLookupService.lookupAddress(f.addressSelected))
+    val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = addressLookupService.lookupAddress(f.addressSelected))
     play.api.cache.Cache.set(key, value)
     Logger.debug(s"BusinessChooseYourAddress stored data in cache: key = $key, value = ${value}")
   }

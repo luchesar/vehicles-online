@@ -5,7 +5,7 @@ import play.api.Play.current
 
 object Helpers {
   def fetchDealerNameFromCache(): Option[String] = {
-    val key = mappings.disposal_of_vehicle.SetupTradeDetails.traderBusinessNameId
+    val key = mappings.disposal_of_vehicle.SetupTradeDetails.dealerNameId
     Cache.getAs[String](key)
   }
 }
