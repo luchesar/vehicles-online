@@ -3,13 +3,13 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
-import models.domain.disposal_of_vehicle.{VehicleLookupModel, VehicleLookupFormModel}
+import models.domain.disposal_of_vehicle.{DealerDetailsModel, VehicleLookupFormModel}
 import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.V5cReferenceNumber._
 import mappings.V5cRegistrationNumber._
 import mappings.Postcode._
 import controllers.disposal_of_vehicle.Helpers._
-import models.domain.disposal_of_vehicle.VehicleLookupModel
+import models.domain.disposal_of_vehicle.DealerDetailsModel
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import scala.Some
 import models.domain.common.Address
@@ -49,8 +49,8 @@ object VehicleLookup extends Controller {
     }
   }
 
-  private def fetchData: VehicleLookupModel  = {
-    VehicleLookupModel(dealerName = "Dealer name",
+  private def fetchData: DealerDetailsModel  = {
+    DealerDetailsModel(dealerName = "Dealer name",
       dealerAddress = Address("Address line 1", Some("Address line 2"), Some("Address line 3"), None, "Postcode"))
   }
 }
