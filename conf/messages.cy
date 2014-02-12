@@ -147,8 +147,8 @@ disposal_beforeyoustart.button = Ddechrau nawr
 #page 3
 disposal_businessChooseYourAddress_title = WELSH Business: Choose your address
 disposal_businessChooseYourAddress_legend = WELSH Set up trade details
-disposal_businessChooseYourAddress_businessName = WELSH Business name
-disposal_businessChooseYourAddress_businessName_label = WELSH Business name
+disposal_businessChooseYourAddress_businessName_label = Enw busnes
+disposal_businessChooseYourAddress_businessName = {0}
 
 #page not known - Vehicle Lookup
 disposal_setuptradedetails.title = Gwaredu cerbyd i mewn i'r fasnach foduron
