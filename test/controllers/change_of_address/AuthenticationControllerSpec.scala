@@ -38,7 +38,7 @@ class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito{
     "redirect to next page after the button is clicked" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(pinFormID -> "123456")
+        .withFormUrlEncodedBody(pinFormId -> "123456")
 
       // Act
       val result = Authentication.submit(request)

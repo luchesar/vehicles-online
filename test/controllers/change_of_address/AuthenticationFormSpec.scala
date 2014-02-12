@@ -10,7 +10,7 @@ class AuthenticationFormSpec extends WordSpec with Matchers {
     def authenticationFiller(pin: String) = {
       Authentication.authenticationForm.bind(
         Map(
-          pinFormID -> pin
+          pinFormId -> pin
         )
       )
     }

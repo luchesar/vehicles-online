@@ -3,18 +3,16 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
-import controllers.Mappings._
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import mappings.disposal_of_vehicle.SetupTradeDetails._
-import mappings.Postcode
 import mappings.Postcode._
 
 object SetUpTradeDetails extends Controller {
 
   val traderLookupForm = Form(
     mapping(
-      traderBusinessNameID -> nonEmptyText(minLength = 2, maxLength = 100),
-      traderPostcodeID -> postcode()
+      traderBusinessNameId -> nonEmptyText(minLength = 2, maxLength = 100),
+      traderPostcodeId -> postcode()
     )(SetupTradeDetailsModel.apply)(SetupTradeDetailsModel.unapply)
   )
 

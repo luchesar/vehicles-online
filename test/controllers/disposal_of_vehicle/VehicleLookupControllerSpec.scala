@@ -29,7 +29,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers {
       val v5cPostcodeValid = "SA99 1BD"
 
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberID -> v5cReferenceNumberValid, v5cRegistrationNumberID -> v5cRegistrationNumberValid, v5cKeeperNameID -> v5cKeeperNameValid, v5cPostcodeID -> v5cPostcodeValid)
+        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cReferenceNumberValid, v5cRegistrationNumberId -> v5cRegistrationNumberValid, v5cKeeperNameId -> v5cKeeperNameValid, v5cPostcodeId -> v5cPostcodeValid)
 
       // Act
       val result = disposal_of_vehicle.VehicleLookup.submit(request)

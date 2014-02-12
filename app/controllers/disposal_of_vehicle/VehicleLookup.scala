@@ -14,10 +14,10 @@ object VehicleLookup extends Controller {
 
   val vehicleLookupForm = Form(
     mapping(
-      v5cReferenceNumberID -> v5cReferenceNumber(minLength = 11, maxLength = 11),
-      v5cRegistrationNumberID -> v5CRegistrationNumber(minLength = 2, maxLength = 8),
-      v5cKeeperNameID -> nonEmptyText(minLength = 2, maxLength = 100),
-      v5cPostcodeID -> postcode()
+      v5cReferenceNumberId -> v5cReferenceNumber(minLength = 11, maxLength = 11),
+      v5cRegistrationNumberId -> v5CRegistrationNumber(minLength = 2, maxLength = 8),
+      v5cKeeperNameId -> nonEmptyText(minLength = 2, maxLength = 100),
+      v5cPostcodeId -> postcode()
     )(VehicleLookupModel.apply)(VehicleLookupModel.unapply)
   )
 

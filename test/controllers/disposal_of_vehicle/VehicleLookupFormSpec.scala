@@ -14,10 +14,10 @@ class VehicleLookupFormSpec extends WordSpec with Matchers {
     def vehicleLookupFiller(v5cReferenceNumber: String, v5cRegistrationNumber: String, v5cKeeperName: String, v5cPostcode: String ) = {
       VehicleLookup.vehicleLookupForm.bind(
         Map(
-          v5cReferenceNumberID -> v5cReferenceNumber,
-          v5cRegistrationNumberID-> v5cRegistrationNumber,
-          v5cKeeperNameID ->  v5cKeeperName,
-          v5cPostcodeID -> v5cPostcode
+          v5cReferenceNumberId -> v5cReferenceNumber,
+          v5cRegistrationNumberId-> v5cRegistrationNumber,
+          v5cKeeperNameId ->  v5cKeeperName,
+          v5cPostcodeId -> v5cPostcode
         )
       )
     }
