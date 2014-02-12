@@ -30,7 +30,7 @@ object SetUpTradeDetails extends Controller {
         f => {
           val key = mappings.disposal_of_vehicle.SetupTradeDetails.traderBusinessNameId
           play.api.cache.Cache.set(key, f.traderBusinessName)
-          Logger.debug(s"SetUpTradeDetails set value for key: $key")
+          Logger.debug(s"SetUpTradeDetails stored data in cache: key = $key, value = ${f.traderBusinessName}")
           Redirect(routes.BusinessChooseYourAddress.present)
         }
       )
