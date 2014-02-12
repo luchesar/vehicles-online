@@ -195,7 +195,8 @@ disposal_disposeconfirmation.exkeeperlettersend = Bydd llythyr yn cael ei anfon 
 disposal_disposeconfirmation.exkeeperlettertext = Bydd y llythyr yn cadarnhau y gwarediad. Os byddai''n well gennych dderbyn e-bost cydnabyddiaeth ar unwaith, rhowch gyfeiriad e-bost
 disposal_disposeconfirmation.emaillabel = Cyfeiriad e-bost
 disposal_disposeconfirmation.sendbutton = Anfon
-disposal_disposeconfirmation.transactionid = Trafodiad yn
+disposal_disposeconfirmation.transactionid = {0}
+disposal_disposeconfirmation.transactionid_label = Trafodiad yn
 disposal_disposeconfirmation.newdisposalbutton = gwaredu Newydd
 
 #widget messages

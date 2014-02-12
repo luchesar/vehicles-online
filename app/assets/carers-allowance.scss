@@ -774,6 +774,7 @@ main {
 			   margin-top: .4rem;
 			   padding: .8em 0;
 			   position: relative;
+			   font-size: 1.9rem;
 			   &:first-child {
 				   margin: 0;
 				   padding-top:0;
@@ -2021,16 +2022,19 @@ main {
 	}
 	
 	.summary-detail-list {
-		margin:3rem 0 0 0;
+		margin:2.3rem 0 0 0;
 		padding:0;
+		
 		dt, dd {
-			margin:0 0 1rem 0;
-			padding:0;
+			margin:0;
+			font-size:1.9rem;
+			padding: 0.4em 0;
 		}
 		dt {
 			float:left;
 			width:150px;
 			font-weight: bold;
+			clear:left;
 		}
 		dd {
 			overflow: hidden;
