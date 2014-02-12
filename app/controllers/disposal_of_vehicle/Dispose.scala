@@ -13,6 +13,11 @@ import mappings.Consent._
 import mappings.Mileage._
 import mappings.DayMonthYear._
 import constraints.DayMonthYear._
+import controllers.disposal_of_vehicle.Helpers._
+import models.domain.disposal_of_vehicle.DisposeFormModel
+import scala.Some
+import models.domain.disposal_of_vehicle.DisposeModel
+import models.domain.common.Address
 
 object Dispose extends Controller {
 
@@ -26,9 +31,14 @@ object Dispose extends Controller {
 
   def present = Action {
     implicit request => {
-      // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
-      val filledForm = disposeForm.fill(DisposeFormModel(consent = true, dateOfDisposal = models.DayMonthYear.today))
-      Ok(views.html.disposal_of_vehicle.dispose(fetchData, filledForm))
+      retrieveTraderBusinessName match {
+        case Some(traderBusinessName) => {
+          // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
+          val filledForm = disposeForm.fill(DisposeFormModel(consent = true, dateOfDisposal = models.DayMonthYear.today))
+          Ok(views.html.disposal_of_vehicle.dispose(fetchData, filledForm))
+        }
+        case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
+      }
     }
   }
 
@@ -36,7 +46,12 @@ object Dispose extends Controller {
     implicit request => {
       Logger.debug("Submitted dispose form...")
       disposeForm.bindFromRequest.fold(
-        formWithErrors => BadRequest(views.html.disposal_of_vehicle.dispose(fetchData, formWithErrors)),
+        formWithErrors => {
+          retrieveTraderBusinessName match {
+            case Some(traderBusinessName) => BadRequest(views.html.disposal_of_vehicle.dispose(fetchData, formWithErrors))
+            case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
+          }
+        },
         f => {
           Logger.debug(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
           Redirect(routes.DisposeConfirmation.present)}
@@ -49,7 +64,7 @@ object Dispose extends Controller {
       vehicleModel = "307 CC",
       keeperName = "Mrs Anne Shaw",
       keeperAddress = Address("1 The Avenue", Some("Earley"), Some("Reading"), None, "RG12 6HT"),
-      dealerName = "Car Giant",
-      dealerAddress = Address("44 Hythe Road", Some("White City"), Some("London"), None, "NW10 6RJ"))
+      dealerName = "Dealer name",
+      dealerAddress = Address("Address line 1", Some("Address line 2"), Some("Address line 3"), None, "Postcode"))
   }
 }

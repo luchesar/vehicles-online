@@ -5,8 +5,7 @@ import play.api.test.Helpers._
 import controllers.change_of_address
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
-import helpers.change_of_address.LoginCachePopulate
-import LoginCachePopulate._
+import helpers.change_of_address.LoginCachePopulate._
 
 class LoginConfirmationControllerSpec extends WordSpec with Matchers with Mockito {
 
@@ -15,7 +14,7 @@ class LoginConfirmationControllerSpec extends WordSpec with Matchers with Mockit
     "present" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-      loginCachePopulate
+      setupCache
 
       // Act
       val result = change_of_address.LoginConfirmation.present(request)
@@ -25,7 +24,7 @@ class LoginConfirmationControllerSpec extends WordSpec with Matchers with Mockit
     }
   }
 
-  "present login page when user is not logged in" in new WithApplication {
+  "redirect to login page when user is not logged in" in new WithApplication {
     // Arrange
     val request = FakeRequest().withSession()
 

@@ -205,8 +205,8 @@ disposal_setuptradedetails.button = Look-up
 #page 3
 disposal_businessChooseYourAddress_title = Business: Choose your address
 disposal_businessChooseYourAddress_legend = Set up trade details
-disposal_businessChooseYourAddress_businessName = Business name
 disposal_businessChooseYourAddress_businessName_label = Business name
+disposal_businessChooseYourAddress_businessName = {0}
 disposal_businessChooseYourAddress_addressSelect = Choose your address
 disposal_businessChooseYourAddress_addressSelect_label = Choose your address
 
@@ -249,5 +249,6 @@ disposal_disposeconfirmation.exkeeperlettersend = A letter will be sent to
 disposal_disposeconfirmation.exkeeperlettertext = The letter will confirm the disposal. If you would prefer to receive an immediate email acknowledgement, please provide an email address
 disposal_disposeconfirmation.emaillabel = Email address
 disposal_disposeconfirmation.sendbutton = Send
-disposal_disposeconfirmation.transactionid = Transaction id {0}
+disposal_disposeconfirmation.transactionid = {0}
+disposal_disposeconfirmation.transactionid_label = Transaction id
 disposal_disposeconfirmation.newdisposalbutton = New disposal

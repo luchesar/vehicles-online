@@ -6,8 +6,8 @@ import org.specs2.mock.Mockito
 import play.api.Play.current
 import models.domain.common.Address
 
-object LoginCachePopulate extends WordSpec with Matchers with Mockito {
-  def loginCachePopulate() = {
+object LoginCachePopulate extends Mockito {
+  def setupCache() = {
     val address = mock[Address]
     val loginConfirmationModel = mock[LoginConfirmationModel]
     val key = mappings.LoginConfirmation.key
@@ -21,7 +21,5 @@ object LoginCachePopulate extends WordSpec with Matchers with Mockito {
 
     play.api.cache.Cache.set(key, loginConfirmationModel)
   }
-
-
-
 }
+

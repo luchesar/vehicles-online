@@ -3,11 +3,11 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
-import controllers.Mappings._
 import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel
 import mappings.disposal_of_vehicle.BusinessAddressSelect._
 import modules._
 import mappings.DropDown._
+import controllers.disposal_of_vehicle.Helpers._
 
 object BusinessChooseYourAddress extends Controller {
   val dropDownOptions = {
@@ -17,20 +17,29 @@ object BusinessChooseYourAddress extends Controller {
 
   val businessChooseYourAddressForm = Form(
     mapping(
-      businessNameId -> nonEmptyText(minLength = 1, maxLength = sixty),
       addressSelectId -> dropDown(dropDownOptions)
     )(BusinessChooseYourAddressModel.apply)(BusinessChooseYourAddressModel.unapply)
   )
 
   def present = Action {
     implicit request =>
-      Ok(views.html.disposal_of_vehicle.business_choose_your_address(businessChooseYourAddressForm, dropDownOptions))
+    {
+      retrieveTraderBusinessName match {
+        case Some(traderBusinessName) => Ok(views.html.disposal_of_vehicle.business_choose_your_address(businessChooseYourAddressForm, traderBusinessName, dropDownOptions))
+        case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
+      }
+    }
   }
 
   def submit = Action {
     implicit request => {
       businessChooseYourAddressForm.bindFromRequest.fold(
-        formWithErrors => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, dropDownOptions)),
+        formWithErrors => {
+          retrieveTraderBusinessName match {
+            case Some(traderBusinessName) => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, traderBusinessName, dropDownOptions))
+            case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
+          }
+        },
         f => Redirect(routes.VehicleLookup.present)
       )
     }

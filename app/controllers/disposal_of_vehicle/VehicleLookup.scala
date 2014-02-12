@@ -3,12 +3,16 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
-import controllers.Mappings._
-import models.domain.disposal_of_vehicle.VehicleLookupModel
+import models.domain.disposal_of_vehicle.{VehicleLookupModel, VehicleLookupFormModel}
 import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.V5cReferenceNumber._
 import mappings.V5cRegistrationNumber._
 import mappings.Postcode._
+import controllers.disposal_of_vehicle.Helpers._
+import models.domain.disposal_of_vehicle.VehicleLookupModel
+import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import scala.Some
+import models.domain.common.Address
 
 object VehicleLookup extends Controller {
 
@@ -18,20 +22,37 @@ object VehicleLookup extends Controller {
       v5cRegistrationNumberId -> v5CRegistrationNumber(minLength = 2, maxLength = 8),
       v5cKeeperNameId -> nonEmptyText(minLength = 2, maxLength = 100),
       v5cPostcodeId -> postcode()
-    )(VehicleLookupModel.apply)(VehicleLookupModel.unapply)
+    )(VehicleLookupFormModel.apply)(VehicleLookupFormModel.unapply)
   )
 
   def present = Action {
     implicit request =>
-      Ok(views.html.disposal_of_vehicle.vehicle_lookup(vehicleLookupForm))
+    {
+      retrieveTraderBusinessName match {
+        case Some(traderBusinessName) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(fetchData, vehicleLookupForm))
+        case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
+      }
+    }
   }
 
   def submit = Action {
     implicit request => {
       vehicleLookupForm.bindFromRequest.fold(
-        formWithErrors => BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(formWithErrors)),
+        formWithErrors => {
+          retrieveTraderBusinessName match {
+            case Some(traderBusinessName) => BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(fetchData, formWithErrors))
+            case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
+          }
+        },
         f => Redirect(routes.Dispose.present)
       )
     }
   }
+
+  private def fetchData: VehicleLookupModel  = {
+    VehicleLookupModel(dealerName = "Dealer name",
+      dealerAddress = Address("Address line 1", Some("Address line 2"), Some("Address line 3"), None, "Postcode"))
+  }
 }
+
+
