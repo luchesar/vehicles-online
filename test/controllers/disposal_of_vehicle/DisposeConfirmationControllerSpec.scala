@@ -27,6 +27,7 @@ class DisposeConfirmationControllerSpec extends WordSpec with Matchers with Mock
 
     "redirect to next page after the new disposal button is clicked" in new WithApplication {
       SetUpTradeDetailsPage.setupCache
+      BusinessChooseYourAddressPage.setupCache
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           emailAddressId -> ""

@@ -10,9 +10,8 @@ import mappings.Mileage._
 import mappings.DayMonthYear._
 import constraints.DayMonthYear._
 import controllers.disposal_of_vehicle.Helpers._
-import models.domain.disposal_of_vehicle.DisposeFormModel
+import models.domain.disposal_of_vehicle.{DealerDetailsModel, DisposeFormModel, DisposeModel}
 import scala.Some
-import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.common.Address
 
 object Dispose extends Controller {
@@ -32,7 +31,7 @@ object Dispose extends Controller {
           Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
           val filledForm = disposeForm.fill(DisposeFormModel(consent = true, dateOfDisposal = models.DayMonthYear.today))
-          Ok(views.html.disposal_of_vehicle.dispose(fetchData, filledForm))
+          Ok(views.html.disposal_of_vehicle.dispose(fetchData(dealerDetails), filledForm))
         }
         case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
       }
@@ -45,7 +44,7 @@ object Dispose extends Controller {
       disposeForm.bindFromRequest.fold(
         formWithErrors => {
           fetchDealerDetailsFromCache match {
-            case Some(dealerDetails) => BadRequest(views.html.disposal_of_vehicle.dispose(fetchData, formWithErrors))
+            case Some(dealerDetails) => BadRequest(views.html.disposal_of_vehicle.dispose(fetchData(dealerDetails), formWithErrors))
             case None => {
               Logger.error("could not find dealer details in cache on Dispose submit")
               Redirect(routes.SetUpTradeDetails.present)}
@@ -59,12 +58,12 @@ object Dispose extends Controller {
     }
   }
 
-  private def fetchData: DisposeModel  = {
+  private def fetchData(dealerDetails: DealerDetailsModel): DisposeModel  = {
     DisposeModel(vehicleMake = "PEUGEOT",
       vehicleModel = "307 CC",
       keeperName = "Mrs Anne Shaw",
       keeperAddress = Address("1 The Avenue", Some("Earley"), Some("Reading"), None, "RG12 6HT"),
-      dealerName = "Dealer name",
-      dealerAddress = Address("Address line 1", Some("Address line 2"), Some("Address line 3"), None, "Postcode"))
+      dealerName = dealerDetails.dealerName,
+      dealerAddress = dealerDetails.dealerAddress)
   }
 }
