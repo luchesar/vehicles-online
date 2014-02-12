@@ -35,7 +35,7 @@ object DisposeConfirmation extends Controller {
       vehicleModel = "307 CC",
       keeperName = "Mrs Anne Shaw",
       keeperAddress = Address("1 The Avenue", Some("Earley"), Some("Reading"), None, "RG12 6HT"),
-      dealerName = "Car Giant",
-      dealerAddress = Address("44 Hythe Road", Some("White City"), Some("London"), None, "NW10 6RJ"))
+      dealerName = "Dealer name",
+      dealerAddress = Address("Address line 1", Some("Address line 2"), Some("Address line 3"), None, "Postcode"))
   }
 }
