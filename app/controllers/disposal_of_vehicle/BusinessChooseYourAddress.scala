@@ -47,7 +47,7 @@ object BusinessChooseYourAddress extends Controller {
           val key = mappings.disposal_of_vehicle.BusinessAddressSelect.addressSelectId
           val value = addressLookupService.lookupAddress(f.addressSelected)
           play.api.cache.Cache.set(key, value)
-          Logger.debug(s"BusinessChooseYourAddress set value for key: $key, value: $value")
+          Logger.debug(s"BusinessChooseYourAddress stored data in cache: key = $key, value = ${value}")
           Redirect(routes.VehicleLookup.present)
         }
       )
