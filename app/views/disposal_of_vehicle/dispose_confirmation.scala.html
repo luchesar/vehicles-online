@@ -1,4 +1,4 @@
-@(data: models.domain.disposal_of_vehicle.DisposeModel, disposeConfirmationForm: Form[models.domain.disposal_of_vehicle.DisposeConfirmationFormModel])(implicit lang: Lang)
+@(data: models.domain.disposal_of_vehicle.DisposeModel, disposeConfirmationForm: Form[models.domain.disposal_of_vehicle.DisposeConfirmationFormModel], disposalDate:models.DayMonthYear)(implicit lang: Lang)
 
 @import helper._
 @import views.html.helper.base._
@@ -38,8 +38,12 @@
 				@data.dealerAddress.line3<br />
 				@data.dealerAddress.postCode
 			</dd>
+
+
+
+
 		</dl>
-	
+        <p>@Messages("disposal_disposeconfirmation.disposaldate", disposalDate.`dd month, yyyy`)</p>
 	</div>
 	
 	<div class="second-col">
@@ -57,6 +61,7 @@
 			    	@data.keeperAddress.line3<br />
 			    	@data.keeperAddress.postCode
 	    		</li>
+
 	    		<li>@Messages("disposal_disposeconfirmation.exkeeperlettertext")</li>
 	    		@valtechInputText(disposeConfirmationForm(emailAddressId), args =
 		                '_label -> Messages("disposal_disposeconfirmation.emaillabel"),

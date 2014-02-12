@@ -11,8 +11,8 @@ import mappings.DayMonthYear._
 import constraints.DayMonthYear._
 import controllers.disposal_of_vehicle.Helpers._
 import models.domain.disposal_of_vehicle.{DealerDetailsModel, DisposeFormModel, DisposeModel}
-import scala.Some
 import models.domain.common.Address
+import play.api.Play.current
 
 object Dispose extends Controller {
 
@@ -52,6 +52,7 @@ object Dispose extends Controller {
           }
         },
         f => {
+          saveDateOfDisposalToCache(f)
           Logger.debug(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
           Redirect(routes.DisposeConfirmation.present)}
       )
@@ -65,5 +66,12 @@ object Dispose extends Controller {
       keeperAddress = Address("1 The Avenue", Some("Earley"), Some("Reading"), None, "RG12 6HT"),
       dealerName = dealerDetails.dealerName,
       dealerAddress = dealerDetails.dealerAddress)
+  }
+
+  private def saveDateOfDisposalToCache(f: DisposeFormModel) = {
+    val key = mappings.disposal_of_vehicle.Dispose.cacheKey
+    val value = f.dateOfDisposal
+    play.api.cache.Cache.set(key, value)
+    Logger.debug(s"DisposeDate stored data in cache: key = $key, value = ${value}")
   }
 }
