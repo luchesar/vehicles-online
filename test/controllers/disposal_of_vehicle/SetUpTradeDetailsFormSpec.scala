@@ -12,8 +12,8 @@ class SetUpTradeDetailsFormSpec extends WordSpec with Matchers {
     def traderLookupFiller(traderBusinessName: String, traderPostcode: String ) = {
      SetUpTradeDetails.traderLookupForm.bind(
         Map(
-          traderBusinessNameID -> traderBusinessName,
-          traderPostcodeID -> traderPostcode
+          traderBusinessNameId -> traderBusinessName,
+          traderPostcodeId -> traderPostcode
         )
       )
     }

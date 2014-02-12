@@ -1,7 +1,7 @@
 package mappings
 
 object V5cSearch {
-  val v5cReferenceNumberID = "V5cReferenceNumber"
-  val v5cRegistrationNumberID = "V5CRegistrationNumber"
-  val v5cPostcodeID = "V5cPostcode"
+  val v5cReferenceNumberId = "V5cReferenceNumber"
+  val v5cRegistrationNumberId = "V5CRegistrationNumber"
+  val v5cPostcodeId = "V5cPostcode"
 }

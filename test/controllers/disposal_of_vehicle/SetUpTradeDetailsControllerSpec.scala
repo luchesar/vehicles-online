@@ -29,7 +29,7 @@ class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
       val traderPostcodeValid = "SA99 1BD"
 
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(traderBusinessNameID -> traderBusinessNameValid, traderPostcodeID -> traderPostcodeValid)
+        .withFormUrlEncodedBody(traderBusinessNameId -> traderBusinessNameValid, traderPostcodeId -> traderPostcodeValid)
 
       // Act
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
