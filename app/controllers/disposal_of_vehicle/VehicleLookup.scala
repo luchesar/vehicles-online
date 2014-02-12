@@ -3,11 +3,12 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import models.domain.disposal_of_vehicle.{VehicleLookupModel, VehicleLookupFormModel}
 import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.V5cReferenceNumber._
 import mappings.V5cRegistrationNumber._
 import mappings.Postcode._
+import models.domain.common.Address
 
 object VehicleLookup extends Controller {
 
@@ -22,24 +23,20 @@ object VehicleLookup extends Controller {
 
   def present = Action {
     implicit request =>
-      Ok(views.html.disposal_of_vehicle.vehicle_lookup(vehicleLookupForm))
+      Ok(views.html.disposal_of_vehicle.vehicle_lookup(fetchData, vehicleLookupForm))
   }
 
   def submit = Action {
     implicit request => {
       vehicleLookupForm.bindFromRequest.fold(
-        formWithErrors => BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(formWithErrors)),
+        formWithErrors => BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(fetchData, formWithErrors)),
         f => Redirect(routes.Dispose.present)
       )
     }
   }
 
-//  private def fetchData: DisposeModel  = {
-//    Model(vehicleMake = "PEUGEOT",
-//      vehicleModel = "307 CC",
-//      keeperName = "Mrs Anne Shaw",
-//      keeperAddress = Address("1 The Avenue", Some("Earley"), Some("Reading"), None, "RG12 6HT"),
-//      dealerName = "Car Giant",
-//      dealerAddress = Address("44 Hythe Road", Some("White City"), Some("London"), None, "NW10 6RJ"))
-//  }
+  private def fetchData: VehicleLookupModel  = {
+    VehicleLookupModel(dealerName = "Dealer name",
+      dealerAddress = Address("Address line 1", Some("Address line 2"), Some("Address line 3"), None, "Postcode"))
+  }
 }
