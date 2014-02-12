@@ -9,7 +9,7 @@ import mappings.disposal_of_vehicle.BusinessAddressSelect._
 object BusinessChooseYourAddressPopulate {
   val url = "/disposal-of-vehicle/business-choose-your-address"
 
-  def happyPath(browser: TestBrowser, addressSelected: String = firstAddress) = {
+  def happyPath(browser: TestBrowser, addressSelected: String = address1.toViewFormat()) = {
     browser.goTo(url)
     browser.click(s"#${addressSelectId} option[value='${addressSelected}']")
     browser.submit("button[type='submit']")

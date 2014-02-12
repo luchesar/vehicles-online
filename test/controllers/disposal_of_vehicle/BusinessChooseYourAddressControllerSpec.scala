@@ -6,6 +6,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import controllers.disposal_of_vehicle
 import play.api.test.Helpers._
 import helpers.disposal_of_vehicle.SetUpTradeDetailsPopulate
+import mappings.disposal_of_vehicle.BusinessAddressSelect._
 
 class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
 
@@ -26,12 +27,10 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
     "redirect to next page after a valid submit" in new WithApplication {
       // Arrange
       SetUpTradeDetailsPopulate.setupCache
-      val businessNameValid = "DVLA"
-      val addressSelectValid = "1"
 
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
-          addressSelectId -> addressSelectValid)
+          addressSelectId -> address1.toViewFormat())
 
       // Act
       val result = disposal_of_vehicle.BusinessChooseYourAddress.submit(request)

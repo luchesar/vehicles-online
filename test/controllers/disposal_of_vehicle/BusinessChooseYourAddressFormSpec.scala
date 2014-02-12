@@ -5,7 +5,7 @@ import mappings.disposal_of_vehicle.BusinessAddressSelect._
 
 class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers {
   "BusinesssChooseYourAddress Form" should {
-    val addressSelectedValid = "1"
+    val addressSelectedValid = address1.toViewFormat()
 
     def chooseYourAddressFiller(addressSelected: String = addressSelectedValid) = {
       BusinessChooseYourAddress.businessChooseYourAddressForm.bind(

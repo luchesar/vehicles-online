@@ -8,11 +8,14 @@ import mappings.disposal_of_vehicle.BusinessAddressSelect._
 import modules._
 import mappings.DropDown._
 import controllers.disposal_of_vehicle.Helpers._
+import play.api.Logger
+import play.api.Play.current
 
 object BusinessChooseYourAddress extends Controller {
-  val dropDownOptions = {
-    val addressLookupService = injector.getInstance(classOf[services.AddressLookupService])
-    addressLookupService.invoke("TEST") // TODO pass in postcode submitted on the previous page.
+  val addressLookupService = injector.getInstance(classOf[services.AddressLookupService])
+
+  def dropDownOptions = {
+    addressLookupService.fetchAddress("TEST") // TODO pass in postcode submitted on the previous page.
   }
 
   val businessChooseYourAddressForm = Form(
@@ -26,7 +29,7 @@ object BusinessChooseYourAddress extends Controller {
     {
       retrieveTraderBusinessName match {
         case Some(traderBusinessName) => Ok(views.html.disposal_of_vehicle.business_choose_your_address(businessChooseYourAddressForm, traderBusinessName, dropDownOptions))
-        case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
+        case None => Redirect(routes.SetUpTradeDetails.present)
       }
     }
   }
@@ -37,10 +40,16 @@ object BusinessChooseYourAddress extends Controller {
         formWithErrors => {
           retrieveTraderBusinessName match {
             case Some(traderBusinessName) => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, traderBusinessName, dropDownOptions))
-            case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
+            case None => Redirect(routes.SetUpTradeDetails.present)
           }
         },
-        f => Redirect(routes.VehicleLookup.present)
+        f => {
+          val key = mappings.disposal_of_vehicle.BusinessAddressSelect.addressSelectId
+          val value = addressLookupService.lookupAddress(f.addressSelected)
+          play.api.cache.Cache.set(key, value)
+          Logger.debug(s"BusinessChooseYourAddress set value for key: $key, value: $value")
+          Redirect(routes.VehicleLookup.present)
+        }
       )
     }
   }
