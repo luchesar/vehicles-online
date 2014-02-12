@@ -8,7 +8,7 @@
 @import views.html.helper.base._
 @import views.html.common._
 @import views.html.helper._
-
+@import app.DisposalOfVehicle.DisposeConfirmation._
 
 @main(Messages("disposal_disposeconfirmation.title")){
 
@@ -58,7 +58,7 @@
 			    	@data.keeperAddress.postCode
 	    		</li>
 	    		<li>@Messages("disposal_disposeconfirmation.exkeeperlettertext")</li>
-	    		@valtechInputText(disposeConfirmationForm("emailAddress"), args =
+	    		@valtechInputText(disposeConfirmationForm(emailAddressId), args =
 		                '_label -> Messages("disposal_disposeconfirmation.emaillabel"),
 		                '_showConstraints -> false)
 		        <li>

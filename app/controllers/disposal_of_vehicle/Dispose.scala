@@ -4,27 +4,32 @@ import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
-import controllers.Mappings._
 import models.domain.disposal_of_vehicle.DisposeFormModel
 
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.common.Address
-import app.DisposalOfVehicle.Dispose._
+import mappings.disposal_of_vehicle.Dispose._
 import mappings.Consent._
+import mappings.Mileage._
+import mappings.DayMonthYear._
+import constraints.DayMonthYear._
 
 object Dispose extends Controller {
 
   val disposeForm = Form(
     mapping(
       consentId -> consent,
-      mileageId -> Mileage(minLength = 0, maxLength = 999999),
-      dateOfDisposalId -> dayMonthYear.verifying(validDate)
+      mileageId -> mileage(),
+      dateOfDisposalId -> dayMonthYear.verifying(rules)
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 
   def present = Action {
-    implicit request =>
-      Ok(views.html.disposal_of_vehicle.dispose(fetchData, disposeForm))
+    implicit request => {
+      // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
+      val filledForm = disposeForm.fill(DisposeFormModel(consent = true, dateOfDisposal = models.DayMonthYear.today))
+      Ok(views.html.disposal_of_vehicle.dispose(fetchData, filledForm))
+    }
   }
 
   def submit = Action {

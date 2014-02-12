@@ -1,9 +1,10 @@
 package controllers.disposal_of_vehicle
 
-import app.DisposalOfVehicle.SetupTradeDetails._
+import mappings.disposal_of_vehicle.SetupTradeDetails._
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
+import mappings.disposal_of_vehicle.SetupTradeDetails._
 import org.scalatest.{Matchers, WordSpec}
 
 
@@ -28,7 +29,7 @@ class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
       val traderPostcodeValid = "SA99 1BD"
 
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(traderBusinessNameID -> traderBusinessNameValid, traderPostcodeID -> traderPostcodeValid)
+        .withFormUrlEncodedBody(traderBusinessNameId -> traderBusinessNameValid, traderPostcodeId -> traderPostcodeValid)
 
       // Act
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)

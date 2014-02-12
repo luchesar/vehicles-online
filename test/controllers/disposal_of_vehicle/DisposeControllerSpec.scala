@@ -4,7 +4,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
-import app.DisposalOfVehicle.Dispose._
+import mappings.disposal_of_vehicle.Dispose._
 import org.specs2.mock.Mockito
 
 class DisposeControllerSpec extends WordSpec with Matchers with Mockito {

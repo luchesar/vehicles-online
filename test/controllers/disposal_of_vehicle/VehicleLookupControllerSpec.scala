@@ -4,7 +4,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
-import app.DisposalOfVehicle.VehicleLookup._
+import mappings.disposal_of_vehicle.VehicleLookup._
 
 class VehicleLookupControllerSpec extends WordSpec with Matchers {
 
@@ -29,7 +29,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers {
       val v5cPostcodeValid = "SA99 1BD"
 
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberID -> v5cReferenceNumberValid, v5cRegistrationNumberID -> v5cRegistrationNumberValid, v5cKeeperNameID -> v5cKeeperNameValid, v5cPostcodeID -> v5cPostcodeValid)
+        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cReferenceNumberValid, v5cRegistrationNumberId -> v5cRegistrationNumberValid, v5cKeeperNameId -> v5cKeeperNameValid, v5cPostcodeId -> v5cPostcodeValid)
 
       // Act
       val result = disposal_of_vehicle.VehicleLookup.submit(request)

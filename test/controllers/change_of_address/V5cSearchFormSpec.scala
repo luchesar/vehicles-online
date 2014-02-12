@@ -1,7 +1,7 @@
 package controllers.change_of_address
 
 import org.scalatest.{Matchers, WordSpec}
-import app.ChangeOfAddress.V5cSearch._
+import mappings.V5cSearch._
 
 class V5cSearchFormSpec extends WordSpec with Matchers {
   "V5cSearch Form" should {
@@ -13,9 +13,9 @@ class V5cSearchFormSpec extends WordSpec with Matchers {
     def v5cSearchFiller(v5cReferenceNumber: String,v5cRegistrationNumber: String, v5cPostcode: String ) = {
       VehicleSearch.vehicleSearchForm.bind(
         Map(
-          v5cReferenceNumberID -> v5cReferenceNumber,
-          v5cRegistrationNumberID-> v5cRegistrationNumber,
-          v5cPostcodeID -> v5cPostcode
+          v5cReferenceNumberId -> v5cReferenceNumber,
+          v5cRegistrationNumberId-> v5cRegistrationNumber,
+          v5cPostcodeId -> v5cPostcode
         )
       )
     }

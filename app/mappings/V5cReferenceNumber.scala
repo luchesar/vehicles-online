@@ -2,7 +2,7 @@ package mappings
 
 import play.api.data.Mapping
 import play.api.data.Forms._
-import constraints.NumberOnly._
+import constraints.NumberOnly
 
 object V5cReferenceNumber {
   val minLength = 11
@@ -11,6 +11,6 @@ object V5cReferenceNumber {
   val key = "V5cReferenceNumber"
 
   def v5cReferenceNumber (minLength: Int = mappings.V5cReferenceNumber.minLength, maxLength: Int = mappings.V5cReferenceNumber.maxLength): Mapping[String] = {
-    nonEmptyText(minLength, maxLength) verifying validNumberOnly
+    nonEmptyText(minLength, maxLength) verifying NumberOnly.rules
   }
 }

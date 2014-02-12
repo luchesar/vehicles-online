@@ -3,7 +3,7 @@ package controllers.change_of_address
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import org.scalatest.{Matchers, WordSpec}
-import app.ChangeOfAddress.Authentication._
+import mappings.Authentication._
 import org.specs2.mock.Mockito
 import helpers.change_of_address.LoginCachePopulate
 import LoginCachePopulate._
@@ -38,7 +38,7 @@ class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito{
     "redirect to next page after the button is clicked" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(pinFormID -> "123456")
+        .withFormUrlEncodedBody(pinFormId -> "123456")
 
       // Act
       val result = Authentication.submit(request)

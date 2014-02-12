@@ -1,7 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import org.scalatest.{Matchers, WordSpec}
-import app.DisposalOfVehicle.Dispose._
+import mappings.disposal_of_vehicle.Dispose._
 
 class DisposeFormSpec extends WordSpec with Matchers {
   "Dispose Form" should {

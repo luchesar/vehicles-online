@@ -13,7 +13,7 @@ import play.api.Play.current
 import controllers.change_of_address.Helpers._
 import controllers.Mappings
 import modules.{injector}
-import app.ChangeOfAddress.V5cSearch._
+import mappings.V5cSearch._
 import mappings.{Postcode, V5cRegistrationNumber, V5cReferenceNumber}
 import mappings.V5cReferenceNumber._
 import mappings.V5cRegistrationNumber._
@@ -23,9 +23,9 @@ object VehicleSearch extends Controller {
 
   val vehicleSearchForm = Form(
     mapping(
-      v5cReferenceNumberID -> v5cReferenceNumber(minLength = 11, maxLength = 11),
-      v5cRegistrationNumberID -> v5CRegistrationNumber(minLength = 2, maxLength = 7),
-      v5cPostcodeID -> postcode()
+      v5cReferenceNumberId -> v5cReferenceNumber(minLength = 11, maxLength = 11),
+      v5cRegistrationNumberId -> v5CRegistrationNumber(minLength = 2, maxLength = 7),
+      v5cPostcodeId -> postcode()
     )(V5cSearchModel.apply)(V5cSearchModel.unapply)
   )
 

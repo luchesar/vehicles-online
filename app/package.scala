@@ -38,7 +38,6 @@ package object app {
   }
 
   object ChangeOfAddress {
-
     // TODO make sure all html pages, controllers, formSpec & controllerSpec, integrationSpec use the IDs from this package
     // Page 6 IDA login page
     object LoginPage {
@@ -86,6 +85,10 @@ package object app {
       val consentId = "consent"
       val mileageId = "mileage"
       val dateOfDisposalId = "dateOfDisposal"
+    }
+
+    object DisposeConfirmation {
+      val emailAddressId = "emailAddress"
     }
   }
 }

@@ -1,7 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import org.scalatest.{Matchers, WordSpec}
-import app.DisposalOfVehicle.BusinessAddressSelect._
+import mappings.disposal_of_vehicle.BusinessAddressSelect._
 
 class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers {
   "BusinesssChooseYourAddress Form" should {

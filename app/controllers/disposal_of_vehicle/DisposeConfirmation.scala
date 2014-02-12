@@ -5,12 +5,13 @@ import play.api.data.Form
 import play.api.data.Forms._
 import models.domain.disposal_of_vehicle.{DisposeConfirmationFormModel, DisposeModel}
 import models.domain.common.Address
+import app.DisposalOfVehicle.DisposeConfirmation._
 
 object DisposeConfirmation extends Controller {
 
   val disposeConfirmationForm = Form(
     mapping(
-      "emailAddress" -> text
+      emailAddressId -> text
     )(DisposeConfirmationFormModel.apply)(DisposeConfirmationFormModel.unapply)
   )
 
