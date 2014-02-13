@@ -19,9 +19,9 @@ object DisposeConfirmation extends Controller {
 
   def present = Action {
     implicit request => {
-      fetchDealerDetailsFromCache match {
-        case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.dispose_confirmation(fetchData(dealerDetails), disposeConfirmationForm))
-        case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
+      (fetchDealerDetailsFromCache, fetchDisposalDate) match {
+        case (Some(dealerDetails), Some(disposalDate)) => Ok(views.html.disposal_of_vehicle.dispose_confirmation(fetchData(dealerDetails), disposeConfirmationForm, disposalDate))
+        case _ => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
       }
     }
   }
@@ -30,9 +30,9 @@ object DisposeConfirmation extends Controller {
     implicit request => {
       disposeConfirmationForm.bindFromRequest.fold(
         formWithErrors => {
-          fetchDealerDetailsFromCache match {
-            case Some(dealerDetails) => BadRequest(views.html.disposal_of_vehicle.dispose_confirmation(fetchData(dealerDetails), formWithErrors))
-            case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
+          (fetchDealerDetailsFromCache, fetchDisposalDate)  match {
+            case (Some(dealerDetails), Some(disposalDate)) => BadRequest(views.html.disposal_of_vehicle.dispose_confirmation(fetchData(dealerDetails), formWithErrors, disposalDate))
+            case _ => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
           }
         },
         f => {Logger.debug(s"Form submitted email address = <<${f.emailAddress}>>"); Ok("success")}

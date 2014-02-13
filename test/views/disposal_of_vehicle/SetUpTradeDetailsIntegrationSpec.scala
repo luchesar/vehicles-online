@@ -11,7 +11,7 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
   "SetUpTradeDetails Integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      browser.goTo("/disposal-of-vehicle/setup-trade-details")
+      browser.goTo(SetUpTradeDetailsPage.url)
 
       // Assert
       titleMustEqual("Dispose a vehicle into the motor trade: set-up")
