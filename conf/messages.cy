@@ -172,6 +172,7 @@ disposal_vehiclelookup.v5cinputlabel.refNumIncorrect = Mae'n rhaid i chi fynd i 
 disposal_vehiclelookup.vrninputlabel = Rhif cofrestru cerbyd
 disposal_vehiclelookup.keepernamelabel = Enw llawn ceidwad
 disposal_vehiclelookup.keeperpostcodelabel = Ceidwad cod post
+disposal_vehiclelookup.backbutton = Back
 disposal_vehiclelookup.button = Dod o hyd i
 disposal_vehiclelookup.button2 = Golygu
 
