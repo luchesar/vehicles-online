@@ -6,7 +6,7 @@ import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import app.DisposalOfVehicle.DisposeConfirmation._
 import org.specs2.mock.Mockito
-import helpers.disposal_of_vehicle.{DisposePage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage}
+import helpers.disposal_of_vehicle.{VehicleLookupPage, DisposePage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage}
 
 class DisposeConfirmationControllerSpec extends WordSpec with Matchers with Mockito {
 
@@ -16,6 +16,7 @@ class DisposeConfirmationControllerSpec extends WordSpec with Matchers with Mock
       // Arrange
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
+      VehicleLookupPage.setupCache()
       DisposePage.setupCache
       val request = FakeRequest().withSession()
 
@@ -42,7 +43,7 @@ class DisposeConfirmationControllerSpec extends WordSpec with Matchers with Mock
       status(result) should equal(OK)
     }
 
-    "redirect to setupTradeDetails page when user is not logged in" in new WithApplication {
+    "redirect to setupTradeDetails page when previous pages have not been visited" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
 

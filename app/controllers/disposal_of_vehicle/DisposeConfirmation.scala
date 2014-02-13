@@ -3,7 +3,7 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
-import models.domain.disposal_of_vehicle.{DealerDetailsModel, DisposeConfirmationFormModel, DisposeModel}
+import models.domain.disposal_of_vehicle.{VehicleDetailsModel, DealerDetailsModel, DisposeConfirmationFormModel, DisposeModel}
 import models.domain.common.Address
 import app.DisposalOfVehicle.DisposeConfirmation._
 import controllers.disposal_of_vehicle.Helpers._
@@ -19,8 +19,8 @@ object DisposeConfirmation extends Controller {
 
   def present = Action {
     implicit request => {
-      (fetchDealerDetailsFromCache, fetchDisposalDateFromCache) match {
-        case (Some(dealerDetails), Some(disposalDate)) => Ok(views.html.disposal_of_vehicle.dispose_confirmation(fetchData(dealerDetails), disposeConfirmationForm, disposalDate))
+      (fetchDealerDetailsFromCache, fetchDisposalDateFromCache, fetchVehicleDetailsFromCache) match {
+        case (Some(dealerDetails), Some(disposalDate), Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose_confirmation(fetchData(dealerDetails, vehicleDetails), disposeConfirmationForm, disposalDate))
         case _ => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
       }
     }
@@ -30,8 +30,8 @@ object DisposeConfirmation extends Controller {
     implicit request => {
       disposeConfirmationForm.bindFromRequest.fold(
         formWithErrors => {
-          (fetchDealerDetailsFromCache, fetchDisposalDateFromCache)  match {
-            case (Some(dealerDetails), Some(disposalDate)) => BadRequest(views.html.disposal_of_vehicle.dispose_confirmation(fetchData(dealerDetails), formWithErrors, disposalDate))
+          (fetchDealerDetailsFromCache, fetchDisposalDateFromCache, fetchVehicleDetailsFromCache)  match {
+            case (Some(dealerDetails), Some(disposalDate), Some(vehicleDetails)) => BadRequest(views.html.disposal_of_vehicle.dispose_confirmation(fetchData(dealerDetails, vehicleDetails), formWithErrors, disposalDate))
             case _ => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
           }
         },
@@ -40,11 +40,11 @@ object DisposeConfirmation extends Controller {
     }
   }
 
-  private def fetchData(dealerDetails: DealerDetailsModel): DisposeModel  = {
-    DisposeModel(vehicleMake = "PEUGEOT",
-      vehicleModel = "307 CC",
-      keeperName = "Mrs Anne Shaw",
-      keeperAddress = Address("1 The Avenue", Some("Earley"), Some("Reading"), None, "RG12 6HT"),
+  private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeModel  = {
+    DisposeModel(vehicleMake = vehicleDetails.vehicleMake,
+      vehicleModel = vehicleDetails.vehicleModel,
+      keeperName = vehicleDetails.keeperName,
+      keeperAddress = vehicleDetails.keeperAddress,
       dealerName = dealerDetails.dealerName,
       dealerAddress = dealerDetails.dealerAddress)
   }

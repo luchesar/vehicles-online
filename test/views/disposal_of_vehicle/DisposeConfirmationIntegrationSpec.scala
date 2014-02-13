@@ -3,7 +3,7 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Tags, Specification}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.{DisposePage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, DisposeConfirmationPage}
+import helpers.disposal_of_vehicle._
 
 class DisposeConfirmationIntegrationSpec extends Specification with Tags {
   "Dispose confirmation integration" should {
@@ -11,6 +11,7 @@ class DisposeConfirmationIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
+      VehicleLookupPage.setupCache
       DisposePage.setupCache
       browser.goTo(DisposeConfirmationPage.url)
 

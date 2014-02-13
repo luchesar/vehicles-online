@@ -11,7 +11,6 @@ import mappings.DayMonthYear._
 import constraints.DayMonthYear._
 import controllers.disposal_of_vehicle.Helpers._
 import models.domain.disposal_of_vehicle.{VehicleDetailsModel, DealerDetailsModel, DisposeFormModel, DisposeModel}
-import models.domain.common.Address
 import play.api.Play.current
 
 object Dispose extends Controller {
