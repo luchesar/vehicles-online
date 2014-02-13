@@ -3,7 +3,7 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, VehicleLookupPopulate, SetUpTradeDetailsPage}
+import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, VehicleLookupPage, SetUpTradeDetailsPage}
 import mappings.disposal_of_vehicle.BusinessAddressSelect
 
 class VehicleLookupIntegrationSpec extends Specification with Tags {
@@ -14,7 +14,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      browser.goTo(VehicleLookupPopulate.url)
+      browser.goTo(VehicleLookupPage.url)
 
       // Assert
       titleMustEqual("Dispose a vehicle into the motor trade: vehicle")
@@ -25,7 +25,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
 
-      VehicleLookupPopulate.happyPath(browser)
+      VehicleLookupPage.happyPath(browser)
 
       // Assert
       titleMustEqual("Dispose a vehicle into the motor trade: confirm")
@@ -35,7 +35,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPopulate.happyPath(browser, v5cReferenceNumber = "")
+      VehicleLookupPage.happyPath(browser, v5cReferenceNumber = "")
 
       // Assert
       checkNumberOfValidationErrors(3)
@@ -45,7 +45,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPopulate.happyPath(browser, v5cVehicleRegistrationNumber = "")
+      VehicleLookupPage.happyPath(browser, v5cVehicleRegistrationNumber = "")
 
       //Assert
       checkNumberOfValidationErrors(2)
@@ -55,7 +55,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPopulate.happyPath(browser, v5cVehicleRegistrationNumber = "a")
+      VehicleLookupPage.happyPath(browser, v5cVehicleRegistrationNumber = "a")
 
       //Assert
       checkNumberOfValidationErrors(1)
@@ -65,7 +65,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPopulate.happyPath(browser, v5cVehicleRegistrationNumber = "$^")
+      VehicleLookupPage.happyPath(browser, v5cVehicleRegistrationNumber = "$^")
 
       //Assert
       checkNumberOfValidationErrors(1)
@@ -75,7 +75,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPopulate.happyPath(browser, v5cKeeperName = "")
+      VehicleLookupPage.happyPath(browser, v5cKeeperName = "")
 
       //Assert
       checkNumberOfValidationErrors(2)
@@ -85,7 +85,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPopulate.happyPath(browser, v5cKeeperName = "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopq")
+      VehicleLookupPage.happyPath(browser, v5cKeeperName = "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopq")
 
       //Assert
       checkNumberOfValidationErrors(1)
@@ -95,7 +95,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPopulate.happyPath(browser, v5cPostcode = "")
+      VehicleLookupPage.happyPath(browser, v5cPostcode = "")
 
       //Assert
       checkNumberOfValidationErrors(3)
@@ -105,7 +105,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPopulate.happyPath(browser, v5cPostcode = "SA99")
+      VehicleLookupPage.happyPath(browser, v5cPostcode = "SA99")
 
       //Assert
       checkNumberOfValidationErrors(2)
@@ -115,7 +115,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPopulate.happyPath(browser, v5cPostcode = "SA991B%")
+      VehicleLookupPage.happyPath(browser, v5cPostcode = "SA991B%")
 
       //Assert
       checkNumberOfValidationErrors(1)
@@ -125,7 +125,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPopulate.happyPath(browser, v5cPostcode = "SA9999")
+      VehicleLookupPage.happyPath(browser, v5cPostcode = "SA9999")
 
       //Assert
       checkNumberOfValidationErrors(1)
@@ -135,7 +135,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPopulate.happyPath(browser, v5cReferenceNumber = "", v5cVehicleRegistrationNumber = "", v5cKeeperName = "", v5cPostcode = "")
+      VehicleLookupPage.happyPath(browser, v5cReferenceNumber = "", v5cVehicleRegistrationNumber = "", v5cKeeperName = "", v5cPostcode = "")
 
       //Assert
       checkNumberOfValidationErrors(10)
@@ -145,7 +145,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPopulate.happyPath(browser, v5cVehicleRegistrationNumber = "", v5cKeeperName = "", v5cPostcode = "")
+      VehicleLookupPage.happyPath(browser, v5cVehicleRegistrationNumber = "", v5cKeeperName = "", v5cPostcode = "")
 
       //Assert
       checkNumberOfValidationErrors(7)
@@ -155,7 +155,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPopulate.happyPath(browser, v5cReferenceNumber = "", v5cKeeperName = "", v5cPostcode = "")
+      VehicleLookupPage.happyPath(browser, v5cReferenceNumber = "", v5cKeeperName = "", v5cPostcode = "")
 
       //Assert
       checkNumberOfValidationErrors(8)
@@ -165,7 +165,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPopulate.happyPath(browser, v5cReferenceNumber = "", v5cVehicleRegistrationNumber = "", v5cPostcode = "")
+      VehicleLookupPage.happyPath(browser, v5cReferenceNumber = "", v5cVehicleRegistrationNumber = "", v5cPostcode = "")
 
       //Assert
       checkNumberOfValidationErrors(8)
@@ -175,7 +175,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPopulate.happyPath(browser, v5cReferenceNumber = "", v5cVehicleRegistrationNumber = "", v5cKeeperName = "")
+      VehicleLookupPage.happyPath(browser, v5cReferenceNumber = "", v5cVehicleRegistrationNumber = "", v5cKeeperName = "")
 
       //Assert
       checkNumberOfValidationErrors(7)
@@ -183,7 +183,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
     "redirect when no traderBusinessName is cached" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      browser.goTo(VehicleLookupPopulate.url)
+      browser.goTo(VehicleLookupPage.url)
 
       // Assert
       titleMustEqual("Dispose a vehicle into the motor trade: set-up")

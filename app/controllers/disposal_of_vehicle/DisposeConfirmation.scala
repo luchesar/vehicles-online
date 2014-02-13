@@ -19,7 +19,7 @@ object DisposeConfirmation extends Controller {
 
   def present = Action {
     implicit request => {
-      (fetchDealerDetailsFromCache, fetchDisposalDate) match {
+      (fetchDealerDetailsFromCache, fetchDisposalDateFromCache) match {
         case (Some(dealerDetails), Some(disposalDate)) => Ok(views.html.disposal_of_vehicle.dispose_confirmation(fetchData(dealerDetails), disposeConfirmationForm, disposalDate))
         case _ => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
       }
@@ -30,7 +30,7 @@ object DisposeConfirmation extends Controller {
     implicit request => {
       disposeConfirmationForm.bindFromRequest.fold(
         formWithErrors => {
-          (fetchDealerDetailsFromCache, fetchDisposalDate)  match {
+          (fetchDealerDetailsFromCache, fetchDisposalDateFromCache)  match {
             case (Some(dealerDetails), Some(disposalDate)) => BadRequest(views.html.disposal_of_vehicle.dispose_confirmation(fetchData(dealerDetails), formWithErrors, disposalDate))
             case _ => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
           }

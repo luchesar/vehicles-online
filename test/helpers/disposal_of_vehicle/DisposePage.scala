@@ -5,13 +5,13 @@ import mappings.disposal_of_vehicle.Dispose._
 import models.DayMonthYear
 import play.api.Play.current
 
-object DisposePopulate {
+object DisposePage {
   val url = "/disposal-of-vehicle/dispose"
 
   def happyPath(browser: TestBrowser) = {
     browser.goTo(url)
 
-    // Do not click the consent checkbow as it already pre-populated
+    // Do not click the consent checkbox as it already pre-populated
     //      browser.click(s"#${consentId}")
 
     browser.click(s"#${dateOfDisposalId}_day option[value='1']")

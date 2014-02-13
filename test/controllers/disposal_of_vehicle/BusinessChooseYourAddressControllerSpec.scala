@@ -5,7 +5,7 @@ import org.scalatest.{Matchers, WordSpec}
 import play.api.test.{FakeRequest, WithApplication}
 import controllers.disposal_of_vehicle
 import play.api.test.Helpers._
-import helpers.disposal_of_vehicle.{SetUpTradeDetailsPage, VehicleLookupPopulate}
+import helpers.disposal_of_vehicle.{SetUpTradeDetailsPage, VehicleLookupPage}
 import mappings.disposal_of_vehicle.BusinessAddressSelect._
 
 class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
@@ -37,7 +37,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers {
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some(VehicleLookupPopulate.url))
+      redirectLocation(result) should equal (Some(VehicleLookupPage.url))
     }
 
     "return a bad request after an invalid submission" in new WithApplication {

@@ -10,7 +10,7 @@ import mappings.Mileage._
 import mappings.DayMonthYear._
 import constraints.DayMonthYear._
 import controllers.disposal_of_vehicle.Helpers._
-import models.domain.disposal_of_vehicle.{DealerDetailsModel, DisposeFormModel, DisposeModel}
+import models.domain.disposal_of_vehicle.{VehicleDetailsModel, DealerDetailsModel, DisposeFormModel, DisposeModel}
 import models.domain.common.Address
 import play.api.Play.current
 
@@ -26,14 +26,14 @@ object Dispose extends Controller {
 
   def present = Action {
     implicit request => {
-      fetchDealerDetailsFromCache match {
-        case Some(dealerDetails) => {
+      (fetchDealerDetailsFromCache, fetchVehicleDetailsFromCache) match {
+        case (Some(dealerDetails), Some(vehicleDetails)) => {
           Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
           val filledForm = disposeForm.fill(DisposeFormModel(consent = true, dateOfDisposal = models.DayMonthYear.today))
-          Ok(views.html.disposal_of_vehicle.dispose(fetchData(dealerDetails), filledForm))
+          Ok(views.html.disposal_of_vehicle.dispose(fetchData(dealerDetails, vehicleDetails), filledForm))
         }
-        case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
+        case _ => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
       }
     }
   }
@@ -43,9 +43,9 @@ object Dispose extends Controller {
       Logger.debug("Submitted dispose form...")
       disposeForm.bindFromRequest.fold(
         formWithErrors => {
-          fetchDealerDetailsFromCache match {
-            case Some(dealerDetails) => BadRequest(views.html.disposal_of_vehicle.dispose(fetchData(dealerDetails), formWithErrors))
-            case None => {
+          (fetchDealerDetailsFromCache, fetchVehicleDetailsFromCache) match {
+            case (Some(dealerDetails), Some(vehicleDetails)) => BadRequest(views.html.disposal_of_vehicle.dispose(fetchData(dealerDetails, vehicleDetails), formWithErrors))
+            case _ => {
               Logger.error("could not find dealer details in cache on Dispose submit")
               Redirect(routes.SetUpTradeDetails.present)}
               // TODO write controller and integration tests for re-routing when not logged in.
@@ -59,11 +59,11 @@ object Dispose extends Controller {
     }
   }
 
-  private def fetchData(dealerDetails: DealerDetailsModel): DisposeModel  = {
-    DisposeModel(vehicleMake = "PEUGEOT",
-      vehicleModel = "307 CC",
-      keeperName = "Mrs Anne Shaw",
-      keeperAddress = Address("1 The Avenue", Some("Earley"), Some("Reading"), None, "RG12 6HT"),
+  private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeModel  = {
+    DisposeModel(vehicleMake = vehicleDetails.vehicleMake,
+      vehicleModel = vehicleDetails.vehicleModel,
+      keeperName = vehicleDetails.keeperName,
+      keeperAddress = vehicleDetails.keeperAddress,
       dealerName = dealerDetails.dealerName,
       dealerAddress = dealerDetails.dealerAddress)
   }

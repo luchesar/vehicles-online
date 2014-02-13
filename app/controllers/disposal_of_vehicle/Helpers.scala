@@ -2,7 +2,7 @@ package controllers.disposal_of_vehicle
 
 import play.api.cache.Cache
 import play.api.Play.current
-import models.domain.disposal_of_vehicle.DealerDetailsModel
+import models.domain.disposal_of_vehicle.{VehicleDetailsModel, DealerDetailsModel}
 import models.DayMonthYear
 
 object Helpers {
@@ -16,8 +16,13 @@ object Helpers {
     Cache.getAs[DealerDetailsModel](key)
   }
 
-  def fetchDisposalDate(): Option[DayMonthYear] = {
+  def fetchDisposalDateFromCache(): Option[DayMonthYear] = {
     val key = mappings.disposal_of_vehicle.Dispose.cacheKey
     Cache.getAs[DayMonthYear](key)
+  }
+
+  def fetchVehicleDetailsFromCache(): Option[VehicleDetailsModel] = {
+    val key = mappings.disposal_of_vehicle.VehicleLookup.cacheKey
+    Cache.getAs[VehicleDetailsModel](key)
   }
 }

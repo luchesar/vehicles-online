@@ -4,7 +4,7 @@ import org.specs2.mutable.{Tags, Specification}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
 import mappings.disposal_of_vehicle.Dispose._
-import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, DisposePopulate, SetUpTradeDetailsPage}
+import helpers.disposal_of_vehicle.{VehicleLookupPage, BusinessChooseYourAddressPage, DisposePage, SetUpTradeDetailsPage}
 import controllers.disposal_of_vehicle.BusinessChooseYourAddress
 
 class DisposeIntegrationSpec extends Specification with Tags {
@@ -12,7 +12,8 @@ class DisposeIntegrationSpec extends Specification with Tags {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       BusinessChooseYourAddressPage.setupCache
-      browser.goTo(DisposePopulate.url)
+      VehicleLookupPage.setupCache
+      browser.goTo(DisposePage.url)
 
       // Check the page title is correct
       titleMustEqual("Dispose a vehicle into the motor trade: confirm")
@@ -22,7 +23,8 @@ class DisposeIntegrationSpec extends Specification with Tags {
       // Fill in mandatory data
       SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
-      DisposePopulate.happyPath(browser)
+      VehicleLookupPage.setupCache
+      DisposePage.happyPath(browser)
 
       // Verify we have moved to the next screen
       titleMustEqual("Dispose a vehicle into the motor trade: summary")
@@ -30,7 +32,7 @@ class DisposeIntegrationSpec extends Specification with Tags {
 
     "redirect when no traderBusinessName is cached" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      browser.goTo(DisposePopulate.url)
+      browser.goTo(DisposePage.url)
 
       // Assert
       titleMustEqual("Dispose a vehicle into the motor trade: set-up")

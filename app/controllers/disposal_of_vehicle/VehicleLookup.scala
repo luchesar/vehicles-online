@@ -4,6 +4,7 @@ import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
+import play.api.Play.current
 import models.domain.disposal_of_vehicle.{VehicleDetailsModel, DealerDetailsModel, VehicleLookupFormModel}
 import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.V5cReferenceNumber._
@@ -44,20 +45,39 @@ object VehicleLookup extends Controller {
           }
         },
         f => {
-//          lookupVehicleDetails(f)
+          saveVehicleDetailsToCache(lookupVehicleDetails(f))
           Redirect(routes.Dispose.present)
         }
       )
     }
   }
 
-//  private def lookupVehicleDetails(f: VehicleLookupFormModel) {
-//    Logger.debug(s"Looking up vehicle details for v5cReferenceNumber: ${f.v5cReferenceNumber}, v5cRegistrationNumber: ${f.v5cRegistrationNumber}")
-//    val vehicleDetailsModel(vehicleMake = "PEUGEOT",
-//      vehicleModel = "307 CC",
-//      keeperName = "Mrs Anne Shaw",
-//      keeperAddress = Address("1 The Avenue", Some("Earley"), Some("Reading"), None, "RG12 6HT"))
-//  }
+  private def lookupVehicleDetails(f: VehicleLookupFormModel) = {
+    Logger.debug(s"Looking up vehicle details for ${v5cReferenceNumberId}: ${f.v5cReferenceNumber}, ${v5cRegistrationNumberId}: ${f.v5cRegistrationNumber}, ${v5cKeeperNameId}: ${f.v5cKeeperName}, ${v5cPostcodeId}: ${f.v5cPostcode}")
+
+    val knownReferenceNumber = "11111111111"
+    if (f.v5cReferenceNumber == knownReferenceNumber) {
+      Logger.debug(s"Selecting vehicle for ref number ${knownReferenceNumber}")
+      VehicleDetailsModel(vehicleMake = "Alfa Romeo",
+        vehicleModel = "Alfasud ti",
+        keeperName = f.v5cKeeperName,
+        keeperAddress = Address("1 The Avenue", Some("Earley"), Some("Reading"), None, f.v5cPostcode))
+    } else {
+      Logger.debug("Selecting default vehicle")
+      VehicleDetailsModel(vehicleMake = "PEUGEOT",
+        vehicleModel = "307 CC",
+        keeperName = f.v5cKeeperName,
+        keeperAddress = Address("1 The Avenue", Some("Earley"), Some("Reading"), None, f.v5cPostcode))
+    }
+  }
+
+  private def saveVehicleDetailsToCache(vehicleDetailsModel: VehicleDetailsModel) = {
+    val key = mappings.disposal_of_vehicle.VehicleLookup.cacheKey
+    val value = vehicleDetailsModel
+    play.api.cache.Cache.set(key, value)
+    Logger.debug(s"VehicleLookup page - stored vehicle details object in cache: key = $key, value = ${value}")
+  }
+
 }
 
 
