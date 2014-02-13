@@ -1,5 +1,5 @@
-
 package object modules {
+
   import play.api._
   import play.api.Play.current
   import com.google.inject.Guice
