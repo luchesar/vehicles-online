@@ -50,7 +50,7 @@ class DisposeConfirmationControllerSpec extends WordSpec with Matchers with Mock
       val result = disposal_of_vehicle.DisposeConfirmation.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some("/disposal-of-vehicle/setup-trade-details"))
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
     }
 
   }
