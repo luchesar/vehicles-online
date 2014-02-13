@@ -4,6 +4,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.change_of_address
 import org.scalatest.{Matchers, WordSpec}
+import helpers.change_of_address.SignInProviderPage
 
 class AreYouRegisteredControllerSpec  extends WordSpec with Matchers {
 
@@ -29,7 +30,7 @@ class AreYouRegisteredControllerSpec  extends WordSpec with Matchers {
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal(Some("/sign-in-provider"))
+      redirectLocation(result) should equal(Some(SignInProviderPage.url))
     }
   }
 }

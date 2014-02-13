@@ -6,13 +6,11 @@ import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.Dispose._
 import org.specs2.mock.Mockito
-import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
+import helpers.disposal_of_vehicle.{DisposeConfirmationPage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
 import helpers.disposal_of_vehicle.Helper._
 
 class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
-
   "Disposal - Controller" should {
-
     "present" in new WithApplication {
       // Arrange
       SetUpTradeDetailsPage.setupCache
@@ -44,7 +42,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some("/disposal-of-vehicle/dispose-confirmation"))
+      redirectLocation(result) should equal (Some(DisposeConfirmationPage.url))
     }
 
     "redirect to setupTradeDetails page when previous pages have not been visited" in new WithApplication {
@@ -55,7 +53,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.Dispose.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some("/disposal-of-vehicle/setup-trade-details"))
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
     }
   }
 }

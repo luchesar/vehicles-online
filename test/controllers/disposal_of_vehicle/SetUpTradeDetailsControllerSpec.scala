@@ -1,17 +1,15 @@
 package controllers.disposal_of_vehicle
 
-import mappings.disposal_of_vehicle.SetupTradeDetails._
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import org.scalatest.{Matchers, WordSpec}
-
+import helpers.disposal_of_vehicle.BusinessChooseYourAddressPage
+import helpers.disposal_of_vehicle.Helper._
 
 class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
-
   "BeforeYouStart - Controller" should {
-
     "present" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
@@ -25,9 +23,6 @@ class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
 
     "redirect to next page after the look-up is clicked" in new WithApplication {
       // Arrange
-      val traderBusinessNameValid = "Example Trader Name"
-      val traderPostcodeValid = "SA99 1BD"
-
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(dealerNameId -> traderBusinessNameValid, dealerPostcodeId -> traderPostcodeValid)
 
@@ -36,7 +31,7 @@ class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some("/disposal-of-vehicle/business-choose-your-address"))
+      redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.url))
     }
   }
 }

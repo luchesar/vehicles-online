@@ -5,12 +5,11 @@ import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.VehicleLookup._
-import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetUpTradeDetailsPage}
+import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetUpTradeDetailsPage, DisposePage}
+import helpers.disposal_of_vehicle.Helper._
 
 class VehicleLookupControllerSpec extends WordSpec with Matchers {
-
   "BeforeYouStart - Controller" should {
-
     "present" in new WithApplication {
       // Arrange
       SetUpTradeDetailsPage.setupCache
@@ -26,22 +25,17 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers {
 
     "redirect to next page after a valid submit" in new WithApplication {
       // Arrange
-      val v5cReferenceNumberValid = "12345678910"
-      val v5cRegistrationNumberValid = "ABC123"
-      val v5cKeeperNameValid = "John"
-      val v5cPostcodeValid = "SA99 1BD" //TODO make use for helper values
-
-      SetUpTradeDetailsPage.setupCache
+     SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cReferenceNumberValid, v5cRegistrationNumberId -> v5cRegistrationNumberValid, v5cKeeperNameId -> v5cKeeperNameValid, v5cPostcodeId -> v5cPostcodeValid)
+        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cDocumentReferenceNumberValid, v5cRegistrationNumberId -> v5cVehicleRegistrationNumberValid, v5cKeeperNameId -> v5cKeeperNameValid, v5cPostcodeId -> v5cPostcodeValid)
 
       // Act
       val result = disposal_of_vehicle.VehicleLookup.submit(request)
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some("/disposal-of-vehicle/dispose"))
+      redirectLocation(result) should equal (Some(DisposePage.url))
      }
 
     "redirect to setupTradeDetails page when user is not logged in" in new WithApplication {
@@ -52,7 +46,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers {
       val result = disposal_of_vehicle.VehicleLookup.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some("/disposal-of-vehicle/setup-trade-details"))
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
     }
   }
 }
