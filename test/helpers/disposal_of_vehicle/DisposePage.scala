@@ -17,6 +17,7 @@ object DisposePage {
     browser.click(s"#${dateOfDisposalId}_day option[value='1']")
     browser.click(s"#${dateOfDisposalId}_month option[value='1']")
     browser.fill(s"#${dateOfDisposalId}_year") `with` "2000"
+    browser.click(s"#${consentId}")
 
     browser.submit("button[type='submit']")
   }
