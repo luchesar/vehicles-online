@@ -18,6 +18,9 @@
 	
 		<h2>@Messages("disposal_disposeconfirmation.disposaldetails")</h2>
 		<dl class="summary-detail-list">
+            <dt>@Messages("disposal_disposeconfirmation.transactionid_label"):</dt>
+            <dd>@Messages("disposal_disposeconfirmation.transactionid", "123-654-REP")</dd>
+
 			<dt>@Messages("disposal_disposeconfirmation.vehiclemake")</dt>
 			<dd>@data.vehicleMake</dd>
 			<dt>@Messages("disposal_disposeconfirmation.vehiclemodel")</dt>
@@ -45,14 +48,6 @@
 
                 @{disposalDate.`dd month, yyyy`}
             </dd>
-
-
-
-            <dt>@Messages("disposal_disposeconfirmation.transactionid_label"):</dt>
-            <dd>@Messages("disposal_disposeconfirmation.transactionid", "123-654-REP")</dd>
-
-
-
 		</dl>
 
 	</div>
