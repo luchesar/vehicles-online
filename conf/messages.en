@@ -238,6 +238,7 @@ disposal_dispose.consentnotgiven = Please indicate you have the current keeper''
 disposal_dispose.mileage.label = Vehicle mileage
 disposal_dispose.mileage.validation = You must enter a valid mileage between 0 and 999999
 disposal_dispose.dateofdisposal.label = Date of disposal
+disposal_dispose.backbutton = Back
 disposal_dispose.submitbutton = Dispose
 
 #page 6 - summary

@@ -187,6 +187,7 @@ disposal_dispose.consentnotgiven = Nodwch gennych ganiatad y ceidwad presennol
 disposal_dispose.mileage.label = Milltiroedd cerbydau
 disposal_dispose.mileage.validation = Mae''n rhaid i chi fynd i mewn milltiroedd dilys rhwng 0 a 999,999
 disposal_dispose.dateofdisposal.label = Dyddiad y gwaredu
+disposal_dispose.backbutton = Back
 disposal_dispose.submitbutton = Gwaredu
 
 disposal_disposeconfirmation.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion

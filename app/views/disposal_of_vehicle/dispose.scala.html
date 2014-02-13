@@ -12,77 +12,78 @@
     
     @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit) {
     
-<div class="two-col clearfix"> 
-    
-    <div class="first-col">
-	    <h2>@Messages("disposal_dispose.vehicledetails")</h2>
-	    <dl class="summary-detail-list">
-		    <dt>@Messages("disposal_dispose.vehiclemake")</dt>
-		    <dd>@data.vehicleMake</dd>
-		    <dt>@Messages("disposal_dispose.vehiclemodel")</dt>
-		    <dd>@data.vehicleModel</dd>
-		    <dt>@Messages("disposal_dispose.vehiclekeeper")</dt>
-		    <dd>
-		    	@data.keeperName<br />
-		    	@data.keeperAddress.line1<br />
-		    	@data.keeperAddress.line2<br />
-		    	@data.keeperAddress.line3<br />
-		    	@data.keeperAddress.postCode
-		    </dd>
-	    </dl>
-	    
-	    <!--
-	    Removed for now as out of scope of this sprint,
-	    as per conversation with Peter Timmer 10/2/14
-	    
-	    <div class="form-steps">
-	        <button type="submit" name="action" class="button" aria-label="Next button">@Messages("global.buttonnavupdate")</button>
-	    </div>
-	    -->
-	    
-    </div>
-    
-    <div class="second-col">
-	    	<h2>@Messages("disposal_dispose.disposevehicleto")</h2>
-	    	
-	        <div class="form-elements">
-	            
-	            <ul>
+    <div class="two-col clearfix">
 
-	            <li>
-			        @data.dealerName<br />
-			        @data.dealerAddress.line1<br />
-			        @data.dealerAddress.line2<br />
-			        @data.dealerAddress.line3<br />
-			        @data.dealerAddress.postCode
-		        </li>
+        <div class="first-col">
+            <h2>@Messages("disposal_dispose.vehicledetails")</h2>
+            <dl class="summary-detail-list">
+                <dt>@Messages("disposal_dispose.vehiclemake")</dt>
+                <dd>@data.vehicleMake</dd>
+                <dt>@Messages("disposal_dispose.vehiclemodel")</dt>
+                <dd>@data.vehicleModel</dd>
+                <dt>@Messages("disposal_dispose.vehiclekeeper")</dt>
+                <dd>
+                    @data.keeperName<br />
+                    @data.keeperAddress.line1<br />
+                    @data.keeperAddress.line2<br />
+                    @data.keeperAddress.line3<br />
+                    @data.keeperAddress.postCode
+                </dd>
+            </dl>
+
+            <!--
+            Removed for now as out of scope of this sprint,
+            as per conversation with Peter Timmer 10/2/14
+
+            <div class="form-steps">
+                <button type="submit" name="action" class="button" aria-label="Next button">@Messages("global.buttonnavupdate")</button>
+            </div>
+            -->
+
+        </div>
+
+        <div class="second-col">
+            <h2>@Messages("disposal_dispose.disposevehicleto")</h2>
+
+            <div class="form-elements">
+                <ul>
+                    <li>
+                        @data.dealerName<br />
+                        @data.dealerAddress.line1<br />
+                        @data.dealerAddress.line2<br />
+                        @data.dealerAddress.line3<br />
+                        @data.dealerAddress.postCode
+                    </li>
                     <!-- Checkbox must not be pre-ticked. -->
                     @checkbox(disposeForm(consentId), 'id -> "consent", '_showConstraints -> false, '_label -> "", '_text -> Messages("disposal_dispose.consent"))
 
-	                @valtechInputText(disposeForm(mileageId), args =
-	                '_label -> Messages("disposal_dispose.mileage.label"),
-	                '_showConstraints -> false,
-	                'pattern -> Mileage.pattern,
-	                'maxLength -> Mileage.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-	                'title -> Messages("disposal_dispose.mileage.validation"))
-	            </ul>
-	            <ul>
-	                @inputDayMonthYear(disposeForm(dateOfDisposalId), args = '_label -> Messages("disposal_dispose.dateofdisposal.label"))
-	            </ul>
-	        </div>
-	
-	        <div class="form-steps">
-	            
-	        </div>
-    
-    </div>
-    
-    <div class="form-steps">
-        <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_dispose.submitbutton")</button>
-        <div class="two-col-spacer">
-	        <button type="reset" name="action" class="button-not-implemented" aria-disabled="true" disabled>@Messages("global.buttonnavback")</button>
+                    @valtechInputText(disposeForm(mileageId), args =
+                    '_label -> Messages("disposal_dispose.mileage.label"),
+                    '_showConstraints -> false,
+                    'pattern -> Mileage.pattern,
+                    'maxLength -> Mileage.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                    'title -> Messages("disposal_dispose.mileage.validation"))
+                </ul>
+                <ul>
+                    @inputDayMonthYear(disposeForm(dateOfDisposalId), args = '_label -> Messages("disposal_dispose.dateofdisposal.label"))
+                </ul>
+            </div>
+
+            <div class="form-steps">
+
+            </div>
+
+            <div class="form-steps">
+                <a id="backButton" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present" class="button secondary" aria-label="Back button">@Messages("disposal_dispose.backbutton")</a>
+                <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_dispose.submitbutton")</button>
+
+                <div class="two-col-spacer">
+                    @{ /*
+                    <button type="reset" name="action" class="button-not-implemented" aria-disabled="true" disabled>@Messages("global.buttonnavback")</button>
+                    */ }
+                </div>
+            </div>
         </div>
     </div>
-    
     }
 }
