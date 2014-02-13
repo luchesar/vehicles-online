@@ -149,6 +149,9 @@ disposal_businessChooseYourAddress_title = WELSH Business: Choose your address
 disposal_businessChooseYourAddress_legend = WELSH Set up trade details
 disposal_businessChooseYourAddress_businessName_label = Enw busnes
 disposal_businessChooseYourAddress_businessName = {0}
+disposal_businessChooseYourAddress_addressSelect = Dewiswch eich cyfeiriad
+disposal_businessChooseYourAddress_addressSelect_label = Dewiswch eich cyfeiriad
+disposal_businessChooseYourAddress.button = Dewis
 
 #page not known - Vehicle Lookup
 disposal_setuptradedetails.title = Gwaredu cerbyd i mewn i'r fasnach foduron
