@@ -1,6 +1,5 @@
 package controllers.disposal_of_vehicle
 
-import mappings.disposal_of_vehicle.BusinessAddressSelect._
 import org.scalatest.{Matchers, WordSpec}
 import play.api.test.{FakeRequest, WithApplication}
 import controllers.disposal_of_vehicle
