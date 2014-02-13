@@ -14,7 +14,6 @@ import models.domain.change_of_address.LoginConfirmationModel
 import models.domain.change_of_address.V5cSearchModel
 import models.domain.common.Address
 
-
 /**
  * Provides fake or test implementations for traits
  */
