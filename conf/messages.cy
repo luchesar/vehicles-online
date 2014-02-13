@@ -198,6 +198,7 @@ disposal_disposeconfirmation.sendbutton = Anfon
 disposal_disposeconfirmation.transactionid = {0}
 disposal_disposeconfirmation.transactionid_label = Trafodiad yn
 disposal_disposeconfirmation.newdisposalbutton = gwaredu Newydd
+disposal_disposeconfirmation.disposaldate = Dyddiad gwaredu
 
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda
