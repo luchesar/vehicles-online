@@ -48,7 +48,7 @@
 	        <div class="form-elements">
 	            
 	            <ul>
-	            	@checkbox(disposeForm(consentId), 'id -> "consent", '_showConstraints -> false, '_label -> "", '_text -> Messages("disposal_dispose.consent"))
+
 	            <li>
 			        @data.dealerName<br />
 			        @data.dealerAddress.line1<br />
@@ -56,6 +56,8 @@
 			        @data.dealerAddress.line3<br />
 			        @data.dealerAddress.postCode
 		        </li>
+                    @checkbox(disposeForm(consentId), 'id -> "consent", '_showConstraints -> false, '_label -> "", '_text -> Messages("disposal_dispose.consent"))
+                    
 	                @valtechInputText(disposeForm(mileageId), args =
 	                '_label -> Messages("disposal_dispose.mileage.label"),
 	                '_showConstraints -> false,
