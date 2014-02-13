@@ -34,7 +34,7 @@ class DisposeFormSpec extends WordSpec with Matchers {
     }
 
     "reject if consent is not ticked" in {
-      disposeFormFiller(consent = "false", mileage = mileageValid, day = dateOfDisposalDayValid, month = dateOfDisposalMonthValid, year = dateOfDisposalYearValid).fold (
+      disposeFormFiller(consent = "", mileage = mileageValid, day = dateOfDisposalDayValid, month = dateOfDisposalMonthValid, year = dateOfDisposalYearValid).fold (
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },

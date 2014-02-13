@@ -5,7 +5,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
 import play.api.Play.current
-import models.domain.disposal_of_vehicle.{VehicleDetailsModel, DealerDetailsModel, VehicleLookupFormModel}
+import models.domain.disposal_of_vehicle.{VehicleDetailsModel, VehicleLookupFormModel}
 import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.V5cReferenceNumber._
 import mappings.V5cRegistrationNumber._

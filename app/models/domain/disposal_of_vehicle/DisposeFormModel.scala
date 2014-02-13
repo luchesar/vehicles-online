@@ -2,4 +2,4 @@ package models.domain.disposal_of_vehicle
 
 import models.DayMonthYear
 
-case class DisposeFormModel(consent: Boolean, mileage:Option[Int] = None, dateOfDisposal: DayMonthYear = DayMonthYear(None, None, None))
+case class DisposeFormModel(consent: String, mileage:Option[Int] = None, dateOfDisposal: DayMonthYear = DayMonthYear(None, None, None))

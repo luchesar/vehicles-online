@@ -3,18 +3,16 @@ package controllers.change_of_address
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
-import models.domain.change_of_address.{LoginConfirmationModel, V5cSearchModel, V5cSearchResponse, V5cSearchConfirmationModel}
-import controllers.Mappings._
+import models.domain.change_of_address.{LoginConfirmationModel, V5cSearchModel}
 import play.api.Logger
-import scala.concurrent.{ExecutionContext, Future, Await}
+import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import play.api.cache.Cache
 import play.api.Play.current
 import controllers.change_of_address.Helpers._
-import controllers.Mappings
 import modules.{injector}
 import mappings.V5cSearch._
-import mappings.{Postcode, V5cRegistrationNumber, V5cReferenceNumber}
+import mappings.{V5cRegistrationNumber, V5cReferenceNumber}
 import mappings.V5cReferenceNumber._
 import mappings.V5cRegistrationNumber._
 import mappings.Postcode._
