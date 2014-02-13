@@ -203,6 +203,7 @@ disposal_disposeconfirmation.emaillabel = Cyfeiriad e-bost
 disposal_disposeconfirmation.sendbutton = Anfon
 disposal_disposeconfirmation.transactionid = {0}
 disposal_disposeconfirmation.transactionid_label = Trafodiad yn
+disposal_disposeconfirmation.backbutton = Back
 disposal_disposeconfirmation.newdisposalbutton = Gwaredu Newydd
 disposal_disposeconfirmation.disposaldate = Dyddiad gwaredu
 
