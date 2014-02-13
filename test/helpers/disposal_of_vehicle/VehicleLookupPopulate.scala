@@ -6,6 +6,8 @@ import org.specs2.mock.Mockito
 import helpers.disposal_of_vehicle.Helper._
 
 object VehicleLookupPopulate {
+  val url = "/disposal-of-vehicle/vehicle-lookup"
+
   def happyPath(browser: TestBrowser, v5cReferenceNumber: String = v5cDocumentReferenceNumberValid, v5cVehicleRegistrationNumber: String = v5cVehicleRegistrationNumberValid, v5cKeeperName: String = v5cKeeperNameValid, v5cPostcode: String = v5cPostcodeValid) = {
     browser.goTo("/disposal-of-vehicle/vehicle-lookup")
     browser.fill("#v5cReferenceNumber") `with` v5cReferenceNumber
