@@ -4,7 +4,6 @@ import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
 import models.domain.disposal_of_vehicle.{VehicleDetailsModel, DealerDetailsModel, DisposeConfirmationFormModel, DisposeModel}
-import models.domain.common.Address
 import app.DisposalOfVehicle.DisposeConfirmation._
 import controllers.disposal_of_vehicle.Helpers._
 import play.api.Logger

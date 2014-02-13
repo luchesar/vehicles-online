@@ -1,7 +1,6 @@
 package helpers.change_of_address
 
 import models.domain.change_of_address.LoginConfirmationModel
-import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
 import play.api.Play.current
 import models.domain.common.Address

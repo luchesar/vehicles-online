@@ -1,8 +1,8 @@
 package uk.gov.gds.locality.api.models
 
-import play.api.libs.json.{Writes, Reads}
+
 import org.joda.time.DateTime
-import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
+
 
 
 case class Street(usrn: String, streetDescription: String, townName: String, administrativeArea: String)
