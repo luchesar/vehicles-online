@@ -5,7 +5,7 @@ import play.api.test.Helpers._
 import org.scalatest.{Matchers, WordSpec}
 import mappings.Authentication._
 import org.specs2.mock.Mockito
-import helpers.change_of_address.LoginCachePopulate
+import helpers.change_of_address.{LoginCachePopulate, AuthenticationPopulate, V5cSearchPagePopulate}
 import LoginCachePopulate._
 
 class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito{
@@ -32,7 +32,7 @@ class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito{
       val result = Authentication.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some("/are-you-registered"))
+      redirectLocation(result) should equal(Some(AuthenticationPopulate.url))
     }
 
     "redirect to next page after the button is clicked" in new WithApplication {
@@ -45,7 +45,7 @@ class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito{
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some("/v5c-search"))
+      redirectLocation(result) should equal (Some(V5cSearchPagePopulate.url))
     }
   }
 }
