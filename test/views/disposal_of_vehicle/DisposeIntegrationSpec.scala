@@ -4,6 +4,7 @@ import org.specs2.mutable.{Tags, Specification}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
 import helpers.disposal_of_vehicle.{VehicleLookupPage, BusinessChooseYourAddressPage, DisposePage, SetUpTradeDetailsPage}
+import mappings.disposal_of_vehicle.Dispose._
 
 class DisposeIntegrationSpec extends Specification with Tags {
   "Dispose Integration" should {
@@ -35,5 +36,24 @@ class DisposeIntegrationSpec extends Specification with Tags {
       // Assert
       titleMustEqual("Dispose a vehicle into the motor trade: set-up")
     }
+
+    "display validation errors when no fields are completed" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+
+      BusinessChooseYourAddressPage.setupCache
+      VehicleLookupPage.setupCache
+      browser.goTo(DisposePage.url)
+
+
+      browser.click(s"#${dateOfDisposalId}_day option[value='1']")
+      browser.click(s"#${dateOfDisposalId}_month option[value='1']")
+      browser.fill(s"#${dateOfDisposalId}_year") `with` "2000"
+      
+
+      browser.submit("button[type='submit']")
+      // Assert
+     checkNumberOfValidationErrors(1)
+    }
+
   }
 }
