@@ -209,7 +209,8 @@ disposal_businessChooseYourAddress_businessName_label = Business name
 disposal_businessChooseYourAddress_businessName = {0}
 disposal_businessChooseYourAddress_addressSelect = Choose your address
 disposal_businessChooseYourAddress_addressSelect_label = Choose your address
-disposal_businessChooseYourAddress.button = Select
+disposal_businessChooseYourAddress.backbutton = Back
+disposal_businessChooseYourAddress.submitbutton = Select
 
 #page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Dispose a vehicle into the motor trade: vehicle
@@ -221,7 +222,8 @@ disposal_vehiclelookup.v5cinputlabel.refNumIncorrect = You must enter a number w
 disposal_vehiclelookup.vrninputlabel = Vehicle registration number
 disposal_vehiclelookup.keepernamelabel = Full keeper name
 disposal_vehiclelookup.keeperpostcodelabel = Keeper postcode
-disposal_vehiclelookup.button = Find
+disposal_vehiclelookup.backbutton = Back
+disposal_vehiclelookup.button = Find vehicle details
 disposal_vehiclelookup.button2 = Edit
 
 #page 5 - confirm disposal
@@ -236,6 +238,7 @@ disposal_dispose.consentnotgiven = Please indicate you have the current keeper''
 disposal_dispose.mileage.label = Vehicle mileage
 disposal_dispose.mileage.validation = You must enter a valid mileage between 0 and 999999
 disposal_dispose.dateofdisposal.label = Date of disposal
+disposal_dispose.backbutton = Back
 disposal_dispose.submitbutton = Dispose
 
 #page 6 - summary
@@ -252,5 +255,6 @@ disposal_disposeconfirmation.emaillabel = Email address
 disposal_disposeconfirmation.sendbutton = Send
 disposal_disposeconfirmation.transactionid = {0}
 disposal_disposeconfirmation.transactionid_label = Transaction id
+disposal_disposeconfirmation.backbutton = Back
 disposal_disposeconfirmation.newdisposalbutton = New disposal
 disposal_disposeconfirmation.disposaldate = Disposal date
