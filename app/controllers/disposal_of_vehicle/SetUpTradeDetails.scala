@@ -36,7 +36,7 @@ object SetUpTradeDetails extends Controller {
   }
 
   private def storeDealerNameInCache(f: SetupTradeDetailsModel) = {
-    val key = mappings.disposal_of_vehicle.SetupTradeDetails.dealerNameId
+    val key = mappings.disposal_of_vehicle.SetupTradeDetails.cacheKey
     play.api.cache.Cache.set(key, f.traderBusinessName)
     Logger.debug(s"SetUpTradeDetails stored data in cache: key = $key, value = ${f.traderBusinessName}")
   }
