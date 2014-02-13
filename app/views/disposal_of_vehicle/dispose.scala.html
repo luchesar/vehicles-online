@@ -31,14 +31,16 @@
 		    </dd>
 	    </dl>
 	    
-	    <!--
+	    @{
+        /*
 	    Removed for now as out of scope of this sprint,
 	    as per conversation with Peter Timmer 10/2/14
 	    
 	    <div class="form-steps">
 	        <button type="submit" name="action" class="button" aria-label="Next button">@Messages("global.buttonnavupdate")</button>
 	    </div>
-	    -->
+	    */
+        }
 	    
     </div>
     
@@ -56,7 +58,7 @@
 			        @data.dealerAddress.line3<br />
 			        @data.dealerAddress.postCode
 		        </li>
-                    <!-- Checkbox must not be pre-ticked. -->
+                    @{/* Checkbox must not be pre-ticked. */}
                     @checkbox(disposeForm(consentId), 'id -> "consent", '_showConstraints -> false, '_label -> "", '_text -> Messages("disposal_dispose.consent"))
 
 	                @valtechInputText(disposeForm(mileageId), args =

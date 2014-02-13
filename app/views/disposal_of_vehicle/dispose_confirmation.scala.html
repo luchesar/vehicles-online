@@ -69,22 +69,20 @@
 	    		</li>
 
 	    		<li>@Messages("disposal_disposeconfirmation.exkeeperlettertext")</li>
-	    		@valtechInputText(disposeConfirmationForm(emailAddressId), args =
+
+	    		    @valtechInputTextWithButton(disposeConfirmationForm(emailAddressId), args =
 		                '_label -> Messages("disposal_disposeconfirmation.emaillabel"),
 		                '_showConstraints -> false)
-		        <li>
-		        	<div class="form-steps">
-		        		<button type="submit" name="send-email" class="button-not-implemented" aria-disabled="true" disabled>@Messages("disposal_disposeconfirmation.sendbutton")</button>
-		        	</div>
-		        </li>
-		        
-		        <!-- 
-		        	DEVELOPER NOTE:
+
+
+		        @{
+                    /*
+                    TODO DEVELOPER NOTE:
 		        	We need to work to work out a way of having helpers that output form elements without wrapper markup
 		        	and potentially without labels too for extra flexibility.
 		        	James Chapman 11/02/2014
-		        -->
-		        
+                     */
+                }
 	    	</ul>
 
 	    	}
