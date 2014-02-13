@@ -4,6 +4,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
+import helpers.disposal_of_vehicle.SetUpTradeDetailsPage
 
 class BeforeYouStartControllerSpec extends WordSpec with Matchers {
 
@@ -29,7 +30,7 @@ class BeforeYouStartControllerSpec extends WordSpec with Matchers {
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some("/disposal-of-vehicle/setup-trade-details"))
+      redirectLocation(result) should equal (Some(SetUpTradeDetailsPage.url))
      }
   }
 }

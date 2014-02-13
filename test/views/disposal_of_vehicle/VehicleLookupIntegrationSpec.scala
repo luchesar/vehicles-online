@@ -14,7 +14,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      browser.goTo("/disposal-of-vehicle/vehicle-lookup")
+      browser.goTo(VehicleLookupPopulate.url)
 
       // Assert
       titleMustEqual("Dispose a vehicle into the motor trade: vehicle")
@@ -183,7 +183,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
     "redirect when no traderBusinessName is cached" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      browser.goTo("/disposal-of-vehicle/vehicle-lookup")
+      browser.goTo(VehicleLookupPopulate.url)
 
       // Assert
       titleMustEqual("Dispose a vehicle into the motor trade: set-up")
