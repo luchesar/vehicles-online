@@ -3,7 +3,7 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetUpTradeDetailsPage}
+import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
 
 class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
   "business_choose_your_address Integration" should {
@@ -13,7 +13,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
       browser.goTo(BusinessChooseYourAddressPage.url)
 
       // Assert
-      titleMustEqual("Business: Choose your address")
+      titleMustEqual(BusinessChooseYourAddressPage.title)
     }
 
     "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
@@ -22,7 +22,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
       BusinessChooseYourAddressPage.happyPath(browser)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade: vehicle")
+      titleMustEqual(VehicleLookupPage.title)
     }
 
     "redirect when no traderBusinessName is cached" in new WithBrowser with BrowserMatchers {
@@ -30,7 +30,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
       browser.goTo(BusinessChooseYourAddressPage.url)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade: set-up")
+      titleMustEqual(SetUpTradeDetailsPage.title)
     }
 
     "display one validation error messages when addressSelected is not in the list" in new WithBrowser with BrowserMatchers {
@@ -40,6 +40,15 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
 
       //Assert
       checkNumberOfValidationErrors(1)
+    }
+
+    "display previous page when back link is clicked" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      SetUpTradeDetailsPage.happyPath(browser)
+      browser.click("#backButton")
+
+      //Assert
+      titleMustEqual(SetUpTradeDetailsPage.title)
     }
   }
 }

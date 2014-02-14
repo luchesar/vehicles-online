@@ -7,6 +7,7 @@ import play.api.Play.current
 
 object DisposePage {
   val url = "/disposal-of-vehicle/dispose"
+  val title = "Dispose a vehicle into the motor trade: confirm"
 
   def happyPath(browser: TestBrowser) = {
     browser.goTo(url)

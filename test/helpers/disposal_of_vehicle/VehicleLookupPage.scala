@@ -8,6 +8,7 @@ import play.api.Play.current
 
 object VehicleLookupPage {
   val url = "/disposal-of-vehicle/vehicle-lookup"
+  val title = "Dispose a vehicle into the motor trade: vehicle"
 
   def happyPath(browser: TestBrowser, v5cReferenceNumber: String = v5cDocumentReferenceNumberValid, v5cVehicleRegistrationNumber: String = v5cVehicleRegistrationNumberValid, v5cKeeperName: String = v5cKeeperNameValid, v5cPostcode: String = v5cPostcodeValid) = {
     browser.goTo("/disposal-of-vehicle/vehicle-lookup")

@@ -7,6 +7,7 @@ import mappings.disposal_of_vehicle.SetupTradeDetails._
 
 object SetUpTradeDetailsPage {
   val url = "/disposal-of-vehicle/setup-trade-details"
+  val title = "Dispose a vehicle into the motor trade: set-up"
 
   def setupCache() = {
     val key = mappings.disposal_of_vehicle.SetupTradeDetails.dealerNameId

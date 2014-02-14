@@ -3,7 +3,7 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.SetUpTradeDetailsPage
+import helpers.disposal_of_vehicle.{SetUpTradeDetailsPage, BusinessChooseYourAddressPage}
 
 class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
 
@@ -14,7 +14,7 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
       browser.goTo(SetUpTradeDetailsPage.url)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade: set-up")
+      titleMustEqual(SetUpTradeDetailsPage.title)
     }
 
     "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
@@ -22,7 +22,7 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
       SetUpTradeDetailsPage.happyPath(browser)
 
       // Assert
-      titleMustEqual("Business: Choose your address")
+      titleMustEqual(BusinessChooseYourAddressPage.title)
     }
 
     "display five validation error messages when no details are entered" in new WithBrowser with BrowserMatchers {
