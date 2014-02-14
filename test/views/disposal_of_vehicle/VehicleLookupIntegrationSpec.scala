@@ -3,7 +3,7 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, VehicleLookupPage, SetUpTradeDetailsPage}
+import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, VehicleLookupPage, SetUpTradeDetailsPage, DisposePage}
 
 class VehicleLookupIntegrationSpec extends Specification with Tags {
 
@@ -16,7 +16,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       browser.goTo(VehicleLookupPage.url)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade: vehicle")
+      titleMustEqual(VehicleLookupPage.title)
     }
 
     "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
@@ -27,7 +27,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       VehicleLookupPage.happyPath(browser)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade: confirm")
+      titleMustEqual(DisposePage.title)
     }
 
     "display three validation error messages when no v5cReferenceNumber is entered" in new WithBrowser with BrowserMatchers {
@@ -196,7 +196,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       browser.click("#backButton")
 
       //Assert
-      titleMustEqual("Business: Choose your address")
+      titleMustEqual(BusinessChooseYourAddressPage.title)
     }
   }
 }
