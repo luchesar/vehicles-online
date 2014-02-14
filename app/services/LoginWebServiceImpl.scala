@@ -8,9 +8,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import app.JsonSupport._
 import utils.helpers.Environment
-import javax.inject.Singleton
 
-@Singleton
 class LoginWebServiceImpl() extends LoginWebService {
   
   override def invoke(cmd: LoginPageModel): Future[LoginResponse] = {

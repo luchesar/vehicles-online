@@ -15,9 +15,8 @@ import mappings.{V5cRegistrationNumber, V5cReferenceNumber}
 import mappings.V5cReferenceNumber._
 import mappings.V5cRegistrationNumber._
 import mappings.Postcode._
-import javax.inject.{Singleton, Inject}
+import javax.inject.Inject
 
-@Singleton
 class VehicleSearch @Inject() (webService: services.V5cSearchWebService) extends Controller {
   val vehicleSearchForm = Form(
     mapping(

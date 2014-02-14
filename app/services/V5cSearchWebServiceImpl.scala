@@ -10,9 +10,7 @@ import app.JsonSupport._
 import utils.helpers.Environment
 import javax.inject.Singleton
 
-@Singleton
 class V5cSearchWebServiceImpl() extends V5cSearchWebService {
-  
   override def invoke(cmd: V5cSearchModel): Future[V5cSearchResponse] = {
     val endPoint = s"${Environment.microServiceUrlBase}/vehicles/v5c-search"      
     Logger.debug(s"Calling V5C micro service on ${endPoint}...")
@@ -23,5 +21,4 @@ class V5cSearchWebServiceImpl() extends V5cSearchWebService {
       resp.json.as[V5cSearchResponse]
     }
   }
-  
 }

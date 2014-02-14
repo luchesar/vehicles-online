@@ -41,7 +41,6 @@ object TestModule extends ScalaModule {
   /**
    * Fake implementation of the FakeAddressLookupService trait
    */
-  @Singleton
   class FakeAddressLookupService() extends AddressLookupService {
     override def fetchAddress(postcode: String): Map[String, String] = {
       Map(

@@ -9,9 +9,8 @@ import play.api.cache.Cache
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import play.api.Play.current
-import javax.inject.{Singleton, Inject}
+import javax.inject.Inject
 
-@Singleton
 class LoginPage @Inject() (webService: services.LoginWebService) extends Controller {
   val loginPageForm = Form(
     mapping(

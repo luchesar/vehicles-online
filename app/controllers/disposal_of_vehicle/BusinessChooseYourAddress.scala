@@ -10,9 +10,8 @@ import controllers.disposal_of_vehicle.Helpers._
 import play.api.Logger
 import play.api.Play.current
 import mappings.disposal_of_vehicle.DealerDetails
-import javax.inject.{Singleton, Inject}
+import javax.inject.Inject
 
-@Singleton
 class BusinessChooseYourAddress @Inject() (addressLookupService: services.AddressLookupService) extends Controller {
   val fetchAddresses = addressLookupService.fetchAddress("TEST") // TODO pass in postcode submitted on the previous page.
   
