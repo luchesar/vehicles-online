@@ -4,8 +4,7 @@ import play.api.mvc._
 
 object AreYouRegistered extends Controller {
 
-  def present = Action {
-    implicit request =>
+  def present = Action { implicit request =>
       Ok(views.html.change_of_address.are_you_registered())
   }
 

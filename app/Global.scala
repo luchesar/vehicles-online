@@ -27,7 +27,6 @@ object Global extends GlobalSettings {
 
 
   override def onStart(app: Application) {
-
     Logger.info("vehicles-online Started") // used for operations, do not remove
   }
 

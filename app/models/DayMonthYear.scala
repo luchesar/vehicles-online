@@ -17,16 +17,24 @@ case class DayMonthYear(day: Option[Int], month: Option[Int], year: Option[Int],
   def `dd/MM/yyyy`: String = pad(day) + "/" + pad(month) + "/" + year.fold("")(_.toString)
 
   def -(amount: Int) = new Period {
-    override def days = adjust { _.minusDays(amount) }
+    override def days = adjust {
+      _.minusDays(amount)
+    }
 
-    override def weeks = adjust { _.minusWeeks(amount) }
+    override def weeks = adjust {
+      _.minusWeeks(amount)
+    }
 
-    override def months = adjust { _.minusMonths(amount) }
+    override def months = adjust {
+      _.minusMonths(amount)
+    }
 
-    override def years = adjust { _.minusYears(amount) }
+    override def years = adjust {
+      _.minusYears(amount)
+    }
   }
 
-  def numberOfCharactersInput = List(day, month, year, hour, minutes).foldLeft(0) { (x, i) => x + i.fold(0)(_.toString.length) }
+  def numberOfCharactersInput = List(day, month, year, hour, minutes).foldLeft(0) { (x, i) => x + i.fold(0)(_.toString.length)}
 
   private def pad(i: Option[Int]): String = i.fold("")(i => if (i < 10) s"0$i" else s"$i")
 
@@ -38,14 +46,16 @@ case class DayMonthYear(day: Option[Int], month: Option[Int], year: Option[Int],
     case Failure(_) => this
   }
 
-  private def format(pattern: String): String = Try(new DateTime(year.getOrElse(0), month.getOrElse(0), day.getOrElse(0), hour.getOrElse(0), minutes.getOrElse(0))) match {
-    case Success(dt: DateTime) => DateTimeFormat.forPattern(pattern).print(dt)
-    case Failure(_) => ""
+  private def format(pattern: String): String = {
+    Try(new DateTime(year.getOrElse(0), month.getOrElse(0), day.getOrElse(0), hour.getOrElse(0), minutes.getOrElse(0))) match {
+      case Success(dt: DateTime) => DateTimeFormat.forPattern(pattern).print(dt)
+      case Failure(_) => ""
+    }
   }
 }
 
-object DayMonthYearComparator extends Ordering[Option[DayMonthYear]]{
-  def compare(a:Option[DayMonthYear],b:Option[DayMonthYear]): Int = {
+object DayMonthYearComparator extends Ordering[Option[DayMonthYear]] {
+  def compare(a: Option[DayMonthYear], b: Option[DayMonthYear]): Int = {
     (Try(new DateTime(a.get.year.get, a.get.month.get, a.get.day.get, a.get.hour.get, a.get.minutes.get)) match {
       case Success(dt: DateTime) => dt
       case Failure(_) => new DateTime()
@@ -58,6 +68,7 @@ object DayMonthYearComparator extends Ordering[Option[DayMonthYear]]{
 }
 
 object DayMonthYear {
+
   import scala.language.implicitConversions
 
   implicit def dateTimeToDayMonthYear(dt: DateTime) = apply(dt)
