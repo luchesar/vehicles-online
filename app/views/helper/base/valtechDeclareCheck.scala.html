@@ -1,0 +1,24 @@
+@(field: play.api.data.Field, args: (Symbol, Any)*)(implicit handler: helper.FieldConstructor, lang: Lang)
+
+@import helper._
+@import utils.helpers.CryptoHelper
+@import utils.helpers._
+@import views.html.helper.base._
+@import utils.helpers.HtmlArgsExtensions._
+@import play.api.templates.PlayMagic.toHtmlArgs
+
+@boxValue = @{ args.toMap.get('value).getOrElse("true") } @*TODO make a helper extension method for this.*@
+
+@input(field, args: _*) { (id, name, value, htmlArgs) =>
+
+@*TODO make a helper extension method for this. This is really confusing as 'value' is being set in a separate method above *@
+<label>
+    <input type="checkbox"
+        id="@CryptoHelper.encryptAES(id)"
+        name="@CryptoHelper.encryptAES(name)"
+        value="@boxValue"
+        @(if(value == Some(boxValue)) "checked" else "")
+        @toHtmlArgs(htmlArgs.filterKeys(_ != 'value))>
+    @valtechLabelText(field,args:_*)
+</label>
+}

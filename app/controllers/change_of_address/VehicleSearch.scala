@@ -27,43 +27,39 @@ class VehicleSearch @Inject() (webService: services.V5cSearchWebService) extends
   )
 
   def present = Action { implicit request =>
-       isUserLoggedIn() match {
-        case true => Ok(views.html.change_of_address.v5c_search(vehicleSearchForm, fetchData))
-        case false => Redirect(routes.AreYouRegistered.present)
-      }
+    isUserLoggedIn() match {
+      case true => Ok(views.html.change_of_address.v5c_search(vehicleSearchForm, fetchData))
+      case false => Redirect(routes.AreYouRegistered.present)
+    }
   }
 
-  def submit = Action.async {
-    implicit request => {
+  def submit = Action.async { implicit request => {
       vehicleSearchForm.bindFromRequest.fold(
         formWithErrors => Future {
           Logger.debug(s"Form validation failed posted data = ${formWithErrors.errors}")
-          BadRequest(views.html.change_of_address.v5c_search(formWithErrors, fetchData())) },
+          BadRequest(views.html.change_of_address.v5c_search(formWithErrors, fetchData()))
+        },
         v5cForm => {
           Logger.debug("V5cSearch form validation has passed")
           Logger.debug("Calling V5C micro service...")
-
-          val result = webService.invoke(v5cForm).map { resp => {
+          val result = webService.invoke(v5cForm).map { resp =>
             Logger.debug(s"Web service call successful - response = ${resp}")
 
-            play.api.cache.Cache.set(V5cRegistrationNumber.key, v5cForm.v5cRegistrationNumber)
-            play.api.cache.Cache.set(V5cReferenceNumber.key, v5cForm.v5cReferenceNumber)
+            Cache.set(V5cRegistrationNumber.key, v5cForm.v5cRegistrationNumber)
+            Cache.set(V5cReferenceNumber.key, v5cForm.v5cReferenceNumber)
 
             val key = v5cForm.v5cReferenceNumber + "." + v5cForm.v5cRegistrationNumber
             Logger.debug(s"V5cSearch storing data returned from micro service in cache using key: $key")
-            play.api.cache.Cache.set(key, resp.v5cSearchConfirmationModel)
+            Cache.set(key, resp.v5cSearchConfirmationModel)
 
             Redirect(routes.ConfirmVehicleDetails.present)
-          }}
-            .recoverWith{
-              case e: Throwable => {
-                Future { 
-            	  Logger.debug(s"Web service call failed. Stacktrace: ${e.getStackTrace}")
-            	  BadRequest("The remote server didn't like the request.")
-                }
-              }
+          }.recoverWith {
+            case e: Throwable => Future {
+              Logger.debug(s"Web service call failed. Stacktrace: ${e.getStackTrace}")
+              BadRequest("The remote server didn't like the request.")
             }
-            result
+          }
+          result
         }
       )
     }

@@ -1,6 +1,6 @@
 @(elements: helper.FieldElements)
 
-@import utils.helpers.ValtechCrypto
+@import utils.helpers.CryptoHelper
 
 <div class="group declare @if(elements.hasErrors) { validation-check } @if(elements.args.contains('secondary)) {secondary}">
 @if(elements.hasErrors) {

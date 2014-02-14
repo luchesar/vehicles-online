@@ -20,16 +20,12 @@ class LoginPage @Inject() (webService: services.LoginWebService) extends Control
   )
 
   // Note that the request must be made implicit so play can extract the language header for I18N
-  def present = Action {
-    implicit request =>
+  def present = Action { implicit request =>
       Logger.info("LoginPage Preferred languages (in order) from browser: " + request.acceptLanguages.map(_.code).mkString(", "))
       Ok(views.html.change_of_address.login_page(loginPageForm))
   }
 
-  def submit = Action.async {
-    implicit request => {
-
-
+  def submit = Action.async { implicit request => {
       loginPageForm.bindFromRequest.fold(
         formWithErrors => Future {
           BadRequest(views.html.change_of_address.login_page(formWithErrors))
@@ -44,23 +40,17 @@ class LoginPage @Inject() (webService: services.LoginWebService) extends Control
   }
 
   private def confirmLogin(webService: services.LoginWebService, loginPageForm: LoginPageModel) : Future[SimpleResult] = {
-    webService.invoke(loginPageForm).map {
-      resp => {
-        Logger.debug(s"LoginPage Web service call successful - response = ${resp}")
-
-        val key = mappings.LoginConfirmation.key
-        Cache.set(key, resp.loginConfirmationModel)
-        Logger.debug(s"LoginPage set value for key: $key")
-        Redirect(routes.LoginConfirmation.present())
-      }
-    }
-      .recoverWith {
-      case e: Throwable => {
-        Future {
+    webService.invoke(loginPageForm).map { resp =>
+      Logger.debug(s"LoginPage Web service call successful - response = ${resp}")
+      val key = mappings.LoginConfirmation.key
+      Cache.set(key, resp.loginConfirmationModel)
+      Logger.debug(s"LoginPage set value for key: $key")
+      Redirect(routes.LoginConfirmation.present)
+    }.recoverWith {
+      case e: Throwable => Future {
           Logger.error("Web service call failed")
           BadRequest("The remote server didn't like the request.")
         }
-      }
     }
   }
 

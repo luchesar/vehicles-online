@@ -4,7 +4,7 @@
 @import utils.helpers.EmptyTemplate._
 @import views.html.helper._
 @import views.html.helper.base._
-@import utils.helpers.ValtechCrypto
+@import utils.helpers.CryptoHelper
 @import scala.language.postfixOps
 @import views.html.helper.dateConstraintRequired
 @import views.html.helper.base.valtechSelect
@@ -14,7 +14,7 @@
 @{/* datePlaceholder */}
 @dateConstraintRequired(field, args:_*)
 
-<ul class="inline year" id="@ValtechCrypto.encryptAES(id)">
+<ul class="inline year" id="@CryptoHelper.encryptAES(id)">
     <li>
         @valtechSelect(field("day"), options = Seq("" -> Messages("datePlaceholder.day")) ++ ((1 to 31) map(v => (v toString) -> (if (v < 10) "0" + v else (v toString)))).asInstanceOf[Seq[(String, String)]])
     </li>

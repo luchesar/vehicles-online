@@ -4,7 +4,7 @@ import app.ConfigProperties._
 import play.api.libs.Crypto
 import java.util.UUID
 
-object ValtechCrypto {
+object CryptoHelper {
   val encrypt = getProperty("encryptFields", true)
 
   val staticSecret = getProperty("staticSecret", false)

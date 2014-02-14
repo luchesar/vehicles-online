@@ -26,6 +26,8 @@ object ApplicationBuild extends Build {
 
   val sV = Seq(scalaVersion := "2.10.3")
 
+  val scalaCheck = org.scalastyle.sbt.ScalastylePlugin.Settings
+
   val sTest =
   if (System.getProperty("include") != null ) {
     Seq(testOptions in Test += Tests.Argument("include", System.getProperty("include")))
@@ -41,7 +43,7 @@ object ApplicationBuild extends Build {
 
   val jcoco = Seq(parallelExecution in jacoco.Config := false)
 
-  val appSettings: Seq[Def.Setting[_]] = sOrg ++ SassPlugin.sassSettings ++ sV ++ sO ++ gS ++ sTest ++ jO ++ f ++ jcoco
+  val appSettings: Seq[Def.Setting[_]] = sOrg ++ SassPlugin.sassSettings ++ sV ++ sO ++ gS ++ sTest ++ jO ++ f ++ jcoco ++ scalaCheck
 
   val main = play.Project(appName, appVersion, appDependencies, settings = play.Project.playScalaSettings ++ jacoco.settings).settings(appSettings: _*)
 }

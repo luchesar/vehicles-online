@@ -15,7 +15,7 @@ class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers with Mock
     val businessChooseYourAddress = new BusinessChooseYourAddress(mockAddressLookupService)
 
     def chooseYourAddressFiller(addressSelected: String = addressSelectedValid) = {
-      businessChooseYourAddress.businessChooseYourAddressForm.bind(
+      businessChooseYourAddress.form.bind(
         Map(
           addressSelectId -> addressSelected
         )

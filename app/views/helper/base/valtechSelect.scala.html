@@ -1,7 +1,7 @@
 @(field: play.api.data.Field, options: Seq[(String, String)], args: (Symbol, Any)*)(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import views.html.helper.base.valtechLabel
-@import utils.helpers.ValtechCrypto
+@import utils.helpers.CryptoHelper
 @import utils.helpers._
 @import utils.helpers.SelectHelper._
 @import play.api.templates.PlayMagic.toHtmlArgs
@@ -9,7 +9,7 @@
 @helper.input(field, args: _*) { (id, name, selectedKey, htmlArgs) =>
     @valtechLabel(field, args: _*)
 
-    <select id="@ValtechCrypto.encryptAES(field.id)" name="@ValtechCrypto.encryptAES(name)" @toHtmlArgs(htmlArgs)>
+    <select id="@CryptoHelper.encryptAES(field.id)" name="@CryptoHelper.encryptAES(name)" @toHtmlArgs(htmlArgs)>
         @defaultOption(htmlArgs)
 
         @options.map { case (mappingValue, humanReadableLabel) =>

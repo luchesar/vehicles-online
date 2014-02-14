@@ -43,10 +43,12 @@ object Dispose extends Controller {
       disposeForm.bindFromRequest.fold(
         formWithErrors => {
           (fetchDealerDetailsFromCache, fetchVehicleDetailsFromCache) match {
-            case (Some(dealerDetails), Some(vehicleDetails)) => BadRequest(views.html.disposal_of_vehicle.dispose(fetchData(dealerDetails, vehicleDetails), formWithErrors))
-            case _ => {
+            case (Some(dealerDetails), Some(vehicleDetails)) =>
+              val disposeModel = fetchData(dealerDetails, vehicleDetails)
+              BadRequest(views.html.disposal_of_vehicle.dispose(disposeModel, formWithErrors))
+            case _ =>
               Logger.error("could not find dealer details in cache on Dispose submit")
-              Redirect(routes.SetUpTradeDetails.present)}
+              Redirect(routes.SetUpTradeDetails.present)
               // TODO write controller and integration tests for re-routing when not logged in.
           }
         },
