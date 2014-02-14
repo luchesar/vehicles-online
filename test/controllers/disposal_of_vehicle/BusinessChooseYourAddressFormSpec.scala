@@ -2,13 +2,20 @@ package controllers.disposal_of_vehicle
 
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.BusinessAddressSelect._
+import org.scalatest.mock.MockitoSugar
+import org.mockito.Mockito._
+import org.mockito.Matchers._
+import modules.TestModule.FakeAddressLookupService
 
-class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers {
+class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers with MockitoSugar {
   "BusinesssChooseYourAddress Form" should {
     val addressSelectedValid = address1.toViewFormat()
+    val mockAddressLookupService = mock[services.AddressLookupService]
+    when(mockAddressLookupService.fetchAddress(anyString())).thenReturn(new FakeAddressLookupService().fetchAddress("TEST"))
+    val businessChooseYourAddress = new BusinessChooseYourAddress(mockAddressLookupService)
 
     def chooseYourAddressFiller(addressSelected: String = addressSelectedValid) = {
-      BusinessChooseYourAddress.businessChooseYourAddressForm.bind(
+      businessChooseYourAddress.businessChooseYourAddressForm.bind(
         Map(
           addressSelectId -> addressSelected
         )

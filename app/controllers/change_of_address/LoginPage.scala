@@ -4,16 +4,15 @@ import play.api.data.Forms._
 import play.api.mvc._
 import play.api.data.Form
 import play.api.Logger
-import modules._
 import models.domain.change_of_address.LoginPageModel
 import play.api.cache.Cache
-import controllers.Mappings
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import play.api.Play.current
+import javax.inject.{Singleton, Inject}
 
-object LoginPage extends Controller {
-
+@Singleton
+class LoginPage @Inject() (webService: services.LoginWebService) extends Controller {
   val loginPageForm = Form(
     mapping(
       "username" -> nonEmptyText,
@@ -39,8 +38,6 @@ object LoginPage extends Controller {
         loginPageForm => { // TODO this is not really a form, it is a model. We need to rename in all controllers.
           Logger.debug("LoginPage form validation has passed")
           Logger.debug("LoginPage calling login micro service...")
-
-          val webService = injector.getInstance(classOf[services.LoginWebService])
           confirmLogin(webService, loginPageForm)
         }
       )
@@ -69,3 +66,5 @@ object LoginPage extends Controller {
   }
 
 }
+
+object LoginPage

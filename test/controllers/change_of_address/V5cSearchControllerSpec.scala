@@ -2,16 +2,23 @@ package controllers.change_of_address
 
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
-import controllers.change_of_address
 import org.scalatest.{Matchers, WordSpec}
 import mappings.V5cSearch._
-import org.specs2.mock.Mockito
 import helpers.change_of_address.LoginCachePopulate
 import LoginCachePopulate._
+import org.mockito.Mockito._
+import org.mockito.Matchers._
+import models.domain.change_of_address.V5cSearchModel
+import modules.TestModule.FakeV5cSearchWebService
+import org.scalatest.mock.MockitoSugar
 
-class V5cSearchControllerSpec extends WordSpec with Matchers with Mockito{
+class V5cSearchControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
   "V5cSearch - Controller" should {
+    val mockV5cSearchModel = mock[V5cSearchModel]
+    val mockWebService = mock[services.V5cSearchWebService]
+    when(mockWebService.invoke(any[V5cSearchModel])).thenReturn(FakeV5cSearchWebService().invoke(mockV5cSearchModel))
+    val vehicleSearch = new VehicleSearch(mockWebService)
 
     "present when user has logged in" in new WithApplication {
       // Arrange
@@ -20,7 +27,7 @@ class V5cSearchControllerSpec extends WordSpec with Matchers with Mockito{
       val request = FakeRequest().withSession()
 
       // Act
-      val result = change_of_address.VehicleSearch.present(request)
+      val result = vehicleSearch.present(request)
 
       // Assert
       status(result) should equal(OK)
@@ -31,7 +38,7 @@ class V5cSearchControllerSpec extends WordSpec with Matchers with Mockito{
       val request = FakeRequest().withSession()
 
       // Act
-      val result = change_of_address.VehicleSearch.present(request)
+      val result = vehicleSearch.present(request)
 
       // Assert
       redirectLocation(result) should equal(Some("/are-you-registered"))
@@ -43,14 +50,14 @@ class V5cSearchControllerSpec extends WordSpec with Matchers with Mockito{
       val v5cRegistrationNumberValid = "a1"
       val v5cPostcodeValid = "sa44dw"
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cReferenceNumberValid,v5cRegistrationNumberId-> v5cRegistrationNumberValid, v5cPostcodeId -> v5cPostcodeValid)
+        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cReferenceNumberValid, v5cRegistrationNumberId -> v5cRegistrationNumberValid, v5cPostcodeId -> v5cPostcodeValid)
 
       // Act
-      val result = change_of_address.VehicleSearch.submit(request)
+      val result = vehicleSearch.submit(request)
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some("/confirm-vehicle-details"))
+      redirectLocation(result) should equal(Some("/confirm-vehicle-details"))
     }
 
   }

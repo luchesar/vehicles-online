@@ -10,15 +10,15 @@ import ExecutionContext.Implicits.global
 import play.api.cache.Cache
 import play.api.Play.current
 import controllers.change_of_address.Helpers._
-import modules.{injector}
 import mappings.V5cSearch._
 import mappings.{V5cRegistrationNumber, V5cReferenceNumber}
 import mappings.V5cReferenceNumber._
 import mappings.V5cRegistrationNumber._
 import mappings.Postcode._
+import javax.inject.{Singleton, Inject}
 
-object VehicleSearch extends Controller {
-
+@Singleton
+class VehicleSearch @Inject() (webService: services.V5cSearchWebService) extends Controller {
   val vehicleSearchForm = Form(
     mapping(
       v5cReferenceNumberId -> v5cReferenceNumber(minLength = 11, maxLength = 11),
@@ -43,7 +43,7 @@ object VehicleSearch extends Controller {
         v5cForm => {
           Logger.debug("V5cSearch form validation has passed")
           Logger.debug("Calling V5C micro service...")
-          val webService = injector.getInstance(classOf[services.V5cSearchWebService])
+
           val result = webService.invoke(v5cForm).map { resp => {
             Logger.debug(s"Web service call successful - response = ${resp}")
 

@@ -5,16 +5,15 @@ import play.api.data.Form
 import play.api.data.Forms._
 import models.domain.disposal_of_vehicle.{DealerDetailsModel, BusinessChooseYourAddressModel}
 import mappings.disposal_of_vehicle.BusinessAddressSelect._
-import modules._
 import mappings.DropDown._
 import controllers.disposal_of_vehicle.Helpers._
 import play.api.Logger
 import play.api.Play.current
 import mappings.disposal_of_vehicle.DealerDetails
+import javax.inject.{Singleton, Inject}
 
-object BusinessChooseYourAddress extends Controller {
-  val addressLookupService = injector.getInstance(classOf[services.AddressLookupService])
-
+@Singleton
+class BusinessChooseYourAddress @Inject() (addressLookupService: services.AddressLookupService) extends Controller {
   val fetchAddresses = addressLookupService.fetchAddress("TEST") // TODO pass in postcode submitted on the previous page.
   
   val businessChooseYourAddressForm = Form(

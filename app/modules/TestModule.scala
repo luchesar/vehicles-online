@@ -13,6 +13,7 @@ import models.domain.change_of_address.LoginResponse
 import models.domain.change_of_address.LoginConfirmationModel
 import models.domain.change_of_address.V5cSearchModel
 import models.domain.common.Address
+import javax.inject.Singleton
 
 /**
  * Provides fake or test implementations for traits
@@ -40,7 +41,8 @@ object TestModule extends ScalaModule {
   /**
    * Fake implementation of the FakeAddressLookupService trait
    */
-  case class FakeAddressLookupService() extends AddressLookupService {
+  @Singleton
+  class FakeAddressLookupService() extends AddressLookupService {
     override def fetchAddress(postcode: String): Map[String, String] = {
       Map(
         "" -> "Please select",

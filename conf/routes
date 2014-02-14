@@ -2,6 +2,10 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# IoC
+# we use the @controllers syntax here so that the router knows we are referring to a class. In turn it
+# will call on the GlobalSettings.getController method to resolve the actual controller instance.
+
 ######################
 ## CHANGE OF KEEPER
 ######################
@@ -28,8 +32,8 @@ GET         /sign-in-provider               controllers.change_of_address.SignIn
 POST        /sign-in-provider               controllers.change_of_address.SignInProvider.submit
 
 # Page 6 IDA login page
-GET         /login-page                     controllers.change_of_address.LoginPage.present
-POST        /login-page                     controllers.change_of_address.LoginPage.submit
+GET         /login-page                     @controllers.change_of_address.LoginPage.present
+POST        /login-page                     @controllers.change_of_address.LoginPage.submit
 
 # Page 7 IDA login confirmation
 GET         /login-confirmation             controllers.change_of_address.LoginConfirmation.present
@@ -40,8 +44,8 @@ GET         /authentication                 controllers.change_of_address.Authen
 POST        /authentication                 controllers.change_of_address.Authentication.submit
 
 # Page 9 V5c Search page
-GET         /v5c-search                     controllers.change_of_address.VehicleSearch.present
-POST        /v5c-search                     controllers.change_of_address.VehicleSearch.submit
+GET         /v5c-search                     @controllers.change_of_address.VehicleSearch.present
+POST        /v5c-search                     @controllers.change_of_address.VehicleSearch.submit
 
 #Page 10 Confirm Vehicle Details
 GET         /confirm-vehicle-details        controllers.change_of_address.ConfirmVehicleDetails.present
@@ -64,8 +68,8 @@ GET         /disposal-of-vehicle/setup-trade-details            controllers.disp
 POST        /disposal-of-vehicle/setup-trade-details            controllers.disposal_of_vehicle.SetUpTradeDetails.submit
 
 #page 3 - business choose your address
-GET         /disposal-of-vehicle/business-choose-your-address   controllers.disposal_of_vehicle.BusinessChooseYourAddress.present
-POST        /disposal-of-vehicle/business-choose-your-address   controllers.disposal_of_vehicle.BusinessChooseYourAddress.submit
+GET         /disposal-of-vehicle/business-choose-your-address   @controllers.disposal_of_vehicle.BusinessChooseYourAddress.present
+POST        /disposal-of-vehicle/business-choose-your-address   @controllers.disposal_of_vehicle.BusinessChooseYourAddress.submit
 
 
 GET         /disposal-of-vehicle/vehicle-lookup                 controllers.disposal_of_vehicle.VehicleLookup.present

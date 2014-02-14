@@ -1,22 +1,22 @@
 package helpers.change_of_address
 
 import models.domain.change_of_address.LoginConfirmationModel
-import org.specs2.mock.Mockito
+import org.mockito.Mockito._
 import play.api.Play.current
 import models.domain.common.Address
 
-object LoginCachePopulate extends Mockito {
+object LoginCachePopulate {
   def setupCache() = {
-    val address = mock[Address]
-    val loginConfirmationModel = mock[LoginConfirmationModel]
+    val address = mock(classOf[Address])
+    val loginConfirmationModel = mock(classOf[LoginConfirmationModel])
     val key = mappings.LoginConfirmation.key
 
-    address.line1 returns "mock line1"
-    address.postCode returns "mock postcode"
+    when(address.line1).thenReturn("mock line1")
+    when(address.postCode).thenReturn("mock postcode")
 
-    loginConfirmationModel.firstName returns "mock firstName"
-    loginConfirmationModel.surname returns "mock surname"
-    loginConfirmationModel.address returns address
+    when(loginConfirmationModel.firstName).thenReturn("mock firstName")
+    when(loginConfirmationModel.surname).thenReturn("mock surname")
+    when(loginConfirmationModel.address).thenReturn(address)
 
     play.api.cache.Cache.set(key, loginConfirmationModel)
   }
