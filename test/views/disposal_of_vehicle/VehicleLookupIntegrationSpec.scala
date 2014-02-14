@@ -4,7 +4,6 @@ import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
 import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, VehicleLookupPage, SetUpTradeDetailsPage}
-import mappings.disposal_of_vehicle.BusinessAddressSelect
 
 class VehicleLookupIntegrationSpec extends Specification with Tags {
 
@@ -187,6 +186,17 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
       // Assert
       titleMustEqual("Dispose a vehicle into the motor trade: set-up")
+    }
+
+    "display previous page when back link is clicked" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      SetUpTradeDetailsPage.setupCache
+      BusinessChooseYourAddressPage.setupCache
+      browser.goTo(VehicleLookupPage.url)
+      browser.click("#backButton")
+
+      //Assert
+      titleMustEqual("Business: Choose your address")
     }
   }
 }
