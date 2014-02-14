@@ -41,5 +41,14 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
       //Assert
       checkNumberOfValidationErrors(1)
     }
+
+    "display previous page when back link is clicked" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      SetUpTradeDetailsPage.happyPath(browser)
+      browser.click("#backButton")
+
+      //Assert
+      titleMustEqual("Dispose a vehicle into the motor trade: set-up")
+    }
   }
 }
