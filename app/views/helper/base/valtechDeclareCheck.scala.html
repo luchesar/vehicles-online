@@ -7,18 +7,18 @@
 @import utils.helpers.HtmlArgsExtensions._
 @import play.api.templates.PlayMagic.toHtmlArgs
 
-@boxValue = @{ args.toMap.get('value).getOrElse("true") } <!-- TODO make a helper extension method for this. -->
+@boxValue = @{ args.toMap.get('value).getOrElse("true") } @*TODO make a helper extension method for this.*@
 
 @input(field, args: _*) { (id, name, value, htmlArgs) =>
 
-    @valtechLabel(field, args: _*)
-
-    <!-- TODO make a helper extension method for this. This is really confusing as 'value' is being set in a separate method above -->
-
+@*TODO make a helper extension method for this. This is really confusing as 'value' is being set in a separate method above *@
+<label>
     <input type="checkbox"
         id="@CryptoHelper.encryptAES(id)"
         name="@CryptoHelper.encryptAES(name)"
         value="@boxValue"
         @(if(value == Some(boxValue)) "checked" else "")
-        @toHtmlArgs(htmlArgs.filterKeys(_ != 'value)) ></input>
+        @toHtmlArgs(htmlArgs.filterKeys(_ != 'value))>
+    @valtechLabelText(field,args:_*)
+</label>
 }
