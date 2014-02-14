@@ -69,5 +69,13 @@ class DisposeFormSpec extends WordSpec with Matchers {
       )
     }
 
+    "accept when all fields contain valid responses" in {
+      disposeFormFiller(consent = consentValid, mileage = mileageValid, day = dateOfDisposalDayValid, month = dateOfDisposalMonthValid, year = dateOfDisposalYearValid).fold(
+      formWithErrors => {
+          fail("An error should occur")
+        },
+        f => f.consent should equal(consentValid)
+      )
+    }
   }
 }
