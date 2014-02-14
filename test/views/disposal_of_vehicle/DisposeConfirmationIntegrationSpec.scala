@@ -18,7 +18,6 @@ class DisposeConfirmationIntegrationSpec extends Specification with Tags {
       // Check the page title is correct
       titleMustEqual("Dispose a vehicle into the motor trade: summary")
     }
-  }
 
   "Redirect when no traderBusinessName is cached" in new WithBrowser with BrowserMatchers {
     // Arrange & Act
@@ -26,5 +25,28 @@ class DisposeConfirmationIntegrationSpec extends Specification with Tags {
 
     // Assert
     titleMustEqual("Dispose a vehicle into the motor trade: set-up")
+  }
+
+  "display previous page when back link is clicked" in new WithBrowser with BrowserMatchers {
+    SetUpTradeDetailsPage.setupCache
+    BusinessChooseYourAddressPage.setupCache
+    VehicleLookupPage.setupCache
+    DisposePage.setupCache
+    browser.goTo(DisposeConfirmationPage.url)
+
+    browser.click("#backButton")
+    titleMustEqual("Dispose a vehicle into the motor trade: confirm")
+  }
+
+    "display vehicle lookup page when new disposal link is clicked" in new WithBrowser with BrowserMatchers {
+      SetUpTradeDetailsPage.setupCache
+      BusinessChooseYourAddressPage.setupCache
+      VehicleLookupPage.setupCache
+      DisposePage.setupCache
+      browser.goTo(DisposeConfirmationPage.url)
+
+      browser.click("#newDisposal")
+      titleMustEqual("Dispose a vehicle into the motor trade: vehicle")
+    }
   }
 }
