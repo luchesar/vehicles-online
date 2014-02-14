@@ -1,9 +1,6 @@
 package controllers.change_of_address
 
 import play.api.mvc._
-import models.domain.change_of_address.LoginConfirmationModel
-import play.api.cache.Cache
-import play.api.Play.current
 import controllers.change_of_address.Helpers._
 
 object LoginConfirmation extends Controller {

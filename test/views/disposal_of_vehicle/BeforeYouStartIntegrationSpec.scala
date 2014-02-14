@@ -3,7 +3,7 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.BeforeYouStartPage
+import helpers.disposal_of_vehicle.{BeforeYouStartPage, SetUpTradeDetailsPage}
 
 class BeforeYouStartIntegrationSpec extends Specification with Tags {
 
@@ -13,7 +13,7 @@ class BeforeYouStartIntegrationSpec extends Specification with Tags {
       browser.goTo(BeforeYouStartPage.url)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade: start")
+      titleMustEqual(BeforeYouStartPage.title)
     }
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
@@ -24,7 +24,7 @@ class BeforeYouStartIntegrationSpec extends Specification with Tags {
       browser.click("#next")
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade: set-up")
+      titleMustEqual(SetUpTradeDetailsPage.title)
     }
   }
 }

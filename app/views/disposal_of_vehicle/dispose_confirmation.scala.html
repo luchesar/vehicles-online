@@ -18,6 +18,9 @@
 	
 		<h2>@Messages("disposal_disposeconfirmation.disposaldetails")</h2>
 		<dl class="summary-detail-list">
+            <dt>@Messages("disposal_disposeconfirmation.transactionid_label"):</dt>
+            <dd>@Messages("disposal_disposeconfirmation.transactionid", "123-654-REP")</dd>
+
 			<dt>@Messages("disposal_disposeconfirmation.vehiclemake")</dt>
 			<dd>@data.vehicleMake</dd>
 			<dt>@Messages("disposal_disposeconfirmation.vehiclemodel")</dt>
@@ -43,16 +46,8 @@
             <dt>@Messages("disposal_disposeconfirmation.disposaldate")</dt>
             <dd>
 
-                @{disposalDate.`dd month, yyyy`}
+                @{disposalDate.`dd/MM/yyyy`}
             </dd>
-
-
-
-            <dt>@Messages("disposal_disposeconfirmation.transactionid_label"):</dt>
-            <dd>@Messages("disposal_disposeconfirmation.transactionid", "123-654-REP")</dd>
-
-
-
 		</dl>
 
 	</div>
@@ -74,30 +69,28 @@
 	    		</li>
 
 	    		<li>@Messages("disposal_disposeconfirmation.exkeeperlettertext")</li>
-	    		@valtechInputText(disposeConfirmationForm(emailAddressId), args =
+
+	    		    @valtechInputTextWithButton(disposeConfirmationForm(emailAddressId), args =
 		                '_label -> Messages("disposal_disposeconfirmation.emaillabel"),
 		                '_showConstraints -> false)
-		        <li>
-		        	<div class="form-steps">
-		        		<button type="submit" name="send-email" class="button-not-implemented" aria-disabled="true" disabled>@Messages("disposal_disposeconfirmation.sendbutton")</button>
-		        	</div>
-		        </li>
-		        
-		        <!-- 
-		        	DEVELOPER NOTE:
+
+
+		        @{
+                    /*
+                    TODO DEVELOPER NOTE:
 		        	We need to work to work out a way of having helpers that output form elements without wrapper markup
 		        	and potentially without labels too for extra flexibility.
 		        	James Chapman 11/02/2014
-		        -->
-		        
+                     */
+                }
 	    	</ul>
 
 	    	}
 	    	
 	    	<div class="form-steps">
-	    	
+                <a id="backButton" href="@controllers.disposal_of_vehicle.routes.Dispose.present" class="button secondary" aria-label="Back button">@Messages("disposal_disposeconfirmation.backbutton")</a>
 	    		<a class="button-not-implemented" aria-disabled="true" disabled>@Messages("global.buttonnavprint")</a>
-	    		<a class="button" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present">@Messages("disposal_disposeconfirmation.newdisposalbutton")</a>
+	    		<a id="newDisposal" class="button" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present">@Messages("disposal_disposeconfirmation.newdisposalbutton")</a>
                    
             </div>
             

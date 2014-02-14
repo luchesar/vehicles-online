@@ -29,8 +29,8 @@ object Dispose extends Controller {
         case (Some(dealerDetails), Some(vehicleDetails)) => {
           Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
-          val filledForm = disposeForm.fill(DisposeFormModel(consent = true, dateOfDisposal = models.DayMonthYear.today))
-          Ok(views.html.disposal_of_vehicle.dispose(fetchData(dealerDetails, vehicleDetails), filledForm))
+          //val filledForm = disposeForm.fill(DisposeFormModel(consent = "false", dateOfDisposal = models.DayMonthYear.today))
+          Ok(views.html.disposal_of_vehicle.dispose(fetchData(dealerDetails, vehicleDetails), disposeForm))
         }
         case _ => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
       }

@@ -9,11 +9,11 @@ import mappings.disposal_of_vehicle.BusinessAddressSelect
 
 object BusinessChooseYourAddressPage {
   val url = "/disposal-of-vehicle/business-choose-your-address"
+  val title = "Business: Choose your address"
 
   def setupCache() = {
     val key = mappings.disposal_of_vehicle.DealerDetails.cacheKey
     val value = DealerDetailsModel(dealerName = "", dealerAddress = BusinessAddressSelect.address1)
-
 
     play.api.cache.Cache.set(key, value)
     Logger.debug(s"BusinessChooseYourAddressPage stored data in cache: key = $key, value = ${value}")

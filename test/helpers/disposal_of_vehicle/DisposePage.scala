@@ -7,6 +7,7 @@ import play.api.Play.current
 
 object DisposePage {
   val url = "/disposal-of-vehicle/dispose"
+  val title = "Dispose a vehicle into the motor trade: confirm"
 
   def happyPath(browser: TestBrowser) = {
     browser.goTo(url)
@@ -17,6 +18,7 @@ object DisposePage {
     browser.click(s"#${dateOfDisposalId}_day option[value='1']")
     browser.click(s"#${dateOfDisposalId}_month option[value='1']")
     browser.fill(s"#${dateOfDisposalId}_year") `with` "2000"
+    browser.click(s"#${consentId}")
 
     browser.submit("button[type='submit']")
   }

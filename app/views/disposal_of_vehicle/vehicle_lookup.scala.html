@@ -26,9 +26,11 @@
                     @data.dealerAddress.line3<br />
                     @data.dealerAddress.postCode
 				</p>
+                @{/*
 				<div class="form-steps">
 					<a class="button-not-implemented" title="Edit disposal address" aria-disabled="true" disabled>@Messages("disposal_vehiclelookup.button2")</a></p>
 				</div>
+                */}
 			</div>
 			
 			<div id="FindAVehicleDiv" class="second-col">
@@ -63,6 +65,7 @@
 				</div>
 				
 				<div class="form-steps">
+                    <a id="backButton" href="@controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.present" class="button secondary" aria-label="Back button">@Messages("disposal_vehiclelookup.backbutton")</a>
 					<button type="submit" name="action" class="button" aria-label="Lookup vehicle">@Messages("disposal_vehiclelookup.button")</button>
 				</div>
 				
