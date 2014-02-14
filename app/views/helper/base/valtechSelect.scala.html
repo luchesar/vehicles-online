@@ -12,6 +12,7 @@
     <select id="@CryptoHelper.encryptAES(field.id)" name="@CryptoHelper.encryptAES(name)" @toHtmlArgs(htmlArgs)>
         @defaultOption(htmlArgs)
 
+        <option value="" selected="")>@Messages("select_default")</option>
         @options.map { case (mappingValue, humanReadableLabel) =>
             <option value="@mappingValue" @(if(selectedKey == Some(mappingValue)) "selected" else "")>@humanReadableLabel</option>
         }

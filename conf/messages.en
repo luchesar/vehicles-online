@@ -166,6 +166,7 @@ datePlaceholder.October=October
 datePlaceholder.November=November
 datePlaceholder.December=December
 
+select_default = Please select
 
 ##
 # DISPOSAL OF VEHICLE
