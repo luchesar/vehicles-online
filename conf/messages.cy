@@ -153,6 +153,7 @@ disposal_businessChooseYourAddress_addressSelect = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress_addressSelect_label = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress.backbutton = Back
 disposal_businessChooseYourAddress.submitbutton = Dewis
+error.dropDownInvalid = Please select a value from the drop down list
 
 #page not known - Vehicle Lookup
 disposal_setuptradedetails.title = Gwaredu cerbyd i mewn i'r fasnach foduron
