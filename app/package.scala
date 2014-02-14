@@ -22,22 +22,39 @@ package object app {
   }
 
   val mb = 131072
-  def convertToMB(bytes:Long) = {
+
+  def convertToMB(bytes: Long) = {
     bytes / mb
   }
 
-  def convertToBytes(megaBytes:Long) = {
+  def convertToBytes(megaBytes: Long) = {
     megaBytes * mb
   }
 
-  object ConfigProperties  {
-    def getProperty(property:String,default:Int) = Try(Play.current.configuration.getInt(property).getOrElse(default)) match { case Success(s) => s case _ => default}
-    def getProperty(property:String,default:String) = Try(Play.current.configuration.getString(property).getOrElse(default)) match { case Success(s) => s case _ => default}
-    def getProperty(property:String,default:Boolean) = Try(Play.current.configuration.getBoolean(property).getOrElse(default)) match { case Success(s) => s case _ => default}
-    def getProperty(property:String,default:Long) = Try(Play.current.configuration.getLong(property).getOrElse(default)) match { case Success(s) => s case _ => default}
+  object ConfigProperties {
+    def getProperty(property: String, default: Int) = Try(Play.current.configuration.getInt(property).getOrElse(default)) match {
+      case Success(s) => s
+      case _ => default
+    }
+
+    def getProperty(property: String, default: String) = Try(Play.current.configuration.getString(property).getOrElse(default)) match {
+      case Success(s) => s
+      case _ => default
+    }
+
+    def getProperty(property: String, default: Boolean) = Try(Play.current.configuration.getBoolean(property).getOrElse(default)) match {
+      case Success(s) => s
+      case _ => default
+    }
+
+    def getProperty(property: String, default: Long) = Try(Play.current.configuration.getLong(property).getOrElse(default)) match {
+      case Success(s) => s
+      case _ => default
+    }
   }
 
   object ChangeOfAddress {
+
     // TODO make sure all html pages, controllers, formSpec & controllerSpec, integrationSpec use the IDs from this package
     // Page 6 IDA login page
     object LoginPage {
@@ -56,9 +73,11 @@ package object app {
       val v5cRegistrationNumberID = "V5CRegistrationNumber"
       val v5cPostcodeID = "V5cPostcode"
     }
+
   }
 
   object DisposalOfVehicle {
+
     // page 2 - setup-trade-details
     object SetupTradeDetails {
       val traderBusinessNameID = "traderBusinessName"
@@ -90,5 +109,7 @@ package object app {
     object DisposeConfirmation {
       val emailAddressId = "emailAddress"
     }
+
   }
+
 }

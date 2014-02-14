@@ -13,6 +13,7 @@ import mappings.Postcode._
 import controllers.disposal_of_vehicle.Helpers._
 import scala.Some
 import models.domain.common.Address
+import play.cache.Cache
 
 object VehicleLookup extends Controller {
 
@@ -25,57 +26,49 @@ object VehicleLookup extends Controller {
     )(VehicleLookupFormModel.apply)(VehicleLookupFormModel.unapply)
   )
 
-  def present = Action {
-    implicit request =>
-    {
-      fetchDealerDetailsFromCache match {
-        case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm))
-        case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
-      }
+  def present = Action { implicit request =>
+    fetchDealerDetailsFromCache match {
+      case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm))
+      case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
     }
   }
 
-  def submit = Action {
-    implicit request => {
-      vehicleLookupForm.bindFromRequest.fold(
-        formWithErrors => {
-          fetchDealerDetailsFromCache match {
-            case Some(dealerDetails) => BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithErrors))
-            case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
-          }
-        },
-        f => {
-          saveVehicleDetailsToCache(lookupVehicleDetails(f))
-          Redirect(routes.Dispose.present)
+  def submit = Action { implicit request =>
+    vehicleLookupForm.bindFromRequest.fold(
+      formWithErrors => {
+        fetchDealerDetailsFromCache match {
+          case Some(dealerDetails) => BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithErrors))
+          case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
         }
-      )
-    }
+      },
+      f => {
+        saveVehicleDetailsToCache(lookupVehicleDetails(f))
+        Redirect(routes.Dispose.present)
+      }
+    )
   }
 
-  private def lookupVehicleDetails(f: VehicleLookupFormModel) = {
-    Logger.debug(s"Looking up vehicle details for ${v5cReferenceNumberId}: ${f.v5cReferenceNumber}, ${v5cRegistrationNumberId}: ${f.v5cRegistrationNumber}, ${v5cKeeperNameId}: ${f.v5cKeeperName}, ${v5cPostcodeId}: ${f.v5cPostcode}")
-
+  private def lookupVehicleDetails(model: VehicleLookupFormModel) = {
     val knownReferenceNumber = "11111111111"
-    if (f.v5cReferenceNumber == knownReferenceNumber) {
+    if (model.v5cReferenceNumber == knownReferenceNumber) {
       Logger.debug(s"Selecting vehicle for ref number ${knownReferenceNumber}")
       VehicleDetailsModel(vehicleMake = "Alfa Romeo",
         vehicleModel = "Alfasud ti",
-        keeperName = f.v5cKeeperName,
-        keeperAddress = Address("1 The Avenue", Some("Earley"), Some("Reading"), None, f.v5cPostcode))
+        keeperName = model.v5cKeeperName,
+        keeperAddress = Address("1 The Avenue", Some("Earley"), Some("Reading"), None, model.v5cPostcode))
     } else {
       Logger.debug("Selecting default vehicle")
       VehicleDetailsModel(vehicleMake = "PEUGEOT",
         vehicleModel = "307 CC",
-        keeperName = f.v5cKeeperName,
-        keeperAddress = Address("1 The Avenue", Some("Earley"), Some("Reading"), None, f.v5cPostcode))
+        keeperName = model.v5cKeeperName,
+        keeperAddress = Address("1 The Avenue", Some("Earley"), Some("Reading"), None, model.v5cPostcode))
     }
   }
 
-  private def saveVehicleDetailsToCache(vehicleDetailsModel: VehicleDetailsModel) = {
+  private def saveVehicleDetailsToCache(model: VehicleDetailsModel) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.cacheKey
-    val value = vehicleDetailsModel
-    play.api.cache.Cache.set(key, value)
-    Logger.debug(s"VehicleLookup page - stored vehicle details object in cache: key = $key, value = ${value}")
+    Cache.set(key, model)
+    Logger.debug(s"VehicleLookup page - stored vehicle details object in cache: key = $key, value = ${model}")
   }
 
 }

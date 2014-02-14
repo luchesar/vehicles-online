@@ -8,7 +8,7 @@ object KeeperStatus extends Controller {
     Ok(views.html.change_of_address.keeper_status())
   }
 
-  def submit = Action { 
+  def submit = Action {
     Redirect(routes.VerifyIdentity.present)
   }
 

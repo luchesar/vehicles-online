@@ -8,7 +8,7 @@ class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers {
     val addressSelectedValid = address1.toViewFormat()
 
     def chooseYourAddressFiller(addressSelected: String = addressSelectedValid) = {
-      BusinessChooseYourAddress.businessChooseYourAddressForm.bind(
+      BusinessChooseYourAddress.form.bind(
         Map(
           addressSelectId -> addressSelected
         )
