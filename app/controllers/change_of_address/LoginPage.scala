@@ -55,5 +55,3 @@ class LoginPage @Inject() (webService: services.LoginWebService) extends Control
   }
 
 }
-
-object LoginPage
