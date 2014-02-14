@@ -39,7 +39,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
       BusinessChooseYourAddressPage.sadPath(browser)
 
       //Assert
-      checkNumberOfValidationErrors(2)
+      checkNumberOfValidationErrors(1)
     }
 
     "display previous page when back link is clicked" in new WithBrowser with BrowserMatchers {
