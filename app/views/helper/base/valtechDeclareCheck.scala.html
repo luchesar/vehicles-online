@@ -18,7 +18,7 @@
         name="@ValtechCrypto.encryptAES(name)"
         value="@boxValue"
         @(if(value == Some(boxValue)) "checked" else "")
-        @toHtmlArgs(htmlArgs.filterKeys(_ != 'value)) ></input>
+        @toHtmlArgs(htmlArgs.filterKeys(_ != 'value))>
     @valtechLabelText(field,args:_*)
 </label>
 }
