@@ -70,9 +70,9 @@
 
 	    		<li>@Messages("disposal_disposeconfirmation.exkeeperlettertext")</li>
 
-	    		    @valtechInputTextWithButton(disposeConfirmationForm(emailAddressId), args =
-		                '_label -> Messages("disposal_disposeconfirmation.emaillabel"),
-		                '_showConstraints -> false)
+	    		    @valtechInputTextWithButton(disposeConfirmationForm(emailAddressId),
+                        args = Seq('_label -> Messages("disposal_disposeconfirmation.emaillabel"),
+		                '_showConstraints -> false))
 
 
 		        @{

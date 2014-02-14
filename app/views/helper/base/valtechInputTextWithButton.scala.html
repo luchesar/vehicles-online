@@ -1,4 +1,9 @@
-@(field: play.api.data.Field, args: (Symbol, Any)*)(implicit handler: helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field,
+        buttonType: String = "submit",
+        buttonName: String = "send-email",
+        buttonClass: String = "button-not-implemented",
+        buttonAriaDisabled: String = "true",
+        args: Seq[(Symbol, Any)] )(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import helper._
 @import utils.helpers.ValtechCrypto
@@ -8,7 +13,7 @@
 @import play.api.templates.PlayMagic.toHtmlArgs
 
 @input(field, args:_*) { (id, name, value, htmlArgs) =>
-
+    @{println(s"**** htmlArgs ${htmlArgs}, args: ${args} ")}
     @valtechLabel(field, args: _*)
 
     <input type="text"
@@ -18,7 +23,7 @@
         @toHtmlArgs(htmlArgs.maxLengthRules.autoCompleteRules)
     >
 
-    <button type="submit" name="send-email" class="button-not-implemented" aria-disabled="true" disabled>
+    <button type=@buttonType name="@buttonName" class="@buttonClass" aria-disabled="@buttonAriaDisabled" disabled>
         @labelOrId(field.id,args: _*)
     </button>
 }
