@@ -10,7 +10,7 @@ import mappings.{V5cRegistrationNumber, V5cReferenceNumber}
 object ConfirmVehicleDetails extends Controller {
 
   def present = Action { implicit request =>
-    isUserLoggedIn() match {
+    isUserLoggedIn match {
       case true => {
         fetchSearchConfirmationModelFromCache match {
           case Some(v5csearchConfirmationModel) => Ok(views.html.change_of_address.confirm_vehicle_details(v5csearchConfirmationModel))

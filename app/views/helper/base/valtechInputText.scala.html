@@ -1,7 +1,7 @@
 @(field: play.api.data.Field, args: (Symbol, Any)*)(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import helper._
-@import utils.helpers.ValtechCrypto
+@import utils.helpers.CryptoHelper
 @import utils.helpers._
 @import views.html.helper.base._
 @import utils.helpers.HtmlArgsExtensions._
@@ -11,8 +11,8 @@
     @valtechLabel(field, args: _*)
 
     <input type="text"
-        id="@ValtechCrypto.encryptAES(id)"
-        name="@ValtechCrypto.encryptAES(name)"
+        id="@CryptoHelper.encryptAES(id)"
+        name="@CryptoHelper.encryptAES(name)"
         value="@value"
         @toHtmlArgs(htmlArgs.maxLengthRules.autoCompleteRules)
     >

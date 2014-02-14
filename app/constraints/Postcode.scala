@@ -3,7 +3,7 @@ package constraints
 import play.api.data.validation.{ValidationError, Invalid, Valid, Constraint}
 
 object Postcode {
-  def rules: Constraint[String] = Constraint[String]("constraint.restrictedvalidPostcode") { input =>
+  def rules: Constraint[String] = Constraint("constraint.restrictedvalidPostcode") { input =>
     val inputRegex = """^(?i)(GIR 0AA)|((([A-Z][0-9][0-9]?)|(([A-Z][A-HJ-Y][0-9][0-9]?)|(([A-Z][0-9][A-Z])|([A-Z][A-HJ-Y][0-9]?[A-Z]))))[ ]?[0-9][A-Z]{2})$""".r
 
     inputRegex.pattern.matcher(input).matches match {
