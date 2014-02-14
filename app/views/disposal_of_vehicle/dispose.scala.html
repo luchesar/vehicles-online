@@ -2,6 +2,7 @@
 
 @import helper._
 @import helper.base.valtechInputText
+@import helper.base.valtechDeclareCheck
 @import utils.helpers.ValtechTemplate._
 @import helper.dates.inputDayMonthYear
 @import mappings.disposal_of_vehicle.Dispose._
@@ -57,7 +58,10 @@
                         @data.dealerAddress.postCode
                     </li>
                     <!-- Checkbox must not be pre-ticked. -->
-                    @checkbox(disposeForm(consentId), 'id -> "consent", '_showConstraints -> false, '_label -> "", '_text -> Messages("disposal_dispose.consent"))
+                    @valtechDeclareCheck(disposeForm(consentId), 'id -> "consent", '_showConstraints -> false, '_label -> Messages("disposal_dispose.consent"))
+
+
+
 
                     @valtechInputText(disposeForm(mileageId), args =
                     '_label -> Messages("disposal_dispose.mileage.label"),
