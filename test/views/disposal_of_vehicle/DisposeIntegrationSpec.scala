@@ -44,7 +44,6 @@ class DisposeIntegrationSpec extends Specification with Tags {
       VehicleLookupPage.setupCache
       browser.goTo(DisposePage.url)
 
-
       browser.click(s"#${dateOfDisposalId}_day option[value='1']")
       browser.click(s"#${dateOfDisposalId}_month option[value='1']")
       browser.fill(s"#${dateOfDisposalId}_year") `with` "2000"
@@ -53,6 +52,17 @@ class DisposeIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
       // Assert
      checkNumberOfValidationErrors(1)
+    }
+
+    "display previous page when back link is clicked" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      BusinessChooseYourAddressPage.setupCache
+      VehicleLookupPage.setupCache
+      browser.goTo(DisposePage.url)
+      browser.click("#backButton")
+
+      // Assert
+      titleMustEqual("Dispose a vehicle into the motor trade: vehicle")
     }
 
   }
