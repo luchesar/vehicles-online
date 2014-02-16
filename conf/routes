@@ -3,8 +3,10 @@
 # ~~~~
 
 # IoC
-# we use the @controllers syntax here so that the router knows we are referring to a class. In turn it
-# will call on the GlobalSettings.getController method to resolve the actual controller instance.
+# For those controllers whose dependencie are being injected, we use the @controllers syntax here so that
+# the router knows we are referring to a class (not an object). In turn it will call on the
+# GlobalSettings.getControllerInstance method to resolve the actual controller instance. This method hooks into
+# Guice to provide the actual instance complete with its injected dependencies
 
 ######################
 ## CHANGE OF KEEPER
