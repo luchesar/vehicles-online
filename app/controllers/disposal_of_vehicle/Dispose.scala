@@ -54,7 +54,7 @@ object Dispose extends Controller {
           }
         },
         f => {
-          saveDateOfDisposalToCache(f)
+          storeDateOfDisposalInCache(f)
           Logger.debug(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
           Redirect(routes.DisposeConfirmation.present)}
       )
@@ -70,7 +70,7 @@ object Dispose extends Controller {
       dealerAddress = dealerDetails.dealerAddress)
   }
 
-  private def saveDateOfDisposalToCache(f: DisposeFormModel) = {
+  private def storeDateOfDisposalInCache(f: DisposeFormModel) = {
     val key = mappings.disposal_of_vehicle.Dispose.cacheKey
     val value = f.dateOfDisposal
     play.api.cache.Cache.set(key, value)

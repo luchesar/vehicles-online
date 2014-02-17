@@ -19,9 +19,9 @@ object SetUpTradeDetails extends Controller {
     )(SetupTradeDetailsModel.apply)(SetupTradeDetailsModel.unapply)
   )
 
-  def present = Action {
-    implicit request =>
-      Ok(views.html.disposal_of_vehicle.setup_trade_details(traderLookupForm))
+  def present = Action { implicit request =>
+//    fetchModelFromSession
+    Ok(views.html.disposal_of_vehicle.setup_trade_details(traderLookupForm))
   }
 
   def submit = Action {
@@ -33,6 +33,13 @@ object SetUpTradeDetails extends Controller {
           Redirect(routes.BusinessChooseYourAddress.present)
         }
       )
+    }
+  }
+
+  private def fetchModelFromSession(request: Request[AnyContent]) = {
+    request.session.get("modelId") match {
+      case Some(x) => Logger.debug(s"SetUpTradeDetails - read modelId from session: $x")
+      case _ => throw new RuntimeException("Failed to read modelId from session")
     }
   }
 
