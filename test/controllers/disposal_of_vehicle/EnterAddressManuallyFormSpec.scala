@@ -54,7 +54,6 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
           formWithErrors.errors(0).key should equal(MultiLineAddress.id)
-          //formWithErrors.errors(0).message should equal("error.dropDownInvalid")
         },
         f => fail("An error should occur")
       )
@@ -67,10 +66,8 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
           formWithErrors.errors.length should equal(3)
           formWithErrors.errors(0).key should equal(PostCode.key)
           formWithErrors.errors(0).message should equal("error.minLength")
-
           formWithErrors.errors(1).key should equal(PostCode.key)
           formWithErrors.errors(1).message should equal("error.required")
-
           formWithErrors.errors(2).key should equal(PostCode.key)
           formWithErrors.errors(2).message should equal("error.restricted.validPostcode")
         },
