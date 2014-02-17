@@ -47,7 +47,6 @@ class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers with Mock
     "reject if addressSelect is empty" in {
       chooseYourAddressFiller(addressSelected = "").fold(
         formWithErrors => {
-          println("*** " + formWithErrors.errors)
           formWithErrors.errors.length should equal(2)
           formWithErrors.errors(0).key should equal(addressSelectId)
           formWithErrors.errors(0).message should equal("error.required")

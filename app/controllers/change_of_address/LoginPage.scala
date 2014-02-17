@@ -15,8 +15,8 @@ import mappings.change_of_address
 class LoginPage @Inject() (webService: services.LoginWebService) extends Controller {
   val loginPageForm = Form(
     mapping(
-      "username" -> nonEmptyText,
-      "password" -> nonEmptyText
+      mappings.change_of_address.LoginPage.usernameId -> nonEmptyText,
+      mappings.change_of_address.LoginPage.passwordId -> nonEmptyText
     )(LoginPageModel.apply)(LoginPageModel.unapply)
   )
 
