@@ -33,5 +33,17 @@ class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
       status(result) should equal(SEE_OTHER)
       redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.url))
     }
+
+    "return a bad request if no details are entered" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody() //blank form
+
+      // Act
+      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
+    }
   }
 }

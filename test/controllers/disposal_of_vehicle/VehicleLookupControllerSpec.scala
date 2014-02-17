@@ -48,5 +48,20 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers {
       // Assert
       redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
     }
+
+    "return a bad request if no details are entered" in new WithApplication {
+      // Arrange
+      SetUpTradeDetailsPage.setupCache
+      BusinessChooseYourAddressPage.setupCache
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody()
+
+      // Act
+      val result = disposal_of_vehicle.VehicleLookup.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
+
+    }
   }
 }
