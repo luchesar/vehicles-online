@@ -9,13 +9,10 @@ import org.specs2.mock.Mockito
 import helpers.disposal_of_vehicle.{DisposeConfirmationPage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
 import helpers.disposal_of_vehicle.Helper._
 import mappings.common.{PostCode, MultiLineAddress}
+import helpers.disposal_of_vehicle.EnterAddressManuallyPopulate._
 
 class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Mockito {
   "EnterAddressManually - Controller" should {
-    val line1Valid = "123 Street"
-    val line2Valid = "line2 stub"
-    val line3Valid = "line3 stub"
-    val postCodeValid = "SE1 6EH"
 
     "present" in new WithApplication {
       // Arrange

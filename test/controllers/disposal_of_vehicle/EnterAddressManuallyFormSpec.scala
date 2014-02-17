@@ -4,15 +4,11 @@ import org.scalatest.{Matchers, WordSpec}
 import org.scalatest.mock.MockitoSugar
 import mappings.common.PostCode
 import mappings.common.MultiLineAddress
+import helpers.disposal_of_vehicle.EnterAddressManuallyPopulate._
 
 
 class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSugar {
   "EnterAddressManually Form" should {
-    val line1Valid = "123 Street"
-    val line2Valid = "line2 stub"
-    val line3Valid = "line3 stub"
-    val postCodeValid = "SE1 6EH"
-
     def addressFiller(line1: String = line1Valid,
                       line2: String = line2Valid,
                       line3: String = line3Valid,
