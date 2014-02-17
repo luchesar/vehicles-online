@@ -12,11 +12,10 @@ import play.api.Play.current
 import controllers.change_of_address.Helpers._
 import mappings.change_of_address.V5cSearch
 import V5cSearch._
-import mappings.V5cReferenceNumber
-import mappings.V5cReferenceNumber._
-import mappings.common.{V5cRegistrationNumber, PostCode}
+import mappings.common.{V5cReferenceNumber, V5cRegistrationNumber, PostCode}
+import V5cReferenceNumber._
+import mappings.common.{V5cReferenceNumber, V5cRegistrationNumber, PostCode}
 import V5cRegistrationNumber._
-import mappings.common.PostCode
 import PostCode._
 import javax.inject.Inject
 
