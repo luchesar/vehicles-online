@@ -18,10 +18,10 @@ object DisposeConfirmation extends Controller {
 
   def present = Action {
     implicit request => {
-      (fetchDealerDetailsFromCache, fetchDisposalDateFromCache, fetchVehicleDetailsFromCache) match {
-        case (Some(dealerDetails), Some(disposalDate), Some(vehicleDetails)) =>
+      (fetchDealerDetailsFromCache, fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache) match {
+        case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) =>
           val disposeModel = fetchData(dealerDetails, vehicleDetails)
-          Ok(views.html.disposal_of_vehicle.dispose_confirmation(disposeModel, disposeConfirmationForm, disposalDate))
+          Ok(views.html.disposal_of_vehicle.dispose_confirmation(disposeModel, disposeConfirmationForm, disposeFormModel))
         case _ => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
       }
     }
@@ -31,10 +31,10 @@ object DisposeConfirmation extends Controller {
     implicit request => {
       disposeConfirmationForm.bindFromRequest.fold(
         formWithErrors => {
-          (fetchDealerDetailsFromCache, fetchDisposalDateFromCache, fetchVehicleDetailsFromCache)  match {
-            case (Some(dealerDetails), Some(disposalDate), Some(vehicleDetails)) =>
+          (fetchDealerDetailsFromCache, fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache)  match {
+            case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) =>
               val disposeModel = fetchData(dealerDetails, vehicleDetails)
-              BadRequest(views.html.disposal_of_vehicle.dispose_confirmation(disposeModel, formWithErrors, disposalDate))
+              BadRequest(views.html.disposal_of_vehicle.dispose_confirmation(disposeModel, formWithErrors, disposeFormModel))
             case _ => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
           }
         },

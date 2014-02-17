@@ -1,4 +1,4 @@
-@(data: models.domain.disposal_of_vehicle.DisposeModel, disposeConfirmationForm: Form[models.domain.disposal_of_vehicle.DisposeConfirmationFormModel], disposalDate:models.DayMonthYear)(implicit lang: Lang)
+@(data: models.domain.disposal_of_vehicle.DisposeModel, disposeConfirmationForm: Form[models.domain.disposal_of_vehicle.DisposeConfirmationFormModel], disposeModel: models.domain.disposal_of_vehicle.DisposeFormModel)(implicit lang: Lang)
 
 @import helper._
 @import views.html.helper.base._
@@ -45,9 +45,12 @@
 
             <dt>@Messages("disposal_disposeconfirmation.disposaldate")</dt>
             <dd>
-
-                @{disposalDate.`dd/MM/yyyy`}
+                @{disposeModel.dateOfDisposal.`dd/MM/yyyy`}
             </dd>
+            @if(disposeModel.mileage != None) {
+                <dt>@Messages("disposal_disposeconfirmation.mileage")</dt>
+                <dd>@{disposeModel.mileage}</dd>
+            }
 		</dl>
 
 	</div>
