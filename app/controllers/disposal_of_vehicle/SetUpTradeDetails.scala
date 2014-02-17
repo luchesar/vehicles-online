@@ -5,7 +5,8 @@ import play.api.data.Form
 import play.api.data.Forms._
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import mappings.disposal_of_vehicle.SetupTradeDetails._
-import mappings.Postcode._
+import mappings.common.PostCode
+import PostCode._
 import play.api.Logger
 import play.api.Play.current
 

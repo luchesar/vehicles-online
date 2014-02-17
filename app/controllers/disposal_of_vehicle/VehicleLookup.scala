@@ -9,7 +9,8 @@ import models.domain.disposal_of_vehicle.{VehicleDetailsModel, VehicleLookupForm
 import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.V5cReferenceNumber._
 import mappings.V5cRegistrationNumber._
-import mappings.Postcode._
+import mappings.common.PostCode
+import PostCode._
 import controllers.disposal_of_vehicle.Helpers._
 import scala.Some
 import models.domain.common.Address

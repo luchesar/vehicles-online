@@ -14,7 +14,8 @@ import mappings.V5cSearch._
 import mappings.{V5cRegistrationNumber, V5cReferenceNumber}
 import mappings.V5cReferenceNumber._
 import mappings.V5cRegistrationNumber._
-import mappings.Postcode._
+import mappings.common.PostCode
+import PostCode._
 import javax.inject.Inject
 
 class VehicleSearch @Inject() (webService: services.V5cSearchWebService) extends Controller {
