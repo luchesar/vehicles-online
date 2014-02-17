@@ -6,7 +6,6 @@ import mappings.common.PostCode
 import mappings.common.MultiLineAddress
 import helpers.disposal_of_vehicle.EnterAddressManuallyPopulate._
 
-
 class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSugar {
   "EnterAddressManually Form" should {
     def addressFiller(line1: String = line1Valid,

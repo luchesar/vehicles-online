@@ -2,15 +2,10 @@ package controllers.disposal_of_vehicle
 
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.Dispose._
+import helpers.disposal_of_vehicle.Helper._
 
 class DisposeFormSpec extends WordSpec with Matchers {
   "Dispose Form" should {
-
-    val consentValid = "true"
-    val mileageValid = "20000"
-    val dateOfDisposalDayValid = "25"
-    val dateOfDisposalMonthValid = "11"
-    val dateOfDisposalYearValid = "1970"
 
     def disposeFormFiller(consent: String, mileage: String, day: String, month: String, year: String) = {
       Dispose.disposeForm.bind(
