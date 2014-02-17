@@ -10,11 +10,10 @@ import ExecutionContext.Implicits.global
 import play.api.cache.Cache
 import play.api.Play.current
 import controllers.change_of_address.Helpers._
-import mappings.change_of_address.V5cSearch
+import mappings.change_of_address.{V5cSearch}
 import V5cSearch._
 import mappings.common.{V5cReferenceNumber, V5cRegistrationNumber, PostCode}
 import V5cReferenceNumber._
-import mappings.common.{V5cReferenceNumber, V5cRegistrationNumber, PostCode}
 import V5cRegistrationNumber._
 import PostCode._
 import javax.inject.Inject
@@ -68,7 +67,7 @@ class VehicleSearch @Inject() (webService: services.V5cSearchWebService) extends
   }
 
   private def fetchData(): String = {
-    val key = mappings.LoginConfirmation.key
+    val key = mappings.change_of_address.LoginConfirmation.key
     val result = Cache.getAs[LoginConfirmationModel](key)
 
     result match {

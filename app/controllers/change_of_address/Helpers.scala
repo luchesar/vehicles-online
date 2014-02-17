@@ -20,7 +20,7 @@ object Helpers {
   }
 
   def userLoginCredentials(): Option[LoginConfirmationModel] = {
-    val key = mappings.LoginConfirmation.key
+    val key = mappings.change_of_address.LoginConfirmation.key
     Cache.getAs[LoginConfirmationModel](key)
   }
 }

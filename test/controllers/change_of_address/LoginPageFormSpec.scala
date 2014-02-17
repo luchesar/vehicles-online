@@ -2,7 +2,8 @@ package controllers.change_of_address
 
 import org.scalatest.WordSpec
 import org.scalatest.Matchers
-import mappings.LoginPage._
+import mappings.change_of_address.LoginPage
+import LoginPage._
 import org.scalatest.mock.MockitoSugar
 import helpers.change_of_address.LoginPagePopulate._
 
