@@ -12,6 +12,7 @@ import models.domain.change_of_address.V5cSearchModel
 import modules.TestModule.FakeV5cSearchWebService
 import org.scalatest.mock.MockitoSugar
 import helpers.change_of_address.V5cSearchPagePopulate._
+import helpers.change_of_address.{AreYouRegisteredPage, ConfirmVehicleDetailsPage}
 
 class V5cSearchControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
@@ -42,7 +43,7 @@ class V5cSearchControllerSpec extends WordSpec with Matchers with MockitoSugar {
       val result = vehicleSearch.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some("/are-you-registered"))
+      redirectLocation(result) should equal(Some(AreYouRegisteredPage.url))
     }
 
     "redirect to next page after the button is clicked" in new WithApplication {
@@ -55,7 +56,7 @@ class V5cSearchControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal(Some("/confirm-vehicle-details"))
+      redirectLocation(result) should equal(Some(ConfirmVehicleDetailsPage.url))
     }
 
   }

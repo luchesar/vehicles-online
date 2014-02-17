@@ -4,7 +4,7 @@ import play.api.test.TestBrowser
 import helpers.change_of_address.Helper._
 
 object AuthenticationPopulate {
-  val url = "/are-you-registered"
+  val url = "/authentication"
   val pinValid = "123456"
 
   def happyPath(browser: TestBrowser) = {

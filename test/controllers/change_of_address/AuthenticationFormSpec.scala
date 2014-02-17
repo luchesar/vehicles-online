@@ -18,7 +18,6 @@ class AuthenticationFormSpec extends WordSpec with Matchers {
       authenticationFiller(pin="").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(3)
-          //errors for min length, regex, required
         },
         f => fail("An error should occur")
       )
@@ -28,7 +27,6 @@ class AuthenticationFormSpec extends WordSpec with Matchers {
       authenticationFiller(pin="abcdef").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
-          //error for regex
         },
         f => fail("An error should occur")
       )
@@ -38,7 +36,6 @@ class AuthenticationFormSpec extends WordSpec with Matchers {
       authenticationFiller(pin="£").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(2)
-          //errors for regex and min length
         },
         f => fail("An error should occur")
       )
@@ -47,7 +44,7 @@ class AuthenticationFormSpec extends WordSpec with Matchers {
     "reject when pin is less than min length" in {
       authenticationFiller(pin="12345").fold(
         formWithErrors => {
-          formWithErrors.errors.length should equal(1) //error for min length
+          formWithErrors.errors.length should equal(1)
         },
         f => fail("An error should occur")
       )
@@ -57,7 +54,6 @@ class AuthenticationFormSpec extends WordSpec with Matchers {
       authenticationFiller(pin="1234567").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
-          //error for max length
         },
         f => fail("An error should occur")
       )
