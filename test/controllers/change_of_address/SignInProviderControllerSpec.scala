@@ -31,7 +31,7 @@ class SignInProviderControllerSpec extends WordSpec with Matchers {
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some("/login-page"))
+      redirectLocation(result) should equal (Some(LoginPagePopulate.url))
     }
 
   }
