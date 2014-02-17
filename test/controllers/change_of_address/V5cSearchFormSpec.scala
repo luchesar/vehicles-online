@@ -81,7 +81,6 @@ class V5cSearchFormSpec extends WordSpec with Matchers with MockitoSugar {
       v5cSearchFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = "", v5cPostcode = v5cPostcodeValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(2)
-          //errors for required field and min length
         },
         f => fail("An error should occur")
       )
@@ -91,7 +90,6 @@ class V5cSearchFormSpec extends WordSpec with Matchers with MockitoSugar {
       v5cSearchFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = "a", v5cPostcode = v5cPostcodeValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
-          //errors for regex and min length
         },
         f => fail("An error should occur")
       )
@@ -101,7 +99,6 @@ class V5cSearchFormSpec extends WordSpec with Matchers with MockitoSugar {
       v5cSearchFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = "AB55CMWE", v5cPostcode = v5cPostcodeValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
-          //errors for regex and max length
         },
         f => fail("An error should occur")
       )
@@ -110,7 +107,6 @@ class V5cSearchFormSpec extends WordSpec with Matchers with MockitoSugar {
       v5cSearchFiller(v5cReferenceNumber = v5cReferenceNumberValid, v5cRegistrationNumber = "%^", v5cPostcode = v5cPostcodeValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
-          //error for regex
         },
         f => fail("An error should occur")
       )

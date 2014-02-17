@@ -45,6 +45,6 @@ class LoginConfirmationControllerSpec extends WordSpec with Matchers with Mockit
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some("/authentication"))
+      redirectLocation(result) should equal (Some(AuthenticationPopulate.url))
     }
 }

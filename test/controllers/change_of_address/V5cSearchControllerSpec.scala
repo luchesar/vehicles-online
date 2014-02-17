@@ -60,5 +60,16 @@ class V5cSearchControllerSpec extends WordSpec with Matchers with MockitoSugar {
       redirectLocation(result) should equal(Some(ConfirmVehicleDetailsPage.url))
     }
 
+    "report bad request when no details are entered" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody()
+
+      // Act
+      val result = vehicleSearch.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
+    }
   }
 }
