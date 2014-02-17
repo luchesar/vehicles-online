@@ -44,7 +44,7 @@ object VehicleLookup extends Controller {
         }
       },
       f => {
-        saveVehicleDetailsToCache(lookupVehicleDetails(f))
+        storeVehicleDetailsInCache(lookupVehicleDetails(f))
         Redirect(routes.Dispose.present)
       }
     )
@@ -67,7 +67,7 @@ object VehicleLookup extends Controller {
     }
   }
 
-  private def saveVehicleDetailsToCache(model: VehicleDetailsModel) = {
+  private def storeVehicleDetailsInCache(model: VehicleDetailsModel) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.cacheKey
     Cache.set(key, model)
     Logger.debug(s"VehicleLookup page - stored vehicle details object in cache: key = $key, value = ${model}")
