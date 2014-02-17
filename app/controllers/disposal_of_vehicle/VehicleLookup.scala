@@ -8,7 +8,8 @@ import play.api.Play.current
 import models.domain.disposal_of_vehicle.{VehicleDetailsModel, VehicleLookupFormModel}
 import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.V5cReferenceNumber._
-import mappings.V5cRegistrationNumber._
+import mappings.common.{V5cRegistrationNumber, PostCode}
+import V5cRegistrationNumber._
 import mappings.common.PostCode
 import PostCode._
 import controllers.disposal_of_vehicle.Helpers._

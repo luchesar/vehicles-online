@@ -8,9 +8,10 @@ import models.domain.change_of_address.AuthenticationModel
 import models.domain.change_of_address.V5cSearchModel
 import mappings.change_of_address.Pin
 import Pin._
-import mappings.{V5cRegistrationNumber, V5cReferenceNumber}
+import mappings.V5cReferenceNumber
 import mappings.V5cReferenceNumber._
-import mappings.V5cRegistrationNumber._
+import mappings.common.{V5cRegistrationNumber, PostCode}
+import V5cRegistrationNumber._
 import mappings.common.PostCode
 import PostCode._
 
