@@ -6,10 +6,9 @@ import mappings.common.MultiLineAddress
 import mappings.common.PostCode
 import mappings.common.MultiLineAddress._
 import mappings.common.PostCode._
-import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
 import constraints.MultilineAddress.requiredAddress
 import play.api.data.Forms._
-
+import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
 
 object EnterAddressManually extends Controller {
   val form = Form(
@@ -20,10 +19,13 @@ object EnterAddressManually extends Controller {
   )
 
   def present = Action {
-    implicit request => Ok("hello")
+    implicit request => Ok("hello") //Ok(views.html.disposal_of_vehicle.business_choose_your_address(form, name, fetchAddresses))
   }
 
-  def submit = Action {
-    implicit request => ???
+  def submit = Action { implicit request =>
+    form.bindFromRequest.fold(
+      formWithErrors => BadRequest("bad submit"), //BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithErrors)),
+      f => Redirect(routes.VehicleLookup.present)
+    )
   }
 }

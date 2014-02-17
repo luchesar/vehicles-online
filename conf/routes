@@ -73,6 +73,10 @@ POST        /disposal-of-vehicle/setup-trade-details            controllers.disp
 GET         /disposal-of-vehicle/business-choose-your-address   @controllers.disposal_of_vehicle.BusinessChooseYourAddress.present
 POST        /disposal-of-vehicle/business-choose-your-address   @controllers.disposal_of_vehicle.BusinessChooseYourAddress.submit
 
+#page 4 [optional] - enter address manually
+GET         /disposal-of-vehicle/enter-address-manually         controllers.disposal_of_vehicle.EnterAddressManually.present
+POST        /disposal-of-vehicle/enter-address-manually         controllers.disposal_of_vehicle.EnterAddressManually.submit
+
 
 GET         /disposal-of-vehicle/vehicle-lookup                 controllers.disposal_of_vehicle.VehicleLookup.present
 POST        /disposal-of-vehicle/vehicle-lookup                 controllers.disposal_of_vehicle.VehicleLookup.submit

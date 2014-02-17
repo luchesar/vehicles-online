@@ -1,10 +1,7 @@
 package controllers.change_of_address
 
-import mappings.change_of_address.LoginPage
-import LoginPage._
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
-import controllers.change_of_address
 import org.scalatest.{Matchers, WordSpec}
 import models.domain.change_of_address.LoginPageModel
 import org.mockito.Mockito._
@@ -14,12 +11,11 @@ import org.scalatest.mock.MockitoSugar
 import helpers.change_of_address.{LoginConfirmationPage, LoginPagePopulate}
 
 class LoginPageControllerSpec extends WordSpec with Matchers with MockitoSugar {
-
   "LoginPage - Controller" should {
     val mockLoginPageModel = mock[LoginPageModel]
     val mockWebService = mock[services.LoginWebService]
     when(mockWebService.invoke(any[LoginPageModel])).thenReturn(FakeLoginWebService().invoke(mockLoginPageModel))
-    val loginPage = new change_of_address.LoginPage(mockWebService)
+    val loginPage = new controllers.change_of_address.LoginPage(mockWebService)
 
 
     "present" in new WithApplication {
@@ -37,7 +33,8 @@ class LoginPageControllerSpec extends WordSpec with Matchers with MockitoSugar {
     "redirect to next page after the next button is clicked" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(usernameId -> LoginPagePopulate.usernameValid, passwordId -> LoginPagePopulate.passwordValid)
+        .withFormUrlEncodedBody(mappings.change_of_address.LoginPage.usernameId -> LoginPagePopulate.usernameValid,
+          mappings.change_of_address.LoginPage.passwordId -> LoginPagePopulate.passwordValid)
 
       // Act
       val result = loginPage.submit(request)
