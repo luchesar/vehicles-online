@@ -7,7 +7,7 @@
 
 @input(field, args ++
               Seq('autocomplete -> "off") ++
-              (args.find(_._1 == 'maxLength) match{ case Some(_) => Seq() case _ => Seq('maxLength -> Mappings.sixty)}):_* ) { (id, name, value, htmlArgs) =>
+              (args.find(_._1 == 'maxlength) match{ case Some(_) => Seq() case _ => Seq('maxlength -> Mappings.sixty)}):_* ) { (id, name, value, htmlArgs) =>
 
     @valtechLabel(field,args:_*)
     

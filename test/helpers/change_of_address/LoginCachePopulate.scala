@@ -4,12 +4,13 @@ import models.domain.change_of_address.LoginConfirmationModel
 import org.mockito.Mockito._
 import play.api.Play.current
 import models.domain.common.Address
+import mappings.change_of_address.LoginConfirmation
 
 object LoginCachePopulate {
   def setupCache() = {
     val address = mock(classOf[Address])
     val loginConfirmationModel = mock(classOf[LoginConfirmationModel])
-    val key = mappings.LoginConfirmation.key
+    val key = LoginConfirmation.key
 
     when(address.line1).thenReturn("mock line1")
     when(address.postCode).thenReturn("mock postcode")
