@@ -10,7 +10,7 @@ import org.mockito.Mockito._
 import org.mockito.Matchers._
 import modules.TestModule.FakeLoginWebService
 import org.scalatest.mock.MockitoSugar
-import helpers.change_of_address.LoginConfirmationPage
+import helpers.change_of_address.{LoginConfirmationPage, LoginPagePopulate}
 
 class LoginPageControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
@@ -35,10 +35,8 @@ class LoginPageControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
     "redirect to next page after the next button is clicked" in new WithApplication {
       // Arrange
-      val usernameValid = "Roger"
-      val passwordValid = "examplepassword"
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(usernameId -> usernameValid, passwordId -> passwordValid)
+        .withFormUrlEncodedBody(usernameId -> LoginPagePopulate.usernameValid, passwordId -> LoginPagePopulate.passwordValid)
 
       // Act
       val result = loginPage.submit(request)
