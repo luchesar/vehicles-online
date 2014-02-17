@@ -48,5 +48,17 @@ class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito{
       status(result) should equal(SEE_OTHER)
       redirectLocation(result) should equal (Some(V5cSearchPagePopulate.url))
     }
+
+    "report bad request when no details are entered" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody()
+
+      // Act
+      val result = Authentication.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
+    }
   }
 }

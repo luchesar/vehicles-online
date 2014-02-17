@@ -29,7 +29,6 @@ class LoginPageControllerSpec extends WordSpec with Matchers with MockitoSugar {
       status(result) should equal(OK)
     }
 
-
     "redirect to next page after the next button is clicked" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
@@ -42,6 +41,18 @@ class LoginPageControllerSpec extends WordSpec with Matchers with MockitoSugar {
       // Assert
       status(result) should equal(SEE_OTHER)
       redirectLocation(result) should equal(Some(LoginConfirmationPage.url))
+    }
+
+    "report bad request when no details are filled in" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody()
+
+      // Act
+      val result = loginPage.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
     }
   }
 }
