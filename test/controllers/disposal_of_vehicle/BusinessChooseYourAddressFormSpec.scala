@@ -58,7 +58,7 @@ class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers with Mock
       )
     }
 
-    "reject if addressSelected has invalid mapping" in {
+    "reject if posted address does not exist in the drop down list entries" in {
       chooseYourAddressFiller(addressSelected = "INVALID").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
