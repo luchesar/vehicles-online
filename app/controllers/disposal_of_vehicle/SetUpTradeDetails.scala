@@ -21,6 +21,11 @@ object SetUpTradeDetails extends Controller {
 
   def present = Action {
     implicit request =>
+      request.session.get("modelId") match {
+        case Some(x) => Logger.debug(s"SetUpTradeDetails - read modelId from session: $x")
+        case _ => throw new RuntimeException("Failed to read modelId from session")
+      }
+
       Ok(views.html.disposal_of_vehicle.setup_trade_details(traderLookupForm))
   }
 
