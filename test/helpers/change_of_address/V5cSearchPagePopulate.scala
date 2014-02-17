@@ -5,7 +5,6 @@ import mappings.V5cSearch._
 import helpers.change_of_address.Helper._
 
 object V5cSearchPagePopulate {
-
   val url = "/v5c-search"
   val v5cReferenceNumberValid = "12345678910"
   val vehicleVRNValid = "a1"

@@ -1,4 +1,4 @@
-package mappings
+package mappings.change_of_address
 
 object Authentication {
   val minLength = 6
