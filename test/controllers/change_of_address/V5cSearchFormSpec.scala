@@ -1,7 +1,8 @@
 package controllers.change_of_address
 
 import org.scalatest.{Matchers, WordSpec}
-import mappings.V5cSearch._
+import mappings.change_of_address.V5cSearch
+import V5cSearch._
 import org.scalatest.mock.MockitoSugar
 import helpers.change_of_address.V5cSearchPagePopulate._
 

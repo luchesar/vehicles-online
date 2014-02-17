@@ -10,11 +10,14 @@ import ExecutionContext.Implicits.global
 import play.api.cache.Cache
 import play.api.Play.current
 import controllers.change_of_address.Helpers._
-import mappings.V5cSearch._
-import mappings.{V5cRegistrationNumber, V5cReferenceNumber}
+import mappings.change_of_address.V5cSearch
+import V5cSearch._
+import mappings.V5cReferenceNumber
 import mappings.V5cReferenceNumber._
-import mappings.V5cRegistrationNumber._
-import mappings.Postcode._
+import mappings.common.{V5cRegistrationNumber, PostCode}
+import V5cRegistrationNumber._
+import mappings.common.PostCode
+import PostCode._
 import javax.inject.Inject
 
 class VehicleSearch @Inject() (webService: services.V5cSearchWebService) extends Controller {

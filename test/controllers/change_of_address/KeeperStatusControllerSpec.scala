@@ -4,6 +4,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.change_of_address
 import org.scalatest.{Matchers, WordSpec}
+import helpers.change_of_address.VerifyIdentityPage
 
 class KeeperStatusControllerSpec extends WordSpec with Matchers {
 
@@ -29,7 +30,7 @@ class KeeperStatusControllerSpec extends WordSpec with Matchers {
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some("/verify-identity"))
+      redirectLocation(result) should equal (Some(VerifyIdentityPage.url))
     }
   }
 }

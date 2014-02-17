@@ -5,9 +5,10 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
 import mappings.disposal_of_vehicle.Dispose._
-import mappings.Consent._
-import mappings.Mileage._
-import mappings.DayMonthYear._
+import mappings.common.{Mileage, DayMonthYear, Consent}
+import Consent._
+import Mileage._
+import DayMonthYear._
 import constraints.DayMonthYear._
 import controllers.disposal_of_vehicle.Helpers._
 import models.domain.disposal_of_vehicle.{VehicleDetailsModel, DealerDetailsModel, DisposeFormModel, DisposeModel}

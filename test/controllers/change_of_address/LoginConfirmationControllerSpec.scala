@@ -6,6 +6,7 @@ import controllers.change_of_address
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
 import helpers.change_of_address.LoginCachePopulate._
+import helpers.change_of_address.{AreYouRegisteredPage, AuthenticationPopulate}
 
 class LoginConfirmationControllerSpec extends WordSpec with Matchers with Mockito {
 
@@ -32,7 +33,7 @@ class LoginConfirmationControllerSpec extends WordSpec with Matchers with Mockit
     val result = change_of_address.LoginConfirmation.present(request)
 
     // Assert
-    redirectLocation(result) should equal(Some("/are-you-registered"))
+    redirectLocation(result) should equal(Some(AreYouRegisteredPage.url))
   }
 
     "redirect to next page after the agree button is clicked" in new WithApplication {

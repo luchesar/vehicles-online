@@ -1,14 +1,15 @@
 @(vehicleSearchForm: Form[models.domain.change_of_address.V5cSearchModel], name: String)(implicit lang: Lang)
+@import mappings.common.PostCode
+@import mappings.common.PostCode
 
 @import helper._
 @import utils.helpers.BaseTemplete._
 @import views.html.helper.base._
 @import views.html.common._
 @import views.html.helper._
-@import mappings.V5cSearch._
+@import mappings.change_of_address.V5cSearch._
 @import mappings.V5cReferenceNumber
-@import mappings.V5cRegistrationNumber
-@import mappings.Postcode
+@import mappings.common.V5cRegistrationNumber
 
 @main(Messages("v5csearch.title")) {
     @errorsSummary(vehicleSearchForm)
@@ -35,7 +36,7 @@
                 @valtechInputText(vehicleSearchForm(v5cPostcodeId), args =
                 '_label -> Messages("v5csearch.postcode.label"),
                 '_showConstraints -> false,
-                'maxLength -> Postcode.maxLength,
+                'maxLength -> PostCode.maxLength,
                 'title -> Messages("v5csearch.postcode.validation"))
             </ul>
 
