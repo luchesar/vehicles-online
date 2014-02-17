@@ -11,6 +11,7 @@ import org.mockito.Matchers._
 import models.domain.change_of_address.V5cSearchModel
 import modules.TestModule.FakeV5cSearchWebService
 import org.scalatest.mock.MockitoSugar
+import helpers.change_of_address.V5cSearchPagePopulate._
 
 class V5cSearchControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
@@ -46,11 +47,8 @@ class V5cSearchControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
     "redirect to next page after the button is clicked" in new WithApplication {
       // Arrange
-      val v5cReferenceNumberValid = "12345678910"
-      val v5cRegistrationNumberValid = "a1"
-      val v5cPostcodeValid = "sa44dw"
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cReferenceNumberValid, v5cRegistrationNumberId -> v5cRegistrationNumberValid, v5cPostcodeId -> v5cPostcodeValid)
+        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cReferenceNumberValid, v5cRegistrationNumberId -> vehicleVRNValid, v5cPostcodeId -> v5cPostcodeValid)
 
       // Act
       val result = vehicleSearch.submit(request)

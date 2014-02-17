@@ -7,6 +7,9 @@ import helpers.change_of_address.Helper._
 object V5cSearchPagePopulate {
 
   val url = "/v5c-search"
+  val v5cReferenceNumberValid = "12345678910"
+  val vehicleVRNValid = "a1"
+  val v5cPostcodeValid = "SA44DW"
 
   def happyPath(browser: TestBrowser, v5cDocumentReferenceNumber: String = v5cDocumentReferenceNumberValid, v5cVehicleRegistrationNumber: String = v5cVehicleRegistrationNumberValid, v5cPostcode: String = v5cPostcodeValid) = {
     browser.goTo("/v5c-search")

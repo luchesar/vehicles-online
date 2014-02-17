@@ -3,14 +3,12 @@ package controllers.change_of_address
 import org.scalatest.{Matchers, WordSpec}
 import mappings.V5cSearch._
 import org.scalatest.mock.MockitoSugar
+import helpers.change_of_address.V5cSearchPagePopulate._
 
 class V5cSearchFormSpec extends WordSpec with Matchers with MockitoSugar {
   "V5cSearch Form" should {
     val mockWebService = mock[services.V5cSearchWebService]
     val vehicleSearch = new VehicleSearch(mockWebService)
-    val v5cReferenceNumberValid = "12345678910"
-    val vehicleVRNValid = "a1"
-    val v5cPostcodeValid = "SA44DW"
 
     def v5cSearchFiller(v5cReferenceNumber: String,v5cRegistrationNumber: String, v5cPostcode: String ) = {
       vehicleSearch.vehicleSearchForm.bind(
