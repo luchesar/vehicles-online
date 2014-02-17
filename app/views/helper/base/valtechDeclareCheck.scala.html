@@ -12,7 +12,7 @@
 @input(field, args: _*) { (id, name, value, htmlArgs) =>
 
 @*TODO make a helper extension method for this. This is really confusing as 'value' is being set in a separate method above *@
-<label>
+<label class="form-checkbox">
     <input type="checkbox"
         id="@CryptoHelper.encryptAES(id)"
         name="@CryptoHelper.encryptAES(name)"

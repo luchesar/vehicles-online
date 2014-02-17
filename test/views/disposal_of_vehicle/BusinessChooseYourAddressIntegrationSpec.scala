@@ -33,13 +33,13 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
       titleMustEqual(SetUpTradeDetailsPage.title)
     }
 
-    "display one validation error messages when addressSelected is not in the list" in new WithBrowser with BrowserMatchers {
+    "display validation error messages when addressSelected is not in the list" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       SetUpTradeDetailsPage.happyPath(browser)
       BusinessChooseYourAddressPage.sadPath(browser)
 
       //Assert
-      checkNumberOfValidationErrors(1)
+      checkNumberOfValidationErrors(2)
     }
 
     "display previous page when back link is clicked" in new WithBrowser with BrowserMatchers {

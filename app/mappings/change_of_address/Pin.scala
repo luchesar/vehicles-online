@@ -1,4 +1,4 @@
-package mappings
+package mappings.change_of_address
 
 import play.api.data.Mapping
 import play.api.data.Forms._
