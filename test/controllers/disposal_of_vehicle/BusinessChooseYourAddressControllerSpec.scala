@@ -49,8 +49,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
       // Arrange
       SetUpTradeDetailsPage.setupCache
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(
-          addressSelectId -> "")
+        .withFormUrlEncodedBody()
 
       // Act
       val result = businessChooseYourAddress.submit(request)

@@ -55,5 +55,20 @@ class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
       // Assert
       redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
     }
+
+    "return a bad request when no details are entered" in new WithApplication {
+      // Arrange
+      SetUpTradeDetailsPage.setupCache
+      BusinessChooseYourAddressPage.setupCache
+      VehicleLookupPage.setupCache()
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody()
+
+      // Act
+      val result = disposal_of_vehicle.Dispose.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
+    }
   }
 }
