@@ -3,7 +3,8 @@ package controllers.change_of_address
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import org.scalatest.{Matchers, WordSpec}
-import mappings.V5cSearch._
+import mappings.change_of_address.V5cSearch
+import V5cSearch._
 import helpers.change_of_address.LoginCachePopulate
 import LoginCachePopulate._
 import org.mockito.Mockito._

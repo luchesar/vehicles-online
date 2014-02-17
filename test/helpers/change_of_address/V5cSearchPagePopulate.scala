@@ -1,7 +1,8 @@
 package helpers.change_of_address
 
 import play.api.test.TestBrowser
-import mappings.V5cSearch._
+import mappings.change_of_address.V5cSearch
+import V5cSearch._
 import helpers.change_of_address.Helper._
 
 object V5cSearchPagePopulate {
