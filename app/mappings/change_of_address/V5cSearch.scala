@@ -1,4 +1,4 @@
-package mappings
+package mappings.change_of_address
 
 object V5cSearch {
   val v5cReferenceNumberId = "V5cReferenceNumber"
