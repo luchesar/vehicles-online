@@ -240,3 +240,5 @@ error.minLength = Isafswm hyd yw {0}
 error.maxLength = Uchafswm hyd yn {0}
 
 select_default = Dewiswch
+
+widget.optional = (dewisol)

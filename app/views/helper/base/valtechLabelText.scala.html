@@ -1,4 +1,4 @@
-@(field:Field, args: (Symbol, Any)*)
+@(field:Field, args: (Symbol, Any)*)(implicit lang: Lang)
 
 @import helper._
 @import utils.helpers.CryptoHelper
@@ -8,5 +8,5 @@
 @labelOrId(field.id,args: _*)
 
 @if(!field.constraints.find(_._1 == "constraint.required")) {
-    <em>(optional)</em>
+    <em>@Messages("widget.optional")</em>
 }
