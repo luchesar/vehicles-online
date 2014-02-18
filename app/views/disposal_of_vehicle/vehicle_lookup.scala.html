@@ -1,15 +1,15 @@
 @(data: models.domain.disposal_of_vehicle.DealerDetailsModel, vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang)
 
+@import mappings.common.PostCode
 @import helper._
 @import utils.helpers.BaseTemplete._
 @import views.html.helper.base._
 @import views.html.common._
 @import views.html.helper._
 @import mappings.disposal_of_vehicle.VehicleLookup._
-@import mappings.V5cReferenceNumber
-@import mappings.V5cRegistrationNumber
-@import mappings.Postcode
-@import mappings.KeeperName
+@import mappings.common.V5cReferenceNumber
+@import mappings.common.V5cRegistrationNumber
+@import mappings.common.KeeperName
 
 @main(Messages("disposal_vehiclelookup.title")) {
     @errorsSummary(vehicleLookupForm)
@@ -58,7 +58,7 @@
                 @valtechInputText(vehicleLookupForm(v5cPostcodeId), args =
                 '_label -> Messages("disposal_vehiclelookup.keeperpostcodelabel"),
                 '_showConstraints -> false,
-                'maxLength -> Postcode.maxLength,
+                'maxLength -> PostCode.maxLength,
                 'title -> Messages("disposal_vehiclelookup.keeperpostcode.validation"))
 					</ul>
 					

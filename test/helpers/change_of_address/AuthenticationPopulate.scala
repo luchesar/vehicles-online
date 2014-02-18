@@ -4,8 +4,8 @@ import play.api.test.TestBrowser
 import helpers.change_of_address.Helper._
 
 object AuthenticationPopulate {
-
-  val url = "/are-you-registered"
+  val url = "/authentication"
+  
 
   def happyPath(browser: TestBrowser) = {
     browser.goTo("/authentication")

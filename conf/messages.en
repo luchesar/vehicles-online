@@ -166,6 +166,7 @@ datePlaceholder.October=October
 datePlaceholder.November=November
 datePlaceholder.December=December
 
+select_default = Please select
 
 ##
 # DISPOSAL OF VEHICLE
@@ -211,6 +212,7 @@ disposal_businessChooseYourAddress_addressSelect = Choose your address
 disposal_businessChooseYourAddress_addressSelect_label = Choose your address
 disposal_businessChooseYourAddress.backbutton = Back
 disposal_businessChooseYourAddress.submitbutton = Select
+error.dropDownInvalid = Please select a value from the drop down list.
 
 #page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Dispose a vehicle into the motor trade: vehicle
@@ -258,3 +260,4 @@ disposal_disposeconfirmation.transactionid_label = Transaction id
 disposal_disposeconfirmation.backbutton = Back
 disposal_disposeconfirmation.newdisposalbutton = New disposal
 disposal_disposeconfirmation.disposaldate = Disposal date
+disposal_disposeconfirmation.mileage = Mileage

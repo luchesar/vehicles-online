@@ -1,4 +1,4 @@
-package mappings
+package mappings.common
 
 object KeeperName {
   val minLength = 1

@@ -1,4 +1,4 @@
-package mappings
+package mappings.common
 
 import play.api.data.Mapping
 import play.api.data.Forms._

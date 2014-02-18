@@ -151,8 +151,9 @@ disposal_businessChooseYourAddress_businessName_label = Enw busnes
 disposal_businessChooseYourAddress_businessName = {0}
 disposal_businessChooseYourAddress_addressSelect = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress_addressSelect_label = Dewiswch eich cyfeiriad
-disposal_businessChooseYourAddress.backbutton = Back
+disposal_businessChooseYourAddress.backbutton = Holau
 disposal_businessChooseYourAddress.submitbutton = Dewis
+error.dropDownInvalid = Dewiswch werth o''r rhestr a ollyngir i lawr
 
 #page not known - Vehicle Lookup
 disposal_setuptradedetails.title = Gwaredu cerbyd i mewn i'r fasnach foduron
@@ -172,7 +173,7 @@ disposal_vehiclelookup.v5cinputlabel.refNumIncorrect = Mae'n rhaid i chi fynd i 
 disposal_vehiclelookup.vrninputlabel = Rhif cofrestru cerbyd
 disposal_vehiclelookup.keepernamelabel = Enw llawn ceidwad
 disposal_vehiclelookup.keeperpostcodelabel = Ceidwad cod post
-disposal_vehiclelookup.backbutton = Back
+disposal_vehiclelookup.backbutton = Holau
 disposal_vehiclelookup.button = Dod o hyd i
 disposal_vehiclelookup.button2 = Golygu
 
@@ -187,7 +188,7 @@ disposal_dispose.consentnotgiven = Nodwch gennych ganiatad y ceidwad presennol
 disposal_dispose.mileage.label = Milltiroedd cerbydau
 disposal_dispose.mileage.validation = Mae''n rhaid i chi fynd i mewn milltiroedd dilys rhwng 0 a 999,999
 disposal_dispose.dateofdisposal.label = Dyddiad y gwaredu
-disposal_dispose.backbutton = Back
+disposal_dispose.backbutton = Holau
 disposal_dispose.submitbutton = Gwaredu
 
 disposal_disposeconfirmation.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion
@@ -203,9 +204,10 @@ disposal_disposeconfirmation.emaillabel = Cyfeiriad e-bost
 disposal_disposeconfirmation.sendbutton = Anfon
 disposal_disposeconfirmation.transactionid = {0}
 disposal_disposeconfirmation.transactionid_label = Trafodiad yn
-disposal_disposeconfirmation.backbutton = Back
+disposal_disposeconfirmation.backbutton = Holau
 disposal_disposeconfirmation.newdisposalbutton = Gwaredu Newydd
 disposal_disposeconfirmation.disposaldate = Dyddiad gwaredu
+disposal_disposeconfirmation.mileage = Milltiroedd
 
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda
@@ -235,3 +237,5 @@ datePlaceholder.December = Rhagfyr
 error.required = Mae angen y maes hwn
 error.minLength = Isafswm hyd yw {0}
 error.maxLength = Uchafswm hyd yn {0}
+
+select_default = Dewiswch

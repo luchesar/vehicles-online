@@ -10,12 +10,13 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import play.api.Play.current
 import javax.inject.Inject
+import mappings.change_of_address
 
 class LoginPage @Inject() (webService: services.LoginWebService) extends Controller {
   val loginPageForm = Form(
     mapping(
-      "username" -> nonEmptyText,
-      "password" -> nonEmptyText
+      mappings.change_of_address.LoginPage.usernameId -> nonEmptyText,
+      mappings.change_of_address.LoginPage.passwordId -> nonEmptyText
     )(LoginPageModel.apply)(LoginPageModel.unapply)
   )
 
@@ -42,7 +43,7 @@ class LoginPage @Inject() (webService: services.LoginWebService) extends Control
   private def confirmLogin(webService: services.LoginWebService, loginPageForm: LoginPageModel) : Future[SimpleResult] = {
     webService.invoke(loginPageForm).map { resp =>
       Logger.debug(s"LoginPage Web service call successful - response = ${resp}")
-      val key = mappings.LoginConfirmation.key
+      val key = change_of_address.LoginConfirmation.key
       Cache.set(key, resp.loginConfirmationModel)
       Logger.debug(s"LoginPage set value for key: $key")
       Redirect(routes.LoginConfirmation.present)
@@ -55,5 +56,3 @@ class LoginPage @Inject() (webService: services.LoginWebService) extends Control
   }
 
 }
-
-object LoginPage

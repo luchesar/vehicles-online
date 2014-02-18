@@ -44,7 +44,6 @@ object TestModule extends ScalaModule {
   class FakeAddressLookupService() extends AddressLookupService {
     override def fetchAddress(postcode: String): Map[String, String] = {
       Map(
-        "" -> "Please select",
         address1.toViewFormat() -> address1.toViewFormat(),
         address2.toViewFormat() -> address2.toViewFormat()
       ) // TODO this should come from call to GDS lookup.

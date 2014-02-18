@@ -1050,7 +1050,15 @@ main {
 				   }
 		   }
 		   
-
+		   .form-checkbox {
+		   		position: relative;
+		   		padding-left:25px;
+		   		input {
+		   			position: absolute;
+		   			top:0;
+		   			left:0;
+		   		}
+		   }
 		  
 		   
 		   /* radio list - includes hit areas */

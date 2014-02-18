@@ -7,9 +7,11 @@ import play.api.Logger
 import play.api.Play.current
 import models.domain.disposal_of_vehicle.{VehicleDetailsModel, VehicleLookupFormModel}
 import mappings.disposal_of_vehicle.VehicleLookup._
-import mappings.V5cReferenceNumber._
-import mappings.V5cRegistrationNumber._
-import mappings.Postcode._
+import mappings.common.{V5cReferenceNumber, V5cRegistrationNumber, PostCode}
+import V5cReferenceNumber._
+import mappings.common.{V5cRegistrationNumber, PostCode}
+import V5cRegistrationNumber._
+import PostCode._
 import controllers.disposal_of_vehicle.Helpers._
 import scala.Some
 import models.domain.common.Address
@@ -42,7 +44,7 @@ object VehicleLookup extends Controller {
         }
       },
       f => {
-        saveVehicleDetailsToCache(lookupVehicleDetails(f))
+        storeVehicleDetailsInCache(lookupVehicleDetails(f))
         Redirect(routes.Dispose.present)
       }
     )
@@ -65,7 +67,7 @@ object VehicleLookup extends Controller {
     }
   }
 
-  private def saveVehicleDetailsToCache(model: VehicleDetailsModel) = {
+  private def storeVehicleDetailsInCache(model: VehicleDetailsModel) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.cacheKey
     Cache.set(key, model)
     Logger.debug(s"VehicleLookup page - stored vehicle details object in cache: key = $key, value = ${model}")

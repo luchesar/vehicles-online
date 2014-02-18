@@ -3,8 +3,10 @@
 # ~~~~
 
 # IoC
-# we use the @controllers syntax here so that the router knows we are referring to a class. In turn it
-# will call on the GlobalSettings.getController method to resolve the actual controller instance.
+# For those controllers whose dependencie are being injected, we use the @controllers syntax here so that
+# the router knows we are referring to a class (not an object). In turn it will call on the
+# GlobalSettings.getControllerInstance method to resolve the actual controller instance. This method hooks into
+# Guice to provide the actual instance complete with its injected dependencies
 
 ######################
 ## CHANGE OF KEEPER
@@ -70,6 +72,10 @@ POST        /disposal-of-vehicle/setup-trade-details            controllers.disp
 #page 3 - business choose your address
 GET         /disposal-of-vehicle/business-choose-your-address   @controllers.disposal_of_vehicle.BusinessChooseYourAddress.present
 POST        /disposal-of-vehicle/business-choose-your-address   @controllers.disposal_of_vehicle.BusinessChooseYourAddress.submit
+
+#page 4 [optional] - enter address manually
+GET         /disposal-of-vehicle/enter-address-manually         controllers.disposal_of_vehicle.EnterAddressManually.present
+POST        /disposal-of-vehicle/enter-address-manually         controllers.disposal_of_vehicle.EnterAddressManually.submit
 
 
 GET         /disposal-of-vehicle/vehicle-lookup                 controllers.disposal_of_vehicle.VehicleLookup.present

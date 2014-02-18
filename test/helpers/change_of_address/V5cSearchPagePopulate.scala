@@ -1,12 +1,13 @@
 package helpers.change_of_address
 
 import play.api.test.TestBrowser
-import mappings.V5cSearch._
+import mappings.change_of_address.V5cSearch
+import V5cSearch._
 import helpers.change_of_address.Helper._
 
 object V5cSearchPagePopulate {
-
   val url = "/v5c-search"
+
 
   def happyPath(browser: TestBrowser, v5cDocumentReferenceNumber: String = v5cDocumentReferenceNumberValid, v5cVehicleRegistrationNumber: String = v5cVehicleRegistrationNumberValid, v5cPostcode: String = v5cPostcodeValid) = {
     browser.goTo("/v5c-search")

@@ -5,9 +5,10 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
 import mappings.disposal_of_vehicle.Dispose._
-import mappings.Consent._
-import mappings.Mileage._
-import mappings.DayMonthYear._
+import mappings.common.{Mileage, DayMonthYear, Consent}
+import Consent._
+import Mileage._
+import DayMonthYear._
 import constraints.DayMonthYear._
 import controllers.disposal_of_vehicle.Helpers._
 import models.domain.disposal_of_vehicle.{VehicleDetailsModel, DealerDetailsModel, DisposeFormModel, DisposeModel}
@@ -53,7 +54,7 @@ object Dispose extends Controller {
           }
         },
         f => {
-          saveDateOfDisposalToCache(f)
+          storeDateOfDisposalInCache(f)
           Logger.debug(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
           Redirect(routes.DisposeConfirmation.present)}
       )
@@ -69,10 +70,10 @@ object Dispose extends Controller {
       dealerAddress = dealerDetails.dealerAddress)
   }
 
-  private def saveDateOfDisposalToCache(f: DisposeFormModel) = {
+  private def storeDateOfDisposalInCache(f: DisposeFormModel) = {
     val key = mappings.disposal_of_vehicle.Dispose.cacheKey
-    val value = f.dateOfDisposal
+    val value = f
     play.api.cache.Cache.set(key, value)
-    Logger.debug(s"DisposeDate stored data in cache: key = $key, value = ${value}")
+    Logger.debug(s"Dispose - stored disposeFromModel in cache: key = $key, value = $f")
   }
 }
