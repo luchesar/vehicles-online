@@ -261,3 +261,4 @@ disposal_disposeconfirmation.backbutton = Back
 disposal_disposeconfirmation.newdisposalbutton = New disposal
 disposal_disposeconfirmation.disposaldate = Disposal date
 disposal_disposeconfirmation.mileage = Mileage
+disposal_disposeconfirmation.noMileageEntered = No mileage entered

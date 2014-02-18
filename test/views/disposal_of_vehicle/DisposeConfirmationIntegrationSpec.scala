@@ -19,24 +19,13 @@ class DisposeConfirmationIntegrationSpec extends Specification with Tags {
       titleMustEqual(DisposeConfirmationPage.title)
     }
 
-  "Redirect when no traderBusinessName is cached" in new WithBrowser with BrowserMatchers {
-    // Arrange & Act
-    browser.goTo(DisposeConfirmationPage.url)
+    "Redirect when no traderBusinessName is cached" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      browser.goTo(DisposeConfirmationPage.url)
 
-    // Assert
-    titleMustEqual(SetUpTradeDetailsPage.title)
-  }
-
-  "display previous page when back link is clicked" in new WithBrowser with BrowserMatchers {
-    SetUpTradeDetailsPage.setupCache
-    BusinessChooseYourAddressPage.setupCache
-    VehicleLookupPage.setupCache
-    DisposePage.setupCache
-    browser.goTo(DisposeConfirmationPage.url)
-
-    browser.click("#backButton")
-    titleMustEqual(DisposePage.title)
-  }
+      // Assert
+      titleMustEqual(SetUpTradeDetailsPage.title)
+    }
 
     "display vehicle lookup page when new disposal link is clicked" in new WithBrowser with BrowserMatchers {
       SetUpTradeDetailsPage.setupCache

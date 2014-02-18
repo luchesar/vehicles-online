@@ -208,6 +208,7 @@ disposal_disposeconfirmation.backbutton = Holau
 disposal_disposeconfirmation.newdisposalbutton = Gwaredu Newydd
 disposal_disposeconfirmation.disposaldate = Dyddiad gwaredu
 disposal_disposeconfirmation.mileage = Milltiroedd
+disposal_disposeconfirmation.noMileageEntered = Naddo milltiroedd gofnodi
 
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda

@@ -50,6 +50,9 @@
             @if(disposeModel.mileage != None) {
                 <dt>@Messages("disposal_disposeconfirmation.mileage")</dt>
                 <dd>@{disposeModel.mileage}</dd>
+            } else {
+                <dt>@Messages("disposal_disposeconfirmation.noMileageEntered")</dt>
+                <dd></dd>
             }
 		</dl>
 
@@ -74,7 +77,7 @@
 	    		<li>@Messages("disposal_disposeconfirmation.exkeeperlettertext")</li>
 
 	    		    @valtechInputTextWithButton(disposeConfirmationForm(emailAddressId),
-                        args = Seq('_label -> Messages("disposal_disposeconfirmation.emaillabel"),
+                        args = Seq('_label -> Messages("disposal_disposeconfirmation.sendbutton"),
 		                '_showConstraints -> false))
 
 
@@ -91,10 +94,8 @@
 	    	}
 	    	
 	    	<div class="form-steps">
-                <a id="backButton" href="@controllers.disposal_of_vehicle.routes.Dispose.present" class="button secondary" aria-label="Back button">@Messages("disposal_disposeconfirmation.backbutton")</a>
 	    		<a class="button-not-implemented" aria-disabled="true">@Messages("global.buttonnavprint")</a>
 	    		<a id="newDisposal" class="button" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present">@Messages("disposal_disposeconfirmation.newdisposalbutton")</a>
-                   
             </div>
             
 	    </div>
