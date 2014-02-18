@@ -8,7 +8,7 @@ import org.specs2.mock.Mockito
 import helpers.change_of_address.{LoginCachePopulate, AuthenticationPopulate, V5cSearchPagePopulate}
 import LoginCachePopulate._
 
-class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito{
+class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito {
 
   "Authentication - Controller" should {
 

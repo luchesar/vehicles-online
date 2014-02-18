@@ -6,7 +6,7 @@ import controllers.change_of_address
 import org.scalatest.{Matchers, WordSpec}
 import helpers.change_of_address.SignInProviderPage
 
-class AreYouRegisteredControllerSpec  extends WordSpec with Matchers {
+class AreYouRegisteredControllerSpec extends WordSpec with Matchers {
 
   "AreYouRegistered - Controller" should {
 
