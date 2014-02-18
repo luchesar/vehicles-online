@@ -72,8 +72,8 @@ object Dispose extends Controller {
 
   private def storeDateOfDisposalInCache(f: DisposeFormModel) = {
     val key = mappings.disposal_of_vehicle.Dispose.cacheKey
-    val value = f.dateOfDisposal
+    val value = f
     play.api.cache.Cache.set(key, value)
-    Logger.debug(s"DisposeDate stored data in cache: key = $key, value = ${value}")
+    Logger.debug(s"Dispose - stored disposeFromModel in cache: key = $key, value = $f")
   }
 }
