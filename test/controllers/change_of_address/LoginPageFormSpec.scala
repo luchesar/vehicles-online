@@ -3,7 +3,7 @@ package controllers.change_of_address
 import org.scalatest.WordSpec
 import org.scalatest.Matchers
 import org.scalatest.mock.MockitoSugar
-import helpers.change_of_address.LoginPagePopulate._
+import helpers.change_of_address.Helper._
 
 class LoginPageFormSpec extends WordSpec with Matchers with MockitoSugar {
   "loginPage form" should {

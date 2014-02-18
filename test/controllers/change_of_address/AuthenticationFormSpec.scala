@@ -4,6 +4,7 @@ import mappings.change_of_address
 import change_of_address.Authentication._
 import org.scalatest.{Matchers, WordSpec}
 import helpers.change_of_address.AuthenticationPopulate._
+import helpers.change_of_address.Helper._
 
 class AuthenticationFormSpec extends WordSpec with Matchers {
   "Authentication Form" should {

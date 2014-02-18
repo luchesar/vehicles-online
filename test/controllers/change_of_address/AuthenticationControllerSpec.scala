@@ -6,7 +6,7 @@ import org.scalatest.{Matchers, WordSpec}
 import mappings.change_of_address
 import change_of_address.Authentication._
 import org.specs2.mock.Mockito
-import helpers.change_of_address.{LoginCachePopulate, AuthenticationPopulate, V5cSearchPagePopulate, AreYouRegisteredPage}
+import helpers.change_of_address.{LoginCachePopulate, AuthenticationPopulate, V5cSearchPagePopulate, AreYouRegisteredPage, Helper}
 import LoginCachePopulate._
 
 class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito{
@@ -39,7 +39,7 @@ class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito{
     "redirect to next page after the button is clicked" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(pinFormId -> AuthenticationPopulate.pinValid)
+        .withFormUrlEncodedBody(pinFormId -> Helper.pinValid)
 
       // Act
       val result = Authentication.submit(request)
