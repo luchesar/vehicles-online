@@ -9,7 +9,7 @@ import org.specs2.mock.Mockito
 import helpers.disposal_of_vehicle.{DisposeConfirmationPage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
 import helpers.disposal_of_vehicle.Helper._
 import mappings.common.{PostCode, MultiLineAddress}
-import helpers.disposal_of_vehicle.EnterAddressManuallyPopulate._
+import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
 
 class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Mockito {
   "EnterAddressManually - Controller" should {
