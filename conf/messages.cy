@@ -221,7 +221,7 @@ error.restricted.validNumberOnly = Mae''r maes hwn yn derbyn rhifau yn unig
 error.restricted.validVRNOnly = Rhowch rhif cofrestru cerbyd dilys heb fylchau
 error.restricted.validPostcode = Rhaid i cod post fod yn y fformat PR2 8AE
 
-datePlaceholder.day = Day
+datePlaceholder.day = Dydd
 datePlaceholder.month = Mis
 datePlaceholder.January = Ionawr
 datePlaceholder.February = Chwefror
