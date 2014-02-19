@@ -170,6 +170,8 @@ select_default = Please select
 
 widget.optional = (optional)
 
+error.invalid = Invalid value
+
 ##
 # DISPOSAL OF VEHICLE
 ##

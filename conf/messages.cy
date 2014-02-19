@@ -244,3 +244,5 @@ error.maxLength = Uchafswm hyd yn {0}
 select_default = Dewiswch
 
 widget.optional = (dewisol)
+
+error.invalid = Gwerth annilys
