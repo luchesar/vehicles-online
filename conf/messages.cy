@@ -155,6 +155,10 @@ disposal_businessChooseYourAddress.backbutton = Holau
 disposal_businessChooseYourAddress.submitbutton = Dewis
 error.dropDownInvalid = Dewiswch werth o''r rhestr a ollyngir i lawr
 
+disposal_enteraddressmanually.title = Manually mynd i gyfeiriad
+disposal_enteraddressmanually.submitbutton = Dewis
+disposal_enteraddressmanually.backbutton = Holau
+
 #page not known - Vehicle Lookup
 disposal_setuptradedetails.title = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_setuptradedetails.name = Gwaredu cerbyd i mewn i'r fasnach foduron

@@ -216,7 +216,12 @@ disposal_businessChooseYourAddress_addressSelect = Choose your address
 disposal_businessChooseYourAddress_addressSelect_label = Choose your address
 disposal_businessChooseYourAddress.backbutton = Back
 disposal_businessChooseYourAddress.submitbutton = Select
+disposal_businessChooseYourAddress.manualAddressEntry = Enter address manually
 error.dropDownInvalid = Please select a value from the drop down list.
+
+disposal_enteraddressmanually.title = Manually enter address
+disposal_enteraddressmanually.submitbutton = Select
+disposal_enteraddressmanually.backbutton = Back
 
 #page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Dispose a vehicle into the motor trade: vehicle
