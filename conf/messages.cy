@@ -153,6 +153,7 @@ disposal_businessChooseYourAddress_addressSelect = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress_addressSelect_label = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress.backbutton = Holau
 disposal_businessChooseYourAddress.submitbutton = Dewis
+disposal_businessChooseYourAddress.manualAddressEntry = Rhowch gyfeiriad llaw
 error.dropDownInvalid = Dewiswch werth o''r rhestr a ollyngir i lawr
 
 disposal_enteraddressmanually.title = Manually mynd i gyfeiriad
