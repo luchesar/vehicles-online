@@ -44,4 +44,5 @@ dist
 /bin
 test.sc
 *.worksheet
+/conf/vehiclesOnline.conf
 
