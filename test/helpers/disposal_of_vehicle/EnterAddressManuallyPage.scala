@@ -5,5 +5,6 @@ object EnterAddressManuallyPage {
   val line1Valid = "123 Street"
   val line2Valid = "line2 stub"
   val line3Valid = "line3 stub"
+  val line4Valid = "line4 stub"
   val postCodeValid = "SE1 6EH"
 }
