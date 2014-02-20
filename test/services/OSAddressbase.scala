@@ -64,6 +64,17 @@ class OSAddressbasePostcodeResponseSpec extends WordSpec with Matchers {
       poso.header.totalresults should equal(0)
     }
 
+    "populate the the results given json with 0 result" in {
+      val resp = getResource("osaddressbase_lookup_emptyResult.json")
+
+      val poso = Json.parse(resp).as[OSAddressbaseSearchResponse]
+
+      poso.results match {
+        case None =>
+        case _ => fail("expected results")
+      }
+    }
+
     "populate the header given json with header and 1 result" in {
       val resp = getResource("osaddressbase_lookup_oneResult.json")
 
