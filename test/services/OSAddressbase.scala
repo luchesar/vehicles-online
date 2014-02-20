@@ -67,20 +67,20 @@ class OSAddressbasePostcodeResponseSpec extends WordSpec with Matchers {
                                UPRN: String,
                                ADDRESS: String,
                                USRN: String,
-                               LPI_KEY : String,
-                               LEVEL : Option[String],
-                               ORGANISATION : String,
-                               SAO_START_NUMBER : Option[String],
-                               SAO_START_SUFFIX : Option[String],
-                               SAO_END_NUMBER : Option[String],
-                               SAO_END_SUFFIX : Option[String],
-                               PAO_START_NUMBER : Option[String],
-                               PAO_START_SUFFIX : Option[String],
-                               PAO_END_NUMBER : Option[String],
-                               PAO_END_SUFFIX : Option[String],
-                               STREET_DESCRIPTION : String,
-                               LOCALITY_NAME : Option[String],
-                               TOWN_NAME : Option[String]
+                               LPI_KEY: String,
+                               LEVEL: Option[String],
+                               ORGANISATION: String,
+                               SAO_START_NUMBER: Option[String],
+                               SAO_START_SUFFIX: Option[String],
+                               SAO_END_NUMBER: Option[String],
+                               SAO_END_SUFFIX: Option[String],
+                               PAO_START_NUMBER: Option[String],
+                               PAO_START_SUFFIX: Option[String],
+                               PAO_END_NUMBER: Option[String],
+                               PAO_END_SUFFIX: Option[String],
+                               STREET_DESCRIPTION: String,
+                               LOCALITY_NAME: Option[String],
+                               TOWN_NAME: Option[String]
                                )
 
   object OSAddressbaseLPI {
@@ -92,6 +92,10 @@ class OSAddressbasePostcodeResponseSpec extends WordSpec with Matchers {
                                   DPA: Option[OSAddressbaseDPA]
                                   )
 
+  object OSAddressbaseResult {
+    implicit val readsOSAddressbaseResult = Json.reads[OSAddressbaseResult]
+  }
+
   case class OSAddressbaseHeader(
                                   uri: URI,
                                   query: String,
@@ -102,16 +106,20 @@ class OSAddressbasePostcodeResponseSpec extends WordSpec with Matchers {
                                   maxresults: Int
                                   )
 
+  object OSAddressbaseHeader {
+    implicit val readsOSAddressbaseHeader = Json.reads[OSAddressbaseHeader]
+  }
+
   case class OSAddressbaseSearchResponse(
                                           header: OSAddressbaseHeader,
                                           results: Option[Seq[OSAddressbaseResult]]
                                           )
 
-  "Response Parser loading json for ec1a 4jq" should {
-    implicit val readsOSAddressbaseResult = Json.reads[OSAddressbaseResult]
-    implicit val readsOSAddressbaseHeader = Json.reads[OSAddressbaseHeader]
+  object OSAddressbaseSearchResponse {
     implicit val readsOSAddressbaseSearchResponse = Json.reads[OSAddressbaseSearchResponse]
-
+  }
+  
+  "Response Parser loading json for ec1a 4jq" should {
     "populate the header given json with header but 0 results" in {
       val resp = getResource("osaddressbase_lookup_emptyResult.json")
 
