@@ -16,8 +16,8 @@ class OSAddressbasePostcodeResponseSpec extends WordSpec with Matchers {
   case class OSAddressbaseDpa(
                                UPRN: String,
                                ADDRESS: String,
-                               ORGANISATION_NAME: String,
-                               BUILDING_NUMBER: String,
+                               ORGANISATION_NAME: Option[String],
+                               BUILDING_NUMBER: Option[String],
                                THOROUGHFARE_NAME: String,
                                POST_TOWN: String,
                                POSTCODE: String,
@@ -55,29 +55,55 @@ class OSAddressbasePostcodeResponseSpec extends WordSpec with Matchers {
     implicit val readsOSAddressbaseHeader = Json.reads[OSAddressbaseHeader]
     implicit val readsOSAddressbaseSearchResponse = Json.reads[OSAddressbaseSearchResponse]
 
-    "populate the header given json with header but zero results" in {
+    "populate the header given json with header but 0 results" in {
       val resp = getResource("osaddressbase_lookup_emptyResult.json")
+
       val poso = Json.parse(resp).as[OSAddressbaseSearchResponse]
+
       poso.header.uri should equal(new URI("https://addressapi.ordnancesurvey.co.uk/postcode?&postcode=EC1A+4JQ&dataset=dpa&_=1392379157908"))
       poso.header.totalresults should equal(0)
     }
 
-    "populate the header given json with header and results" in {
+    "populate the header given json with header and 1 result" in {
       val resp = getResource("osaddressbase_lookup_oneResult.json")
 
       val poso = Json.parse(resp).as[OSAddressbaseSearchResponse]
+
       poso.header.uri should equal(new URI("https://addressapi.ordnancesurvey.co.uk/postcode?&postcode=EC1A+4JQ&dataset=dpa&_=1392379157908"))
       poso.header.totalresults should equal(1)
     }
-    /*
-        "populate the DPA results" in {
-          val resp = getResource("osaddressbase_lookup_ec1a_4jq.json")
-          val poso = Json.parse(resp).as[OSAddressbaseSearchResponse]
-          poso.results match {
-            case Some(results) => results.length should equal(13)
-            case _ => fail("expected results")
-          }
-        }*/
+
+    "populate the the results given json with 1 result" in {
+      val resp = getResource("osaddressbase_lookup_oneResult.json")
+
+      val poso = Json.parse(resp).as[OSAddressbaseSearchResponse]
+
+      poso.results match {
+        case Some(results) => results.length should equal(1)
+        case _ => fail("expected results")
+      }
+    }
+
+    "populate the header given json with header and multiple results" in {
+      val resp = getResource("OSAddressbase_Lookup_EC1A_4JQ.json")
+
+      val poso = Json.parse(resp).as[OSAddressbaseSearchResponse]
+
+      poso.header.uri should equal(new URI("https://addressapi.ordnancesurvey.co.uk/postcode?&postcode=EC1A+4JQ&dataset=dpa&_=1392379157908"))
+      poso.header.totalresults should equal(13)
+    }
+
+    "populate the the results given json with multiple results" in {
+      val resp = getResource("OSAddressbase_Lookup_EC1A_4JQ.json")
+
+      val poso = Json.parse(resp).as[OSAddressbaseSearchResponse]
+
+      poso.results match {
+        case Some(results) => results.length should equal(13)
+        case _ => fail("expected results")
+      }
+    }
+
   }
 }
 
