@@ -1,0 +1,18 @@
+@(field: play.api.data.Field, args: (Symbol, Any)*)
+
+@import helper._
+@import utils.helpers.CryptoHelper
+@import utils.helpers._
+@import views.html.helper.base._
+@import utils.helpers.ValtechTemplate._
+
+@input(field,args: _*){(id, name, value, htmlArgs) =>
+    @addressLines(field(mappings.disposal_of_vehicle.AddressLines.id))
+
+    @valtechInputText(field(mappings.disposal_of_vehicle.Postcode.postcodeID),
+        args = 'placeholder -> Messages("vehicles.address.postcode.label"),
+        '_label -> Messages("vehicles.address.postcode.label"),
+        '_showConstraints -> false,
+        'maxLength -> mappings.disposal_of_vehicle.AddressAndPostcode.postcodeMaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+        'title -> Messages("vehicles.address.postcode.validation"))
+}
