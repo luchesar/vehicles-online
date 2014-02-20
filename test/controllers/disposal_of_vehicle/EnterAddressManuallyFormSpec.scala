@@ -72,32 +72,22 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
 
     "reject if postcode is less than min length" in {
       addressFiller(postcode = "SA99").fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(2)
-        },
-
+        formWithErrors => formWithErrors.errors.length should equal(2),
         f => fail("An error should occur")
       )
     }
 
     "reject if postcode contains special characters" in {
       addressFiller(postcode = "SA99 2L$").fold(
-        formWithErrors => {
-          println(formWithErrors.errors)
-          formWithErrors.errors.length should equal(1)
-        },
-
-        f => fail("An error should occur")
+        formWithErrors => formWithErrors.errors.length should equal(1),
+          f => fail("An error should occur")
       )
     }
 
 
     "reject if postcode is more than max length" in {
       addressFiller(postcode = "SA99 1DDR").fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(2)
-        },
-
+        formWithErrors => formWithErrors.errors.length should equal(2),
         f => fail("An error should occur")
       )
     }
