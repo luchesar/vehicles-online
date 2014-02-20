@@ -1,4 +1,4 @@
-@(field: play.api.data.Field, options: Seq[(String, String)], args: (Symbol, Any)*)(implicit handler: helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field, defaultOptionMessage: String = "select_default", options: Seq[(String, String)], args: Seq[(Symbol, Any)] = Nil)(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import views.html.helper.base.valtechLabel
 @import utils.helpers.CryptoHelper
@@ -9,12 +9,12 @@
 @helper.input(field, args: _*) { (id, name, selectedKey, htmlArgs) =>
     @valtechLabel(field, args: _*)
 
-    <select id="@CryptoHelper.encryptAES(field.id)" name="@CryptoHelper.encryptAES(name)" @toHtmlArgs(htmlArgs)>
-        @defaultOption(htmlArgs)
+<select id="@CryptoHelper.encryptAES(field.id)" name="@CryptoHelper.encryptAES(name)" @toHtmlArgs(htmlArgs)>
+    @defaultOption(htmlArgs)
 
-        <option value="">@Messages("select_default")</option>
-        @options.map { case (mappingValue, humanReadableLabel) =>
-            <option value="@mappingValue" @(if(selectedKey == Some(mappingValue)) "selected" else "")>@humanReadableLabel</option>
-        }
-    </select>
+<option value="">@Messages(defaultOptionMessage)</option> @* Default option that appears at the top of a drop down. Should describe the column. *@
+    @options.map { case (mappingValue, humanReadableLabel) =>
+    <option value="@mappingValue" @(if(selectedKey == Some(mappingValue)) "selected" else "")>@humanReadableLabel</option>
+    }
+</select>
 }

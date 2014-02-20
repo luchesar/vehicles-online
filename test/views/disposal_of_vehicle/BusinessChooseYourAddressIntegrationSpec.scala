@@ -3,7 +3,7 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
+import helpers.disposal_of_vehicle.{EnterAddressManuallyPage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
 
 class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
   "business_choose_your_address Integration" should {
@@ -50,5 +50,16 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
       //Assert
       titleMustEqual(SetUpTradeDetailsPage.title)
     }
+
+    "go to the enter address manually page when the enter address manually link is clicked" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      SetUpTradeDetailsPage.happyPath(browser)
+      browser.click("#enterAddressManuallyButton")
+
+      // Assert
+      titleMustEqual(EnterAddressManuallyPage.title)
+    }
+
+
   }
 }

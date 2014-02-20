@@ -4,7 +4,7 @@ import org.scalatest.{Matchers, WordSpec}
 import org.scalatest.mock.MockitoSugar
 import mappings.common.PostCode
 import mappings.common.MultiLineAddress
-import helpers.disposal_of_vehicle.EnterAddressManuallyPopulate._
+import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
 
 class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSugar {
   "EnterAddressManually Form" should {

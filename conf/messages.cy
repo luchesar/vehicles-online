@@ -153,7 +153,12 @@ disposal_businessChooseYourAddress_addressSelect = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress_addressSelect_label = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress.backbutton = Holau
 disposal_businessChooseYourAddress.submitbutton = Dewis
+disposal_businessChooseYourAddress.manualAddressEntry = Rhowch gyfeiriad llaw
 error.dropDownInvalid = Dewiswch werth o''r rhestr a ollyngir i lawr
+
+disposal_enteraddressmanually.title = Manually mynd i gyfeiriad
+disposal_enteraddressmanually.submitbutton = Dewis
+disposal_enteraddressmanually.backbutton = Holau
 
 #page not known - Vehicle Lookup
 disposal_setuptradedetails.title = Gwaredu cerbyd i mewn i'r fasnach foduron
@@ -183,10 +188,12 @@ disposal_dispose.vehiclemake = Gwneud
 disposal_dispose.vehiclemodel = Model
 disposal_dispose.vehiclekeeper = Ceidwad
 disposal_dispose.disposevehicleto = Gwared gerbyd
+consent = Consent
 disposal_dispose.consent = Gennyf ganiatad y ceidwad presennol i gael gwared ar y cerbyd hwn
 disposal_dispose.consentnotgiven = Nodwch gennych ganiatad y ceidwad presennol
 disposal_dispose.mileage.label = Milltiroedd cerbydau
 disposal_dispose.mileage.validation = Mae''n rhaid i chi fynd i mewn milltiroedd dilys rhwng 0 a 999,999
+dateOfDisposal = Date of disposal
 disposal_dispose.dateofdisposal.label = Dyddiad y gwaredu
 disposal_dispose.backbutton = Holau
 disposal_dispose.submitbutton = Gwaredu
@@ -208,6 +215,7 @@ disposal_disposeconfirmation.backbutton = Holau
 disposal_disposeconfirmation.newdisposalbutton = Gwaredu Newydd
 disposal_disposeconfirmation.disposaldate = Dyddiad gwaredu
 disposal_disposeconfirmation.mileage = Milltiroedd
+disposal_disposeconfirmation.noMileageEntered = Naddo milltiroedd gofnodi
 
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda
@@ -218,7 +226,7 @@ error.restricted.validNumberOnly = Mae''r maes hwn yn derbyn rhifau yn unig
 error.restricted.validVRNOnly = Rhowch rhif cofrestru cerbyd dilys heb fylchau
 error.restricted.validPostcode = Rhaid i cod post fod yn y fformat PR2 8AE
 
-datePlaceholder.day = Day
+datePlaceholder.day = Dydd
 datePlaceholder.month = Mis
 datePlaceholder.January = Ionawr
 datePlaceholder.February = Chwefror
@@ -239,3 +247,7 @@ error.minLength = Isafswm hyd yw {0}
 error.maxLength = Uchafswm hyd yn {0}
 
 select_default = Dewiswch
+
+widget.optional = (dewisol)
+
+error.invalid = Gwerth annilys

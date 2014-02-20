@@ -1,0 +1,17 @@
+@()(implicit lang: Lang)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main(Messages("disposal_enteraddressmanually.title")){
+
+    @form(action = controllers.disposal_of_vehicle.routes.EnterAddressManually.submit) {
+
+        <h2>Placeholder for entering address manually</h2>
+
+        <div class="form-steps">
+            <a class="button" id="next" href="@controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit">@Messages("disposal_enteraddressmanually.backbutton")</a>
+            <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_enteraddressmanually.submitbutton")</button>
+        </div>
+    }
+}

@@ -7,38 +7,42 @@
 @import utils.helpers.CryptoHelper
 @import scala.language.postfixOps
 @import views.html.helper.dateConstraintRequired
-@import views.html.helper.base.valtechSelect
 
 <fieldset class="question-group">
 
-@{/* datePlaceholder */}
-@dateConstraintRequired(field, args:_*)
+    @dateConstraintRequired(field, args:_*) <!-- datePlaceholder -->
 
-<ul class="inline year" id="@CryptoHelper.encryptAES(id)">
-    <li>
-        @valtechSelect(field("day"), options = Seq("" -> Messages("datePlaceholder.day")) ++ ((1 to 31) map(v => (v toString) -> (if (v < 10) "0" + v else (v toString)))).asInstanceOf[Seq[(String, String)]])
-    </li>
+    <ul class="inline year" id="@CryptoHelper.encryptAES(id)">
+        <li>
+            @* Day field. Overriding the default select message with "Day". *@
+            @valtechSelect(field("day"),
+                defaultOptionMessage = "datePlaceholder.day",
+                options = ((1 to 31) map(v => (v toString) -> (if (v < 10) "0" + v else (v toString)))).asInstanceOf[Seq[(String, String)]])
+        </li>
 
-    <li>
-        @valtechSelect(field("month"), options = Seq("" -> Messages("datePlaceholder.month"),
-            "1" -> Messages("datePlaceholder.January"),
-            "2" -> Messages("datePlaceholder.February"),
-            "3" -> Messages("datePlaceholder.March"),
-            "4" -> Messages("datePlaceholder.April"),
-            "5" -> Messages("datePlaceholder.May"),
-            "6" -> Messages("datePlaceholder.June"),
-            "7" -> Messages("datePlaceholder.July"),
-            "8" -> Messages("datePlaceholder.August"),
-            "9" -> Messages("datePlaceholder.September"),
-            "10" -> Messages("datePlaceholder.October"),
-            "11" -> Messages("datePlaceholder.November"),
-            "12" -> Messages("datePlaceholder.December")
-        ))
-    </li>
+        <li>
+            @* Month field. Overriding the default select message with "Month". *@
+            @valtechSelect(field("month"),
+                defaultOptionMessage = "datePlaceholder.month",
+                options = Seq(
+                    "1" -> Messages("datePlaceholder.January"),
+                    "2" -> Messages("datePlaceholder.February"),
+                    "3" -> Messages("datePlaceholder.March"),
+                    "4" -> Messages("datePlaceholder.April"),
+                    "5" -> Messages("datePlaceholder.May"),
+                    "6" -> Messages("datePlaceholder.June"),
+                    "7" -> Messages("datePlaceholder.July"),
+                    "8" -> Messages("datePlaceholder.August"),
+                    "9" -> Messages("datePlaceholder.September"),
+                    "10" -> Messages("datePlaceholder.October"),
+                    "11" -> Messages("datePlaceholder.November"),
+                    "12" -> Messages("datePlaceholder.December")
+                ))
+        </li>
 
-    <li>
-        @valtechInputDigits(field("year"), 'placeholder -> "YYYY", 'maxlength -> 4)
-    </li>
-</ul>
+        <li>
+        @valtechInputDigits(field("year"), 'placeholder -> "YYYY", 'maxLength -> 4)
+        </li>
+    </ul>
 
 </fieldset>

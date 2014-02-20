@@ -19,12 +19,12 @@ object EnterAddressManually extends Controller {
   )
 
   def present = Action {
-    implicit request => Ok("hello") //Ok(views.html.disposal_of_vehicle.business_choose_your_address(form, name, fetchAddresses))
+    implicit request => Ok(views.html.disposal_of_vehicle.enter_address_manually())
   }
 
   def submit = Action { implicit request =>
     form.bindFromRequest.fold(
-      formWithErrors => BadRequest("bad submit"), //BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithErrors)),
+      formWithErrors => Redirect(routes.VehicleLookup.present), //BadRequest(views.html.disposal_of_vehicle.enter_address_manually()),
       f => Redirect(routes.VehicleLookup.present)
     )
   }

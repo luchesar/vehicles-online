@@ -57,11 +57,6 @@
                         @data.dealerAddress.line3<br />
                         @data.dealerAddress.postCode
                     </li>
-                    @* Checkbox must not be pre-ticked. *@
-                    @valtechDeclareCheck(disposeForm(consentId), 'id -> "consent", '_showConstraints -> false, '_label -> Messages("disposal_dispose.consent"))
-
-
-
                     @valtechInputText(disposeForm(mileageId), args =
                     '_label -> Messages("disposal_dispose.mileage.label"),
                     '_showConstraints -> false,
@@ -71,6 +66,10 @@
                 </ul>
                 <ul>
                     @inputDayMonthYear(disposeForm(dateOfDisposalId), args = '_label -> Messages("disposal_dispose.dateofdisposal.label"))
+                </ul>
+                <ul>
+                    @* Checkbox must not be pre-ticked. *@
+                    @valtechDeclareCheck(disposeForm(consentId), 'id -> "consent", '_showConstraints -> false, '_label -> Messages("disposal_dispose.consent"))
                 </ul>
             </div>
 
