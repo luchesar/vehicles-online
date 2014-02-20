@@ -10,8 +10,8 @@
     @addressLines(field(mappings.disposal_of_vehicle.AddressLines.id))
 
     @valtechInputText(field(mappings.disposal_of_vehicle.Postcode.postcodeID),
-        args = 'placeholder -> Messages("vehicles.address.postcode.label"),
-        '_label -> Messages("vehicles.address.postcode.label"),
+        args = 'placeholder -> Messages("disposal_enteraddressmanually.postcode.placeholder"),
+        '_label -> Messages("disposal_enteraddressmanually.postcode.label"),
         '_showConstraints -> false,
         'maxLength -> mappings.disposal_of_vehicle.AddressAndPostcode.postcodeMaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
         'title -> Messages("vehicles.address.postcode.validation"))

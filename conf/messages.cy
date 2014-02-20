@@ -156,9 +156,17 @@ disposal_businessChooseYourAddress.submitbutton = Dewis
 disposal_businessChooseYourAddress.manualAddressEntry = Rhowch gyfeiriad llaw
 error.dropDownInvalid = Dewiswch werth o''r rhestr a ollyngir i lawr
 
-disposal_enteraddressmanually.title = Manually mynd i gyfeiriad
-disposal_enteraddressmanually.submitbutton = Dewis
-disposal_enteraddressmanually.backbutton = Holau
+#page 3 - manual address entry
+disposal_enteraddressmanually.title = Rhowch gyfeiriad llaw
+disposal_enteraddressmanually.submitbutton = Dewiswch
+disposal_enteraddressmanually.backbutton = Yn ôl
+addressAndPostcode_addressLines = Cyfeiriad
+disposal_enteraddressmanually.address.line1.placeholder = Llinell 1
+disposal_enteraddressmanually.address.line2.placeholder = Llinell 2
+disposal_enteraddressmanually.address.line3.placeholder = Llinell 3
+disposal_enteraddressmanually.address.line4.placeholder = Llinell 4
+disposal_enteraddressmanually.postcode.label = Cod post
+disposal_enteraddressmanually.postcode.placeholder = e.g. SA99 1BD
 
 #page not known - Vehicle Lookup
 disposal_setuptradedetails.title = Gwaredu cerbyd i mewn i'r fasnach foduron
