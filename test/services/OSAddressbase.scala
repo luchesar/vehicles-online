@@ -46,7 +46,7 @@ class OSAddressbasePostcodeResponseSpec extends WordSpec with Matchers {
 
   case class OSAddressbaseSearchResponse(
                                           header: OSAddressbaseHeader,
-                                          results: Option[List[OSAddressbaseResult]]
+                                          results: Option[Seq[OSAddressbaseResult]]
                                           )
 
   "Response Parser loading json for ec1a 4jq" should {
