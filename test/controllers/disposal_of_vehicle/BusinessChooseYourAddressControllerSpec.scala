@@ -8,7 +8,6 @@ import mappings.disposal_of_vehicle.BusinessAddressSelect._
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.Matchers._
-import scala.Some
 import modules.TestModule.FakeAddressLookupService
 
 class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers with MockitoSugar {

@@ -13,7 +13,6 @@
 @import play.api.templates.PlayMagic.toHtmlArgs
 
 @input(field, args:_*) { (id, name, value, htmlArgs) =>
-    @{println(s"**** htmlArgs ${htmlArgs}, args: ${args} ")}
     @valtechLabel(field, args: _*)
 
     <input type="text"

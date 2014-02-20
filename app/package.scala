@@ -9,18 +9,6 @@ import play.api.Play
 import scala.util.{Success, Try}
 
 package object app {
-
-  object JsonSupport {
-    implicit val writeV5cSearch = Json.writes[V5cSearchModel]
-    implicit val v5cSearchConfirmationModel = Json.reads[V5cSearchConfirmationModel]
-    implicit val v5cSearchResponse = Json.reads[V5cSearchResponse]
-
-    implicit val writeLoginPage = Json.writes[LoginPageModel]
-    implicit val address = Json.reads[Address]
-    implicit val loginConfirmationModel = Json.reads[LoginConfirmationModel]
-    implicit val loginResponse = Json.reads[LoginResponse]
-  }
-
   val mb = 131072
 
   def convertToMB(bytes: Long) = {

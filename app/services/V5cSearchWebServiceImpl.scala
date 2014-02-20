@@ -1,15 +1,18 @@
 package services
 
-import models.domain.change_of_address.{V5cSearchResponse, V5cSearchModel}
+import models.domain.change_of_address.{V5cSearchConfirmationModel, V5cSearchResponse, V5cSearchModel}
 import play.api.libs.json.Json
 import play.api.libs.ws.WS
 import play.api.Logger
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-import app.JsonSupport._
 import utils.helpers.Environment
 
 class V5cSearchWebServiceImpl() extends V5cSearchWebService {
+  implicit val writeV5cSearch = Json.writes[V5cSearchModel]
+  implicit val v5cSearchConfirmationModel = Json.reads[V5cSearchConfirmationModel]
+  implicit val v5cSearchResponse = Json.reads[V5cSearchResponse]
+
   override def invoke(cmd: V5cSearchModel): Future[V5cSearchResponse] = {
     val endPoint = s"${Environment.microServiceUrlBase}/vehicles/v5c-search"
     Logger.debug(s"Calling V5C micro service on ${endPoint}...")

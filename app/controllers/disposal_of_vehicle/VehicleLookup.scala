@@ -13,7 +13,6 @@ import mappings.common.{V5cRegistrationNumber, PostCode}
 import V5cRegistrationNumber._
 import PostCode._
 import controllers.disposal_of_vehicle.Helpers._
-import scala.Some
 import models.domain.common.Address
 import play.cache.Cache
 
