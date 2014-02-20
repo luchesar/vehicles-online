@@ -15,11 +15,7 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
   "EnterAddressManually Form" should {
 
 
-    def addressFiller(line1: String = line1Valid,
-                                line2: String = line2Valid,
-                                line3: String = line3Valid,
-                                line4: String = line4Valid,
-                                postcode: String = postcodeValid) = {
+    def addressFiller(line1: String = line1Valid,line2: String = line2Valid,line3: String = line3Valid,line4: String = line4Valid,postcode: String = postcodeValid) = {
       EnterAddressManually.form.bind(
         Map(
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1,
@@ -30,6 +26,7 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
         )
       )
     }
+
     "accept if form is valid with all fields filled in" in {
       addressFiller().fold(
         formWithErrors => fail(s"These errors should not occur: ${formWithErrors.errors}"),
@@ -54,20 +51,53 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
 
     "reject if line1 is blank" in {
       addressFiller(line1 = "", line2 = "", line3 = "").fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
+        formWithErrors => formWithErrors.errors.length should equal(1),
+        f => fail("An error should occur")
+      )
+    }
 
-        },
+    "reject if line1 is more than max length" in {
+      addressFiller(line1 = "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwerty", line2 = "", line3 = "").fold(
+        formWithErrors => formWithErrors.errors.length should equal(1),
         f => fail("An error should occur")
       )
     }
 
     "reject if postcode is blank" in {
       addressFiller(line2 = "", line3 = "", postcode = "").fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(3)
+        formWithErrors => formWithErrors.errors.length should equal(3),
+        f => fail("An error should occur")
+      )
+    }
 
+    "reject if postcode is less than min length" in {
+      addressFiller(postcode = "SA99").fold(
+        formWithErrors => {
+          formWithErrors.errors.length should equal(2)
         },
+
+        f => fail("An error should occur")
+      )
+    }
+
+    "reject if postcode contains special characters" in {
+      addressFiller(postcode = "SA99 2L$").fold(
+        formWithErrors => {
+          println(formWithErrors.errors)
+          formWithErrors.errors.length should equal(1)
+        },
+
+        f => fail("An error should occur")
+      )
+    }
+
+
+    "reject if postcode is more than max length" in {
+      addressFiller(postcode = "SA99 1DDR").fold(
+        formWithErrors => {
+          formWithErrors.errors.length should equal(2)
+        },
+
         f => fail("An error should occur")
       )
     }
