@@ -4,12 +4,13 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
-import mappings.disposal_of_vehicle.Dispose._
+import mappings.disposal_of_vehicle.AddressLines._
 import org.specs2.mock.Mockito
 import helpers.disposal_of_vehicle.{DisposeConfirmationPage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
-import helpers.disposal_of_vehicle.Helper._
-import mappings.common.{PostCode, MultiLineAddress}
 import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
+import mappings.disposal_of_vehicle.{AddressAndPostcode, AddressLines}
+import mappings.disposal_of_vehicle.Postcode._
+import helpers.disposal_of_vehicle.PostcodePage._
 
 class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Mockito {
   "EnterAddressManually - Controller" should {
@@ -26,35 +27,43 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       status(result) should equal(OK)
     }
 
-    // TODO need to put these tests back in after the manual address control has been added to the page
-//    "redirect to next page after a valid submit" in new WithApplication {
-//      // Arrange
-//      val request = FakeRequest().withSession()
-//        .withFormUrlEncodedBody(
-//          s"${MultiLineAddress.id}.${MultiLineAddress.lineOneId}" -> line1Valid,
-//          s"${MultiLineAddress.id}.${MultiLineAddress.lineTwoId}" -> line2Valid,
-//          s"${MultiLineAddress.id}.${MultiLineAddress.lineThreeId}" -> line3Valid,
-//          PostCode.key -> postCodeValid
-//        )
-//
-//      // Act
-//      val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-//
-//      // Assert
-//      status(result) should equal(SEE_OTHER)
-//      redirectLocation(result) should equal (Some(VehicleLookupPage.url))
-//    }
+    "reject when no data is entered" in new WithApplication {
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody()
 
-//    "return a bad request after an invalid submission" in new WithApplication {
-//      // Arrange
-//      val request = FakeRequest().withSession()
-//        .withFormUrlEncodedBody() // Empty form
-//
-//      // Act
-//      val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-//
-//      // Assert
-//      status(result) should equal(BAD_REQUEST)
-//    }
+      // Act
+      val result =  disposal_of_vehicle.EnterAddressManually.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
+    }
+
+    "reject when a valid address is entered without a postcode" in new WithApplication {
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(
+          s"${AddressAndPostcode.id}.${AddressLines.id}$line1Id" -> line1Valid,
+          s"${AddressAndPostcode.id}.${AddressLines.id}$line2Id" -> line2Valid,
+          s"${AddressAndPostcode.id}.${AddressLines.id}$line3Id" -> line3Valid,
+          s"${AddressAndPostcode.id}.${AddressLines.id}$line4Id" -> line4Valid)
+
+      // Act
+      val result = disposal_of_vehicle.EnterAddressManually.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
+    }
+
+    "reject when a valid postcode is entered without an address" in new WithApplication {
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(
+          s"${AddressAndPostcode.id}.$postcodeID" -> postcodeValid)
+
+      // Act
+      val result = disposal_of_vehicle.EnterAddressManually.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
+    }
+
   }
 }

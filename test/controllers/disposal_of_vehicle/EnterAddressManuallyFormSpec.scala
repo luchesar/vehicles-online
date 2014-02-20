@@ -5,19 +5,24 @@ import org.scalatest.mock.MockitoSugar
 import mappings.common.PostCode
 import mappings.common.MultiLineAddress
 import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
+import scala.Some
+import mappings.disposal_of_vehicle.{AddressLines, AddressAndPostcode}
+import mappings.disposal_of_vehicle.AddressLines._
+import helpers.disposal_of_vehicle.PostcodePage._
+import mappings.disposal_of_vehicle.Postcode._
 
 class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSugar {
   "EnterAddressManually Form" should {
-    def addressFiller(line1: String = line1Valid,
-                      line2: String = line2Valid,
-                      line3: String = line3Valid,
-                      postCode: String = postCodeValid) = {
+
+
+    def addressFiller(line1: String = line1Valid,line2: String = line2Valid,line3: String = line3Valid,line4: String = line4Valid,postcode: String = postcodeValid) = {
       EnterAddressManually.form.bind(
         Map(
-          s"${MultiLineAddress.id}.${MultiLineAddress.lineOneId}" -> line1,
-          s"${MultiLineAddress.id}.${MultiLineAddress.lineTwoId}" -> line2,
-          s"${MultiLineAddress.id}.${MultiLineAddress.lineThreeId}" -> line3,
-          PostCode.key -> postCode
+          s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1,
+          s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> line2,
+          s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3,
+          s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4,
+          s"${AddressAndPostcode.id}.$postcodeID" -> postcode
         )
       )
     }
@@ -26,10 +31,10 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
       addressFiller().fold(
         formWithErrors => fail(s"These errors should not occur: ${formWithErrors.errors}"),
         f => {
-          f.address.lineOne should equal(Some(line1Valid))
-          f.address.lineTwo should equal(Some(line2Valid))
-          f.address.lineThree should equal(Some(line3Valid))
-          f.postCode should equal(postCodeValid)
+          f.addressAndPostcodeModel.addressLinesModel.line1 should equal(Some(line1Valid))
+          f.addressAndPostcodeModel.addressLinesModel.line2 should equal(Some(line2Valid))
+          f.addressAndPostcodeModel.addressLinesModel.line3 should equal(Some(line3Valid))
+          f.addressAndPostcodeModel.postcode should equal(postCodeValid)
         }
       )
     }
@@ -38,36 +43,54 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
       addressFiller(line2 = "", line3 = "").fold(
         formWithErrors => fail(s"These errors should not occur: ${formWithErrors.errors}"),
         f => {
-          f.address.lineOne should equal(Some(line1Valid))
-          f.postCode should equal(postCodeValid)
+          f.addressAndPostcodeModel.addressLinesModel.line1 should equal(Some(line1Valid))
+          f.addressAndPostcodeModel.postcode should equal(postCodeValid)
         }
       )
     }
 
     "reject if line1 is blank" in {
       addressFiller(line1 = "", line2 = "", line3 = "").fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-          formWithErrors.errors(0).key should equal(MultiLineAddress.id)
-        },
+        formWithErrors => formWithErrors.errors.length should equal(1),
         f => fail("An error should occur")
       )
     }
 
-    "reject if postCode is blank" in {
-      addressFiller(postCode = "").fold(
-        formWithErrors => {
-          println(formWithErrors.errors)
-          formWithErrors.errors.length should equal(3)
-          formWithErrors.errors(0).key should equal(PostCode.key)
-          formWithErrors.errors(0).message should equal("error.minLength")
-          formWithErrors.errors(1).key should equal(PostCode.key)
-          formWithErrors.errors(1).message should equal("error.required")
-          formWithErrors.errors(2).key should equal(PostCode.key)
-          formWithErrors.errors(2).message should equal("error.restricted.validPostcode")
-        },
+    "reject if line1 is more than max length" in {
+      addressFiller(line1 = "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwerty", line2 = "", line3 = "").fold(
+        formWithErrors => formWithErrors.errors.length should equal(1),
         f => fail("An error should occur")
       )
     }
+
+    "reject if postcode is blank" in {
+      addressFiller(line2 = "", line3 = "", postcode = "").fold(
+        formWithErrors => formWithErrors.errors.length should equal(3),
+        f => fail("An error should occur")
+      )
+    }
+
+    "reject if postcode is less than min length" in {
+      addressFiller(postcode = "SA99").fold(
+        formWithErrors => formWithErrors.errors.length should equal(2),
+        f => fail("An error should occur")
+      )
+    }
+
+    "reject if postcode contains special characters" in {
+      addressFiller(postcode = "SA99 2L$").fold(
+        formWithErrors => formWithErrors.errors.length should equal(1),
+          f => fail("An error should occur")
+      )
+    }
+
+
+    "reject if postcode is more than max length" in {
+      addressFiller(postcode = "SA99 1DDR").fold(
+        formWithErrors => formWithErrors.errors.length should equal(2),
+        f => fail("An error should occur")
+      )
+    }
+
   }
 }

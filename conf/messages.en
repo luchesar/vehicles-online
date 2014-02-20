@@ -219,9 +219,17 @@ disposal_businessChooseYourAddress.submitbutton = Select
 disposal_businessChooseYourAddress.manualAddressEntry = Enter address manually
 error.dropDownInvalid = Please select a value from the drop down list.
 
+#page 3 - manual address entry
 disposal_enteraddressmanually.title = Enter address manually
 disposal_enteraddressmanually.submitbutton = Select
 disposal_enteraddressmanually.backbutton = Back
+addressAndPostcode_addressLines = Address
+disposal_enteraddressmanually.address.line1.placeholder = Line 1
+disposal_enteraddressmanually.address.line2.placeholder = Line 2
+disposal_enteraddressmanually.address.line3.placeholder = Line 3
+disposal_enteraddressmanually.address.line4.placeholder = Line 4
+disposal_enteraddressmanually.postcode.label = Postcode
+disposal_enteraddressmanually.postcode.placeholder = e.g. SA99 1BD
 
 #page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Dispose a vehicle into the motor trade: vehicle

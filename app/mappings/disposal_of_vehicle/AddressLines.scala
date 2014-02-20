@@ -1,0 +1,27 @@
+package mappings.disposal_of_vehicle
+
+import play.api.data.Mapping
+import play.api.data.Forms._
+import models.domain.disposal_of_vehicle.AddressLinesModel
+import play.api.data.validation.{Valid, ValidationError, Invalid, Constraint}
+import models.domain.disposal_of_vehicle.AddressLinesModel
+
+object AddressLines {
+  val id = "addressLines"
+  val line1Id = "line1"
+  val line2Id = "line2"
+  val line3Id = "line3"
+  val line4Id = "line4"
+  val line1MinLength = 1
+  val lineMaxLength = 75
+  val maxLengthOfLinesConcatenated = 130
+
+  def addressLines: Mapping[AddressLinesModel] = mapping(
+    line1Id -> optional(text(minLength = line1MinLength, maxLength = lineMaxLength)),
+    line2Id -> optional(text),
+    line3Id -> optional(text),
+    line4Id -> optional(text)
+  )(AddressLinesModel.apply)(AddressLinesModel.unapply)
+
+
+}
