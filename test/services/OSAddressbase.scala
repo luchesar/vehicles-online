@@ -12,41 +12,27 @@ class OSAddressbasePostcodeResponseSpec extends WordSpec with Matchers {
   implicit val uriReads: Reads[URI] = new Reads[URI] {
     override def reads(json: JsValue) = JsSuccess(new URI(json.as[String]))
   }
-/*
-  case class OSAddressbaseDPASearchResult(
-    UPRN: String,
-    address: String,
-    organisationName: String,
-    buildingNumber: String,
-    thoroughfareName: String,
-    postTown: String,
-    postCode: String,
-    RPC: String,
-    xCordinate: Float,
-    yCordinate: Float,
-    status: String,
-    matchScore: Float,
-    matchDescription: String
-  )
-  */
-/*
-  object OSAddressbaseDPASearchResult {
-    implicit val reads: Reads[OSAddressbaseDPASearchResult] = (
-      (__ \ "UPRN").read[String] and
-        (__ \ "address").read[String] and
-        (__ \ "organisationName").read[String] and
-        (__ \ "buildingNumber").read[String] and
-        (__ \ "thoroughfareName").read[String] and
-        (__ \ "postTown").read[String] and
-        (__ \ "postCode").read[String] and
-        (__ \ "RPC").read[String] and
-        (__ \ "xCordinate").read[Float] and
-        (__ \ "yCordinate").read[Float] and
-        (__ \ "status").read[String] and
-        (__ \ "matchScore").read[Float] and
-        (__ \ "matchDescription").read[String]
-      )(OSAddressbaseDPASearchResult.apply _)
-  }*/
+
+  case class OSAddressbaseDpa(
+                               UPRN: String,
+                               ADDRESS: String,
+                               ORGANISATION_NAME: String,
+                               BUILDING_NUMBER: String,
+                               THOROUGHFARE_NAME: String,
+                               POST_TOWN: String,
+                               POSTCODE: String,
+                               RPC: String,
+                               X_COORDINATE: Float,
+                               Y_COORDINATE: Float,
+                               STATUS: String,
+                               MATCH: Float,
+                               MATCH_DESCRIPTION: String
+                               )
+
+  case class OSAddressbaseResult(
+                                  DPA: OSAddressbaseDpa
+                                  )
+
 
   case class OSAddressbaseHeader(
                                   uri: URI,
@@ -57,51 +43,41 @@ class OSAddressbasePostcodeResponseSpec extends WordSpec with Matchers {
                                   dataset: String,
                                   maxresults: Int
                                   )
-/*
-  object OSAddressbaseHeader {
-    //implicit val readsURI = Json.reads[URI]
-     = (
-      (__ \ "uri").read[URI] and
-        (__ \ "query").read[String] and
-        (__ \ "offset").read[Int] and
-        (__ \ "totalresults").read[Int] and
-        (__ \ "format").read[String] and
-        (__ \ "dataset").read[String] and
-        (__ \ "maxresults").read[Int]
-      )(OSAddressbaseHeader.apply _)
-  }*/
 
-  case class OSAddressbaseSearchResponse(header: OSAddressbaseHeader//,
-                                         //dpaResults: List[OSAddressbaseDPASearchResult]
+  case class OSAddressbaseSearchResponse(
+                                          header: OSAddressbaseHeader,
+                                          results: Option[List[OSAddressbaseResult]]
                                           )
-/*
-  object OSAddressbaseSearchResponse {
-    implicit val reads: Reads[OSAddressbaseSearchResponse] = (
-      (JsPath \ "header").read[OSAddressbaseHeader] and
-      (JsPath \ 'results \\ 'DPA).read[List[OSAddressbaseDPASearchResult]]
-      )(OSAddressbaseSearchResponse.apply _)
-  }*/
 
   "Response Parser loading json for ec1a 4jq" should {
-    "populate the header" in {
-      //implicit val readsOSAddressbaseDPASearchResult = Json.reads[OSAddressbaseDPASearchResult]
-      implicit val readsOSAddressbaseHeader = Json.reads[OSAddressbaseHeader]
-      implicit val readsOSAddressbaseSearchResponse = Json.reads[OSAddressbaseSearchResponse]
+    implicit val readsOSAddressbaseDpa = Json.reads[OSAddressbaseDpa]
+    implicit val readsOSAddressbaseResult = Json.reads[OSAddressbaseResult]
+    implicit val readsOSAddressbaseHeader = Json.reads[OSAddressbaseHeader]
+    implicit val readsOSAddressbaseSearchResponse = Json.reads[OSAddressbaseSearchResponse]
 
-      //val resp = getResource("osaddressbase_lookup_ec1a_4jq.json")
+    "populate the header given json with header but zero results" in {
       val resp = getResource("osaddressbase_lookup_emptyResult.json")
-      //val poso = Json.fromJson[OSAddressbaseSearchResponse](Json.parse(resp)).get
       val poso = Json.parse(resp).as[OSAddressbaseSearchResponse]
       poso.header.uri should equal(new URI("https://addressapi.ordnancesurvey.co.uk/postcode?&postcode=EC1A+4JQ&dataset=dpa&_=1392379157908"))
-      poso.header.totalresults should equal (0)
+      poso.header.totalresults should equal(0)
     }
-/*
-    "populate the DPA results" in {
-      val json = getResource("osaddressbase_lookup_ec1a_4jq.json")
-      val jsresult = Json.fromJson[OSAddressbaseSearchResponse](Json.parse(json))
-      val poso = jsresult.get
-      poso.dpaResults.length should equal(13)
-    }*/
+
+    "populate the header given json with header and results" in {
+      val resp = getResource("osaddressbase_lookup_oneResult.json")
+
+      val poso = Json.parse(resp).as[OSAddressbaseSearchResponse]
+      poso.header.uri should equal(new URI("https://addressapi.ordnancesurvey.co.uk/postcode?&postcode=EC1A+4JQ&dataset=dpa&_=1392379157908"))
+      poso.header.totalresults should equal(1)
+    }
+    /*
+        "populate the DPA results" in {
+          val resp = getResource("osaddressbase_lookup_ec1a_4jq.json")
+          val poso = Json.parse(resp).as[OSAddressbaseSearchResponse]
+          poso.results match {
+            case Some(results) => results.length should equal(13)
+            case _ => fail("expected results")
+          }
+        }*/
   }
 }
 
