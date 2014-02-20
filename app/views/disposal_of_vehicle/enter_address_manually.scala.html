@@ -4,6 +4,7 @@
 @import helper.twitterBootstrap._
 
 @main(Messages("disposal_enteraddressmanually.title")){
+@errorsSummary(enterAddressManuallyForm)
 
     @form(action = controllers.disposal_of_vehicle.routes.EnterAddressManually.submit) {
     <fieldset class="form-elements">
