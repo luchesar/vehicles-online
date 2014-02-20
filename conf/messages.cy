@@ -259,3 +259,7 @@ select_default = Dewiswch
 widget.optional = (dewisol)
 
 error.invalid = Gwerth annilys
+
+error.address.line1Required = WELSH Address needs at least the first line filled in
+addressAndPostcode.addressLines = WELSH Address
+addressAndPostcode.postcode = WELSH Postcode

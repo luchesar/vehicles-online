@@ -281,3 +281,7 @@ disposal_disposeconfirmation.newdisposalbutton = New disposal
 disposal_disposeconfirmation.disposaldate = Disposal date
 disposal_disposeconfirmation.mileage = Mileage
 disposal_disposeconfirmation.noMileageEntered = No mileage entered
+
+error.address.line1Required = Address needs at least the first line filled in
+addressAndPostcode.addressLines = Address
+addressAndPostcode.postcode = Postcode
