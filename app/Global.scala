@@ -64,6 +64,7 @@ object Global extends GlobalSettings {
     val applicationConf = System.getProperty("config.file", s"application.${mode.toString.toLowerCase}.conf")
     val environmentOverridingConfiguration = configuration ++
       Configuration(ConfigFactory.load(applicationConf)) ++
+      Configuration(ConfigFactory.load("vehiclesOnline.conf")) ++
       dynamicConfig
     super.onLoadConfig(environmentOverridingConfiguration, path, classloader, mode)
   }
