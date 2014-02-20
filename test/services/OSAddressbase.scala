@@ -62,10 +62,35 @@ class OSAddressbasePostcodeResponseSpec extends WordSpec with Matchers {
       )(OSAddressbaseDPA.apply _)
   }
 
-  case class OSAddressbaseResult(
-                                  DPA: OSAddressbaseDPA
-                                  )
 
+  case class OSAddressbaseLPI(
+                               UPRN: String,
+                               ADDRESS: String,
+                               USRN: String,
+                               LPI_KEY : String,
+                               LEVEL : Option[String],
+                               ORGANISATION : String,
+                               SAO_START_NUMBER : Option[String],
+                               SAO_START_SUFFIX : Option[String],
+                               SAO_END_NUMBER : Option[String],
+                               SAO_END_SUFFIX : Option[String],
+                               PAO_START_NUMBER : Option[String],
+                               PAO_START_SUFFIX : Option[String],
+                               PAO_END_NUMBER : Option[String],
+                               PAO_END_SUFFIX : Option[String],
+                               STREET_DESCRIPTION : String,
+                               LOCALITY_NAME : Option[String],
+                               TOWN_NAME : Option[String]
+                               )
+
+  object OSAddressbaseLPI {
+    implicit val readsOSAddressbaseLPI = Json.reads[OSAddressbaseLPI]
+  }
+
+
+  case class OSAddressbaseResult(
+                                  DPA: Option[OSAddressbaseDPA]
+                                  )
 
   case class OSAddressbaseHeader(
                                   uri: URI,
@@ -83,7 +108,6 @@ class OSAddressbasePostcodeResponseSpec extends WordSpec with Matchers {
                                           )
 
   "Response Parser loading json for ec1a 4jq" should {
-    //implicit val readsOSAddressbaseDpa = Json.reads[OSAddressbaseDpa]
     implicit val readsOSAddressbaseResult = Json.reads[OSAddressbaseResult]
     implicit val readsOSAddressbaseHeader = Json.reads[OSAddressbaseHeader]
     implicit val readsOSAddressbaseSearchResponse = Json.reads[OSAddressbaseSearchResponse]
