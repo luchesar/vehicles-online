@@ -260,6 +260,6 @@ widget.optional = (dewisol)
 
 error.invalid = Gwerth annilys
 
-error.address.line1Required = WELSH Address needs at least the first line filled in
-addressAndPostcode.addressLines = WELSH Address
-addressAndPostcode.postcode = WELSH Postcode
+error.address.line1Required = Mae angen o leiaf y llinell gyntaf lenwi gyfeiriad
+addressAndPostcode.addressLines = Cyfeiriad
+addressAndPostcode.postcode = Cod post
