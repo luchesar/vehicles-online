@@ -14,7 +14,7 @@ import mappings.disposal_of_vehicle.DealerDetails
 import javax.inject.Inject
 
 class BusinessChooseYourAddress @Inject() (addressLookupService: services.AddressLookupService) extends Controller {
-  val fetchAddresses = addressLookupService.fetchAddress("TEST") // TODO pass in postcode submitted on the previous page.
+  val fetchAddresses = addressLookupService.fetchAddress("TEST")
 
   val form = Form(
     mapping(

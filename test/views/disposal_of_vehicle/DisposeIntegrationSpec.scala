@@ -41,14 +41,44 @@ class DisposeIntegrationSpec extends Specification with Tags {
       // Arrange & Act
       BusinessChooseYourAddressPage.setupCache
       VehicleLookupPage.setupCache
-      browser.goTo(DisposePage.url)
-      browser.click(s"#${dateOfDisposalId}_day option[value='1']")
-      browser.click(s"#${dateOfDisposalId}_month option[value='1']")
-      browser.fill(s"#${dateOfDisposalId}_year") `with` "2000"
-      browser.submit("button[type='submit']") //TODO refactor and make use of happy path
+
+      DisposePage.happyPath(browser, day = "", month = "", year = "")
 
       // Assert
-     checkNumberOfValidationErrors(1)
+      checkNumberOfValidationErrors(1)
+    }
+
+    "display validation errors when month and year are input but no day" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      BusinessChooseYourAddressPage.setupCache
+      VehicleLookupPage.setupCache
+
+      DisposePage.happyPath(browser,  day = "")
+
+      // Assert
+      checkNumberOfValidationErrors(1)
+    }
+
+    "display validation errors when day and year are input but no month" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      BusinessChooseYourAddressPage.setupCache
+      VehicleLookupPage.setupCache
+
+      DisposePage.happyPath(browser,  month = "")
+
+      // Assert
+      checkNumberOfValidationErrors(1)
+    }
+
+    "display validation errors when day and month are input but no year" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      BusinessChooseYourAddressPage.setupCache
+      VehicleLookupPage.setupCache
+
+      DisposePage.happyPath(browser,  year = "")
+
+      // Assert
+      checkNumberOfValidationErrors(1)
     }
 
     "display previous page when back link is clicked" in new WithBrowser with BrowserMatchers {

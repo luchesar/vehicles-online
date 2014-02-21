@@ -29,7 +29,7 @@ object VehicleLookup extends Controller {
     implicit request =>
       fetchDealerDetailsFromCache match {
         case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm))
-        case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
+        case None => Redirect(routes.SetUpTradeDetails.present)
       }
   }
 
@@ -39,7 +39,7 @@ object VehicleLookup extends Controller {
         formWithErrors => {
           fetchDealerDetailsFromCache match {
             case Some(dealerDetails) => BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithErrors))
-            case None => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
+            case None => Redirect(routes.SetUpTradeDetails.present)
           }
         },
         f => {

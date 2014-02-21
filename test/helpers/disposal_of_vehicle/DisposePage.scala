@@ -10,15 +10,15 @@ object DisposePage {
   val url = "/disposal-of-vehicle/dispose"
   val title = "Dispose a vehicle into the motor trade: confirm"
 
-  def happyPath(browser: TestBrowser) = {
+  def happyPath(browser: TestBrowser, day: String = "1", month :String = "1", year: String = "2000") = {
     browser.goTo(url)
 
     // Do not click the consent checkbox as it already pre-populated
     //      browser.click(s"#${consentId}")
 
-    browser.click(s"#${dateOfDisposalId}_day option[value='1']")
-    browser.click(s"#${dateOfDisposalId}_month option[value='1']")
-    browser.fill(s"#${dateOfDisposalId}_year") `with` "2000"
+    browser.click(s"#${dateOfDisposalId}_day option[value='$day']")
+    browser.click(s"#${dateOfDisposalId}_month option[value='$month']")
+    browser.fill(s"#${dateOfDisposalId}_year") `with` year
     browser.click(s"#${consentId}")
 
     browser.submit("button[type='submit']")
