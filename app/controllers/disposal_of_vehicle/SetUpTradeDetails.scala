@@ -29,23 +29,16 @@ object SetUpTradeDetails extends Controller {
       traderLookupForm.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithErrors)),
         f => {
-          storeDealerNameInCache(f)
+          storeTradeDetailsInCache(f)
           Redirect(routes.BusinessChooseYourAddress.present)
         }
       )
     }
   }
 
-  private def fetchModelFromSession(request: Request[AnyContent]) = {
-    request.session.get("modelId") match {
-      case Some(x) => Logger.debug(s"SetUpTradeDetails - read modelId from session: $x")
-      case _ => throw new RuntimeException("Failed to read modelId from session")
-    }
-  }
-
-  private def storeDealerNameInCache(f: SetupTradeDetailsModel) = {
+  private def storeTradeDetailsInCache(f: SetupTradeDetailsModel) = {
     val key = mappings.disposal_of_vehicle.SetupTradeDetails.cacheKey
-    play.api.cache.Cache.set(key, f.traderBusinessName)
-    Logger.debug(s"SetUpTradeDetails stored data in cache: key = $key, value = ${f.traderBusinessName}")
+    play.api.cache.Cache.set(key, f)
+    Logger.debug(s"SetUpTradeDetails stored data in cache: key = $key, value = ${f}")
   }
 }

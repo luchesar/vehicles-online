@@ -73,19 +73,6 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
       status(result) should equal(BAD_REQUEST)
     }
 
-    "return a bad request after submission contains addressSelect with more characters than max length" in new WithApplication {
-      // Arrange
-      SetUpTradeDetailsPage.setupCache
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(addressSelectId -> thousandCharacters)
-
-      // Act
-      val result = businessChooseYourAddress.submit(request)
-
-      // Assert
-      status(result) should equal(BAD_REQUEST)
-    }
-
     "redirect to setupTradeDetails page when present with no dealer name cached" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()

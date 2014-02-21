@@ -3,7 +3,6 @@ package modules
 import com.tzavellas.sse.guice.ScalaModule
 import play.api.Logger
 import services._
-import modules.TestModule.FakeAddressLookupService
 
 /**
  * Provides real implementations of traits
@@ -21,6 +20,6 @@ object DevModule extends ScalaModule {
 
     bind[V5cSearchWebService].to[V5cSearchWebServiceImpl].asEagerSingleton()
     bind[LoginWebService].to[LoginWebServiceImpl].asEagerSingleton()
-    bind[AddressLookupService].to[FakeAddressLookupService].asEagerSingleton()
+    bind[AddressLookupService].to[ordnance_survey.AddressLookupServiceImpl].asEagerSingleton()
   }
 }

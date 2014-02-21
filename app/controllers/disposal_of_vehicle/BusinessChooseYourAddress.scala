@@ -3,7 +3,7 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
-import models.domain.disposal_of_vehicle.{AddressViewModel, DealerDetailsModel, BusinessChooseYourAddressModel}
+import models.domain.disposal_of_vehicle.{DealerDetailsModel, BusinessChooseYourAddressModel}
 import mappings.disposal_of_vehicle.BusinessAddressSelect._
 import mappings.common.DropDown
 import DropDown._
@@ -13,44 +13,59 @@ import play.api.Play.current
 import mappings.disposal_of_vehicle.DealerDetails
 import javax.inject.Inject
 
-class BusinessChooseYourAddress @Inject() (addressLookupService: services.AddressLookupService) extends Controller {
-  val fetchAddresses = addressLookupService.fetchAddressesForPostcode("TEST")
+class BusinessChooseYourAddress @Inject()(addressLookupService: services.AddressLookupService) extends Controller {
+  private lazy val fetchAddresses = {
+    /* Needs to be a lazy val otherwise when the page is IoC'd the form will execute it, so if you were jumping to the
+     page with nothing in the cache it will blow up in the constructor before it gets to the code to redirect to another page.
+     */
+    val postcode = fetchTraderDetailsFromCache match {
+      case Some(setupTradeDetailsModel) => setupTradeDetailsModel.traderPostcode
+      case None => ??? //"TEST"
+    }
+
+    addressLookupService.fetchAddressesForPostcode(postcode)
+  }
 
   val form = Form(
     mapping(
-      addressSelectId -> dropDown(fetchAddresses)
+      /* We cannot apply constraints to this drop down as it is populated by web call to an address lookup service.
+      Validation is done when we make a second web call with the UPRN, so if a bad guy is injecting a non-existant UPRN
+      then it will fail at that step instead */
+      addressSelectId -> dropDown
     )(BusinessChooseYourAddressModel.apply)(BusinessChooseYourAddressModel.unapply)
   )
 
-  def present = Action { implicit request =>
-    fetchDealerNameFromCache match {
-      case Some(name) => Ok(views.html.disposal_of_vehicle.business_choose_your_address(form, name, fetchAddresses))
-      case None => Redirect(routes.SetUpTradeDetails.present)
-    }
+  def present = Action {
+    implicit request =>
+      fetchTraderDetailsFromCache match {
+        case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.business_choose_your_address(form, dealerDetails.traderBusinessName, fetchAddresses))
+        case None => Redirect(routes.SetUpTradeDetails.present)
+      }
   }
 
-  def submit = Action { implicit request =>
-    form.bindFromRequest.fold(
-      formWithErrors =>
-        fetchDealerNameFromCache match {
-          case Some(name) => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, name, fetchAddresses))
-          case None => {
-            Logger.error("failed to find dealer name in cache for formWithErrors, redirecting...")
-            Redirect(routes.SetUpTradeDetails.present)
+  def submit = Action {
+    implicit request =>
+      form.bindFromRequest.fold(
+        formWithErrors =>
+          fetchTraderDetailsFromCache match {
+            case Some(dealerDetails) => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, dealerDetails.traderBusinessName, fetchAddresses))
+            case None => {
+              Logger.error("failed to find dealer name in cache for formWithErrors, redirecting...")
+              Redirect(routes.SetUpTradeDetails.present)
+            }
+          },
+        f =>
+          fetchTraderDetailsFromCache match {
+            case Some(dealerDetails) => {
+              storeDealerDetailsInCache(f, dealerDetails.traderBusinessName)
+              Redirect(routes.VehicleLookup.present)
+            }
+            case None => {
+              Logger.error("failed to find dealer name in cache on submit, redirecting...")
+              Redirect(routes.SetUpTradeDetails.present)
+            }
           }
-        },
-      f =>
-        fetchDealerNameFromCache match {
-          case Some(name) => {
-            storeDealerDetailsInCache(f, name)
-            Redirect(routes.VehicleLookup.present)
-          }
-          case None => {
-            Logger.error("failed to find dealer name in cache on submit, redirecting...")
-            Redirect(routes.SetUpTradeDetails.present)
-          }
-        }
-    )
+      )
   }
 
   def storeDealerDetailsInCache(model: BusinessChooseYourAddressModel, dealerName: String) = {

@@ -49,14 +49,14 @@ object TestModule extends ScalaModule {
       Map(
         address1.uprn.getOrElse(1234).toString -> address1.address.mkString(", "),
         address2.uprn.getOrElse(4567).toString -> address2.address.mkString(", ")
-      ) // TODO this should come from call to GDS lookup.
+      )
     }
 
     override def lookupAddress(uprn: String): AddressViewModel = {
       val addresses = Map(
         address1.uprn.getOrElse(1234).toString -> address1,
         address2.uprn.getOrElse(4567).toString -> address2
-      ) // TODO this should come from call to GDS lookup.
+      )
 
       addresses(uprn)
     }
