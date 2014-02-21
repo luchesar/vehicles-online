@@ -6,6 +6,7 @@ import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import modules.TestModule.FakeAddressLookupService
+import helpers.disposal_of_vehicle.BusinessChooseYourAddressPage._
 
 class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers with MockitoSugar {
   "BusinesssChooseYourAddress Form" should {
