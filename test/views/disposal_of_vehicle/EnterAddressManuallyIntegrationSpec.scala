@@ -33,8 +33,8 @@ class EnterAddressManuallyIntegrationSpec extends Specification with Tags {
       checkNumberOfValidationErrors(0)
     }
 
-    "display expected number of validation error messages when no details are entered" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
+    "display validation error messages when no details are entered" in new WithBrowser with BrowserMatchers {
+      // Arrange
       browser.goTo("/disposal-of-vehicle/enter-address-manually")
 
       // Act
@@ -44,13 +44,76 @@ class EnterAddressManuallyIntegrationSpec extends Specification with Tags {
       checkNumberOfValidationErrors(4)
     }
 
-
-    "reject when a blank postcode is entered" in new WithBrowser with BrowserMatchers {
+    "display validation error messages when a blank line 1 is entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      EnterAddressManuallyPage.happyPath(browser, postcode = "")
+      EnterAddressManuallyPage.sadPath(browser, line1 = "")
+
+      // Assert
+      checkNumberOfValidationErrors(1)
+    }
+
+    "display validation error messages when line 1 is entered which is greater than max length" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      EnterAddressManuallyPage.sadPath(browser, line1 = "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwerty")
+
+      // Assert
+      checkNumberOfValidationErrors(1)
+    }
+
+    "display validation error messages when a blank postcode is entered" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      EnterAddressManuallyPage.sadPath(browser, postcode = "")
 
       // Assert
       checkNumberOfValidationErrors(3)
+    }
+
+    "display validation error messages when a postcode is entered containing special characters" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      EnterAddressManuallyPage.sadPath(browser, postcode = "SA99 1B!")
+
+      // Assert
+      checkNumberOfValidationErrors(1)
+    }
+
+    "display validation error messages when a postcode is entered containing letters only" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      EnterAddressManuallyPage.sadPath(browser, postcode = "ABCDE")
+
+      // Assert
+      checkNumberOfValidationErrors(1)
+    }
+
+    "display validation error messages when a postcode is entered containing numbers only" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      EnterAddressManuallyPage.sadPath(browser, postcode = "12345")
+
+      // Assert
+      checkNumberOfValidationErrors(1)
+    }
+
+    "display validation error messages when a postcode is entered in an incorrect format" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      EnterAddressManuallyPage.sadPath(browser, postcode = "SA99 1B1")
+
+      // Assert
+      checkNumberOfValidationErrors(1)
+    }
+
+    "display validation error messages when a postcode is entered less than min length" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      EnterAddressManuallyPage.sadPath(browser, postcode = "SA99")
+
+      // Assert
+      checkNumberOfValidationErrors(2)
+    }
+
+    "display validation error messages when a postcode is entered greater than max legnth" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      EnterAddressManuallyPage.sadPath(browser, postcode = "SA99 1BDD")
+
+      // Assert
+      checkNumberOfValidationErrors(2)
     }
   }
 }
