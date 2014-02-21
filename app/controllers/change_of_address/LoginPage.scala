@@ -49,7 +49,7 @@ class LoginPage @Inject() (webService: services.LoginWebService) extends Control
       Redirect(routes.LoginConfirmation.present)
     }.recoverWith {
       case e: Throwable => Future {
-          Logger.error("Web service call failed")
+          Logger.debug(s"Web service call failed. Exception: ${e}")
           BadRequest("The remote server didn't like the request.")
         }
     }
