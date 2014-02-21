@@ -45,20 +45,20 @@ object TestModule extends ScalaModule {
     val address1 = AddressViewModel(address = Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
     val address2 = AddressViewModel(address = Seq("Penarth Road", "Cardiff", "CF11 8TT"))
 
-    override def fetchAddress(postcode: String): Map[String, String] = {
+    override def fetchAddressesForPostcode(postcode: String): Map[String, String] = {
       Map(
-        address1.address.mkString(", ") -> address1.address.mkString(", "),
-        address2.address.mkString(", ") -> address2.address.mkString(", ")
+        "uprn1" -> address1.address.mkString(", "),
+        "uprn2" -> address2.address.mkString(", ")
       ) // TODO this should come from call to GDS lookup.
     }
 
-    override def lookupAddress(address: String): AddressViewModel = {
+    override def lookupAddress(uprn: String): AddressViewModel = {
       val addresses = Map(
-        address1.address.mkString(", ") -> address1,
-        address2.address.mkString(", ") -> address2
+        "uprn1" -> address1,
+        "uprn2" -> address2
       ) // TODO this should come from call to GDS lookup.
 
-      addresses(address)
+      addresses(uprn)
     }
   }
 

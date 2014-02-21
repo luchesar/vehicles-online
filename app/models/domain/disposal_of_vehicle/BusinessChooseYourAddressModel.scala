@@ -1,3 +1,3 @@
 package models.domain.disposal_of_vehicle
 
-case class BusinessChooseYourAddressModel(addressSelected: String)
+case class BusinessChooseYourAddressModel(uprnSelected: String)

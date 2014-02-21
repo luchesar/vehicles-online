@@ -10,9 +10,9 @@ import helpers.disposal_of_vehicle.BusinessChooseYourAddressPage._
 
 class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers with MockitoSugar {
   "BusinesssChooseYourAddress Form" should {
-    val addressSelectedValid = address1.address.mkString(", ")
+    val addressSelectedValid = "uprn1"
     val mockAddressLookupService = mock[services.AddressLookupService]
-    when(mockAddressLookupService.fetchAddress(anyString())).thenReturn(new FakeAddressLookupService().fetchAddress("TEST"))
+    when(mockAddressLookupService.fetchAddressesForPostcode(anyString())).thenReturn(new FakeAddressLookupService().fetchAddressesForPostcode("TEST"))
     val businessChooseYourAddress = new BusinessChooseYourAddress(mockAddressLookupService)
 
     def chooseYourAddressFiller(addressSelected: String = addressSelectedValid) = {
@@ -27,7 +27,7 @@ class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers with Mock
       chooseYourAddressFiller().fold(
         formWithErrors => fail("An error should occur"),
         f => {
-          f.addressSelected should equal(addressSelectedValid)
+          f.uprnSelected should equal(addressSelectedValid)
         }
       )
     }

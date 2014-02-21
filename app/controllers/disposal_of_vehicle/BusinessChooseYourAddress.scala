@@ -14,7 +14,7 @@ import mappings.disposal_of_vehicle.DealerDetails
 import javax.inject.Inject
 
 class BusinessChooseYourAddress @Inject() (addressLookupService: services.AddressLookupService) extends Controller {
-  val fetchAddresses = addressLookupService.fetchAddress("TEST")
+  val fetchAddresses = addressLookupService.fetchAddressesForPostcode("TEST")
 
   val form = Form(
     mapping(
@@ -54,7 +54,7 @@ class BusinessChooseYourAddress @Inject() (addressLookupService: services.Addres
   }
 
   def storeDealerDetailsInCache(model: BusinessChooseYourAddressModel, dealerName: String) = {
-    val lookedUpAddress = addressLookupService.lookupAddress(model.addressSelected)
+    val lookedUpAddress = addressLookupService.lookupAddress(model.uprnSelected)
     val key = DealerDetails.cacheKey
     val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = lookedUpAddress)
     play.api.cache.Cache.set(key, value)
