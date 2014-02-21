@@ -1,10 +1,10 @@
-@(field: play.api.data.Field)(implicit lang: Lang)
+@(field: play.api.data.Field, args: (Symbol, Any)*)(implicit lang: Lang)
 
 @import views.html.helper.base.valtechInputText
 @import utils.helpers.EmptyTemplate._
 @import views.html.helper.checkConstraintRequired
 
-@checkConstraintRequired(field)
+@checkConstraintRequired(field, args:_*)
 <ul class="address-stack">
     <li>
     @valtechInputText(field(mappings.disposal_of_vehicle.AddressLines.line1Id),
