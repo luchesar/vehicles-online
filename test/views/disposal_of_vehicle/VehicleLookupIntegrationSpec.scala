@@ -19,6 +19,14 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       titleMustEqual(VehicleLookupPage.title)
     }
 
+    "Redirect when no traderBusinessName is cached" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      browser.goTo(VehicleLookupPage.url)
+
+      // Assert
+      titleMustEqual(SetUpTradeDetailsPage.title)
+    }
+
     "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache()

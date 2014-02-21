@@ -11,6 +11,7 @@ import org.mockito.Matchers._
 import modules.TestModule.FakeAddressLookupService
 import helpers.disposal_of_vehicle.BusinessChooseYourAddressPage._
 import controllers.Mappings._
+import scala.Some
 
 class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
@@ -76,7 +77,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
       // Arrange
       SetUpTradeDetailsPage.setupCache
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody( addressSelectId -> thousandCharacters)
+        .withFormUrlEncodedBody(addressSelectId -> thousandCharacters)
 
       // Act
       val result = businessChooseYourAddress.submit(request)
@@ -96,7 +97,25 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
       redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
     }
 
-    // TODO "redirect to setupTradeDetails page when valid submit with no dealer name cached"
-    // TODO "redirect to setupTradeDetails page when bad submit with no dealer name cached"
+    "redirect to setupTradeDetails page when valid submit with no dealer name cached" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(addressSelectId -> address1.toViewFormat())
+
+      // Act
+      val result = businessChooseYourAddress.submit(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+    }
+
+    "redirect to setupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(addressSelectId -> "")
+
+      val result = businessChooseYourAddress.submit(request)
+
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+    }
   }
 }
