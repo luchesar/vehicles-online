@@ -4,16 +4,14 @@ import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
-import play.api.Play.current
-import models.domain.disposal_of_vehicle.{VehicleDetailsModel, VehicleLookupFormModel}
+import models.domain.disposal_of_vehicle.{AddressLinesModel, AddressAndPostcodeModel, VehicleDetailsModel, VehicleLookupFormModel}
 import mappings.disposal_of_vehicle.VehicleLookup._
-import mappings.common.{V5cReferenceNumber, V5cRegistrationNumber, PostCode}
+import mappings.common.V5cReferenceNumber
 import V5cReferenceNumber._
 import mappings.common.{V5cRegistrationNumber, PostCode}
 import V5cRegistrationNumber._
 import PostCode._
 import controllers.disposal_of_vehicle.Helpers._
-import models.domain.common.Address
 import play.cache.Cache
 
 object VehicleLookup extends Controller {
@@ -27,42 +25,50 @@ object VehicleLookup extends Controller {
     )(VehicleLookupFormModel.apply)(VehicleLookupFormModel.unapply)
   )
 
-  def present = Action { implicit request =>
-    fetchDealerDetailsFromCache match {
-      case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm))
-      case None => Redirect(routes.SetUpTradeDetails.present)
-    }
+  def present = Action {
+    implicit request =>
+      fetchDealerDetailsFromCache match {
+        case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm))
+        case None => Redirect(routes.SetUpTradeDetails.present)
+      }
   }
 
-  def submit = Action { implicit request =>
-    vehicleLookupForm.bindFromRequest.fold(
-      formWithErrors => {
-        fetchDealerDetailsFromCache match {
-          case Some(dealerDetails) => BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithErrors))
-          case None => Redirect(routes.SetUpTradeDetails.present)
+  def submit = Action {
+    implicit request =>
+      vehicleLookupForm.bindFromRequest.fold(
+        formWithErrors => {
+          fetchDealerDetailsFromCache match {
+            case Some(dealerDetails) => BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithErrors))
+            case None => Redirect(routes.SetUpTradeDetails.present)
+          }
+        },
+        f => {
+          storeVehicleDetailsInCache(lookupVehicleDetails(f))
+          Redirect(routes.Dispose.present)
         }
-      },
-      f => {
-        storeVehicleDetailsInCache(lookupVehicleDetails(f))
-        Redirect(routes.Dispose.present)
-      }
-    )
+      )
   }
 
   private def lookupVehicleDetails(model: VehicleLookupFormModel) = {
     val knownReferenceNumber = "11111111111"
+    val stubAddressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = Some("1 The Avenue"),
+      line2 = Some("Earley"),
+      line3 = Some("Reading"),
+      line4 = None),
+      postcode = model.v5cPostcode)
     if (model.v5cReferenceNumber == knownReferenceNumber) {
       Logger.debug(s"Selecting vehicle for ref number ${knownReferenceNumber}")
       VehicleDetailsModel(vehicleMake = "Alfa Romeo",
         vehicleModel = "Alfasud ti",
         keeperName = model.v5cKeeperName,
-        keeperAddress = Address("1 The Avenue", Some("Earley"), Some("Reading"), None, model.v5cPostcode))
+        keeperAddress = stubAddressAndPostcodeModel
+      )
     } else {
       Logger.debug("Selecting default vehicle")
       VehicleDetailsModel(vehicleMake = "PEUGEOT",
         vehicleModel = "307 CC",
         keeperName = model.v5cKeeperName,
-        keeperAddress = Address("1 The Avenue", Some("Earley"), Some("Reading"), None, model.v5cPostcode))
+        keeperAddress = stubAddressAndPostcodeModel)
     }
   }
 

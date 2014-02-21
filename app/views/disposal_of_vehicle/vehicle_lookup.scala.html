@@ -21,10 +21,10 @@
 			<div id="TraderDetailsDiv" class="first-col">
 				<h2>@Messages("disposal_vehiclelookup.p2")</h2>
 				<p><strong>@data.dealerName</strong><br />
-                    @data.dealerAddress.line1<br />
-                    @data.dealerAddress.line2<br />
-                    @data.dealerAddress.line3<br />
-                    @data.dealerAddress.postCode
+                    @data.dealerAddress.addressLinesModel.line1<br />
+                    @data.dealerAddress.addressLinesModel.line2<br />
+                    @data.dealerAddress.addressLinesModel.line3<br />
+                    @data.dealerAddress.postcode
 				</p>
                 @{/*
 				<div class="form-steps">

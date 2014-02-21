@@ -7,11 +7,13 @@ import play.api.Logger
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.Environment
-import models.domain.common.Address
+import models.domain.disposal_of_vehicle.AddressAndPostcodeModel
+import models.domain.disposal_of_vehicle.AddressLinesModel
 
 class LoginWebServiceImpl() extends LoginWebService {
   implicit val writeLoginPage = Json.writes[LoginPageModel]
-  implicit val address = Json.reads[Address]
+  implicit val addressLinesModel = Json.reads[AddressLinesModel]
+  implicit val addressAndPostcodeModel = Json.reads[AddressAndPostcodeModel]
   implicit val loginConfirmationModel = Json.reads[LoginConfirmationModel]
   implicit val loginResponse = Json.reads[LoginResponse]
 
@@ -20,9 +22,10 @@ class LoginWebServiceImpl() extends LoginWebService {
     Logger.debug(s"Calling Login micro service on ${endPoint}...")
     val futureOfResponse = WS.url(endPoint).post(Json.toJson(cmd))
 
-    futureOfResponse.map { resp =>
-      Logger.debug(s"Http response code from Login micro service was: ${resp.status}")
-      resp.json.as[LoginResponse]
+    futureOfResponse.map {
+      resp =>
+        Logger.debug(s"Http response code from Login micro service was: ${resp.status}")
+        resp.json.as[LoginResponse]
     }
   }
 }

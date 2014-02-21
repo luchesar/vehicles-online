@@ -28,18 +28,18 @@
 			<dt>@Messages("disposal_disposeconfirmation.vehiclekeeper")</dt>
 			<dd>
 				@data.keeperName<br />
-				@data.keeperAddress.line1<br />
-				@data.keeperAddress.line2<br />
-				@data.keeperAddress.line3<br />
-				@data.keeperAddress.postCode
+				@data.keeperAddress.addressLinesModel.line1<br />
+				@data.keeperAddress.addressLinesModel.line2<br />
+				@data.keeperAddress.addressLinesModel.line3<br />
+				@data.keeperAddress.postcode
 			</dd>
 			<dt>@Messages("disposal_disposeconfirmation.disposedto")</dt>
 			<dd>
 				@data.dealerName<br />
-				@data.dealerAddress.line1<br />
-				@data.dealerAddress.line2<br />
-				@data.dealerAddress.line3<br />
-				@data.dealerAddress.postCode
+				@data.dealerAddress.addressLinesModel.line1<br />
+				@data.dealerAddress.addressLinesModel.line2<br />
+				@data.dealerAddress.addressLinesModel.line3<br />
+				@data.dealerAddress.postcode
 			</dd>
 
 
@@ -68,10 +68,10 @@
 	    		<li>
 	    			<strong>@Messages("disposal_disposeconfirmation.exkeeperlettersend")</strong><br />
 			    	@data.keeperName<br />
-			    	@data.keeperAddress.line1<br />
-			    	@data.keeperAddress.line2<br />
-			    	@data.keeperAddress.line3<br />
-			    	@data.keeperAddress.postCode
+			    	@data.keeperAddress.addressLinesModel.line1<br />
+			    	@data.keeperAddress.addressLinesModel.line2<br />
+			    	@data.keeperAddress.addressLinesModel.line3<br />
+			    	@data.keeperAddress.postcode
 	    		</li>
 
 	    		<li>@Messages("disposal_disposeconfirmation.exkeeperlettertext")</li>

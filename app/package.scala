@@ -1,14 +1,7 @@
-import models.domain.change_of_address._
-import models.domain.change_of_address.LoginConfirmationModel
-import models.domain.change_of_address.V5cSearchConfirmationModel
-import models.domain.change_of_address.V5cSearchResponse
-import models.domain.common.Address
-import play.api.libs.json.Json
-import play.api.Play
-
-import scala.util.{Success, Try}
-
 package object app {
+  import play.api.Play
+  import scala.util.{Success, Try}
+
   val mb = 131072
 
   def convertToMB(bytes: Long) = {
