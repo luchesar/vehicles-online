@@ -64,7 +64,7 @@ class ConfirmVehicleDetailsIntegrationSpec extends Specification with Tags {
       V5cSearchPagePopulate.happyPath(browser)
 
       // Assert
-      titleMustEqual("Change of keeper address10") //TODO: Need to point at next page once it is built
+      titleMustEqual("Change of keeper address10")
     }
   }
 }
