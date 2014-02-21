@@ -58,7 +58,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
       status(result) should equal(BAD_REQUEST)
     }
 
-    "redirect to setupTradeDetails page when user is not logged in" in new WithApplication {
+    "redirect to setupTradeDetails page when no dealer name cached" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
 
