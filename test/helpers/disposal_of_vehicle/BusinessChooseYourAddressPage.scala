@@ -22,7 +22,7 @@ object BusinessChooseYourAddressPage {
     Logger.debug(s"BusinessChooseYourAddressPage stored data in cache: key = $key, value = ${value}")
   }
 
-  def happyPath(browser: TestBrowser, addressSelected: String = "uprn1") = {
+  def happyPath(browser: TestBrowser, addressSelected: String = "1234") = {
     browser.goTo(url)
     browser.click(s"#${addressSelectId} option[value='${addressSelected}']")
     browser.submit("button[type='submit']")

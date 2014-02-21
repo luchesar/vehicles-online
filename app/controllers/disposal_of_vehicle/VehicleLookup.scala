@@ -55,7 +55,7 @@ object VehicleLookup extends Controller {
 
   private def lookupVehicleDetails(model: VehicleLookupFormModel) = {
     val knownReferenceNumber = "11111111111"
-    val stubAddressAndPostcodeModel = AddressViewModel(Seq("1 The Avenue", "Earley", "Reading", model.v5cPostcode))
+    val stubAddressAndPostcodeModel = AddressViewModel(address = Seq("1 The Avenue", "Earley", "Reading", model.v5cPostcode))
     if (model.v5cReferenceNumber == knownReferenceNumber) {
       Logger.debug(s"Selecting vehicle for ref number ${knownReferenceNumber}")
       VehicleDetailsModel(vehicleMake = "Alfa Romeo",
