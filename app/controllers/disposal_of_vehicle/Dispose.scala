@@ -33,7 +33,7 @@ object Dispose extends Controller {
           //val filledForm = disposeForm.fill(DisposeFormModel(consent = "false", dateOfDisposal = models.DayMonthYear.today))
           Ok(views.html.disposal_of_vehicle.dispose(fetchData(dealerDetails, vehicleDetails), disposeForm))
         }
-        case _ => Redirect(routes.SetUpTradeDetails.present) // TODO write controller and integration tests for re-routing when not logged in.
+        case _ => Redirect(routes.SetUpTradeDetails.present)
       }
     }
   }
@@ -50,7 +50,6 @@ object Dispose extends Controller {
             case _ =>
               Logger.error("could not find dealer details in cache on Dispose submit")
               Redirect(routes.SetUpTradeDetails.present)
-              // TODO write controller and integration tests for re-routing when not logged in.
           }
         },
         f => {

@@ -3,7 +3,6 @@ package controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import org.scalatest.mock.MockitoSugar
 import mappings.common.PostCode
-import mappings.common.MultiLineAddress
 import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
 import scala.Some
 import mappings.disposal_of_vehicle.{AddressLines, AddressAndPostcode}

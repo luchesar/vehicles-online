@@ -25,10 +25,10 @@
                 <dt>@Messages("disposal_dispose.vehiclekeeper")</dt>
                 <dd>
                     @data.keeperName<br />
-                    @data.keeperAddress.line1<br />
-                    @data.keeperAddress.line2<br />
-                    @data.keeperAddress.line3<br />
-                    @data.keeperAddress.postCode
+                    @data.keeperAddress.addressLinesModel.line1<br />
+                    @data.keeperAddress.addressLinesModel.line2<br />
+                    @data.keeperAddress.addressLinesModel.line3<br />
+                    @data.keeperAddress.postcode
                 </dd>
             </dl>
 
@@ -52,10 +52,12 @@
                 <ul>
                     <li>
                         @data.dealerName<br />
-                        @data.dealerAddress.line1<br />
-                        @data.dealerAddress.line2<br />
-                        @data.dealerAddress.line3<br />
-                        @data.dealerAddress.postCode
+
+                        @* TODO display the address using the toViewFormat method *@
+                        @data.dealerAddress.addressLinesModel.line1<br />
+                        @data.dealerAddress.addressLinesModel.line2<br />
+                        @data.dealerAddress.addressLinesModel.line3<br />
+                        @data.dealerAddress.postcode
                     </li>
                     @valtechInputText(disposeForm(mileageId), args =
                     '_label -> Messages("disposal_dispose.mileage.label"),

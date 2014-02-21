@@ -1,6 +1,5 @@
 package modules
 
-import mappings.disposal_of_vehicle.BusinessAddressSelect._
 import com.tzavellas.sse.guice.ScalaModule
 import services.{AddressLookupService, LoginWebService, V5cSearchWebService}
 import scala.concurrent.{ExecutionContext, Future}
@@ -12,8 +11,7 @@ import models.domain.change_of_address.LoginPageModel
 import models.domain.change_of_address.LoginResponse
 import models.domain.change_of_address.LoginConfirmationModel
 import models.domain.change_of_address.V5cSearchModel
-import models.domain.common.Address
-import javax.inject.Singleton
+import models.domain.disposal_of_vehicle.{AddressLinesModel, AddressAndPostcodeModel}
 
 /**
  * Provides fake or test implementations for traits
@@ -34,7 +32,13 @@ object TestModule extends ScalaModule {
    */
   case class FakeLoginWebService() extends LoginWebService {
     override def invoke(cmd: LoginPageModel): Future[LoginResponse] = Future {
-      LoginResponse(true, "All ok ", LoginConfirmationModel("Roger", "Booth", "21/05/1977", Address(line1 = "115 Park Avenue", line4 = Some("United Kingdom"), postCode = "SA6 8HY")))
+      val address1 = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = Some("44 Hythe Road"),
+        line2 = Some("White City"),
+        line3 = Some("London"),
+        line4 = None),
+        postcode = "NW10 6RJ")
+
+      LoginResponse(true, "All ok ", LoginConfirmationModel("Roger", "Booth", "21/05/1977", address1))
     }
   }
 
@@ -42,6 +46,17 @@ object TestModule extends ScalaModule {
    * Fake implementation of the FakeAddressLookupService trait
    */
   class FakeAddressLookupService() extends AddressLookupService {
+    val address1 = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = Some("44 Hythe Road"),
+      line2 = Some("White City"),
+      line3 = Some("London"),
+      line4 = None),
+      postcode = "NW10 6RJ")
+    val address2 = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = Some("Penarth Road"),
+      line2 = Some("Cardiff"),
+      line3 = None,
+      line4 = None),
+      postcode = "CF11 8TT")
+
     override def fetchAddress(postcode: String): Map[String, String] = {
       Map(
         address1.toViewFormat() -> address1.toViewFormat(),
@@ -49,8 +64,8 @@ object TestModule extends ScalaModule {
       ) // TODO this should come from call to GDS lookup.
     }
 
-    override def lookupAddress(address: String): Address = {
-      val addresses= Map(
+    override def lookupAddress(address: String): AddressAndPostcodeModel = {
+      val addresses = Map(
         address1.toViewFormat() -> address1,
         address2.toViewFormat() -> address2
       ) // TODO this should come from call to GDS lookup.
