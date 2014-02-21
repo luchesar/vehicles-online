@@ -10,6 +10,7 @@ import org.mockito.Mockito._
 import org.mockito.Matchers._
 import modules.TestModule.FakeAddressLookupService
 import helpers.disposal_of_vehicle.BusinessChooseYourAddressPage._
+import controllers.Mappings._
 
 class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
@@ -45,11 +46,37 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
       redirectLocation(result) should equal (Some(VehicleLookupPage.url))
     }
 
-    "return a bad request after an invalid submission" in new WithApplication {
+    "return a bad request after no submission" in new WithApplication {
       // Arrange
       SetUpTradeDetailsPage.setupCache
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
+
+      // Act
+      val result = businessChooseYourAddress.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
+    }
+
+    "return a bad request after a blank submission" in new WithApplication {
+      // Arrange
+      SetUpTradeDetailsPage.setupCache
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody( addressSelectId -> "")
+
+      // Act
+      val result = businessChooseYourAddress.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
+    }
+
+    "return a bad request after submission contains addressSelect with more characters than max length" in new WithApplication {
+      // Arrange
+      SetUpTradeDetailsPage.setupCache
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody( addressSelectId -> thousandCharacters)
 
       // Act
       val result = businessChooseYourAddress.submit(request)
