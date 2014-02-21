@@ -32,19 +32,6 @@ class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers with Mock
       )
     }
 
-    "reject if form is blank" in {
-      chooseYourAddressFiller(addressSelected = "").fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(2)
-          formWithErrors.errors(0).key should equal(addressSelectId)
-          formWithErrors.errors(0).message should equal("error.required")
-          formWithErrors.errors(1).key should equal(addressSelectId)
-          formWithErrors.errors(1).message should equal("error.dropDownInvalid")
-        },
-        f => fail("An error should occur")
-      )
-    }
-
     "reject if addressSelect is empty" in {
       chooseYourAddressFiller(addressSelected = "").fold(
         formWithErrors => {

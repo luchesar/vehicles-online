@@ -28,6 +28,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
     }
 
     "reject when no data is entered" in new WithApplication {
+      SetUpTradeDetailsPage.setupCache
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 
@@ -39,6 +40,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
     }
 
     "reject when a valid address is entered without a postcode" in new WithApplication {
+      SetUpTradeDetailsPage.setupCache
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.${AddressLines.id}$line1Id" -> line1Valid,
@@ -54,6 +56,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
     }
 
     "reject when a valid postcode is entered without an address" in new WithApplication {
+      SetUpTradeDetailsPage.setupCache
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.$postcodeID" -> postcodeValid)
@@ -65,5 +68,19 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       status(result) should equal(BAD_REQUEST)
     }
 
+    "redirect to setupTradeDetails page when present with no dealer name cached" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.EnterAddressManually.present(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+    }
+
+    // TODO "redirect to next page after a valid submit"
+    // TODO "redirect to setupTradeDetails page when valid submit with no dealer name cached"
+    // TODO "redirect to setupTradeDetails page when bad submit with no dealer name cached"
   }
 }
