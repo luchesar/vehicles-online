@@ -18,7 +18,7 @@ class LoginWebServiceImpl() extends LoginWebService {
   implicit val loginResponse = Json.reads[LoginResponse]
 
   override def invoke(cmd: LoginPageModel): Future[LoginResponse] = {
-    val endPoint = s"${Config.microServiceUrlBase}/login-page"
+    val endPoint = s"${Config.microServiceBaseUrl}/login-page"
     Logger.debug(s"Calling Login micro service on ${endPoint}...")
     val futureOfResponse = WS.url(endPoint).post(Json.toJson(cmd))
 

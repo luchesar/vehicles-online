@@ -10,6 +10,7 @@ import play.api.mvc.Results._
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.Play.current
 import ExecutionContext.Implicits.global
+import utils.helpers.Config
 
 /**
  * Application configuration is in a hierarchy of files:
@@ -57,6 +58,12 @@ object Global extends GlobalSettings {
 
   override def onStart(app: Application) {
     Logger.info("vehicles-online Started") // used for operations, do not remove
+    val endPoint = s"${Config.ordnanceSurveyBaseUrl}"
+    Logger.debug(s"Ordnance survey base url = ${endPoint}")
+    val username = s"${Config.ordnanceSurveyUsername}"
+    Logger.debug(s"Ordnance survey username = ${username}")
+    val password = s"${Config.ordnanceSurveyPassword}"
+    Logger.debug(s"Ordnance survey password = ${password}")
   }
 
   override def onLoadConfig(configuration: Configuration, path: File, classloader: ClassLoader, mode: Mode.Mode): Configuration = {

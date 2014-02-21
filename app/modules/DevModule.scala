@@ -18,6 +18,7 @@ import modules.TestModule.FakeAddressLookupService
 object DevModule extends ScalaModule {
   def configure() {
     Logger.debug("Guice is loading DevModule")
+
     bind[V5cSearchWebService].to[V5cSearchWebServiceImpl].asEagerSingleton()
     bind[LoginWebService].to[LoginWebServiceImpl].asEagerSingleton()
     bind[AddressLookupService].to[FakeAddressLookupService].asEagerSingleton()
