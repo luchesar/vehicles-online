@@ -21,7 +21,7 @@ object EnterAddressManually extends Controller {
     implicit request =>
       fetchDealerNameFromCache match {
         case Some(name) => Ok(views.html.disposal_of_vehicle.enter_address_manually(form))
-        case None => Redirect(routes.SetUpTradeDetails.present) // TODO controller and integration test for redirect when no dealer name in cache.
+        case None => Redirect(routes.SetUpTradeDetails.present)
       }
   }
 
@@ -44,7 +44,7 @@ object EnterAddressManually extends Controller {
           }
           case None => {
             Logger.error("failed to find dealer name in cache on submit, redirecting...")
-            Redirect(routes.SetUpTradeDetails.present) // TODO controller test for redirect when no dealer name in cache.
+            Redirect(routes.SetUpTradeDetails.present)
           }
         }
       )

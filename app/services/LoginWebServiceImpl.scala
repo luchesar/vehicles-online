@@ -6,7 +6,7 @@ import play.api.libs.ws.WS
 import play.api.Logger
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-import utils.helpers.Environment
+import utils.helpers.Config
 import models.domain.disposal_of_vehicle.AddressAndPostcodeModel
 import models.domain.disposal_of_vehicle.AddressLinesModel
 
@@ -18,7 +18,7 @@ class LoginWebServiceImpl() extends LoginWebService {
   implicit val loginResponse = Json.reads[LoginResponse]
 
   override def invoke(cmd: LoginPageModel): Future[LoginResponse] = {
-    val endPoint = s"${Environment.microServiceUrlBase}/login-page"
+    val endPoint = s"${Config.microServiceUrlBase}/login-page"
     Logger.debug(s"Calling Login micro service on ${endPoint}...")
     val futureOfResponse = WS.url(endPoint).post(Json.toJson(cmd))
 

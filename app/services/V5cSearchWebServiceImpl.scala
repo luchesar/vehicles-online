@@ -6,7 +6,7 @@ import play.api.libs.ws.WS
 import play.api.Logger
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-import utils.helpers.Environment
+import utils.helpers.Config
 
 class V5cSearchWebServiceImpl() extends V5cSearchWebService {
   implicit val writeV5cSearch = Json.writes[V5cSearchModel]
@@ -14,7 +14,7 @@ class V5cSearchWebServiceImpl() extends V5cSearchWebService {
   implicit val v5cSearchResponse = Json.reads[V5cSearchResponse]
 
   override def invoke(cmd: V5cSearchModel): Future[V5cSearchResponse] = {
-    val endPoint = s"${Environment.microServiceUrlBase}/vehicles/v5c-search"
+    val endPoint = s"${Config.microServiceUrlBase}/vehicles/v5c-search"
     Logger.debug(s"Calling V5C micro service on ${endPoint}...")
     val futureOfResponse = WS.url(endPoint).post(Json.toJson(cmd))
 

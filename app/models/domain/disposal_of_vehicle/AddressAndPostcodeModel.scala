@@ -1,6 +1,5 @@
 package models.domain.disposal_of_vehicle
 
-case class AddressAndPostcodeModel(addressLinesModel: AddressLinesModel, postcode: String) {
-  // TODO add a UPRN parameter
+case class AddressAndPostcodeModel(uprn: Option[Int] = None, addressLinesModel: AddressLinesModel, postcode: String) {
   def toViewFormat() = s"${addressLinesModel.toViewFormat}, ${postcode}"
 }
