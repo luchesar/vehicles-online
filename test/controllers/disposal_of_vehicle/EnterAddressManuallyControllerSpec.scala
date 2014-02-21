@@ -68,7 +68,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       status(result) should equal(BAD_REQUEST)
     }
 
-    "redirect to setupTradeDetails page when no dealer name cached" in new WithApplication {
+    "redirect to setupTradeDetails page when present with no dealer name cached" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
 
@@ -79,5 +79,8 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
     }
 
+    // TODO "redirect to next page after a valid submit"
+    // TODO "redirect to setupTradeDetails page when valid submit with no dealer name cached"
+    // TODO "redirect to setupTradeDetails page when bad submit with no dealer name cached"
   }
 }
