@@ -86,6 +86,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
     }
 
     "redirect to setupTradeDetails page when user is not logged in" in new WithApplication {
+
       // Arrange
       val request = FakeRequest().withSession()
 

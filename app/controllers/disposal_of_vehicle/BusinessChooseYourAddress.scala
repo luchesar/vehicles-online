@@ -53,7 +53,7 @@ class BusinessChooseYourAddress @Inject() (addressLookupService: services.Addres
     )
   }
 
-  private def storeDealerDetailsInCache(model: BusinessChooseYourAddressModel, dealerName: String) = {
+  def storeDealerDetailsInCache(model: BusinessChooseYourAddressModel, dealerName: String) = {
     val key = DealerDetails.cacheKey
     val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = addressLookupService.lookupAddress(model.addressSelected))
     play.api.cache.Cache.set(key, value)
