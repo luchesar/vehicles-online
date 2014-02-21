@@ -7,12 +7,12 @@ import play.api.Logger
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.Config
-import models.domain.disposal_of_vehicle.AddressAndPostcodeModel
-import models.domain.disposal_of_vehicle.AddressLinesModel
+import models.domain.disposal_of_vehicle.{AddressViewModel, AddressAndPostcodeModel, AddressLinesModel}
 
 class LoginWebServiceImpl() extends LoginWebService {
   implicit val writeLoginPage = Json.writes[LoginPageModel]
   implicit val addressLinesModel = Json.reads[AddressLinesModel]
+  implicit val addressViewModel = Json.reads[AddressViewModel]
   implicit val addressAndPostcodeModel = Json.reads[AddressAndPostcodeModel]
   implicit val loginConfirmationModel = Json.reads[LoginConfirmationModel]
   implicit val loginResponse = Json.reads[LoginResponse]

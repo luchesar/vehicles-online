@@ -4,6 +4,7 @@ import org.scalatest.{Matchers, WordSpec}
 import scala.io.Source
 import java.net.URI
 import play.api.libs.json._
+import services.ordnance_survey.domain.OSAddressbaseSearchResponse
 
 class OSAddressbasePostcodeResponseSpec extends WordSpec with Matchers {
   "Response Parser loading json for ec1a 4jq" should {

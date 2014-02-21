@@ -4,7 +4,7 @@ import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
-import models.domain.disposal_of_vehicle.{AddressLinesModel, AddressAndPostcodeModel, VehicleDetailsModel, VehicleLookupFormModel}
+import models.domain.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.common.V5cReferenceNumber
 import V5cReferenceNumber._
@@ -13,6 +13,10 @@ import V5cRegistrationNumber._
 import PostCode._
 import controllers.disposal_of_vehicle.Helpers._
 import play.cache.Cache
+import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import models.domain.disposal_of_vehicle.VehicleDetailsModel
+import scala.Some
+import models.domain.disposal_of_vehicle.AddressLinesModel
 
 object VehicleLookup extends Controller {
 
@@ -51,11 +55,7 @@ object VehicleLookup extends Controller {
 
   private def lookupVehicleDetails(model: VehicleLookupFormModel) = {
     val knownReferenceNumber = "11111111111"
-    val stubAddressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = Some("1 The Avenue"),
-      line2 = Some("Earley"),
-      line3 = Some("Reading"),
-      line4 = None),
-      postcode = model.v5cPostcode)
+    val stubAddressAndPostcodeModel = AddressViewModel(Seq("1 The Avenue", "Earley", "Reading", model.v5cPostcode))
     if (model.v5cReferenceNumber == knownReferenceNumber) {
       Logger.debug(s"Selecting vehicle for ref number ${knownReferenceNumber}")
       VehicleDetailsModel(vehicleMake = "Alfa Romeo",

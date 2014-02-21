@@ -10,7 +10,7 @@ import helpers.disposal_of_vehicle.BusinessChooseYourAddressPage._
 
 class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers with MockitoSugar {
   "BusinesssChooseYourAddress Form" should {
-    val addressSelectedValid = address1.toViewFormat()
+    val addressSelectedValid = address1.address.mkString(", ")
     val mockAddressLookupService = mock[services.AddressLookupService]
     when(mockAddressLookupService.fetchAddress(anyString())).thenReturn(new FakeAddressLookupService().fetchAddress("TEST"))
     val businessChooseYourAddress = new BusinessChooseYourAddress(mockAddressLookupService)

@@ -24,11 +24,7 @@
       <tr><td>@Messages("loginconfirmation.personaldetails.firstname")</td><td>@loginConfirmationModel.firstName</td></tr>
       <tr><td>@Messages("loginconfirmation.personaldetails.surname")</td><td>@loginConfirmationModel.surname</td></tr>
       <tr><td>@Messages("loginconfirmation.personaldetails.dob")</td><td>@loginConfirmationModel.dob</td></tr>
-      <tr><td>@Messages("loginconfirmation.personaldetails.address")</td><td>@loginConfirmationModel.address.addressLinesModel.line1</td></tr>
-        <tr><td></td><td>@loginConfirmationModel.address.addressLinesModel.line2</td></tr>
-        <tr><td></td><td>@loginConfirmationModel.address.addressLinesModel.line3</td></tr>
-        <tr><td></td><td>@loginConfirmationModel.address.addressLinesModel.line4</td></tr>
-      <tr><td></td><td>@loginConfirmationModel.address.postcode</td></tr>
+      <tr><td>@Messages("loginconfirmation.personaldetails.address")</td><td>@loginConfirmationModel.address.address.mkString("</br>")</td></tr>
     </table>
 
     <p>@Messages("loginconfirmation.consent")</p>

@@ -12,7 +12,7 @@ class AddressAndPostcodeSpec extends WordSpec with Matchers {
         line4 = Some("d")),
         postcode = "e")
 
-      val result = address.toViewFormat()
+      val result = address.toViewFormat.mkString(", ")
 
       result should equal("a, b, c, d, e")
     }
@@ -24,7 +24,7 @@ class AddressAndPostcodeSpec extends WordSpec with Matchers {
         line4 = None),
         postcode = "e")
 
-      val result = address.toViewFormat()
+      val result = address.toViewFormat.mkString(", ")
 
       result should equal("a, e")
     }

@@ -3,7 +3,7 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
-import models.domain.disposal_of_vehicle.{DealerDetailsModel, BusinessChooseYourAddressModel}
+import models.domain.disposal_of_vehicle.{AddressViewModel, DealerDetailsModel, BusinessChooseYourAddressModel}
 import mappings.disposal_of_vehicle.BusinessAddressSelect._
 import mappings.common.DropDown
 import DropDown._
@@ -54,8 +54,9 @@ class BusinessChooseYourAddress @Inject() (addressLookupService: services.Addres
   }
 
   def storeDealerDetailsInCache(model: BusinessChooseYourAddressModel, dealerName: String) = {
+    val lookedUpAddress = addressLookupService.lookupAddress(model.addressSelected)
     val key = DealerDetails.cacheKey
-    val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = addressLookupService.lookupAddress(model.addressSelected))
+    val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = lookedUpAddress)
     play.api.cache.Cache.set(key, value)
     Logger.debug(s"BusinessChooseYourAddress stored data in cache: key = $key, value = ${value}")
   }

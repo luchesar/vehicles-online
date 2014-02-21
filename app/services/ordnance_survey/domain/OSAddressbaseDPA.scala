@@ -1,4 +1,4 @@
-package services.ordinance_survey.domain
+package services.ordnance_survey.domain
 
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
@@ -6,21 +6,21 @@ import play.api.libs.functional.syntax._
 case class OSAddressbaseDPA(
                              UPRN: String,
                              address: String,
-                             poBoxNumber: Option[String],
-                             organisationName: Option[String],
-                             departmentName: Option[String],
-                             subBuildingName: Option[String],
-                             buildingName: Option[String],
-                             buildingNumber: Option[String],
-                             dependentThoroughfareName: Option[String],
-                             thoroughfareName: Option[String],
-                             doubleDependentLocality: Option[String],
-                             dependentLocality: Option[String],
+                             poBoxNumber: Option[String] = None,
+                             organisationName: Option[String] = None,
+                             departmentName: Option[String] = None,
+                             subBuildingName: Option[String] = None,
+                             buildingName: Option[String] = None,
+                             buildingNumber: Option[String] = None,
+                             dependentThoroughfareName: Option[String] = None,
+                             thoroughfareName: Option[String] = None,
+                             doubleDependentLocality: Option[String] = None,
+                             dependentLocality: Option[String] = None,
                              postTown: String,
                              postCode: String,
                              RPC: String,
-                             xCordinate: Float,
-                             yCordinate: Float,
+                             xCoordinate: Float,
+                             yCoordinate: Float,
                              status: String,
                              matchScore: Float,
                              matchDescription: String

@@ -37,7 +37,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
       SetUpTradeDetailsPage.setupCache
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
-          addressSelectId -> address1.toViewFormat())
+          addressSelectId -> address1.address.mkString(", "))
 
       // Act
       val result = businessChooseYourAddress.submit(request)
@@ -100,7 +100,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
     "redirect to setupTradeDetails page when valid submit with no dealer name cached" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(addressSelectId -> address1.toViewFormat())
+        .withFormUrlEncodedBody(addressSelectId -> address1.address.mkString(", "))
 
       // Act
       val result = businessChooseYourAddress.submit(request)

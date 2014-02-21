@@ -4,23 +4,15 @@ import play.api.test.TestBrowser
 import mappings.disposal_of_vehicle.BusinessAddressSelect._
 import play.api.Play.current
 import play.api.Logger
-import models.domain.disposal_of_vehicle.{AddressLinesModel, AddressAndPostcodeModel, DealerDetailsModel}
+import models.domain.disposal_of_vehicle.{AddressViewModel, AddressLinesModel, AddressAndPostcodeModel, DealerDetailsModel}
 import mappings.disposal_of_vehicle.BusinessAddressSelect
 
 object BusinessChooseYourAddressPage {
   val url = "/disposal-of-vehicle/business-choose-your-address"
   val title = "Business: Choose your address"
 
-  val address1 = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = Some("44 Hythe Road"),
-    line2 = Some("White City"),
-    line3 = Some("London"),
-    line4 = None),
-    postcode = "NW10 6RJ")
-  val address2 = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = Some("Penarth Road"),
-    line2 = Some("Cardiff"),
-    line3 = None,
-    line4 = None),
-    postcode = "CF11 8TT")
+  val address1 = AddressViewModel(address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
+  val address2 = AddressViewModel(address= Seq("Penarth Road", "Cardiff", "CF11 8TT"))
 
   def setupCache() = {
     val key = mappings.disposal_of_vehicle.DealerDetails.cacheKey
@@ -30,7 +22,7 @@ object BusinessChooseYourAddressPage {
     Logger.debug(s"BusinessChooseYourAddressPage stored data in cache: key = $key, value = ${value}")
   }
 
-  def happyPath(browser: TestBrowser, addressSelected: String = address1.toViewFormat()) = {
+  def happyPath(browser: TestBrowser, addressSelected: String = address1.address.mkString(", ")) = {
     browser.goTo(url)
     browser.click(s"#${addressSelectId} option[value='${addressSelected}']")
     browser.submit("button[type='submit']")

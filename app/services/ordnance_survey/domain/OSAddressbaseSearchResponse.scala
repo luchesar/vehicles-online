@@ -1,4 +1,4 @@
-package services.ordinance_survey.domain
+package services.ordnance_survey.domain
 
 import play.api.libs.json.Json
 
