@@ -7,7 +7,7 @@ import models.DayMonthYear
 import play.api.Logger
 
 object Helpers {
-  def fetchDealerNameFromCache(): Option[String] = {
+  def fetchDealerNameFromCache: Option[String] = {
     fetchTraderDetailsFromCache match {
       case Some(model) => Some(model.traderBusinessName)
       case None => None
@@ -19,12 +19,12 @@ object Helpers {
     Cache.getAs[DealerDetailsModel](key)
   }
 
-  def fetchDisposeFormModelFromCache(): Option[DisposeFormModel] = {
+  def fetchDisposeFormModelFromCache: Option[DisposeFormModel] = {
     val key = mappings.disposal_of_vehicle.Dispose.cacheKey
     Cache.getAs[DisposeFormModel](key)
   }
 
-  def fetchVehicleDetailsFromCache(): Option[VehicleDetailsModel] = {
+  def fetchVehicleDetailsFromCache: Option[VehicleDetailsModel] = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.cacheKey
     Cache.getAs[VehicleDetailsModel](key)
   }

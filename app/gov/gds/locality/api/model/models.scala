@@ -5,9 +5,9 @@ import org.joda.time.DateTime
 
 
 
-case class Street(usrn: String, streetDescription: String, townName: String, administrativeArea: String)
 
-case class Location(x: Double, y: Double)
+
+
 
 case class Details(
                     usrn: String,

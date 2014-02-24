@@ -17,7 +17,7 @@
             @* Day field. Overriding the default select message with "Day". *@
             @valtechSelect(field("day"),
                 defaultOptionMessage = "datePlaceholder.day",
-                options = ((1 to 31) map(v => (v toString) -> (if (v < 10) "0" + v else (v toString)))).asInstanceOf[Seq[(String, String)]])
+                options = ((1 to 31) map(v => (v toString) -> (if (v < 10) "0" + v else v toString))).asInstanceOf[Seq[(String, String)]])
         </li>
 
         <li>

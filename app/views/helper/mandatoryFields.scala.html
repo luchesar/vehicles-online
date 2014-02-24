@@ -16,7 +16,7 @@
         for(mapping <- mappings){
             if (mapping.constraints.exists(c => c != null && c.name.getOrElse("") == "constraint.required")) return true
         }
-        return false
+        false
 
     }
     if(anyRequired(getMappings(Seq(form.mapping)))){

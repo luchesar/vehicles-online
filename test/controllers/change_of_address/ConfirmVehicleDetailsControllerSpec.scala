@@ -2,7 +2,7 @@ package controllers.change_of_address
 
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
-import controllers.{change_of_address}
+import controllers.change_of_address
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
 import helpers.change_of_address.{V5cCachePopulate, LoginCachePopulate, V5cSearchPagePopulate, AreYouRegisteredPage, ConfirmVehicleDetailsPage}
@@ -15,7 +15,7 @@ class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers with Mo
     "present" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-      setupCache()
+      setupCache
       happyPath()
 
       // Act
@@ -28,7 +28,7 @@ class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers with Mo
     "redirect to v5c search page when user is logged in but not entered vehicle details" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-      setupCache()
+      setupCache
 
       // Act
       val result = change_of_address.ConfirmVehicleDetails.present(request)

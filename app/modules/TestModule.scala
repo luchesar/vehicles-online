@@ -23,7 +23,7 @@ object TestModule extends ScalaModule {
    */
   case class FakeV5cSearchWebService() extends V5cSearchWebService {
     override def invoke(cmd: V5cSearchModel): Future[V5cSearchResponse] = Future {
-      V5cSearchResponse(true, "All ok ", V5cSearchConfirmationModel("vrn", "make", "model", "firstRegistered", "acquired"))
+      V5cSearchResponse(success = true, "All ok ", V5cSearchConfirmationModel("vrn", "make", "model", "firstRegistered", "acquired"))
     }
   }
 
@@ -34,7 +34,7 @@ object TestModule extends ScalaModule {
     val address1 = AddressViewModel(address = Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
 
     override def invoke(cmd: LoginPageModel): Future[LoginResponse] = Future {
-      LoginResponse(true, "All ok ", LoginConfirmationModel("Roger", "Booth", "21/05/1977", address1))
+      LoginResponse(success = true, "All ok ", LoginConfirmationModel("Roger", "Booth", "21/05/1977", address1))
     }
   }
 
@@ -47,8 +47,8 @@ object TestModule extends ScalaModule {
 
     override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = Future {
       Seq(
-        (address1.uprn.getOrElse(1234L).toString -> address1.address.mkString(", ")),
-        (address2.uprn.getOrElse(4567L).toString -> address2.address.mkString(", "))
+        address1.uprn.getOrElse(1234L).toString -> address1.address.mkString(", "),
+        address2.uprn.getOrElse(4567L).toString -> address2.address.mkString(", ")
       )
     }
 

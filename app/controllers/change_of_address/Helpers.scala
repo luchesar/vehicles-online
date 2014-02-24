@@ -6,7 +6,7 @@ import play.api.Play.current
 import play.api.Logger
 
 object Helpers {
-  def isUserLoggedIn(): Boolean = {
+  def isUserLoggedIn: Boolean = {
     userLoginCredentials() match {
       case Some(loginConfirmationModel) => {
         Logger.debug("******** User logged in ********")
