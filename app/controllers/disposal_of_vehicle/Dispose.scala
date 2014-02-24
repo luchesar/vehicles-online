@@ -11,8 +11,12 @@ import Mileage._
 import DayMonthYear._
 import constraints.DayMonthYear._
 import controllers.disposal_of_vehicle.Helpers._
-import models.domain.disposal_of_vehicle.{VehicleDetailsModel, DealerDetailsModel, DisposeFormModel, DisposeModel}
 import play.api.Play.current
+import models.domain.disposal_of_vehicle.VehicleDetailsModel
+import models.domain.disposal_of_vehicle.DealerDetailsModel
+import models.domain.disposal_of_vehicle.DisposeFormModel
+import scala.Some
+import models.domain.disposal_of_vehicle.DisposeModel
 
 object Dispose extends Controller {
 
@@ -20,7 +24,8 @@ object Dispose extends Controller {
     mapping(
       consentId -> consent,
       mileageId -> mileage(),
-      dateOfDisposalId -> dayMonthYear.verifying(rules)
+      dateOfDisposalId -> dayMonthYear.verifying(rules),
+      emailAddressId -> optional(text)
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 

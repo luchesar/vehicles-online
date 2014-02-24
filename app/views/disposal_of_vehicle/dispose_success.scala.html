@@ -1,7 +1,6 @@
-@(data: models.domain.disposal_of_vehicle.DisposeModel, disposeConfirmationForm: Form[models.domain.disposal_of_vehicle.DisposeConfirmationFormModel], disposeModel: models.domain.disposal_of_vehicle.DisposeFormModel)(implicit lang: Lang)
+@(data: models.domain.disposal_of_vehicle.DisposeModel, disposeModel: models.domain.disposal_of_vehicle.DisposeFormModel)(implicit lang: Lang)
 
 @import helper._
-@import views.html.helper.base._
 
 @import helper._
 @import utils.helpers.BaseTemplete._
@@ -58,33 +57,13 @@
 		<h2>@Messages("disposal_disposeconfirmation.exkeeper")</h2>
 	    
 	    <div class="form-elements">
-	    	@form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.submit) {
 	    	<ul>
-	    		<li>
-	    			<strong>@Messages("disposal_disposeconfirmation.exkeeperlettersend")</strong><br />
-			    	@data.keeperName<br />
+                <li>
+                    <strong>@Messages("disposal_disposeconfirmation.exkeeperlettersend")</strong><br />
+                    @data.keeperName<br />
                     @for(addr <- data.keeperAddress.address) {@addr<br/>}
-	    		</li>
-
-	    		<li>@Messages("disposal_disposeconfirmation.exkeeperlettertext")</li>
-
-	    		    @valtechInputTextWithButton(disposeConfirmationForm(emailAddressId),
-                        args = Seq('_label -> Messages("disposal_disposeconfirmation.emaillabel"),
-		                '_showConstraints -> false))
-
-
-		        @{
-                    /*
-                    TODO DEVELOPER NOTE:
-		        	We need to work to work out a way of having helpers that output form elements without wrapper markup
-		        	and potentially without labels too for extra flexibility.
-		        	James Chapman 11/02/2014
-                     */
-                }
+                </li>
 	    	</ul>
-
-	    	}
-	    	
 	    	<div class="form-steps">
 	    		<a class="button-not-implemented" aria-disabled="true">@Messages("global.buttonnavprint")</a>
 	    		<a id="newDisposal" class="button" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present">@Messages("disposal_disposeconfirmation.newdisposalbutton")</a>

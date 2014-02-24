@@ -205,6 +205,8 @@ dateOfDisposal = Date of disposal
 disposal_dispose.dateofdisposal.label = Dyddiad y gwaredu
 disposal_dispose.backbutton = Holau
 disposal_dispose.submitbutton = Gwaredu
+disposal_dispose.exkeeperlettertext = Bydd y llythyr yn cadarnhau y gwarediad. Os byddai''n well gennych dderbyn e-bost cydnabyddiaeth ar unwaith, rhowch gyfeiriad e-bost
+disposal_dispose.emaillabel = Cyfeiriad e-bost
 
 disposal_disposeconfirmation.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion
 disposal_disposeconfirmation.disposaldetails = Gwaredu
@@ -214,8 +216,6 @@ disposal_disposeconfirmation.vehiclekeeper = Ceidwad
 disposal_disposeconfirmation.disposedto = Werthwyd i
 disposal_disposeconfirmation.exkeeper = Ar gyfer y cyn-geidwad
 disposal_disposeconfirmation.exkeeperlettersend = Bydd llythyr yn cael ei anfon at
-disposal_disposeconfirmation.exkeeperlettertext = Bydd y llythyr yn cadarnhau y gwarediad. Os byddai''n well gennych dderbyn e-bost cydnabyddiaeth ar unwaith, rhowch gyfeiriad e-bost
-disposal_disposeconfirmation.emaillabel = Cyfeiriad e-bost
 disposal_disposeconfirmation.sendbutton = Anfon
 disposal_disposeconfirmation.transactionid = {0}
 disposal_disposeconfirmation.transactionid_label = Trafodiad yn
