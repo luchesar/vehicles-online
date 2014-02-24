@@ -10,7 +10,6 @@ import services.ordnance_survey.domain.OSAddressbaseSearchResponse
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 
-
 class AddressLookupServiceImpl extends AddressLookupService {
   val username = s"${Config.ordnanceSurveyUsername}"
   val password = s"${Config.ordnanceSurveyPassword}"
@@ -18,7 +17,10 @@ class AddressLookupServiceImpl extends AddressLookupService {
 
   // TODO extract common code out of the below methods
   override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = {
-    val endPoint = s"${baseUrl}/postcode?postcode=${postcode}&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
+    // TODO work out why we have to do this inline and not call private method
+    val resultPostcodeWithNoSpaces = postcode.filter(_ != ' ')
+    Logger.debug(s"Postcode (spaces removed) = ${resultPostcodeWithNoSpaces}")
+    val endPoint = s"${baseUrl}/postcode?postcode=${resultPostcodeWithNoSpaces}&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
     Logger.debug(s"Calling Ordnance Survey postcode lookup service on ${endPoint}...")
     val futureOfResponse = WS.url(endPoint).withAuth(username = username, password = password, scheme = AuthScheme.BASIC).get()
 
@@ -44,6 +46,10 @@ class AddressLookupServiceImpl extends AddressLookupService {
       }
     }
   }
+
+//  private def postcodeWithNoSpaces(postcode: String):String {
+//    postcode.filter(_ != ' ')
+//  }
 
   override def lookupAddress(uprn: String): Future[AddressViewModel] = {
     val endPoint = s"${baseUrl}/uprn?uprn=${uprn}&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
