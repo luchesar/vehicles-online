@@ -4,11 +4,11 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
-import mappings.disposal_of_vehicle.DisposeConfirmation._
+import mappings.disposal_of_vehicle.DisposeSuccess._
 import org.specs2.mock.Mockito
 import helpers.disposal_of_vehicle.{VehicleLookupPage, DisposePage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage}
 
-class DisposeConfirmationControllerSpec extends WordSpec with Matchers with Mockito {
+class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
 
   "Disposal confirmation controller" should {
 
@@ -21,7 +21,7 @@ class DisposeConfirmationControllerSpec extends WordSpec with Matchers with Mock
       val request = FakeRequest().withSession()
 
       // Act
-      val result = disposal_of_vehicle.DisposeConfirmation.present(request)
+      val result = disposal_of_vehicle.DisposeSuccess.present(request)
 
       // Assert
       status(result) should equal(OK)
@@ -37,7 +37,7 @@ class DisposeConfirmationControllerSpec extends WordSpec with Matchers with Mock
         )
 
       // Act
-      val result = disposal_of_vehicle.DisposeConfirmation.submit(request)
+      val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
       // Assert
       status(result) should equal(OK)
@@ -48,7 +48,7 @@ class DisposeConfirmationControllerSpec extends WordSpec with Matchers with Mock
       val request = FakeRequest().withSession()
 
       // Act
-      val result = disposal_of_vehicle.DisposeConfirmation.present(request)
+      val result = disposal_of_vehicle.DisposeSuccess.present(request)
 
       // Assert
       redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))

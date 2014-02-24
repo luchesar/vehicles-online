@@ -158,7 +158,7 @@ error.dropDownInvalid = Dewiswch werth o''r rhestr a ollyngir i lawr
 
 #page 3 - manual address entry
 disposal_enteraddressmanually.title = Rhowch gyfeiriad llaw
-disposal_enteraddressmanually.submitbutton = Dewiswch
+disposal_enteraddressmanually.submitbutton = Nesaf
 disposal_enteraddressmanually.backbutton = Yn ôl
 addressAndPostcode_addressLines = Cyfeiriad
 disposal_enteraddressmanually.address.line1.placeholder = Llinell 1 (angen)

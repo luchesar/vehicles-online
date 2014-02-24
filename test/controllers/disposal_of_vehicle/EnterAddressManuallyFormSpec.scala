@@ -2,13 +2,12 @@ package controllers.disposal_of_vehicle
 
 import org.scalatest.{Matchers, WordSpec}
 import org.scalatest.mock.MockitoSugar
-import mappings.common.PostCode
+import mappings.common.{Postcode, AddressLines, AddressAndPostcode}
 import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
 import scala.Some
-import mappings.disposal_of_vehicle.{AddressLines, AddressAndPostcode}
-import mappings.disposal_of_vehicle.AddressLines._
+import mappings.common.AddressLines._
 import helpers.disposal_of_vehicle.PostcodePage._
-import mappings.disposal_of_vehicle.Postcode._
+import Postcode._
 
 class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSugar {
   "EnterAddressManually Form" should {
@@ -21,7 +20,7 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> line2,
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3,
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4,
-          s"${AddressAndPostcode.id}.$postcodeID" -> postcode
+          s"${AddressAndPostcode.id}.$postcodeId" -> postcode
         )
       )
     }
@@ -43,6 +42,20 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
         formWithErrors => fail(s"These errors should not occur: ${formWithErrors.errors}"),
         f => {
           f.addressAndPostcodeModel.addressLinesModel.line1 should equal(Some(line1Valid))
+          f.addressAndPostcodeModel.postcode should equal(postCodeValid)
+        }
+      )
+    }
+
+
+    "accept if form contains hypthens" in {
+      addressFiller().fold(
+        formWithErrors => fail(s"These errors should not occur: ${formWithErrors.errors}"),
+        f => {
+          f.addressAndPostcodeModel.addressLinesModel.line1 should equal(Some(line1Valid))
+          f.addressAndPostcodeModel.addressLinesModel.line2 should equal(Some(line2Valid))
+          f.addressAndPostcodeModel.addressLinesModel.line3 should equal(Some(line3Valid))
+          f.addressAndPostcodeModel.addressLinesModel.line4 should equal(Some(line4Valid))
           f.addressAndPostcodeModel.postcode should equal(postCodeValid)
         }
       )
