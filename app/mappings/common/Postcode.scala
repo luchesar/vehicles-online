@@ -1,10 +1,11 @@
-package mappings.disposal_of_vehicle
+package mappings.common
 
 import play.api.data.Mapping
 import play.api.data.Forms._
 
 object Postcode {
-  val postcodeID = "postcode"
+  val postcodeId = "postcode"
+  val key = "postCode"
   val minLength = 5
   val maxLength = 8
 

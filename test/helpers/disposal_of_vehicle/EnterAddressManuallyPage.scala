@@ -1,10 +1,9 @@
 package helpers.disposal_of_vehicle
 
 import play.api.test.TestBrowser
-import mappings.common.AddressAndPostcode
-import mappings.common.AddressLines
+import mappings.common.{Postcode, AddressAndPostcode, AddressLines}
 import mappings.common.AddressLines._
-import mappings.disposal_of_vehicle.Postcode._
+import Postcode._
 
 object EnterAddressManuallyPage {
   val url = "/disposal-of-vehicle/enter-address-manually"
@@ -21,7 +20,7 @@ object EnterAddressManuallyPage {
     browser.fill(s"#${AddressAndPostcode.id}_${AddressLines.id}_$line2Id") `with` line2Valid
     browser.fill(s"#${AddressAndPostcode.id}_${AddressLines.id}_$line3Id") `with` line3Valid
     browser.fill(s"#${AddressAndPostcode.id}_${AddressLines.id}_$line4Id") `with` line4Valid
-    browser.fill(s"#${AddressAndPostcode.id}_$postcodeID") `with` postCodeValid
+    browser.fill(s"#${AddressAndPostcode.id}_$postcodeId") `with` postCodeValid
     browser.submit("button[type='submit']")
   }
 
@@ -31,14 +30,14 @@ object EnterAddressManuallyPage {
     browser.fill(s"#${AddressAndPostcode.id}_${AddressLines.id}_$line2Id") `with` line2
     browser.fill(s"#${AddressAndPostcode.id}_${AddressLines.id}_$line3Id") `with` line3
     browser.fill(s"#${AddressAndPostcode.id}_${AddressLines.id}_$line4Id") `with` line4
-    browser.fill(s"#${AddressAndPostcode.id}_$postcodeID") `with` postcode
+    browser.fill(s"#${AddressAndPostcode.id}_$postcodeId") `with` postcode
     browser.submit("button[type='submit']")
   }
 
   def happyPathMandatoryFieldsOnly(browser:TestBrowser){
     browser.goTo(url)
     browser.fill(s"#${AddressAndPostcode.id}_${AddressLines.id}_$line1Id") `with` line1Valid
-    browser.fill(s"#${AddressAndPostcode.id}_$postcodeID") `with` postCodeValid
+    browser.fill(s"#${AddressAndPostcode.id}_$postcodeId") `with` postCodeValid
     browser.submit("button[type='submit']")
   }
 }

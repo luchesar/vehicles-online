@@ -1,7 +1,8 @@
 package helpers.disposal_of_vehicle
 
 import play.api.test.TestBrowser
-import mappings.disposal_of_vehicle.Postcode.postcodeID
+import mappings.common.Postcode
+import Postcode.postcodeId
 
 object PostcodePage {
   val url = "/vehicles/postcode"
@@ -11,7 +12,7 @@ object PostcodePage {
   def happyPath(browser: TestBrowser) {
     browser.goTo(url)
 
-    browser.fill(s"#${postcodeID}") `with` postcodeValid
+    browser.fill(s"#${postcodeId}") `with` postcodeValid
 
     browser.submit("button[type='submit']")
   }
@@ -19,7 +20,7 @@ object PostcodePage {
   def sadPath(browser: TestBrowser, postcode: String) {
     browser.goTo(url)
 
-    browser.fill(s"#${postcodeID}") `with` postcode
+    browser.fill(s"#${postcodeId}") `with` postcode
 
     browser.submit("button[type='submit']")
   }

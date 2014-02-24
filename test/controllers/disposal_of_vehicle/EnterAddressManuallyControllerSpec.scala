@@ -8,8 +8,8 @@ import mappings.common.AddressLines._
 import org.specs2.mock.Mockito
 import helpers.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
-import mappings.common.{AddressAndPostcode, AddressLines}
-import mappings.disposal_of_vehicle.Postcode._
+import mappings.common.{Postcode, AddressAndPostcode, AddressLines}
+import Postcode._
 import helpers.disposal_of_vehicle.PostcodePage._
 import scala.Some
 
@@ -60,7 +60,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       SetUpTradeDetailsPage.setupCache
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
-          s"${AddressAndPostcode.id}.$postcodeID" -> postcodeValid)
+          s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
 
       // Act
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
@@ -88,7 +88,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> line2Valid,
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3Valid,
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4Valid,
-          s"${AddressAndPostcode.id}.$postcodeID" -> postcodeValid)
+          s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
 
       // Act
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
@@ -105,7 +105,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> line2Valid,
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3Valid,
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4Valid,
-          s"${AddressAndPostcode.id}.$postcodeID" -> postcodeValid)
+          s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
 
       // Act
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
