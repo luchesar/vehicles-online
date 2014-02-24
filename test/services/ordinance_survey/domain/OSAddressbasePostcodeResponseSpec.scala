@@ -11,7 +11,7 @@ class OSAddressbasePostcodeResponseSpec extends WordSpec with Matchers {
     def getResource(name: String) = Source.fromURL(this.getClass.getResource(s"/$name")).mkString("")
 
     "populate the header given json with header but 0 results" in {
-      val resp = getResource("osaddressbase_lookup_emptyResult.json")
+      val resp = getResource("OSAddressbase_Lookup_EmptyResult.json")
 
       val poso = Json.parse(resp).as[OSAddressbaseSearchResponse]
 
@@ -20,7 +20,7 @@ class OSAddressbasePostcodeResponseSpec extends WordSpec with Matchers {
     }
 
     "populate the the results given json with 0 result" in {
-      val resp = getResource("osaddressbase_lookup_emptyResult.json")
+      val resp = getResource("OSAddressbase_Lookup_EmptyResult.json")
 
       val poso = Json.parse(resp).as[OSAddressbaseSearchResponse]
 
@@ -31,7 +31,7 @@ class OSAddressbasePostcodeResponseSpec extends WordSpec with Matchers {
     }
 
     "populate the header given json with header and 1 result DPA only" in {
-      val resp = getResource("osaddressbase_lookup_oneResult.json")
+      val resp = getResource("OSAddressbase_Lookup_oneResult.json")
 
       val poso = Json.parse(resp).as[OSAddressbaseSearchResponse]
 
@@ -40,7 +40,7 @@ class OSAddressbasePostcodeResponseSpec extends WordSpec with Matchers {
     }
 
     "populate the the results given json with 1 result DPA only" in {
-      val resp = getResource("osaddressbase_lookup_oneResult.json")
+      val resp = getResource("OSAddressbase_Lookup_oneResult.json")
 
       val poso = Json.parse(resp).as[OSAddressbaseSearchResponse]
 
