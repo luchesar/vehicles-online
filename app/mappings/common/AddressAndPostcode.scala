@@ -1,13 +1,12 @@
-package mappings.disposal_of_vehicle
+package mappings.common
 
 import play.api.data.Mapping
 import play.api.data.Forms._
-import mappings.disposal_of_vehicle.AddressLines._
 import constraints.AddressLines._
-import mappings.common.PostCode._
-import models.domain.disposal_of_vehicle.AddressAndPostcodeModel
-import mappings.common.Uprn
 import mappings.common.Uprn.uprn
+import models.domain.disposal_of_vehicle.AddressAndPostcodeModel
+import mappings.common.AddressLines._
+import mappings.common.Postcode._
 
 object AddressAndPostcode {
   val id = "addressAndPostcode"

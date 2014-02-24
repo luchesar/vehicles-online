@@ -4,7 +4,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
-import mappings.disposal_of_vehicle.DisposeConfirmation._
+import mappings.disposal_of_vehicle.DisposeSuccess._
 import org.specs2.mock.Mockito
 import helpers.disposal_of_vehicle.{VehicleLookupPage, DisposePage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage}
 

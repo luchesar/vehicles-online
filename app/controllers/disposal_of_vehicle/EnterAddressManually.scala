@@ -3,8 +3,9 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
-import mappings.disposal_of_vehicle.AddressAndPostcode._
-import mappings.disposal_of_vehicle.{DealerDetails, AddressAndPostcode}
+import mappings.common.AddressAndPostcode._
+import mappings.disposal_of_vehicle.DealerDetails
+import mappings.common.AddressAndPostcode
 import controllers.disposal_of_vehicle.Helpers._
 import models.domain.disposal_of_vehicle.{AddressViewModel, DealerDetailsModel, EnterAddressManuallyModel}
 import play.api.Logger

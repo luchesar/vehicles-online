@@ -1,7 +1,6 @@
 @(traderLookupForm: Form[models.domain.disposal_of_vehicle.SetupTradeDetailsModel])(implicit lang: Lang)
-@import mappings.common.PostCode
-@import mappings.common.PostCode
 
+@import mappings.common.Postcode
 @import helper._
 @import utils.helpers.BaseTemplete._
 @import views.html.helper.base._
@@ -24,7 +23,7 @@
 	        @valtechInputText(traderLookupForm(dealerPostcodeId), args =
 	        '_label -> Messages("disposal_setuptradedetails.traderpostcodelabel"),
 	        '_showConstraints -> false,
-	        'maxLength -> PostCode.maxLength,
+	        'maxLength -> Postcode.maxLength,
 	        'title -> Messages("disposal_setuptradedetails.traderpostcode.validation"))
 	    </ul>
     </div>

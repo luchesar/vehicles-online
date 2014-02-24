@@ -1,6 +1,6 @@
 @(data: models.domain.disposal_of_vehicle.DealerDetailsModel, vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang)
 
-@import mappings.common.PostCode
+@import mappings.common.Postcode
 @import helper._
 @import utils.helpers.BaseTemplete._
 @import views.html.helper.base._
@@ -55,7 +55,7 @@
                 @valtechInputText(vehicleLookupForm(v5cPostcodeId), args =
                 '_label -> Messages("disposal_vehiclelookup.keeperpostcodelabel"),
                 '_showConstraints -> false,
-                'maxLength -> PostCode.maxLength,
+                'maxLength -> Postcode.maxLength,
                 'title -> Messages("disposal_vehiclelookup.keeperpostcode.validation"))
 					</ul>
 					
