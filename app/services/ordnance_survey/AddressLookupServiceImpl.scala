@@ -63,7 +63,7 @@ class AddressLookupServiceImpl extends AddressLookupService {
         val results = if (body.results.isDefined)
           body.results.get.map { address =>
             address.DPA match {
-              case Some(dpa) => AddressViewModel(uprn = Some(dpa.UPRN.toInt), address = dpa.address.split(","))
+              case Some(dpa) => AddressViewModel(uprn = Some(dpa.UPRN.toLong), address = dpa.address.split(","))
               case _ => ???
             }
           }
