@@ -12,8 +12,7 @@ import play.api.Logger
 import play.api.Play.current
 import mappings.disposal_of_vehicle.DealerDetails
 import javax.inject.Inject
-import scala.concurrent.{Future, Await, ExecutionContext}
-import scala.concurrent.duration.Duration
+import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 
 class BusinessChooseYourAddress @Inject()(addressLookupService: services.AddressLookupService) extends Controller {
@@ -46,7 +45,9 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
             Ok(views.html.disposal_of_vehicle.business_choose_your_address(form, dealerDetails.traderBusinessName, addresses))
           }
         }
-        case None => Future { Redirect(routes.SetUpTradeDetails.present) }
+        case None => Future {
+          Redirect(routes.SetUpTradeDetails.present)
+        }
       }
   }
 
@@ -99,14 +100,19 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
 
     val key = DealerDetails.cacheKey
     lookedUpAddress.map { address =>
-      val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = address)
-      play.api.cache.Cache.set(key, value)
-      Logger.debug(s"BusinessChooseYourAddress stored data in cache: key = $key, value = ${value}")
-      /* The redirect is done as the final step within the map so that:
-       1) we are not blocking threads
-       2) the browser does not change page before the future has completed and written to the cache.
-       */
-      Redirect(routes.VehicleLookup.present)
+      address match {
+        case Some(addr) => {
+          val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = addr)
+          play.api.cache.Cache.set(key, value)
+          Logger.debug(s"BusinessChooseYourAddress stored data in cache: key = $key, value = ${value}")
+          /* The redirect is done as the final step within the map so that:
+           1) we are not blocking threads
+           2) the browser does not change page before the future has completed and written to the cache.
+           */
+          Redirect(routes.VehicleLookup.present)
+        }
+        case None => BadRequest("The UPRN you submitted was not found by the web service") // TODO Consult with UX on look&feel, message and url of an error page
+      }
     }
   }
 }

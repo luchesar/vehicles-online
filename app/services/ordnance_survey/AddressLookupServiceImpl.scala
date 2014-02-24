@@ -50,7 +50,7 @@ class AddressLookupServiceImpl extends AddressLookupService {
     postcode.filter(_ != ' ')
   }
 
-  override def fetchAddressForUprn(uprn: String): Future[AddressViewModel] = {
+  override def fetchAddressForUprn(uprn: String): Future[Option[AddressViewModel]] = {
     val endPoint = s"${baseUrl}/uprn?uprn=${uprn}&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
     Logger.debug(s"Calling Ordnance Survey uprn lookup service on ${endPoint}...")
     val futureOfResponse = WS.url(endPoint).withAuth(username = username, password = password, scheme = AuthScheme.BASIC).get()
@@ -59,17 +59,20 @@ class AddressLookupServiceImpl extends AddressLookupService {
         Logger.debug(s"Http response code from Ordnance Survey uprn lookup service was: ${resp.status}")
         val body = resp.json.as[OSAddressbaseSearchResponse]
 
-        val results = if (body.results.isDefined)
-          body.results.get.map { address =>
+        if (body.results.isDefined){
+          val results = body.results.get.map { address =>
             address.DPA match {
               case Some(dpa) => AddressViewModel(uprn = Some(dpa.UPRN.toLong), address = dpa.address.split(","))
               case _ => ??? // TODO check if an LPI entry is present
             }
           }
-        else ??? // TODO handle no results
-
-        require(results.length >= 1, s"Should be at least one address for the UPRN: ${uprn}")
-        results(0)
+          require(results.length >= 1, s"Should be at least one address for the UPRN: ${uprn}")
+          Some(results(0))
+        }
+        else {
+          Logger.error(s"No results returned by web service for submitted UPRN: ${uprn}")
+          None
+        }
     }.recoverWith {
       case e: Throwable => Future {
         Logger.error(s"Ordnance Survey uprn lookup service error: ${e}")
