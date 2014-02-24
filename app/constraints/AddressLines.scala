@@ -2,7 +2,7 @@ package constraints
 
 import play.api.data.validation.{ValidationError, Invalid, Valid, Constraint}
 import models.domain.disposal_of_vehicle.AddressLinesModel
-import mappings.disposal_of_vehicle.AddressLines._
+import mappings.common.AddressLines._
 import models.domain.disposal_of_vehicle.AddressLinesModel
 
 object AddressLines {

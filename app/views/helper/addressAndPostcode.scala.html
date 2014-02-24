@@ -7,13 +7,13 @@
 @import utils.helpers.ValtechTemplate._
 
 @input(field,args: _*){(id, name, value, htmlArgs) =>
-    @addressLines(field(mappings.disposal_of_vehicle.AddressLines.id),
+    @addressLines(field(mappings.common.AddressLines.id),
         args = '_label -> Messages("addressAndPostcode.addressLines"))
 
     @valtechInputText(field(mappings.disposal_of_vehicle.Postcode.postcodeID),
         args = 'placeholder -> Messages("disposal_enteraddressmanually.postcode.placeholder"),
         '_label -> Messages("disposal_enteraddressmanually.postcode.label"),
         '_showConstraints -> false,
-        'maxLength -> mappings.disposal_of_vehicle.AddressAndPostcode.postcodeMaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+        'maxLength -> mappings.common.AddressAndPostcode.postcodeMaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
         'title -> Messages("vehicles.address.postcode.validation"))
 }

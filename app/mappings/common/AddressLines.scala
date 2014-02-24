@@ -1,9 +1,8 @@
-package mappings.disposal_of_vehicle
+package mappings.common
 
 import play.api.data.Mapping
 import play.api.data.Forms._
-import models.domain.disposal_of_vehicle.AddressLinesModel
-import play.api.data.validation.{Valid, ValidationError, Invalid, Constraint}
+import play.api.data.validation.Invalid
 import models.domain.disposal_of_vehicle.AddressLinesModel
 
 object AddressLines {

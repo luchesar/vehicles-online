@@ -5,8 +5,8 @@ import org.scalatest.mock.MockitoSugar
 import mappings.common.PostCode
 import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
 import scala.Some
-import mappings.disposal_of_vehicle.{AddressLines, AddressAndPostcode}
-import mappings.disposal_of_vehicle.AddressLines._
+import mappings.common.{AddressLines, AddressAndPostcode}
+import mappings.common.AddressLines._
 import helpers.disposal_of_vehicle.PostcodePage._
 import mappings.disposal_of_vehicle.Postcode._
 

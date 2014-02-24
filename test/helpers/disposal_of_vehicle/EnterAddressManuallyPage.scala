@@ -1,9 +1,9 @@
 package helpers.disposal_of_vehicle
 
 import play.api.test.TestBrowser
-import mappings.disposal_of_vehicle.AddressAndPostcode
-import mappings.disposal_of_vehicle.AddressLines
-import mappings.disposal_of_vehicle.AddressLines._
+import mappings.common.AddressAndPostcode
+import mappings.common.AddressLines
+import mappings.common.AddressLines._
 import mappings.disposal_of_vehicle.Postcode._
 
 object EnterAddressManuallyPage {

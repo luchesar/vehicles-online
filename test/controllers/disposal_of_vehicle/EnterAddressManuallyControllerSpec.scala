@@ -4,11 +4,11 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
-import mappings.disposal_of_vehicle.AddressLines._
+import mappings.common.AddressLines._
 import org.specs2.mock.Mockito
 import helpers.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
-import mappings.disposal_of_vehicle.{AddressAndPostcode, AddressLines}
+import mappings.common.{AddressAndPostcode, AddressLines}
 import mappings.disposal_of_vehicle.Postcode._
 import helpers.disposal_of_vehicle.PostcodePage._
 import scala.Some
