@@ -12,9 +12,9 @@ import play.api.Logger
 import play.api.Play.current
 import mappings.disposal_of_vehicle.DealerDetails
 import javax.inject.Inject
-import scala.concurrent.Await
+import scala.concurrent.{Future, Await, ExecutionContext}
 import scala.concurrent.duration.Duration
-
+import ExecutionContext.Implicits.global
 
 class BusinessChooseYourAddress @Inject()(addressLookupService: services.AddressLookupService) extends Controller {
   private lazy val fetchAddresses = {
@@ -26,9 +26,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
       case None => ??? //"TEST"
     }
 
-    val addresses = addressLookupService.fetchAddressesForPostcode(postcode)
-
-    Await.result(addresses, Duration.Inf) // TODO don't use Await, use controller action Action.async
+    addressLookupService.fetchAddressesForPostcode(postcode)
   }
 
   val form = Form(
@@ -40,15 +38,19 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
     )(BusinessChooseYourAddressModel.apply)(BusinessChooseYourAddressModel.unapply)
   )
 
-  def present = Action {
+  def present = Action.async {
     implicit request =>
       fetchTraderDetailsFromCache match {
-        case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.business_choose_your_address(form, dealerDetails.traderBusinessName, fetchAddresses))
-        case None => Redirect(routes.SetUpTradeDetails.present)
+        case Some(dealerDetails) => {
+          fetchAddresses.map { addresses =>
+            Ok(views.html.disposal_of_vehicle.business_choose_your_address(form, dealerDetails.traderBusinessName, addresses))
+          }
+        }
+        case None => Future { Redirect(routes.SetUpTradeDetails.present) }
       }
   }
 
-  def submit = Action {
+  def submit = Action.async {
     implicit request => {
       /* TODO [SKW] I realised how we would handle redirect when something missing from cache in Carers, pass what we
       *  want to do next in as a function:
@@ -72,19 +74,18 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
       form.bindFromRequest.fold(
         formWithErrors =>
           fetchTraderDetailsFromCache match {
-            case Some(dealerDetails) => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, dealerDetails.traderBusinessName, fetchAddresses))
-            case None => {
+            case Some(dealerDetails) => fetchAddresses.map { addresses =>
+              BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, dealerDetails.traderBusinessName, addresses))
+            }
+            case None => Future {
               Logger.error("failed to find dealer name in cache for formWithErrors, redirecting...")
               Redirect(routes.SetUpTradeDetails.present)
             }
           },
         f =>
           fetchTraderDetailsFromCache match {
-            case Some(dealerDetails) => {
-              storeDealerDetailsInCache(f, dealerDetails.traderBusinessName)
-              Redirect(routes.VehicleLookup.present)
-            }
-            case None => {
+            case Some(dealerDetails) => storeDealerDetailsInCache(f, dealerDetails.traderBusinessName)
+            case None => Future {
               Logger.error("failed to find dealer name in cache on submit, redirecting...")
               Redirect(routes.SetUpTradeDetails.present)
             }
@@ -94,11 +95,14 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
   }
 
   def storeDealerDetailsInCache(model: BusinessChooseYourAddressModel, dealerName: String) = {
-    val lookedUpAddress = Await.result(addressLookupService.lookupAddress(model.uprnSelected), Duration.Inf) // TODO don't use Await, use controller action Action.async
+    val lookedUpAddress = addressLookupService.lookupAddress(model.uprnSelected)
 
     val key = DealerDetails.cacheKey
-    val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = lookedUpAddress)
-    play.api.cache.Cache.set(key, value)
-    Logger.debug(s"BusinessChooseYourAddress stored data in cache: key = $key, value = ${value}")
+    lookedUpAddress.map { address =>
+      val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = address)
+      play.api.cache.Cache.set(key, value)
+      Logger.debug(s"BusinessChooseYourAddress stored data in cache: key = $key, value = ${value}")
+      Redirect(routes.VehicleLookup.present)
+    }
   }
 }

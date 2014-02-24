@@ -30,7 +30,7 @@ class AddressLookupServiceImpl extends AddressLookupService {
           body.results.get.map { address => {
             address.DPA match {
               case Some(dpa) => (dpa.UPRN, dpa.address)
-              case _ => ???
+              case _ => ??? // TODO check if an LPI entry is present
             }
           }
           }
@@ -58,7 +58,7 @@ class AddressLookupServiceImpl extends AddressLookupService {
           body.results.get.map { address =>
             address.DPA match {
               case Some(dpa) => AddressViewModel(uprn = Some(dpa.UPRN.toInt), address = dpa.address.split(","))
-              case _ => ???
+              case _ => ??? // TODO check if an LPI entry is present
             }
           }
         else ??? // TODO handle no results
