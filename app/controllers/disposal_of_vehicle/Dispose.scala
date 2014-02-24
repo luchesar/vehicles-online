@@ -55,7 +55,7 @@ object Dispose extends Controller {
         f => {
           storeDateOfDisposalInCache(f)
           Logger.debug(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
-          Redirect(routes.DisposeConfirmation.present)}
+          Redirect(routes.DisposeSuccess.present)}
       )
     }
   }
