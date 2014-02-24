@@ -3,9 +3,9 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Tags, Specification}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.{DisposeConfirmationPage, SetUpTradeDetailsPage, DisposePage, VehicleLookupPage, BusinessChooseYourAddressPage}
+import helpers.disposal_of_vehicle.{DisposeSuccessPage, SetUpTradeDetailsPage, DisposePage, VehicleLookupPage, BusinessChooseYourAddressPage}
 
-class DisposeConfirmationIntegrationSpec extends Specification with Tags {
+class DisposeSuccessIntegrationSpec extends Specification with Tags {
   "Dispose confirmation integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
@@ -13,15 +13,15 @@ class DisposeConfirmationIntegrationSpec extends Specification with Tags {
       BusinessChooseYourAddressPage.setupCache
       VehicleLookupPage.setupCache
       DisposePage.setupCache
-      browser.goTo(DisposeConfirmationPage.url)
+      browser.goTo(DisposeSuccessPage.url)
 
       // Check the page title is correct
-      titleMustEqual(DisposeConfirmationPage.title)
+      titleMustEqual(DisposeSuccessPage.title)
     }
 
     "Redirect when no traderBusinessName is cached" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      browser.goTo(DisposeConfirmationPage.url)
+      browser.goTo(DisposeSuccessPage.url)
 
       // Assert
       titleMustEqual(SetUpTradeDetailsPage.title)
@@ -32,7 +32,7 @@ class DisposeConfirmationIntegrationSpec extends Specification with Tags {
       BusinessChooseYourAddressPage.setupCache
       VehicleLookupPage.setupCache
       DisposePage.setupCache
-      browser.goTo(DisposeConfirmationPage.url)
+      browser.goTo(DisposeSuccessPage.url)
 
       browser.click("#newDisposal")
       titleMustEqual(VehicleLookupPage.title)

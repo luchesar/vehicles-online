@@ -8,9 +8,9 @@ import mappings.disposal_of_vehicle.DisposeConfirmation._
 import controllers.disposal_of_vehicle.Helpers._
 import play.api.Logger
 
-object DisposeConfirmation extends Controller {
+object DisposeSuccess extends Controller {
 
-  val disposeConfirmationForm = Form(
+  val disposeSuccessForm = Form(
     mapping(
       emailAddressId -> text
     )(DisposeConfirmationFormModel.apply)(DisposeConfirmationFormModel.unapply)
@@ -21,7 +21,7 @@ object DisposeConfirmation extends Controller {
       (fetchDealerDetailsFromCache, fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache) match {
         case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) =>
           val disposeModel = fetchData(dealerDetails, vehicleDetails)
-          Ok(views.html.disposal_of_vehicle.dispose_confirmation(disposeModel, disposeConfirmationForm, disposeFormModel))
+          Ok(views.html.disposal_of_vehicle.dispose_success(disposeModel, disposeSuccessForm, disposeFormModel))
         case _ => Redirect(routes.SetUpTradeDetails.present)
       }
     }
@@ -29,12 +29,12 @@ object DisposeConfirmation extends Controller {
 
   def submit = Action {
     implicit request => {
-      disposeConfirmationForm.bindFromRequest.fold(
+      disposeSuccessForm.bindFromRequest.fold(
         formWithErrors => {
           (fetchDealerDetailsFromCache, fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache)  match {
             case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) =>
               val disposeModel = fetchData(dealerDetails, vehicleDetails)
-              BadRequest(views.html.disposal_of_vehicle.dispose_confirmation(disposeModel, formWithErrors, disposeFormModel))
+              BadRequest(views.html.disposal_of_vehicle.dispose_success(disposeModel, formWithErrors, disposeFormModel))
             case _ => Redirect(routes.SetUpTradeDetails.present)
           }
         },

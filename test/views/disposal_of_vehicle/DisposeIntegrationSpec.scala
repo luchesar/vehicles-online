@@ -3,7 +3,7 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Tags, Specification}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.{VehicleLookupPage, BusinessChooseYourAddressPage, DisposePage, SetUpTradeDetailsPage, DisposeConfirmationPage}
+import helpers.disposal_of_vehicle.{VehicleLookupPage, BusinessChooseYourAddressPage, DisposePage, SetUpTradeDetailsPage, DisposeSuccessPage}
 import mappings.disposal_of_vehicle.Dispose._
 
 class DisposeIntegrationSpec extends Specification with Tags {
@@ -26,7 +26,7 @@ class DisposeIntegrationSpec extends Specification with Tags {
       DisposePage.happyPath(browser)
 
       // Verify we have moved to the next screen
-      titleMustEqual(DisposeConfirmationPage.title)
+      titleMustEqual(DisposeSuccessPage.title)
     }
 
     "redirect when no traderBusinessName is cached" in new WithBrowser with BrowserMatchers {
