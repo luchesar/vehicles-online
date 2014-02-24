@@ -94,8 +94,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(EnterAddressManuallyPage.url))
-      //ToDo Need to look at caching manual address (once new cache built) in order to look at VehicleLookup page
+      redirectLocation(result) should equal(Some(VehicleLookupPage.url))
     }
 
     "redirect to setupTradeDetails page when valid submit with no dealer name cached" in new WithApplication {
