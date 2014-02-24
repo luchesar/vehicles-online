@@ -17,8 +17,7 @@ class AddressLookupServiceImpl extends AddressLookupService {
 
   // TODO extract common code out of the below methods
   override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = {
-    // TODO work out why we have to do this inline and not call private method
-    val resultPostcodeWithNoSpaces = postcode.filter(_ != ' ')
+    val resultPostcodeWithNoSpaces = postcodeWithNoSpaces(postcode)
     Logger.debug(s"Postcode (spaces removed) = ${resultPostcodeWithNoSpaces}")
     val endPoint = s"${baseUrl}/postcode?postcode=${resultPostcodeWithNoSpaces}&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
     Logger.debug(s"Calling Ordnance Survey postcode lookup service on ${endPoint}...")
@@ -47,9 +46,9 @@ class AddressLookupServiceImpl extends AddressLookupService {
     }
   }
 
-//  private def postcodeWithNoSpaces(postcode: String):String {
-//    postcode.filter(_ != ' ')
-//  }
+  private def postcodeWithNoSpaces(postcode: String) = {
+    postcode.filter(_ != ' ')
+  }
 
   override def lookupAddress(uprn: String): Future[AddressViewModel] = {
     val endPoint = s"${baseUrl}/uprn?uprn=${uprn}&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
