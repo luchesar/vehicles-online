@@ -17,9 +17,7 @@ class AddressLookupServiceImpl extends AddressLookupService {
 
   // TODO extract common code out of the below methods
   override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = {
-    val resultPostcodeWithNoSpaces = postcodeWithNoSpaces(postcode)
-    Logger.debug(s"Postcode (spaces removed) = ${resultPostcodeWithNoSpaces}")
-    val endPoint = s"${baseUrl}/postcode?postcode=${resultPostcodeWithNoSpaces}&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
+    val endPoint = s"${baseUrl}/postcode?postcode=${postcodeWithNoSpaces(postcode)}&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
     Logger.debug(s"Calling Ordnance Survey postcode lookup service on ${endPoint}...")
     val futureOfResponse = WS.url(endPoint).withAuth(username = username, password = password, scheme = AuthScheme.BASIC).get()
 
@@ -47,7 +45,8 @@ class AddressLookupServiceImpl extends AddressLookupService {
   }
 
   private def postcodeWithNoSpaces(postcode: String) = {
-    postcode.filter(_ != ' ')
+    val space = ' '
+    postcode.filter(_ != space)
   }
 
   override def fetchAddressForUprn(uprn: String): Future[Option[AddressViewModel]] = {
