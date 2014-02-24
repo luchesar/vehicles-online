@@ -39,7 +39,7 @@ class EnterAddressManuallyIntegrationSpec extends Specification with Tags {
     "display validation error messages when no details are entered" in new WithBrowser with BrowserMatchers {
       // Arrange
       SetUpTradeDetailsPage.setupCache()
-      browser.goTo("/disposal-of-vehicle/enter-address-manually")
+      browser.goTo(EnterAddressManuallyPage.url)
 
       // Act
       browser.submit("button[type='submit']")
