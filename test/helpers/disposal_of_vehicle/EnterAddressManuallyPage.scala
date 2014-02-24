@@ -9,10 +9,10 @@ import mappings.disposal_of_vehicle.Postcode._
 object EnterAddressManuallyPage {
   val url = "/disposal-of-vehicle/enter-address-manually"
   val title = "Enter address manually"
-  val line1Valid = "123 Street"
-  val line2Valid = "line2 stub"
-  val line3Valid = "line3 stub"
-  val line4Valid = "line4 stub"
+  val line1Valid = "123 Some street"
+  val line2Valid = "line-2 stub"
+  val line3Valid = "line-3 stub"
+  val line4Valid = "line-4 stub"
   val postCodeValid = "SE1 6EH"
 
   def happyPath(browser:TestBrowser){

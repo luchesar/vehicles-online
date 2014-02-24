@@ -48,6 +48,20 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
       )
     }
 
+
+    "accept if form contains hypthens" in {
+      addressFiller().fold(
+        formWithErrors => fail(s"These errors should not occur: ${formWithErrors.errors}"),
+        f => {
+          f.addressAndPostcodeModel.addressLinesModel.line1 should equal(Some(line1Valid))
+          f.addressAndPostcodeModel.addressLinesModel.line2 should equal(Some(line2Valid))
+          f.addressAndPostcodeModel.addressLinesModel.line3 should equal(Some(line3Valid))
+          f.addressAndPostcodeModel.addressLinesModel.line4 should equal(Some(line4Valid))
+          f.addressAndPostcodeModel.postcode should equal(postCodeValid)
+        }
+      )
+    }
+
     "reject if line1 is blank" in {
       addressFiller(line1 = "", line2 = "", line3 = "").fold(
         formWithErrors => formWithErrors.errors.length should equal(1),
