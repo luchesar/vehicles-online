@@ -28,7 +28,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
 
     val addresses = addressLookupService.fetchAddressesForPostcode(postcode)
 
-    Await.result(addresses, Duration.Inf)
+    Await.result(addresses, Duration.Inf) // TODO don't use Await, use controller action Action.async
   }
 
   val form = Form(

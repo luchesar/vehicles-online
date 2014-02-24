@@ -31,11 +31,18 @@ class AddressLookupServiceImpl extends AddressLookupService {
 
         Logger.debug(s"totalresults ${body.header.totalresults}")
 
+        if (body.results.isDefined)
+          body.results.get.map {
+            address => {
+              address.DPA match {
+                case Some(dpa) => (dpa.UPRN, dpa.address)
+                case _ => ???
+              }
+            }
+          }.toMap[String, String]
+        else ??? // TODO handle no results
 
-        Map(
-          address1.uprn.getOrElse(1234).toString -> address1.address.mkString(", "),
-          address2.uprn.getOrElse(4567).toString -> address2.address.mkString(", ")
-        ) // TODO this should come from call to GDS lookup.
+
     }.recoverWith {
       case e: Throwable => Future {
         Logger.error(s"Ordnance Survey postcode lookup service error: ${e}")
