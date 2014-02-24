@@ -40,7 +40,7 @@ object EnterAddressManually extends Controller {
           fetchDealerNameFromCache match {
           case Some(name) => {
             storeDealerDetailsInCache(f, name)
-            Redirect(routes.VehicleLookup.present)
+            Redirect(routes.EnterAddressManually.present)
           }
           case None => {
             Logger.error("failed to find dealer name in cache on submit, redirecting...")

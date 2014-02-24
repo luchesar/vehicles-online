@@ -221,7 +221,7 @@ error.dropDownInvalid = Please select a value from the drop down list.
 
 #page 3 - manual address entry
 disposal_enteraddressmanually.title = Enter address manually
-disposal_enteraddressmanually.submitbutton = Select
+disposal_enteraddressmanually.submitbutton = Next
 disposal_enteraddressmanually.backbutton = Back
 addressAndPostcode_addressLines = Address
 disposal_enteraddressmanually.address.line1.placeholder = Line 1 (required)
