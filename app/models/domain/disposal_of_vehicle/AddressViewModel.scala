@@ -1,6 +1,6 @@
 package models.domain.disposal_of_vehicle
 
-case class AddressViewModel(uprn: Option[Int] = None, // Optional because if user is manually entering the address they will not be allowed to enter a UPRN, it is only populated by address lookup services.
+case class AddressViewModel(uprn: Option[Long] = None, // Optional because if user is manually entering the address they will not be allowed to enter a UPRN, it is only populated by address lookup services.
                             address: Seq[String])
 
 object AddressViewModel{
