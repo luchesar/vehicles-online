@@ -94,7 +94,8 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
   }
 
   def storeDealerDetailsInCache(model: BusinessChooseYourAddressModel, dealerName: String) = {
-    val lookedUpAddress = addressLookupService.lookupAddress(model.uprnSelected)
+    val lookedUpAddress = Await.result(addressLookupService.lookupAddress(model.uprnSelected), Duration.Inf) // TODO don't use Await, use controller action Action.async
+
     val key = DealerDetails.cacheKey
     val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = lookedUpAddress)
     play.api.cache.Cache.set(key, value)

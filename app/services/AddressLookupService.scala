@@ -5,5 +5,5 @@ import scala.concurrent.{Future}
 
 trait AddressLookupService {
   def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]]
-  def lookupAddress(uprn: String): AddressViewModel
+  def lookupAddress(uprn: String): Future[AddressViewModel]
 }
