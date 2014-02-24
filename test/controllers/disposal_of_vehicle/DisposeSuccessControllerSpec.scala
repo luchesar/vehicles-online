@@ -16,7 +16,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
       // Arrange
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache()
+      VehicleLookupPage.setupCache
       DisposePage.setupCache
       val request = FakeRequest().withSession()
 
@@ -30,7 +30,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
     "redirect to next page after the new disposal button is clicked" in new WithApplication {
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache()
+      VehicleLookupPage.setupCache
       DisposePage.setupCache
       val request = FakeRequest().withSession()
 

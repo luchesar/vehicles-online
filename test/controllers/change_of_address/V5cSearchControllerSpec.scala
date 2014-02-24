@@ -25,7 +25,7 @@ class V5cSearchControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
     "present when user has logged in" in new WithApplication {
       // Arrange
-      setupCache()
+      setupCache
 
       val request = FakeRequest().withSession()
 

@@ -30,7 +30,7 @@ object Authentication extends Controller {
   )
 
   def present = Action { implicit request =>
-    isUserLoggedIn() match {
+    isUserLoggedIn match {
       case true =>  Ok(views.html.change_of_address.authentication(authenticationForm))
       case false => Redirect(routes.AreYouRegistered.present)
     }

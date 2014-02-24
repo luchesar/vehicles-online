@@ -15,7 +15,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
       // Arrange
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache()
+      VehicleLookupPage.setupCache
       val request = FakeRequest().withSession()
 
       // Act
@@ -60,7 +60,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
       // Arrange
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache()
+      VehicleLookupPage.setupCache
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 

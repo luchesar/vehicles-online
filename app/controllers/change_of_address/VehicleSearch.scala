@@ -10,7 +10,7 @@ import ExecutionContext.Implicits.global
 import play.api.cache.Cache
 import play.api.Play.current
 import controllers.change_of_address.Helpers._
-import mappings.change_of_address.{V5cSearch}
+import mappings.change_of_address.V5cSearch
 import mappings.common.Postcode._
 import V5cSearch._
 import mappings.common.{V5cReferenceNumber, V5cRegistrationNumber}
@@ -28,7 +28,7 @@ class VehicleSearch @Inject() (webService: services.V5cSearchWebService) extends
   )
 
   def present = Action { implicit request =>
-    isUserLoggedIn() match {
+    isUserLoggedIn match {
       case true => Ok(views.html.change_of_address.v5c_search(vehicleSearchForm, fetchData))
       case false => Redirect(routes.AreYouRegistered.present)
     }
@@ -38,7 +38,7 @@ class VehicleSearch @Inject() (webService: services.V5cSearchWebService) extends
       vehicleSearchForm.bindFromRequest.fold(
         formWithErrors => Future {
           Logger.debug(s"Form validation failed posted data = ${formWithErrors.errors}")
-          BadRequest(views.html.change_of_address.v5c_search(formWithErrors, fetchData()))
+          BadRequest(views.html.change_of_address.v5c_search(formWithErrors, fetchData))
         },
         v5cForm => {
           Logger.debug("V5cSearch form validation has passed")
@@ -66,7 +66,7 @@ class VehicleSearch @Inject() (webService: services.V5cSearchWebService) extends
     }
   }
 
-  private def fetchData(): String = {
+  private def fetchData: String = {
     val key = mappings.change_of_address.LoginConfirmation.key
     val result = Cache.getAs[LoginConfirmationModel](key)
 

@@ -20,7 +20,7 @@ class DisposeIntegrationSpec extends Specification with Tags {
 
     "display the next page when mandatory data is entered and dispose button is clicked" in new WithBrowser with BrowserMatchers {
       // Fill in mandatory data
-      SetUpTradeDetailsPage.setupCache()
+      SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
       VehicleLookupPage.setupCache
       DisposePage.happyPath(browser)

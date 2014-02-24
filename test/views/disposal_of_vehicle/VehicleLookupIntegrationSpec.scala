@@ -29,7 +29,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
     "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
+      SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
 
       VehicleLookupPage.happyPath(browser)

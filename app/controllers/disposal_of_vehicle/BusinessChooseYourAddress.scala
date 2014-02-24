@@ -99,20 +99,18 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected)
 
     val key = DealerDetails.cacheKey
-    lookedUpAddress.map { address =>
-      address match {
-        case Some(addr) => {
-          val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = addr)
-          play.api.cache.Cache.set(key, value)
-          Logger.debug(s"BusinessChooseYourAddress stored data in cache: key = $key, value = ${value}")
-          /* The redirect is done as the final step within the map so that:
-           1) we are not blocking threads
-           2) the browser does not change page before the future has completed and written to the cache.
-           */
-          Redirect(routes.VehicleLookup.present)
-        }
-        case None => BadRequest("The UPRN you submitted was not found by the web service") // TODO Consult with UX on look&feel, message and url of an error page
+    lookedUpAddress.map {
+      case Some(addr) => {
+        val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = addr)
+        play.api.cache.Cache.set(key, value)
+        Logger.debug(s"BusinessChooseYourAddress stored data in cache: key = $key, value = ${value}")
+        /* The redirect is done as the final step within the map so that:
+         1) we are not blocking threads
+         2) the browser does not change page before the future has completed and written to the cache.
+         */
+        Redirect(routes.VehicleLookup.present)
       }
+      case None => BadRequest("The UPRN you submitted was not found by the web service") // TODO Consult with UX on look&feel, message and url of an error page
     }
   }
 }

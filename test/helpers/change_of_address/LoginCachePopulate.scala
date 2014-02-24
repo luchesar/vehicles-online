@@ -8,7 +8,7 @@ import models.domain.disposal_of_vehicle.{AddressViewModel, AddressAndPostcodeMo
 import helpers.disposal_of_vehicle.BusinessChooseYourAddressPage._
 
 object LoginCachePopulate {
-  def setupCache() = {
+  def setupCache = {
     val address1 = AddressViewModel(address = Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
     val loginConfirmationModel = mock(classOf[LoginConfirmationModel])
     val key = LoginConfirmation.key

@@ -15,7 +15,7 @@ class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito {
 
     "present" in new WithApplication {
       // Arrange
-      setupCache()
+      setupCache
       val request = FakeRequest().withSession()
 
       // Act
