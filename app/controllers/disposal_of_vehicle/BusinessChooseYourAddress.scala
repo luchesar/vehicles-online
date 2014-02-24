@@ -102,6 +102,10 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
       val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = address)
       play.api.cache.Cache.set(key, value)
       Logger.debug(s"BusinessChooseYourAddress stored data in cache: key = $key, value = ${value}")
+      /* The redirect is done as the final step within the map so that:
+       1) we are not blocking threads
+       2) the browser does not change page before the future has completed and written to the cache.
+       */
       Redirect(routes.VehicleLookup.present)
     }
   }
