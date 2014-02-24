@@ -50,7 +50,7 @@ class AddressLookupServiceImpl extends AddressLookupService {
     postcode.filter(_ != ' ')
   }
 
-  override def lookupAddress(uprn: String): Future[AddressViewModel] = {
+  override def fetchAddressForUprn(uprn: String): Future[AddressViewModel] = {
     val endPoint = s"${baseUrl}/uprn?uprn=${uprn}&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
     Logger.debug(s"Calling Ordnance Survey uprn lookup service on ${endPoint}...")
     val futureOfResponse = WS.url(endPoint).withAuth(username = username, password = password, scheme = AuthScheme.BASIC).get()
@@ -68,7 +68,7 @@ class AddressLookupServiceImpl extends AddressLookupService {
           }
         else ??? // TODO handle no results
 
-        require(results.length == 1, "UPRN should be unique, so exactly one address should match")
+        require(results.length >= 1, s"Should be at least one address for the UPRN: ${uprn}")
         results(0)
     }.recoverWith {
       case e: Throwable => Future {

@@ -19,7 +19,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
     val mockAddressLookupService = mock[services.AddressLookupService]
     val fakeAddressLookupService = new FakeAddressLookupService()
     when(mockAddressLookupService.fetchAddressesForPostcode(anyString())).thenReturn(fakeAddressLookupService.fetchAddressesForPostcode(postcode = "TEST"))
-when(mockAddressLookupService.lookupAddress(anyString())).thenReturn(fakeAddressLookupService.lookupAddress(uprn = "TEST"))
+when(mockAddressLookupService.fetchAddressForUprn(anyString())).thenReturn(fakeAddressLookupService.fetchAddressForUprn(uprn = "TEST"))
     val businessChooseYourAddress = new BusinessChooseYourAddress(mockAddressLookupService)
 /*
     "present" in new WithApplication {

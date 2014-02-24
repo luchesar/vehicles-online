@@ -95,7 +95,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
   }
 
   def storeDealerDetailsInCache(model: BusinessChooseYourAddressModel, dealerName: String) = {
-    val lookedUpAddress = addressLookupService.lookupAddress(model.uprnSelected)
+    val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected)
 
     val key = DealerDetails.cacheKey
     lookedUpAddress.map { address =>

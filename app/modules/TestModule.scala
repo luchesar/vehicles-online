@@ -52,7 +52,7 @@ object TestModule extends ScalaModule {
       )
     }
 
-    override def lookupAddress(uprn: String): Future[AddressViewModel] = Future {address1}
+    override def fetchAddressForUprn(uprn: String): Future[AddressViewModel] = Future {address1}
   }
 
   /**
