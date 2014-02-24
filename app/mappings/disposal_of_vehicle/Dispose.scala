@@ -5,4 +5,5 @@ object Dispose {
   val mileageId = "mileage"
   val dateOfDisposalId = "dateOfDisposal"
   val cacheKey = "dispose"
+  val emailAddressId = "emailAddress"
 }

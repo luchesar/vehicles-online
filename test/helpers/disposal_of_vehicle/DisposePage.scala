@@ -26,7 +26,7 @@ object DisposePage {
 
   def setupCache() = {
     val key = mappings.disposal_of_vehicle.Dispose.cacheKey
-    val value = DisposeFormModel(consent = "true", dateOfDisposal = DayMonthYear.today)
+    val value = DisposeFormModel(consent = "true", dateOfDisposal = DayMonthYear.today, emailAddress = None)
     play.api.cache.Cache.set(key, value)
   }
 }

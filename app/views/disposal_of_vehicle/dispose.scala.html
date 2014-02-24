@@ -1,6 +1,7 @@
 @(data: models.domain.disposal_of_vehicle.DisposeModel, disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel])(implicit lang: Lang)
 
 @import helper._
+@import views.html.helper.base._
 @import helper.base.valtechInputText
 @import helper.base.valtechDeclareCheck
 @import utils.helpers.BaseTemplete._
@@ -64,6 +65,28 @@
                 <ul>
                     @* Checkbox must not be pre-ticked. *@
                     @valtechDeclareCheck(disposeForm(consentId), 'id -> "consent", '_showConstraints -> false, '_label -> Messages("disposal_dispose.consent"))
+                </ul>
+
+
+
+                <ul>
+
+
+                    <li>@Messages("disposal_dispose.exkeeperlettertext")</li>
+
+                    @valtechInputTextWithButton(disposeForm(emailAddressId),
+                    args = Seq('_label -> Messages("disposal_dispose.emaillabel"),
+                    '_showConstraints -> false))
+
+
+                    @{
+                    /*
+                    TODO DEVELOPER NOTE:
+                    We need to work to work out a way of having helpers that output form elements without wrapper markup
+                    and potentially without labels too for extra flexibility.
+                    James Chapman 11/02/2014
+                    */
+                    }
                 </ul>
             </div>
 

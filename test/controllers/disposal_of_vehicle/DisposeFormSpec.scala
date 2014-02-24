@@ -22,6 +22,7 @@ class DisposeFormSpec extends WordSpec with Matchers {
     "reject if mileage is more than maximum" in {
       disposeFormFiller(consent = consentValid, mileage = "1000000", day = dateOfDisposalDayValid, month = dateOfDisposalMonthValid, year = dateOfDisposalYearValid).fold (
         formWithErrors => {
+          println(formWithErrors.errors)
           formWithErrors.errors.length should equal(1)
         },
         f => fail("An error should occur")

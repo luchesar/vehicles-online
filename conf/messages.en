@@ -261,6 +261,8 @@ dateOfDisposal = Date of disposal
 disposal_dispose.dateofdisposal.label = Date of disposal
 disposal_dispose.backbutton = Back
 disposal_dispose.submitbutton = Dispose
+disposal_dispose.exkeeperlettertext = If you would prefer to receive an immediate email acknowledgement, please provide an email address
+disposal_dispose.emaillabel = Email address
 
 #page 6 - summary
 disposal_disposeconfirmation.title = Dispose a vehicle into the motor trade: summary
@@ -271,8 +273,6 @@ disposal_disposeconfirmation.vehiclekeeper = Keeper
 disposal_disposeconfirmation.disposedto = Disposed to
 disposal_disposeconfirmation.exkeeper = For the ex-keeper
 disposal_disposeconfirmation.exkeeperlettersend = A letter will be sent to
-disposal_disposeconfirmation.exkeeperlettertext = The letter will confirm the disposal. If you would prefer to receive an immediate email acknowledgement, please provide an email address
-disposal_disposeconfirmation.emaillabel = Email address
 disposal_disposeconfirmation.sendbutton = Send
 disposal_disposeconfirmation.transactionid = {0}
 disposal_disposeconfirmation.transactionid_label = Transaction id
