@@ -30,14 +30,15 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
     "redirect to next page after the new disposal button is clicked" in new WithApplication {
       SetUpTradeDetailsPage.setupCache
       BusinessChooseYourAddressPage.setupCache
-     DisposePage.setupCache
+      VehicleLookupPage.setupCache()
+      DisposePage.setupCache
       val request = FakeRequest().withSession()
 
       // Act
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url)) //TODO: Need to get this test to look at VehicleLookup page.
+      redirectLocation(result) should equal(Some(VehicleLookupPage.url)) 
     }
 
     "redirect to setupTradeDetails page when previous pages have not been visited" in new WithApplication {

@@ -22,9 +22,7 @@ object DisposeSuccess extends Controller {
   def submit = Action {
     implicit request => {
       (fetchDealerDetailsFromCache, fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache) match {
-        case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) =>
-          val disposeModel = fetchData(dealerDetails, vehicleDetails)
-          BadRequest(views.html.disposal_of_vehicle.dispose_success(disposeModel, disposeFormModel))
+        case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present)
         case _ => Redirect(routes.SetUpTradeDetails.present)
       }
     }
