@@ -45,21 +45,16 @@ object TestModule extends ScalaModule {
     val address1 = AddressViewModel(uprn = Some(1234), address = Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
     val address2 = AddressViewModel(uprn = Some(4567), address = Seq("Penarth Road", "Cardiff", "CF11 8TT"))
 
-    override def fetchAddressesForPostcode(postcode: String): Map[String, String] = {
-      Map(
-        address1.uprn.getOrElse(1234).toString -> address1.address.mkString(", "),
-        address2.uprn.getOrElse(4567).toString -> address2.address.mkString(", ")
+    override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = Future {
+
+      println("*** here")
+      Seq(
+        (address1.uprn.getOrElse(1234).toString -> address1.address.mkString(", ")),
+        (address2.uprn.getOrElse(4567).toString -> address2.address.mkString(", "))
       )
     }
 
-    override def lookupAddress(uprn: String): AddressViewModel = {
-      val addresses = Map(
-        address1.uprn.getOrElse(1234).toString -> address1,
-        address2.uprn.getOrElse(4567).toString -> address2
-      )
-
-      addresses(uprn)
-    }
+    override def lookupAddress(uprn: String): Future[AddressViewModel] = Future {address1}
   }
 
   /**
