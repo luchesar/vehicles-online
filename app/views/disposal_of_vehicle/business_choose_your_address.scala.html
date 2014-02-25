@@ -21,7 +21,6 @@
         <div class="form-elements">
             @if(dropDownOptions.isEmpty) {
             <h2>@Messages("disposal_businessChooseYourAddress_noaddressesfound")</h2>
-            <h2>No addresses found for that postcode. Click the back button to enter a different postcode or enter an address manually</h2>
             } else {
             <ul>
                 @valtechSelect(businessChooseYourAddressForm(addressSelectId),
