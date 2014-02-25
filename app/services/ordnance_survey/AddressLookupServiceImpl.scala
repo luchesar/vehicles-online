@@ -23,19 +23,25 @@ class AddressLookupServiceImpl extends AddressLookupService {
 
     futureOfResponse.map { resp =>
         Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}")
-        val body = resp.json.as[OSAddressbaseSearchResponse]
+        if (resp.status == play.api.http.Status.OK) {
+          val body = resp.json.as[OSAddressbaseSearchResponse]
 
-        val results = if (body.results.isDefined)
-          body.results.get.map { address => {
-            address.DPA match {
-              case Some(dpa) => (dpa.UPRN, dpa.address)
-              case _ => ??? // TODO check if an LPI entry is present
+          val results = if (body.results.isDefined)
+            body.results.get.map { address => {
+              address.DPA match {
+                case Some(dpa) => (dpa.UPRN, dpa.address)
+                case _ => ??? // TODO check if an LPI entry is present
+              }
             }
-          }
-          }
-        else ??? // TODO handle no results
+            }
+          else {
+            Logger.debug(s"No results returned for postcode: ${postcode}");
+            Seq.empty
+          } // Handle no results
 
-        results.sortBy(x => x._1) // Sort by UPRN. TODO check with BAs how they would want to sort a complex list such as for
+          results.sortBy(x => x._1) // Sort by UPRN. TODO check with BAs how they would want to sort the list
+
+        } else Seq.empty // The service returned http code other than 200
     }.recoverWith {
       case e: Throwable => Future {
         Logger.error(s"Ordnance Survey postcode lookup service error: ${e}")
@@ -44,7 +50,7 @@ class AddressLookupServiceImpl extends AddressLookupService {
     }
   }
 
-  private def postcodeWithNoSpaces(postcode: String) = {
+  private def postcodeWithNoSpaces(postcode: String): String = {
     val space = ' '
     postcode.filter(_ != space)
   }

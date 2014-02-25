@@ -19,18 +19,24 @@
     	</dl>
         	
         <div class="form-elements">
+            @if(dropDownOptions.isEmpty) {
+            <h2>@Messages("disposal_businessChooseYourAddress_noaddressesfound")</h2>
+            <h2>No addresses found for that postcode. Click the back button to enter a different postcode or enter an address manually</h2>
+            } else {
             <ul>
-
                 @valtechSelect(businessChooseYourAddressForm(addressSelectId),
                     options = dropDownOptions.toSeq,
                     args = Seq('_label -> Messages("disposal_businessChooseYourAddress_addressSelect_label"))
                 )
             </ul>
+            }
         </div>
 
         <div class="form-steps">
             <a id="backButton" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.present" class="button secondary" aria-label="Back button">@Messages("disposal_businessChooseYourAddress.backbutton")</a>
+            @if(!dropDownOptions.isEmpty) {
             <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_businessChooseYourAddress.submitbutton")</button>
+            }
             <a id="enterAddressManuallyButton" href="@controllers.disposal_of_vehicle.routes.EnterAddressManually.present" class="button" aria-label="Enter address manually button">@Messages("disposal_businessChooseYourAddress.manualAddressEntry")</a>
         </div>
 
