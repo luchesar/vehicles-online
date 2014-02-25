@@ -4,6 +4,7 @@ import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
 import helpers.disposal_of_vehicle.{EnterAddressManuallyPage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
+import play.api.Logger
 import mappings.disposal_of_vehicle.BusinessAddressSelect._
 
 class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
@@ -76,6 +77,19 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
 
       // Assert
       titleMustEqual(EnterAddressManuallyPage.title)
+    }
+
+    "check number of options in drop down" in new WithBrowser with BrowserMatchers {
+      // Arrange
+      SetUpTradeDetailsPage.happyPath(browser)
+      browser.goTo(BusinessChooseYourAddressPage.url)
+
+      //Act
+      val test = browser.find("#disposal_businessChooseYourAddress_addressSelect option").size
+      Logger.debug("number of values returned " + test)
+
+      test mustEqual 3
+      //ToDo currently 3 is returned, this is hardocded data and should be 28 (number of addresses from CM81QJ). Need to amend test
     }
   }
 }
