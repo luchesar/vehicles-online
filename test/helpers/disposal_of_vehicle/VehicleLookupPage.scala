@@ -20,7 +20,7 @@ object VehicleLookupPage {
     browser.submit("button[type='submit']")
   }
 
-  def setupCache = {
+  def setupCache() = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.cacheKey
     val value = VehicleDetailsModel(vehicleMake = "make", vehicleModel = "model",
       keeperName = "keeper", keeperAddress = address1)

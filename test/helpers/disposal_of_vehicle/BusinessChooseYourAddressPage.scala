@@ -14,7 +14,7 @@ object BusinessChooseYourAddressPage {
   val address1 = AddressViewModel(address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
   val address2 = AddressViewModel(address= Seq("Penarth Road", "Cardiff", "CF11 8TT"))
 
-  def setupCache = {
+  def setupCache() = {
     val key = mappings.disposal_of_vehicle.DealerDetails.cacheKey
     val value = DealerDetailsModel(dealerName = "", dealerAddress = address1)
 

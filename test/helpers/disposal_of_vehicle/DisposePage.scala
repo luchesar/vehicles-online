@@ -24,7 +24,7 @@ object DisposePage {
     browser.submit("button[type='submit']")
   }
 
-  def setupCache = {
+  def setupCache() = {
     val key = mappings.disposal_of_vehicle.Dispose.cacheKey
     val value = DisposeFormModel(consent = "true", dateOfDisposal = DayMonthYear.today, emailAddress = None)
     play.api.cache.Cache.set(key, value)

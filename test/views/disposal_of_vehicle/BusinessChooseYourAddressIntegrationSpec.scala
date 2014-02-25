@@ -85,11 +85,10 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
       browser.goTo(BusinessChooseYourAddressPage.url)
 
       //Act
-      val test = browser.find("#disposal_businessChooseYourAddress_addressSelect option").size
-      Logger.debug("number of values returned " + test)
+      val result = browser.find("#disposal_businessChooseYourAddress_addressSelect option").size
+      Logger.debug("number of values returned " + result)
 
-      test mustEqual 3
-      //ToDo currently 3 is returned, this is hardocded data and should be 28 (number of addresses from CM81QJ). Need to amend test
+      result must beEqualTo(3) //this test currently looks at hardcoded service, however options within the drop down list are counted correctly
     }
   }
 }
