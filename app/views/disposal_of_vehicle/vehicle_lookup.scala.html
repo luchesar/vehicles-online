@@ -32,8 +32,6 @@
 			
 			<div id="FindAVehicleDiv" class="second-col">
 				<h2>@Messages("disposal_vehiclelookup.p1")</h2>
-				<div class="form-elements">
-					<ul>
 						@valtechInputText(vehicleLookupForm(v5cReferenceNumberId), args =
                     '_label -> Messages("disposal_vehiclelookup.v5cinputlabel"),
                     '_showConstraints -> false,
@@ -57,9 +55,6 @@
                 '_showConstraints -> false,
                 'maxLength -> Postcode.maxLength,
                 'title -> Messages("disposal_vehiclelookup.keeperpostcode.validation"))
-					</ul>
-					
-				</div>
 				
 				<div class="form-steps">
                     <a id="backButton" href="@controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.present" class="button button-secondary" aria-label="Back button">@Messages("disposal_vehiclelookup.backbutton")</a>
