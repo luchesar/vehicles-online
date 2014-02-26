@@ -1,11 +1,14 @@
+// button styling and their variants
+
 .button {
    line-height: 1em;
+   text-align: center;
    color: $white;
-   box-shadow: 0 3px 0 darken($green, 10%);
+   @include box-shadow(0 3px 0 darken($green, 10%));
    border:0;
    background: $green;
    cursor: pointer;
-   -webkit-appearance: none;
+   @include appearance(none);
    margin: .8em .25em 0 0;
    padding: 0.4em 1em 0.25em 1em;
    text-decoration: none;
@@ -48,7 +51,7 @@
    }
    &:active {	
    	   top: 3px;
-	   box-shadow: 0 0 0 transparent;
+	   @include box-shadow(0 0 0 transparent);
 	   .ie7 &, .ie8 & {
 		   top: 0;
 	   }
@@ -56,44 +59,34 @@
    &.button-secondary {
 	   background: #dee0e2;
 	   color: #0b0c0c;
-	   box-shadow: 0 3px 0 darken(#dee0e2, 20%);
+	   @include box-shadow(0 3px 0 darken(#dee0e2, 20%));
 	   &:hover {
 		   background: #d0d3d6;
 	   }
    }
-   &.warning {
-	   background: #b10e1e;
+
+   &.button-text {
+	   background: none;
+	   @include box-shadow(0 0 0 transparent);
+	   color:$link-colour;
+	   text-decoration: underline;
 	   &:hover {
-		   background: #990c1a;
+		   color:$link-hover-colour;
 	   }
    }
-   &.disabled {
-	   opacity: .3;
-   }
-   &.row {
-	   font-size: 1.6rem;
-	   margin: 0;
-	   .ie & {
-			font-size: 16px;
-		}
-		@media screen and (max-width: 350px) {
-			font-size: 14px;
-			padding-left: .75em;
-			padding-right: .75em;
-		}
-   }
+   
 }
 
 .button-not-implemented {
 	background: lighten($baby-pink, 10%);
 	cursor: not-allowed;
-	box-shadow: 0 3px 0 darken($baby-pink, 10%);
+	@include box-shadow(0 3px 0 darken($baby-pink, 10%));
 	&:hover,
 	&:active {
 		background: lighten($baby-pink, 10%);
 	}
 	&:active {
 		top:0;
-		box-shadow: 0 3px 0 darken($baby-pink, 10%);
+		@include box-shadow(0 3px 0 darken($baby-pink, 10%));
 	}
 }

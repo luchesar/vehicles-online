@@ -1,3 +1,5 @@
+// app/prototype specific styling
+
 #{$htmlNamespace} {
    	background: $white;
    	margin: 0 auto;
@@ -49,6 +51,7 @@
  		list-style:none;
  	}
  	
+ 	// styles two column information items
  	.summary-detail-list {
 		margin:2.3rem 0 0 0;
 		padding:0;
@@ -72,10 +75,12 @@
 		}
 	}
 	
+	// add out of scope watermark
 	.out-of-scope {
 	  background:#FFF url('images/out-of-scope-sml.gif') center center repeat;  
 	}
 	
+	// styles two column layout
 	.two-col {
 		@include clearfix;
 		.first-col {

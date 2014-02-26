@@ -7,15 +7,13 @@
   <div class="out-of-scope"> 
     @form(action = controllers.change_of_address.routes.KeeperStatus.submit) {
 
-        <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
-            <legend>@Messages("keeperstatus.name")</legend>
-            <p>@Messages("keeperstatus.p1")</p>
-        </fieldset>
+        <h2>@Messages("keeperstatus.name")</h2>
+        <p>@Messages("keeperstatus.p1")</p>
 
         <div class="form-steps">
             <button type="submit" name="action" class="button" aria-label="Next button">@Messages("keeperstatus.button")</button><br>
-            <button type="reset" name="action" class="button-not-implemented" aria-label="Next button">@Messages("keeperstatus.button2")</button><br>
-            <button type="reset" name="action" class="button-not-implemented" aria-label="Next button">@Messages("keeperstatus.button3")</button>
+            <button type="reset" name="action" class="button button-not-implemented" aria-label="Next button">@Messages("keeperstatus.button2")</button><br>
+            <button type="reset" name="action" class="button button-not-implemented" aria-label="Next button">@Messages("keeperstatus.button3")</button>
         </div>
     }
   </div>

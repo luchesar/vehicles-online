@@ -6,18 +6,21 @@
 @main(Messages("verifyidentity.title")) {
   <div class="out-of-scope">
     @form(action = controllers.change_of_address.routes.VerifyIdentity.submit) {
-        <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
-            <legend>@Messages("verifyidentity.name")</legend>
-            <p class="info">@Messages("verifyidentity.infomessage")</p><br>
-            <p>@Messages("verifyidentity.p1")</p><br>
-            <p>@Messages("verifyidentity.p2")</p>
-        </fieldset>
+        
+        <h2>@Messages("verifyidentity.name")</h2>
+        
+        <div class="alert">
+        	<p>@Messages("verifyidentity.infomessage")</p>
+        </div>
+        
+        <p>@Messages("verifyidentity.p1")</p>
+        <p>@Messages("verifyidentity.p2")</p>
 
         <div class="form-steps">
-            <p>@Messages("verifyidentity.button1text")<br>
-            <button type="reset" name="action" class="button-not-implemented" aria-label="Next button">@Messages("verifyidentity.button2")</button><br><br>
-            @Messages("verifyidentity.button2text2")</p><br>
-            <br><p>@Messages("verifyidentity.button2text")<br>
+            <p>@Messages("verifyidentity.button1text")<br />
+            <button type="reset" name="action" class="button button-not-implemented" aria-label="Next button">@Messages("verifyidentity.button2")</button></p>
+            <p>@Messages("verifyidentity.button2text2")</p><br />
+            <p>@Messages("verifyidentity.button2text")<br />
             <button type="submit" name="action" class="button" aria-label="Next button">@Messages("verifyidentity.button")</button></p>
         </div>
     }
