@@ -14,36 +14,32 @@
     @errorsSummary(vehicleSearchForm)
 
     @form(action = controllers.change_of_address.routes.VehicleSearch.submit) {
-        <fieldset class="form-elements" data-journey="carers-allowance:page:about-you">
-            <legend>@Messages("v5csearch.name")</legend>
 
-            <ul>
-                <p>@Messages("v5csearch.p1", name + " Booth")</p>
+            <h2>@Messages("v5csearch.name")</h2>
 
-                @valtechInputText(vehicleSearchForm(v5cReferenceNumberId), args =
-                    '_label -> Messages("v5csearch.v5cinputlabel"),
-                    '_showConstraints -> false,
-                    'pattern -> V5cReferenceNumber.pattern,
-                    'maxLength -> V5cReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-                    'title -> Messages("v5csearch.v5cinputlabel.refNumIncorrect"))
+            <p>@Messages("v5csearch.p1", name + " Booth")</p>
 
-                @valtechInputText(vehicleSearchForm(v5cRegistrationNumberId), args =
-                  '_label -> Messages("v5csearch.vrninputlabel"),
-                  'maxLength -> V5cRegistrationNumber.maxLength,
-                  '_showConstraints -> false)
-
-                @valtechInputText(vehicleSearchForm(v5cPostcodeId), args =
-                '_label -> Messages("v5csearch.postcode.label"),
+            @valtechInputText(vehicleSearchForm(v5cReferenceNumberId), args =
+                '_label -> Messages("v5csearch.v5cinputlabel"),
                 '_showConstraints -> false,
-                'maxLength -> Postcode.maxLength,
-                'title -> Messages("v5csearch.postcode.validation"))
-            </ul>
+                'pattern -> V5cReferenceNumber.pattern,
+                'maxLength -> V5cReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                'title -> Messages("v5csearch.v5cinputlabel.refNumIncorrect"))
 
-        </fieldset>
+            @valtechInputText(vehicleSearchForm(v5cRegistrationNumberId), args =
+              '_label -> Messages("v5csearch.vrninputlabel"),
+              'maxLength -> V5cRegistrationNumber.maxLength,
+              '_showConstraints -> false)
+
+            @valtechInputText(vehicleSearchForm(v5cPostcodeId), args =
+            '_label -> Messages("v5csearch.postcode.label"),
+            '_showConstraints -> false,
+            'maxLength -> Postcode.maxLength,
+            'title -> Messages("v5csearch.postcode.validation"))
 
         <div class="form-steps">
             <button type="submit" name="action" class="button" aria-label="Next button">@Messages("v5csearch.button")</button>
-            <button type="reset" name="action" class="button-not-implemented" aria-label="Reset button">@Messages("v5csearch.button2")</button>
+            <button type="reset" name="action" class="button button-not-implemented" aria-label="Reset button">@Messages("v5csearch.button2")</button>
         </div>
     }
 }
