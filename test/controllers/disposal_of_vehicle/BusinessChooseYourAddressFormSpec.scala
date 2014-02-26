@@ -5,13 +5,15 @@ import mappings.disposal_of_vehicle.BusinessAddressSelect._
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.Matchers._
-import services.fakes.FakeAddressLookupService
+import services.fakes.{FakeAddressLookupService, FakeWebServiceImpl}
 
 class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers with MockitoSugar {
   "BusinesssChooseYourAddress Form" should {
     val addressSelectedValid = "1234"
+    val fakeWebService = new FakeWebServiceImpl()
     val mockAddressLookupService = mock[services.AddressLookupService]
-    when(mockAddressLookupService.fetchAddressesForPostcode(anyString())).thenReturn(new FakeAddressLookupService().fetchAddressesForPostcode("TEST"))
+    val fakeAddressLookupService = new FakeAddressLookupService(fakeWebService)
+    when(mockAddressLookupService.fetchAddressesForPostcode(anyString())).thenReturn(fakeAddressLookupService.fetchAddressesForPostcode("TEST"))
     val businessChooseYourAddress = new BusinessChooseYourAddress(mockAddressLookupService)
 
     def chooseYourAddressFiller(addressSelected: String = addressSelectedValid) = {

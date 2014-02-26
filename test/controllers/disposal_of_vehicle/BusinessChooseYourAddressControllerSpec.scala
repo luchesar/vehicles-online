@@ -9,14 +9,14 @@ import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import helpers.disposal_of_vehicle.BusinessChooseYourAddressPage._
-import scala.Some
-import services.fakes.FakeAddressLookupService
+import services.fakes.{FakeAddressLookupService, FakeWebServiceImpl}
 
 class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
   "BusinessChooseYourAddress - Controller" should {
     val mockAddressLookupService = mock[services.AddressLookupService]
-    val fakeAddressLookupService = new FakeAddressLookupService()
+    val fakeWebService = new FakeWebServiceImpl()
+    val fakeAddressLookupService = new FakeAddressLookupService(fakeWebService)
     when(mockAddressLookupService.fetchAddressForUprn(anyString())).thenReturn(fakeAddressLookupService.fetchAddressForUprn(uprn = "TEST"))
     when(mockAddressLookupService.fetchAddressesForPostcode(anyString())).thenReturn(fakeAddressLookupService.fetchAddressesForPostcode(postcode = "TEST"))
 
@@ -46,7 +46,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some(VehicleLookupPage.url))
+      redirectLocation(result) should equal(Some(VehicleLookupPage.url))
     }
 
     "return a bad request after no submission" in new WithApplication {
@@ -66,7 +66,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
       // Arrange
       SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody( addressSelectId -> "")
+        .withFormUrlEncodedBody(addressSelectId -> "")
 
       // Act
       val result = businessChooseYourAddress.submit(request)

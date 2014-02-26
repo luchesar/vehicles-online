@@ -5,7 +5,7 @@ import models.domain.disposal_of_vehicle.AddressViewModel
 import utils.helpers.Config
 import play.api.Logger
 import com.ning.http.client.Realm.AuthScheme
-import services.ordnance_survey.domain.OSAddressbaseSearchResponse
+import services.ordnance_survey.domain.{OSAddressbaseResult, OSAddressbaseSearchResponse}
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 import javax.inject.Inject
@@ -16,18 +16,23 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
   val password = s"${Config.ordnanceSurveyPassword}"
   val baseUrl = s"${Config.ordnanceSurveyBaseUrl}"
 
+  override protected def lookup(postcode: String): Future[Response] = {
+    val endPoint = s"${baseUrl}/postcode?postcode=${postcodeWithNoSpaces(postcode)}&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
+    Logger.debug(s"Calling Ordnance Survey postcode lookup service on ${endPoint}...")
+    ws.url(endPoint).withAuth(username = username, password = password, scheme = AuthScheme.BASIC).get() // TODO should we add a .withRequestTimeout()? and if yes then what time for the timeout assuming slow connections?
+  }
+
+  override def fetchResults(resp: Response): Option[Seq[OSAddressbaseResult]] = {
+    val oSAddressbaseSearchResponse = resp.json.as[OSAddressbaseSearchResponse]
+    oSAddressbaseSearchResponse.results
+  }
+
   override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = {
-    def lookup: Future[Response] = {
-      val endPoint = s"${baseUrl}/postcode?postcode=${postcodeWithNoSpaces(postcode)}&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
-      Logger.debug(s"Calling Ordnance Survey postcode lookup service on ${endPoint}...")
-      ws.url(endPoint).withAuth(username = username, password = password, scheme = AuthScheme.BASIC).get() // TODO should we add a .withRequestTimeout()? and if yes then what time for the timeout assuming slow connections?
-    }
-
     def toUprnsAndAddresses(resp: Response): Seq[(String, String)] = {
-      val oSAddressbaseSearchResponse = resp.json.as[OSAddressbaseSearchResponse]
+      val results = fetchResults(resp)
 
-      if (oSAddressbaseSearchResponse.results.isDefined)
-        oSAddressbaseSearchResponse.results.get.map { address =>
+      if (results.isDefined)
+        results.get.map { address =>
           address.DPA match {
             case Some(dpa) => (dpa.UPRN, dpa.address)
             case _ => ??? // TODO check if an LPI entry is present
@@ -40,7 +45,7 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
       }
     }
 
-    lookup.map { resp =>
+    lookup(postcode).map { resp =>
       Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}")
       if (resp.status == play.api.http.Status.OK) toUprnsAndAddresses(resp).sortBy(x => x._1) // Sort by UPRN. TODO check with BAs how they would want to sort the list
       else Seq.empty // The service returned http code other than 200
