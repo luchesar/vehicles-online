@@ -22,10 +22,22 @@ class VehicleLookupFailureIntegrationSpec extends Specification with Tags {
       browser.goTo(VehicleLookupFailurePage.url)
 
       // Act
-      browser.click("#next")
+      browser.click("#vehiclelookup")
 
       // Assert
       titleMustEqual(VehicleLookupPage.title)
+    }
+
+    "redirect to setuptradedetails when button clicked" in new WithBrowser with BrowserMatchers {
+      // Arrange
+      VehicleLookupFailurePage.cacheSetupHappyPath()
+      browser.goTo(VehicleLookupFailurePage.url)
+
+      // Act
+      browser.click("#setuptradedetails")
+
+      // Assert
+      titleMustEqual(SetUpTradeDetailsPage.title)
     }
 
     "redirect to setuptraderdetails page when no details are cached" in new WithBrowser with BrowserMatchers {
