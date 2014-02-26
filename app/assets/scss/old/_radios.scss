@@ -1,0 +1,78 @@
+/* radio list - includes hit areas */
+		   &.radio {
+		   		   margin-top: 3px;	
+		   		   overflow: hidden;
+				   li {
+					   position: relative;
+					   float: left;
+					   margin: 0 0 0 1px;
+					   padding: 0;
+					   &:first-child {
+						   margin-left: 0;
+					   }
+					   input[type="radio"] {
+						   position: absolute;
+						   top: 13px;
+						   left: 14px;
+						   margin: 0;
+						   cursor: pointer;
+						   line-height: 1em;
+						   
+						   .ie & {
+							   top: 10px;
+							   left: 10px;
+						   }
+						   
+						   .ie10 & {
+							   top: 10px;
+							   left: 10px;
+						   }
+						   
+						   .ie8 & {
+							   top: 11px;
+						   }
+
+						   .ie6 & {
+							   position: relative;
+							   top: auto;
+							   left: auto;
+							   display: inline;
+						   }
+
+					   }
+					   
+					   label {
+						   display: block;
+						   background: #e8e8e8;
+						   padding: 12px 14px 10px 34px;
+						   font-size: 1.7rem;
+						   cursor: pointer;
+						   line-height: 1em;
+						   border: 1px solid #fff;
+						   font-weight: 500;
+						   .ie & {
+							   font-size: 17px;
+						   }
+						   
+						   .ie7 &:hover, .ie8 &:hover {
+							   background: #fff;
+							   border: 1px solid #a2a2a2;
+						   }
+						   
+						   .ie6 & {
+							   display: inline;
+							   padding-left: 0;
+							   background: transparent;
+						   }
+					   }
+					   input[type="radio"]:checked + label {
+						   background: #fff;
+						   -webkit-transition: all 200ms ease-in;
+						   -moz-transition: all 200ms ease-in;
+						   -ms-transition: all 200ms ease-in;
+						   -o-transition: all 200ms ease-in;
+						   transition: all 200ms ease-in;
+						   border: 1px solid #a2a2a2;
+					   }
+				   }
+			 }

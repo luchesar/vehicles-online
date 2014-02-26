@@ -1,0 +1,41 @@
+#{$htmlNamespace} {
+   	background: $white;
+   	margin: 0 auto;
+   	max-width: 980px;
+
+   	.ie6 & {
+	   	width: 980px;
+   	}
+
+   	@media screen and (max-width: $device-small) {
+   		border-top: 10px solid phase-colour($phase);
+   	}
+
+	.section-content {
+		padding: 1.7em 1em 4em 1em;
+      @include clearfix;
+      overflow: hidden;
+	}
+
+	h1 {
+   	@include heading-36;
+   	font-weight: 700;
+   	.ie & {
+	   	font-size: 36px;
+   	}
+ 	}
+
+ 	h2 {
+ 		@include core-24;
+ 		font-weight: 700;
+ 		.ie & {
+	   	font-size: 24px;
+   	}
+ 	}
+
+ 	ol, ul {
+ 		padding:0;
+ 		margin:0 0 1em 0;
+ 		list-style:none;
+ 	}
+}

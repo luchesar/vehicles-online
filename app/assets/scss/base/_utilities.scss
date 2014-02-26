@@ -1,0 +1,25 @@
+
+
+@function phase-colour($phase) {
+	@if $phase == "alpha" { @return $alpha-colour; }
+	@if $phase == "beta" { @return $beta-colour; }
+}
+
+@mixin clearfix {
+	&:before,
+	&:after {
+	    content: " ";
+	    display: table;
+	}
+	&:after {
+		clear: both;
+	}
+}
+
+// CSS for hiding elements visually but not for screen readers
+@mixin sr-only {
+	position: absolute;
+	top:0;
+	left:-9999px;
+	visibility: hidden;
+}
