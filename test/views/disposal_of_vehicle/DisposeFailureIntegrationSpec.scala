@@ -9,7 +9,7 @@ class DisposeFailureIntegrationSpec extends Specification with Tags {
   "DisposeFailureIntegration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
       VehicleLookupPage.setupCache
       DisposePage.setupCache

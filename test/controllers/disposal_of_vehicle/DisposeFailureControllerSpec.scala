@@ -11,7 +11,7 @@ class DisposeFailureControllerSpec extends WordSpec with Matchers with Mockito {
   "DisposalFailure - Controller" should {
     "present" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
       VehicleLookupPage.setupCache
       DisposePage.setupCache
@@ -26,7 +26,7 @@ class DisposeFailureControllerSpec extends WordSpec with Matchers with Mockito {
 
     "redirect to vehicle lookup page when button clicked" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
       VehicleLookupPage.setupCache
       DisposePage.setupCache
