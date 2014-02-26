@@ -6,7 +6,7 @@ object DisposeFailurePage {
   val url = "/disposal-of-vehicle/dispose-failure"
   val title = "Dispose a vehicle into the motor trade: failure"
 
-  def cacheSetupHappyPath (browser: TestBrowser) {
+  def cacheSetupHappyPath () {
     SetUpTradeDetailsPage.setupCache()
     BusinessChooseYourAddressPage.setupCache()
     VehicleLookupPage.setupCache()

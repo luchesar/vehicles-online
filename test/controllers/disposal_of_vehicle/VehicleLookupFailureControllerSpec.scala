@@ -2,17 +2,16 @@ package controllers.disposal_of_vehicle
 
 import org.scalatest.{Matchers, WordSpec}
 import play.api.test.{FakeRequest, WithApplication}
-import helpers.disposal_of_vehicle.{DisposeSuccessPage, VehicleLookupPage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage}
+import helpers.disposal_of_vehicle._
 import controllers.disposal_of_vehicle
 import play.api.test.Helpers._
+import scala.Some
 
 class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
   "VehicleLookupFailurePage - Controller" should {
     "present" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
+      VehicleLookupFailurePage.cacheSetupHappyPath()
       val request = FakeRequest().withSession()
 
       // Act
@@ -24,9 +23,7 @@ class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
 
     "redirect to vehiclelookup on submit" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
+      VehicleLookupFailurePage.cacheSetupHappyPath()
       val request = FakeRequest().withSession()
 
       // Act

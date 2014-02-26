@@ -9,7 +9,7 @@ class DisposeSuccessIntegrationSpec extends Specification with Tags {
   "Dispose confirmation integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      DisposeFailurePage.cacheSetupHappyPath(browser)
+      DisposeFailurePage.cacheSetupHappyPath
       browser.goTo(DisposeSuccessPage.url)
 
       // Check the page title is correct
@@ -27,7 +27,7 @@ class DisposeSuccessIntegrationSpec extends Specification with Tags {
     "display vehicle lookup page when new disposal link is clicked" in new WithBrowser with BrowserMatchers {
 
       // Arrange
-      DisposeFailurePage.cacheSetupHappyPath(browser)
+      DisposeFailurePage.cacheSetupHappyPath
       browser.goTo(DisposeSuccessPage.url)
 
       // Act
