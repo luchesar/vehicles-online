@@ -9,7 +9,7 @@ class DisposeSuccessIntegrationSpec extends Specification with Tags {
   "Dispose confirmation integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
       VehicleLookupPage.setupCache
       DisposePage.setupCache
@@ -28,7 +28,7 @@ class DisposeSuccessIntegrationSpec extends Specification with Tags {
     }
 
     "display vehicle lookup page when new disposal link is clicked" in new WithBrowser with BrowserMatchers {
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
       VehicleLookupPage.setupCache
       DisposePage.setupCache

@@ -12,7 +12,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers {
   "BeforeYouStart - Controller" should {
     "present" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
       val request = FakeRequest().withSession()
 
@@ -25,7 +25,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers {
 
     "redirect to next page after a valid submit" in new WithApplication {
       // Arrange
-     SetUpTradeDetailsPage.setupCache
+     SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cDocumentReferenceNumberValid, v5cRegistrationNumberId -> v5cVehicleRegistrationNumberValid, v5cKeeperNameId -> v5cKeeperNameValid, v5cPostcodeId -> v5cPostcodeValid)
@@ -51,7 +51,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers {
 
     "return a bad request if no details are entered" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()

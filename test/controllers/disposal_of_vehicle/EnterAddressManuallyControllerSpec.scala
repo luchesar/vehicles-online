@@ -18,7 +18,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
 
     "present" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
 
       // Act
@@ -29,7 +29,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
     }
 
     "reject when no data is entered" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 
@@ -41,7 +41,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
     }
 
     "reject when a valid address is entered without a postcode" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
@@ -57,7 +57,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
     }
 
     "reject when a valid postcode is entered without an address" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
@@ -81,7 +81,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
     }
 
     "redirect to next page after a valid submition of all fields" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
