@@ -3,6 +3,6 @@
 @import utils.helpers._
 @import helper.templates.commonTemplate
 
-<li @if(elements.hasErrors) { class="validation" }>
-    @commonTemplate(elements)
-</li>
+@if(elements.hasErrors) { <div class="form-item validation"> } else { <div class="form-item"> }
+	@commonTemplate(elements)
+</div>

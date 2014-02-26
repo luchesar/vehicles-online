@@ -1,5 +1,4 @@
 .button {
-	
    line-height: 1em;
    color: $white;
    box-shadow: 0 3px 0 darken($green, 10%);
@@ -42,6 +41,10 @@
    &:hover,
    &:active {
 	   background: darken($green, 5%);
+	   color: $white;
+   }
+   &:visited {
+	   color: $white;
    }
    &:active {	
    	   top: 3px;

@@ -38,4 +38,31 @@
  		margin:0 0 1em 0;
  		list-style:none;
  	}
+ 	
+ 	.summary-detail-list {
+		margin:2.3rem 0 0 0;
+		padding:0;
+		
+		dt, dd {
+			margin:0;
+			font-size:1.9rem;
+			padding: 0.4em 0;
+			.ie & {
+				font-size:19px;
+			}
+		}
+		dt {
+			float:left;
+			width:150px;
+			font-weight: bold;
+			clear:left;
+		}
+		dd {
+			overflow: hidden;
+		}
+	}
+	
+	.out-of-scope {
+	  background:#FFF url('images/out-of-scope-sml.gif') center center repeat;  
+	}
 }

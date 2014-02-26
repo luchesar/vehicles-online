@@ -8,19 +8,19 @@
 @import scala.language.postfixOps
 @import views.html.helper.dateConstraintRequired
 
-<fieldset class="question-group">
+<fieldset>
 
     @dateConstraintRequired(field, args:_*) <!-- datePlaceholder -->
 
-    <ul class="inline year" id="@CryptoHelper.encryptAES(id)">
-        <li>
+    <div class="form-inline form-date">
+        <div class="form-item">
             @* Day field. Overriding the default select message with "Day". *@
             @valtechSelect(field("day"),
                 defaultOptionMessage = "datePlaceholder.day",
                 options = ((1 to 31) map(v => (v toString) -> (if (v < 10) "0" + v else v toString))).asInstanceOf[Seq[(String, String)]])
-        </li>
+        </div>
 
-        <li>
+        <div class="form-item">
             @* Month field. Overriding the default select message with "Month". *@
             @valtechSelect(field("month"),
                 defaultOptionMessage = "datePlaceholder.month",
@@ -38,11 +38,11 @@
                     "11" -> Messages("datePlaceholder.November"),
                     "12" -> Messages("datePlaceholder.December")
                 ))
-        </li>
+        </div>
 
-        <li>
+        <div class="form-item">
         @valtechInputDigits(field("year"), 'placeholder -> "YYYY", 'maxLength -> 4)
-        </li>
-    </ul>
+        </div>
+    </div>
 
 </fieldset>
