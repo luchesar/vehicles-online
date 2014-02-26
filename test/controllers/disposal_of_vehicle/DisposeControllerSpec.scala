@@ -13,7 +13,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
   "Disposal - Controller" should {
     "present" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
       VehicleLookupPage.setupCache
       val request = FakeRequest().withSession()
@@ -27,7 +27,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
 
     "redirect to next page after the dispose button is clicked" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           consentId -> consentValid,
@@ -58,7 +58,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with Mockito {
 
     "return a bad request when no details are entered" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
       VehicleLookupPage.setupCache
       val request = FakeRequest().withSession()

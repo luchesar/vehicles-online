@@ -9,10 +9,10 @@ class DisposeFailureIntegrationSpec extends Specification with Tags {
   "DisposeFailureIntegration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache
-      BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
-      DisposePage.setupCache
+      SetUpTradeDetailsPage.setupCache()
+      BusinessChooseYourAddressPage.setupCache()
+      VehicleLookupPage.setupCache()
+      DisposePage.setupCache()
       browser.goTo(DisposeFailurePage.url)
 
       // Assert
@@ -21,10 +21,10 @@ class DisposeFailureIntegrationSpec extends Specification with Tags {
 
     "redirect to vehiclelookup when button clicked" in new WithBrowser with BrowserMatchers {
       // Arrange
-      SetUpTradeDetailsPage.setupCache
-      BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
-      DisposePage.setupCache
+      SetUpTradeDetailsPage.setupCache()
+      BusinessChooseYourAddressPage.setupCache()
+      VehicleLookupPage.setupCache()
+      DisposePage.setupCache()
       browser.goTo(DisposeFailurePage.url)
 
       // Act

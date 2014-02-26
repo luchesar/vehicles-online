@@ -23,7 +23,12 @@ object DisposeFailure extends Controller {
   }
 
   def submit = Action {
-     implicit request => Redirect(routes.VehicleLookup.present)
+    implicit request => {
+      (fetchDealerDetailsFromCache, fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache) match {
+        case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present)
+        case _ => Redirect(routes.SetUpTradeDetails.present)
+      }
+    }
   }
 
   private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeModel = {

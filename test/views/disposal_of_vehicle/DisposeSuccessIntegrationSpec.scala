@@ -25,6 +25,7 @@ class DisposeSuccessIntegrationSpec extends Specification with Tags {
     }
 
     "display vehicle lookup page when new disposal link is clicked" in new WithBrowser with BrowserMatchers {
+
       // Arrange
       DisposeFailurePage.cacheSetupHappyPath(browser)
       browser.goTo(DisposeSuccessPage.url)

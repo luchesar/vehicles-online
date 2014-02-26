@@ -14,7 +14,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
 
     "present" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
       VehicleLookupPage.setupCache
       DisposePage.setupCache
@@ -28,7 +28,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
     }
 
     "redirect to next page after the new disposal button is clicked" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
       VehicleLookupPage.setupCache
       DisposePage.setupCache

@@ -10,7 +10,6 @@ import org.mockito.Mockito._
 import org.mockito.Matchers._
 import modules.TestModule.FakeAddressLookupService
 import helpers.disposal_of_vehicle.BusinessChooseYourAddressPage._
-import controllers.Mappings._
 import scala.Some
 
 class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers with MockitoSugar {
@@ -18,13 +17,14 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
   "BusinessChooseYourAddress - Controller" should {
     val mockAddressLookupService = mock[services.AddressLookupService]
     val fakeAddressLookupService = new FakeAddressLookupService()
+    when(mockAddressLookupService.fetchAddressForUprn(anyString())).thenReturn(fakeAddressLookupService.fetchAddressForUprn(uprn = "TEST"))
     when(mockAddressLookupService.fetchAddressesForPostcode(anyString())).thenReturn(fakeAddressLookupService.fetchAddressesForPostcode(postcode = "TEST"))
-when(mockAddressLookupService.fetchAddressForUprn(anyString())).thenReturn(fakeAddressLookupService.fetchAddressForUprn(uprn = "TEST"))
+
     val businessChooseYourAddress = new BusinessChooseYourAddress(mockAddressLookupService)
-/*
+
     "present" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
 
       // Act
@@ -32,11 +32,11 @@ when(mockAddressLookupService.fetchAddressForUprn(anyString())).thenReturn(fakeA
 
       // Assert
       status(result) should equal(OK)
-    }*/
+    }
 
     "redirect to next page after a valid submit" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           addressSelectId -> "1234")
@@ -48,10 +48,10 @@ when(mockAddressLookupService.fetchAddressForUprn(anyString())).thenReturn(fakeA
       status(result) should equal(SEE_OTHER)
       redirectLocation(result) should equal (Some(VehicleLookupPage.url))
     }
-/*
+
     "return a bad request after no submission" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 
@@ -64,7 +64,7 @@ when(mockAddressLookupService.fetchAddressForUprn(anyString())).thenReturn(fakeA
 
     "return a bad request after a blank submission" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache
+      SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody( addressSelectId -> "")
 
@@ -105,6 +105,8 @@ when(mockAddressLookupService.fetchAddressForUprn(anyString())).thenReturn(fakeA
       val result = businessChooseYourAddress.submit(request)
 
       redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
-    }*/
+    }
+
+
   }
 }

@@ -10,8 +10,8 @@ object SetUpTradeDetailsPage {
   val url = "/disposal-of-vehicle/setup-trade-details"
   val title = "Dispose a vehicle into the motor trade: set-up"
 
-  def setupCache() = {
-    val model = SetupTradeDetailsModel(traderBusinessName = traderBusinessNameValid, traderPostcode = traderPostcodeValid)
+  def setupCache(dealerPostcode: String = traderPostcodeValid) = {
+    val model = SetupTradeDetailsModel(traderBusinessName = traderBusinessNameValid, traderPostcode = dealerPostcode)
     val key = mappings.disposal_of_vehicle.SetupTradeDetails.cacheKey
     val value = model
 
