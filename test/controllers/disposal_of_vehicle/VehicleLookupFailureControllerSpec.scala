@@ -7,7 +7,7 @@ import controllers.disposal_of_vehicle
 import play.api.test.Helpers._
 
 class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
-  "VehicleLookupFailure - Controller" should {
+  "VehicleLookupFailurePage - Controller" should {
     "present" in new WithApplication {
       // Arrange
       SetUpTradeDetailsPage.setupCache()
