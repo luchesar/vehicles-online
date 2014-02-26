@@ -53,9 +53,10 @@
 		   top: 0;
 	   }
    }
-   &.secondary {
+   &.button-secondary {
 	   background: #dee0e2;
 	   color: #0b0c0c;
+	   box-shadow: 0 3px 0 darken(#dee0e2, 20%);
 	   &:hover {
 		   background: #d0d3d6;
 	   }

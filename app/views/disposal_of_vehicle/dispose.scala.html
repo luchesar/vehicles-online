@@ -44,67 +44,44 @@
         </div>
 
         <div class="second-col">
+        
             <h2>@Messages("disposal_dispose.disposevehicleto")</h2>
+            
+            <p>@data.dealerName<br />
+            @for(addr <- data.dealerAddress.address) {@addr<br/>}</p>
 
-            <div class="form-elements">
-                <ul>
-                    <li>
-                        @data.dealerName<br />
-                        @for(addr <- data.dealerAddress.address) {@addr<br/>}
-                    </li>
-                    @valtechInputText(disposeForm(mileageId), args =
-                    '_label -> Messages("disposal_dispose.mileage.label"),
-                    '_showConstraints -> false,
-                    'pattern -> Mileage.pattern,
-                    'maxLength -> Mileage.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-                    'title -> Messages("disposal_dispose.mileage.validation"))
-                </ul>
-                <ul>
-                    @inputDayMonthYear(disposeForm(dateOfDisposalId), args = '_label -> Messages("disposal_dispose.dateofdisposal.label"))
-                </ul>
-                <ul>
-                    @* Checkbox must not be pre-ticked. *@
-                    @valtechDeclareCheck(disposeForm(consentId), 'id -> "consent", '_showConstraints -> false, '_label -> Messages("disposal_dispose.consent"))
-                </ul>
+            @valtechInputText(disposeForm(mileageId), args =
+            '_label -> Messages("disposal_dispose.mileage.label"),
+            '_showConstraints -> false,
+            'pattern -> Mileage.pattern,
+            'maxLength -> Mileage.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+            'title -> Messages("disposal_dispose.mileage.validation"))
 
+            @inputDayMonthYear(disposeForm(dateOfDisposalId), args = '_label -> Messages("disposal_dispose.dateofdisposal.label"))
 
+            @* Checkbox must not be pre-ticked. *@
+            @valtechDeclareCheck(disposeForm(consentId), 'id -> "consent", '_showConstraints -> false, '_label -> Messages("disposal_dispose.consent"))
 
-                <ul>
+            <p>@Messages("disposal_dispose.exkeeperlettertext")</p>
 
-
-                    <li>@Messages("disposal_dispose.exkeeperlettertext")</li>
-
-                    @valtechInputTextWithButton(disposeForm(emailAddressId),
-                    args = Seq('_label -> Messages("disposal_dispose.emaillabel"),
-                    '_showConstraints -> false))
-
-
-                    @{
-                    /*
-                    TODO DEVELOPER NOTE:
-                    We need to work to work out a way of having helpers that output form elements without wrapper markup
-                    and potentially without labels too for extra flexibility.
-                    James Chapman 11/02/2014
-                    */
-                    }
-                </ul>
-            </div>
-
+            @valtechInputTextWithButton(disposeForm(emailAddressId),
+            args = Seq('_label -> Messages("disposal_dispose.emaillabel"),
+            '_showConstraints -> false))
+                    
             <div class="form-steps">
-
-            </div>
-
-            <div class="form-steps">
-                <a id="backButton" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present" class="button secondary" aria-label="Back button">@Messages("disposal_dispose.backbutton")</a>
+                <a id="backButton" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present" class="button button-secondary" aria-label="Back button">@Messages("disposal_dispose.backbutton")</a>
                 <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_dispose.submitbutton")</button>
 
                 <div class="two-col-spacer">
                     @{ /*
-                    <button type="reset" name="action" class="button-not-implemented" aria-disabled="true" disabled>@Messages("global.buttonnavback")</button>
+                    <button type="reset" name="action" class="button button-not-implemented" aria-disabled="true" disabled>@Messages("global.buttonnavback")</button>
                     */ }
                 </div>
             </div>
-        </div>
+
+		</div>
+
     </div>
+    
     }
 }

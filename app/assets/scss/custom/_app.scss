@@ -20,6 +20,7 @@
 	h1 {
    	@include heading-36;
    	font-weight: 700;
+   	margin-bottom:0.4em;
    	.ie & {
 	   	font-size: 36px;
    	}
@@ -28,9 +29,18 @@
  	h2 {
  		@include core-24;
  		font-weight: 700;
+ 		margin-bottom:0.6em;
  		.ie & {
-	   	font-size: 24px;
-   	}
+		   	font-size: 24px;
+	   	}
+ 	}
+ 	
+ 	p {
+	 	font-size:1.7rem;
+	 	margin:0 0 1em 0;
+	 	.ie & {
+		 	font-size:17px;
+	 	}
  	}
 
  	ol, ul {
@@ -45,10 +55,10 @@
 		
 		dt, dd {
 			margin:0;
-			font-size:1.9rem;
+			font-size:1.7rem;
 			padding: 0.4em 0;
 			.ie & {
-				font-size:19px;
+				font-size:17px;
 			}
 		}
 		dt {
@@ -64,5 +74,31 @@
 	
 	.out-of-scope {
 	  background:#FFF url('images/out-of-scope-sml.gif') center center repeat;  
+	}
+	
+	.two-col {
+		@include clearfix;
+		.first-col {
+			@include clearfix;
+			width:47%;
+			float:left;
+			@media screen and (max-width: $device-small) {
+				float:none;
+				width:100%;
+				clear:both;
+				margin-bottom:2em;
+			}
+		}
+		.second-col {
+			@include clearfix;
+			width:47%;
+			float:right;
+			@media screen and (max-width: $device-small) {
+				float:none;
+				width:100%;
+				clear:both;
+				margin-bottom:2em;
+			}
+		}
 	}
 }
