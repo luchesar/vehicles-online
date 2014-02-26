@@ -226,6 +226,11 @@ disposal_disposeconfirmation.disposaldate = Dyddiad gwaredu
 disposal_disposeconfirmation.mileage = Milltiroedd
 disposal_disposeconfirmation.noMileageEntered = Naddo milltiroedd gofnodi
 
+disposal_disposefailure.title = Cael gwared cerbyd i mewn i'r fasnach foduron: methiant
+disposal_disposefailure.name = Methiant
+disposal_disposefailure.p1 = Nid yw wedi bod yn bosibl i gwblhau eich trafodiad. Ffoniwch 0300 790 6802
+disposal_disposefailure.button = Am-edrych gerbyd
+
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda
 errorsummary.p1 = Trwsiwch y canlynol:
