@@ -4,9 +4,8 @@ import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
 import helpers.disposal_of_vehicle.{EnterAddressManuallyPage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
-import play.api.Logger
-import modules.TestModule.FakeAddressLookupService.postcodeInvalid
 import java.util.concurrent.TimeUnit
+import services.fakes.FakeAddressLookupService.postcodeInvalid
 
 class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
   "Business choose your address - Integration" should {
@@ -99,11 +98,12 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
       browser.goTo(BusinessChooseYourAddressPage.url)
 
       // Assert
-      browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) { // TODO split this into two helpers, pass in the boolean on the first helper, pass in expected size on the second helper.
+      browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {
+        // TODO split this into two helpers, pass in the boolean on the first helper, pass in expected size on the second helper.
         browser.pageSource.contains("No addresses found for that postcode.") must beEqualTo(false) // No "not found" message present.
 
         val dropdownCount = browser.find("#disposal_businessChooseYourAddress_addressSelect").size
-        dropdownCount mustEqual(1) // The dropdown is present.
+        dropdownCount mustEqual (1) // The dropdown is present.
       }
     }
 
@@ -119,7 +119,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
         browser.pageSource.contains("No addresses found for that postcode.") must beEqualTo(true) // "not found" message present.
 
         val dropdownCount = browser.find("#disposal_businessChooseYourAddress_addressSelect").size
-        dropdownCount mustEqual(0) // The dropdown is not present.
+        dropdownCount mustEqual (0) // The dropdown is not present.
       }
     }
   }
