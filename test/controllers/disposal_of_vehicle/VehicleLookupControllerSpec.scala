@@ -9,7 +9,7 @@ import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetUpTradeDet
 import helpers.disposal_of_vehicle.Helper._
 
 class VehicleLookupControllerSpec extends WordSpec with Matchers {
-  "BeforeYouStart - Controller" should {
+  "VehicleLookup - Controller" should {
     "present" in new WithApplication {
       // Arrange
       SetUpTradeDetailsPage.setupCache()
