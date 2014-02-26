@@ -3,12 +3,24 @@ package controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.VehicleLookup._
 import helpers.disposal_of_vehicle.Helper._
+import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import org.mockito.Mockito._
+import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import org.mockito.Matchers._
+import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import services.fakes.FakeVehicleLookupService
+import controllers.disposal_of_vehicle
+import org.scalatest.mock.MockitoSugar
 
-class VehicleLookupFormSpec extends WordSpec with Matchers {
+class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
   "V5cSearch Form" should {
+    val mockVehicleLookupFormModel = mock[VehicleLookupFormModel]
+    val mockWebService = mock[services.VehicleLookupService]
+    when(mockWebService.invoke(any[VehicleLookupFormModel])).thenReturn(new FakeVehicleLookupService().invoke(mockVehicleLookupFormModel))
+    val vehicleLookup = new disposal_of_vehicle.VehicleLookup(mockWebService)
 
     def vehicleLookupFiller(v5cReferenceNumber: String, v5cRegistrationNumber: String, v5cKeeperName: String, v5cPostcode: String ) = {
-      VehicleLookup.vehicleLookupForm.bind(
+      vehicleLookup.vehicleLookupForm.bind(
         Map(
           v5cReferenceNumberId -> v5cReferenceNumber,
           v5cRegistrationNumberId-> v5cRegistrationNumber,

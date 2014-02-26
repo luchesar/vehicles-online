@@ -22,5 +22,6 @@ object DevModule extends ScalaModule {
     bind[LoginWebService].to[LoginWebServiceImpl].asEagerSingleton
     bind[AddressLookupService].to[ordnance_survey.AddressLookupServiceImpl].asEagerSingleton
     bind[WebService].to[WebServiceImpl].asEagerSingleton
+    bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton
   }
 }

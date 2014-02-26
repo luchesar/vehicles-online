@@ -16,5 +16,6 @@ object TestModule extends ScalaModule {
     bind[LoginWebService].to[FakeLoginWebService]
     bind[AddressLookupService].to[FakeAddressLookupService]
     bind[WebService].to[FakeWebServiceImpl].asEagerSingleton
+    bind[VehicleLookupService].to[FakeVehicleLookupService].asEagerSingleton
   }
 }
