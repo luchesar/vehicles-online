@@ -17,9 +17,9 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
     class PartialMockAddressLookupService(ws: services.WebService = new FakeWebServiceImpl,
                                              response: Future[Response],
                                              results: Option[Seq[OSAddressbaseResult]]) extends AddressLookupServiceImpl(ws) {
-      override protected def lookup(postcode: String): Future[Response] = response
+      override protected def callWebService(postcode: String): Future[Response] = response
 
-      override def fetchResults(resp: Response): Option[Seq[OSAddressbaseResult]] = results
+      override def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = results
     }
 
     val oSAddressbaseResultsValid = {

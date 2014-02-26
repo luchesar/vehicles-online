@@ -16,20 +16,20 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
   val password = s"${Config.ordnanceSurveyPassword}"
   val baseUrl = s"${Config.ordnanceSurveyBaseUrl}"
 
-  override protected def lookup(postcode: String): Future[Response] = {
+  override protected def callWebService(postcode: String): Future[Response] = {
     val endPoint = s"${baseUrl}/postcode?postcode=${postcodeWithNoSpaces(postcode)}&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
     Logger.debug(s"Calling Ordnance Survey postcode lookup service on ${endPoint}...")
     ws.url(endPoint).withAuth(username = username, password = password, scheme = AuthScheme.BASIC).get() // TODO should we add a .withRequestTimeout()? and if yes then what time for the timeout assuming slow connections?
   }
 
-  override def fetchResults(resp: Response): Option[Seq[OSAddressbaseResult]] = {
+  override def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = {
     val oSAddressbaseSearchResponse = resp.json.as[OSAddressbaseSearchResponse]
     oSAddressbaseSearchResponse.results
   }
 
   override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = {
     def toUprnsAndAddresses(resp: Response): Seq[(String, String)] = {
-      val results = fetchResults(resp)
+      val results = extractFromJson(resp)
 
       if (results.isDefined)
         results.get.map { address =>
@@ -45,7 +45,7 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
       }
     }
 
-    lookup(postcode).map { resp =>
+    callWebService(postcode).map { resp =>
       Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}")
       if (resp.status == play.api.http.Status.OK) toUprnsAndAddresses(resp).sortBy(x => x._1) // Sort by UPRN. TODO check with BAs how they would want to sort the list
       else Seq.empty // The service returned http code other than 200
