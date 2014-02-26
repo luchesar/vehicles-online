@@ -17,8 +17,8 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
   val baseUrl = s"${Config.ordnanceSurveyBaseUrl}"
 
   override protected def callWebService(postcode: String): Future[Response] = {
-    val endPoint = s"${baseUrl}/postcode?postcode=${postcodeWithNoSpaces(postcode)}&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
-    Logger.debug(s"Calling Ordnance Survey postcode lookup service on ${endPoint}...")
+    val endPoint = s"$baseUrl/postcode?postcode=${postcodeWithNoSpaces(postcode)}&dataset=dpa" // TODO add lpi to URL, but need to set organisation as Option on the type.
+    Logger.debug(s"Calling Ordnance Survey postcode lookup service on $endPoint...")
     ws.url(endPoint).withAuth(username = username, password = password, scheme = AuthScheme.BASIC).get() // TODO should we add a .withRequestTimeout()? and if yes then what time for the timeout assuming slow connections?
   }
 
@@ -40,7 +40,7 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
         }
       else {
         // Handle no results
-        Logger.debug(s"No results returned for postcode: ${postcode}")
+        Logger.debug(s"No results returned for postcode: $postcode")
         Seq.empty
       }
     }
@@ -51,7 +51,7 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
       else Seq.empty // The service returned http code other than 200
     }.recoverWith {
       case e: Throwable => Future {
-        Logger.error(s"Ordnance Survey postcode lookup service error: ${e}")
+        Logger.error(s"Ordnance Survey postcode lookup service error: $e")
         Seq.empty
       }
     }
@@ -65,8 +65,8 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
 
   override def fetchAddressForUprn(uprn: String): Future[Option[AddressViewModel]] = {
     def lookup: Future[Response] = {
-      val endPoint = s"${baseUrl}/uprn?uprn=${uprn}&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
-      Logger.debug(s"Calling Ordnance Survey uprn lookup service on ${endPoint}...")
+      val endPoint = s"$baseUrl/uprn?uprn=$uprn&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
+      Logger.debug(s"Calling Ordnance Survey uprn lookup service on $endPoint...")
       ws.url(endPoint).withAuth(username = username, password = password, scheme = AuthScheme.BASIC).get()
     }
 
@@ -82,11 +82,11 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
             case _ => ??? // TODO check if an LPI entry is present
           }
         }
-        require(results.length >= 1, s"Should be at least one address for the UPRN: ${uprn}")
+        require(results.length >= 1, s"Should be at least one address for the UPRN: $uprn")
         Some(results(0))
       }
       else {
-        Logger.error(s"No results returned by web service for submitted UPRN: ${uprn}")
+        Logger.error(s"No results returned by web service for submitted UPRN: $uprn")
         None
       }
     }
@@ -96,7 +96,7 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
       toAddressViewModel(resp)
     }.recoverWith {
       case e: Throwable => Future {
-        Logger.error(s"Ordnance Survey uprn lookup service error: ${e}")
+        Logger.error(s"Ordnance Survey uprn lookup service error: $e")
         ???
       }
     }
