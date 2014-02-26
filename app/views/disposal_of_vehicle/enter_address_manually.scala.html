@@ -7,14 +7,12 @@
 @errorsSummary(enterAddressManuallyForm)
 
     @form(action = controllers.disposal_of_vehicle.routes.EnterAddressManually.submit) {
-    <fieldset class="form-elements">
-        <ul>
-            @addressAndPostcode(enterAddressManuallyForm(mappings.common.AddressAndPostcode.id))
-        </ul>
-    </fieldset>
+
+        @addressAndPostcode(enterAddressManuallyForm(mappings.common.AddressAndPostcode.id))
+
 
         <div class="form-steps">
-            <a class="button" id="next" href="@controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit">@Messages("disposal_enteraddressmanually.backbutton")</a>
+            <a class="button button-secondary" id="next" href="@controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit">@Messages("disposal_enteraddressmanually.backbutton")</a>
             <button type="submit" name="action" class="button" aria-label="Next button">@Messages("disposal_enteraddressmanually.submitbutton")</button>
         </div>
     }

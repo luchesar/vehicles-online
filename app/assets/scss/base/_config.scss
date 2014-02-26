@@ -1,0 +1,19 @@
+// config file - trying to centralise application SASS configuration
+
+// include the '.' or '#' for the class/id
+// the wrapper class in the html should match
+$htmlNamespace: ".vehicles-online";
+
+// device widths
+$device-small: 640px;
+$device-medium: 767px;
+$device-large: 980px;
+
+// set to "alpha" or "beta" to change colours globally
+$phase: "alpha"; 
+
+// app colours
+$form-element-bg: #f9f9f9;
+$form-element-border: #a2a2a2;
+
+$error-bg: #fef7f7;

@@ -4,7 +4,7 @@
 @import utils.helpers.CryptoHelper
 @import utils.helpers.EmptyTemplate._
 
-@if(elements.hasErrors){ <li class="validation"> } else { <li> }
+@if(elements.hasErrors){ <div class="form-item validation"> } else { <li class="form-item"> }
     @if(elements.hasErrors){
         <p class="error">@elements.errors.mkString(", ")</p>
     }
@@ -18,10 +18,10 @@
     @if(elements.args.contains('helper)){
         <p class="helper">@elements.args.get('helper).get.toString</p>
     }
-</li>
+</div>
 
 @defining(elements.args.toMap.get('display).map(_.toString).getOrElse("yes") == elements.args.toMap.get('visibleOn).map(_.toString).getOrElse("yes") match {case true => "block" case _ => "none"}) { styleDisplay =>
-    <li id="@{elements.args.toMap.get('id).map(_.toString + "_wrap").getOrElse("no-id")}" class="other-detail" style="display: @styleDisplay;">
+    <div id="@{elements.args.toMap.get('id).map(_.toString + "_wrap").getOrElse("no-id")}" class="form-item form-other-detail" style="display: @styleDisplay;">
         @textarea(elements.field("other"), 'placeholder -> "If other please specify...")
-    </li>
+    </div>
 }

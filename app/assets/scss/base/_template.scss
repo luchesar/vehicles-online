@@ -1,0 +1,109 @@
+// any template related styles, ie header, footer, prototype banners, etc 
+
+// main content wrapper
+#main {
+	background:#FFF;
+	border-bottom: 10px solid phase-colour($phase);
+    margin:0;
+    padding:0;
+    display: block;
+}
+
+// coloured prototype banner
+.prototype {
+	padding: 0.7em 1em 0 1em;
+	background-color: phase-colour($phase);
+
+	@media screen and (max-width: $device-small) {
+     	margin: .9em .9em 0 .9em;
+     	padding-bottom: 0.7em;
+    }
+
+    p {
+    	margin: 0 !important;
+    	padding: 0 0 0.6em 0;
+    	line-height: 1.2em;
+    	color: #fff;
+    	font: {
+    		size: 1.5rem !important;
+    		weight: 600;
+    	}
+    	.ie & {
+		   font-size: 15px !important;
+	   	}
+    }
+
+    a, a:visited {
+    	color: #FFF;
+    	text-decoration: underline;
+    	&:hover {
+		   color: #000;
+	   	}
+    }
+
+}
+
+/* Header title */
+.header-global {
+    .page-title {
+        color: #fff;
+        font-weight: 600;
+        font-size: 2rem;
+        padding: .3em 1.5rem 0 0;
+        overflow: hidden;
+        width: auto;
+        text-align: right;
+        .ie & {
+            font-size: 20px;
+            padding-right: 15px;
+        }
+        span {
+            width: auto;
+            margin-left: .75em;
+            letter-spacing: 0.2em;
+            font-weight: 700;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            padding: 6px 10px 4px 10px;
+            position: relative;
+            top: -2px;
+            .ie & {
+                font-size: 14px;
+            }
+        }
+        &.alpha {
+          span {
+            background: phase-colour($phase);
+          }
+        }
+        &.beta {
+            span {
+                background: phase-colour($phase);
+            }
+        }
+        @media screen and (max-width: 500px) {
+            strong {
+                display: none;
+            }
+            span {
+                position: absolute;
+                top: 13px;
+                right: 13px;
+            }
+        }
+    }
+}
+
+/* Header - Global Overrides - inc !important overrides */
+html {background: #dee0e2!important;}
+#global-header #logo img {left: -211px!important;}
+#global-header .header-wrapper {padding: 0.5em 1px!important;}
+
+.carers-allowance-footer {padding-top: 30px!important; padding-bottom: 30px!important;}
+.carers-allowance-footer .footer-meta {border-top: none!important; padding-top: 0!important; padding-bottom: 0!important; margin-top: 0!important;}
+.carers-allowance-footer .footer-meta .copyright {position: relative; top: 2px;}
+#footer .footer-meta nav {
+    @media screen and (max-width: 640px) {
+        text-align: center;
+        }
+}

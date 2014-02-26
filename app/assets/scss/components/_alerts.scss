@@ -1,0 +1,86 @@
+// standard alert message
+.alert {
+  background: $light-blue-25;
+  border:3px solid darken($light-blue, 20%);
+  padding: 1em .7em;
+  margin: 1.2em 0;
+  color:darken($light-blue, 20%);
+  ol, ul, p {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1em 0;
+    a {
+      text-decoration: none;
+      color:darken($light-blue, 20%);
+      &:hover {
+        text-decoration:underline;
+      }
+    }
+  }
+  
+  h2 {
+    color:$black;
+    margin-bottom:0.4em;
+  }
+}
+
+// error alert message
+.alert-error {
+  @extend .alert;
+  border-color: $mellow-red;
+  background: $error-bg;
+  color:$mellow-red;
+  ol, ul, p {
+    a {
+      color:$mellow-red;
+    }
+  }
+}
+
+.validation {
+    background: $error-bg;
+    padding: .7em;
+    margin-left: -1.5rem;
+    border-left: 3px solid $mellow-red;
+    position: relative;
+    margin-bottom:5px;
+    .ie7 &, .ie8 & {
+        margin-left: -15px;
+    }
+    .ie6 & {
+        zoom: 1;
+    }
+
+    @media screen and (max-width: $device-large) {
+        margin-left: 0; 
+        padding-top: 1em; 
+        padding-bottom: 1em; 
+        width: auto;
+    } 
+
+    .error {
+        color: $mellow-red;
+        font-weight: 300;
+        font-size: 1.6rem;
+        padding:0;
+        margin:0 0 .5em 0;
+
+        .ie & {
+                font-size: 16px;
+        }
+
+        .ie6 & {
+                background: transparent;
+        }
+    }
+}
+
+// error summary message
+.validation-summary {
+    @extend .alert-error;
+    margin: 1em 18% 1em -1em;
+    @media screen and (max-width: $device-large) {
+        margin-right: 0;
+        margin-left:0;
+    }
+}
