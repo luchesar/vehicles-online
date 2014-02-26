@@ -1,17 +1,12 @@
 package modules
 
 import com.tzavellas.sse.guice.ScalaModule
-import services.{AddressLookupService, LoginWebService, V5cSearchWebService}
+import services._
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.Logger
 import ExecutionContext.Implicits.global
-import models.domain.change_of_address.V5cSearchConfirmationModel
-import models.domain.change_of_address.V5cSearchResponse
-import models.domain.change_of_address.LoginPageModel
-import models.domain.change_of_address.LoginResponse
-import models.domain.change_of_address.LoginConfirmationModel
-import models.domain.change_of_address.V5cSearchModel
-import models.domain.disposal_of_vehicle.{AddressViewModel, AddressLinesModel, AddressAndPostcodeModel}
+import models.domain.disposal_of_vehicle._
+import models.domain.change_of_address._
 
 /**
  * Provides fake or test implementations for traits
@@ -46,7 +41,9 @@ object TestModule extends ScalaModule {
     val address2 = AddressViewModel(uprn = Some(4567L), address = Seq("Penarth Road", "Cardiff", "CF11 8TT"))
 
     override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = Future {
-      if(postcode == FakeAddressLookupService.postcodeInvalid){ Seq.empty }
+      if (postcode == FakeAddressLookupService.postcodeInvalid) {
+        Seq.empty
+      }
       else {
         Seq(
           address1.uprn.getOrElse(1234L).toString -> address1.address.mkString(", "),
@@ -55,7 +52,9 @@ object TestModule extends ScalaModule {
       }
     }
 
-    override def fetchAddressForUprn(uprn: String): Future[Option[AddressViewModel]] = Future {Some(address1)}
+    override def fetchAddressForUprn(uprn: String): Future[Option[AddressViewModel]] = Future {
+      Some(address1)
+    }
   }
 
   object FakeAddressLookupService {
@@ -71,5 +70,6 @@ object TestModule extends ScalaModule {
     bind[V5cSearchWebService].to[FakeV5cSearchWebService]
     bind[LoginWebService].to[FakeLoginWebService]
     bind[AddressLookupService].to[FakeAddressLookupService]
+    bind[WebService].to[WebServiceImpl].asEagerSingleton
   }
 }
