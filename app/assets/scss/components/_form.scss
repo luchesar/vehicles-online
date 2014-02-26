@@ -1,9 +1,5 @@
 // all things forms
 
-form {
-	display: block;
-}
-
 legend {
 	font: {
 		size: 1.9rem;
@@ -133,7 +129,7 @@ select {
 
 }
 
-// style labels for checkboxes - useful for declarations
+// style labels for checkboxes and radio widgets
 .form-checkbox,
 .form-radio {
 	position:relative;
@@ -149,6 +145,7 @@ select {
 	}
 }
 
+// styles form elements in a line
 .form-inline {
    	.form-item {
    		display: inline-block;
@@ -177,6 +174,7 @@ select {
    	}
 }
 
+// styles a stacked address widget
 .form-address-stack {
    	label {
 	   	@include sr-only;
@@ -190,6 +188,7 @@ select {
    	}
 }
 
+// styles a national insurance number widget
 .form-ni-number {
 	label {
 		@include sr-only;
@@ -201,6 +200,7 @@ select {
 	}
 }
 
+// helper text beneath a form element
 .helper {
 	font: {
 		size:1.6rem;
@@ -217,7 +217,7 @@ select {
    	}
 }
 
-/* button panel */
+// container for action buttons at the base of a page
 .form-steps {
    margin-top: 1.2em;
    clear: both;
