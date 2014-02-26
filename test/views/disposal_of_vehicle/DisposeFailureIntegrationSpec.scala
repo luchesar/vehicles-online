@@ -10,25 +10,36 @@ class DisposeFailureIntegrationSpec extends Specification with Tags {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
-      DisposePage.setupCache
-      browser.goTo(DisposeFailure.url)
+      BusinessChooseYourAddressPage.setupCache()
+      VehicleLookupPage.setupCache()
+      DisposePage.setupCache()
+      browser.goTo(DisposeFailurePage.url)
 
       // Assert
-      titleMustEqual(DisposeFailure.title)
+      titleMustEqual(DisposeFailurePage.title)
     }
 
-    "go to vehicle lookup when button clicked" in new WithBrowser with BrowserMatchers {
+    "redirect to vehiclelookup when button clicked" in new WithBrowser with BrowserMatchers {
       // Arrange
-      browser.goTo(DisposeFailure.url)
+      SetUpTradeDetailsPage.setupCache()
+      BusinessChooseYourAddressPage.setupCache()
+      VehicleLookupPage.setupCache()
+      DisposePage.setupCache()
+      browser.goTo(DisposeFailurePage.url)
 
       // Act
       browser.click("#next")
 
       // Assert
+      titleMustEqual(VehicleLookupPage.title)
+    }
+
+    "redirect to setuptraderdetails page when no details are cached" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      browser.goTo(DisposeFailurePage.url)
+
+      // Assert
       titleMustEqual(SetUpTradeDetailsPage.title)
-      //ToDo this needs to look at vehicle lookup page once cache is passed to controller
     }
   }
 }

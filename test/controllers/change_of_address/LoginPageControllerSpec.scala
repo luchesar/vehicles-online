@@ -6,16 +6,16 @@ import org.scalatest.{Matchers, WordSpec}
 import models.domain.change_of_address.LoginPageModel
 import org.mockito.Mockito._
 import org.mockito.Matchers._
-import modules.TestModule.FakeLoginWebService
 import org.scalatest.mock.MockitoSugar
-import helpers.change_of_address.{LoginConfirmationPage, LoginPagePopulate}
+import helpers.change_of_address.LoginConfirmationPage
 import helpers.change_of_address.Helper._
+import services.fakes.FakeLoginWebService
 
 class LoginPageControllerSpec extends WordSpec with Matchers with MockitoSugar {
   "LoginPage - Controller" should {
     val mockLoginPageModel = mock[LoginPageModel]
     val mockWebService = mock[services.LoginWebService]
-    when(mockWebService.invoke(any[LoginPageModel])).thenReturn(FakeLoginWebService().invoke(mockLoginPageModel))
+    when(mockWebService.invoke(any[LoginPageModel])).thenReturn(new FakeLoginWebService().invoke(mockLoginPageModel))
     val loginPage = new controllers.change_of_address.LoginPage(mockWebService)
 
 
