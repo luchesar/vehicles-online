@@ -89,3 +89,6 @@ POST        /disposal-of-vehicle/dispose-confirmation           controllers.disp
 GET         /disposal-of-vehicle/dispose-failure                controllers.disposal_of_vehicle.DisposeFailure.present
 POST        /disposal-of-vehicle/dispose-failure                controllers.disposal_of_vehicle.DisposeFailure.submit
 
+GET         /disposal-of-vehicle/vehicle-lookup-failure         controllers.disposal_of_vehicle.VehicleLookupFailure.present
+POST        /disposal-of-vehicle/vehicle-lookup-failure         controllers.disposal_of_vehicle.VehicleLookupFailure.submit
+
