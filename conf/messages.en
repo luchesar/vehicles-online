@@ -283,6 +283,12 @@ disposal_disposeconfirmation.disposaldate = Disposal date
 disposal_disposeconfirmation.mileage = Mileage
 disposal_disposeconfirmation.noMileageEntered = No mileage entered
 
+#page 7 - dispose failure
+disposal_disposefailure.title = Dispose a vehicle into the motor trade: failure
+disposal_disposefailure.name = Failure
+disposal_disposefailure.p1 = It has not been possible to complete your transaction. Please call 0300 790 6802
+disposal_disposefailure.button = Vehicle Lookup
+
 error.address.line1Required = Address needs at least the first line filled in
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode

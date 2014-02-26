@@ -1,0 +1,16 @@
+@()(implicit lang: Lang)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main(Messages("disposal_disposefailure.title")){
+
+<p>@Messages("disposal_disposefailure.p1")</p><br>
+
+
+<div class="form-steps">
+    @{ /* Note the reverse routing syntax for the hyperlink */ }
+    <a class="button" id="next" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.submit">@Messages("disposal_disposefailure.button")</a>
+</div>
+
+}
