@@ -10,17 +10,17 @@ import LoginCachePopulate._
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import models.domain.change_of_address.V5cSearchModel
-import modules.TestModule.FakeV5cSearchWebService
 import org.scalatest.mock.MockitoSugar
 import helpers.change_of_address.Helper._
 import helpers.change_of_address.{AreYouRegisteredPage, ConfirmVehicleDetailsPage}
+import services.fakes.FakeV5cSearchWebService
 
 class V5cSearchControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
   "V5cSearch - Controller" should {
     val mockV5cSearchModel = mock[V5cSearchModel]
     val mockWebService = mock[services.V5cSearchWebService]
-    when(mockWebService.invoke(any[V5cSearchModel])).thenReturn(FakeV5cSearchWebService().invoke(mockV5cSearchModel))
+    when(mockWebService.invoke(any[V5cSearchModel])).thenReturn(new FakeV5cSearchWebService().invoke(mockV5cSearchModel))
     val vehicleSearch = new VehicleSearch(mockWebService)
 
     "present when user has logged in" in new WithApplication {
