@@ -40,7 +40,7 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
         }
       else {
         // Handle no results
-        Logger.debug(s"No results returned for postcode: ${postcode}");
+        Logger.debug(s"No results returned for postcode: ${postcode}")
         Seq.empty
       }
     }
