@@ -33,7 +33,6 @@ class LoginPage @Inject() (webService: services.LoginWebService) extends Control
         },
         loginPageForm => { // TODO this is not really a form, it is a model. We need to rename in all controllers.
           Logger.debug("LoginPage form validation has passed")
-          Logger.debug("LoginPage calling login micro service...")
           confirmLogin(webService, loginPageForm)
         }
       )

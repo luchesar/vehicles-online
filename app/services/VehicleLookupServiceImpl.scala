@@ -1,0 +1,36 @@
+package services
+
+import models.domain.change_of_address._
+import play.api.libs.json.Json
+import play.api.libs.ws.WS
+import play.api.Logger
+import scala.concurrent.{ExecutionContext, Future}
+import ExecutionContext.Implicits.global
+import utils.helpers.Config
+import models.domain.disposal_of_vehicle._
+import models.domain.change_of_address.LoginPageModel
+import models.domain.change_of_address.LoginResponse
+import models.domain.change_of_address.LoginConfirmationModel
+import models.domain.disposal_of_vehicle.VehicleDetailsResponse
+import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import models.domain.disposal_of_vehicle.VehicleDetailsModel
+
+class VehicleLookupServiceImpl() extends VehicleLookupService {
+  implicit val addressViewModel = Json.reads[AddressViewModel]
+  implicit val vehicleDetailsModel = Json.reads[VehicleDetailsModel]
+  implicit val vehicleDetailsResponse = Json.reads[VehicleDetailsResponse]
+  implicit val vehicleLookupFormModel = Json.writes[VehicleLookupFormModel]
+
+  override def invoke(cmd: VehicleLookupFormModel): Future[VehicleDetailsResponse] = {
+    val endPoint = s"${Config.microServiceBaseUrl}/vehicle-lookup"
+    Logger.debug(s"Calling vehicle lookup micro service on ${endPoint}...")
+    val futureOfResponse = WS.url(endPoint).post(Json.toJson(cmd))
+
+    futureOfResponse.map {
+      resp =>
+        Logger.debug(s"Http response code from vehicle lookup micro service was: ${resp.status}")
+        resp.json.as[VehicleDetailsResponse]
+    }
+  }
+}
+
