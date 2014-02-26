@@ -9,6 +9,9 @@
     list-style: none;
     padding: 0;
     margin: 0 0 1em 0;
+    &:last-child {
+	    margin-bottom:0;
+    }
     a {
       text-decoration: none;
       color:darken($light-blue, 20%);
