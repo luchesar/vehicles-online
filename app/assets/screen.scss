@@ -1,0 +1,17 @@
+// Main scss file, no scss/css should be written here
+// If new styles need to be added, consider an existing component,
+// or if one doesn't exist, create one and import it below.
+
+@import "scss/base/_colours.scss";
+@import "scss/base/_css3.scss";
+@import "scss/base/_shims.scss";
+@import "scss/base/_typography.scss";
+@import "scss/base/_utilities.scss";
+@import "scss/base/_config.scss";
+@import "scss/base/_template.scss";
+
+@import "scss/components/_form.scss";
+@import "scss/components/_alerts.scss";
+@import "scss/components/_button.scss";
+
+@import "scss/custom/_app.scss";

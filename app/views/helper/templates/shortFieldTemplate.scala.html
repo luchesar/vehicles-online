@@ -2,7 +2,7 @@
 
 @import utils.helpers.CryptoHelper
 
-@if(elements.hasErrors){ <li class="short-field validation"> } else { <li class="short-field"> }
+@if(elements.hasErrors){ <div class="form-item form-short-field validation"> } else { <li class="form-item form-short-field"> }
 
     @if(elements.hasErrors){
         <p class="error">@elements.errors.mkString(", ")</p>
@@ -20,4 +20,4 @@
     @if(elements.args.contains('helperBelow)) {
         <p class="helper">@Html(elements.args.get('helperBelow).get.toString)</p>
     }
-</li>
+</div>

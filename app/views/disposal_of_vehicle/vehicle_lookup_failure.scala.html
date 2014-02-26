@@ -1,16 +1,18 @@
-@()(implicit lang: Lang)
+@(data: models.domain.disposal_of_vehicle.VehicleDetailsModel)(implicit lang: Lang)
 
 @import helper._
 @import helper.twitterBootstrap._
 
 @main(Messages("disposal_vehiclelookupfailure.title")){
 
+
 <p>@Messages("disposal_vehiclelookupfailure.p1")</p><br>
 
 
 <div class="form-steps">
     @{ /* Note the reverse routing syntax for the hyperlink */ }
-    <a class="button" id="next" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.submit">@Messages("disposal_vehiclelookupfailure.button")</a>
+    <a class="button" id="vehiclelookup" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present">@Messages("disposal_vehiclelookupfailure.button")</a>
+    <a class="button" id="setuptradedetails" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.present">@Messages("disposal_vehiclelookupfailure.button2")</a>
 </div>
 
 }

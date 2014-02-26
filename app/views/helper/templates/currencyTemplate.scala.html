@@ -2,6 +2,6 @@
 
 @import utils.helpers._
 
-@if(elements.hasErrors){ <li class="validation currency"> } else { <li class="currency"> }
+@if(elements.hasErrors){ <div class="form-item form-currency validation"> } else { <li class="form-item form-currency"> }
     @commonTemplate(elements)
-</li>
+</div>

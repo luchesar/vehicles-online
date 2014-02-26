@@ -5,11 +5,11 @@ import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.VehicleLookup._
-import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetUpTradeDetailsPage, DisposePage}
+import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetUpTradeDetailsPage, DisposePage, VehicleLookupFailurePage}
 import helpers.disposal_of_vehicle.Helper._
 
 class VehicleLookupControllerSpec extends WordSpec with Matchers {
-  "BeforeYouStart - Controller" should {
+  "VehicleLookup - Controller" should {
     "present" in new WithApplication {
       // Arrange
       SetUpTradeDetailsPage.setupCache()

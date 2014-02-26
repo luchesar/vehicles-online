@@ -5,7 +5,7 @@
 @if(form.hasErrors) {
     <div class="validation-summary">
         <h2>@Messages("errorsummary.title")</h2>
-        <p>@Messages("errorsummary.p1")</p>
+        @{/*<p>@Messages("errorsummary.p1")</p>*/}
 
         <ol>
             @for(error <- form.errors) {

@@ -9,10 +9,7 @@ class DisposeFailureIntegrationSpec extends Specification with Tags {
   "DisposeFailureIntegration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.setupCache()
-      DisposePage.setupCache()
+      DisposeFailurePage.cacheSetupHappyPath
       browser.goTo(DisposeFailurePage.url)
 
       // Assert
@@ -21,17 +18,26 @@ class DisposeFailureIntegrationSpec extends Specification with Tags {
 
     "redirect to vehiclelookup when button clicked" in new WithBrowser with BrowserMatchers {
       // Arrange
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.setupCache()
-      DisposePage.setupCache()
+      DisposeFailurePage.cacheSetupHappyPath
       browser.goTo(DisposeFailurePage.url)
 
       // Act
-      browser.click("#next")
+      browser.click("#vehiclelookup")
 
       // Assert
       titleMustEqual(VehicleLookupPage.title)
+    }
+
+    "redirect to setuptradedetails when button clicked" in new WithBrowser with BrowserMatchers {
+      // Arrange
+      DisposeFailurePage.cacheSetupHappyPath
+      browser.goTo(DisposeFailurePage.url)
+
+      // Act
+      browser.click("#setuptradedetails")
+
+      // Assert
+      titleMustEqual(SetUpTradeDetailsPage.title)
     }
 
     "redirect to setuptraderdetails page when no details are cached" in new WithBrowser with BrowserMatchers {
