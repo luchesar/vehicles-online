@@ -231,6 +231,11 @@ disposal_disposefailure.name = Methiant
 disposal_disposefailure.p1 = Nid yw wedi bod yn bosibl i gwblhau eich trafodiad. Ffoniwch 0300 790 6802
 disposal_disposefailure.button = Am-edrych gerbyd
 
+disposal_vehiclelookupfailure.title = Cael gwared cerbyd i mewn i'r fasnach foduron: methiant Gwrthdro-edrych gerbyd
+disposal_vehiclelookupfailure.name = Methiant
+disposal_vehiclelookupfailure.p1 = Nid yw wedi bod yn bosibl i ddod o hyd cerbyd hwn. Os gwelwch yn dda ceisiwch eto
+disposal_vehiclelookupfailure.button = Am-edrych gerbyd
+
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda
 errorsummary.p1 = Trwsiwch y canlynol:
