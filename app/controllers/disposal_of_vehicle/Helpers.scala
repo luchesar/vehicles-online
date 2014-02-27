@@ -2,7 +2,7 @@ package controllers.disposal_of_vehicle
 
 import play.api.cache.Cache
 import play.api.Play.current
-import models.domain.disposal_of_vehicle.{SetupTradeDetailsModel, DisposeFormModel, VehicleDetailsModel, DealerDetailsModel}
+import models.domain.disposal_of_vehicle.{SetupTradeDetailsModel, DisposeFormModel, VehicleDetailsModel, DealerDetailsModel, VehicleLookupFormModel}
 import models.DayMonthYear
 import play.api.Logger
 
@@ -32,5 +32,10 @@ object Helpers {
   def fetchTraderDetailsFromCache: Option[SetupTradeDetailsModel] = {
     val key = mappings.disposal_of_vehicle.SetupTradeDetails.cacheKey
     Cache.getAs[SetupTradeDetailsModel](key)
+  }
+
+  def fetchVehicleLookupDetailsFromCache: Option[VehicleLookupFormModel] = {
+    val key = "vehicleLookupFormModel"
+    Cache.getAs[VehicleLookupFormModel](key)
   }
 }
