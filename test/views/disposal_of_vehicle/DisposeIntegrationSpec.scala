@@ -18,7 +18,7 @@ class DisposeIntegrationSpec extends Specification with Tags {
       titleMustEqual(DisposePage.title)
     }
 
-    "display the next page when mandatory data is entered and dispose button is clicked" in new WithBrowser with BrowserMatchers {
+    "redirect when no vehiclelookupformmodel is cached" in new WithBrowser with BrowserMatchers {
       // Fill in mandatory data
       SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
@@ -26,7 +26,7 @@ class DisposeIntegrationSpec extends Specification with Tags {
       DisposePage.happyPath(browser)
 
       // Verify we have moved to the next screen
-      titleMustEqual(DisposeSuccessPage.title)
+      titleMustEqual(SetUpTradeDetailsPage.title)
     }
 
     "redirect when no traderBusinessName is cached" in new WithBrowser with BrowserMatchers {
@@ -92,5 +92,6 @@ class DisposeIntegrationSpec extends Specification with Tags {
       titleMustEqual(VehicleLookupPage.title)
     }
 
+    //TODO need to write tests for disposesuccess and disposefail
   }
 }
