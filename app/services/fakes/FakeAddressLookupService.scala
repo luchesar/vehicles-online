@@ -12,7 +12,9 @@ import services.ordnance_survey.domain.OSAddressbaseResult
  * Fake implementation of the FakeAddressLookupService trait
  */
 class FakeAddressLookupService @Inject()(ws: services.WebService) extends AddressLookupService {
-  override protected def callWebService(postcode: String): Future[Response] = ???
+  override protected def callPostcodeWebService(postcode: String): Future[Response] = ???
+
+  override protected def callUprnWebService(postcode: String): Future[Response] = ???
 
   override protected def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = ???
 

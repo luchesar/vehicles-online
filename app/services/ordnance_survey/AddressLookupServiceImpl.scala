@@ -17,10 +17,17 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
   val baseUrl = s"${Config.ordnanceSurveyBaseUrl}"
 
   // Call the real web service.
-  override protected def callWebService(postcode: String): Future[Response] = {
+  override protected def callPostcodeWebService(postcode: String): Future[Response] = {
     val endPoint = s"$baseUrl/postcode?postcode=${postcodeWithNoSpaces(postcode)}&dataset=dpa" // TODO add lpi to URL, but need to set organisation as Option on the type.
     Logger.debug(s"Calling Ordnance Survey postcode lookup service on $endPoint...")
     ws.url(endPoint).withAuth(username = username, password = password, scheme = AuthScheme.BASIC).get() // TODO should we add a .withRequestTimeout()? and if yes then what time for the timeout assuming slow connections?
+  }
+
+  // Call the real web service.
+  override protected def callUprnWebService(uprn: String): Future[Response] = {
+    val endPoint = s"$baseUrl/uprn?uprn=$uprn&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
+    Logger.debug(s"Calling Ordnance Survey uprn lookup service on $endPoint...")
+    ws.url(endPoint).withAuth(username = username, password = password, scheme = AuthScheme.BASIC).get()
   }
 
   override def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = {
@@ -37,13 +44,15 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
     def toUprnsAndAddresses(resp: Response): Seq[(String, String)] = {
       val results = extractFromJson(resp)
 
-      if (results.isDefined)
-        results.get.map { address =>
+      if (results.isDefined){
+        val extractedAddressKeyValues = results.get.map { address =>
           address.DPA match {
-            case Some(dpa) => (dpa.UPRN, dpa.address)
-            case _ => ??? // TODO check if an LPI entry is present
+            case Some(dpa) => Some((dpa.UPRN, dpa.address))
+            case _ => None // TODO check if an LPI entry is present
           }
         }
+        extractedAddressKeyValues.flatten // Remove any "None" entries.
+      }
       else {
         // Handle no results
         Logger.debug(s"No results returned for postcode: $postcode")
@@ -51,7 +60,7 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
       }
     }
 
-    callWebService(postcode).map { resp =>
+    callPostcodeWebService(postcode).map { resp =>
       Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}")
       if (resp.status == play.api.http.Status.OK) toUprnsAndAddresses(resp).sortBy(x => x._1) // Sort by UPRN. TODO check with BAs how they would want to sort the list
       else Seq.empty // The service returned http code other than 200
@@ -63,33 +72,26 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
     }
   }
 
-  private def postcodeWithNoSpaces(postcode: String): String = {
+  def postcodeWithNoSpaces(postcode: String): String = {
     val space = ' '
     postcode.filter(_ != space)
   }
 
 
   override def fetchAddressForUprn(uprn: String): Future[Option[AddressViewModel]] = {
-    def lookup: Future[Response] = {
-      val endPoint = s"$baseUrl/uprn?uprn=$uprn&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
-      Logger.debug(s"Calling Ordnance Survey uprn lookup service on $endPoint...")
-      ws.url(endPoint).withAuth(username = username, password = password, scheme = AuthScheme.BASIC).get()
-    }
-
     // Extract result from response and return as a view model.
     def toAddressViewModel(resp: Response) = {
-      Logger.debug(s"Http response code from Ordnance Survey uprn lookup service was: ${resp.status}")
-      val body = resp.json.as[OSAddressbaseSearchResponse]
+      val results = extractFromJson(resp)
 
-      if (body.results.isDefined) {
-        val results = body.results.get.map { address =>
+      if (results.isDefined) {
+        val addressViewModels = results.get.map { address =>
           address.DPA match {
-            case Some(dpa) => AddressViewModel(uprn = Some(dpa.UPRN.toLong), address = dpa.address.split(","))
-            case _ => ??? // TODO check if an LPI entry is present
+            case Some(dpa) => Some(AddressViewModel(uprn = Some(dpa.UPRN.toLong), address = dpa.address.split(",")))
+            case _ => None // TODO check if an LPI entry is present
           }
-        }
-        require(results.length >= 1, s"Should be at least one address for the UPRN: $uprn")
-        Some(results(0))
+        }.flatten
+        require(addressViewModels.length >= 1, s"Should be at least one address for the UPRN: $uprn")
+        Some(addressViewModels.head)
       }
       else {
         Logger.error(s"No results returned by web service for submitted UPRN: $uprn")
@@ -97,13 +99,14 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
       }
     }
 
-
-    lookup.map { resp =>
-      toAddressViewModel(resp)
+    callUprnWebService(uprn).map { resp =>
+      Logger.debug(s"Http response code from Ordnance Survey uprn lookup service was: ${resp.status}")
+      if (resp.status == play.api.http.Status.OK) toAddressViewModel(resp)
+      else None
     }.recoverWith {
       case e: Throwable => Future {
         Logger.error(s"Ordnance Survey uprn lookup service error: $e")
-        ???
+        None
       }
     }
   }

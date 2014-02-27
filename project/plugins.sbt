@@ -13,6 +13,6 @@ addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.2.1")
 
 addSbtPlugin("net.litola" % "play-sass" % "0.3.0")
 
-addSbtPlugin("de.johoop" % "jacoco4sbt" % "2.1.2")
+addSbtPlugin("de.johoop" % "jacoco4sbt" % "2.1.4")
 
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "0.4.0")

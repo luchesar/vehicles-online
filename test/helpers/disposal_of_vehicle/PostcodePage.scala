@@ -7,7 +7,8 @@ import Postcode.postcodeId
 object PostcodePage {
   val url = "/vehicles/postcode"
   val title = "Vehicles: Postcode"
-  val postcodeValid = "SE1 6EH"
+  val postcodeValid = "SE16EH"
+  val postcodeValidWithSpace = "SE1 6EH"
 
   def happyPath(browser: TestBrowser) {
     browser.goTo(url)

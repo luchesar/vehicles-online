@@ -4,7 +4,6 @@ import org.scalatest.{Matchers, WordSpec}
 import org.scalatest.mock.MockitoSugar
 import mappings.common.{Postcode, AddressLines, AddressAndPostcode}
 import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
-import scala.Some
 import mappings.common.AddressLines._
 import helpers.disposal_of_vehicle.PostcodePage._
 import Postcode._
@@ -13,7 +12,7 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
   "EnterAddressManually Form" should {
 
 
-    def addressFiller(line1: String = line1Valid,line2: String = line2Valid,line3: String = line3Valid,line4: String = line4Valid,postcode: String = postcodeValid) = {
+    def addressFiller(line1: String = line1Valid, line2: String = line2Valid, line3: String = line3Valid, line4: String = line4Valid, postcode: String = postcodeValid) = {
       EnterAddressManually.form.bind(
         Map(
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1,
@@ -32,7 +31,7 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
           f.addressAndPostcodeModel.addressLinesModel.line1 should equal(Some(line1Valid))
           f.addressAndPostcodeModel.addressLinesModel.line2 should equal(Some(line2Valid))
           f.addressAndPostcodeModel.addressLinesModel.line3 should equal(Some(line3Valid))
-          f.addressAndPostcodeModel.postcode should equal(postCodeValid)
+          f.addressAndPostcodeModel.postcode should equal(postcodeValid)
         }
       )
     }
@@ -42,7 +41,7 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
         formWithErrors => fail(s"These errors should not occur: ${formWithErrors.errors}"),
         f => {
           f.addressAndPostcodeModel.addressLinesModel.line1 should equal(Some(line1Valid))
-          f.addressAndPostcodeModel.postcode should equal(postCodeValid)
+          f.addressAndPostcodeModel.postcode should equal(postcodeValid)
         }
       )
     }
@@ -56,7 +55,7 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
           f.addressAndPostcodeModel.addressLinesModel.line2 should equal(Some(line2Valid))
           f.addressAndPostcodeModel.addressLinesModel.line3 should equal(Some(line3Valid))
           f.addressAndPostcodeModel.addressLinesModel.line4 should equal(Some(line4Valid))
-          f.addressAndPostcodeModel.postcode should equal(postCodeValid)
+          f.addressAndPostcodeModel.postcode should equal(postcodeValid)
         }
       )
     }
@@ -92,7 +91,7 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
     "reject if postcode contains special characters" in {
       addressFiller(postcode = "SA99 2L$").fold(
         formWithErrors => formWithErrors.errors.length should equal(1),
-          f => fail("An error should occur")
+        f => fail("An error should occur")
       )
     }
 
