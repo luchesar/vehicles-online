@@ -83,8 +83,17 @@
 .validation-summary {
     @extend .alert-error;
     margin: 1em 18% 1em -1em;
+    
     @media screen and (max-width: $device-large) {
         margin-right: 0;
         margin-left:0;
     }
+    
+    ol, ul {
+	    padding-left:2.2em !important;
+	    @media screen and (max-width: $device-small) {
+	    	padding-left:0 !important;
+	    }
+    }
+    
 }
