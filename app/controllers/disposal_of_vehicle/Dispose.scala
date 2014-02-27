@@ -17,8 +17,9 @@ import models.domain.disposal_of_vehicle.DealerDetailsModel
 import models.domain.disposal_of_vehicle.DisposeFormModel
 import scala.Some
 import models.domain.disposal_of_vehicle.DisposeViewModel
+import com.google.inject.Inject
 
-object Dispose extends Controller {
+class Dispose @Inject() (webService: services.DisposeService)  extends Controller {
 
   val disposeForm = Form(
     mapping(

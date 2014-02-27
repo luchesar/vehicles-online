@@ -3,12 +3,24 @@ package controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.Dispose._
 import helpers.disposal_of_vehicle.Helper._
+import models.domain.disposal_of_vehicle.DisposeModel
+import org.mockito.Mockito._
+import models.domain.disposal_of_vehicle.DisposeModel
+import org.mockito.Matchers._
+import models.domain.disposal_of_vehicle.DisposeModel
+import services.fakes.FakeDisposeService
+import controllers.disposal_of_vehicle
+import org.scalatest.mock.MockitoSugar
 
-class DisposeFormSpec extends WordSpec with Matchers {
+class DisposeFormSpec extends WordSpec with Matchers with MockitoSugar {
   "Dispose Form" should {
+    val mockDisposeModel = mock[DisposeModel]
+    val mockWebService = mock[services.DisposeService]
+    when(mockWebService.invoke(any[DisposeModel])).thenReturn(new FakeDisposeService().invoke(mockDisposeModel))
+    val dispose = new disposal_of_vehicle.Dispose(mockWebService)
 
     def disposeFormFiller(consent: String, mileage: String, day: String, month: String, year: String) = {
-      Dispose.disposeForm.bind(
+      dispose.disposeForm.bind(
         Map(
           consentId -> consent,
           mileageId -> mileage,
