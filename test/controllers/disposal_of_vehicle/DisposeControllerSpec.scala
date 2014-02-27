@@ -39,7 +39,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       status(result) should equal(OK)
     }
 
-    "redirect to next page after the dispose button is clicked" in new WithApplication {
+    "redirect to setupTradeDetails after the dispose button is clicked and no vehiclelookupformmodel is cached" in new WithApplication {
       // Arrange
       SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
@@ -56,7 +56,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some(DisposeSuccessPage.url))
+      redirectLocation(result) should equal (Some(SetUpTradeDetailsPage.url))
     }
 
     "redirect to setupTradeDetails page when previous pages have not been visited" in new WithApplication {

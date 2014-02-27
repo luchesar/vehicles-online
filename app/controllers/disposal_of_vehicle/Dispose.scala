@@ -15,11 +15,16 @@ import play.api.Play.current
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.DealerDetailsModel
 import models.domain.disposal_of_vehicle.DisposeFormModel
+import models.domain.disposal_of_vehicle.DisposeModel
 import scala.Some
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import com.google.inject.Inject
+import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
+import ExecutionContext.Implicits.global
+import play.api.mvc._
 
-class Dispose @Inject() (webService: services.DisposeService)  extends Controller {
+class Dispose @Inject()(webService: services.DisposeService) extends Controller {
 
   val disposeForm = Form(
     mapping(
@@ -44,29 +49,45 @@ class Dispose @Inject() (webService: services.DisposeService)  extends Controlle
     }
   }
 
-  def submit = Action {
+  def submit = Action.async {
     implicit request => {
       Logger.debug("Submitted dispose form...")
       disposeForm.bindFromRequest.fold(
         formWithErrors => {
-          (fetchDealerDetailsFromCache, fetchVehicleDetailsFromCache) match {
-            case (Some(dealerDetails), Some(vehicleDetails)) =>
-              val disposeViewModel = fetchData(dealerDetails, vehicleDetails)
-              BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithErrors))
-            case _ =>
-              Logger.error("could not find dealer details in cache on Dispose submit")
-              Redirect(routes.SetUpTradeDetails.present)
+          Future {
+            (fetchDealerDetailsFromCache, fetchVehicleDetailsFromCache) match {
+              case (Some(dealerDetails), Some(vehicleDetails)) =>
+                val disposeViewModel = fetchData(dealerDetails, vehicleDetails)
+                BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithErrors))
+              case _ =>
+                Logger.error("could not find dealer details in cache on Dispose submit")
+                Redirect(routes.SetUpTradeDetails.present)
+            }
           }
         },
         f => {
           storeDateOfDisposalInCache(f)
           Logger.debug(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
-          Redirect(routes.DisposeSuccess.present)}
+
+
+          fetchVehicleLookupDetailsFromCache match {
+            //TODO could be moved inside disposeAction
+            case Some(vehicleLookupFormModel) => {
+              val disposeModel = DisposeModel(v5cReferenceNumber = vehicleLookupFormModel.v5cReferenceNumber, v5cRegistrationNumber = vehicleLookupFormModel.v5cRegistrationNumber, v5cKeeperName = vehicleLookupFormModel.v5cKeeperName, v5cPostcode = vehicleLookupFormModel.v5cPostcode)
+              disposeAction(webService, disposeModel)
+            }
+            case _ => Future {
+              Logger.error("could not find dealer details in cache on Dispose submit")
+              Redirect(routes.SetUpTradeDetails.present)
+            }
+          }
+        }
+
       )
     }
   }
 
-  private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel  = {
+  private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {
     DisposeViewModel(vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
       keeperName = vehicleDetails.keeperName,
@@ -81,4 +102,19 @@ class Dispose @Inject() (webService: services.DisposeService)  extends Controlle
     play.api.cache.Cache.set(key, value)
     Logger.debug(s"Dispose - stored disposeFromModel in cache: key = $key, value = $f")
   }
+
+  private def disposeAction(webService: services.DisposeService, model: DisposeModel): Future[SimpleResult] = {
+    webService.invoke(model).map {
+      resp =>
+        Logger.debug(s"Dispose Web service call successful - response = ${resp}")
+        if (resp.success) Redirect(routes.DisposeSuccess.present)
+        else Redirect(routes.DisposeFailure.present)
+    }.recoverWith {
+      case e: Throwable => Future {
+        Logger.debug(s"Web service call failed. Exception: ${e}")
+        BadRequest("The remote server didn't like the request.")
+      }
+    }
+  }
+
 }

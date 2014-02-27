@@ -45,11 +45,12 @@
 	
 	input[type="text"], 
 	input[type="number"], 
-	input[type="tel"], 
+	input[type="tel"],
+	input[type="password"], 
+	input[type="search"],
 	textarea {
 	    background: $form-element-bg;
-		//border: 1px solid $form-element-border;
-		border:1px inset #BFC1C3;
+		border:1px inset $form-element-border;
 		font: {
 			size:1.9rem;
 			weight: 400;
@@ -81,12 +82,12 @@
 	
 		&.datepicker {
 			cursor: pointer;
-			background: #f9f9f9 url('images/calendar-icon.png') 97% 50% no-repeat;
+			background: $form-element-bg url(#{$image-path}calendar-icon.png) 97% 50% no-repeat;
 			position: relative;
 			z-index: 20;
 			.ie7 & {
 				cursor: auto;
-				background: #f9f9f9;
+				background: $form-element-bg;
 			}
 		}
 	}
@@ -109,7 +110,7 @@
 	   font-size: 1.5rem;
 	   height: 33px;
 	   background: $form-element-bg;
-	   border:1px inset #BFC1C3;
+	   border:1px inset $form-element-border;
 	   vertical-align: middle;
 	   max-width: 100%;
 	
@@ -152,7 +153,10 @@
 	.form-inline {
 	   	.form-item {
 	   		display: inline-block;
-	   		margin-right:5px;
+	   		margin: {
+	   			right:5px;
+	   			bottom:0;
+	   		}
 	   		.ie7 & {
 		   		display: inline;
 		   		float:left;
@@ -222,8 +226,10 @@
 	
 	// container for action buttons at the base of a page
 	.form-steps {
-	   margin-top: 1.2em;
+	   margin-top: 2.2em;
 	   clear: both;
+	   
+	   @include clearfix;
 	   @media screen and (max-width: $device-small) {
 	   		padding-left: 0;
 	   	}
@@ -239,8 +245,9 @@
 			   padding: .4em 1em;
 		   }
 	   }
-	   	.button {
+	   	a, input, button {
 	   		display: inline-block;
+	   		vertical-align: middle;
 	   		
 	   		@media screen and (max-width: $device-small) {
 	   			display: block;
