@@ -91,6 +91,21 @@
 	   }
 	   
     }
+    
+    // secondary button (usually grey)
+	.button-warning {
+	   @extend %button;
+	   @include box-shadow(0 2px 0 darken($red, 25%));
+	   background: $red;
+	   color:$white;
+	   
+	   &:hover,
+	   &:active {
+		   background: darken($red, 5%);
+		   color: $white;
+	   }
+	   
+    }
 	
 	// button that looks like a text link
 	.button-text {
