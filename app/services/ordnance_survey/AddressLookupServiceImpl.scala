@@ -16,6 +16,7 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
   val password = s"${Config.ordnanceSurveyPassword}"
   val baseUrl = s"${Config.ordnanceSurveyBaseUrl}"
 
+  // Call the real web service.
   override protected def callWebService(postcode: String): Future[Response] = {
     val endPoint = s"$baseUrl/postcode?postcode=${postcodeWithNoSpaces(postcode)}&dataset=dpa" // TODO add lpi to URL, but need to set organisation as Option on the type.
     Logger.debug(s"Calling Ordnance Survey postcode lookup service on $endPoint...")
@@ -23,8 +24,13 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
   }
 
   override def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = {
-    val oSAddressbaseSearchResponse = resp.json.as[OSAddressbaseSearchResponse]
-    oSAddressbaseSearchResponse.results
+    try {
+      val oSAddressbaseSearchResponse = resp.json.as[OSAddressbaseSearchResponse]
+      oSAddressbaseSearchResponse.results
+    }
+    catch {
+      case e: Throwable => None
+    }
   }
 
   override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = {

@@ -49,4 +49,28 @@ object OSAddressbaseDPA {
       (__ \ "MATCH").read[Float] and
       (__ \ "MATCH_DESCRIPTION").read[String]
     )(OSAddressbaseDPA.apply _)
+
+  implicit val implicitFooWrites = new Writes[OSAddressbaseDPA] {
+    def writes(foo: OSAddressbaseDPA): JsValue = Json.obj(
+      "UPRN" -> foo.UPRN,
+      "ADDRESS" -> foo.address,
+      "PO_BOX_NUMBER" -> foo.poBoxNumber,
+      "ORGANISATION_NAME" -> foo.organisationName,
+      "DEPARTMEMT_NAME" -> foo.departmentName,
+      "SUB_BUILDING_NAME" -> foo.subBuildingName,
+      "BUILDING_NAME" -> foo.buildingName,
+      "BUILDING_NUMBER" -> foo.buildingNumber,
+      "DEPENDENT_THOROUGHFARE_NAME" -> foo.dependentThoroughfareName,
+      "THOROUGHFARE_NAME" -> foo.thoroughfareName,
+      "DOUBLE_DEPENDENT_LOCALITY" -> foo.doubleDependentLocality,
+      "DEPENDENT_LOCALITY" -> foo.dependentLocality,
+      "POST_TOWN" -> foo.postTown,
+      "POSTCODE" -> foo.postCode,
+      "RPC" -> foo.RPC,
+      "X_COORDINATE" -> foo.xCoordinate,
+      "Y_COORDINATE" -> foo.yCoordinate,
+      "STATUS" -> foo.status,
+      "MATCH" -> foo.matchScore,
+      "MATCH_DESCRIPTION" -> foo.matchDescription)
+  }
 }

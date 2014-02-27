@@ -10,8 +10,8 @@ import utils.helpers.Config
 
 class V5cSearchWebServiceImpl() extends V5cSearchWebService {
   implicit val writeV5cSearch = Json.writes[V5cSearchModel]
-  implicit val v5cSearchConfirmationModel = Json.reads[V5cSearchConfirmationModel]
-  implicit val v5cSearchResponse = Json.reads[V5cSearchResponse]
+  implicit val v5cSearchConfirmationModel = Json.format[V5cSearchConfirmationModel]
+  implicit val v5cSearchResponse = Json.format[V5cSearchResponse]
 
   override def invoke(cmd: V5cSearchModel): Future[V5cSearchResponse] = {
     val endPoint = s"${Config.microServiceBaseUrl}/vehicles/v5c-search"
