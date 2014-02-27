@@ -23,5 +23,5 @@ case class OSAddressbaseLPI(
                              )
 
 object OSAddressbaseLPI {
-  implicit val readsOSAddressbaseLPI = Json.reads[OSAddressbaseLPI]
+  implicit val readsOSAddressbaseLPI = Json.format[OSAddressbaseLPI]
 }

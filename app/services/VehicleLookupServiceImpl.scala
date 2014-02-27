@@ -1,6 +1,5 @@
 package services
 
-import models.domain.change_of_address._
 import play.api.libs.json.Json
 import play.api.libs.ws.WS
 import play.api.Logger
@@ -8,17 +7,14 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.Config
 import models.domain.disposal_of_vehicle._
-import models.domain.change_of_address.LoginPageModel
-import models.domain.change_of_address.LoginResponse
-import models.domain.change_of_address.LoginConfirmationModel
 import models.domain.disposal_of_vehicle.VehicleDetailsResponse
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
 
 class VehicleLookupServiceImpl() extends VehicleLookupService {
-  implicit val addressViewModel = Json.reads[AddressViewModel]
-  implicit val vehicleDetailsModel = Json.reads[VehicleDetailsModel]
-  implicit val vehicleDetailsResponse = Json.reads[VehicleDetailsResponse]
+  implicit val addressViewModel = Json.format[AddressViewModel]
+  implicit val vehicleDetailsModel = Json.format[VehicleDetailsModel]
+  implicit val vehicleDetailsResponse = Json.format[VehicleDetailsResponse]
   implicit val vehicleLookupFormModel = Json.writes[VehicleLookupFormModel]
 
   override def invoke(cmd: VehicleLookupFormModel): Future[VehicleDetailsResponse] = {
