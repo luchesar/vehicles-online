@@ -1,7 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import play.api.mvc._
-import models.domain.disposal_of_vehicle.{VehicleDetailsModel, DealerDetailsModel, DisposeModel}
+import models.domain.disposal_of_vehicle.{VehicleDetailsModel, DealerDetailsModel, DisposeViewModel}
 
 
 import controllers.disposal_of_vehicle.Helpers._
@@ -28,8 +28,8 @@ object DisposeSuccess extends Controller {
     }
   }
 
-  private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeModel = {
-    DisposeModel(vehicleMake = vehicleDetails.vehicleMake,
+  private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {
+    DisposeViewModel(vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
       keeperName = vehicleDetails.keeperName,
       keeperAddress = vehicleDetails.keeperAddress,

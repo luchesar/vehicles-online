@@ -16,7 +16,7 @@ import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.DealerDetailsModel
 import models.domain.disposal_of_vehicle.DisposeFormModel
 import scala.Some
-import models.domain.disposal_of_vehicle.DisposeModel
+import models.domain.disposal_of_vehicle.DisposeViewModel
 
 object Dispose extends Controller {
 
@@ -50,8 +50,8 @@ object Dispose extends Controller {
         formWithErrors => {
           (fetchDealerDetailsFromCache, fetchVehicleDetailsFromCache) match {
             case (Some(dealerDetails), Some(vehicleDetails)) =>
-              val disposeModel = fetchData(dealerDetails, vehicleDetails)
-              BadRequest(views.html.disposal_of_vehicle.dispose(disposeModel, formWithErrors))
+              val disposeViewModel = fetchData(dealerDetails, vehicleDetails)
+              BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithErrors))
             case _ =>
               Logger.error("could not find dealer details in cache on Dispose submit")
               Redirect(routes.SetUpTradeDetails.present)
@@ -65,8 +65,8 @@ object Dispose extends Controller {
     }
   }
 
-  private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeModel  = {
-    DisposeModel(vehicleMake = vehicleDetails.vehicleMake,
+  private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel  = {
+    DisposeViewModel(vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
       keeperName = vehicleDetails.keeperName,
       keeperAddress = vehicleDetails.keeperAddress,

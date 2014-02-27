@@ -2,11 +2,11 @@ package controllers.disposal_of_vehicle
 
 import play.api.mvc._
 import play.api.Logger
-import models.domain.disposal_of_vehicle.{DisposeModel, VehicleDetailsModel, DealerDetailsModel}
+import models.domain.disposal_of_vehicle.{DisposeViewModel, VehicleDetailsModel, DealerDetailsModel}
 import controllers.disposal_of_vehicle.Helpers._
 import models.domain.disposal_of_vehicle.DealerDetailsModel
 import scala.Some
-import models.domain.disposal_of_vehicle.DisposeModel
+import models.domain.disposal_of_vehicle.DisposeViewModel
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
 
 object DisposeFailure extends Controller {
@@ -31,8 +31,8 @@ object DisposeFailure extends Controller {
     }
   }
 
-  private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeModel = {
-    DisposeModel(vehicleMake = vehicleDetails.vehicleMake,
+  private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {
+    DisposeViewModel(vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
       keeperName = vehicleDetails.keeperName,
       keeperAddress = vehicleDetails.keeperAddress,
