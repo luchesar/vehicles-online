@@ -46,7 +46,8 @@ input[type="number"],
 input[type="tel"], 
 textarea {
     background: $form-element-bg;
-	border: 1px solid $form-element-border;
+	//border: 1px solid $form-element-border;
+	border:1px inset #BFC1C3;
 	font: {
 		size:1.9rem;
 		weight: 400;
@@ -106,7 +107,7 @@ select {
    font-size: 1.5rem;
    height: 33px;
    background: $form-element-bg;
-   border: 1px solid $form-element-border;
+   border:1px inset #BFC1C3;
    vertical-align: middle;
    max-width: 100%;
 
