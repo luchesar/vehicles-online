@@ -8,5 +8,5 @@ case class OSAddressbaseSearchResponse(
                                         )
 
 object OSAddressbaseSearchResponse {
-  implicit val readsOSAddressbaseSearchResponse = Json.reads[OSAddressbaseSearchResponse]
+  implicit val readsOSAddressbaseSearchResponse = Json.format[OSAddressbaseSearchResponse]
 }
