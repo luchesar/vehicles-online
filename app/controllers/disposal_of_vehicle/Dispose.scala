@@ -1,6 +1,5 @@
 package controllers.disposal_of_vehicle
 
-import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
@@ -19,7 +18,6 @@ import models.domain.disposal_of_vehicle.DisposeModel
 import scala.Some
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import com.google.inject.Inject
-import scala.concurrent.Future
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import play.api.mvc._
