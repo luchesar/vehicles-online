@@ -7,8 +7,6 @@ import play.api.Logger
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.Config
-import models.domain.disposal_of_vehicle.AddressViewModel
-
 
 class LoginWebServiceImpl() extends LoginWebService {
 
