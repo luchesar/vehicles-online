@@ -10,4 +10,5 @@ object VehicleLookup {
   val v5cKeeperNameId = "v5cKeeperName"
   val v5cPostcodeId = "v5cPostcode"
   val cacheKey = "vehicleDetails"
+  val cacheVehicleLookupFormModelKey = "vehicleLookupFormModel"
 }
