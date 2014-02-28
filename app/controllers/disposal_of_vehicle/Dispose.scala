@@ -108,7 +108,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
     }.recoverWith {
       case e: Throwable => Future {
         Logger.debug(s"Web service call failed. Exception: ${e}")
-        BadRequest("The remote server didn't like the request.")
+        BadRequest("The remote server didn't like the request.") // TODO check with BAs what we want to display when the webservice throws exception. We cannot proceed so need to say something like "".
       }
     }
   }
