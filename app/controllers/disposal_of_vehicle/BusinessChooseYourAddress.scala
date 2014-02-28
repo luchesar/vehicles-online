@@ -9,8 +9,6 @@ import mappings.common.DropDown
 import DropDown._
 import controllers.disposal_of_vehicle.Helpers._
 import play.api.Logger
-import play.api.Play.current
-import mappings.disposal_of_vehicle.DealerDetails
 import javax.inject.Inject
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
@@ -102,21 +100,13 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
     }
   }
 
-  def storeBusinessChooseYourAddressModelInCache(value: BusinessChooseYourAddressModel) = {
-    val key = mappings.disposal_of_vehicle.BusinessChooseYourAddress.cacheKey
-    play.api.cache.Cache.set(key, value)
-    Logger.debug(s"BusinessChooseYourAddress stored BusinessChooseYourAddressModel in cache: key = $key, value = ${value}")
-  }
-
   def storeDealerDetailsInCache(model: BusinessChooseYourAddressModel, dealerName: String) = {
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected)
 
-    val key = DealerDetails.cacheKey
     lookedUpAddress.map {
       case Some(addr) => {
-        val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = addr)
-        play.api.cache.Cache.set(key, value)
-        Logger.debug(s"BusinessChooseYourAddress stored DealerDetailsModel in cache: key = $key, value = ${value}")
+        val dealerDetailsModel = DealerDetailsModel(dealerName = dealerName, dealerAddress = addr)
+        storeDealerDetailsModelInCache(dealerDetailsModel)
         /* The redirect is done as the final step within the map so that:
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache.

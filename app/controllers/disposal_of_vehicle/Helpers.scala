@@ -9,6 +9,8 @@ import scala.Some
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
+import play.api.Logger
+import mappings.disposal_of_vehicle.DealerDetails
 
 object Helpers {
   def fetchDealerNameFromCache: Option[String] = {
@@ -16,6 +18,12 @@ object Helpers {
       case Some(model) => Some(model.traderBusinessName)
       case None => None
     }
+  }
+
+  def storeDealerDetailsModelInCache(value: DealerDetailsModel) = {
+    val key = DealerDetails.cacheKey
+    play.api.cache.Cache.set(key, value)
+    Logger.debug(s"BusinessChooseYourAddress stored DealerDetailsModel in cache: key = $key, value = ${value}")
   }
 
   def fetchDealerDetailsFromCache: Option[DealerDetailsModel] = {
@@ -41,6 +49,14 @@ object Helpers {
   def fetchVehicleLookupDetailsFromCache: Option[VehicleLookupFormModel] = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.cacheVehicleLookupFormModelKey
     Cache.getAs[VehicleLookupFormModel](key)
+  }
+
+
+
+  def storeBusinessChooseYourAddressModelInCache(value: BusinessChooseYourAddressModel) = {
+    val key = mappings.disposal_of_vehicle.BusinessChooseYourAddress.cacheKey
+    play.api.cache.Cache.set(key, value)
+    Logger.debug(s"BusinessChooseYourAddress stored BusinessChooseYourAddressModel in cache: key = $key, value = ${value}")
   }
 
   def fetchBusinessChooseYourAddressModelFromCache: Option[BusinessChooseYourAddressModel] = {
