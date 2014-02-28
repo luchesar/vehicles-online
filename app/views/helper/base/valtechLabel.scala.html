@@ -1,4 +1,4 @@
-@(field:Field, args: (Symbol, Any)*)(implicit lang: Lang)
+@(field:Field, args: Map[Symbol, Any])(implicit lang: Lang)
 
 @import helper._
 @import utils.helpers.CryptoHelper
@@ -7,5 +7,5 @@
 
 <label for="@CryptoHelper.encryptAES(field.id)">
     @{Space.*}
-    @valtechLabelText(field,args:_*)
+    @valtechLabelText(field,args)
 </label>

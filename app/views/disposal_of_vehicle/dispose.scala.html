@@ -51,21 +51,21 @@
             @for(addr <- data.dealerAddress.address) {@addr<br/>}</p>
 
             @valtechInputText(disposeForm(mileageId), args =
-            '_label -> Messages("disposal_dispose.mileage.label"),
+            Map('_label -> Messages("disposal_dispose.mileage.label"),
             '_showConstraints -> false,
             'pattern -> Mileage.pattern,
             'maxLength -> Mileage.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-            'title -> Messages("disposal_dispose.mileage.validation"))
+            'title -> Messages("disposal_dispose.mileage.validation")))
 
-            @inputDayMonthYear(disposeForm(dateOfDisposalId), args = '_label -> Messages("disposal_dispose.dateofdisposal.label"))
+            @inputDayMonthYear(disposeForm(dateOfDisposalId), args = Map('_label -> Messages("disposal_dispose.dateofdisposal.label")))
 
             @* Checkbox must not be pre-ticked. *@
-            @valtechDeclareCheck(disposeForm(consentId), 'id -> "consent", '_showConstraints -> false, '_label -> Messages("disposal_dispose.consent"))
+            @valtechDeclareCheck(disposeForm(consentId), args = Map('id -> "consent", '_showConstraints -> false, '_label -> Messages("disposal_dispose.consent")))
 
             <p>@Messages("disposal_dispose.exkeeperlettertext")</p>
 
             @valtechInputTextWithButton(disposeForm(emailAddressId),
-            args = Seq('_label -> Messages("disposal_dispose.emaillabel"),
+            args = Map('_label -> Messages("disposal_dispose.emaillabel"),
             '_showConstraints -> false))
                     
             <div class="form-steps">

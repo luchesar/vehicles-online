@@ -1,4 +1,4 @@
-@(field: play.api.data.Field, id: String, args: (Symbol, Any)*)(implicit lang: Lang)
+@(field: play.api.data.Field, id: String, args: Map[Symbol, Any])(implicit lang: Lang)
 
 @import helper._
 @import utils.helpers.EmptyTemplate._
@@ -10,7 +10,7 @@
 
 <fieldset>
 
-    @dateConstraintRequired(field, args:_*) <!-- datePlaceholder -->
+    @dateConstraintRequired(field, args) <!-- datePlaceholder -->
 
     <div class="form-inline form-date">
         <div class="form-item">
@@ -41,7 +41,7 @@
         </div>
 
         <div class="form-item">
-        @valtechInputDigits(field("year"), 'placeholder -> "YYYY", 'maxLength -> 4)
+        @valtechInputDigits(field("year"), args = Map('placeholder -> "YYYY", 'maxLength -> 4))
         </div>
     </div>
 

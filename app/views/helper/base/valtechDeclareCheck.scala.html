@@ -1,4 +1,4 @@
-@(field: play.api.data.Field, args: (Symbol, Any)*)(implicit handler: helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field, args: Map[Symbol, Any])(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import helper._
 @import utils.helpers.CryptoHelper
@@ -9,7 +9,7 @@
 
 @boxValue = @{ args.toMap.get('value).getOrElse("true") } @*TODO make a helper extension method for this.*@
 
-@input(field, args: _*) { (id, name, value, htmlArgs) =>
+@input(field, args.toSeq: _*) { (id, name, value, htmlArgs) =>
 
 @*TODO make a helper extension method for this. This is really confusing as 'value' is being set in a separate method above *@
 <label class="form-checkbox">
@@ -19,6 +19,6 @@
         value="@boxValue"
         @(if(value == Some(boxValue)) "checked" else "")
         @toHtmlArgs(htmlArgs.filterKeys(_ != 'value))>
-    @valtechLabelText(field,args:_*)
+    @valtechLabelText(field,args)
 </label>
 }

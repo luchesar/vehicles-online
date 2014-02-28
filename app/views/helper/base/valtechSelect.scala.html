@@ -1,4 +1,4 @@
-@(field: play.api.data.Field, defaultOptionMessage: String = "select_default", options: Seq[(String, String)], args: Seq[(Symbol, Any)] = Nil)(implicit handler: helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field, defaultOptionMessage: String = "select_default", options: Seq[(String, String)], args: Map[Symbol, Any] = Map.empty)(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import views.html.helper.base.valtechLabel
 @import utils.helpers.CryptoHelper
@@ -6,8 +6,8 @@
 @import utils.helpers.SelectHelper._
 @import play.api.templates.PlayMagic.toHtmlArgs
 
-@helper.input(field, args: _*) { (id, name, selectedKey, htmlArgs) =>
-    @valtechLabel(field, args: _*)
+@helper.input(field, args.toSeq: _*) { (id, name, selectedKey, htmlArgs) =>
+    @valtechLabel(field, args)
 
 <select id="@CryptoHelper.encryptAES(field.id)" name="@CryptoHelper.encryptAES(name)" @toHtmlArgs(htmlArgs)>
     @defaultOption(htmlArgs)

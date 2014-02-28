@@ -1,4 +1,4 @@
-@(field: play.api.data.Field, args: (Symbol, Any)*)(implicit lang: Lang)
+@(field: play.api.data.Field, args: Map[Symbol, Any] = Map.empty)(implicit lang: Lang)
 
 @import helper._
 @import utils.helpers.CryptoHelper
@@ -6,14 +6,14 @@
 @import views.html.helper.base._
 @import utils.helpers.BaseTemplete._
 
-@input(field,args: _*){(id, name, value, htmlArgs) =>
+@input(field,args.toSeq: _*){(id, name, value, htmlArgs) =>
     @addressLines(field(mappings.common.AddressLines.id),
-        args = '_label -> Messages("addressAndPostcode.addressLines"))
+        args = Map('_label -> Messages("addressAndPostcode.addressLines")))
 
     @valtechInputText(field(mappings.common.Postcode.postcodeId),
-        args = 'placeholder -> Messages("disposal_enteraddressmanually.postcode.placeholder"),
+        args = Map('placeholder -> Messages("disposal_enteraddressmanually.postcode.placeholder"),
         '_label -> Messages("disposal_enteraddressmanually.postcode.label"),
         '_showConstraints -> false,
         'maxLength -> mappings.common.AddressAndPostcode.postcodeMaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-        'title -> Messages("vehicles.address.postcode.validation"))
+        'title -> Messages("vehicles.address.postcode.validation")))
 }

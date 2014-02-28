@@ -1,11 +1,11 @@
-@(field:Field, args: (Symbol, Any)*)(implicit lang: Lang)
+@(field:Field, args: Map[Symbol, Any])(implicit lang: Lang)
 
 @import helper._
 @import utils.helpers.CryptoHelper
 @import utils.helpers._
 @import views.html.helper.base.labelOrId
 
-@labelOrId(field.id,args: _*)
+@labelOrId(field.id,args)
 
 @if(!field.constraints.find(_._1 == "constraint.required")) {
     <em>@Messages("widget.optional")</em>
