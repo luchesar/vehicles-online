@@ -35,7 +35,7 @@ object Helpers {
   }
 
   def fetchVehicleLookupDetailsFromCache: Option[VehicleLookupFormModel] = {
-    val key = "vehicleLookupFormModel"
+    val key = mappings.disposal_of_vehicle.VehicleLookup.cacheVehicleLookupFormModelKey
     Cache.getAs[VehicleLookupFormModel](key)
   }
 }

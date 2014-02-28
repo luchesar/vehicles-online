@@ -12,10 +12,6 @@ object DisposePage {
 
   def happyPath(browser: TestBrowser, day: String = "1", month :String = "1", year: String = "2000") = {
     browser.goTo(url)
-
-    // Do not click the consent checkbox as it already pre-populated
-    //      browser.click(s"#${consentId}")
-
     browser.click(s"#${dateOfDisposalId}_day option[value='$day']")
     browser.click(s"#${dateOfDisposalId}_month option[value='$month']")
     browser.fill(s"#${dateOfDisposalId}_year") `with` year

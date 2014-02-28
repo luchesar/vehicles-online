@@ -68,8 +68,6 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
         f => {
           storeDateOfDisposalInCache(f)
           Logger.debug(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
-
-
           fetchVehicleLookupDetailsFromCache match {
             //TODO could be moved inside disposeAction
             case Some(vehicleLookupFormModel) => {

@@ -58,8 +58,8 @@ class VehicleLookup @Inject() (webService: services.VehicleLookupService) extend
     Logger.debug(s"VehicleLookup page - stored vehicle details object in cache: key = $key, value = ${model}")
   }
 
-  private def storeVehicleLookupDetailsInCache(model: VehicleLookupFormModel) = {
-    val key = "vehicleLookupFormModel" //TODO move key to mappings
+  private def storeVehicleLookupFormModelInCache(model: VehicleLookupFormModel) = {
+    val key = mappings.disposal_of_vehicle.VehicleLookup.cacheVehicleLookupFormModelKey
     Cache.set(key, model)
     Logger.debug(s"VehicleLookup page - stored vehicle lookup form model details object in cache: key = $key, value = ${model}")
   }
@@ -68,7 +68,7 @@ class VehicleLookup @Inject() (webService: services.VehicleLookupService) extend
     webService.invoke(model).map { resp =>
       Logger.debug(s"VehicleLookup Web service call successful - response = ${resp}")
       storeVehicleDetailsInCache(resp.vehicleDetailsModel)
-      storeVehicleLookupDetailsInCache(model)
+      storeVehicleLookupFormModelInCache(model)
       Redirect(routes.Dispose.present)
     }.recoverWith {
       case e: Throwable => Future {
