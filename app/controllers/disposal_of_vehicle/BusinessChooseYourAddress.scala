@@ -4,7 +4,7 @@ import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
 import models.domain.disposal_of_vehicle.{DealerDetailsModel, BusinessChooseYourAddressModel}
-import mappings.disposal_of_vehicle.BusinessAddressSelect._
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import mappings.common.DropDown
 import DropDown._
 import controllers.disposal_of_vehicle.Helpers._
@@ -31,7 +31,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
   val form = Form(
     mapping(
       /* We cannot apply constraints to this drop down as it is populated by web call to an address lookup service.
-      Validation is done when we make a second web call with the UPRN, so if a bad guy is injecting a non-existant UPRN
+      Validation is done when we make a second web call with the UPRN, so if a bad guy is injecting a non-existent UPRN
       then it will fail at that step instead */
       addressSelectId -> dropDown
     )(BusinessChooseYourAddressModel.apply)(BusinessChooseYourAddressModel.unapply)
@@ -42,7 +42,11 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
       fetchTraderDetailsFromCache match {
         case Some(dealerDetails) => {
           fetchAddresses.map { addresses =>
-            Ok(views.html.disposal_of_vehicle.business_choose_your_address(form, dealerDetails.traderBusinessName, addresses))
+            val f = fetchBusinessChooseYourAddressModelFromCache match {
+              case Some(cached) => form.fill(cached)
+              case None => form // Blank form.
+            }
+            Ok(views.html.disposal_of_vehicle.business_choose_your_address(f, dealerDetails.traderBusinessName, addresses))
           }
         }
         case None => Future {
@@ -85,7 +89,10 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
           },
         f =>
           fetchTraderDetailsFromCache match {
-            case Some(dealerDetails) => storeDealerDetailsInCache(f, dealerDetails.traderBusinessName)
+            case Some(dealerDetails) => {
+              storeBusinessChooseYourAddressModelInCache(f)
+              storeDealerDetailsInCache(f, dealerDetails.traderBusinessName)
+            }
             case None => Future {
               Logger.error("failed to find dealer name in cache on submit, redirecting...")
               Redirect(routes.SetUpTradeDetails.present)
@@ -93,6 +100,12 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
           }
       )
     }
+  }
+
+  def storeBusinessChooseYourAddressModelInCache(value: BusinessChooseYourAddressModel) = {
+    val key = mappings.disposal_of_vehicle.BusinessChooseYourAddress.cacheKey
+    play.api.cache.Cache.set(key, value)
+    Logger.debug(s"BusinessChooseYourAddress stored BusinessChooseYourAddressModel in cache: key = $key, value = ${value}")
   }
 
   def storeDealerDetailsInCache(model: BusinessChooseYourAddressModel, dealerName: String) = {
@@ -103,7 +116,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
       case Some(addr) => {
         val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = addr)
         play.api.cache.Cache.set(key, value)
-        Logger.debug(s"BusinessChooseYourAddress stored data in cache: key = $key, value = ${value}")
+        Logger.debug(s"BusinessChooseYourAddress stored DealerDetailsModel in cache: key = $key, value = ${value}")
         /* The redirect is done as the final step within the map so that:
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache.

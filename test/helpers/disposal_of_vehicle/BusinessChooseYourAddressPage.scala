@@ -1,11 +1,11 @@
 package helpers.disposal_of_vehicle
 
 import play.api.test.TestBrowser
-import mappings.disposal_of_vehicle.BusinessAddressSelect._
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import play.api.Play.current
 import play.api.Logger
 import models.domain.disposal_of_vehicle.{AddressViewModel, AddressLinesModel, AddressAndPostcodeModel, DealerDetailsModel}
-import mappings.disposal_of_vehicle.BusinessAddressSelect
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress
 
 object BusinessChooseYourAddressPage {
   val url = "/disposal-of-vehicle/business-choose-your-address"

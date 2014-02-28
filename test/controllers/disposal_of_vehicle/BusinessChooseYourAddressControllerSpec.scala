@@ -4,7 +4,7 @@ import org.scalatest.{Matchers, WordSpec}
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import helpers.disposal_of_vehicle.{SetUpTradeDetailsPage, VehicleLookupPage}
-import mappings.disposal_of_vehicle.BusinessAddressSelect._
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.Matchers._

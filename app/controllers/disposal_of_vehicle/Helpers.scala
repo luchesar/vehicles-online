@@ -2,9 +2,13 @@ package controllers.disposal_of_vehicle
 
 import play.api.cache.Cache
 import play.api.Play.current
-import models.domain.disposal_of_vehicle.{SetupTradeDetailsModel, DisposeFormModel, VehicleDetailsModel, DealerDetailsModel, VehicleLookupFormModel}
-import models.DayMonthYear
-import play.api.Logger
+import models.domain.disposal_of_vehicle._
+import models.domain.disposal_of_vehicle.DealerDetailsModel
+import models.domain.disposal_of_vehicle.DisposeFormModel
+import scala.Some
+import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
+import models.domain.disposal_of_vehicle.VehicleDetailsModel
 
 object Helpers {
   def fetchDealerNameFromCache: Option[String] = {
@@ -37,5 +41,10 @@ object Helpers {
   def fetchVehicleLookupDetailsFromCache: Option[VehicleLookupFormModel] = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.cacheVehicleLookupFormModelKey
     Cache.getAs[VehicleLookupFormModel](key)
+  }
+
+  def fetchBusinessChooseYourAddressModelFromCache: Option[BusinessChooseYourAddressModel] = {
+    val key = mappings.disposal_of_vehicle.BusinessChooseYourAddress.cacheKey
+    Cache.getAs[BusinessChooseYourAddressModel](key)
   }
 }
