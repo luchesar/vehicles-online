@@ -5,16 +5,12 @@ import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.Dispose._
-import org.specs2.mock.Mockito
 import helpers.disposal_of_vehicle.{DisposeSuccessPage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
 import helpers.disposal_of_vehicle.Helper._
 import org.scalatest.mock.MockitoSugar
 import models.domain.disposal_of_vehicle.DisposeModel
 import org.mockito.Mockito._
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
-import scala.Some
 import org.mockito.Matchers._
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import scala.Some
 import services.fakes.FakeDisposeService
 
@@ -37,6 +33,29 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
       // Assert
       status(result) should equal(OK)
+    }
+
+    "redirect to dispose success when correct details are entered" in new WithApplication {
+      //Arrange
+      SetUpTradeDetailsPage.setupCache()
+      BusinessChooseYourAddressPage.setupCache
+      VehicleLookupPage.setupCache
+      VehicleLookupPage.setupVehicleLookupFormModelCache()
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(
+          consentId -> consentValid,
+          mileageId -> mileageValid,
+          s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
+          s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
+          s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid
+        )
+
+      // Act
+      val result = dispose.submit(request)
+
+      // Assert
+      status(result) should equal(SEE_OTHER)
+      redirectLocation(result) should equal (Some(DisposeSuccessPage.url))
     }
 
     "redirect to setupTradeDetails after the dispose button is clicked and no vehiclelookupformmodel is cached" in new WithApplication {

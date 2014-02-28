@@ -2,7 +2,7 @@ package helpers.disposal_of_vehicle
 
 import play.api.test.TestBrowser
 import helpers.disposal_of_vehicle.Helper._
-import models.domain.disposal_of_vehicle.{AddressAndPostcodeModel, VehicleDetailsModel}
+import models.domain.disposal_of_vehicle.{AddressAndPostcodeModel, VehicleDetailsModel, VehicleLookupFormModel}
 import helpers.disposal_of_vehicle.BusinessChooseYourAddressPage._
 
 import play.api.Play.current
@@ -24,6 +24,12 @@ object VehicleLookupPage {
     val key = mappings.disposal_of_vehicle.VehicleLookup.cacheKey
     val value = VehicleDetailsModel(vehicleMake = "make", vehicleModel = "model",
       keeperName = "keeper", keeperAddress = address1)
+    play.api.cache.Cache.set(key, value)
+  }
+
+  def setupVehicleLookupFormModelCache () = {
+    val key = mappings.disposal_of_vehicle.VehicleLookup.cacheVehicleLookupFormModelKey
+    val value = VehicleLookupFormModel(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = v5cVehicleRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid)
     play.api.cache.Cache.set(key, value)
   }
 }
