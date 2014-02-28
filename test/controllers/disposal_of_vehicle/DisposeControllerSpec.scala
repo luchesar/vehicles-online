@@ -5,14 +5,14 @@ import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.Dispose._
-import helpers.disposal_of_vehicle.{DisposeSuccessPage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
+import helpers.disposal_of_vehicle.{DisposeSuccessPage, DisposeFailurePage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
 import helpers.disposal_of_vehicle.Helper._
 import org.scalatest.mock.MockitoSugar
 import models.domain.disposal_of_vehicle.DisposeModel
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import scala.Some
-import services.fakes.FakeDisposeSuccessService
+import services.fakes.{FakeDisposeSuccessService, FakeDisposeFailureService}
 
 class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
   "Disposal - Controller" should {
@@ -59,7 +59,30 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
     }
 
     "redirect to dispose error when a fail message is return by the fake microservice" in new WithApplication {
+      val mockDisposeFailureModel = mock[DisposeModel]
+      when(mockWebService.invoke(any[DisposeModel])).thenReturn(new FakeDisposeFailureService().invoke(mockDisposeFailureModel))
+      val disposeFailure = new disposal_of_vehicle.Dispose(mockWebService)
+      //TODO - Discuss - Refactor the three lines of code above to helper?
 
+      SetUpTradeDetailsPage.setupCache()
+      BusinessChooseYourAddressPage.setupCache
+      VehicleLookupPage.setupCache
+      VehicleLookupPage.setupVehicleLookupFormModelCache()
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(
+          consentId -> consentValid,
+          mileageId -> mileageValid,
+          s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
+          s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
+          s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid
+        )
+
+      // Act
+      val result = disposeFailure.submit(request)
+
+      // Assert
+      status(result) should equal(SEE_OTHER)
+      redirectLocation(result) should equal (Some(DisposeFailurePage.url))
     }
 
     "redirect to setupTradeDetails after the dispose button is clicked and no vehiclelookupformmodel is cached" in new WithApplication {
