@@ -17,10 +17,10 @@ import ExecutionContext.Implicits.global
 
 class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
   "Disposal - Controller" should {
-    val mockWebService = mock[services.DisposeService]
     val mockDisposeModel = mock[DisposeModel]
-    when(mockWebService.invoke(any[DisposeModel])).thenReturn(new FakeDisposeSuccessService().invoke(mockDisposeModel))
-    val dispose = new disposal_of_vehicle.Dispose(mockWebService)
+    val mockWebServiceSuccess = mock[services.DisposeService]
+    when(mockWebServiceSuccess.invoke(any[DisposeModel])).thenReturn(new FakeDisposeSuccessService().invoke(mockDisposeModel))
+    val dispose = new disposal_of_vehicle.Dispose(mockWebServiceSuccess)
 
     "present" in new WithApplication {
       // Arrange
@@ -36,7 +36,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       status(result) should equal(OK)
     }
 
-    "redirect to dispose success when correct details are entered" in new WithApplication {
+    "redirect to dispose success when a success message is returned by the fake microservice" in new WithApplication {
       //Arrange
       SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
@@ -59,12 +59,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       redirectLocation(result) should equal(Some(DisposeSuccessPage.url))
     }
 
-    "redirect to dispose error when a fail message is return by the fake microservice" in new WithApplication {
-      val mockDisposeFailureModel = mock[DisposeModel]
-      when(mockWebService.invoke(any[DisposeModel])).thenReturn(new FakeDisposeFailureService().invoke(mockDisposeFailureModel))
-      val disposeFailure = new disposal_of_vehicle.Dispose(mockWebService)
-      //TODO - Discuss - Refactor the three lines of code above to helper?
-
+    "redirect to disposeerror when a fail message is return by the fake microservice" in new WithApplication {
       SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
       VehicleLookupPage.setupCache
@@ -75,11 +70,14 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
           mileageId -> mileageValid,
           s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
           s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
-          s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid
-        )
+          s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid)
+
+      val mockWebServiceFailure = mock[services.DisposeService]
+      when(mockWebServiceFailure.invoke(any[DisposeModel])).thenReturn(new FakeDisposeFailureService().invoke(mockDisposeModel))
+      val dispose = new disposal_of_vehicle.Dispose(mockWebServiceFailure)
 
       // Act
-      val result = disposeFailure.submit(request)
+      val result = dispose.submit(request)
 
       // Assert
       status(result) should equal(SEE_OTHER)
@@ -95,8 +93,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
           mileageId -> mileageValid,
           s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
           s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
-          s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid
-        )
+          s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid)
 
       // Act
       val result = dispose.submit(request)
