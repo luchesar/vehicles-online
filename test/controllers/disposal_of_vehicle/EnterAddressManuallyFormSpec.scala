@@ -10,8 +10,6 @@ import Postcode._
 
 class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSugar {
   "EnterAddressManually Form" should {
-
-
     def addressFiller(line1: String = line1Valid, line2: String = line2Valid, line3: String = line3Valid, line4: String = line4Valid, postcode: String = postcodeValid) = {
       EnterAddressManually.form.bind(
         Map(
@@ -103,5 +101,11 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
       )
     }
 
+    "reject if total length of all address lines is more than maxLengthOfLinesConcatenated" in {
+      addressFiller(line1 = "a" * 50, line2 = "b" * 50, line3 = "c" * 50).fold(
+        formWithErrors => formWithErrors.errors.length should equal(1),
+        f => fail(s"An error should occur: $f")
+      )
+    }
   }
 }
