@@ -5,7 +5,7 @@ import org.specs2.mock.Mockito
 import play.api.test.{FakeRequest, WithApplication}
 import controllers.disposal_of_vehicle
 import play.api.test.Helpers._
-import helpers.disposal_of_vehicle.{DisposePage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage, DisposeFailurePage}
+import helpers.disposal_of_vehicle.{SetUpTradeDetailsPage, VehicleLookupPage, DisposeFailurePage}
 
 class DisposeFailureControllerSpec extends WordSpec with Matchers with Mockito {
   "DisposalFailure - Controller" should {
