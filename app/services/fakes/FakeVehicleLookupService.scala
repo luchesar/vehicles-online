@@ -15,5 +15,6 @@ class FakeVehicleLookupService extends VehicleLookupService {
         vehicleModel = "Alfasud ti",
         keeperName = cmd.v5cKeeperName,
         keeperAddress = AddressViewModel(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
+    //TODO write in the same way as FakeDisposeService
   }
 }
