@@ -52,7 +52,6 @@ object Helpers {
   }
 
 
-
   def storeBusinessChooseYourAddressModelInCache(value: BusinessChooseYourAddressModel) = {
     val key = mappings.disposal_of_vehicle.BusinessChooseYourAddress.cacheKey
     play.api.cache.Cache.set(key, value)

@@ -83,9 +83,8 @@ POST        /disposal-of-vehicle/vehicle-lookup                 @controllers.dis
 GET         /disposal-of-vehicle/dispose                        @controllers.disposal_of_vehicle.Dispose.present
 POST        /disposal-of-vehicle/dispose                        @controllers.disposal_of_vehicle.Dispose.submit
 
-# TODO rename route to dispose-success and change integration tests to match
-GET         /disposal-of-vehicle/dispose-confirmation           controllers.disposal_of_vehicle.DisposeSuccess.present
-POST        /disposal-of-vehicle/dispose-confirmation           controllers.disposal_of_vehicle.DisposeSuccess.submit
+GET         /disposal-of-vehicle/dispose-success                controllers.disposal_of_vehicle.DisposeSuccess.present
+POST        /disposal-of-vehicle/dispose-success                controllers.disposal_of_vehicle.DisposeSuccess.submit
 
 GET         /disposal-of-vehicle/dispose-failure                controllers.disposal_of_vehicle.DisposeFailure.present
 POST        /disposal-of-vehicle/dispose-failure                controllers.disposal_of_vehicle.DisposeFailure.submit

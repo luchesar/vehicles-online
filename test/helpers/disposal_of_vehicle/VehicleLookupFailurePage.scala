@@ -8,7 +8,7 @@ object VehicleLookupFailurePage {
 
   def cacheSetupHappyPath () {
     BusinessChooseYourAddressPage.setupCache
-    VehicleLookupPage.setupCache
+    VehicleLookupPage.setupVehicleLookupFormModelCache()
   }
 }
 

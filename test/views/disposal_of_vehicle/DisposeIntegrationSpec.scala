@@ -11,7 +11,7 @@ class DisposeIntegrationSpec extends Specification with Tags {
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
+      VehicleLookupPage.setupVehicleDetailsModelCache
       browser.goTo(DisposePage.url)
 
       // Check the page title is correct
@@ -22,7 +22,7 @@ class DisposeIntegrationSpec extends Specification with Tags {
       // Fill in mandatory data
       SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
+      VehicleLookupPage.setupVehicleDetailsModelCache
       DisposePage.happyPath(browser)
 
       // Verify we have moved to the next screen
@@ -40,7 +40,7 @@ class DisposeIntegrationSpec extends Specification with Tags {
     "display validation errors when no fields are completed" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
+      VehicleLookupPage.setupVehicleDetailsModelCache
 
       DisposePage.happyPath(browser, day = "", month = "", year = "")
 
@@ -51,7 +51,7 @@ class DisposeIntegrationSpec extends Specification with Tags {
     "display validation errors when month and year are input but no day" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
+      VehicleLookupPage.setupVehicleDetailsModelCache
 
       DisposePage.happyPath(browser,  day = "")
 
@@ -62,7 +62,7 @@ class DisposeIntegrationSpec extends Specification with Tags {
     "display validation errors when day and year are input but no month" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
+      VehicleLookupPage.setupVehicleDetailsModelCache
 
       DisposePage.happyPath(browser,  month = "")
 
@@ -73,7 +73,7 @@ class DisposeIntegrationSpec extends Specification with Tags {
     "display validation errors when day and month are input but no year" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
+      VehicleLookupPage.setupVehicleDetailsModelCache
 
       DisposePage.happyPath(browser,  year = "")
 
@@ -84,7 +84,7 @@ class DisposeIntegrationSpec extends Specification with Tags {
     "display previous page when back link is clicked" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
+      VehicleLookupPage.setupVehicleDetailsModelCache
       browser.goTo(DisposePage.url)
       browser.click("#backButton")
 

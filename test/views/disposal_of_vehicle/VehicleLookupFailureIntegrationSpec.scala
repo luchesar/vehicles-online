@@ -16,6 +16,32 @@ class VehicleLookupFailureIntegrationSpec extends Specification with Tags {
       titleMustEqual(VehicleLookupFailurePage.title)
     }
 
+    "redirect to setuptrade details if cache is empty on page load" in new WithBrowser with BrowserMatchers {
+      //Arrange & Act
+      browser.goTo(VehicleLookupFailurePage.url)
+
+      //Assert
+      titleMustEqual(SetUpTradeDetailsPage.title)
+    }
+
+    "redirect to setuptrade details if only VehicleLookupFormModelCache is populated" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      VehicleLookupPage.setupVehicleLookupFormModelCache()
+      browser.goTo(VehicleLookupFailurePage.url)
+
+      // Assert
+      titleMustEqual(SetUpTradeDetailsPage.title)
+    }
+
+    "redirect to setuptrade details if only BusinessChooseYourAddress cache is populated" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      BusinessChooseYourAddressPage.setupCache
+      browser.goTo(VehicleLookupFailurePage.url)
+
+      // Assert
+      titleMustEqual(SetUpTradeDetailsPage.title)
+    }
+
     "redirect to vehiclelookup when button clicked" in new WithBrowser with BrowserMatchers {
       // Arrange
       VehicleLookupFailurePage.cacheSetupHappyPath()
@@ -35,14 +61,6 @@ class VehicleLookupFailureIntegrationSpec extends Specification with Tags {
 
       // Act
       browser.click("#setuptradedetails")
-
-      // Assert
-      titleMustEqual(SetUpTradeDetailsPage.title)
-    }
-
-    "redirect to setuptraderdetails page when no details are cached" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      browser.goTo(VehicleLookupFailurePage.url)
 
       // Assert
       titleMustEqual(SetUpTradeDetailsPage.title)

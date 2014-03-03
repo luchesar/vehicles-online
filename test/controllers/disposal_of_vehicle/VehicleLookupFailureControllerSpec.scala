@@ -8,7 +8,9 @@ import play.api.test.Helpers._
 import scala.Some
 
 class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
+
   "VehicleLookupFailurePage - Controller" should {
+
     "present" in new WithApplication {
       // Arrange
       VehicleLookupFailurePage.cacheSetupHappyPath()
@@ -48,6 +50,30 @@ class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
 
       // Act
       val result = disposal_of_vehicle.VehicleLookupFailure.submit(request)
+
+      // Assert
+      redirectLocation(result) should equal (Some(SetUpTradeDetailsPage.url))
+    }
+
+    "redirect to setuptraderdetails on if only BusinessChooseYourAddress cache is populated" in new WithApplication {
+      //Arrange
+      BusinessChooseYourAddressPage.setupCache
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.VehicleLookupFailure.present(request)
+
+      // Assert
+      redirectLocation(result) should equal (Some(SetUpTradeDetailsPage.url))
+    }
+
+    "redirect to setuptraderdetails on if only VehicleLookupFormModelCache is populated" in new WithApplication {
+      //Arrange
+      VehicleLookupPage.setupVehicleLookupFormModelCache()
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.VehicleLookupFailure.present(request)
 
       // Assert
       redirectLocation(result) should equal (Some(SetUpTradeDetailsPage.url))
