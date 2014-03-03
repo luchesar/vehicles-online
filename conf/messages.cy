@@ -140,8 +140,10 @@ confirm_vehicle_details.button2 = Diddymu
 ##disposal prototype##
 
 disposal_beforeyoustart.title = Gwaredu cerbyd i mewn i'r fasnach foduron
-disposal_beforeyoustart.name = Gwerthu neu drosglwyddo cerbyd i fasnachwr moduron, yswiriwr neu dismantler
-disposal_beforeyoustart.p1 = Defnyddiwch y gwasanaeth hwn os ydych yn fasnachwr moduron, yswiriwr neu dismantler, ac mae gennych yr cydsyniad ceidwad cerbyd i gael gwared ar y cerbyd i chi eich hun.
+disposal_beforeyoustart.name = Cyn i chi ddechrau, bydd angen y dystysgrif cofrestru cerbyd V5C (llyfr log) ar gyfer y cerbyd yn cael ei waredu i chi.
+disposal_beforeyoustart.p1 = Os oes gan cofrestru personol ar y cerbyd yn cael ei waredu, rhaid i'r ceidwad yn deall y bydd y cofrestriad yn cael ei waredu gyda'r cerbyd.
+disposal_beforeyoustart.p2 = Os yw'r ceidwad presennol yn dymuno cadw cofrestru personol, rhaid iddo yn gyntaf gael ei gadw at dystysgrif, neu ei drosglwyddo i gerbyd arall, a dychwelyd y cofrestriad gwreiddiol i'r cerbyd.
+disposal_beforeyoustart.button = Start now
 disposal_beforeyoustart.button = Ddechrau nawr
 
 #page 3
@@ -182,6 +184,8 @@ disposal_vehiclelookup.title = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_vehiclelookup.name = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_vehiclelookup.p1 = Dod o hyd i gerbyd
 disposal_vehiclelookup.p2 = Cerbyd waredu i
+disposal_vehiclelookup.warning.p1 = Peidiwch â gwaredu cerbyd gyda chofrestru personol oni bai bod y ceidwad ar hyn o bryd yn deall y bydd y cofrestriad yn cael eu gwaredu ynghyd â'r cerbyd.
+disposal_vehiclelookup.warning.p2 = Cadw neu drosglwyddo cofrestriadau personol cyn cael gwared i'r fasnach.
 disposal_vehiclelookup.v5cinputlabel = V5C Rhif cyfeirnod y ddogfen
 disposal_vehiclelookup.v5cinputlabel.refNumIncorrect = Mae'n rhaid i chi fynd i mewn i nifer sydd â hyd o 11 digid
 disposal_vehiclelookup.vrninputlabel = Rhif cofrestru cerbyd

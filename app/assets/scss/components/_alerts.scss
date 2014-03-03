@@ -43,6 +43,30 @@
 	  }
 	}
 	
+	.alert-warning {
+		@extend .alert;
+		border-color: $orange;
+		background: $orange-25;
+		color:$orange;
+		ol, ul, p {
+			a {
+				color:$orange;
+			}
+		}
+	}
+	
+	.alert-success {
+		@extend .alert;
+		background: $green-25;
+		border-color: $green;
+		color:$green;
+		ol, ul, p {
+			a {
+				color:$green;
+			}
+		}
+	}
+	
 	.validation {
 	    background: $error-bg;
 	    padding: .7em;
