@@ -10,6 +10,6 @@ class FakeDisposeFailureService extends DisposeService {
   val failMessage = "Fake Web Dispose Service - Bad response"
 
   override def invoke(cmd: DisposeModel): Future[DisposeResponse] = Future {
-    DisposeResponse(false, message = failMessage)
+    DisposeResponse(false, message = failMessage, transactionId = "1234")
   }
 }
