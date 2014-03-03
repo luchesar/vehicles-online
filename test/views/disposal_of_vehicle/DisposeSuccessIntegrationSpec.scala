@@ -44,7 +44,7 @@ class DisposeSuccessIntegrationSpec extends Specification with Tags {
 
     "redirect when only DisposeDetails are cached" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      DisposePage.setupCache()
+      DisposePage.setupDisposeFormModelCache()
       browser.goTo(DisposeSuccessPage.url)
 
       // Assert
@@ -63,7 +63,7 @@ class DisposeSuccessIntegrationSpec extends Specification with Tags {
 
     "redirect when only DisposeDetails and VehicleDetails are cached" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      DisposePage.setupCache()
+      DisposePage.setupDisposeFormModelCache()
       VehicleLookupPage.setupVehicleDetailsModelCache()
       browser.goTo(DisposeSuccessPage.url)
 
@@ -73,7 +73,7 @@ class DisposeSuccessIntegrationSpec extends Specification with Tags {
 
     "redirect when only DisposeDetails and DealerDetails are cached" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      DisposePage.setupCache()
+      DisposePage.setupDisposeFormModelCache()
       BusinessChooseYourAddressPage.setupCache()
       browser.goTo(DisposeSuccessPage.url)
 

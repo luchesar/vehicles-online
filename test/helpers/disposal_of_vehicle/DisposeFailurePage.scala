@@ -10,6 +10,6 @@ object DisposeFailurePage {
     SetUpTradeDetailsPage.setupCache()
     BusinessChooseYourAddressPage.setupCache()
     VehicleLookupPage.setupVehicleDetailsModelCache()
-    DisposePage.setupCache()
+    DisposePage.setupDisposeFormModelCache()
   }
 }

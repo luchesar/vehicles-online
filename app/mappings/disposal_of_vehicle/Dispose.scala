@@ -4,6 +4,7 @@ object Dispose {
   val consentId = "consent"
   val mileageId = "mileage"
   val dateOfDisposalId = "dateOfDisposal"
-  val cacheKey = "dispose"
+  val DisposeFormModelCacheKey = "disposeForm"
+  val DisposeModelCacheKey = "disposeModel"
   val emailAddressId = "emailAddress"
 }

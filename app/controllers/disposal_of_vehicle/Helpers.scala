@@ -13,11 +13,11 @@ import play.api.Logger
 import mappings.disposal_of_vehicle.DealerDetails
 
 object Helpers {
-  def fetchDealerNameFromCache: Option[String] = {
-    fetchTraderDetailsFromCache match {
-      case Some(model) => Some(model.traderBusinessName)
-      case None => None
-    }
+
+  def storeBusinessChooseYourAddressModelInCache(value: BusinessChooseYourAddressModel) = {
+    val key = mappings.disposal_of_vehicle.BusinessChooseYourAddress.cacheKey
+    play.api.cache.Cache.set(key, value)
+    Logger.debug(s"BusinessChooseYourAddress stored BusinessChooseYourAddressModel in cache: key = $key, value = ${value}")
   }
 
   def storeDealerDetailsModelInCache(value: DealerDetailsModel) = {
@@ -26,13 +26,21 @@ object Helpers {
     Logger.debug(s"BusinessChooseYourAddress stored DealerDetailsModel in cache: key = $key, value = ${value}")
   }
 
+
+  def fetchDealerNameFromCache: Option[String] = {
+    fetchTraderDetailsFromCache match {
+      case Some(model) => Some(model.traderBusinessName)
+      case None => None
+    }
+  }
+
   def fetchDealerDetailsFromCache: Option[DealerDetailsModel] = {
     val key = mappings.disposal_of_vehicle.DealerDetails.cacheKey
     Cache.getAs[DealerDetailsModel](key)
   }
 
   def fetchDisposeFormModelFromCache: Option[DisposeFormModel] = {
-    val key = mappings.disposal_of_vehicle.Dispose.cacheKey
+    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
     Cache.getAs[DisposeFormModel](key)
   }
 
@@ -49,13 +57,6 @@ object Helpers {
   def fetchVehicleLookupDetailsFromCache: Option[VehicleLookupFormModel] = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.cacheVehicleLookupFormModelKey
     Cache.getAs[VehicleLookupFormModel](key)
-  }
-
-
-  def storeBusinessChooseYourAddressModelInCache(value: BusinessChooseYourAddressModel) = {
-    val key = mappings.disposal_of_vehicle.BusinessChooseYourAddress.cacheKey
-    play.api.cache.Cache.set(key, value)
-    Logger.debug(s"BusinessChooseYourAddress stored BusinessChooseYourAddressModel in cache: key = $key, value = ${value}")
   }
 
   def fetchBusinessChooseYourAddressModelFromCache: Option[BusinessChooseYourAddressModel] = {
