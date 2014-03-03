@@ -2,7 +2,7 @@ package utils.helpers
 
 import views.html.helper.FieldConstructor
 
-object BaseTemplete {
+object BaseTemplate {
   implicit val fieldConstructor = FieldConstructor(views.html.helper.templates.baseTemplate.f)
 }
 
