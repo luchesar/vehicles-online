@@ -1,15 +1,15 @@
-@(field: play.api.data.Field, args: (Symbol, Any)*)(implicit handler: helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field, args: Map[Symbol, Any])(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import helper._
 @import utils.helpers.CryptoHelper
 @import utils.helpers._
 @import views.html.helper.base._
 
-@input(field, args ++
+@input(field, args.toSeq ++
               Seq('autocomplete -> "off") ++
               (args.find(_._1 == 'maxlength) match{ case Some(_) => Seq() case _ => Seq('maxlength -> Mappings.sixty)}):_* ) { (id, name, value, htmlArgs) =>
 
-    @valtechLabel(field,args:_*)
+    @valtechLabel(field,args)
     
     <input type="tel" id="@CryptoHelper.encryptAES(id)" name="@CryptoHelper.encryptAES(name)" pattern="[0-9]{1,20}" title="Must be numbers only" value="@value" @toHtmlArgs(htmlArgs)>
 }

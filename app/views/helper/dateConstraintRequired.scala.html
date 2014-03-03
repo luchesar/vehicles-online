@@ -1,14 +1,14 @@
-@(field: play.api.data.Field, args: (Symbol, Any)*)(implicit lang: Lang)
+@(field: play.api.data.Field, args: Map[Symbol, Any])(implicit lang: Lang)
 
 @import utils.helpers.EmptyTemplate._
-@import views.html.helper.base.valtechLabelText
+@import views.html.helper.base.{valtechLabel,valtechLabelText}
 
-@showLabel = @{ args.toMap.get('_showLabel).getOrElse(true) == true }
+    @showLabel = @{ args.toMap.get('_showLabel).getOrElse(true) == true }
 
 @if(showLabel) {
-  <legend>
+    <legend>
     @{
-        valtechLabelText(field,args:_*)
+        valtechLabelText(field,args)
     }
-  </legend>
+    </legend>
 }

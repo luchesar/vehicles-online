@@ -4,8 +4,6 @@
 
 	// define base button styles for all buttons which can be included using the @extend 
 	%button {
-		@include appearance(none);
-		@include border-radius(5px);
 		text-align: center;
 		border:0;
 		cursor: pointer;
@@ -17,7 +15,9 @@
 		font: {
 			size:1.9rem;
 			weight: 500;
-	    }   
+	    } 
+	    @include appearance(none);
+		@include border-radius(5px);  
 	    
 	    .ie & {
 		    font-size: 19px;
@@ -37,8 +37,8 @@
 	    }
 	    
 	    &:active {
-	    	@include box-shadow(0 0 0 transparent);	
 			top: 2px;
+			@include box-shadow(0 0 0 transparent);	
 			.ie7 &, .ie8 & {
 			   top: 0;
 			}
@@ -60,9 +60,9 @@
 	// primary button (generally green in colour)
 	.button {
 		@extend %button;
-		@include box-shadow(0 2px 0 darken($green, 10%));
 		color: $white;
 		background: $green;
+		@include box-shadow(0 2px 0 darken($green, 10%));
 		
 		&:hover,
 		&:active,
@@ -80,9 +80,9 @@
 	// secondary button (usually grey)
 	.button-secondary {
 	   @extend %button;
-	   @include box-shadow(0 2px 0 darken(#dee0e2, 20%));
 	   background: $grey-3;
 	   color: $black;
+	   @include box-shadow(0 2px 0 darken(#dee0e2, 20%)); 
 	   
 	   &:hover,
 	   &:active {
@@ -95,9 +95,9 @@
     // secondary button (usually grey)
 	.button-warning {
 	   @extend %button;
-	   @include box-shadow(0 2px 0 darken($red, 25%));
 	   background: $red;
 	   color:$white;
+	   @include box-shadow(0 2px 0 darken($red, 25%));
 	   
 	   &:hover,
 	   &:active {
@@ -110,10 +110,10 @@
 	// button that looks like a text link
 	.button-text {
 	   @extend %button;
-	   @include box-shadow(0 0 0 transparent);
 	   background: none;
 	   color:$link-colour;
 	   text-decoration: underline;
+	   @include box-shadow(0 0 0 transparent);
 	   
 	   &:hover,
 	   &:active {
@@ -129,10 +129,10 @@
 	// button styling for "out of scope"
 	.button-not-implemented {
 		@extend %button;
-		@include box-shadow(0 2px 0 darken($baby-pink, 10%));
 		background: lighten($baby-pink, 10%);
 		cursor: not-allowed;
 		color: lighten($baby-pink, 20%);
+		@include box-shadow(0 2px 0 darken($baby-pink, 10%));
 		
 		&:hover,
 		&:active {
