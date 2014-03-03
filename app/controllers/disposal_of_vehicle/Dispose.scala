@@ -64,12 +64,14 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
           }
         },
         f => {
-          storeDateOfDisposalInCache(f)
+          storeDisposeFormModelInCache(f)
           Logger.debug(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
           fetchVehicleLookupDetailsFromCache match {
             //TODO could be moved inside disposeAction
             case Some(vehicleLookupFormModel) => {
               val disposeModel = DisposeModel(v5cReferenceNumber = vehicleLookupFormModel.v5cReferenceNumber, v5cRegistrationNumber = vehicleLookupFormModel.v5cRegistrationNumber, v5cKeeperName = vehicleLookupFormModel.v5cKeeperName, v5cPostcode = vehicleLookupFormModel.v5cPostcode)
+              Logger.error("** " + disposeModel.v5cKeeperName)
+              storeDisposeModelInCache(disposeModel)
               disposeAction(webService, disposeModel)
             }
             case _ => Future {
@@ -78,7 +80,6 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
             }
           }
         }
-
       )
     }
   }
@@ -92,11 +93,16 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
       dealerAddress = dealerDetails.dealerAddress)
   }
 
-  private def storeDateOfDisposalInCache(f: DisposeFormModel) = {
-    val key = mappings.disposal_of_vehicle.Dispose.cacheKey
-    val value = f
+  private def storeDisposeFormModelInCache(value: DisposeFormModel) = {
+    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
     play.api.cache.Cache.set(key, value)
-    Logger.debug(s"Dispose - stored disposeFromModel in cache: key = $key, value = $f")
+    Logger.debug(s"Dispose - stored disposeFromModel in cache: key = $key, value = $value")
+  }
+  
+  private def storeDisposeModelInCache(value: DisposeModel) = {
+    val key = mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey
+    play.api.cache.Cache.set(key, value)
+    Logger.debug(s"Dispose - stored disposeModel in cache: key = $key, value = $value")
   }
 
   private def disposeAction(webService: services.DisposeService, model: DisposeModel): Future[SimpleResult] = {
@@ -112,5 +118,4 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
       }
     }
   }
-
 }
