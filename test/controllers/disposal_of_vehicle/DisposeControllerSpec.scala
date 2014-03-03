@@ -16,7 +16,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 
 class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
-  "Disposal - Controller" should {
+  "Dispose - Controller" should {
     val mockDisposeModel = mock[DisposeModel]
     val mockWebServiceSuccess = mock[services.DisposeService]
     when(mockWebServiceSuccess.invoke(any[DisposeModel])).thenReturn(new FakeDisposeSuccessService().invoke(mockDisposeModel))
