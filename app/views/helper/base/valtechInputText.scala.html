@@ -1,4 +1,4 @@
-@(field: play.api.data.Field, args: (Symbol, Any)*)(implicit handler: helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field, args: Map[Symbol, Any])(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import helper._
 @import utils.helpers.CryptoHelper
@@ -7,8 +7,8 @@
 @import utils.helpers.HtmlArgsExtensions._
 @import play.api.templates.PlayMagic.toHtmlArgs
 
-@input(field, args:_*) { (id, name, value, htmlArgs) =>
-    @valtechLabel(field, args: _*)
+@input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
+    @valtechLabel(field, args)
 
     <input type="text"
         id="@CryptoHelper.encryptAES(id)"

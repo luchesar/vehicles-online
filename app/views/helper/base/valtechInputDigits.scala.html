@@ -1,15 +1,21 @@
-@(field: play.api.data.Field, args: (Symbol, Any)*)(implicit handler: helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field, args: Map[Symbol, Any])(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import helper._
 @import utils.helpers.CryptoHelper
 @import utils.helpers._
 @import views.html.helper.base._
+@import utils.helpers.HtmlArgsExtensions._
+@import play.api.templates.PlayMagic.toHtmlArgs
 
-@input(field, args ++
-              Seq('autocomplete -> "off") ++
-              (args.find(_._1 == 'maxlength) match{ case Some(_) => Seq() case _ => Seq('maxlength -> Mappings.sixty)}):_* ) { (id, name, value, htmlArgs) =>
+@input(field, args.toSeq:_* ) { (id, name, value, htmlArgs) =>
 
-    @valtechLabel(field,args:_*)
-    
-    <input type="tel" id="@CryptoHelper.encryptAES(id)" name="@CryptoHelper.encryptAES(name)" pattern="[0-9]{1,20}" title="Must be numbers only" value="@value" @toHtmlArgs(htmlArgs)>
+    @valtechLabel(field,args)
+
+    <input type="tel"
+        id="@CryptoHelper.encryptAES(id)"
+        name="@CryptoHelper.encryptAES(name)"
+        pattern="[0-9]{1,20}"
+        title="Must be numbers only"
+        value="@value"
+        @toHtmlArgs(htmlArgs.maxLengthRules.autoCompleteRules)>
 }

@@ -16,7 +16,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 
 class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
-  "Disposal - Controller" should {
+  "Dispose - Controller" should {
     val mockDisposeModel = mock[DisposeModel]
     val mockWebServiceSuccess = mock[services.DisposeService]
     when(mockWebServiceSuccess.invoke(any[DisposeModel])).thenReturn(new FakeDisposeSuccessService().invoke(mockDisposeModel))
@@ -26,7 +26,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       // Arrange
       SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
+      VehicleLookupPage.setupVehicleDetailsModelCache
       val request = FakeRequest().withSession()
 
       // Act
@@ -40,7 +40,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       //Arrange
       SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
+      VehicleLookupPage.setupVehicleDetailsModelCache
       VehicleLookupPage.setupVehicleLookupFormModelCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
@@ -62,7 +62,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
     "redirect to disposeerror when a fail message is return by the fake microservice" in new WithApplication {
       SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
+      VehicleLookupPage.setupVehicleDetailsModelCache
       VehicleLookupPage.setupVehicleLookupFormModelCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
@@ -118,7 +118,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       // Arrange
       SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
+      VehicleLookupPage.setupVehicleDetailsModelCache
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 
@@ -145,7 +145,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       //Arrange
       SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
+      VehicleLookupPage.setupVehicleDetailsModelCache
       VehicleLookupPage.setupVehicleLookupFormModelCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(

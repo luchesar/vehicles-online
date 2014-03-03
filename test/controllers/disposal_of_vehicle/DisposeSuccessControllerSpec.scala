@@ -5,7 +5,7 @@ import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
-import helpers.disposal_of_vehicle.{VehicleLookupPage, DisposePage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage}
+import helpers.disposal_of_vehicle.{VehicleLookupPage, DisposePage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, DisposeSuccessPage}
 
 class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
 
@@ -13,10 +13,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
 
     "present" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
-      DisposePage.setupCache
+      DisposeSuccessPage.happyPath()
       val request = FakeRequest().withSession()
 
       // Act
@@ -27,10 +24,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
     }
 
     "redirect to next page after the new disposal button is clicked" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupCache
-      DisposePage.setupCache
+      DisposeSuccessPage.happyPath()
       val request = FakeRequest().withSession()
 
       // Act
@@ -40,12 +34,173 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
       redirectLocation(result) should equal(Some(VehicleLookupPage.url)) 
     }
 
-    "redirect to setupTradeDetails page when previous pages have not been visited" in new WithApplication {
+    "redirect to SetUpTradeDetails on present when cache is empty" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
 
       // Act
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+    }
+
+    "redirect to SetUpTradeDetails on present when only DealerDetails are cached" in new WithApplication {
+      // Arrange
+      BusinessChooseYourAddressPage.setupCache()
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.DisposeSuccess.present(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+    }
+
+    "redirect to SetUpTradeDetails on present when only VehicleDetails are cached" in new WithApplication {
+      // Arrange
+      VehicleLookupPage.setupVehicleDetailsModelCache()
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.DisposeSuccess.present(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+    }
+
+    "redirect to SetUpTradeDetails on present when only DisposeDetails are cached" in new WithApplication {
+      // Arrange
+      DisposePage.setupCache()
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.DisposeSuccess.present(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+    }
+
+    "redirect to SetUpTradeDetails on present when only VehicleDetails and DisposeDetails are cached" in new WithApplication {
+      // Arrange
+      VehicleLookupPage.setupVehicleDetailsModelCache()
+      DisposePage.setupCache()
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.DisposeSuccess.present(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+    }
+
+    "redirect to SetUpTradeDetails on present when only VehicleDetails and DealerDetails are cached" in new WithApplication {
+      // Arrange
+      VehicleLookupPage.setupVehicleDetailsModelCache()
+      BusinessChooseYourAddressPage.setupCache()
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.DisposeSuccess.present(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+    }
+
+    "redirect to SetUpTradeDetails on present when only DisposeDetails and DealerDetails are cached" in new WithApplication {
+      // Arrange
+      BusinessChooseYourAddressPage.setupCache()
+      DisposePage.setupCache()
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.DisposeSuccess.present(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+    }
+
+    "redirect to SetUpTradeDetails on submit when cache is empty" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.DisposeSuccess.submit(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+    }
+
+    "redirect to SetUpTradeDetails on submit when only DealerDetails are cached" in new WithApplication {
+      // Arrange
+      BusinessChooseYourAddressPage.setupCache()
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.DisposeSuccess.submit(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+    }
+
+    "redirect to SetUpTradeDetails on submit when only VehicleDetails are cached" in new WithApplication {
+      // Arrange
+      VehicleLookupPage.setupVehicleDetailsModelCache()
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.DisposeSuccess.submit(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+    }
+
+    "redirect to SetUpTradeDetails on submit when only DisposeDetails are cached" in new WithApplication {
+      // Arrange
+      DisposePage.setupCache()
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.DisposeSuccess.submit(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+    }
+
+    "redirect to SetUpTradeDetails on submit when only VehicleDetails and DisposeDetails are cached" in new WithApplication {
+      // Arrange
+      VehicleLookupPage.setupVehicleDetailsModelCache()
+      DisposePage.setupCache()
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.DisposeSuccess.submit(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+    }
+
+    "redirect to SetUpTradeDetails on submit when only VehicleDetails and DealerDetails are cached" in new WithApplication {
+      // Arrange
+      VehicleLookupPage.setupVehicleDetailsModelCache()
+      BusinessChooseYourAddressPage.setupCache()
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.DisposeSuccess.submit(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+    }
+
+    "redirect to SetUpTradeDetails on submit when only DisposeDetails and DealerDetails are cached" in new WithApplication {
+      // Arrange
+      BusinessChooseYourAddressPage.setupCache()
+      DisposePage.setupCache()
+      val request = FakeRequest().withSession()
+
+      // Act
+      val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
       // Assert
       redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))

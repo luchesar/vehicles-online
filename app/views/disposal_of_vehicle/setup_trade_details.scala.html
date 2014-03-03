@@ -2,7 +2,7 @@
 
 @import mappings.common.Postcode
 @import helper._
-@import utils.helpers.BaseTemplete._
+@import utils.helpers.BaseTemplate._
 @import views.html.helper.base._
 @import views.html.common._
 @import views.html.helper._
@@ -16,14 +16,14 @@
     <h2>@Messages("disposal_setuptradedetails.p1")</h2>
     
     @valtechInputText(traderLookupForm(dealerNameId), args =
-    '_label -> Messages("disposal_setuptradedetails.tradernamelabel"),
-    '_showConstraints -> false)
+    Map('_label -> Messages("disposal_setuptradedetails.tradernamelabel"),
+    '_showConstraints -> false))
 
     @valtechInputText(traderLookupForm(dealerPostcodeId), args =
-    '_label -> Messages("disposal_setuptradedetails.traderpostcodelabel"),
+    Map('_label -> Messages("disposal_setuptradedetails.traderpostcodelabel"),
     '_showConstraints -> false,
     'maxLength -> Postcode.maxLength,
-    'title -> Messages("disposal_setuptradedetails.traderpostcode.validation"))
+    'title -> Messages("disposal_setuptradedetails.traderpostcode.validation")))
 
 	<div class="form-steps">
 	    <button type="submit" name="action" class="button">@Messages("disposal_setuptradedetails.button")</button>

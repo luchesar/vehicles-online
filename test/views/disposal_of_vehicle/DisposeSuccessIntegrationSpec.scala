@@ -24,6 +24,63 @@ class DisposeSuccessIntegrationSpec extends Specification with Tags {
       titleMustEqual(SetUpTradeDetailsPage.title)
     }
 
+    "redirect when only DealerDetails are cached" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      BusinessChooseYourAddressPage.setupCache()
+      browser.goTo(DisposeSuccessPage.url)
+
+      // Assert
+      titleMustEqual(SetUpTradeDetailsPage.title)
+    }
+
+    "redirect when only VehicleDetails are cached" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      VehicleLookupPage.setupVehicleDetailsModelCache()
+      browser.goTo(DisposeSuccessPage.url)
+
+      // Assert
+      titleMustEqual(SetUpTradeDetailsPage.title)
+    }
+
+    "redirect when only DisposeDetails are cached" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      DisposePage.setupCache()
+      browser.goTo(DisposeSuccessPage.url)
+
+      // Assert
+      titleMustEqual(SetUpTradeDetailsPage.title)
+    }
+
+    "redirect when only DealerDetails and VehicleDetails are cached" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      BusinessChooseYourAddressPage.setupCache()
+      VehicleLookupPage.setupVehicleDetailsModelCache()
+      browser.goTo(DisposeSuccessPage.url)
+
+      // Assert
+      titleMustEqual(SetUpTradeDetailsPage.title)
+    }
+
+    "redirect when only DisposeDetails and VehicleDetails are cached" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      DisposePage.setupCache()
+      VehicleLookupPage.setupVehicleDetailsModelCache()
+      browser.goTo(DisposeSuccessPage.url)
+
+      // Assert
+      titleMustEqual(SetUpTradeDetailsPage.title)
+    }
+
+    "redirect when only DisposeDetails and DealerDetails are cached" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      DisposePage.setupCache()
+      BusinessChooseYourAddressPage.setupCache()
+      browser.goTo(DisposeSuccessPage.url)
+
+      // Assert
+      titleMustEqual(SetUpTradeDetailsPage.title)
+    }
+
     "display vehicle lookup page when new disposal link is clicked" in new WithBrowser with BrowserMatchers {
 
       // Arrange

@@ -3,7 +3,7 @@
         buttonName: String = "send-email",
         buttonClass: String = "button button-not-implemented",
         buttonAriaDisabled: String = "true",
-        args: Seq[(Symbol, Any)] )(implicit handler: helper.FieldConstructor, lang: Lang)
+        args: Map[Symbol, Any])(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import helper._
 @import utils.helpers.CryptoHelper
@@ -12,8 +12,8 @@
 @import utils.helpers.HtmlArgsExtensions._
 @import play.api.templates.PlayMagic.toHtmlArgs
 
-@input(field, args:_*) { (id, name, value, htmlArgs) =>
-    @valtechLabel(field, args: _*)
+@input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
+    @valtechLabel(field, args)
 
     <input type="text"
         id="@CryptoHelper.encryptAES(id)"
@@ -23,7 +23,7 @@
     >
 
     <button type=@buttonType name="@buttonName" class="@buttonClass" aria-disabled="@buttonAriaDisabled" disabled>
-        @labelOrId(field.id,args: _*)
+        @labelOrId(field.id,args)
     </button>
 }
 

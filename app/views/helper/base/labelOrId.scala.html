@@ -1,3 +1,4 @@
-@(id: String, args: (Symbol,Any)*)
+@(id: String, args: Map[Symbol, Any])(implicit lang: Lang)
+@import utils.helpers.LabelHelper
 
-@Html(Messages(args.find(arg => arg._1 == '_label).getOrElse('_label->id).asInstanceOf[(String,String)]._2))
+@Html(Messages(LabelHelper.label(id, args)))
