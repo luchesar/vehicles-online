@@ -15,6 +15,10 @@
     @errorsSummary(vehicleLookupForm)
 
     @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit) {
+    
+    	<div class="alert">
+			<p>@Messages("disposal_vehiclelookup.warning.p1") @Messages("disposal_vehiclelookup.warning.p2")</p>
+		</div>
 
 		<div class="two-col clearfix">
 		
@@ -32,11 +36,6 @@
 			
 			<div id="FindAVehicleDiv" class="second-col">
 				<h2>@Messages("disposal_vehiclelookup.p1")</h2>
-				
-				<div class="alert">
-					<p>@Messages("disposal_vehiclelookup.warning.p1")</p>
-					<p>@Messages("disposal_vehiclelookup.warning.p2")</p>
-				</div>
 				
 				@valtechInputText(vehicleLookupForm(v5cRegistrationNumberId), args =
                   Map('_label -> Messages("disposal_vehiclelookup.vrninputlabel"),
