@@ -16,6 +16,14 @@ class DisposeFailureIntegrationSpec extends Specification with Tags {
       titleMustEqual(DisposeFailurePage.title)
     }
 
+    "redirect to setuptrade details if cache is empty on page load" in new WithBrowser with BrowserMatchers {
+      //Arrange & Act
+      browser.goTo(DisposeFailurePage.url)
+
+      //Assert
+      titleMustEqual(SetUpTradeDetailsPage.title)
+    }
+
     "redirect to vehiclelookup when button clicked" in new WithBrowser with BrowserMatchers {
       // Arrange
       DisposeFailurePage.cacheSetupHappyPath
@@ -35,14 +43,6 @@ class DisposeFailureIntegrationSpec extends Specification with Tags {
 
       // Act
       browser.click("#setuptradedetails")
-
-      // Assert
-      titleMustEqual(SetUpTradeDetailsPage.title)
-    }
-
-    "redirect to setuptraderdetails page when no details are cached" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      browser.goTo(DisposeFailurePage.url)
 
       // Assert
       titleMustEqual(SetUpTradeDetailsPage.title)

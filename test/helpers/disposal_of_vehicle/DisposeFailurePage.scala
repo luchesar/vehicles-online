@@ -9,7 +9,7 @@ object DisposeFailurePage {
   def cacheSetupHappyPath () {
     SetUpTradeDetailsPage.setupCache()
     BusinessChooseYourAddressPage.setupCache()
-    VehicleLookupPage.setupCache()
+    VehicleLookupPage.setupVehicleDetailsModelCache()
     DisposePage.setupCache()
   }
 }
