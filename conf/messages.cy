@@ -274,5 +274,6 @@ widget.optional = (dewisol)
 error.invalid = Gwerth annilys
 
 error.address.line1Required = Mae angen o leiaf y llinell gyntaf lenwi gyfeiriad
+error.address.maxLengthOfLinesConcatenated = WELSH Address must have fewer than 130 characters
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post

@@ -29,6 +29,7 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
           f.addressAndPostcodeModel.addressLinesModel.line1 should equal(Some(line1Valid))
           f.addressAndPostcodeModel.addressLinesModel.line2 should equal(Some(line2Valid))
           f.addressAndPostcodeModel.addressLinesModel.line3 should equal(Some(line3Valid))
+          f.addressAndPostcodeModel.addressLinesModel.line4 should equal(Some(line4Valid))
           f.addressAndPostcodeModel.postcode should equal(postcodeValid)
         }
       )
@@ -59,21 +60,42 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
     }
 
     "reject if line1 is blank" in {
-      addressFiller(line1 = "", line2 = "", line3 = "").fold(
+      addressFiller(line1 = "").fold(
         formWithErrors => formWithErrors.errors.length should equal(1),
         f => fail("An error should occur")
       )
     }
 
     "reject if line1 is more than max length" in {
-      addressFiller(line1 = "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwerty", line2 = "", line3 = "").fold(
+      addressFiller(line1 = "a" * (lineMaxLength + 1) , line2 = "", line3 = "", line4 = "").fold(
+        formWithErrors => formWithErrors.errors.length should equal(1),
+        f => fail("An error should occur")
+      )
+    }
+
+    "reject if line2 is more than max length" in {
+      addressFiller(line1 = "", line2 = "a" * (lineMaxLength + 1) , line3 = "", line4 = "").fold(
+        formWithErrors => formWithErrors.errors.length should equal(1),
+        f => fail("An error should occur")
+      )
+    }
+
+    "reject if line3 is more than max length" in {
+      addressFiller(line1 = "", line2 = "", line3 = "a" * (lineMaxLength + 1), line4 = "").fold(
+        formWithErrors => formWithErrors.errors.length should equal(1),
+        f => fail("An error should occur")
+      )
+    }
+
+    "reject if line4 is more than max length" in {
+      addressFiller(line1 = "", line2 = "", line3 = "", line4 = "a" * (lineMaxLength + 1) ).fold(
         formWithErrors => formWithErrors.errors.length should equal(1),
         f => fail("An error should occur")
       )
     }
 
     "reject if postcode is blank" in {
-      addressFiller(line2 = "", line3 = "", postcode = "").fold(
+      addressFiller(postcode = "").fold(
         formWithErrors => formWithErrors.errors.length should equal(3),
         f => fail("An error should occur")
       )
@@ -93,7 +115,6 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
       )
     }
 
-
     "reject if postcode is more than max length" in {
       addressFiller(postcode = "SA99 1DDR").fold(
         formWithErrors => formWithErrors.errors.length should equal(2),
@@ -102,7 +123,7 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
     }
 
     "reject if total length of all address lines is more than maxLengthOfLinesConcatenated" in {
-      addressFiller(line1 = "a" * 50, line2 = "b" * 50, line3 = "c" * 50).fold(
+      addressFiller(line1 = "a" * 50, line2 = "b" * 50, line3 = "c" * 50, line4 = "d" * 50).fold(
         formWithErrors => formWithErrors.errors.length should equal(1),
         f => fail(s"An error should occur: $f")
       )

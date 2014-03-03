@@ -7,7 +7,10 @@ import models.domain.disposal_of_vehicle.AddressLinesModel
 
 object AddressLines {
   def validAddressLines: Constraint[AddressLinesModel] = Constraint[AddressLinesModel]("constraint.required") {
-    case input@AddressLinesModel(Some(line1), _, _, _) if input.line1.isDefined && input.totalCharacters <= maxLengthOfLinesConcatenated => Valid
+    case input@AddressLinesModel(Some(line1), _, _, _)  => {
+      if(input.totalCharacters <= maxLengthOfLinesConcatenated) Valid
+      else Invalid(ValidationError("error.address.maxLengthOfLinesConcatenated"))
+    }
     case _ => Invalid(ValidationError("error.address.line1Required"))
   }
 }

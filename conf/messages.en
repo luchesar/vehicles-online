@@ -298,5 +298,6 @@ disposal_vehiclelookupfailure.button = Vehicle Lookup
 disposal_vehiclelookupfailure.button2 = Setup New Trader Details
 
 error.address.line1Required = Address needs at least the first line filled in
+error.address.maxLengthOfLinesConcatenated = Address must have fewer than 130 characters
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
