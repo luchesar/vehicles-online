@@ -9,11 +9,11 @@ import play.api.Logger
 
 class FakeDisposeService extends DisposeService {
   val successMessage = "Fake Web Dispose Service - Good response"
-  val disposeResponseSuccess = DisposeResponse(success = true, message = successMessage)
-  val disposeResponseFails = DisposeResponse(success = false, message = successMessage)
+  val failMessage = "Fake Web Dispose Service - Bad response"
+  val disposeResponseSuccess = DisposeResponse(success = true, message = successMessage, transactionId = "1234")
+  val disposeResponseFails = DisposeResponse(success = false, message = failMessage, transactionId = "5678FF")
 
   override def invoke(cmd: DisposeModel): Future[DisposeResponse] = Future {
-    Logger.debug("****************** " + cmd.v5cKeeperName)
     if (cmd.v5cKeeperName == "fail") disposeResponseFails
     else disposeResponseSuccess
   }

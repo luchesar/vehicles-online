@@ -17,9 +17,9 @@ object AddressLines {
 
   def addressLines: Mapping[AddressLinesModel] = mapping(
     line1Id -> optional(text(minLength = line1MinLength, maxLength = lineMaxLength)),
-    line2Id -> optional(text),
-    line3Id -> optional(text),
-    line4Id -> optional(text)
+    line2Id -> optional(text(maxLength = lineMaxLength)),
+    line3Id -> optional(text(maxLength = lineMaxLength)),
+    line4Id -> optional(text(maxLength = lineMaxLength))
   )(AddressLinesModel.apply)(AddressLinesModel.unapply)
 
 
