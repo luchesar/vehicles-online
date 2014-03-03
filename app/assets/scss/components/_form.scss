@@ -228,8 +228,8 @@
 	.form-steps {
 	   margin-top: 2.2em;
 	   clear: both;
-	   
 	   @include clearfix;
+	   
 	   @media screen and (max-width: $device-small) {
 	   		padding-left: 0;
 	   	}
