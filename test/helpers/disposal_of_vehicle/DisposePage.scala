@@ -34,4 +34,11 @@ object DisposePage {
     val value = DisposeModel(v5cReferenceNumber, v5cRegistrationNumber, v5cKeeperName, v5cPostcode)
     play.api.cache.Cache.set(key, value)
   }
+
+  def setupDisposeTransactionIdCache() = {
+    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
+    val value = "1234"
+    play.api.cache.Cache.set(key, value)
+  }
+
 }

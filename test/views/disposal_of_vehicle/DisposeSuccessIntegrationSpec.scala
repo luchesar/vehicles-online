@@ -82,7 +82,6 @@ class DisposeSuccessIntegrationSpec extends Specification with Tags {
     }
 
     "display vehicle lookup page when new disposal link is clicked" in new WithBrowser with BrowserMatchers {
-
       // Arrange
       DisposeFailurePage.cacheSetupHappyPath
       browser.goTo(DisposeSuccessPage.url)
@@ -93,5 +92,6 @@ class DisposeSuccessIntegrationSpec extends Specification with Tags {
       //Assert
       titleMustEqual(VehicleLookupPage.title)
     }
+
   }
 }

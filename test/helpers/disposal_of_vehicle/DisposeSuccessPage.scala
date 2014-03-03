@@ -9,6 +9,7 @@ object DisposeSuccessPage {
     BusinessChooseYourAddressPage.setupCache
     VehicleLookupPage.setupVehicleDetailsModelCache()
     DisposePage.setupDisposeFormModelCache
+    DisposePage.setupDisposeTransactionIdCache
   }
 
 }

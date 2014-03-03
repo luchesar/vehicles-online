@@ -40,7 +40,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
           Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
           //val filledForm = disposeForm.fill(DisposeFormModel(consent = "false", dateOfDisposal = models.DayMonthYear.today))
-          Ok(views.html.disposal_of_vehicle.dispose(fetchData(dealerDetails, vehicleDetails), disposeForm))
+          Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm))
         }
         case _ => Redirect(routes.SetUpTradeDetails.present)
       }
@@ -55,7 +55,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
           Future {
             (fetchDealerDetailsFromCache, fetchVehicleDetailsFromCache) match {
               case (Some(dealerDetails), Some(vehicleDetails)) =>
-                val disposeViewModel = fetchData(dealerDetails, vehicleDetails)
+                val disposeViewModel = populateModelFromCachedData(dealerDetails, vehicleDetails)
                 BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithErrors))
               case _ =>
                 Logger.error("could not find dealer details in cache on Dispose submit")
@@ -83,7 +83,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
     }
   }
 
-  private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {
+  private def populateModelFromCachedData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {
     DisposeViewModel(vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
       keeperName = vehicleDetails.keeperName,
@@ -98,6 +98,12 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
     Logger.debug(s"Dispose - stored disposeFromModel in cache: key = $key, value = $value")
   }
 
+  private def storeDisposeTransactionIdInCache(value: String) = {
+    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
+    play.api.cache.Cache.set(key, value)
+    Logger.debug(s"Dispose - stored dispose transaction id in cache: key = $key, value = $value")
+  }
+
   private def storeDisposeModelInCache(value: DisposeModel) = {
     val key = mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey
     play.api.cache.Cache.set(key, value)
@@ -108,7 +114,10 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
     webService.invoke(model).map {
       resp =>
         Logger.debug(s"Dispose Web service call successful - response = ${resp}")
-        if (resp.success) Redirect(routes.DisposeSuccess.present)
+        if (resp.success) {
+          storeDisposeTransactionIdInCache(resp.transactionId)
+          Redirect(routes.DisposeSuccess.present)
+        }
         else Redirect(routes.DisposeFailure.present)
     }.recoverWith {
       case e: Throwable => Future {

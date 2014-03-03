@@ -63,4 +63,9 @@ object Helpers {
     val key = mappings.disposal_of_vehicle.BusinessChooseYourAddress.cacheKey
     Cache.getAs[BusinessChooseYourAddressModel](key)
   }
+
+  def fetchDisposeTransactionIdFromCache: Option[String] = {
+    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
+    Cache.getAs[String](key)
+  }
 }
