@@ -20,7 +20,7 @@
 		<dl class="summary-detail-list">
             
             <dt>@Messages("disposal_disposeconfirmation.transactionid_label")</dt>
-            <dd><span style="color:green;">&#10004;</span>  @Messages("disposal_disposeconfirmation.transactionid", "123-654-REP")</dd>
+            <dd><span style="color:green;">&#10004;</span>  @Messages("disposal_disposeconfirmation.transactionid", data.transactionId.getOrElse(""))</dd>
 
 			<dt>@Messages("disposal_disposeconfirmation.vehiclemake")</dt>
 			<dd>@data.vehicleMake</dd>

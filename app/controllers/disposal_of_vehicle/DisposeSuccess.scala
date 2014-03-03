@@ -34,6 +34,7 @@ object DisposeSuccess extends Controller {
       keeperName = vehicleDetails.keeperName,
       keeperAddress = vehicleDetails.keeperAddress,
       dealerName = dealerDetails.dealerName,
-      dealerAddress = dealerDetails.dealerAddress)
+      dealerAddress = dealerDetails.dealerAddress,
+      transactionId = Some("123-abc"))
   }
 }
