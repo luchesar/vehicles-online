@@ -194,8 +194,9 @@ prototype.link = Dispose of a vehicle using the live service
 
 #page 1 - Before You Start
 disposal_beforeyoustart.title = Dispose a vehicle into the motor trade: start
-disposal_beforeyoustart.name = Selling or transfering a vehicle to a motor trader, insurer or dismantler
-disposal_beforeyoustart.p1 = Use this service if you are a motor trader, insurer or dismantler, and you have the consent of a vehicle keeper to dispose of that vehicle to yourself.
+disposal_beforeyoustart.name = Before you start you will need the V5C vehicle registration certificate (log book) for the vehicle to be disposed
+disposal_beforeyoustart.p1 = If the vehicle being disposed of has a personal registration, the keeper must understand that the registration will be disposed of with the vehicle.
+disposal_beforeyoustart.p2 = If the current keeper wishes to keep a personal registration, it must first be retained to a certificate, or transferred to another vehicle, and the original registration returned to the vehicle.
 disposal_beforeyoustart.button = Start now
 
 #page 2 - set-up trade details
@@ -237,6 +238,8 @@ disposal_vehiclelookup.title = Dispose a vehicle into the motor trade: vehicle
 disposal_vehiclelookup.name = Dispose a vehicle into the motor trade
 disposal_vehiclelookup.p1 = Find a vehicle
 disposal_vehiclelookup.p2 = Vehicle disposed to
+disposal_vehiclelookup.warning.p1 = Do not dispose of a vehicle with a personal registration unless the current keeper understands that the registration will be disposed of along with the vehicle.
+disposal_vehiclelookup.warning.p2 = Retain or transfer personal registrations before disposing to the trade.
 disposal_vehiclelookup.v5cinputlabel = V5C Document reference number
 disposal_vehiclelookup.v5cinputlabel.refNumIncorrect = You must enter a number with a length of 11 digits
 disposal_vehiclelookup.vrninputlabel = Vehicle registration number
