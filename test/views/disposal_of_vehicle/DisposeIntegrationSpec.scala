@@ -22,8 +22,7 @@ class DisposeIntegrationSpec extends Specification with Tags {
       // Fill in mandatory data
       SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
-      VehicleLookupPage.setupVehicleDetailsModelCache
-      DisposePage.happyPath(browser)
+      browser.goTo(DisposePage.url)
 
       // Verify we have moved to the next screen
       titleMustEqual(SetUpTradeDetailsPage.title)
@@ -92,6 +91,26 @@ class DisposeIntegrationSpec extends Specification with Tags {
       titleMustEqual(VehicleLookupPage.title)
     }
 
-    //TODO need to write tests for disposesuccess and disposefail
+    "display disposesuccess page on correct submission" in new WithBrowser with BrowserMatchers {
+      //Arrange
+      DisposePage.happyPath(browser)
+
+      //Act
+      browser.click("#submit")
+
+      //Assert
+      titleMustEqual(DisposeSuccessPage.title)
+    }
+
+    "display disposesuccess page on correct submission" in new WithBrowser with BrowserMatchers {
+      //Arrange
+      DisposePage.happyPath(browser)
+
+      //Act
+      browser.click("#submit")
+
+      //Assert
+      titleMustEqual(DisposeSuccessPage.title)
+    }
   }
 }
