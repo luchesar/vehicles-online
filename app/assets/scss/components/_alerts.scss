@@ -63,12 +63,10 @@
 	  border-color: $mellow-red;
 	  background: $error-bg;
 	  color:$mellow-red;
-	  .alert-icon {
-	  	@extend %alert-icon;
-	  	top:0.5rem;
-	  	&:after {
-		  	content:'\2718';
-	  	}
+	  &.alert-withicon {
+		  &:after {
+			  content:'\2718';
+		  }
 	  }
 	  ol, ul, p {
 	    a {
@@ -82,15 +80,16 @@
 		border-color: $orange;
 		background: lighten($orange-25, 7%);
 		color:darken($orange, 10%);
-		.alert-icon {
-			@extend %alert-icon;
-		  	top:1.5rem;
-		  	left:2.5rem;
+		  	
+		&.alert-withicon {
 		  	&:after {
-			  	content:"\0021";
-			  	font-weight: bold;
-		  	}
+			  content:"\0021";
+			  top:1.5rem;
+			  left:2.5rem;
+			  font-weight: bold;
 		  }
+		}
+		  
 		ol, ul, p {
 			a {
 				color:darken($orange, 10%);
@@ -103,12 +102,12 @@
 		background: lighten($green-25, 10%);
 		border-color: $green;
 		color:$green;
-		.alert-icon {
-			@extend %alert-icon;
-			&:after {
+		&.alert-withicon {
+		  	&:after {
+				@extend %alert-icon;
 			  	content:'\2714';
 		  	}
-		}
+	  	}
 		ol, ul, p {
 			a {
 				color:$green;
