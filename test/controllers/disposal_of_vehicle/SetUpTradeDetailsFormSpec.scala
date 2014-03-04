@@ -32,7 +32,7 @@ class SetUpTradeDetailsFormSpec extends WordSpec with Matchers {
     }
 
     "reject if trader business name is more than the maximum length" in {
-      traderLookupFiller(traderBusinessName = "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopq", traderPostcode = traderPostcodeValid).fold(
+      traderLookupFiller(traderBusinessName = ("A" * 101), traderPostcode = traderPostcodeValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },

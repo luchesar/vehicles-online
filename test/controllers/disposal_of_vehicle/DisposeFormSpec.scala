@@ -85,5 +85,14 @@ class DisposeFormSpec extends WordSpec with Matchers with MockitoSugar {
         f => f.consent should equal(consentValid)
       )
     }
+
+    "accept when all mandatory fields contain valid responses" in {
+      disposeFormFiller(consent = consentValid, mileage = "", day = dateOfDisposalDayValid, month = dateOfDisposalMonthValid, year = dateOfDisposalYearValid).fold(
+        formWithErrors => {
+          fail("An error should occur")
+        },
+        f => f.consent should equal(consentValid)
+      )
+    }
   }
 }
