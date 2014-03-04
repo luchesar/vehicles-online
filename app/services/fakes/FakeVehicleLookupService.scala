@@ -19,7 +19,7 @@ class FakeVehicleLookupService extends VehicleLookupService {
         "Mr Fail", keeperAddress = AddressViewModel(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
 
   override def invoke(cmd: VehicleLookupFormModel): Future[VehicleDetailsResponse] = Future {
-    if (cmd.v5cKeeperName == "fail") vehicleLookupFormModelFailure
+    if (cmd.referenceNumber == "9" * 11) vehicleLookupFormModelFailure
     else vehicleLookupFormModelSuccess
   }
 }

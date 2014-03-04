@@ -11,7 +11,7 @@ import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
-import services.fakes.FakeVehicleLookupService
+import services.fakes.{FakeDisposeService, FakeVehicleLookupService}
 
 class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
@@ -37,7 +37,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       // Arrange
       BusinessChooseYourAddressPage.setupCache
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cDocumentReferenceNumberValid, v5cRegistrationNumberId -> v5cVehicleRegistrationNumberValid, v5cKeeperNameId -> v5cKeeperNameValid, v5cPostcodeId -> v5cPostcodeValid)
+        .withFormUrlEncodedBody(referenceNumberId -> documentReferenceNumberValid, registrationNumberId -> vehicleRegistrationNumberValid)
 
       // Act
       val result = vehicleLookupSuccess.submit(request)
@@ -46,9 +46,9 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       redirectLocation(result) should equal (Some(DisposePage.url))
      }
 
-    "redirect to VehicleLookupFailure after a valid submit and false message returned from the fake microservice" in new WithApplication {
+    "redirect to VehicleLookupFailure after a submit and false message returned from the fake microservice" in new WithApplication {
       val mockVehicleLookupFormModelFailure = mock[VehicleLookupFormModel]
-      when (mockVehicleLookupFormModelFailure.v5cKeeperName).thenReturn("fail")
+      when (mockVehicleLookupFormModelFailure.referenceNumber).thenReturn(FakeDisposeService.failureReferenceNumber)
       val mockWebServiceFailure = mock[services.VehicleLookupService]
       when(mockWebServiceFailure.invoke(any[VehicleLookupFormModel])).thenReturn(new FakeVehicleLookupService().invoke(mockVehicleLookupFormModelFailure))
       val vehicleLookupFailure = new disposal_of_vehicle.VehicleLookup(mockWebServiceFailure)
@@ -56,7 +56,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       // Arrange
       BusinessChooseYourAddressPage.setupCache
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cDocumentReferenceNumberValid, v5cRegistrationNumberId -> v5cVehicleRegistrationNumberValid, v5cKeeperNameId -> v5cKeeperNameValid, v5cPostcodeId -> v5cPostcodeValid)
+        .withFormUrlEncodedBody(referenceNumberId -> documentReferenceNumberValid, registrationNumberId -> vehicleRegistrationNumberValid)
 
       // Act
       val result = vehicleLookupFailure.submit(request)

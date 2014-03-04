@@ -7,8 +7,8 @@
 @import views.html.common._
 @import views.html.helper._
 @import mappings.disposal_of_vehicle.VehicleLookup._
-@import mappings.common.V5cReferenceNumber
-@import mappings.common.V5cRegistrationNumber
+@import mappings.common.ReferenceNumber
+@import mappings.common.RegistrationNumber
 @import mappings.common.KeeperName
 
 @main(Messages("disposal_vehiclelookup.title")) {
@@ -37,31 +37,18 @@
 			<div id="FindAVehicleDiv" class="second-col">
 				<h2>@Messages("disposal_vehiclelookup.p1")</h2>
 				
-				@valtechInputText(vehicleLookupForm(v5cRegistrationNumberId), args =
-                  Map('_label -> Messages("disposal_vehiclelookup.vrninputlabel"),
-                  'maxLength -> V5cRegistrationNumber.maxLength,
-                  '_showConstraints -> false))
+				@valtechInputText(vehicleLookupForm(registrationNumberId), args =
+                    Map('_label -> Messages("disposal_vehiclelookup.vrninputlabel"),
+                    'maxLength -> RegistrationNumber.maxLength,
+                    '_showConstraints -> false))
 				
-					@valtechInputText(vehicleLookupForm(v5cReferenceNumberId), args =
-                Map('_label -> Messages("disposal_vehiclelookup.v5cinputlabel"),
-                '_showConstraints -> false,
-                'pattern -> V5cReferenceNumber.pattern,
-                'maxLength -> V5cReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-                'title -> Messages("disposal_vehiclelookup.v5cinputlabel.refNumIncorrect")))
-                
+			    @valtechInputText(vehicleLookupForm(referenceNumberId), args =
+                    Map('_label -> Messages("disposal_vehiclelookup.refnumlabel"),
+                    '_showConstraints -> false,
+                    'pattern -> ReferenceNumber.pattern,
+                    'maxLength -> ReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                    'title -> Messages("disposal_vehiclelookup.refnumlabel.refNumIncorrect")))
 
-                @valtechInputText(vehicleLookupForm(v5cKeeperNameId), args =
-                Map('_label -> Messages("disposal_vehiclelookup.keepernamelabel"),
-                '_showConstraints -> false,
-                'maxLength -> KeeperName.maxLength,
-                'title -> Messages("disposal_vehiclelookup.keepername.validation")))
-
-                @valtechInputText(vehicleLookupForm(v5cPostcodeId), args =
-                Map('_label -> Messages("disposal_vehiclelookup.keeperpostcodelabel"),
-                '_showConstraints -> false,
-                'maxLength -> Postcode.maxLength,
-                'title -> Messages("disposal_vehiclelookup.keeperpostcode.validation")))
-				
 				<div class="form-steps">
 					<button type="submit" name="action" class="button">@Messages("disposal_vehiclelookup.button")</button>
                     <a id="backButton" href="@controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.present" class="button-secondary">@Messages("disposal_vehiclelookup.backbutton")</a>

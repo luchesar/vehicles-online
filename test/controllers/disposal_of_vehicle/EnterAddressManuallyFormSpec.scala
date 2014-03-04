@@ -10,7 +10,11 @@ import Postcode._
 
 class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSugar {
   "EnterAddressManually Form" should {
-    def addressFiller(line1: String = line1Valid, line2: String = line2Valid, line3: String = line3Valid, line4: String = line4Valid, postcode: String = postcodeValid) = {
+    def addressFiller(line1: String = line1Valid,
+                      line2: String = line2Valid,
+                      line3: String = line3Valid,
+                      line4: String = line4Valid,
+                      postcode: String = postcodeValid) = {
       EnterAddressManually.form.bind(
         Map(
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1,

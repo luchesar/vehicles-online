@@ -11,12 +11,10 @@ object VehicleLookupPage {
   val url = "/disposal-of-vehicle/vehicle-lookup"
   val title = "Dispose a vehicle into the motor trade: vehicle"
 
-  def happyPath(browser: TestBrowser, v5cReferenceNumber: String = v5cDocumentReferenceNumberValid, v5cVehicleRegistrationNumber: String = v5cVehicleRegistrationNumberValid, v5cKeeperName: String = v5cKeeperNameValid, v5cPostcode: String = v5cPostcodeValid) = {
+  def happyPath(browser: TestBrowser, referenceNumber: String = documentReferenceNumberValid, vehicleRegistrationNumber: String = vehicleRegistrationNumberValid) = {
     browser.goTo("/disposal-of-vehicle/vehicle-lookup")
-    browser.fill("#v5cReferenceNumber") `with` v5cReferenceNumber
-    browser.fill("#v5cRegistrationNumber") `with` v5cVehicleRegistrationNumber
-    browser.fill("#v5cKeeperName") `with` v5cKeeperName
-    browser.fill("#v5cPostcode") `with` v5cPostcode
+    browser.fill("#referenceNumber") `with` referenceNumber
+    browser.fill("#registrationNumber") `with` vehicleRegistrationNumber
     browser.submit("button[type='submit']")
   }
 
@@ -26,9 +24,9 @@ object VehicleLookupPage {
     play.api.cache.Cache.set(key, value)
   }
 
-  def setupVehicleLookupFormModelCache (v5cReferenceNumber: String = v5cDocumentReferenceNumberValid, v5cRegistrationNumber: String = v5cVehicleRegistrationNumberValid, v5cKeeperName: String = v5cKeeperNameValid, v5cPostcode: String = v5cPostcodeValid) = {
+  def setupVehicleLookupFormModelCache (referenceNumber: String = documentReferenceNumberValid, registrationNumber: String = vehicleRegistrationNumberValid) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupFormModelCacheKey
-    val value = VehicleLookupFormModel(v5cReferenceNumber, v5cRegistrationNumber, v5cKeeperName, v5cPostcode)
+    val value = VehicleLookupFormModel(referenceNumber, registrationNumber)
     play.api.cache.Cache.set(key, value)
   }
 }
