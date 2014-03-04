@@ -93,7 +93,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       // Arrange
       BusinessChooseYourAddressPage.setupCache
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberId -> "", v5cRegistrationNumberId -> "", v5cKeeperNameId -> "", v5cPostcodeId -> "")
+        .withFormUrlEncodedBody(referenceNumberId -> "", registrationNumberId -> "")
 
 
       // Act
@@ -107,7 +107,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       // Arrange
       BusinessChooseYourAddressPage.setupCache
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cDocumentReferenceNumberValid)
+        .withFormUrlEncodedBody(referenceNumberId -> documentReferenceNumberValid)
 
       // Act
       val result = vehicleLookupSuccess.submit(request)
@@ -120,150 +120,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       // Arrange
       BusinessChooseYourAddressPage.setupCache
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cRegistrationNumberId -> v5cVehicleRegistrationNumberValid)
-
-      // Act
-      val result = vehicleLookupSuccess.submit(request)
-
-      // Assert
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request if only KeeperName is entered" in new WithApplication {
-      // Arrange
-      BusinessChooseYourAddressPage.setupCache
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cKeeperNameId -> v5cKeeperNameValid)
-
-      // Act
-      val result = vehicleLookupSuccess.submit(request)
-
-      // Assert
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request if only Postcode is entered" in new WithApplication {
-      // Arrange
-      BusinessChooseYourAddressPage.setupCache
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cPostcodeId -> v5cPostcodeValid)
-
-      // Act
-      val result = vehicleLookupSuccess.submit(request)
-
-      // Assert
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request if only ReferenceNumber and RegistrationNumber are entered" in new WithApplication {
-      // Arrange
-      BusinessChooseYourAddressPage.setupCache
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cDocumentReferenceNumberValid, v5cRegistrationNumberId -> v5cVehicleRegistrationNumberValid)
-
-      // Act
-      val result = vehicleLookupSuccess.submit(request)
-
-      // Assert
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request if only ReferenceNumber and KeeperName are entered" in new WithApplication {
-      // Arrange
-      BusinessChooseYourAddressPage.setupCache
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cDocumentReferenceNumberValid, v5cKeeperNameId -> v5cKeeperNameValid)
-
-      // Act
-      val result = vehicleLookupSuccess.submit(request)
-
-      // Assert
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request if only ReferenceNumber and Postcode are entered" in new WithApplication {
-      // Arrange
-      BusinessChooseYourAddressPage.setupCache
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cDocumentReferenceNumberValid, v5cPostcodeId -> v5cPostcodeValid)
-
-      // Act
-      val result = vehicleLookupSuccess.submit(request)
-
-      // Assert
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request if only RegistrationNumber and KeeperName are entered" in new WithApplication {
-      // Arrange
-      BusinessChooseYourAddressPage.setupCache
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cRegistrationNumberId -> v5cVehicleRegistrationNumberValid, v5cKeeperNameId -> v5cKeeperNameValid)
-
-      // Act
-      val result = vehicleLookupSuccess.submit(request)
-
-      // Assert
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request if only RegistrationNumber and Postcode are entered" in new WithApplication {
-      // Arrange
-      BusinessChooseYourAddressPage.setupCache
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cRegistrationNumberId -> v5cVehicleRegistrationNumberValid, v5cPostcodeId -> v5cPostcodeValid)
-
-      // Act
-      val result = vehicleLookupSuccess.submit(request)
-
-      // Assert
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request if only KeeperName and Postcode are entered" in new WithApplication {
-      // Arrange
-      BusinessChooseYourAddressPage.setupCache
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cKeeperNameId -> v5cKeeperNameValid, v5cPostcodeId -> v5cPostcodeValid)
-
-      // Act
-      val result = vehicleLookupSuccess.submit(request)
-
-      // Assert
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request if only ReferenceNumber, RegistrationNumber and Postcode are entered" in new WithApplication {
-      // Arrange
-      BusinessChooseYourAddressPage.setupCache
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cDocumentReferenceNumberValid, v5cReferenceNumberId -> v5cVehicleRegistrationNumberValid, v5cPostcodeId -> v5cPostcodeValid)
-
-      // Act
-      val result = vehicleLookupSuccess.submit(request)
-
-      // Assert
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request if only ReferenceNumber, RegistrationNumber and KeeperName are entered" in new WithApplication {
-      // Arrange
-      BusinessChooseYourAddressPage.setupCache
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cDocumentReferenceNumberValid, v5cReferenceNumberId -> v5cVehicleRegistrationNumberValid, v5cKeeperNameId -> v5cKeeperNameValid)
-
-      // Act
-      val result = vehicleLookupSuccess.submit(request)
-
-      // Assert
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request if only PostCode, RegistrationNumber and Postcode are entered" in new WithApplication {
-      // Arrange
-      BusinessChooseYourAddressPage.setupCache
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cPostcodeId -> v5cPostcodeValid, v5cReferenceNumberId -> v5cVehicleRegistrationNumberValid, v5cPostcodeId -> v5cPostcodeValid)
+        .withFormUrlEncodedBody(registrationNumberId -> vehicleRegistrationNumberValid)
 
       // Act
       val result = vehicleLookupSuccess.submit(request)
