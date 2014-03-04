@@ -51,12 +51,4 @@ object EnterAddressManually extends Controller {
       )
     }
   }
-
-  def storeDealerDetailsInCache(model: EnterAddressManuallyModel, dealerName: String) = { // TODO possible code re-use with BusinessChooseYourAddress if this was extracted to a helper.
-    val dealerAddress = AddressViewModel.from(model.addressAndPostcodeModel)
-    val key = DealerDetails.cacheKey
-    val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = dealerAddress)
-    play.api.cache.Cache.set(key, value)
-    Logger.debug(s"EnterAddressManually stored data in cache: key = $key, value = ${value}")
-  }
 }

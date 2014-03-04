@@ -14,10 +14,24 @@ import mappings.disposal_of_vehicle.DealerDetails
 
 object Helpers {
 
+  def storeTradeDetailsInCache(f: SetupTradeDetailsModel) = {
+    val key = mappings.disposal_of_vehicle.SetupTradeDetails.cacheKey
+    play.api.cache.Cache.set(key, f)
+    Logger.debug(s"SetUpTradeDetails stored data in cache: key = $key, value = ${f}")
+  }
+
   def storeBusinessChooseYourAddressModelInCache(value: BusinessChooseYourAddressModel) = {
     val key = mappings.disposal_of_vehicle.BusinessChooseYourAddress.cacheKey
     play.api.cache.Cache.set(key, value)
     Logger.debug(s"BusinessChooseYourAddress stored BusinessChooseYourAddressModel in cache: key = $key, value = ${value}")
+  }
+
+  def storeDealerDetailsInCache(model: EnterAddressManuallyModel, dealerName: String) = {
+    val dealerAddress = AddressViewModel.from(model.addressAndPostcodeModel)
+    val key = DealerDetails.cacheKey
+    val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = dealerAddress)
+    play.api.cache.Cache.set(key, value)
+    Logger.debug(s"EnterAddressManually stored data in cache: key = $key, value = ${value}")
   }
 
   def storeDealerDetailsModelInCache(value: DealerDetailsModel) = {
