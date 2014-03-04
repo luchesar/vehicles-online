@@ -5,9 +5,8 @@ import play.api.data.Form
 import play.api.data.Forms._
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import mappings.disposal_of_vehicle.SetupTradeDetails._
-import play.api.Logger
-import play.api.Play.current
 import mappings.common.Postcode._
+import controllers.disposal_of_vehicle.Helpers.storeTradeDetailsInCache
 
 object SetUpTradeDetails extends Controller {
 
@@ -33,11 +32,5 @@ object SetUpTradeDetails extends Controller {
         }
       )
     }
-  }
-
-  private def storeTradeDetailsInCache(f: SetupTradeDetailsModel) = {
-    val key = mappings.disposal_of_vehicle.SetupTradeDetails.cacheKey
-    play.api.cache.Cache.set(key, f)
-    Logger.debug(s"SetUpTradeDetails stored data in cache: key = $key, value = ${f}")
   }
 }

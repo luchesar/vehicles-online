@@ -3,18 +3,15 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
-import mappings.common.AddressAndPostcode._
-import mappings.disposal_of_vehicle.DealerDetails
-import mappings.common.AddressAndPostcode
-import controllers.disposal_of_vehicle.Helpers._
-import models.domain.disposal_of_vehicle.{AddressViewModel, DealerDetailsModel, EnterAddressManuallyModel}
 import play.api.Logger
-import play.api.Play.current
+import mappings.common.AddressAndPostcode._
+import controllers.disposal_of_vehicle.Helpers._
+import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
 
 object EnterAddressManually extends Controller {
   val form = Form(
     mapping(
-      AddressAndPostcode.id -> addressAndPostcode
+      id -> addressAndPostcode
     )(EnterAddressManuallyModel.apply)(EnterAddressManuallyModel.unapply)
   )
 
@@ -50,13 +47,5 @@ object EnterAddressManually extends Controller {
         }
       )
     }
-  }
-
-  def storeDealerDetailsInCache(model: EnterAddressManuallyModel, dealerName: String) = { // TODO possible code re-use with BusinessChooseYourAddress if this was extracted to a helper.
-    val dealerAddress = AddressViewModel.from(model.addressAndPostcodeModel)
-    val key = DealerDetails.cacheKey
-    val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = dealerAddress)
-    play.api.cache.Cache.set(key, value)
-    Logger.debug(s"EnterAddressManually stored data in cache: key = $key, value = ${value}")
   }
 }

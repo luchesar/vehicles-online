@@ -7,8 +7,9 @@ object DisposeSuccessPage {
   def happyPath() {
     SetUpTradeDetailsPage.setupCache()
     BusinessChooseYourAddressPage.setupCache
-    VehicleLookupPage.setupVehicleDetailsModelCache
-    DisposePage.setupCache
+    VehicleLookupPage.setupVehicleDetailsModelCache()
+    DisposePage.setupDisposeFormModelCache
+    DisposePage.setupDisposeTransactionIdCache
   }
 
 }

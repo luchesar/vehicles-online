@@ -3,7 +3,6 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.Logger
 
-
 object BeforeYouStart extends Controller {
 
   def present = Action {
