@@ -56,7 +56,7 @@ class VehicleLookup @Inject() (webService: services.VehicleLookupService) extend
       storeVehicleDetailsInCache(resp.vehicleDetailsModel)
       Redirect(routes.Dispose.present)
     }
-    else Redirect(routes.DisposeFailure.present)
+    else Redirect(routes.VehicleLookupFailure.present)
     }.recoverWith {
       case e: Throwable => Future {
         Logger.debug(s"Web service call failed. Exception: ${e}")
