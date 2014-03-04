@@ -20,11 +20,7 @@ object VehicleLookupPage {
 
   def setupVehicleDetailsModelCache(vehicleMake: String = "make", vehicleModel:String = "model", keeperName:String = "keeper") = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
-    val value = VehicleDetailsModel(
-      vehicleMake,
-      vehicleModel,
-      keeperName,
-      keeperAddress = address1)
+    val value = VehicleDetailsModel(vehicleMake,vehicleModel,keeperName,keeperAddress = address1)
     play.api.cache.Cache.set(key, value)
   }
 

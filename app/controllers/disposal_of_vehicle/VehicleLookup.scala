@@ -49,9 +49,12 @@ class VehicleLookup @Inject() (webService: services.VehicleLookupService) extend
   private def lookupVehicle(webService: services.VehicleLookupService, model: VehicleLookupFormModel) : Future[SimpleResult] = {
     webService.invoke(model).map { resp =>
       Logger.debug(s"VehicleLookup Web service call successful - response = ${resp}")
-      storeVehicleDetailsInCache(resp.vehicleDetailsModel)
       storeVehicleLookupFormModelInCache(model)
+    if (resp.success) {
+      storeVehicleDetailsInCache(resp.vehicleDetailsModel)
       Redirect(routes.Dispose.present)
+    }
+    else Redirect(routes.VehicleLookupFailure.present)
     }.recoverWith {
       case e: Throwable => Future {
         Logger.debug(s"Web service call failed. Exception: ${e}")

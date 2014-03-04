@@ -10,6 +10,7 @@ import helpers.disposal_of_vehicle.Helper._
 
 class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
   "BeforeYouStart - Controller" should {
+
     "present" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
@@ -21,7 +22,7 @@ class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
       status(result) should equal(OK)
     }
 
-    "redirect to next page after the look-up is clicked" in new WithApplication {
+    "redirect to next page when the form is completed successfully" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(dealerNameId -> traderBusinessNameValid, dealerPostcodeId -> traderPostcodeValid)
@@ -34,10 +35,47 @@ class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
       redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.url))
     }
 
+    "return a bad request when only dealerName is entered" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(dealerNameId -> traderBusinessNameValid)
+
+      // Act
+      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
+    }
+
+    "return a bad request when only dealerPostcode is entered" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(dealerPostcodeId -> traderPostcodeValid)
+
+      // Act
+      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
+    }
+
+    "return a bad request when empty strings are entered" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(dealerNameId -> "", dealerPostcodeId -> "")
+
+      // Act
+      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
+    }
+
+
     "return a bad request if no details are entered" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody() //blank form
+        .withFormUrlEncodedBody()
 
       // Act
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)

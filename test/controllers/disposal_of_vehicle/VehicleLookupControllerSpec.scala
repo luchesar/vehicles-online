@@ -11,14 +11,15 @@ import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
-import services.fakes.FakeVehicleLookupService
+import services.fakes.{FakeDisposeService, FakeVehicleLookupService}
 
 class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSugar {
+
   "VehicleLookup - Controller" should {
-    val mockVehicleLookupFormModel = mock[VehicleLookupFormModel]
-    val mockWebService = mock[services.VehicleLookupService]
-    when(mockWebService.invoke(any[VehicleLookupFormModel])).thenReturn(new FakeVehicleLookupService().invoke(mockVehicleLookupFormModel))
-    val vehicleLookup = new disposal_of_vehicle.VehicleLookup(mockWebService)
+    val mockVehicleLookupFormModelSuccess = mock[VehicleLookupFormModel]
+    val mockWebServiceSuccess = mock[services.VehicleLookupService]
+    when(mockWebServiceSuccess.invoke(any[VehicleLookupFormModel])).thenReturn(new FakeVehicleLookupService().invoke(mockVehicleLookupFormModelSuccess))
+    val vehicleLookupSuccess = new disposal_of_vehicle.VehicleLookup(mockWebServiceSuccess)
 
     "present" in new WithApplication {
       // Arrange
@@ -27,13 +28,13 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       val request = FakeRequest().withSession()
 
       // Act
-      val result = vehicleLookup.present(request)
+      val result = vehicleLookupSuccess.present(request)
 
       // Assert
       status(result) should equal(OK)
     }
 
-    "redirect to next page after a valid submit" in new WithApplication {
+    "redirect to Dispose after a valid submit and true message returned from the fake microservice" in new WithApplication {
       // Arrange
      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
@@ -41,19 +42,38 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
         .withFormUrlEncodedBody(referenceNumberId -> documentReferenceNumberValid, registrationNumberId -> vehicleRegistrationNumberValid)
 
       // Act
-      val result = vehicleLookup.submit(request)
+      val result = vehicleLookupSuccess.submit(request)
 
       // Assert
-      status(result) should equal(SEE_OTHER)
       redirectLocation(result) should equal (Some(DisposePage.url))
      }
+
+    "redirect to VehicleLookupFailure after a submit and false message returned from the fake microservice" in new WithApplication {
+      val mockVehicleLookupFormModelFailure = mock[VehicleLookupFormModel]
+      when (mockVehicleLookupFormModelFailure.referenceNumber).thenReturn(FakeDisposeService.failureReferenceNumber)
+      val mockWebServiceFailure = mock[services.VehicleLookupService]
+      when(mockWebServiceFailure.invoke(any[VehicleLookupFormModel])).thenReturn(new FakeVehicleLookupService().invoke(mockVehicleLookupFormModelFailure))
+      val vehicleLookupFailure = new disposal_of_vehicle.VehicleLookup(mockWebServiceFailure)
+
+      // Arrange
+      SetUpTradeDetailsPage.setupCache()
+      BusinessChooseYourAddressPage.setupCache
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(referenceNumberId -> documentReferenceNumberValid, registrationNumberId -> vehicleRegistrationNumberValid)
+
+      // Act
+      val result = vehicleLookupFailure.submit(request)
+
+      // Assert
+      redirectLocation(result) should equal (Some(VehicleLookupFailurePage.url))
+    }
 
     "redirect to setupTradeDetails page when user is not logged in" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
 
       // Act
-      val result = vehicleLookup.present(request)
+      val result = vehicleLookupSuccess.present(request)
 
       // Assert
       redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
@@ -67,11 +87,10 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
         .withFormUrlEncodedBody()
 
       // Act
-      val result = vehicleLookup.submit(request)
+      val result = vehicleLookupSuccess.submit(request)
 
       // Assert
       status(result) should equal(BAD_REQUEST)
-
     }
   }
 }

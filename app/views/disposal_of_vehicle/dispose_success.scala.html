@@ -11,6 +11,10 @@
 
 @main(Messages("disposal_disposeconfirmation.title")){
 
+<div class="alert-success alert-withicon">
+	<p><strong>Transaction ID: @Messages("disposal_disposeconfirmation.transactionid", data.transactionId.getOrElse(""))</strong><br />Facer eu nam nulla nulla molestie. Saepius mutationem iis aliquam usus me.</p>
+</div>
+
 <div class="two-col">
 
 	<div class="first-col">
@@ -20,7 +24,7 @@
 		<dl class="summary-detail-list">
             
             <dt>@Messages("disposal_disposeconfirmation.transactionid_label")</dt>
-            <dd><span style="color:green;">&#10004;</span>  @Messages("disposal_disposeconfirmation.transactionid", data.transactionId.getOrElse(""))</dd>
+            <dd>@Messages("disposal_disposeconfirmation.transactionid", data.transactionId.getOrElse(""))</dd>
 
 			<dt>@Messages("disposal_disposeconfirmation.vehiclemake")</dt>
 			<dd>@data.vehicleMake</dd>

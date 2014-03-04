@@ -145,6 +145,7 @@ confirm_vehicle_details.button2 = Cancel
 #widget messages
 errorsummary.title = Please check the form
 errorsummary.p1 = Please fix the following:
+widget.optional = (optional)
 
 #customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
@@ -168,7 +169,7 @@ datePlaceholder.December=December
 
 select_default = Please select
 
-widget.optional = (optional)
+
 
 error.invalid = Invalid value
 
@@ -189,14 +190,14 @@ global.browserclosemessage = Close
 
 
 #prototype
-prototype.banner = This is a prototype. You cannot dispose of a vehicle using this service.
-prototype.link = Dispose of a vehicle using the live service
+prototype.banner = This is a prototype – your feedback will help us to improve it.
+prototype.link = Find out more
 
 #page 1 - Before You Start
-disposal_beforeyoustart.title = Dispose a vehicle into the motor trade: start
-disposal_beforeyoustart.name = Before you start you will need the V5C vehicle registration certificate (log book) for the vehicle to be disposed
-disposal_beforeyoustart.p1 = If the vehicle being disposed of has a personal registration, the keeper must understand that the registration will be disposed of with the vehicle.
-disposal_beforeyoustart.p2 = If the current keeper wishes to keep a personal registration, it must first be retained to a certificate, or transferred to another vehicle, and the original registration returned to the vehicle.
+disposal_beforeyoustart.title = Dispose a vehicle into the motor trade
+disposal_beforeyoustart.p1 = Before you start:
+disposal_beforeyoustart.listitem1 = You will need the V5C vehicle registration certificate (log book) for the vehicle to be disposed
+disposal_beforeyoustart.listitem2 = If the vehicle being disposed of has a personal registration, the keeper must understand that the registration will be disposed of with the vehicle. If the current keeper wishes to keep a personal registration, it must first be retained to a certificate, or transferred to another vehicle, and the original registration returned to the vehicle.
 disposal_beforeyoustart.button = Start now
 
 #page 2 - set-up trade details
@@ -226,12 +227,13 @@ disposal_enteraddressmanually.title = Enter address manually
 disposal_enteraddressmanually.submitbutton = Next
 disposal_enteraddressmanually.backbutton = Back
 addressAndPostcode_addressLines = Address
-disposal_enteraddressmanually.address.line1.placeholder = Line 1 (required)
-disposal_enteraddressmanually.address.line2.placeholder = Line 2
-disposal_enteraddressmanually.address.line3.placeholder = Line 3
-disposal_enteraddressmanually.address.line4.placeholder = Line 4
-disposal_enteraddressmanually.postcode.label = Postcode
-disposal_enteraddressmanually.postcode.placeholder = e.g. SA99 1BD
+address.lines.label = Address
+address.line1.label = Line 1 (required)
+address.line2.label= Line 2
+address.line3.label= Line 3
+address.line4.label= Line 4
+address.postcode.label = Postcode
+address.postcode.label = e.g. SA99 1BD
 
 #page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Dispose a vehicle into the motor trade: vehicle

@@ -5,7 +5,6 @@ object DisposeFailurePage {
   val title = "Dispose a vehicle into the motor trade: failure"
 
   def cacheSetupHappyPath () {
-    SetUpTradeDetailsPage.setupCache()
     BusinessChooseYourAddressPage.setupCache()
     VehicleLookupPage.setupVehicleDetailsModelCache()
     DisposePage.setupDisposeFormModelCache()

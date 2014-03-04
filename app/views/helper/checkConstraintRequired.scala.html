@@ -1,13 +1,12 @@
 @(field: play.api.data.Field, args: Map[Symbol, Any] = Map.empty)
 
-@import views.html.helper.base.valtechInputText
 @import utils.helpers.EmptyTemplate._
-@import views.html.helper.base.{valtechLabel,valtechLabelText}
+@import views.html.helper.base.{valtechLabelText}
 
-    @showLabel = @{ args.toMap.get('_showLabel).getOrElse(true) == true }
+@showLabel = @{ args.toMap.get('_showLabel).getOrElse(true) == true } @* TODO move to an extension method *@
 
 @if(showLabel) {
     <p>
-    @valtechLabelText(field, args)
+        @valtechLabelText(field, args)
     </p>
 }
