@@ -40,6 +40,18 @@ object Helpers {
     Logger.debug(s"BusinessChooseYourAddress stored DealerDetailsModel in cache: key = $key, value = ${value}")
   }
 
+  def storeVehicleDetailsInCache(model: VehicleDetailsModel) = {
+    val key = mappings.disposal_of_vehicle.VehicleLookup.cacheKey
+    play.api.cache.Cache.set(key, model)
+    Logger.debug(s"VehicleLookup page - stored vehicle details object in cache: key = $key, value = ${model}")
+  }
+
+  def storeVehicleLookupFormModelInCache(model: VehicleLookupFormModel) = {
+    val key = mappings.disposal_of_vehicle.VehicleLookup.cacheVehicleLookupFormModelKey
+    play.api.cache.Cache.set(key, model)
+    Logger.debug(s"VehicleLookup page - stored vehicle lookup form model details object in cache: key = $key, value = ${model}")
+  }
+
   def storeDisposeFormModelInCache(value: DisposeFormModel) = {
     val key = mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
     play.api.cache.Cache.set(key, value)
