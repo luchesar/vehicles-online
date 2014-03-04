@@ -12,7 +12,7 @@ object Config {
   private val systemProperties = System.getProperties()
   private val conf = ConfigFactory.load()
 
-  val baseUrl: String = conf.getString("base_url")
+  val baseUrl: String = conf.getString("base_url") // TODO Use the play method to get the current.config as in the vehicles-online and do this for every use of conf.
 
   def webDriver: WebDriver = {
 
@@ -38,7 +38,8 @@ object Config {
         else if (targetBrowser.equalsIgnoreCase("htmlunit")) {
           HtmlUnit.webDriver
         }
-        /*else if (targetBrowser.equalsIgnoreCase("phantomjs")) {
+        /* Comment out pahntomjs support as need newer version of selenium
+        else if (targetBrowser.equalsIgnoreCase("phantomjs")) {
 
           if (conf.hasPath("webdriver.phantomjs.binary")) {
             systemProperties.setProperty("webdriver.phantomjs.binary", conf.getString("webdriver.phantomjs.driver"))
