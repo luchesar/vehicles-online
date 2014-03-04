@@ -33,7 +33,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       status(result) should equal(OK)
     }
 
-    "redirect to next page after a valid submit" in new WithApplication {
+    "redirect to next page after a valid submit and success message from the microservice" in new WithApplication {
       // Arrange
      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
@@ -47,6 +47,8 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       status(result) should equal(SEE_OTHER)
       redirectLocation(result) should equal (Some(DisposePage.url))
      }
+
+    //TODO write a test to check redirect to VehicleLookupFailure when microservice returns false
 
     "redirect to setupTradeDetails page when user is not logged in" in new WithApplication {
       // Arrange
