@@ -145,6 +145,7 @@ confirm_vehicle_details.button2 = Cancel
 #widget messages
 errorsummary.title = Please check the form
 errorsummary.p1 = Please fix the following:
+widget.optional = (optional)
 
 #customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
@@ -168,7 +169,7 @@ datePlaceholder.December=December
 
 select_default = Please select
 
-widget.optional = (optional)
+
 
 error.invalid = Invalid value
 
@@ -225,12 +226,13 @@ disposal_enteraddressmanually.title = Enter address manually
 disposal_enteraddressmanually.submitbutton = Next
 disposal_enteraddressmanually.backbutton = Back
 addressAndPostcode_addressLines = Address
-disposal_enteraddressmanually.address.line1.placeholder = Line 1 (required)
-disposal_enteraddressmanually.address.line2.placeholder = Line 2
-disposal_enteraddressmanually.address.line3.placeholder = Line 3
-disposal_enteraddressmanually.address.line4.placeholder = Line 4
-disposal_enteraddressmanually.postcode.label = Postcode
-disposal_enteraddressmanually.postcode.placeholder = e.g. SA99 1BD
+address.lines.label = Address
+address.line1.label = Line 1 (required)
+address.line2.label= Line 2
+address.line3.label= Line 3
+address.line4.label= Line 4
+address.postcode.label = Postcode
+address.postcode.label = e.g. SA99 1BD
 
 #page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Dispose a vehicle into the motor trade: vehicle

@@ -162,12 +162,13 @@ disposal_enteraddressmanually.title = Rhowch gyfeiriad llaw
 disposal_enteraddressmanually.submitbutton = Nesaf
 disposal_enteraddressmanually.backbutton = Yn ôl
 addressAndPostcode_addressLines = Cyfeiriad
-disposal_enteraddressmanually.address.line1.placeholder = Llinell 1 (angen)
-disposal_enteraddressmanually.address.line2.placeholder = Llinell 2
-disposal_enteraddressmanually.address.line3.placeholder = Llinell 3
-disposal_enteraddressmanually.address.line4.placeholder = Llinell 4
-disposal_enteraddressmanually.postcode.label = Cod post
-disposal_enteraddressmanually.postcode.placeholder = e.g. SA99 1BD
+address.lines.label = WELSH Address
+address.line1.label = Llinell 1 (angen)
+address.line2.label= Llinell 2
+address.line3.label= Llinell 3
+address.line4.label= Llinell 4
+address.postcode.label = Cod post
+address.postcode.label = e.g. SA99 1BD
 
 #page not known - Vehicle Lookup
 disposal_setuptradedetails.title = Gwaredu cerbyd i mewn i'r fasnach foduron
@@ -241,6 +242,7 @@ disposal_disposefailure.button2 = Setup Newydd Manylion Masnachwr
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda
 errorsummary.p1 = Trwsiwch y canlynol:
+widget.optional = (dewisol)
 
 #customer validation messages
 error.restricted.validNumberOnly = Mae''r maes hwn yn derbyn rhifau yn unig 
@@ -269,7 +271,7 @@ error.maxLength = Uchafswm hyd yn {0}
 
 select_default = Dewiswch
 
-widget.optional = (dewisol)
+
 
 error.invalid = Gwerth annilys
 
