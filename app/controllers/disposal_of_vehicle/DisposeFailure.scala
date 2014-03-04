@@ -1,13 +1,9 @@
 package controllers.disposal_of_vehicle
 
 import play.api.mvc._
-import play.api.Logger
-import models.domain.disposal_of_vehicle.{DisposeViewModel, VehicleDetailsModel, DealerDetailsModel}
 import controllers.disposal_of_vehicle.Helpers._
-import models.domain.disposal_of_vehicle.DealerDetailsModel
+import models.domain.disposal_of_vehicle.{DealerDetailsModel, DisposeViewModel, VehicleDetailsModel}
 import scala.Some
-import models.domain.disposal_of_vehicle.DisposeViewModel
-import models.domain.disposal_of_vehicle.VehicleDetailsModel
 
 object DisposeFailure extends Controller {
 

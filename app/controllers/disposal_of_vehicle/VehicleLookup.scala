@@ -4,20 +4,16 @@ import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
-import models.domain.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.VehicleLookup._
-import mappings.common.V5cReferenceNumber
+import mappings.common.{V5cReferenceNumber, V5cRegistrationNumber}
+import mappings.common.Postcode._
 import V5cReferenceNumber._
-import mappings.common.V5cRegistrationNumber
 import V5cRegistrationNumber._
-import controllers.disposal_of_vehicle.Helpers._
-import play.cache.Cache
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
-import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-import mappings.common.Postcode._
 import com.google.inject.Inject
+import controllers.disposal_of_vehicle.Helpers._
 import controllers.disposal_of_vehicle.Helpers.{storeVehicleDetailsInCache,storeVehicleLookupFormModelInCache}
 
 class VehicleLookup @Inject() (webService: services.VehicleLookupService) extends Controller {

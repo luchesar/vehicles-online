@@ -3,6 +3,7 @@ package controllers.disposal_of_vehicle
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
+import play.api.mvc._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.common.{Mileage, DayMonthYear, Consent}
 import Consent._
@@ -10,17 +11,13 @@ import Mileage._
 import DayMonthYear._
 import constraints.DayMonthYear._
 import controllers.disposal_of_vehicle.Helpers._
-import play.api.Play.current
-import models.domain.disposal_of_vehicle.VehicleDetailsModel
-import models.domain.disposal_of_vehicle.DealerDetailsModel
-import models.domain.disposal_of_vehicle.DisposeFormModel
-import models.domain.disposal_of_vehicle.DisposeModel
-import scala.Some
+import models.domain.disposal_of_vehicle.{VehicleDetailsModel, DealerDetailsModel, DisposeFormModel, DisposeModel}
 import models.domain.disposal_of_vehicle.DisposeViewModel
+import scala.Some
 import com.google.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-import play.api.mvc._
+
 
 class Dispose @Inject()(webService: services.DisposeService) extends Controller {
 

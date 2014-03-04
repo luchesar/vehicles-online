@@ -3,18 +3,15 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
-import mappings.common.AddressAndPostcode._
-import mappings.disposal_of_vehicle.DealerDetails
-import mappings.common.AddressAndPostcode
-import controllers.disposal_of_vehicle.Helpers._
-import models.domain.disposal_of_vehicle.{AddressViewModel, DealerDetailsModel, EnterAddressManuallyModel}
 import play.api.Logger
-import play.api.Play.current
+import mappings.common.AddressAndPostcode._
+import controllers.disposal_of_vehicle.Helpers._
+import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
 
 object EnterAddressManually extends Controller {
   val form = Form(
     mapping(
-      AddressAndPostcode.id -> addressAndPostcode
+      id -> addressAndPostcode
     )(EnterAddressManuallyModel.apply)(EnterAddressManuallyModel.unapply)
   )
 

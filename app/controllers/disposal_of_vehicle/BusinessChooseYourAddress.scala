@@ -3,12 +3,12 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
+import play.api.Logger
 import models.domain.disposal_of_vehicle.{DealerDetailsModel, BusinessChooseYourAddressModel}
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import mappings.common.DropDown
 import DropDown._
 import controllers.disposal_of_vehicle.Helpers._
-import play.api.Logger
 import javax.inject.Inject
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
@@ -16,13 +16,11 @@ import ExecutionContext.Implicits.global
 class BusinessChooseYourAddress @Inject()(addressLookupService: services.AddressLookupService) extends Controller {
   private lazy val fetchAddresses = {
     /* Needs to be a lazy val otherwise when the page is IoC'd the form will execute it, so if you were jumping to the
-     page with nothing in the cache it will blow up in the constructor before it gets to the code to redirect to another page.
-     */
+     page with nothing in the cache it will blow up in the constructor before it gets to the code to redirect to another page. */
     val postcode = fetchTraderDetailsFromCache match {
       case Some(setupTradeDetailsModel) => setupTradeDetailsModel.traderPostcode
       case None => ??? //"TEST"
     }
-
     addressLookupService.fetchAddressesForPostcode(postcode)
   }
 
@@ -102,7 +100,6 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
 
   def storeDealerDetailsInCache(model: BusinessChooseYourAddressModel, dealerName: String) = {
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected)
-
     lookedUpAddress.map {
       case Some(addr) => {
         val dealerDetailsModel = DealerDetailsModel(dealerName = dealerName, dealerAddress = addr)

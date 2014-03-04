@@ -3,12 +3,8 @@ package controllers.disposal_of_vehicle
 import play.api.cache.Cache
 import play.api.Play.current
 import models.domain.disposal_of_vehicle._
-import models.domain.disposal_of_vehicle.DealerDetailsModel
-import models.domain.disposal_of_vehicle.DisposeFormModel
+import models.domain.disposal_of_vehicle.{DealerDetailsModel, DisposeFormModel, VehicleLookupFormModel, SetupTradeDetailsModel, VehicleDetailsModel}
 import scala.Some
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
-import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
-import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import play.api.Logger
 import mappings.disposal_of_vehicle.DealerDetails
 
@@ -27,8 +23,8 @@ object Helpers {
   }
 
   def storeDealerDetailsInCache(model: EnterAddressManuallyModel, dealerName: String) = {
+    val key = mappings.disposal_of_vehicle.DealerDetails.cacheKey
     val dealerAddress = AddressViewModel.from(model.addressAndPostcodeModel)
-    val key = DealerDetails.cacheKey
     val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = dealerAddress)
     play.api.cache.Cache.set(key, value)
     Logger.debug(s"EnterAddressManually stored data in cache: key = $key, value = ${value}")
