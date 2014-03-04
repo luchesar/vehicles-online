@@ -26,6 +26,24 @@ object Helpers {
     Logger.debug(s"BusinessChooseYourAddress stored DealerDetailsModel in cache: key = $key, value = ${value}")
   }
 
+  def storeDisposeFormModelInCache(value: DisposeFormModel) = {
+    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
+    play.api.cache.Cache.set(key, value)
+    Logger.debug(s"Dispose - stored disposeFromModel in cache: key = $key, value = $value")
+  }
+
+  def storeDisposeTransactionIdInCache(value: String) = {
+    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
+    play.api.cache.Cache.set(key, value)
+    Logger.debug(s"Dispose - stored dispose transaction id in cache: key = $key, value = $value")
+  }
+
+  def storeDisposeModelInCache(value: DisposeModel) = {
+    val key = mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey
+    play.api.cache.Cache.set(key, value)
+    Logger.debug(s"Dispose - stored disposeModel in cache: key = $key, value = $value")
+  }
+
 
   def fetchDealerNameFromCache: Option[String] = {
     fetchTraderDetailsFromCache match {

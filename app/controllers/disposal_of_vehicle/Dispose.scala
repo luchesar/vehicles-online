@@ -92,24 +92,6 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
       dealerAddress = dealerDetails.dealerAddress)
   }
 
-  private def storeDisposeFormModelInCache(value: DisposeFormModel) = {
-    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
-    play.api.cache.Cache.set(key, value)
-    Logger.debug(s"Dispose - stored disposeFromModel in cache: key = $key, value = $value")
-  }
-
-  private def storeDisposeTransactionIdInCache(value: String) = {
-    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
-    play.api.cache.Cache.set(key, value)
-    Logger.debug(s"Dispose - stored dispose transaction id in cache: key = $key, value = $value")
-  }
-
-  private def storeDisposeModelInCache(value: DisposeModel) = {
-    val key = mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey
-    play.api.cache.Cache.set(key, value)
-    Logger.debug(s"Dispose - stored disposeModel in cache: key = $key, value = $value")
-  }
-
   private def disposeAction(webService: services.DisposeService, model: DisposeModel): Future[SimpleResult] = {
     webService.invoke(model).map {
       resp =>
