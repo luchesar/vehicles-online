@@ -12,9 +12,8 @@ import org.scalatest.selenium._
 
 object WebDriverFactory {
   private val systemProperties = System.getProperties()
-  private val conf = ConfigFactory.load()
 
-  val baseUrl: String = getProperty("base_url", "http://localhost:9000/") // TODO Use the play method to get the current.config as in the vehicles-online and do this for every use of conf.
+  val baseUrl: String = getProperty("base.url", "http://localhost:9000/") // TODO Use the play method to get the current.config as in the vehicles-online and do this for every use of conf.
 
   def webDriver: WebDriver = {
     val targetBrowser = getProperty("browser", "htmlunit")

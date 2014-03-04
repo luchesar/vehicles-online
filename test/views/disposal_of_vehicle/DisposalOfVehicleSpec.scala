@@ -1,11 +1,25 @@
 package views.disposal_of_vehicle
 
-import org.scalatest.{Matchers, GivenWhenThen, FeatureSpec}
+import org.scalatest.{BeforeAndAfterAll, Matchers, GivenWhenThen, FeatureSpec}
 import pages.disposal_of_vehicle._
 import helpers.WebDriverFactory
+import play.api.Play
+import play.api.test.{Helpers, TestServer}
 
-class DisposalOfVehicleSpec extends FeatureSpec
-    with GivenWhenThen with Matchers with BeforeYouStartPage with SetupTradeDetailsPage with BusinessChangeYourAddressPage with VehicleLookupPage with DisposePage with DisposeSuccessPage {
+class DisposalOfVehicleSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll
+    with BeforeYouStartPage with SetupTradeDetailsPage with BusinessChangeYourAddressPage with VehicleLookupPage with DisposePage with DisposeSuccessPage {
+
+  lazy val app: TestServer = {
+    TestServer(9000)
+  }
+
+  override def beforeAll() {
+    app.start()
+  }
+
+  override def afterAll() {
+    app.stop()
+  }
 
   feature("Dispose of a vehicle to trade") {
 
@@ -14,7 +28,7 @@ class DisposalOfVehicleSpec extends FeatureSpec
     info("So they will be removed from the vehicle record as current keeper")
     info("")
 
-    /* scenario("Before you start page") {
+    scenario("Before you start page") {
        implicit val browser = WebDriverFactory.webDriver
 
        Given("I am on the vehicles online prototype site")
@@ -30,7 +44,7 @@ class DisposalOfVehicleSpec extends FeatureSpec
 
        browser.quit()
      }
-
+/*
      scenario("Setup trade details page") {
 
        Given("I am on the setup trade details page")

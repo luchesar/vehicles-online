@@ -1009,8 +1009,6 @@ trait WebBrowser {
   }
 }
 
-object WebBrowser extends WebBrowser
-
 // new
 
 class TestFailedException(msg: String) extends RuntimeException(msg)
