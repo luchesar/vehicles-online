@@ -49,6 +49,14 @@
  		padding:0;
  		margin:0 0 1em 0;
  		list-style:none;
+ 		&.list-standard {
+	 		list-style: decimal;
+	 		list-style-position: outside;
+	 		margin-left:1.3em;
+	 		li {
+		 		margin-bottom:1em;
+	 		}
+ 		}
  	}
  	
  	// styles two column information items

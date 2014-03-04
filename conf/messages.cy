@@ -20,8 +20,8 @@ footer.builtbyintro = Adeiladwyd gan
 footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
 
 #prototype
-prototype.banner = Mae hyn yn prototeip. Ni allwch newid ceidwad trwy ddefnyddio''r gwasanaeth hwn.
-prototype.link = Newid ceidwad trwy defnyddio''r gwasanaeth yn fyw
+prototype.banner = Mae hwn yn brototeip - bydd eich adborth yn ein helpu i wella.
+prototype.link = Cael gwybod mwy
 
 #page 1
 beforeyoustart.title = Newid cyfeiriad ceidwad
@@ -144,6 +144,13 @@ disposal_beforeyoustart.name = Cyn i chi ddechrau, bydd angen y dystysgrif cofre
 disposal_beforeyoustart.p1 = Os oes gan cofrestru personol ar y cerbyd yn cael ei waredu, rhaid i'r ceidwad yn deall y bydd y cofrestriad yn cael ei waredu gyda'r cerbyd.
 disposal_beforeyoustart.p2 = Os yw'r ceidwad presennol yn dymuno cadw cofrestru personol, rhaid iddo yn gyntaf gael ei gadw at dystysgrif, neu ei drosglwyddo i gerbyd arall, a dychwelyd y cofrestriad gwreiddiol i'r cerbyd.
 disposal_beforeyoustart.button = Start now
+disposal_beforeyoustart.button = Ddechrau nawr
+
+#page 1 - Before You Start
+disposal_beforeyoustart.title = Cael gwared cerbyd i mewn i'r fasnach foduron
+disposal_beforeyoustart.p1 = Cyn i chi ddechrau:
+disposal_beforeyoustart.listitem1 = Bydd angen y dystysgrif cofrestru cerbyd V5C (llyfr log) i chi am y cerbyd yn cael ei waredu
+disposal_beforeyoustart.listitem2 = Os oes gan cofrestru personol ar y cerbyd yn cael ei waredu, rhaid i'r ceidwad yn deall y bydd y cofrestriad yn cael ei waredu gyda'r cerbyd. Os yw'r ceidwad presennol yn dymuno cadw cofrestru personol, rhaid iddo yn gyntaf gael ei gadw at dystysgrif, neu ei drosglwyddo i gerbyd arall, a dychwelyd y cofrestriad gwreiddiol i'r cerbyd.
 disposal_beforeyoustart.button = Ddechrau nawr
 
 #page 3
