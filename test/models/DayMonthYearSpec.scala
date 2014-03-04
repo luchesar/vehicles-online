@@ -99,5 +99,9 @@ class DayMonthYearSpec extends WordSpec with Matchers {
     """accept format "01 September 2001" """ in {
       Try(DateTimeFormat.forPattern("dd MMMM yyyy").parseDateTime("01 September 2001")).isSuccess should equal(true)
     }
+
+    """reject format "31 February 2001" """ in {
+      Try(DateTimeFormat.forPattern("dd MMMM yyyy").parseDateTime("31 February 2001")).isFailure should equal(true)
+    }
   }
 }
