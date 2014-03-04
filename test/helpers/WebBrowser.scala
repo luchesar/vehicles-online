@@ -74,6 +74,7 @@ trait WebBrowser {
 
   trait Page {
     val url: String
+    val title: String
   }
 
   final class WrappedCookie(val underlying: Cookie) {
