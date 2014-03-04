@@ -16,13 +16,13 @@ object Helpers {
 
   def storeTradeDetailsInCache(f: SetupTradeDetailsModel) = {
     val key = SetupTradeDetailsCacheKey
-    play.api.cache.Cache.set(key, f)
+    Cache.set(key, f)
     Logger.debug(s"SetUpTradeDetails stored data in cache: key = $key, value = ${f}")
   }
 
   def storeBusinessChooseYourAddressModelInCache(value: BusinessChooseYourAddressModel) = {
     val key = businessChooseYourAddressCacheKey
-    play.api.cache.Cache.set(key, value)
+    Cache.set(key, value)
     Logger.debug(s"BusinessChooseYourAddress stored BusinessChooseYourAddressModel in cache: key = $key, value = ${value}")
   }
 
@@ -30,43 +30,43 @@ object Helpers {
     val key = dealerDetailsCacheKey
     val dealerAddress = AddressViewModel.from(model.addressAndPostcodeModel)
     val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = dealerAddress)
-    play.api.cache.Cache.set(key, value)
+    Cache.set(key, value)
     Logger.debug(s"EnterAddressManually stored data in cache: key = $key, value = ${value}")
   }
 
   def storeDealerDetailsModelInCache(value: DealerDetailsModel) = {
     val key = dealerDetailsCacheKey
-    play.api.cache.Cache.set(key, value)
+    Cache.set(key, value)
     Logger.debug(s"BusinessChooseYourAddress stored DealerDetailsModel in cache: key = $key, value = ${value}")
   }
 
   def storeVehicleDetailsInCache(model: VehicleDetailsModel) = {
     val key = vehicleLookupDetailsCacheKey
-    play.api.cache.Cache.set(key, model)
+    Cache.set(key, model)
     Logger.debug(s"VehicleLookup page - stored vehicle details object in cache: key = $key, value = ${model}")
   }
 
   def storeVehicleLookupFormModelInCache(model: VehicleLookupFormModel) = {
     val key = vehicleLookupFormModelCacheKey
-    play.api.cache.Cache.set(key, model)
+    Cache.set(key, model)
     Logger.debug(s"VehicleLookup page - stored vehicle lookup form model details object in cache: key = $key, value = ${model}")
   }
 
   def storeDisposeFormModelInCache(value: DisposeFormModel) = {
     val key = disposeFormModelCacheKey
-    play.api.cache.Cache.set(key, value)
+    Cache.set(key, value)
     Logger.debug(s"Dispose - stored disposeFromModel in cache: key = $key, value = $value")
   }
 
   def storeDisposeTransactionIdInCache(value: String) = {
     val key = disposeFormTransactionIdCacheKey
-    play.api.cache.Cache.set(key, value)
+    Cache.set(key, value)
     Logger.debug(s"Dispose - stored dispose transaction id in cache: key = $key, value = $value")
   }
 
   def storeDisposeModelInCache(value: DisposeModel) = {
     val key = disposeModelCacheKey
-    play.api.cache.Cache.set(key, value)
+    Cache.set(key, value)
     Logger.debug(s"Dispose - stored disposeModel in cache: key = $key, value = $value")
   }
 
