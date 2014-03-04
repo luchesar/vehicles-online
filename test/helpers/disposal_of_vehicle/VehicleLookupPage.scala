@@ -21,7 +21,7 @@ object VehicleLookupPage {
   }
 
   def setupVehicleDetailsModelCache(vehicleMake: String = "make", vehicleModel:String = "model", keeperName:String = "keeper") = {
-    val key = mappings.disposal_of_vehicle.VehicleLookup.cacheKey
+    val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
     val value = VehicleDetailsModel(
       vehicleMake,
       vehicleModel,
@@ -31,7 +31,7 @@ object VehicleLookupPage {
   }
 
   def setupVehicleLookupFormModelCache (v5cReferenceNumber: String = v5cDocumentReferenceNumberValid, v5cRegistrationNumber: String = v5cVehicleRegistrationNumberValid, v5cKeeperName: String = v5cKeeperNameValid, v5cPostcode: String = v5cPostcodeValid) = {
-    val key = mappings.disposal_of_vehicle.VehicleLookup.cacheVehicleLookupFormModelKey
+    val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupFormModelCacheKey
     val value = VehicleLookupFormModel(v5cReferenceNumber, v5cRegistrationNumber, v5cKeeperName, v5cPostcode)
     play.api.cache.Cache.set(key, value)
   }

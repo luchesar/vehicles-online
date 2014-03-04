@@ -24,19 +24,19 @@ object DisposePage {
   }
 
   def setupDisposeFormModelCache() = {
-    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
+    val key = mappings.disposal_of_vehicle.Dispose.disposeFormModelCacheKey
     val value = DisposeFormModel(consent = "true", dateOfDisposal = DayMonthYear.today, emailAddress = None)
     play.api.cache.Cache.set(key, value)
   }
 
   def setupDisposeModelCache(v5cReferenceNumber:String = v5cDocumentReferenceNumberValid, v5cRegistrationNumber:String = v5cVehicleRegistrationNumberValid, v5cKeeperName:String = "fail", v5cPostcode:String = v5cPostcodeValid) = {
-    val key = mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey
+    val key = mappings.disposal_of_vehicle.Dispose.disposeModelCacheKey
     val value = DisposeModel(v5cReferenceNumber, v5cRegistrationNumber, v5cKeeperName, v5cPostcode)
     play.api.cache.Cache.set(key, value)
   }
 
   def setupDisposeTransactionIdCache() = {
-    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
+    val key = mappings.disposal_of_vehicle.Dispose.disposeFormTransactionIdCacheKey
     val value = "1234"
     play.api.cache.Cache.set(key, value)
   }

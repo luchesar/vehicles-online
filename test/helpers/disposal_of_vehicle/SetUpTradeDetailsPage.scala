@@ -12,7 +12,7 @@ object SetUpTradeDetailsPage {
 
   def setupCache(dealerPostcode: String = traderPostcodeValid) = {
     val model = SetupTradeDetailsModel(traderBusinessName = traderBusinessNameValid, traderPostcode = dealerPostcode)
-    val key = mappings.disposal_of_vehicle.SetupTradeDetails.cacheKey
+    val key = mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
     val value = model
 
     play.api.cache.Cache.set(key, value)

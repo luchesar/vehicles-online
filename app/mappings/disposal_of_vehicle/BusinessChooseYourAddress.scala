@@ -1,6 +1,6 @@
 package mappings.disposal_of_vehicle
 
 object BusinessChooseYourAddress {
-  val cacheKey = "businessChooseYourAddress"
+  val businessChooseYourAddressCacheKey = "businessChooseYourAddress"
   val addressSelectId = "disposal_businessChooseYourAddress_addressSelect"
 }

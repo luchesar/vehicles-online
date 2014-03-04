@@ -15,7 +15,7 @@ object BusinessChooseYourAddressPage {
   val address2 = AddressViewModel(address= Seq("Penarth Road", "Cardiff", "CF11 8TT"))
 
   def setupCache() = {
-    val key = mappings.disposal_of_vehicle.DealerDetails.cacheKey
+    val key = mappings.disposal_of_vehicle.DealerDetails.dealerDetailsCacheKey
     val value = DealerDetailsModel(dealerName = "", dealerAddress = address1)
 
     play.api.cache.Cache.set(key, value)
