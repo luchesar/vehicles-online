@@ -66,7 +66,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
           fetchVehicleLookupDetailsFromCache match {
             //TODO could be moved inside disposeAction
             case Some(vehicleLookupFormModel) => {
-              val disposeModel = DisposeModel(v5cReferenceNumber = vehicleLookupFormModel.v5cReferenceNumber, v5cRegistrationNumber = vehicleLookupFormModel.v5cRegistrationNumber, v5cKeeperName = vehicleLookupFormModel.v5cKeeperName, v5cPostcode = vehicleLookupFormModel.v5cPostcode)
+              val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber, registrationNumber = vehicleLookupFormModel.registrationNumber)
               storeDisposeModelInCache(disposeModel)
               disposeAction(webService, disposeModel)
             }

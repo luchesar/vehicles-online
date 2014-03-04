@@ -38,7 +38,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cDocumentReferenceNumberValid, v5cRegistrationNumberId -> v5cVehicleRegistrationNumberValid, v5cKeeperNameId -> v5cKeeperNameValid, v5cPostcodeId -> v5cPostcodeValid)
+        .withFormUrlEncodedBody(referenceNumberId -> documentReferenceNumberValid, registrationNumberId -> vehicleRegistrationNumberValid)
 
       // Act
       val result = vehicleLookup.submit(request)

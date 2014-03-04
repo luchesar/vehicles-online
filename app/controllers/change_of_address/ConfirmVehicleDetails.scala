@@ -5,7 +5,7 @@ import play.api.Play.current
 import controllers.change_of_address.Helpers._
 import models.domain.change_of_address.V5cSearchConfirmationModel
 import play.api.cache.Cache
-import mappings.common.{V5cReferenceNumber, V5cRegistrationNumber}
+import mappings.common.{ReferenceNumber, RegistrationNumber}
 
 object ConfirmVehicleDetails extends Controller {
 
@@ -26,9 +26,9 @@ object ConfirmVehicleDetails extends Controller {
   }
 
   private def fetchSearchConfirmationModelFromCache: Option[V5cSearchConfirmationModel] = {
-    Cache.getAs[String](V5cRegistrationNumber.key) match {
+    Cache.getAs[String](RegistrationNumber.key) match {
       case Some(regNum) => {
-        val v5cReferenceNumberOption = Cache.getAs[String](V5cReferenceNumber.key)
+        val v5cReferenceNumberOption = Cache.getAs[String](ReferenceNumber.key)
         v5cReferenceNumberOption match {
           case Some(refNum) => {
             Cache.getAs[V5cSearchConfirmationModel](makeCacheKey(regNum, refNum))

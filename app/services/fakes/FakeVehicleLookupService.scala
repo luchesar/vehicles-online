@@ -13,7 +13,7 @@ class FakeVehicleLookupService extends VehicleLookupService {
     VehicleDetailsResponse(true, message = successMessage, vehicleDetailsModel =
       VehicleDetailsModel(vehicleMake = "Alfa Romeo",
         vehicleModel = "Alfasud ti",
-        keeperName = cmd.v5cKeeperName,
+        keeperName = "Mr Jones",
         keeperAddress = AddressViewModel(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
     //TODO write in the same way as FakeDisposeService
   }

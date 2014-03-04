@@ -14,7 +14,11 @@ class FakeDisposeService extends DisposeService {
   val disposeResponseFails = DisposeResponse(success = false, message = successMessage, transactionId = "5678")
 
   override def invoke(cmd: DisposeModel): Future[DisposeResponse] = Future {
-    if (cmd.v5cKeeperName == "fail") disposeResponseFails
+    if (cmd.referenceNumber == FakeDisposeService.failureReferenceNumber) disposeResponseFails
     else disposeResponseSuccess
   }
+}
+
+object FakeDisposeService {
+  val failureReferenceNumber = "9" * 11
 }
