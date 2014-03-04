@@ -893,7 +893,7 @@ trait WebBrowser {
           val tmpFile = takesScreenshot.getScreenshotAs(OutputType.FILE)
           val outFile = new File(targetDir, if (fileName.toLowerCase.endsWith(".png")) fileName else fileName + ".png")
           new FileOutputStream(outFile) getChannel() transferFrom(
-            new FileInputStream(tmpFile) getChannel, 0, Long.MaxValue )
+            new FileInputStream(tmpFile) getChannel(), 0, Long.MaxValue )
         case _ =>
           throw new UnsupportedOperationException("Screen capture is not support by " + driver.getClass.getName)
       }
@@ -906,7 +906,7 @@ trait WebBrowser {
           val fileName = tmpFile.getName
           val outFile = new File(targetDir, if (fileName.toLowerCase.endsWith(".png")) fileName else fileName + ".png")
           new FileOutputStream(outFile) getChannel() transferFrom(
-            new FileInputStream(tmpFile) getChannel, 0, Long.MaxValue )
+            new FileInputStream(tmpFile) getChannel(), 0, Long.MaxValue )
           outFile
         case _ =>
           throw new UnsupportedOperationException("Screen capture is not support by " + driver.getClass.getName)

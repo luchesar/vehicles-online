@@ -1,7 +1,7 @@
 package pages.disposal_of_vehicle
 
 import org.openqa.selenium.WebDriver
-import helpers.Config
+import helpers.WebDriverFactory
 import helpers.WebBrowser
 
 // TODO Export this class as top-level class. This 'trait' is required as a result of a bug in ScalaTest.
@@ -12,8 +12,8 @@ trait EnterAddressManuallyPage extends WebBrowser { this :WebBrowser =>
 
   class EnterAddressManuallyPage extends Page {
 
-    override val url: String = Config.baseUrl + "disposal-of-vehicle/enter-address-manually"
-    override val title: String = ???
+    override val url: String = WebDriverFactory.baseUrl + "disposal-of-vehicle/enter-address-manually"
+    override val title: String = "Enter address manually"
 
     def addressLine1(implicit driver: WebDriver): TextField = textField(id("addressAndPostcode_addressLines_line1"))
 

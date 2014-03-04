@@ -14,6 +14,7 @@ class BeforeYouStartIntegrationSpec extends Specification with Tags {
 
       // Assert
       titleMustEqual(BeforeYouStartPage.title)
+
     }
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
