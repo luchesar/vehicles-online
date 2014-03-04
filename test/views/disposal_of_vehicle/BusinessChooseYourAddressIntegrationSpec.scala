@@ -16,6 +16,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
 
       // Assert
       titleMustEqual(BusinessChooseYourAddressPage.title)
+
     }
 
     "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {

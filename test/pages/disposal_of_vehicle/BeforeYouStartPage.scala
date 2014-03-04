@@ -1,7 +1,7 @@
 package pages.disposal_of_vehicle
 
 import org.openqa.selenium.WebDriver
-import helpers.Config
+import helpers.WebDriverFactory
 import helpers.WebBrowser
 
 // TODO Export this class as top-level class. This 'trait' is required as a result of a bug in ScalaTest.
@@ -12,8 +12,8 @@ trait BeforeYouStartPage extends WebBrowser { this :WebBrowser =>
 
   class BeforeYouStartPage extends Page {
 
-    override val url: String = Config.baseUrl
-    override val title: String = ???
+    override val url: String = WebDriverFactory.baseUrl
+    override val title: String = "Dispose a vehicle into the motor trade: start"
 
     def startNow(implicit driver: WebDriver): Element = find(id("next")).get
 
