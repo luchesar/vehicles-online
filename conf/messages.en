@@ -247,7 +247,6 @@ disposal_vehiclelookup.refnumlabel.refNumIncorrect = You must enter a number wit
 disposal_vehiclelookup.vrninputlabel = Vehicle registration number
 disposal_vehiclelookup.consent = I have the consent of the current keeper to dispose of this vehicle
 disposal_vehiclelookup.consentnotgiven = Please indicate you have the current keeper''s consent
-disposal_vehiclelookup.exkeeperlettertext = If you would prefer to receive an immediate email acknowledgement, please provide an email address
 disposal_vehiclelookup.backbutton = Back
 disposal_vehiclelookup.button = Find vehicle details
 disposal_vehiclelookup.button2 = Edit

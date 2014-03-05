@@ -199,7 +199,6 @@ disposal_vehiclelookup.refnumlabel.refNumIncorrect = Mae'n rhaid i chi fynd i me
 disposal_vehiclelookup.vrninputlabel = Rhif cofrestru cerbyd
 disposal_vehiclelookup.consent = gennyf ganiatâd y ceidwad presennol i gael gwared ar y cerbyd hwn
 disposal_vehiclelookup.consentnotgiven = Nodwch fod gennych ganiatâd y ceidwad presennol'' s
-disposal_vehiclelookup.exkeeperlettertext = Os byddai''n well gennych dderbyn e-bost cydnabyddiaeth ar unwaith, rhowch gyfeiriad e-bost
 disposal_vehiclelookup.backbutton = Holau
 disposal_vehiclelookup.button = Dod o hyd i
 disposal_vehiclelookup.button2 = Golygu
