@@ -11,6 +11,7 @@ import models.domain.disposal_of_vehicle.DisposeModel
 import services.fakes.FakeDisposeService
 import controllers.disposal_of_vehicle
 import org.scalatest.mock.MockitoSugar
+import models.DayMonthYear
 
 class DisposeFormSpec extends WordSpec with Matchers with MockitoSugar {
   "Dispose Form" should {
@@ -72,7 +73,10 @@ class DisposeFormSpec extends WordSpec with Matchers with MockitoSugar {
       formWithErrors => {
           fail("An error should occur")
         },
-        f => f.mileage.get should equal(mileageValid.toInt)
+        f => {
+          f.mileage.get should equal(mileageValid.toInt)
+          f.dateOfDisposal should equal(DayMonthYear(Some(dateOfDisposalDayValid.toInt), Some(dateOfDisposalMonthValid.toInt), Some(dateOfDisposalYearValid.toInt)))
+        }
       )
     }
 
@@ -81,7 +85,10 @@ class DisposeFormSpec extends WordSpec with Matchers with MockitoSugar {
         formWithErrors => {
           fail("An error should occur")
         },
-        f => f.mileage should equal(None)
+        f => {
+          f.mileage should equal(None)
+          f.dateOfDisposal should equal(DayMonthYear(Some(dateOfDisposalDayValid.toInt), Some(dateOfDisposalMonthValid.toInt), Some(dateOfDisposalYearValid.toInt)))
+        }
       )
     }
   }

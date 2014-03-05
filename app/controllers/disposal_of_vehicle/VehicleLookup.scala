@@ -8,6 +8,7 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.common.{ReferenceNumber, RegistrationNumber, Consent}
 import ReferenceNumber._
 import RegistrationNumber._
+import Consent._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
@@ -21,7 +22,7 @@ class VehicleLookup @Inject() (webService: services.VehicleLookupService) extend
     mapping(
       referenceNumberId -> referenceNumber(minLength = 11, maxLength = 11),
       registrationNumberId -> registrationNumber(minLength = 2, maxLength = 8),
-      consentId -> Consent.consent
+      consentId -> consent
     )(VehicleLookupFormModel.apply)(VehicleLookupFormModel.unapply)
   )
 
