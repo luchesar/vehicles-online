@@ -5,8 +5,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
 import mappings.disposal_of_vehicle.VehicleLookup._
-import mappings.common.{ReferenceNumber, RegistrationNumber}
-import mappings.common.Postcode._
+import mappings.common.{ReferenceNumber, RegistrationNumber, Consent}
 import ReferenceNumber._
 import RegistrationNumber._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
@@ -21,7 +20,8 @@ class VehicleLookup @Inject() (webService: services.VehicleLookupService) extend
   val vehicleLookupForm = Form(
     mapping(
       referenceNumberId -> referenceNumber(minLength = 11, maxLength = 11),
-      registrationNumberId -> registrationNumber(minLength = 2, maxLength = 8)
+      registrationNumberId -> registrationNumber(minLength = 2, maxLength = 8),
+      consentId -> Consent.consent
     )(VehicleLookupFormModel.apply)(VehicleLookupFormModel.unapply)
   )
 

@@ -37,7 +37,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       // Arrange
       BusinessChooseYourAddressPage.setupCache
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(referenceNumberId -> documentReferenceNumberValid, registrationNumberId -> vehicleRegistrationNumberValid)
+        .withFormUrlEncodedBody(referenceNumberId -> documentReferenceNumberValid, registrationNumberId -> vehicleRegistrationNumberValid, consentId -> consentValid)
 
       // Act
       val result = vehicleLookupSuccess.submit(request)
@@ -56,7 +56,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       // Arrange
       BusinessChooseYourAddressPage.setupCache
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(referenceNumberId -> documentReferenceNumberValid, registrationNumberId -> vehicleRegistrationNumberValid)
+        .withFormUrlEncodedBody(referenceNumberId -> documentReferenceNumberValid, registrationNumberId -> vehicleRegistrationNumberValid, consentId -> consentValid)
 
       // Act
       val result = vehicleLookupFailure.submit(request)
@@ -65,7 +65,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       redirectLocation(result) should equal (Some(VehicleLookupFailurePage.url))
     }
 
-    "redirect to setupTradeDetails page when user has not set up a trader ofr disposal" in new WithApplication {
+    "redirect to setupTradeDetails page when user has not set up a trader for disposal" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
 
@@ -128,5 +128,6 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       // Assert
       status(result) should equal(BAD_REQUEST)
     }
+
   }
 }
