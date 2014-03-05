@@ -10,7 +10,7 @@ class FakeVehicleLookupService extends VehicleLookupService {
   val successMessage = "Fake Web Lookup Service - Good response"
   val failMessage = "Fake Web Dispose Service - Bad response"
 
-  def generateVehicleLookupFormModel(statusReturned: Boolean = false, messageReturned: String) =
+  def generateVehicleLookupFormModel(statusReturned: Boolean = false, messageReturned: String = failMessage) =
     VehicleDetailsResponse(statusReturned, message = messageReturned, vehicleDetailsModel =
     VehicleDetailsModel(vehicleMake = "Alfa Romeo", vehicleModel = "Alfasud ti", keeperName =
       "Keeper Name", keeperAddress = AddressViewModel(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
