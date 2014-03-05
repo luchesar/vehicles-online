@@ -2,12 +2,16 @@ package helpers
 
 import app.ConfigProperties._
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.ie.InternetExplorerDriver
+import org.openqa.selenium.safari.SafariDriver
+import org.openqa.selenium.htmlunit.HtmlUnitDriver
+import org.openqa.selenium.firefox.{FirefoxDriver, FirefoxProfile}
 
 //import org.openqa.selenium.phantomjs.{PhantomJSDriver, PhantomJSDriverService}
 //import org.openqa.selenium.remote.DesiredCapabilities
 
 import java.util.concurrent.TimeUnit
-import org.scalatest.selenium._
 
 object WebDriverFactory {
   private val systemProperties = System.getProperties()
@@ -21,11 +25,15 @@ object WebDriverFactory {
       // TODO replace the if-elseif with a match
       if (targetBrowser.equalsIgnoreCase("chrome")) {
         systemProperties.setProperty("webdriver.chrome.driver", getProperty("webdriver.chrome.driver", "drivers/chromedriver-2.9_macosx"))
-        Chrome.webDriver
+        new ChromeDriver()
       }
-      else if (targetBrowser.equalsIgnoreCase("ie") || targetBrowser.equalsIgnoreCase("internetexplorer")) InternetExplorer.webDriver
-      else if (targetBrowser.equalsIgnoreCase("safari")) Safari.webDriver
-      else if (targetBrowser.equalsIgnoreCase("htmlunit")) HtmlUnit.webDriver
+      else if (targetBrowser.equalsIgnoreCase("ie") || targetBrowser.equalsIgnoreCase("internetexplorer")) new InternetExplorerDriver()
+      else if (targetBrowser.equalsIgnoreCase("safari")) new SafariDriver()
+      else if (targetBrowser.equalsIgnoreCase("htmlunit")) {
+        val driver = new HtmlUnitDriver()
+        driver.setJavascriptEnabled(true)
+        driver
+      }
       /* Comment out pahntomjs support as need newer version of selenium
       else if (targetBrowser.equalsIgnoreCase("phantomjs")) {
         systemProperties.setProperty("webdriver.phantomjs.binary", getProperty("webdriver.phantomjs.binary", "drivers/phantomjs-1.9.7_macosx"))
@@ -42,8 +50,9 @@ object WebDriverFactory {
       }*/
       else {
         // Default
-        Firefox.firefoxProfile.setAcceptUntrustedCertificates(true)
-        Firefox.webDriver
+        val firefoxProfile = new FirefoxProfile()
+        firefoxProfile.setAcceptUntrustedCertificates(true)
+        new FirefoxDriver(firefoxProfile)
       }
     }
 
