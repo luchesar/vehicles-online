@@ -1,31 +1,59 @@
 package views.disposal_of_vehicle
 
-import org.specs2.mutable.{Specification, Tags}
-import play.api.test.WithBrowser
-import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.{BeforeYouStartPage, SetUpTradeDetailsPage}
+import org.scalatest.{BeforeAndAfterAll, Matchers, GivenWhenThen, FeatureSpec}
+import pages.disposal_of_vehicle._
+import helpers.WebDriverFactory
+import play.api.test.TestServer
 
-class BeforeYouStartIntegrationSpec extends Specification with Tags {
+class BeforeYouStartIntegrationSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll
+with BeforeYouStartPage with SetupTradeDetailsPage with BusinessChangeYourAddressPage with VehicleLookupPage with DisposePage with DisposeSuccessPage {
 
-  "BeforeYouStart Integration" should {
-    "be presented" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      browser.goTo(BeforeYouStartPage.url)
+  lazy val app: TestServer = {
+    TestServer(9000)
+  }
 
-      // Assert
-      titleMustEqual(BeforeYouStartPage.title)
+  override def beforeAll() {
+    app.start()
+  }
+
+  override def afterAll() {
+    app.stop()
+  }
+
+  feature("Dispose of a vehicle to trade") {
+
+    info("As a vehicle trader")
+    info("I want to dispose of a vehicle for a customer")
+    info("So they will be removed from the vehicle record as current keeper")
+    info("")
+
+    scenario("Before you start page should be presented") {
+      implicit val browser = WebDriverFactory.webDriver
+
+      Given("I am on the vehicles online prototype site")
+      go to BeforeYouStartPage
+
+      Then("I should see \"Dispose a vehicle into the motor trade: start\"")
+
+      page.title should equal(BeforeYouStartPage.title)
 
     }
 
-    "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
-      // Arrange
-      browser.goTo(BeforeYouStartPage.url)
 
-      // Act
-      browser.click("#next")
+    scenario("Go to the next page when the start now button is clicked on the before you start page") {
+      implicit val browser = WebDriverFactory.webDriver
 
-      // Assert
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      Given("I am on the vehicles online prototype site")
+      go to BeforeYouStartPage
+
+      When("I click the Start now button to begin the transaction")
+      click on BeforeYouStartPage.startNow
+
+      Then("I should see \"Dispose a vehicle into the motor trade: set-up\"")
+
+      page.title should equal(SetupTradeDetailsPage.title)
+
+      browser.quit()
     }
   }
 }

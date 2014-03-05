@@ -28,22 +28,39 @@ class DisposalOfVehicleSpec extends FeatureSpec with GivenWhenThen with Matchers
     info("So they will be removed from the vehicle record as current keeper")
     info("")
 
-    scenario("Before you start page") {
+    scenario("Before you start page should be presented") {
        implicit val browser = WebDriverFactory.webDriver
 
        Given("I am on the vehicles online prototype site")
        go to BeforeYouStartPage
 
-       When("I click the Start now button to begin the transaction")
-       click on BeforeYouStartPage.startNow
+       //When("I click the Start now button to begin the transaction")
+       //click on BeforeYouStartPage.startNow
 
-       Then("I should see \"Dispose a vehicle into the motor trade: set-up\"")
-       page.text should include("Dispose a vehicle into the motor trade: set-up")
+       Then("I should see \"Dispose a vehicle into the motor trade: start\"")
+       //page.text should include("Dispose a vehicle into the motor trade: set-up")
 
-       //page.title should equal(BeforeYouStartPage.title)
+       page.title should equal(BeforeYouStartPage.title)
 
-       browser.quit()
      }
+
+
+    scenario("Go to motor trade set-up page when next button is clicked") {
+      implicit val browser = WebDriverFactory.webDriver
+
+      Given("I am on the vehicles online prototype site")
+      go to BeforeYouStartPage
+
+      When("I click the Start now button to begin the transaction")
+      click on BeforeYouStartPage.startNow
+
+      Then("I should see \"Dispose a vehicle into the motor trade: set-up\"")
+      //page.text should include("Dispose a vehicle into the motor trade: set-up")
+
+      page.title should equal(SetupTradeDetailsPage.title)
+
+      browser.quit()
+    }
 /*
      scenario("Setup trade details page") {
 
