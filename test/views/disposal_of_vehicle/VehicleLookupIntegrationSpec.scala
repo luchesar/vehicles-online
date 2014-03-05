@@ -4,7 +4,7 @@ import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
 import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, VehicleLookupPage, SetUpTradeDetailsPage, DisposePage, EnterAddressManuallyPage}
-import models.domain.disposal_of_vehicle.AddressViewModel
+import helpers.disposal_of_vehicle.Helper._
 
 class VehicleLookupIntegrationSpec extends Specification with Tags {
 
@@ -110,8 +110,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
     "display previous page when back link is clicked with uprn present" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      val addressWithUprn = AddressViewModel(uprn=Some(12345L),address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
-
       SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache(addressWithUprn)
       browser.goTo(VehicleLookupPage.url)

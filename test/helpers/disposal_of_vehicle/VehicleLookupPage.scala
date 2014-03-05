@@ -14,7 +14,7 @@ object VehicleLookupPage {
   val url = "/disposal-of-vehicle/vehicle-lookup"
   val title = "Dispose a vehicle into the motor trade: vehicle"
 
-  def happyPath(browser: TestBrowser, referenceNumber: String = documentReferenceNumberValid, vehicleRegistrationNumber: String = vehicleRegistrationNumberValid) = {
+  def happyPath(browser: TestBrowser, referenceNumber: String = referenceNumberValid, vehicleRegistrationNumber: String = registrationNumberValid) = {
     browser.goTo("/disposal-of-vehicle/vehicle-lookup")
     browser.fill(s"#${referenceNumberId}") `with` referenceNumber
     browser.fill(s"#${registrationNumberId}") `with` vehicleRegistrationNumber
@@ -28,7 +28,7 @@ object VehicleLookupPage {
     play.api.cache.Cache.set(key, value)
   }
 
-  def setupVehicleLookupFormModelCache (referenceNumber: String = documentReferenceNumberValid, registrationNumber: String = vehicleRegistrationNumberValid, consent: String = consentValid) = {
+  def setupVehicleLookupFormModelCache (referenceNumber: String = referenceNumberValid, registrationNumber: String = registrationNumberValid, consent: String = consentValid) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupFormModelCacheKey
     val value = VehicleLookupFormModel(referenceNumber, registrationNumber, consent)
     play.api.cache.Cache.set(key, value)
