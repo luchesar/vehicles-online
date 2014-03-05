@@ -54,6 +54,8 @@ with BeforeYouStartPage with SetupTradeDetailsPage with BusinessChangeYourAddres
       page.title should equal(SetupTradeDetailsPage.title)
 
       browser.quit()
+
+      
     }
   }
 }
