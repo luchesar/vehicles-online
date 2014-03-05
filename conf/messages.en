@@ -228,12 +228,12 @@ disposal_enteraddressmanually.submitbutton = Next
 disposal_enteraddressmanually.backbutton = Back
 addressAndPostcode_addressLines = Address
 address.lines.label = Address
-address.line1.label = Line 1 (required)
-address.line2.label= Line 2
-address.line3.label= Line 3
-address.line4.label= Line 4
+address.line1.label = House number
+address.line2.label= Street name
+address.line3.label= Area
+address.line4.label= Post town
 address.postcode.label = Postcode
-address.postcode.label = e.g. SA99 1BD
+address.postcode.label.prompt = e.g. SA99 1BD
 
 #page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Dispose a vehicle into the motor trade: vehicle
