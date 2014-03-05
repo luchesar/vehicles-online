@@ -47,7 +47,7 @@ class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
       status(result) should equal(BAD_REQUEST)
     }
 
-    "return a bad request when only dealerPostcode is entered" in new WithApplication {
+    "return a bad request when only traderPostcode is entered" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(dealerPostcodeId -> traderPostcodeValid)
