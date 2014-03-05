@@ -5,12 +5,12 @@ import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.VehicleLookup._
-import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetUpTradeDetailsPage, DisposePage, VehicleLookupFailurePage}
+import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetUpTradeDetailsPage, DisposePage, VehicleLookupFailurePage, EnterAddressManuallyPage}
 import helpers.disposal_of_vehicle.Helper._
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.Matchers._
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import models.domain.disposal_of_vehicle.{AddressViewModel, VehicleLookupFormModel}
 import services.fakes.{FakeDisposeService, FakeVehicleLookupService}
 
 class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSugar {
@@ -23,7 +23,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
 
     "present" in new WithApplication {
       // Arrange
-      BusinessChooseYourAddressPage.setupCache
+      BusinessChooseYourAddressPage.setupCache()
       val request = FakeRequest().withSession()
 
       // Act
@@ -35,7 +35,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
 
     "redirect to Dispose after a valid submit and true message returned from the fake microservice" in new WithApplication {
       // Arrange
-      BusinessChooseYourAddressPage.setupCache
+      BusinessChooseYourAddressPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(referenceNumberId -> documentReferenceNumberValid, registrationNumberId -> vehicleRegistrationNumberValid, consentId -> consentValid)
 
@@ -54,7 +54,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       val vehicleLookupFailure = new disposal_of_vehicle.VehicleLookup(mockWebServiceFailure)
 
       // Arrange
-      BusinessChooseYourAddressPage.setupCache
+      BusinessChooseYourAddressPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(referenceNumberId -> documentReferenceNumberValid, registrationNumberId -> vehicleRegistrationNumberValid, consentId -> consentValid)
 
@@ -78,7 +78,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
 
     "return a bad request if no details are entered" in new WithApplication {
       // Arrange
-      BusinessChooseYourAddressPage.setupCache
+      BusinessChooseYourAddressPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 
@@ -91,7 +91,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
 
     "return a bad request if empty strings are entered" in new WithApplication {
       // Arrange
-      BusinessChooseYourAddressPage.setupCache
+      BusinessChooseYourAddressPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(referenceNumberId -> "", registrationNumberId -> "")
 
@@ -105,7 +105,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
 
     "return a bad request if only ReferenceNumber is entered" in new WithApplication {
       // Arrange
-      BusinessChooseYourAddressPage.setupCache
+      BusinessChooseYourAddressPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(referenceNumberId -> documentReferenceNumberValid)
 
@@ -118,7 +118,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
 
     "return a bad request if only RegistrationNumber is entered" in new WithApplication {
       // Arrange
-      BusinessChooseYourAddressPage.setupCache
+      BusinessChooseYourAddressPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(registrationNumberId -> vehicleRegistrationNumberValid)
 
@@ -127,6 +127,35 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
 
       // Assert
       status(result) should equal(BAD_REQUEST)
+    }
+
+    "redirect to manual address screen when back button is pressed and there is no uprn" in new WithApplication {
+      //Arrange
+      BusinessChooseYourAddressPage.setupCache()
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody()
+
+      //Act
+      val result = vehicleLookupSuccess.back(request)
+
+      // Assert
+      status(result) should equal(SEE_OTHER)
+      redirectLocation(result) should equal (Some(EnterAddressManuallyPage.url))
+    }
+
+    "redirect to select address screen when back button is pressed and there is a uprn" in new WithApplication {
+      //Arrange
+      val addressWithUprn = AddressViewModel(uprn=Some(12345L),address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
+      BusinessChooseYourAddressPage.setupCache(addressWithUprn)
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody()
+
+      //Act
+      val result = vehicleLookupSuccess.back(request)
+
+      // Assert
+      status(result) should equal(SEE_OTHER)
+      redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.url))
     }
 
   }

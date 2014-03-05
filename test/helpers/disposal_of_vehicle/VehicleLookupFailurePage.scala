@@ -5,7 +5,7 @@ object VehicleLookupFailurePage {
   val title = "Dispose a vehicle into the motor trade: vehicle lookup failure"
 
   def cacheSetupHappyPath () {
-    BusinessChooseYourAddressPage.setupCache
+    BusinessChooseYourAddressPage.setupCache()
     VehicleLookupPage.setupVehicleLookupFormModelCache()
   }
 }

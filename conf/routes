@@ -79,6 +79,8 @@ POST        /disposal-of-vehicle/enter-address-manually         controllers.disp
 
 GET         /disposal-of-vehicle/vehicle-lookup                 @controllers.disposal_of_vehicle.VehicleLookup.present
 POST        /disposal-of-vehicle/vehicle-lookup                 @controllers.disposal_of_vehicle.VehicleLookup.submit
+GET         /disposal-of-vehicle/vehicle-lookup                 @controllers.disposal_of_vehicle.VehicleLookup.back
+
 
 GET         /disposal-of-vehicle/dispose                        @controllers.disposal_of_vehicle.Dispose.present
 POST        /disposal-of-vehicle/dispose                        @controllers.disposal_of_vehicle.Dispose.submit
