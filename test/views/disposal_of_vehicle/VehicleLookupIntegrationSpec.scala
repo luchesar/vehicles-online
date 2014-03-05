@@ -3,7 +3,8 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, VehicleLookupPage, SetUpTradeDetailsPage, DisposePage}
+import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, VehicleLookupPage, SetUpTradeDetailsPage, DisposePage, EnterAddressManuallyPage}
+import models.domain.disposal_of_vehicle.AddressViewModel
 
 class VehicleLookupIntegrationSpec extends Specification with Tags {
 
@@ -11,7 +12,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
       browser.goTo(VehicleLookupPage.url)
 
@@ -29,7 +29,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
     "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
 
       VehicleLookupPage.happyPath(browser)
@@ -40,7 +39,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
     "display three validation error messages when no referenceNumber is entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
       VehicleLookupPage.happyPath(browser, referenceNumber = "")
 
@@ -50,7 +48,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
     "display two validation error messages when no registrationNumber is entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
       VehicleLookupPage.happyPath(browser, vehicleRegistrationNumber = "")
 
@@ -60,7 +57,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
     "display one validation error message when a registrationNumber is entered containing one character" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
       VehicleLookupPage.happyPath(browser, vehicleRegistrationNumber = "a")
 
@@ -70,7 +66,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
     "display one validation error message when a registrationNumber is entered containing special characters" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
       VehicleLookupPage.happyPath(browser, vehicleRegistrationNumber = "$^")
 
@@ -80,7 +75,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
     "display five validation error messages when no details are entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
       VehicleLookupPage.happyPath(browser, referenceNumber = "", vehicleRegistrationNumber = "")
 
@@ -90,7 +84,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
     "display two validation error messages when only a valid referenceNumber is entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
       VehicleLookupPage.happyPath(browser, vehicleRegistrationNumber = "")
 
@@ -100,7 +93,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
     "display three validation error messages when only a valid registrationNumber is entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
       VehicleLookupPage.happyPath(browser, referenceNumber = "")
 
@@ -113,13 +105,15 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       browser.goTo(VehicleLookupPage.url)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade: set-up")
+      titleMustEqual(SetUpTradeDetailsPage.title)
     }
 
-    "display previous page when back link is clicked" in new WithBrowser with BrowserMatchers {
+    "display previous page when back link is clicked with uprn present" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
+      val addressWithUprn = AddressViewModel(uprn=Some(12345L),address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
+
       SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache()
+      BusinessChooseYourAddressPage.setupCache(addressWithUprn)
       browser.goTo(VehicleLookupPage.url)
       browser.click("#backButton")
 
@@ -127,5 +121,15 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       titleMustEqual(BusinessChooseYourAddressPage.title)
     }
 
+    "display previous page when back link is clicked with no uprn present" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      SetUpTradeDetailsPage.setupCache()
+      BusinessChooseYourAddressPage.setupCache()
+      browser.goTo(VehicleLookupPage.url)
+      browser.click("#backButton")
+
+      //Assert
+      titleMustEqual(EnterAddressManuallyPage.title)
+    }
   }
 }

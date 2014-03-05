@@ -139,7 +139,6 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       val result = vehicleLookupSuccess.back(request)
 
       // Assert
-      status(result) should equal(SEE_OTHER)
       redirectLocation(result) should equal (Some(EnterAddressManuallyPage.url))
     }
 
@@ -154,7 +153,6 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       val result = vehicleLookupSuccess.back(request)
 
       // Assert
-      status(result) should equal(SEE_OTHER)
       redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.url))
     }
 

@@ -28,7 +28,9 @@ class VehicleLookup @Inject() (webService: services.VehicleLookupService) extend
   def present = Action {
     implicit request =>
       fetchDealerDetailsFromCache match {
-        case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm))
+        case Some(dealerDetails) => {
+          Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm))
+        }
         case None => Redirect(routes.SetUpTradeDetails.present)
       }
   }
@@ -39,7 +41,10 @@ class VehicleLookup @Inject() (webService: services.VehicleLookupService) extend
         formWithErrors => Future {
           fetchDealerDetailsFromCache match {
             case Some(dealerDetails) => BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithErrors))
-            case None => Redirect(routes.SetUpTradeDetails.present)
+            case None => {
+              Redirect(routes.SetUpTradeDetails.present)
+
+            }
           }
         },
         f =>  lookupVehicle(webService, f)
@@ -48,7 +53,6 @@ class VehicleLookup @Inject() (webService: services.VehicleLookupService) extend
 
   def back  = Action {
     implicit request =>
-
       fetchDealerDetailsFromCache match {
         case Some(dealerDetails) => if (dealerDetails.dealerAddress.uprn.isDefined) Redirect(routes.BusinessChooseYourAddress.present) else Redirect(routes.EnterAddressManually.present)
         case None => Redirect(routes.SetUpTradeDetails.present)
