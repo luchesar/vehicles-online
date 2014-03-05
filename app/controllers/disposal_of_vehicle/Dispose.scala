@@ -23,7 +23,6 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
 
   val disposeForm = Form(
     mapping(
-      consentId -> consent,
       mileageId -> mileage(),
       dateOfDisposalId -> dayMonthYear.verifying(rules),
       emailAddressId -> optional(text)
@@ -62,7 +61,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
         },
         f => {
           storeDisposeFormModelInCache(f)
-          Logger.debug(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
+          Logger.debug(s"Dispose form submitted - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
 //          fetchVehicleLookupDetailsFromCache match {
 //            //TODO could be moved inside disposeAction
 //            case Some(vehicleLookupFormModel) => {

@@ -43,7 +43,6 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
          VehicleLookupPage.setupVehicleLookupFormModelCache()
          val request = FakeRequest().withSession()
            .withFormUrlEncodedBody(
-             consentId -> consentValid,
              mileageId -> mileageValid,
              s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
              s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
@@ -72,7 +71,6 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
-          consentId -> consentValid,
           mileageId -> mileageValid,
           s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
           s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
@@ -91,7 +89,6 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
-          consentId -> consentValid,
           mileageId -> mileageValid,
           s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
           s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
@@ -149,7 +146,6 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       VehicleLookupPage.setupVehicleLookupFormModelCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
-          consentId -> consentValid,
           mileageId -> mileageValid,
           s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
           s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,

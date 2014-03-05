@@ -19,13 +19,12 @@ object DisposePage {
     browser.click(s"#${dateOfDisposalId}_day option[value='$day']")
     browser.click(s"#${dateOfDisposalId}_month option[value='$month']")
     browser.fill(s"#${dateOfDisposalId}_year") `with` year
-    browser.click(s"#${consentId}")
     browser.submit("button[type='submit']")
   }
 
   def setupDisposeFormModelCache() = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeFormModelCacheKey
-    val value = DisposeFormModel(consent = "true", dateOfDisposal = DayMonthYear.today, emailAddress = None)
+    val value = DisposeFormModel(dateOfDisposal = DayMonthYear.today, emailAddress = None)
     play.api.cache.Cache.set(key, value)
   }
 

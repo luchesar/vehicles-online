@@ -59,11 +59,6 @@
 
             @inputDayMonthYear(disposeForm(dateOfDisposalId), args = Map('_label -> Messages("disposal_dispose.dateofdisposal.label")))
 
-			<div class="form-declaration">
-            @* Checkbox must not be pre-ticked. *@
-            @valtechDeclareCheck(disposeForm(consentId), args = Map('id -> "consent", '_showConstraints -> false, '_label -> Messages("disposal_dispose.consent")))
-			</div>
-
             <p>@Messages("disposal_dispose.exkeeperlettertext")</p>
 
             @valtechInputTextWithButton(disposeForm(emailAddressId),
