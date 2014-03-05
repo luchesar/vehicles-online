@@ -5,10 +5,9 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
 import mappings.disposal_of_vehicle.VehicleLookup._
-import mappings.common.{V5cReferenceNumber, V5cRegistrationNumber}
-import mappings.common.Postcode._
-import V5cReferenceNumber._
-import V5cRegistrationNumber._
+import mappings.common.{ReferenceNumber, RegistrationNumber, Consent}
+import ReferenceNumber._
+import RegistrationNumber._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
@@ -20,10 +19,9 @@ class VehicleLookup @Inject() (webService: services.VehicleLookupService) extend
 
   val vehicleLookupForm = Form(
     mapping(
-      v5cReferenceNumberId -> v5cReferenceNumber(minLength = 11, maxLength = 11),
-      v5cRegistrationNumberId -> v5CRegistrationNumber(minLength = 2, maxLength = 8),
-      v5cKeeperNameId -> nonEmptyText(minLength = 2, maxLength = 100),
-      v5cPostcodeId -> postcode()
+      referenceNumberId -> referenceNumber(minLength = 11, maxLength = 11),
+      registrationNumberId -> registrationNumber(minLength = 2, maxLength = 8),
+      consentId -> Consent.consent
     )(VehicleLookupFormModel.apply)(VehicleLookupFormModel.unapply)
   )
 

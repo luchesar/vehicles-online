@@ -63,6 +63,18 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
         f => {
           storeDisposeFormModelInCache(f)
           Logger.debug(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
+//          fetchVehicleLookupDetailsFromCache match {
+//            //TODO could be moved inside disposeAction
+//            case Some(vehicleLookupFormModel) => {
+//              val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber, registrationNumber = vehicleLookupFormModel.registrationNumber)
+//              storeDisposeModelInCache(disposeModel)
+//              disposeAction(webService, disposeModel)
+//            }
+//            case _ => Future {
+//              Logger.error("could not find dealer details in cache on Dispose submit")
+//              Redirect(routes.SetUpTradeDetails.present)
+//            }
+//          }
           disposeAction(webService)
         }
       )
@@ -81,7 +93,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
   private def disposeAction(webService: services.DisposeService): Future[SimpleResult] = {
     fetchVehicleLookupDetailsFromCache match {
       case Some(vehicleLookupFormModel) => {
-        val disposeModel = DisposeModel(v5cReferenceNumber = vehicleLookupFormModel.v5cReferenceNumber, v5cRegistrationNumber = vehicleLookupFormModel.v5cRegistrationNumber, v5cKeeperName = vehicleLookupFormModel.v5cKeeperName, v5cPostcode = vehicleLookupFormModel.v5cPostcode)
+        val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber, registrationNumber = vehicleLookupFormModel.registrationNumber)
         storeDisposeModelInCache(disposeModel)
         webService.invoke(disposeModel).map {
           resp =>

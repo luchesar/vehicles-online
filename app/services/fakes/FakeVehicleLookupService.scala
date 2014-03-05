@@ -9,17 +9,14 @@ import ExecutionContext.Implicits.global
 class FakeVehicleLookupService extends VehicleLookupService {
   val successMessage = "Fake Web Lookup Service - Good response"
   val failMessage = "Fake Web Dispose Service - Bad response"
-  val vehicleLookupFormModelSuccess =
-    VehicleDetailsResponse(true, message = successMessage, vehicleDetailsModel =
+
+  def generateVehicleLookupFormModel(statusReturned: Boolean = false, messageReturned: String = failMessage) =
+    VehicleDetailsResponse(statusReturned, message = messageReturned, vehicleDetailsModel =
     VehicleDetailsModel(vehicleMake = "Alfa Romeo", vehicleModel = "Alfasud ti", keeperName =
-      "Mr Success", keeperAddress = AddressViewModel(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
-  val vehicleLookupFormModelFailure =
-    VehicleDetailsResponse(false, message = failMessage, vehicleDetailsModel =
-      VehicleDetailsModel(vehicleMake = "Alfa Romeo", vehicleModel = "Alfasud ti", keeperName =
-        "Mr Fail", keeperAddress = AddressViewModel(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
+      "Keeper Name", keeperAddress = AddressViewModel(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
 
   override def invoke(cmd: VehicleLookupFormModel): Future[VehicleDetailsResponse] = Future {
-    if (cmd.v5cKeeperName == "fail") vehicleLookupFormModelFailure
-    else vehicleLookupFormModelSuccess
+    if (cmd.referenceNumber == "9" * 11) generateVehicleLookupFormModel(false, failMessage)
+    else generateVehicleLookupFormModel(true, successMessage)
   }
 }
