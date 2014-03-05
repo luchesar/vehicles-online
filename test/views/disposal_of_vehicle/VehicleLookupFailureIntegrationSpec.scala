@@ -35,7 +35,7 @@ class VehicleLookupFailureIntegrationSpec extends Specification with Tags {
 
     "redirect to setuptrade details if only BusinessChooseYourAddress cache is populated" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      BusinessChooseYourAddressPage.setupCache
+      BusinessChooseYourAddressPage.setupCache()
       browser.goTo(VehicleLookupFailurePage.url)
 
       // Assert

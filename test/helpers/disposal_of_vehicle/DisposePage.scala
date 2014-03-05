@@ -12,7 +12,7 @@ object DisposePage {
   val title = "Dispose a vehicle into the motor trade: confirm"
 
   def happyPath(browser: TestBrowser, day: String = "1", month :String = "1", year: String = "2000") = {
-    BusinessChooseYourAddressPage.setupCache
+    BusinessChooseYourAddressPage.setupCache()
     VehicleLookupPage.setupVehicleDetailsModelCache()
     VehicleLookupPage.setupVehicleLookupFormModelCache()
     browser.goTo(url)
