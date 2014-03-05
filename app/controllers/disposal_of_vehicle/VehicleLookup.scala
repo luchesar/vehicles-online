@@ -48,6 +48,16 @@ class VehicleLookup @Inject() (webService: services.VehicleLookupService) extend
       )
   }
 
+  def back  = Action {
+    implicit request =>
+
+      fetchDealerDetailsFromCache match {
+        case Some(dealerDetails) => if (dealerDetails.dealerAddress.uprn.isDefined) Redirect(routes.BusinessChooseYourAddress.present) else Redirect(routes.EnterAddressManually.present)
+        case None => Redirect(routes.SetUpTradeDetails.present)
+      }
+
+  }
+
   private def lookupVehicle(webService: services.VehicleLookupService, model: VehicleLookupFormModel) : Future[SimpleResult] = {
     webService.invoke(model).map { resp =>
       Logger.debug(s"VehicleLookup Web service call successful - response = ${resp}")
