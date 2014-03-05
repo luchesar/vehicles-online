@@ -3,10 +3,10 @@ package views.disposal_of_vehicle
 import org.scalatest.{BeforeAndAfterAll, Matchers, GivenWhenThen, FeatureSpec}
 import pages.disposal_of_vehicle._
 import helpers.WebDriverFactory
+import helpers.webbrowser._
 import play.api.test.TestServer
 
-class BeforeYouStartIntegrationSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll
-with BeforeYouStartPage with SetupTradeDetailsPage with BusinessChangeYourAddressPage with VehicleLookupPage with DisposePage with DisposeSuccessPage {
+class BeforeYouStartIntegrationSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with WebBrowser {
 
   lazy val app: TestServer = {
     TestServer(9000)

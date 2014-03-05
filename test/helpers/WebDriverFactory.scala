@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver
 //import org.openqa.selenium.remote.DesiredCapabilities
 
 import java.util.concurrent.TimeUnit
-import com.typesafe.config.ConfigFactory
 import org.scalatest.selenium._
 
 object WebDriverFactory {

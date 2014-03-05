@@ -18,7 +18,7 @@
  * TODO Check for licensing issues as the code below is based on code found in Scalatest
  */
 
-package helpers
+package helpers.webbrowser
 
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.Cookie
@@ -35,68 +35,9 @@ import java.io.FileInputStream
 import java.util.Date
 import java.util.concurrent.TimeUnit
 import scala.collection.JavaConverters._
+import scala.language.implicitConversions
 
 trait WebBrowser {
-
-  case class Point(x: Int, y: Int)
-
-  case class Dimension(width: Int, height: Int)
-
-  sealed trait Element {
-
-    def location: Point = Point(underlying.getLocation.getX, underlying.getLocation.getY)
-
-    def size: Dimension = Dimension(underlying.getSize.getWidth, underlying.getSize.getHeight)
-
-    def isDisplayed: Boolean = underlying.isDisplayed
-
-    def isEnabled: Boolean = underlying.isEnabled
-
-    def isSelected: Boolean = underlying.isSelected
-
-    def tagName: String = underlying.getTagName
-
-    val underlying: WebElement
-
-    def attribute(name: String): Option[String] = Option(underlying.getAttribute(name))
-
-    def text: String = {
-      val txt = underlying.getText
-      if (txt != null) txt else "" // Just in case, I'm not sure if Selenium would ever return null here
-    }
-
-    override def equals(other: Any): Boolean = underlying.equals(other)
-
-    override def hashCode: Int = underlying.hashCode
-
-    override def toString: String = underlying.toString
-  }
-
-  trait Page {
-    val url: String
-    val title: String
-  }
-
-  final class WrappedCookie(val underlying: Cookie) {
-
-    def domain: String = underlying.getDomain
-
-    def expiry: Option[Date] = Option(underlying.getExpiry)
-
-    def name: String = underlying.getName
-
-    def path: String = underlying.getPath
-
-    def value: String = underlying.getValue
-
-    def secure: Boolean = underlying.isSecure
-
-    override def equals(other: Any): Boolean = underlying.equals(other)
-
-    override def hashCode: Int = underlying.hashCode
-
-    override def toString: String = underlying.toString
-  }
 
   class CookiesNoun
 
@@ -187,285 +128,52 @@ trait WebBrowser {
       }
   }
 
-  private def isInputField(webElement: WebElement, name: String): Boolean =
-    webElement.getTagName.toLowerCase == "input" && webElement.getAttribute("type").toLowerCase == name
-
-  private def isTextField(webElement: WebElement): Boolean = isInputField(webElement, "text")
-  private def isPasswordField(webElement: WebElement): Boolean = isInputField(webElement, "password")
-  private def isCheckBox(webElement: WebElement): Boolean = isInputField(webElement, "checkbox")
-  private def isRadioButton(webElement: WebElement): Boolean = isInputField(webElement, "radio")
-  private def isEmailField(webElement: WebElement): Boolean = isInputField(webElement, "email")
-  private def isColorField(webElement: WebElement): Boolean = isInputField(webElement, "color")
-  private def isDateField(webElement: WebElement): Boolean = isInputField(webElement, "date")
-  private def isDateTimeField(webElement: WebElement): Boolean = isInputField(webElement, "datetime")
-  private def isDateTimeLocalField(webElement: WebElement): Boolean = isInputField(webElement, "datetime-local")
-  private def isMonthField(webElement: WebElement): Boolean = isInputField(webElement, "month")
-  private def isNumberField(webElement: WebElement): Boolean = isInputField(webElement, "number")
-  private def isRangeField(webElement: WebElement): Boolean = isInputField(webElement, "range")
-  private def isSearchField(webElement: WebElement): Boolean = isInputField(webElement, "search")
-  private def isTelField(webElement: WebElement): Boolean = isInputField(webElement, "tel")
-  private def isTimeField(webElement: WebElement): Boolean = isInputField(webElement, "time")
-  private def isUrlField(webElement: WebElement): Boolean = isInputField(webElement, "url")
-  private def isWeekField(webElement: WebElement): Boolean = isInputField(webElement, "week")
-
-  private def isTextArea(webElement: WebElement): Boolean =
-    webElement.getTagName.toLowerCase == "textarea"
-
-  final class TextField(val underlying: WebElement) extends Element {
-
-    if(!isTextField(underlying))
-      throw new TestFailedException("Element " + underlying + " is not text field.")
-
-    def value: String = underlying.getAttribute("value")
-
-    def value_=(value: String) {
-      underlying.clear()
-      underlying.sendKeys(value)
-    }
-
-    def clear() { underlying.clear() }
-  }
-
-  final class TextArea(val underlying: WebElement) extends Element {
-    if(!isTextArea(underlying))
-      throw new TestFailedException("Element " + underlying + " is not text area.")
-
-    def value: String = underlying.getAttribute("value")
-
-    def value_=(value: String) {
-      underlying.clear()
-      underlying.sendKeys(value)
-    }
-
-    def clear() { underlying.clear() }
-  }
-
-  final class PasswordField(val underlying: WebElement) extends Element {
-
-    if(!isPasswordField(underlying))
-      throw new TestFailedException("Element " + underlying + " is not password field.")
-
-    def value: String = underlying.getAttribute("value")
-
-    def value_=(value: String) {
-      underlying.clear()
-      underlying.sendKeys(value)
-    }
-
-    def clear() { underlying.clear() }
-  }
-
-  trait ValueElement extends Element {
-    val underlying: WebElement
-
-    def checkCorrectType(isA: (WebElement) => Boolean, typeDescription: String) = {
-      if(!isA(underlying))
-        throw new TestFailedException("Element " + underlying + " is not " + typeDescription + " field.")
-    }
-
-    def value: String = underlying.getAttribute("value")
-
-    def value_=(value: String) {
-      underlying.clear()
-      underlying.sendKeys(value)
-    }
-
-    def clear() { underlying.clear() }
-  }
-
-  final class EmailField(val underlying: WebElement) extends Element with ValueElement {
-    checkCorrectType(isEmailField, "email")
-  }
-
-  final class ColorField(val underlying: WebElement) extends Element with ValueElement {
-    checkCorrectType(isColorField, "color")
-  }
-
-  final class DateField(val underlying: WebElement) extends Element with ValueElement {
-    checkCorrectType(isDateField, "date")
-  }
-
-  final class DateTimeField(val underlying: WebElement) extends Element with ValueElement {
-    checkCorrectType(isDateTimeField, "datetime")
-  }
-
-  final class DateTimeLocalField(val underlying: WebElement) extends Element with ValueElement {
-    checkCorrectType(isDateTimeLocalField, "datetime-local")
-  }
-
-  final class MonthField(val underlying: WebElement) extends Element with ValueElement {
-    checkCorrectType(isMonthField, "month")
-  }
-
-  final class NumberField(val underlying: WebElement) extends Element with ValueElement {
-    checkCorrectType(isNumberField, "number")
-  }
-
-  final class RangeField(val underlying: WebElement) extends Element with ValueElement {
-    checkCorrectType(isRangeField, "range")
-  }
-
-  final class SearchField(val underlying: WebElement) extends Element with ValueElement {
-    checkCorrectType(isSearchField, "search")
-  }
-
-  final class TelField(val underlying: WebElement) extends Element with ValueElement {
-    checkCorrectType(isTelField, "tel")
-  }
-  
-  final class TimeField(val underlying: WebElement) extends Element with ValueElement {
-    checkCorrectType(isTimeField, "time")
-  }
-  
-  final class UrlField(val underlying: WebElement) extends Element with ValueElement {
-    checkCorrectType(isUrlField, "url")
-  }
-  
-  final class WeekField(val underlying: WebElement) extends Element with ValueElement {
-    checkCorrectType(isWeekField, "week")
-  }
-  
-  final class RadioButton(val underlying: WebElement) extends Element {
-    if(!isRadioButton(underlying))
-      throw new TestFailedException("Element " + underlying + " is not radio button.")
-    
-    def value: String = underlying.getAttribute("value")
-  }
-  
-  final class RadioButtonGroup(groupName: String, driver: WebDriver) {
-
-    private def groupElements = driver.findElements(By.name(groupName)).asScala.toList.filter(isRadioButton(_))
-
-    if (groupElements.length == 0)
-      throw new TestFailedException("No radio buttons with group name '" + groupName + "' was found.")
-    
-    def value: String = selection match {
-      case Some(v) => v
-      case None =>
-        throw new TestFailedException("The radio button group on which value was invoked contained no selected radio button.")
-    }
-    
-    def selection: Option[String] = {
-      groupElements.find(_.isSelected) match {
-        case Some(radio) =>
-          Some(radio.getAttribute("value"))
-        case None =>
-          None
-      }
-    }
-    
-    def value_=(value: String) {
-      groupElements.find(_.getAttribute("value") == value) match {
-        case Some(radio) =>
-          radio.click()
-        case None =>
-          throw new TestFailedException("Radio button value '" + value + "' not found for group '" + groupName + "'.")
-      }
-    }
-  }
-
-  
-  final class Checkbox(val underlying: WebElement) extends Element {
-    if(!isCheckBox(underlying))
-      throw new TestFailedException("Element " + underlying + " is not check box.")
-    
-    def select() {
-      if (!underlying.isSelected)
-        underlying.click()
-    }
-    
-    def clear() {
-      if (underlying.isSelected())
-        underlying.click()
-    }
-    
-    def value: String = underlying.getAttribute("value")
-  }
-
-  
-  class MultiSelOptionSeq(underlying: collection.immutable.IndexedSeq[String]) extends collection.immutable.IndexedSeq[String] {
-    
-    def apply(idx: Int): String = underlying.apply(idx)
-    
-    def length: Int = underlying.length
-    
-    def +(value: String): MultiSelOptionSeq = {
-      if (!underlying.contains(value))
-        new MultiSelOptionSeq(underlying :+ value)
+  private def createTypedElement(element: WebElement): Element = {
+    if (Helper.isTextField(element))
+      new TextField(element)
+    else if (Helper.isTextArea(element))
+      new TextArea(element)
+    else if (Helper.isPasswordField(element))
+      new PasswordField(element)
+    else if (Helper.isEmailField(element))
+      new EmailField(element)
+    else if (Helper.isColorField(element))
+      new ColorField(element)
+    else if (Helper.isDateField(element))
+      new DateField(element)
+    else if (Helper.isDateTimeField(element))
+      new DateTimeField(element)
+    else if (Helper.isDateTimeLocalField(element))
+      new DateTimeLocalField(element)
+    else if (Helper.isMonthField(element))
+      new MonthField(element)
+    else if (Helper.isNumberField(element))
+      new NumberField(element)
+    else if (Helper.isRangeField(element))
+      new RangeField(element)
+    else if (Helper.isSearchField(element))
+      new SearchField(element)
+    else if (Helper.isTelField(element))
+      new TelField(element)
+    else if (Helper.isTimeField(element))
+      new TimeField(element)
+    else if (Helper.isUrlField(element))
+      new UrlField(element)
+    else if (Helper.isWeekField(element))
+      new WeekField(element)
+    else if (Helper.isCheckBox(element))
+      new Checkbox(element)
+    else if (Helper.isRadioButton(element))
+      new RadioButton(element)
+    else if (element.getTagName.toLowerCase == "select") {
+      val select = new Select(element)
+      if (select.isMultiple)
+        new MultiSel(element)
       else
-        this
+        new SingleSel(element)
     }
-    
-    def -(value: String): MultiSelOptionSeq = {
-      if (underlying.contains(value))
-        new MultiSelOptionSeq(underlying.filter(_ != value))
-      else
-        this
-    }
-  }
-  
-  class SingleSel(val underlying: WebElement) extends Element {
-    if(underlying.getTagName.toLowerCase != "select")
-      throw new TestFailedException("Element " + underlying + " is not select.")
-    private val select = new Select(underlying)
-    if (select.isMultiple)
-      throw new TestFailedException("Element " + underlying + " is not a single-selection list.")
-    
-    def selection = {
-      val first = select.getFirstSelectedOption
-      if (first == null)
-        None
-      else
-        Some(first.getAttribute("value"))
-    }
-    
-    def value: String = selection match {
-      case Some(v) => v
-      case None =>
-        throw new TestFailedException("The single selection list on which value was invoked had no selection.")
-    }
-
-    def value_=(value : String) {
-      try {
-        select.selectByValue(value)
-      }
-      catch {
-        case e: org.openqa.selenium.NoSuchElementException =>
-          throw new TestFailedException(e.getMessage)
-      }
-    }
-  }
-  
-  class MultiSel(val underlying: WebElement) extends Element {
-    if(underlying.getTagName.toLowerCase != "select")
-      throw new TestFailedException("Element " + underlying + " is not select.")
-    private val select = new Select(underlying)
-    if (!select.isMultiple)
-      throw new TestFailedException("Element " + underlying + " is not a multi-selection list.")
-    
-    def clear(value: String) {
-      select.deselectByValue(value)
-    }
-    
-    def values: MultiSelOptionSeq = {
-      val elementSeq = Vector.empty ++ select.getAllSelectedOptions.asScala
-      new MultiSelOptionSeq(elementSeq.map(_.getAttribute("value")))
-    }
-    
-    def values_=(values: collection.Seq[String]) {
-      try {
-        clearAll()
-        values.foreach(select.selectByValue(_))
-      }
-      catch {
-        case e: org.openqa.selenium.NoSuchElementException =>
-          throw new TestFailedException(e.getMessage)
-      }
-    }
-    
-    def clearAll() {
-      select.deselectAll()
-    }
+    else
+      new Element() { val underlying = element }
   }
   
   object go {
@@ -482,15 +190,6 @@ trait WebBrowser {
   def close()(implicit driver: WebDriver) {
     driver.close()
   }
-  
-  def pageTitle(implicit driver: WebDriver): String = {
-    val t = driver.getTitle
-    if (t != null) t else ""
-  }
-  
-  def pageSource(implicit driver: WebDriver): String = driver.getPageSource
-  
-  def currentUrl(implicit driver: WebDriver): String = driver.getCurrentUrl
   
   sealed trait Query {
     
@@ -562,54 +261,6 @@ trait WebBrowser {
   def partialLinkText(partialLinkText: String): PartialLinkTextQuery = new PartialLinkTextQuery(partialLinkText)
   
   def tagName(tagName: String): TagNameQuery = new TagNameQuery(tagName)
-
-  private def createTypedElement(element: WebElement): Element = {
-    if (isTextField(element))
-      new TextField(element)
-    else if (isTextArea(element))
-      new TextArea(element)
-    else if (isPasswordField(element))
-      new PasswordField(element)
-    else if (isEmailField(element))
-      new EmailField(element)
-    else if (isColorField(element))
-      new ColorField(element)
-    else if (isDateField(element))
-      new DateField(element)
-    else if (isDateTimeField(element))
-      new DateTimeField(element)
-    else if (isDateTimeLocalField(element))
-      new DateTimeLocalField(element)
-    else if (isMonthField(element))
-      new MonthField(element)
-    else if (isNumberField(element))
-      new NumberField(element)
-    else if (isRangeField(element))
-      new RangeField(element)
-    else if (isSearchField(element))
-      new SearchField(element)
-    else if (isTelField(element))
-      new TelField(element)
-    else if (isTimeField(element))
-      new TimeField(element)
-    else if (isUrlField(element))
-      new UrlField(element)
-    else if (isWeekField(element))
-      new WeekField(element)
-    else if (isCheckBox(element))
-      new Checkbox(element)
-    else if (isRadioButton(element))
-      new RadioButton(element)
-    else if (element.getTagName.toLowerCase == "select") {
-      val select = new Select(element)
-      if (select.isMultiple)
-        new MultiSel(element)
-      else
-        new SingleSel(element)
-    }
-    else
-      new Element() { val underlying = element }
-  }
 
   // XXX
   
@@ -971,13 +622,16 @@ trait WebBrowser {
   }
 
   def page(implicit driver: WebDriver) = new {
-    def title: String = pageTitle
+    def title: String = {
+      val t = driver.getTitle
+      if (t != null) t else ""
+    }
 
     def text: String = find(tagName("body")).get.text
 
-    def url: String = pageTitle
+    def url: String = driver.getCurrentUrl
 
-    def source: String = pageSource
+    def source: String = driver.getPageSource
   }
 
   implicit def in(element: Element) = new {
@@ -1008,8 +662,3 @@ trait WebBrowser {
     }
   }
 }
-
-// new
-
-class TestFailedException(msg: String) extends RuntimeException(msg)
-
