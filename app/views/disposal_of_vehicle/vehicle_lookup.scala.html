@@ -49,14 +49,19 @@
                     'maxLength -> ReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                     'title -> Messages("disposal_vehiclelookup.refnumlabel.refNumIncorrect")))
 
+                <div class="form-declaration">
+                    @* Checkbox must not be pre-ticked. *@
+                    @valtechDeclareCheck(vehicleLookupForm(consentId), args = Map('id -> "consent", '_showConstraints -> false, '_label -> Messages("disposal_vehiclelookup.consent")))
+                </div>
+
+                <p>@Messages("disposal_vehiclelookup.exkeeperlettertext")</p>
+
 				<div class="form-steps">
 					<button type="submit" name="action" class="button">@Messages("disposal_vehiclelookup.button")</button>
                     <a id="backButton" href="@controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.present" class="button-secondary">@Messages("disposal_vehiclelookup.backbutton")</a>
 				</div>
-				
 			</div>
 		
 		</div>
-
     }
 }

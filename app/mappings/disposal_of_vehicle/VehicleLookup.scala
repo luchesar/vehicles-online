@@ -7,6 +7,7 @@ package mappings.disposal_of_vehicle
 object VehicleLookup {
   val referenceNumberId = "referenceNumber"
   val registrationNumberId = "registrationNumber"
+  val consentId = "consent"
   val vehicleLookupDetailsCacheKey = "vehicleDetails"
   val vehicleLookupFormModelCacheKey = "vehicleLookupFormModel"
 }
