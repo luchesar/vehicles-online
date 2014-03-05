@@ -109,7 +109,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
 
     "display message when address service returns no addresses" in new WithBrowser with BrowserMatchers {
       // Arrange
-      SetUpTradeDetailsPage.setupCache(dealerPostcode = postcodeInvalid)
+      SetUpTradeDetailsPage.setupCache(traderPostcode = postcodeInvalid)
 
       // Act
       browser.goTo(BusinessChooseYourAddressPage.url)

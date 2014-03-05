@@ -10,9 +10,9 @@ object SetUpTradeDetailsPage {
   val url = "/disposal-of-vehicle/setup-trade-details"
   val title = "Dispose a vehicle into the motor trade: set-up"
 
-  def setupCache(dealerPostcode: String = traderPostcodeValid) = {
+  def setupCache(traderPostcode: String = traderPostcodeValid) = {
     val key = mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
-    val value = SetupTradeDetailsModel(traderBusinessName = traderBusinessNameValid, traderPostcode = dealerPostcode)
+    val value = SetupTradeDetailsModel(traderBusinessName = traderBusinessNameValid, traderPostcode = traderPostcode)
     play.api.cache.Cache.set(key, value)
   }
 

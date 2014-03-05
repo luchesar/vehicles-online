@@ -57,7 +57,7 @@ class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
 
     "redirect to setuptraderdetails on if only BusinessChooseYourAddress cache is populated" in new WithApplication {
       //Arrange
-      BusinessChooseYourAddressPage.setupCache
+      BusinessChooseYourAddressPage.setupCache()
       val request = FakeRequest().withSession()
 
       // Act

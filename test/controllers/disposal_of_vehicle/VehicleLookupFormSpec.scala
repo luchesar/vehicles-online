@@ -31,7 +31,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
      * referenceNumber tests
      */
     "reject if referenceNumber is blank" in {
-      vehicleLookupFiller(referenceNumber = "", registrationNumber = vehicleRegistrationNumberValid, consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = "", registrationNumber = registrationNumberValid, consent = consentValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(3)
         },
@@ -40,7 +40,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "reject if referenceNumber is less than min length" in {
-      vehicleLookupFiller(referenceNumber = "1234567891", registrationNumber = vehicleRegistrationNumberValid, consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = "1234567891", registrationNumber = registrationNumberValid, consent = consentValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
@@ -49,7 +49,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "reject if referenceNumber is greater than max length" in {
-      vehicleLookupFiller(referenceNumber = "123456789101", registrationNumber = vehicleRegistrationNumberValid, consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = "123456789101", registrationNumber = registrationNumberValid, consent = consentValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
@@ -58,7 +58,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "reject if referenceNumber contains letters" in {
-      vehicleLookupFiller(referenceNumber = "qwertyuiopl", registrationNumber = vehicleRegistrationNumberValid, consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = "qwertyuiopl", registrationNumber = registrationNumberValid, consent = consentValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
@@ -67,7 +67,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "reject if referenceNumber contains special characters" in {
-      vehicleLookupFiller(referenceNumber = "£££££££££££", registrationNumber = vehicleRegistrationNumberValid, consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = "£££££££££££", registrationNumber = registrationNumberValid, consent = consentValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
@@ -76,11 +76,11 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if referenceNumber is valid" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = vehicleRegistrationNumberValid, consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = registrationNumberValid, consent = consentValid).fold(
         formWithErrors => {
           fail("An error should occur")
         },
-        f => f.referenceNumber should equal(documentReferenceNumberValid)
+        f => f.referenceNumber should equal(referenceNumberValid)
       )
     }
 
@@ -88,7 +88,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
      * registrationNumber tests
      */
     "reject if registrationNumber is empty" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "", consent = consentValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(2)
         },
@@ -97,7 +97,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "reject if registrationNumber is less than min length" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "a", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "a", consent = consentValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
@@ -106,7 +106,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "reject if registrationNumber is more than max length" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "AB53 WERT", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AB53 WERT", consent = consentValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
@@ -115,7 +115,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "reject if registrationNumber contains special characters" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "ab53ab%", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "ab53ab%", consent = consentValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
@@ -124,7 +124,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals A 9" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "A 9", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A 9", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("A 9")
@@ -132,7 +132,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals 9 A" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "9 A", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "9 A", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("9 A")
@@ -140,7 +140,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals AA 9" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "AA 9", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AA 9", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("AA 9")
@@ -148,7 +148,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals A 99" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "A 99", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A 99", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("A 99")
@@ -156,7 +156,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals 9 AA" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "9 AA", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "9 AA", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("9 AA")
@@ -164,7 +164,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals 99 A" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "99 A", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "99 A", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("99 A")
@@ -172,7 +172,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals AAA 9" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "AAA 9", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAA 9", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("AAA 9")
@@ -180,7 +180,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals A 999" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "A 999", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A 999", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("A 999")
@@ -188,7 +188,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals AA 99" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "AA 99", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AA 99", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("AA 99")
@@ -196,7 +196,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals 9 AAA" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "9 AAA", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "9 AAA", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("9 AAA")
@@ -204,7 +204,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals 99 AA" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "99 AA", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "99 AA", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("99 AA")
@@ -212,7 +212,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals 999 A" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "999 A", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "999 A", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("999 A")
@@ -220,7 +220,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals A9 AAA" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "A9 AAA", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A9 AAA", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("A9 AAA")
@@ -228,7 +228,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals AAA 9A" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "AAA 9A", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAA 9A", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("AAA 9A")
@@ -236,7 +236,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals AAA 99" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "AAA 99", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAA 99", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("AAA 99")
@@ -244,7 +244,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals AA 999" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "AA 999", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AA 999", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("AA 999")
@@ -252,7 +252,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals 99 AAA" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "99 AAA", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "99 AAA", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("99 AAA")
@@ -260,7 +260,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals 999 AA" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "999 AA", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "999 AA", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("999 AA")
@@ -268,7 +268,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals 9999 A" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "9999 A", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "9999 A", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("9999 A")
@@ -276,7 +276,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals A 9999" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "A 9999", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A 9999", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("A 9999")
@@ -284,7 +284,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals A99 AAA" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "A99 AAA", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A99 AAA", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("A99 AAA")
@@ -292,7 +292,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals AAA 99A" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "AAA 99A", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAA 99A", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("AAA 99A")
@@ -300,7 +300,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals AAA 999" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "AAA 999", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAA 999", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("AAA 999")
@@ -308,7 +308,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals 999 AAA" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "999 AAA", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "999 AAA", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("999 AAA")
@@ -316,7 +316,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals AA 9999" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "AA 9999", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AA 9999", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("AA 9999")
@@ -324,7 +324,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals 9999 AA" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "9999 AA", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "9999 AA", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("9999 AA")
@@ -332,7 +332,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals A999 AAA" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "A999 AAA", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A999 AAA", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("A999 AAA")
@@ -340,7 +340,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals AAA 999A" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "AAA 999A", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAA 999A", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("AAA 999A")
@@ -348,7 +348,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals AAA 9999" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "AAA 9999", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAA 9999", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("AAA 9999")
@@ -356,7 +356,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals AA99 AAA" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "AA99 AAA", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AA99 AAA", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("AA99 AAA")
@@ -364,7 +364,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
     }
 
     "accept if registrationNumber equals 9999 AAA" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = "9999 AAA", consent = consentValid).fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "9999 AAA", consent = consentValid).fold(
         formWithErrors => {fail("An error should occur")
         },
         f => f.registrationNumber should equal("9999 AAA")
@@ -375,7 +375,7 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
      * consent tests
      */
     "reject if consent is not ticked" in {
-      vehicleLookupFiller(referenceNumber = documentReferenceNumberValid, registrationNumber = vehicleRegistrationNumberValid, consent = "").fold(
+      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = registrationNumberValid, consent = "").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },

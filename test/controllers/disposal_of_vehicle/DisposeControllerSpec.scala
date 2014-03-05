@@ -25,7 +25,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
        "present" in new WithApplication {
          // Arrange
-         BusinessChooseYourAddressPage.setupCache
+         BusinessChooseYourAddressPage.setupCache()
          VehicleLookupPage.setupVehicleDetailsModelCache()
          val request = FakeRequest().withSession()
 
@@ -38,7 +38,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
        "redirect to dispose success when a success message is returned by the fake microservice" in new WithApplication {
          //Arrange
-         BusinessChooseYourAddressPage.setupCache
+         BusinessChooseYourAddressPage.setupCache()
          VehicleLookupPage.setupVehicleDetailsModelCache()
          VehicleLookupPage.setupVehicleLookupFormModelCache()
          val request = FakeRequest().withSession()
@@ -64,7 +64,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       when(mockWebServiceFailure.invoke(any[DisposeModel])).thenReturn(new FakeDisposeService().invoke(mockDisposeModelFails))
       val dispose = new disposal_of_vehicle.Dispose(mockWebServiceFailure)
 
-      BusinessChooseYourAddressPage.setupCache
+      BusinessChooseYourAddressPage.setupCache()
       VehicleLookupPage.setupVehicleLookupFormModelCache()
       VehicleLookupPage.setupVehicleDetailsModelCache()
       DisposePage.setupDisposeModelCache()
@@ -115,7 +115,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
     "return a bad request when no details are entered" in new WithApplication {
       // Arrange
-      BusinessChooseYourAddressPage.setupCache
+      BusinessChooseYourAddressPage.setupCache()
       VehicleLookupPage.setupVehicleDetailsModelCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
@@ -141,7 +141,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
     "return a bad request when calling webservice throws exception" in new WithApplication {
       //Arrange
-      BusinessChooseYourAddressPage.setupCache
+      BusinessChooseYourAddressPage.setupCache()
       VehicleLookupPage.setupVehicleDetailsModelCache()
       VehicleLookupPage.setupVehicleLookupFormModelCache()
       val request = FakeRequest().withSession()
