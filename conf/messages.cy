@@ -171,13 +171,13 @@ disposal_enteraddressmanually.title = Rhowch gyfeiriad llaw
 disposal_enteraddressmanually.submitbutton = Nesaf
 disposal_enteraddressmanually.backbutton = Yn ôl
 addressAndPostcode_addressLines = Cyfeiriad
-address.lines.label = WELSH Address
-address.line1.label = Llinell 1 (angen)
-address.line2.label= Llinell 2
-address.line3.label= Llinell 3
-address.line4.label= Llinell 4
+address.lines.label = Cyfeiriad
+address.line1.label = Rhif y ty
+address.line2.label= Enwau strydoedd
+address.line3.label= Ardal
+address.line4.label= Postiwch y dref
 address.postcode.label = Cod post
-address.postcode.label = e.g. SA99 1BD
+address.postcode.label.prompt = e.g. SA99 1BD
 
 #page not known - Vehicle Lookup
 disposal_setuptradedetails.title = Gwaredu cerbyd i mewn i'r fasnach foduron
