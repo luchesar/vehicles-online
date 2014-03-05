@@ -33,7 +33,7 @@ class DisposalOfVehicleSpec extends FeatureSpec with GivenWhenThen with Matchers
       Given("I am on the vehicles online prototype site")
       go to BeforeYouStartPage
 
-      //When("I click the Start now button to begin the transaction")
+      When("I click the Start now button to begin the transaction")
       click on BeforeYouStartPage.startNow
 
       Then("I should see \"Dispose a vehicle into the motor trade: set-up\"")
