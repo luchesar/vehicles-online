@@ -38,16 +38,14 @@
  	}
  	
  	p {
-	 	font-size:1.7rem;
-	 	margin:0 0 1em 0;
+ 		@include copy-19;
 	 	.ie & {
-		 	font-size:17px;
+		 	font-size:19px;
 	 	}
  	}
 
  	ol, ul {
- 		padding:0;
- 		margin:0 0 1em 0;
+ 		@include copy-19;
  		list-style:none;
  		&.list-standard {
 	 		list-style: decimal;
@@ -61,13 +59,12 @@
  	
  	// styles two column information items
  	.summary-detail-list {
-		margin:2.3rem 0 0 0;
+		margin:2.3rem 0 2rem 0;
 		padding:0;
 		
 		dt, dd {
-			margin:0;
-			font-size:1.7rem;
-			padding: 0.4em 0;
+			@include copy-19;
+			margin-bottom:1.2rem;
 			.ie & {
 				font-size:17px;
 			}
