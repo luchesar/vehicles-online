@@ -179,6 +179,12 @@ address.line4.label= Postiwch y dref
 address.postcode.label = Cod post
 address.postcode.label.prompt = e.g. SA99 1BD
 
+#page 3 - uprn not found
+disposal_uprnnotfound.title = Gwall cod post yn cadarnhau
+disposal_uprnnotfound.p1 = Mae gwall wedi digwydd dilysu eich cod post. Os gwelwch yn dda ail-fynd i mewn neu rhowch eich manylion â llaw
+disposal_uprnnotfound.manualaddressbutton = Manylion masnach sefydlu
+disposal_uprnnotfound.setuptradedetailsbutton = Hun roi cyfeiriad
+
 #page not known - Vehicle Lookup
 disposal_setuptradedetails.title = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_setuptradedetails.name = Gwaredu cerbyd i mewn i'r fasnach foduron
