@@ -9,16 +9,13 @@ object VehicleLookupPage extends Page with WebBrowser {
   override val url: String = WebDriverFactory.baseUrl + "disposal-of-vehicle/vehicle-lookup"
   override val title: String = "Dispose a vehicle into the motor trade: vehicle"
 
-  def v5cReferenceNumber(implicit driver: WebDriver): TextField = textField(id("v5cReferenceNumber"))
+  def vehicleRegistrationNumber(implicit driver: WebDriver): TextField = textField(id("registrationNumber"))
 
-  def v5cRegistrationNumber(implicit driver: WebDriver): TextField = textField(id("v5cRegistrationNumber"))
-
-  def v5cKeeperName(implicit driver: WebDriver): TextField = textField(id("v5cKeeperName"))
-
-  def v5cPostcode(implicit driver: WebDriver): TextField = textField(id("v5cPostcode"))
+  def documentReferenceNumber(implicit driver: WebDriver): TextField = textField(id("referenceNumber"))
 
   def back(implicit driver: WebDriver): Element = find(id("backButton")).get
 
   def findVehicleDetails(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
 
+  def consent(implicit driver: WebDriver): Checkbox = checkbox(id("consent"))
 }
