@@ -19,25 +19,30 @@ object DisposePage {
     browser.click(s"#${dateOfDisposalId}_day option[value='$day']")
     browser.click(s"#${dateOfDisposalId}_month option[value='$month']")
     browser.fill(s"#${dateOfDisposalId}_year") `with` year
-    browser.click(s"#${consentId}")
     browser.submit("button[type='submit']")
   }
 
   def setupDisposeFormModelCache() = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeFormModelCacheKey
-    val value = DisposeFormModel(consent = "true", dateOfDisposal = DayMonthYear.today, emailAddress = None)
+    val value = DisposeFormModel(dateOfDisposal = DayMonthYear.today, emailAddress = None)
     play.api.cache.Cache.set(key, value)
   }
 
-  def setupDisposeModelCache(v5cReferenceNumber:String = v5cDocumentReferenceNumberValid, v5cRegistrationNumber:String = v5cVehicleRegistrationNumberValid, v5cKeeperName:String = "fail", v5cPostcode:String = v5cPostcodeValid) = {
+  def setupDisposeModelCache(referenceNumber:String = referenceNumberValid, registrationNumber:String = registrationNumberValid) = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeModelCacheKey
-    val value = DisposeModel(v5cReferenceNumber, v5cRegistrationNumber, v5cKeeperName, v5cPostcode)
+    val value = DisposeModel(referenceNumber, registrationNumber)
     play.api.cache.Cache.set(key, value)
   }
 
   def setupDisposeTransactionIdCache() = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeFormTransactionIdCacheKey
     val value = "1234"
+    play.api.cache.Cache.set(key, value)
+  }
+
+  def setupRegistrationNumberCache() = {
+    val key = mappings.disposal_of_vehicle.Dispose.disposeFormRegistrationNumberCacheKey
+    val value = "Q123ZZZ"
     play.api.cache.Cache.set(key, value)
   }
 

@@ -5,7 +5,7 @@
 @import utils.helpers._
 @import views.html.helper.base.labelOrId
 
-@labelOrId(field.id,args)
+@labelOrId(field.id, args)
 
 @if(!field.constraints.find(_._1 == "constraint.required")) {
     <em>@Messages("widget.optional")</em>

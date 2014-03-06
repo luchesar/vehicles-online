@@ -1,4 +1,4 @@
-@(field: play.api.data.Field, args: Map[Symbol, Any])(implicit handler: helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field, args: Map[Symbol, Any] = Map.empty)(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import helper._
 @import utils.helpers.CryptoHelper
@@ -14,6 +14,7 @@
         id="@CryptoHelper.encryptAES(id)"
         name="@CryptoHelper.encryptAES(name)"
         value="@value"
+        @(if(field.constraints.find(_._1 == "constraint.required")) "aria-required=true" else "") @* TODO move this into an extension method for fields *@
         @toHtmlArgs(htmlArgs.maxLengthRules.autoCompleteRules)
     >
 }

@@ -6,7 +6,6 @@ import play.api.Logger
 import play.api.mvc._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.common.{Mileage, DayMonthYear, Consent}
-import Consent._
 import Mileage._
 import DayMonthYear._
 import constraints.DayMonthYear._
@@ -23,7 +22,6 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
 
   val disposeForm = Form(
     mapping(
-      consentId -> consent,
       mileageId -> mileage(),
       dateOfDisposalId -> dayMonthYear.verifying(rules),
       emailAddressId -> optional(text)
@@ -62,7 +60,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
         },
         f => {
           storeDisposeFormModelInCache(f)
-          Logger.debug(s"Dispose form submitted - consent = ${f.consent}, mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
+          Logger.debug(s"Dispose form submitted - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
           disposeAction(webService)
         }
       )
@@ -81,13 +79,14 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
   private def disposeAction(webService: services.DisposeService): Future[SimpleResult] = {
     fetchVehicleLookupDetailsFromCache match {
       case Some(vehicleLookupFormModel) => {
-        val disposeModel = DisposeModel(v5cReferenceNumber = vehicleLookupFormModel.v5cReferenceNumber, v5cRegistrationNumber = vehicleLookupFormModel.v5cRegistrationNumber, v5cKeeperName = vehicleLookupFormModel.v5cKeeperName, v5cPostcode = vehicleLookupFormModel.v5cPostcode)
+        val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber, registrationNumber = vehicleLookupFormModel.registrationNumber)
         storeDisposeModelInCache(disposeModel)
         webService.invoke(disposeModel).map {
           resp =>
             Logger.debug(s"Dispose Web service call successful - response = ${resp}")
             if (resp.success) {
               storeDisposeTransactionIdInCache(resp.transactionId)
+              storeDisposeRegistrationNumberInCache(resp.registrationNumber)
               Redirect(routes.DisposeSuccess.present)
             }
             else Redirect(routes.DisposeFailure.present)

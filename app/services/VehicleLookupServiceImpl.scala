@@ -19,7 +19,7 @@ class VehicleLookupServiceImpl() extends VehicleLookupService {
 
   override def invoke(cmd: VehicleLookupFormModel): Future[VehicleDetailsResponse] = {
     val endPoint = s"${Config.microServiceBaseUrl}/vehicle-lookup"
-    Logger.debug(s"Calling vehicle lookup micro service on ${endPoint}...")
+    Logger.debug(s"Calling vehicle lookup micro service on ${endPoint} with request object: ${cmd}...")
     val futureOfResponse = WS.url(endPoint).post(Json.toJson(cmd))
 
     futureOfResponse.map {

@@ -20,8 +20,8 @@ footer.builtbyintro = Adeiladwyd gan
 footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
 
 #prototype
-prototype.banner = Mae hyn yn prototeip. Ni allwch newid ceidwad trwy ddefnyddio''r gwasanaeth hwn.
-prototype.link = Newid ceidwad trwy defnyddio''r gwasanaeth yn fyw
+prototype.banner = Mae hwn yn brototeip - bydd eich adborth yn ein helpu i wella.
+prototype.link = Cael gwybod mwy
 
 #page 1
 beforeyoustart.title = Newid cyfeiriad ceidwad
@@ -146,6 +146,13 @@ disposal_beforeyoustart.p2 = Os yw'r ceidwad presennol yn dymuno cadw cofrestru 
 disposal_beforeyoustart.button = Start now
 disposal_beforeyoustart.button = Ddechrau nawr
 
+#page 1 - Before You Start
+disposal_beforeyoustart.title = Cael gwared cerbyd i mewn i'r fasnach foduron
+disposal_beforeyoustart.p1 = Cyn i chi ddechrau:
+disposal_beforeyoustart.listitem1 = Bydd angen y dystysgrif cofrestru cerbyd V5C (llyfr log) i chi am y cerbyd yn cael ei waredu
+disposal_beforeyoustart.listitem2 = Os oes gan cofrestru personol ar y cerbyd yn cael ei waredu, rhaid i'r ceidwad yn deall y bydd y cofrestriad yn cael ei waredu gyda'r cerbyd. Os yw'r ceidwad presennol yn dymuno cadw cofrestru personol, rhaid iddo yn gyntaf gael ei gadw at dystysgrif, neu ei drosglwyddo i gerbyd arall, a dychwelyd y cofrestriad gwreiddiol i'r cerbyd.
+disposal_beforeyoustart.button = Ddechrau nawr
+
 #page 3
 disposal_businessChooseYourAddress_title = Busnes: dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress_legend = Manylion sefydlu masnach
@@ -164,12 +171,19 @@ disposal_enteraddressmanually.title = Rhowch gyfeiriad llaw
 disposal_enteraddressmanually.submitbutton = Nesaf
 disposal_enteraddressmanually.backbutton = Yn ôl
 addressAndPostcode_addressLines = Cyfeiriad
-disposal_enteraddressmanually.address.line1.placeholder = Llinell 1 (angen)
-disposal_enteraddressmanually.address.line2.placeholder = Llinell 2
-disposal_enteraddressmanually.address.line3.placeholder = Llinell 3
-disposal_enteraddressmanually.address.line4.placeholder = Llinell 4
-disposal_enteraddressmanually.postcode.label = Cod post
-disposal_enteraddressmanually.postcode.placeholder = e.g. SA99 1BD
+address.lines.label = Cyfeiriad
+address.line1.label = Rhif y ty
+address.line2.label= Enwau strydoedd
+address.line3.label= Ardal
+address.line4.label= Postiwch y dref
+address.postcode.label = Cod post
+address.postcode.label.prompt = e.g. SA99 1BD
+
+#page 3 - uprn not found
+disposal_uprnnotfound.title = Gwall cod post yn cadarnhau
+disposal_uprnnotfound.p1 = Mae gwall wedi digwydd dilysu eich cod post. Os gwelwch yn dda ail-fynd i mewn neu rhowch eich manylion â llaw
+disposal_uprnnotfound.manualaddressbutton = Manylion masnach sefydlu
+disposal_uprnnotfound.setuptradedetailsbutton = Hun roi cyfeiriad
 
 #page not known - Vehicle Lookup
 disposal_setuptradedetails.title = Gwaredu cerbyd i mewn i'r fasnach foduron
@@ -186,11 +200,11 @@ disposal_vehiclelookup.p1 = Dod o hyd i gerbyd
 disposal_vehiclelookup.p2 = Cerbyd waredu i
 disposal_vehiclelookup.warning.p1 = Peidiwch â gwaredu cerbyd gyda chofrestru personol oni bai bod y ceidwad ar hyn o bryd yn deall y bydd y cofrestriad yn cael eu gwaredu ynghyd â'r cerbyd.
 disposal_vehiclelookup.warning.p2 = Cadw neu drosglwyddo cofrestriadau personol cyn cael gwared i'r fasnach.
-disposal_vehiclelookup.v5cinputlabel = V5C Rhif cyfeirnod y ddogfen
-disposal_vehiclelookup.v5cinputlabel.refNumIncorrect = Mae'n rhaid i chi fynd i mewn i nifer sydd â hyd o 11 digid
+disposal_vehiclelookup.refnumlabel = V5C Rhif cyfeirnod y ddogfen
+disposal_vehiclelookup.refnumlabel.refNumIncorrect = Mae'n rhaid i chi fynd i mewn i nifer sydd â hyd o 11 digid
 disposal_vehiclelookup.vrninputlabel = Rhif cofrestru cerbyd
-disposal_vehiclelookup.keepernamelabel = Enw llawn ceidwad
-disposal_vehiclelookup.keeperpostcodelabel = Ceidwad cod post
+disposal_vehiclelookup.consent = gennyf ganiatâd y ceidwad presennol i gael gwared ar y cerbyd hwn
+disposal_vehiclelookup.consentnotgiven = Nodwch fod gennych ganiatâd y ceidwad presennol'' s
 disposal_vehiclelookup.backbutton = Holau
 disposal_vehiclelookup.button = Dod o hyd i
 disposal_vehiclelookup.button2 = Golygu
@@ -201,9 +215,6 @@ disposal_dispose.vehiclemake = Gwneud
 disposal_dispose.vehiclemodel = Model
 disposal_dispose.vehiclekeeper = Ceidwad
 disposal_dispose.disposevehicleto = Gwared gerbyd
-consent = Consent
-disposal_dispose.consent = Gennyf ganiatad y ceidwad presennol i gael gwared ar y cerbyd hwn
-disposal_dispose.consentnotgiven = Nodwch gennych ganiatad y ceidwad presennol
 disposal_dispose.mileage.label = Milltiroedd cerbydau
 disposal_dispose.mileage.validation = Mae''n rhaid i chi fynd i mewn milltiroedd dilys rhwng 0 a 999,999
 dateOfDisposal = Date of disposal
@@ -212,6 +223,9 @@ disposal_dispose.backbutton = Holau
 disposal_dispose.submitbutton = Gwaredu
 disposal_dispose.exkeeperlettertext = Bydd y llythyr yn cadarnhau y gwarediad. Os byddai''n well gennych dderbyn e-bost cydnabyddiaeth ar unwaith, rhowch gyfeiriad e-bost
 disposal_dispose.emaillabel = Cyfeiriad e-bost
+dateOfDisposal_day = Diwrnod gwaredu
+dateOfDisposal_month = Mis gwaredu
+dateOfDisposal_year = Flwyddyn waredu
 
 disposal_disposeconfirmation.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion
 disposal_disposeconfirmation.disposaldetails = Gwaredu
@@ -224,6 +238,7 @@ disposal_disposeconfirmation.exkeeperlettersend = Bydd llythyr yn cael ei anfon 
 disposal_disposeconfirmation.sendbutton = Anfon
 disposal_disposeconfirmation.transactionid = {0}
 disposal_disposeconfirmation.transactionid_label = Trafodiad yn
+disposal_disposeconfirmation.registrationNumber_label = Cofrestru
 disposal_disposeconfirmation.backbutton = Holau
 disposal_disposeconfirmation.newdisposalbutton = Gwaredu Newydd
 disposal_disposeconfirmation.disposaldate = Dyddiad gwaredu
@@ -245,6 +260,7 @@ disposal_disposefailure.button2 = Setup Newydd Manylion Masnachwr
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda
 errorsummary.p1 = Trwsiwch y canlynol:
+widget.optional = (dewisol)
 
 #customer validation messages
 error.restricted.validNumberOnly = Mae''r maes hwn yn derbyn rhifau yn unig 
@@ -273,7 +289,7 @@ error.maxLength = Uchafswm hyd yn {0}
 
 select_default = Dewiswch
 
-widget.optional = (dewisol)
+
 
 error.invalid = Gwerth annilys
 

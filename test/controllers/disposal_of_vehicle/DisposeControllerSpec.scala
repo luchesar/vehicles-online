@@ -43,7 +43,6 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
          VehicleLookupPage.setupVehicleLookupFormModelCache()
          val request = FakeRequest().withSession()
            .withFormUrlEncodedBody(
-             consentId -> consentValid,
              mileageId -> mileageValid,
              s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
              s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
@@ -58,9 +57,9 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
          redirectLocation(result) should equal(Some(DisposeSuccessPage.url))
        }
 
-    "redirect to dispose error when a fail message is return by the fake microservice" in new WithApplication {
+    "redirect to dispose error when a fail message is returned by the fake microservice" in new WithApplication {
       val mockDisposeModelFails = mock[DisposeModel]
-      when (mockDisposeModelFails.v5cKeeperName).thenReturn("fail")
+      when (mockDisposeModelFails.referenceNumber).thenReturn(FakeDisposeService.failureReferenceNumber)
       val mockWebServiceFailure = mock[services.DisposeService]
       when(mockWebServiceFailure.invoke(any[DisposeModel])).thenReturn(new FakeDisposeService().invoke(mockDisposeModelFails))
       val dispose = new disposal_of_vehicle.Dispose(mockWebServiceFailure)
@@ -72,7 +71,6 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
-          consentId -> consentValid,
           mileageId -> mileageValid,
           s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
           s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
@@ -86,12 +84,11 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       redirectLocation(result) should equal(Some(DisposeFailurePage.url))
     }
 
-    "redirect to setupTradeDetails page after the dispose button is clicked and no vehiclelookupformmodel is cached" in new WithApplication {
+    "redirect to setupTradeDetails page after the dispose button is clicked and no vehicleLookupFormModel is cached" in new WithApplication {
       // Arrange
       SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
-          consentId -> consentValid,
           mileageId -> mileageValid,
           s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
           s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
@@ -149,7 +146,6 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       VehicleLookupPage.setupVehicleLookupFormModelCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
-          consentId -> consentValid,
           mileageId -> mileageValid,
           s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
           s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,

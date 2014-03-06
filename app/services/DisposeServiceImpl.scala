@@ -17,12 +17,12 @@ class DisposeServiceImpl() extends DisposeService {
 
   override def invoke(cmd: DisposeModel): Future[DisposeResponse] = {
     val endPoint = s"${Config.microServiceBaseUrl}/dispose"
-    Logger.debug(s"Calling vehicle lookup micro service on ${endPoint}...")
+    Logger.debug(s"Calling dispose vehicle micro service on ${endPoint} with request object: ${cmd}...")
     val futureOfResponse = WS.url(endPoint).post(Json.toJson(cmd))
 
     futureOfResponse.map {
       resp =>
-        Logger.debug(s"Http response code from dispose confirm micro service was: ${resp.status}")
+        Logger.debug(s"Http response code from dispose vehicle micro service was: ${resp.status}")
         resp.json.as[DisposeResponse]
     }
   }

@@ -16,7 +16,6 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
 
       // Assert
       titleMustEqual(BusinessChooseYourAddressPage.title)
-
     }
 
     "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
@@ -110,7 +109,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
 
     "display message when address service returns no addresses" in new WithBrowser with BrowserMatchers {
       // Arrange
-      SetUpTradeDetailsPage.setupCache(dealerPostcode = postcodeInvalid)
+      SetUpTradeDetailsPage.setupCache(traderPostcode = postcodeInvalid)
 
       // Act
       browser.goTo(BusinessChooseYourAddressPage.url)

@@ -3,15 +3,15 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, VehicleLookupPage, SetUpTradeDetailsPage, DisposePage}
+import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, VehicleLookupPage, SetUpTradeDetailsPage, DisposePage, EnterAddressManuallyPage}
+import helpers.disposal_of_vehicle.Helper._
 
 class VehicleLookupIntegrationSpec extends Specification with Tags {
 
-
   "VehicleLookupIntegrationSpec Integration" should {
+
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
       browser.goTo(VehicleLookupPage.url)
 
@@ -29,7 +29,6 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
 
     "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
 
       VehicleLookupPage.happyPath(browser)
@@ -38,165 +37,89 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       titleMustEqual(DisposePage.title)
     }
 
-    "display three validation error messages when no v5cReferenceNumber is entered" in new WithBrowser with BrowserMatchers {
+    "display three validation error messages when no referenceNumber is entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.happyPath(browser, v5cReferenceNumber = "")
+      VehicleLookupPage.happyPath(browser, referenceNumber = "")
 
       // Assert
       checkNumberOfValidationErrors(3)
     }
 
-    "display two validation error messages when no v5cRegistrationNumber is entered" in new WithBrowser with BrowserMatchers {
+    "display two validation error messages when no registrationNumber is entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.happyPath(browser, v5cVehicleRegistrationNumber = "")
+      VehicleLookupPage.happyPath(browser, vehicleRegistrationNumber = "")
 
       //Assert
       checkNumberOfValidationErrors(2)
     }
 
-    "display one validation error message when a v5cRegistrationNumber is entered containing one character" in new WithBrowser with BrowserMatchers {
+    "display one validation error message when a registrationNumber is entered containing one character" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.happyPath(browser, v5cVehicleRegistrationNumber = "a")
+      VehicleLookupPage.happyPath(browser, vehicleRegistrationNumber = "a")
 
       //Assert
       checkNumberOfValidationErrors(1)
     }
 
-    "display one validation error message when a v5cRegistrationNumber is entered containing special characters" in new WithBrowser with BrowserMatchers {
+    "display one validation error message when a registrationNumber is entered containing special characters" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.happyPath(browser, v5cVehicleRegistrationNumber = "$^")
+      VehicleLookupPage.happyPath(browser, vehicleRegistrationNumber = "$^")
 
       //Assert
       checkNumberOfValidationErrors(1)
     }
 
-    "display one validation error message when no v5cKeeperName is entered" in new WithBrowser with BrowserMatchers {
+    "display five validation error messages when no details are entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.happyPath(browser, v5cKeeperName = "")
+      VehicleLookupPage.happyPath(browser, referenceNumber = "", vehicleRegistrationNumber = "")
+
+      //Assert
+      checkNumberOfValidationErrors(5)
+    }
+
+    "display two validation error messages when only a valid referenceNumber is entered" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      BusinessChooseYourAddressPage.setupCache()
+      VehicleLookupPage.happyPath(browser, vehicleRegistrationNumber = "")
 
       //Assert
       checkNumberOfValidationErrors(2)
     }
 
-    "display one validation error message when a v5cKeeperName is entered which is greater than max length" in new WithBrowser with BrowserMatchers {
+    "display three validation error messages when only a valid registrationNumber is entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.happyPath(browser, v5cKeeperName = "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopq")
-
-      //Assert
-      checkNumberOfValidationErrors(1)
-    }
-
-    "display three validation error messages when no postcode is entered" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.happyPath(browser, v5cPostcode = "")
+      VehicleLookupPage.happyPath(browser, referenceNumber = "")
 
       //Assert
       checkNumberOfValidationErrors(3)
     }
 
-    "display two validation error messages when a postcode less than min length is entered" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.happyPath(browser, v5cPostcode = "SA99")
-
-      //Assert
-      checkNumberOfValidationErrors(2)
-    }
-
-    "display one validation error message when a postcode containing a special character is entered" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.happyPath(browser, v5cPostcode = "SA991B%")
-
-      //Assert
-      checkNumberOfValidationErrors(1)
-    }
-
-    "display one validation error message when a postcode containing an incorrect format" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.happyPath(browser, v5cPostcode = "SA9999")
-
-      //Assert
-      checkNumberOfValidationErrors(1)
-    }
-
-    "display ten validation error messages when no details are entered" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.happyPath(browser, v5cReferenceNumber = "", v5cVehicleRegistrationNumber = "", v5cKeeperName = "", v5cPostcode = "")
-
-      //Assert
-      checkNumberOfValidationErrors(10)
-    }
-
-    "display seven validation error messages when only a valid v5cReferenceNumber is entered" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.happyPath(browser, v5cVehicleRegistrationNumber = "", v5cKeeperName = "", v5cPostcode = "")
-
-      //Assert
-      checkNumberOfValidationErrors(7)
-    }
-
-    "display eight validation error messages when only a valid v5cRegistrationNumber is entered" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.happyPath(browser, v5cReferenceNumber = "", v5cKeeperName = "", v5cPostcode = "")
-
-      //Assert
-      checkNumberOfValidationErrors(8)
-    }
-
-    "display eight validation error messages when only a valid v5cKeeperName is entered" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.happyPath(browser, v5cReferenceNumber = "", v5cVehicleRegistrationNumber = "", v5cPostcode = "")
-
-      //Assert
-      checkNumberOfValidationErrors(8)
-    }
-
-    "display seven validation error messages when only a valid v5cPostcode is entered" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.happyPath(browser, v5cReferenceNumber = "", v5cVehicleRegistrationNumber = "", v5cKeeperName = "")
-
-      //Assert
-      checkNumberOfValidationErrors(7)
-    }
-
-    "redirect when no traderBusinessName is cached" in new WithBrowser with BrowserMatchers {
+    "redirect when no dealerBusinessName is cached" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       browser.goTo(VehicleLookupPage.url)
 
       // Assert
-      titleMustEqual("Dispose a vehicle into the motor trade: set-up")
+      titleMustEqual(SetUpTradeDetailsPage.title)
     }
 
-    "display previous page when back link is clicked" in new WithBrowser with BrowserMatchers {
+    "display previous page when back link is clicked with uprn present" in new WithBrowser with BrowserMatchers {
+      // Arrange & Act
+      SetUpTradeDetailsPage.setupCache()
+      BusinessChooseYourAddressPage.setupCache(addressWithUprn)
+      browser.goTo(VehicleLookupPage.url)
+      browser.click("#backButton")
+
+      //Assert
+      titleMustEqual(BusinessChooseYourAddressPage.title)
+    }
+
+    "display previous page when back link is clicked with no uprn present" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.setupCache()
@@ -204,7 +127,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       browser.click("#backButton")
 
       //Assert
-      titleMustEqual(BusinessChooseYourAddressPage.title)
+      titleMustEqual(EnterAddressManuallyPage.title)
     }
   }
 }

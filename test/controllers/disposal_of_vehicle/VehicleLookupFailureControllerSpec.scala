@@ -13,7 +13,7 @@ class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
 
     "present" in new WithApplication {
       // Arrange
-      VehicleLookupFailurePage.cacheSetupHappyPath()
+      VehicleLookupFailurePage.cacheSetup()
       val request = FakeRequest().withSession()
 
       // Act
@@ -25,7 +25,7 @@ class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
 
     "redirect to vehiclelookup on submit" in new WithApplication {
       // Arrange
-      VehicleLookupFailurePage.cacheSetupHappyPath()
+      VehicleLookupFailurePage.cacheSetup()
       val request = FakeRequest().withSession()
 
       // Act

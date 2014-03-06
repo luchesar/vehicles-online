@@ -8,11 +8,11 @@ import models.domain.change_of_address.AuthenticationModel
 import models.domain.change_of_address.V5cSearchModel
 import mappings.change_of_address.Pin
 import Pin._
-import mappings.common.{V5cReferenceNumber, Postcode}
+import mappings.common.{ReferenceNumber, Postcode}
 import mappings.common.Postcode._
-import V5cReferenceNumber._
-import mappings.common.{V5cReferenceNumber, V5cRegistrationNumber}
-import V5cRegistrationNumber._
+import ReferenceNumber._
+import mappings.common.{ReferenceNumber, RegistrationNumber}
+import RegistrationNumber._
 
 object Authentication extends Controller {
   val authenticationForm = Form(
@@ -23,9 +23,8 @@ object Authentication extends Controller {
 
   val v5cSearchForm = Form(
     mapping(
-      V5cReferenceNumber.key -> v5cReferenceNumber(minLength = V5cReferenceNumber.minLength, maxLength = V5cReferenceNumber.maxLength),
-      V5cRegistrationNumber.key -> v5CRegistrationNumber(minLength = V5cRegistrationNumber.minLength, maxLength = V5cRegistrationNumber.maxLength),
-      Postcode.key -> postcode()
+      ReferenceNumber.key -> referenceNumber(minLength = ReferenceNumber.minLength, maxLength = ReferenceNumber.maxLength),
+      RegistrationNumber.key -> registrationNumber(minLength = RegistrationNumber.minLength, maxLength = RegistrationNumber.maxLength)
     )(V5cSearchModel.apply)(V5cSearchModel.unapply)
   )
 

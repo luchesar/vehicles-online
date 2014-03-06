@@ -178,7 +178,9 @@
 	   			max-width: 10em;
 	   			top:-3px;
 	   			line-height:normal;
-	     		padding:px;
+	   			.ie7 &, .ie6 & {
+		   			top:7px;
+	   			}
 	   		}
 	   		input {
 	   			min-width: 4em;

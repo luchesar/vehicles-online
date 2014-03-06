@@ -5,10 +5,9 @@ package mappings.disposal_of_vehicle
  * Also includes the cache key to use when storing the vehicle details
  */
 object VehicleLookup {
-  val v5cReferenceNumberId = "v5cReferenceNumber"
-  val v5cRegistrationNumberId = "v5cRegistrationNumber"
-  val v5cKeeperNameId = "v5cKeeperName"
-  val v5cPostcodeId = "v5cPostcode"
+  val referenceNumberId = "referenceNumber"
+  val registrationNumberId = "registrationNumber"
+  val consentId = "consent"
   val vehicleLookupDetailsCacheKey = "vehicleDetails"
   val vehicleLookupFormModelCacheKey = "vehicleLookupFormModel"
 }

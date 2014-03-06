@@ -9,7 +9,7 @@ class VehicleLookupFailureIntegrationSpec extends Specification with Tags {
   "DisposeFailureIntegration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
       //Arrange & Act
-      VehicleLookupFailurePage.cacheSetupHappyPath()
+      VehicleLookupFailurePage.cacheSetup()
       browser.goTo(VehicleLookupFailurePage.url)
 
       // Assert
@@ -44,7 +44,7 @@ class VehicleLookupFailureIntegrationSpec extends Specification with Tags {
 
     "redirect to vehiclelookup when button clicked" in new WithBrowser with BrowserMatchers {
       // Arrange
-      VehicleLookupFailurePage.cacheSetupHappyPath()
+      VehicleLookupFailurePage.cacheSetup()
       browser.goTo(VehicleLookupFailurePage.url)
 
       // Act
@@ -56,7 +56,7 @@ class VehicleLookupFailureIntegrationSpec extends Specification with Tags {
 
     "redirect to setuptradedetails when button clicked" in new WithBrowser with BrowserMatchers {
       // Arrange
-      VehicleLookupFailurePage.cacheSetupHappyPath()
+      VehicleLookupFailurePage.cacheSetup()
       browser.goTo(VehicleLookupFailurePage.url)
 
       // Act

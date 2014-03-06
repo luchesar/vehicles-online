@@ -11,7 +11,7 @@ class DisposeFailureControllerSpec extends WordSpec with Matchers with Mockito {
   "DisposalFailure - Controller" should {
     "present" in new WithApplication {
       // Arrange
-      DisposeFailurePage.cacheSetupHappyPath()
+      DisposeFailurePage.cacheSetup()
       val request = FakeRequest().withSession()
 
       // Act
@@ -23,7 +23,7 @@ class DisposeFailureControllerSpec extends WordSpec with Matchers with Mockito {
 
     "redirect to vehicle lookup page when button clicked" in new WithApplication {
       // Arrange
-      DisposeFailurePage.cacheSetupHappyPath()
+      DisposeFailurePage.cacheSetup()
       val request = FakeRequest().withSession()
 
       // Act
