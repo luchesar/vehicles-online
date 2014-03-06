@@ -20,14 +20,20 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
   override protected def callPostcodeWebService(postcode: String): Future[Response] = {
     val endPoint = s"$baseUrl/postcode?postcode=${postcodeWithNoSpaces(postcode)}&dataset=dpa" // TODO add lpi to URL, but need to set organisation as Option on the type.
     Logger.debug(s"Calling Ordnance Survey postcode lookup service on $endPoint...")
-    ws.url(endPoint).withAuth(username = username, password = password, scheme = AuthScheme.BASIC).get() // TODO should we add a .withRequestTimeout()? and if yes then what time for the timeout assuming slow connections?
+    ws.url(endPoint).
+      withAuth(username = username, password = password, scheme = AuthScheme.BASIC).
+      withRequestTimeout(30000). // Timeout is in milliseconds // TODO Timeout value should be read from config file
+      get()
   }
 
   // Call the real web service.
   override protected def callUprnWebService(uprn: String): Future[Response] = {
     val endPoint = s"$baseUrl/uprn?uprn=$uprn&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
     Logger.debug(s"Calling Ordnance Survey uprn lookup service on $endPoint...")
-    ws.url(endPoint).withAuth(username = username, password = password, scheme = AuthScheme.BASIC).get()
+    ws.url(endPoint).
+      withAuth(username = username, password = password, scheme = AuthScheme.BASIC).
+      withRequestTimeout(30000). // Timeout is in milliseconds // TODO Timeout value should be read from config file
+      get()
   }
 
   override def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = {

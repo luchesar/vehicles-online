@@ -30,7 +30,7 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
       addressFiller().fold(
         formWithErrors => fail(s"These errors should not occur: ${formWithErrors.errors}"),
         f => {
-          f.addressAndPostcodeModel.addressLinesModel.line1 should equal(Some(line1Valid))
+          f.addressAndPostcodeModel.addressLinesModel.line1 should equal(line1Valid)
           f.addressAndPostcodeModel.addressLinesModel.line2 should equal(Some(line2Valid))
           f.addressAndPostcodeModel.addressLinesModel.line3 should equal(Some(line3Valid))
           f.addressAndPostcodeModel.addressLinesModel.line4 should equal(Some(line4Valid))
@@ -43,7 +43,7 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
       addressFiller(line2 = "", line3 = "").fold(
         formWithErrors => fail(s"These errors should not occur: ${formWithErrors.errors}"),
         f => {
-          f.addressAndPostcodeModel.addressLinesModel.line1 should equal(Some(line1Valid))
+          f.addressAndPostcodeModel.addressLinesModel.line1 should equal(line1Valid)
           f.addressAndPostcodeModel.postcode should equal(postcodeValid)
         }
       )
@@ -54,7 +54,7 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
       addressFiller().fold(
         formWithErrors => fail(s"These errors should not occur: ${formWithErrors.errors}"),
         f => {
-          f.addressAndPostcodeModel.addressLinesModel.line1 should equal(Some(line1Valid))
+          f.addressAndPostcodeModel.addressLinesModel.line1 should equal(line1Valid)
           f.addressAndPostcodeModel.addressLinesModel.line2 should equal(Some(line2Valid))
           f.addressAndPostcodeModel.addressLinesModel.line3 should equal(Some(line3Valid))
           f.addressAndPostcodeModel.addressLinesModel.line4 should equal(Some(line4Valid))
@@ -65,7 +65,7 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
 
     "reject if line1 is blank" in {
       addressFiller(line1 = "").fold(
-        formWithErrors => formWithErrors.errors.length should equal(1),
+        formWithErrors => formWithErrors.errors.length should equal(2),
         f => fail("An error should occur")
       )
     }
@@ -78,21 +78,21 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
     }
 
     "reject if line2 is more than max length" in {
-      addressFiller(line1 = "", line2 = "a" * (lineMaxLength + 1) , line3 = "", line4 = "").fold(
+      addressFiller(line2 = "a" * (lineMaxLength + 1) , line3 = "", line4 = "").fold(
         formWithErrors => formWithErrors.errors.length should equal(1),
         f => fail("An error should occur")
       )
     }
 
     "reject if line3 is more than max length" in {
-      addressFiller(line1 = "", line2 = "", line3 = "a" * (lineMaxLength + 1), line4 = "").fold(
+      addressFiller(line2 = "", line3 = "a" * (lineMaxLength + 1), line4 = "").fold(
         formWithErrors => formWithErrors.errors.length should equal(1),
         f => fail("An error should occur")
       )
     }
 
     "reject if line4 is more than max length" in {
-      addressFiller(line1 = "", line2 = "", line3 = "", line4 = "a" * (lineMaxLength + 1) ).fold(
+      addressFiller(line2 = "", line3 = "", line4 = "a" * (lineMaxLength + 1) ).fold(
         formWithErrors => formWithErrors.errors.length should equal(1),
         f => fail("An error should occur")
       )

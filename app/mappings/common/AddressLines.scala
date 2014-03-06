@@ -16,7 +16,7 @@ object AddressLines {
   val maxLengthOfLinesConcatenated = 130
 
   def addressLines: Mapping[AddressLinesModel] = mapping(
-    line1Id -> optional(text(minLength = line1MinLength, maxLength = lineMaxLength)),
+    line1Id -> nonEmptyText(minLength = line1MinLength, maxLength = lineMaxLength),
     line2Id -> optional(text(maxLength = lineMaxLength)),
     line3Id -> optional(text(maxLength = lineMaxLength)),
     line4Id -> optional(text(maxLength = lineMaxLength))
