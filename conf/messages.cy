@@ -223,6 +223,9 @@ disposal_dispose.backbutton = Holau
 disposal_dispose.submitbutton = Gwaredu
 disposal_dispose.exkeeperlettertext = Bydd y llythyr yn cadarnhau y gwarediad. Os byddai''n well gennych dderbyn e-bost cydnabyddiaeth ar unwaith, rhowch gyfeiriad e-bost
 disposal_dispose.emaillabel = Cyfeiriad e-bost
+dateOfDisposal_day = Diwrnod gwaredu
+dateOfDisposal_month = Mis gwaredu
+dateOfDisposal_year = Flwyddyn waredu
 
 disposal_disposeconfirmation.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion
 disposal_disposeconfirmation.disposaldetails = Gwaredu

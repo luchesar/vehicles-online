@@ -35,7 +35,7 @@ $(function() {
     });
 
     // Nino auto jump
-	$('.ni-number input, .sort-code input').autotab_magic();
+	// $('.ni-number input, .sort-code input').autotab_magic();
 	
 	// Disabled clicking on disabled buttons
 	$('.button-not-implemented').click(function() {

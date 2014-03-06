@@ -273,6 +273,9 @@ disposal_dispose.backbutton = Back
 disposal_dispose.submitbutton = Dispose
 disposal_dispose.exkeeperlettertext = If you would prefer to receive an immediate email acknowledgement, please provide an email address
 disposal_dispose.emaillabel = Email address
+dateOfDisposal_day = Day of disposal
+dateOfDisposal_month = Month of disposal
+dateOfDisposal_year = Year of disposal
 
 #page 6 - summary
 disposal_disposeconfirmation.title = Dispose a vehicle into the motor trade: summary
