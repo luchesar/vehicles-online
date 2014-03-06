@@ -65,6 +65,7 @@
             args = Map('_label -> Messages("disposal_dispose.emaillabel"),
             '_showConstraints -> false))
                     
+            @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
             <div class="form-steps">
             	<button id="submit" type="submit" name="action" class="button">@Messages("disposal_dispose.submitbutton")</button>
                 <a id="backButton" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present" class="button-secondary">@Messages("disposal_dispose.backbutton")</a>

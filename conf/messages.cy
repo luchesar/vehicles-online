@@ -179,6 +179,12 @@ address.line4.label= Postiwch y dref
 address.postcode.label = Cod post
 address.postcode.label.prompt = e.g. SA99 1BD
 
+#page 3 - uprn not found
+disposal_uprnnotfound.title = Gwall cod post yn cadarnhau
+disposal_uprnnotfound.p1 = Mae gwall wedi digwydd dilysu eich cod post. Os gwelwch yn dda ail-fynd i mewn neu rhowch eich manylion â llaw
+disposal_uprnnotfound.manualaddressbutton = Manylion masnach sefydlu
+disposal_uprnnotfound.setuptradedetailsbutton = Hun roi cyfeiriad
+
 #page not known - Vehicle Lookup
 disposal_setuptradedetails.title = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_setuptradedetails.name = Gwaredu cerbyd i mewn i'r fasnach foduron
@@ -217,6 +223,9 @@ disposal_dispose.backbutton = Holau
 disposal_dispose.submitbutton = Gwaredu
 disposal_dispose.exkeeperlettertext = Bydd y llythyr yn cadarnhau y gwarediad. Os byddai''n well gennych dderbyn e-bost cydnabyddiaeth ar unwaith, rhowch gyfeiriad e-bost
 disposal_dispose.emaillabel = Cyfeiriad e-bost
+dateOfDisposal_day = Diwrnod gwaredu
+dateOfDisposal_month = Mis gwaredu
+dateOfDisposal_year = Flwyddyn waredu
 
 disposal_disposeconfirmation.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion
 disposal_disposeconfirmation.disposaldetails = Gwaredu
@@ -229,6 +238,7 @@ disposal_disposeconfirmation.exkeeperlettersend = Bydd llythyr yn cael ei anfon 
 disposal_disposeconfirmation.sendbutton = Anfon
 disposal_disposeconfirmation.transactionid = {0}
 disposal_disposeconfirmation.transactionid_label = Trafodiad yn
+disposal_disposeconfirmation.registrationNumber_label = Cofrestru
 disposal_disposeconfirmation.backbutton = Holau
 disposal_disposeconfirmation.newdisposalbutton = Gwaredu Newydd
 disposal_disposeconfirmation.disposaldate = Dyddiad gwaredu

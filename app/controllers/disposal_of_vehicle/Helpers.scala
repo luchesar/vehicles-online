@@ -64,12 +64,17 @@ object Helpers {
     Logger.debug(s"Dispose - stored dispose transaction id in cache: key = $key, value = $value")
   }
 
+  def storeDisposeRegistrationNumberInCache(value: String) = {
+    val key = disposeFormRegistrationNumberCacheKey
+    Cache.set(key, value)
+    Logger.debug(s"Dispose - stored dispose registration number in cache: key = $key, value = $value")
+  }
+
   def storeDisposeModelInCache(value: DisposeModel) = {
     val key = disposeModelCacheKey
     Cache.set(key, value)
     Logger.debug(s"Dispose - stored disposeModel in cache: key = $key, value = $value")
   }
-
 
   def fetchDealerNameFromCache: Option[String] = {
     fetchTraderDetailsFromCache match {
@@ -110,6 +115,11 @@ object Helpers {
 
   def fetchDisposeTransactionIdFromCache: Option[String] = {
     val key = disposeFormTransactionIdCacheKey
+    Cache.getAs[String](key)
+  }
+
+  def fetchDisposeRegistrationNumberFromCache: Option[String] = {
+    val key = disposeFormRegistrationNumberCacheKey
     Cache.getAs[String](key)
   }
 }

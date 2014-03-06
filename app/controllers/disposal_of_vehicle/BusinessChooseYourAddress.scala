@@ -53,8 +53,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
 
   def submit = Action.async {
     implicit request => {
-      /* TODO [SKW] I realised how we would handle redirect when something missing from cache in Carers, pass what we
-      *  want to do next in as a function:
+      /* TODO [SKW] I realised how we would handle redirect when something missing from cache in Carers, pass what we want to do next in as a function:
        * implicit request => {
        *    dependsOnTraderDetails {
        *      form.bindFromRequest.fold(
@@ -110,7 +109,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
          */
         Redirect(routes.VehicleLookup.present)
       }
-      case None => BadRequest("The UPRN you submitted was not found by the web service") // TODO Consult with UX on look&feel, message and url of an error page
+      case None => Redirect(routes.UprnNotFound.present)
     }
   }
 }

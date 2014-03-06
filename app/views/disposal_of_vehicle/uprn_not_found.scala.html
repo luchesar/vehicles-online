@@ -1,0 +1,16 @@
+@()(implicit lang: Lang)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main(Messages("disposal_uprnnotfound.title")){
+    
+    <p>@Messages("disposal_uprnnotfound.p1")</p>
+
+    <div class="form-steps">
+        @{ /* Note the reverse routing syntax for the hyperlink */ }
+        <a class="button" id="setuptradedetailsbutton" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.present">@Messages("disposal_uprnnotfound.manualaddressbutton")</a>
+        <a class="button" id="manualaddressbutton" href="@controllers.disposal_of_vehicle.routes.EnterAddressManually.present">@Messages("disposal_uprnnotfound.setuptradedetailsbutton")</a>
+    </div>
+
+}

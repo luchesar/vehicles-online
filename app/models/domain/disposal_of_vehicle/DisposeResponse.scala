@@ -1,3 +1,3 @@
 package models.domain.disposal_of_vehicle
 
-case class DisposeResponse (success: Boolean, message: String, transactionId: String)
+case class DisposeResponse (success: Boolean, message: String, transactionId: String, registrationNumber: String, auditId: String)

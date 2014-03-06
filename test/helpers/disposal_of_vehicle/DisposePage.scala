@@ -40,4 +40,10 @@ object DisposePage {
     play.api.cache.Cache.set(key, value)
   }
 
+  def setupRegistrationNumberCache() = {
+    val key = mappings.disposal_of_vehicle.Dispose.disposeFormRegistrationNumberCacheKey
+    val value = "Q123ZZZ"
+    play.api.cache.Cache.set(key, value)
+  }
+
 }

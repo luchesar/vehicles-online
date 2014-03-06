@@ -8,9 +8,9 @@ object DisposeSuccess extends Controller {
 
   def present = Action {
     implicit request => {
-      (fetchDealerDetailsFromCache, fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache, fetchDisposeTransactionIdFromCache) match {
-        case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId)) =>
-          val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId))
+      (fetchDealerDetailsFromCache, fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache, fetchDisposeTransactionIdFromCache, fetchDisposeRegistrationNumberFromCache) match {
+        case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId), Some(registrationNumber)) =>
+          val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId), Some(registrationNumber))
           Ok(views.html.disposal_of_vehicle.dispose_success(disposeModel, disposeFormModel))
         case _ => Redirect(routes.SetUpTradeDetails.present)
       }
@@ -26,13 +26,14 @@ object DisposeSuccess extends Controller {
     }
   }
 
-  private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel, transactionId: Option[String]): DisposeViewModel = {
+  private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel, transactionId: Option[String], registrationNumber: Option[String]): DisposeViewModel = {
     DisposeViewModel(vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
       keeperName = vehicleDetails.keeperName,
       keeperAddress = vehicleDetails.keeperAddress,
       dealerName = dealerDetails.dealerName,
       dealerAddress = dealerDetails.dealerAddress,
-      transactionId = transactionId)
+      transactionId = transactionId,
+      registrationNumber = registrationNumber)
   }
 }

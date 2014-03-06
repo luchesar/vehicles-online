@@ -61,18 +61,6 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
         f => {
           storeDisposeFormModelInCache(f)
           Logger.debug(s"Dispose form submitted - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
-//          fetchVehicleLookupDetailsFromCache match {
-//            //TODO could be moved inside disposeAction
-//            case Some(vehicleLookupFormModel) => {
-//              val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber, registrationNumber = vehicleLookupFormModel.registrationNumber)
-//              storeDisposeModelInCache(disposeModel)
-//              disposeAction(webService, disposeModel)
-//            }
-//            case _ => Future {
-//              Logger.error("could not find dealer details in cache on Dispose submit")
-//              Redirect(routes.SetUpTradeDetails.present)
-//            }
-//          }
           disposeAction(webService)
         }
       )
@@ -98,6 +86,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
             Logger.debug(s"Dispose Web service call successful - response = ${resp}")
             if (resp.success) {
               storeDisposeTransactionIdInCache(resp.transactionId)
+              storeDisposeRegistrationNumberInCache(resp.registrationNumber)
               Redirect(routes.DisposeSuccess.present)
             }
             else Redirect(routes.DisposeFailure.present)

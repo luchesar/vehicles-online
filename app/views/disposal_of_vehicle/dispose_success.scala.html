@@ -1,8 +1,6 @@
 @(data: models.domain.disposal_of_vehicle.DisposeViewModel, disposeModel: models.domain.disposal_of_vehicle.DisposeFormModel)(implicit lang: Lang)
 
 @import helper._
-
-@import helper._
 @import utils.helpers.BaseTemplate._
 @import views.html.helper.base._
 @import views.html.common._
@@ -11,7 +9,7 @@
 
 @main(Messages("disposal_disposeconfirmation.title")){
 
-<div class="alert-success alert-withicon">
+<div class="alert-success">
 	<p><strong>Transaction ID: @Messages("disposal_disposeconfirmation.transactionid", data.transactionId.getOrElse(""))</strong><br />Facer eu nam nulla nulla molestie. Saepius mutationem iis aliquam usus me.</p>
 </div>
 
@@ -26,7 +24,10 @@
             <dt>@Messages("disposal_disposeconfirmation.transactionid_label")</dt>
             <dd>@Messages("disposal_disposeconfirmation.transactionid", data.transactionId.getOrElse(""))</dd>
 
-			<dt>@Messages("disposal_disposeconfirmation.vehiclemake")</dt>
+            <dt>@Messages("disposal_disposeconfirmation.registrationNumber_label")</dt>
+            <dd>@data.registrationNumber</dd>
+
+            <dt>@Messages("disposal_disposeconfirmation.vehiclemake")</dt>
 			<dd>@data.vehicleMake</dd>
 			
 			<dt>@Messages("disposal_disposeconfirmation.vehiclemodel")</dt>
@@ -69,9 +70,11 @@
         @data.keeperName<br />
         @for(addr <- data.keeperAddress.address) {@addr<br/>}</p>
 
+		@{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
     	<div class="form-steps">
-    		<a class="button-not-implemented" aria-disabled="true">@Messages("global.buttonnavprint")</a>
     		<a id="newDisposal" class="button" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present">@Messages("disposal_disposeconfirmation.newdisposalbutton")</a>
+    		<a class="button-not-implemented" aria-disabled="true">@Messages("global.buttonnavprint")</a>
+    		
         </div>
             
 	</div>
