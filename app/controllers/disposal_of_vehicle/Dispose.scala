@@ -86,6 +86,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
             Logger.debug(s"Dispose Web service call successful - response = ${resp}")
             if (resp.success) {
               storeDisposeTransactionIdInCache(resp.transactionId)
+              storeDisposeRegistrationNumberInCache(resp.registrationNumber)
               Redirect(routes.DisposeSuccess.present)
             }
             else Redirect(routes.DisposeFailure.present)

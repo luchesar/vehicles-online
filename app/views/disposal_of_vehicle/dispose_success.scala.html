@@ -1,8 +1,6 @@
 @(data: models.domain.disposal_of_vehicle.DisposeViewModel, disposeModel: models.domain.disposal_of_vehicle.DisposeFormModel)(implicit lang: Lang)
 
 @import helper._
-
-@import helper._
 @import utils.helpers.BaseTemplate._
 @import views.html.helper.base._
 @import views.html.common._
@@ -26,7 +24,10 @@
             <dt>@Messages("disposal_disposeconfirmation.transactionid_label")</dt>
             <dd>@Messages("disposal_disposeconfirmation.transactionid", data.transactionId.getOrElse(""))</dd>
 
-			<dt>@Messages("disposal_disposeconfirmation.vehiclemake")</dt>
+            <dt>@Messages("disposal_disposeconfirmation.registrationNumber_label")</dt>
+            <dd>@data.registrationNumber</dd>
+
+            <dt>@Messages("disposal_disposeconfirmation.vehiclemake")</dt>
 			<dd>@data.vehicleMake</dd>
 			
 			<dt>@Messages("disposal_disposeconfirmation.vehiclemodel")</dt>

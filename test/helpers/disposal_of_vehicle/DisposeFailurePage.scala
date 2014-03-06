@@ -9,5 +9,6 @@ object DisposeFailurePage {
     VehicleLookupPage.setupVehicleDetailsModelCache()
     DisposePage.setupDisposeFormModelCache()
     DisposePage.setupDisposeTransactionIdCache
+    DisposePage.setupRegistrationNumberCache()
   }
 }
