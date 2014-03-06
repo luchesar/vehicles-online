@@ -7,6 +7,7 @@ import play.api.libs.ws.Response
 import javax.inject.Inject
 import services.AddressLookupService
 import services.ordnance_survey.domain.OSAddressbaseResult
+import play.api.Logger
 
 /**
  * Fake implementation of the FakeAddressLookupService trait
@@ -24,7 +25,8 @@ class FakeAddressLookupService @Inject()(ws: services.WebService) extends Addres
   }
 
   override def fetchAddressForUprn(uprn: String): Future[Option[AddressViewModel]] = Future {
-    Some(FakeAddressLookupService.address1)
+    if (uprn == "9999") None
+    else Some(FakeAddressLookupService.address1)
   }
 }
 

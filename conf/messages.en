@@ -235,6 +235,13 @@ address.line4.label= Post town
 address.postcode.label = Postcode
 address.postcode.label.prompt = e.g. SA99 1BD
 
+#page 3 - uprn not found
+disposal_uprnnotfound.title = Error confirming postcode
+disposal_uprnnotfound.p1 = An error has occurred validating your postcode. Please re-enter or enter your details manually
+disposal_uprnnotfound.manualaddressbutton = Set-up trade details
+disposal_uprnnotfound.setuptradedetailsbutton = Manually enter address
+
+
 #page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Dispose a vehicle into the motor trade: vehicle
 disposal_vehiclelookup.name = Dispose a vehicle into the motor trade

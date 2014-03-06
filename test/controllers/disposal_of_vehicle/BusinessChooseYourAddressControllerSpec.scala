@@ -3,24 +3,19 @@ package controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
-import helpers.disposal_of_vehicle.{SetUpTradeDetailsPage, VehicleLookupPage}
+import helpers.disposal_of_vehicle.{SetUpTradeDetailsPage, VehicleLookupPage, UprnNotFoundPage}
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.Matchers._
-import helpers.disposal_of_vehicle.BusinessChooseYourAddressPage._
 import services.fakes.{FakeAddressLookupService, FakeWebServiceImpl}
 
 class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
   "BusinessChooseYourAddress - Controller" should {
-    val mockAddressLookupService = mock[services.AddressLookupService]
     val fakeWebService = new FakeWebServiceImpl()
     val fakeAddressLookupService = new FakeAddressLookupService(fakeWebService)
-    when(mockAddressLookupService.fetchAddressForUprn(anyString())).thenReturn(fakeAddressLookupService.fetchAddressForUprn(uprn = "TEST"))
-    when(mockAddressLookupService.fetchAddressesForPostcode(anyString())).thenReturn(fakeAddressLookupService.fetchAddressesForPostcode(postcode = "TEST"))
-
-    val businessChooseYourAddress = new BusinessChooseYourAddress(mockAddressLookupService)
+    val businessChooseYourAddress = new BusinessChooseYourAddress(fakeAddressLookupService)
 
     "present" in new WithApplication {
       // Arrange
@@ -34,18 +29,16 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
       status(result) should equal(OK)
     }
 
-    "redirect to next page after a valid submit" in new WithApplication {
+    "redirect to VehicleLookup page after a valid submit" in new WithApplication {
       // Arrange
       SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(
-          addressSelectId -> "1234")
+        .withFormUrlEncodedBody(addressSelectId -> "1234")
 
       // Act
       val result = businessChooseYourAddress.submit(request)
 
       // Assert
-      status(result) should equal(SEE_OTHER)
       redirectLocation(result) should equal(Some(VehicleLookupPage.url))
     }
 
@@ -89,7 +82,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
     "redirect to setupTradeDetails page when valid submit with no dealer name cached" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(addressSelectId -> address1.address.mkString(", "))
+        .withFormUrlEncodedBody(addressSelectId -> "1234")
 
       // Act
       val result = businessChooseYourAddress.submit(request)
@@ -107,6 +100,16 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
       redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
     }
 
+    "redirect to UprnNotFound page when Uprn returns no match on submit" in new WithApplication {
+      SetUpTradeDetailsPage.setupCache()
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(addressSelectId -> "9999")
 
+      // Act
+      val result = businessChooseYourAddress.submit(request)
+
+      // Assert
+      redirectLocation(result) should equal(Some(UprnNotFoundPage.url))
+    }
   }
 }
