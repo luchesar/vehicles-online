@@ -22,8 +22,7 @@
     @valtechInputText(traderLookupForm(dealerPostcodeId), args =
     Map('_label -> Messages("disposal_setuptradedetails.traderpostcodelabel"),
     '_showConstraints -> false,
-    'maxLength -> Postcode.maxLength,
-    'title -> Messages("disposal_setuptradedetails.traderpostcode.validation")))
+    'maxLength -> Postcode.maxLength))
 
 	<div class="form-steps">
 	    <button type="submit" name="action" class="button">@Messages("disposal_setuptradedetails.button")</button>
