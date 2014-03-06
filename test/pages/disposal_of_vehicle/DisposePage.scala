@@ -17,8 +17,6 @@ object DisposePage extends Page with WebBrowser {
 
   def dateOfDisposalYear(implicit driver: WebDriver): TelField = telField(id("dateOfDisposal_year"))
 
-  def consent(implicit driver: WebDriver): Checkbox = checkbox(id("consent"))
-
   def emailAddress(implicit driver: WebDriver): TextField = textField(id("emailAddress"))
 
   def back(implicit driver: WebDriver): Element = find(id("backButton")).get
