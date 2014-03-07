@@ -238,6 +238,7 @@ disposal_disposeconfirmation.exkeeperlettersend = Bydd llythyr yn cael ei anfon 
 disposal_disposeconfirmation.sendbutton = Anfon
 disposal_disposeconfirmation.transactionid = {0}
 disposal_disposeconfirmation.transactionid_label = Trafodiad yn
+disposal_disposeconfirmation.registrationNumber = {0}
 disposal_disposeconfirmation.registrationNumber_label = Cofrestru
 disposal_disposeconfirmation.backbutton = Holau
 disposal_disposeconfirmation.newdisposalbutton = Gwaredu Newydd

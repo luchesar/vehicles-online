@@ -289,6 +289,7 @@ disposal_disposeconfirmation.exkeeperlettersend = A letter will be sent to
 disposal_disposeconfirmation.sendbutton = Send
 disposal_disposeconfirmation.transactionid = {0}
 disposal_disposeconfirmation.transactionid_label = Transaction id
+disposal_disposeconfirmation.registrationNumber = {0}
 disposal_disposeconfirmation.registrationNumber_label = Registration
 disposal_disposeconfirmation.backbutton = Back
 disposal_disposeconfirmation.newdisposalbutton = New disposal

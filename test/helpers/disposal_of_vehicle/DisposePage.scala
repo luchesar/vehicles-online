@@ -2,7 +2,7 @@ package helpers.disposal_of_vehicle
 
 import play.api.test.TestBrowser
 import mappings.disposal_of_vehicle.Dispose._
-import models.DayMonthYear
+import models.{DayMonthYearObject, DayMonthYear}
 import play.api.Play.current
 import models.domain.disposal_of_vehicle.{DisposeModel, DisposeFormModel}
 import helpers.disposal_of_vehicle.Helper._
@@ -24,13 +24,13 @@ object DisposePage {
 
   def setupDisposeFormModelCache() = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeFormModelCacheKey
-    val value = DisposeFormModel(dateOfDisposal = DayMonthYear.today, emailAddress = None)
+    val value = DisposeFormModel(dateOfDisposal = DayMonthYearObject.today, emailAddress = None)
     play.api.cache.Cache.set(key, value)
   }
 
-  def setupDisposeModelCache(referenceNumber:String = referenceNumberValid, registrationNumber:String = registrationNumberValid) = {
+  def setupDisposeModelCache(referenceNumber:String = referenceNumberValid, registrationNumber:String = registrationNumberValid, dateOfDisposal:DayMonthYear = DayMonthYearObject.today) = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeModelCacheKey
-    val value = DisposeModel(referenceNumber, registrationNumber)
+    val value = DisposeModel(referenceNumber, registrationNumber, dateOfDisposal)
     play.api.cache.Cache.set(key, value)
   }
 
