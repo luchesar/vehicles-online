@@ -67,7 +67,7 @@ object DayMonthYearComparator extends Ordering[Option[DayMonthYear]] {
   }
 }
 
-object DayMonthYear {
+object DayMonthYearObject {
 
   import scala.language.implicitConversions
 
