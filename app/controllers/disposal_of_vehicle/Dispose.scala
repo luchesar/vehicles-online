@@ -61,7 +61,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
         f => {
           storeDisposeFormModelInCache(f)
           Logger.debug(s"Dispose form submitted - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
-          disposeAction(webService)
+          disposeAction(webService, f)
         }
       )
     }
@@ -76,10 +76,10 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
       dealerAddress = dealerDetails.dealerAddress)
   }
 
-  private def disposeAction(webService: services.DisposeService): Future[SimpleResult] = {
+  private def disposeAction(webService: services.DisposeService, f: DisposeFormModel): Future[SimpleResult] = {
     fetchVehicleLookupDetailsFromCache match {
       case Some(vehicleLookupFormModel) => {
-        val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber, registrationNumber = vehicleLookupFormModel.registrationNumber)
+        val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber, registrationNumber = vehicleLookupFormModel.registrationNumber, dateOfDisposal = f.dateOfDisposal )
         storeDisposeModelInCache(disposeModel)
         webService.invoke(disposeModel).map {
           resp =>
