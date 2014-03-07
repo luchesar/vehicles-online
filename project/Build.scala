@@ -17,7 +17,9 @@ object ApplicationBuild extends Build {
     "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
     "org.scalatest" % "scalatest_2.10" % "2.0" % "test",
     "com.google.inject" % "guice" % "3.0",
-    "com.tzavellas" % "sse-guice" % "0.7.1" // Scala DSL for Guice
+    "com.tzavellas" % "sse-guice" % "0.7.1", // Scala DSL for Guice
+    "org.mongodb" %% "casbah" % "2.7.0-RC0", // officially supported Scala driver for MongoDB
+    "com.novus" % "salat-core_2.10" % "1.9.5" // Mongodb BSON encoders
   )
 
   val sOrg = Seq(organization := "Driver & Vehicle Licensing Agency")
