@@ -177,22 +177,6 @@ error.invalid = Invalid value
 # DISPOSAL OF VEHICLE
 ##
 
-#main
-main.banner = Vehicles online
-
-global.cookiemessage = GOV.UK uses cookies to make the site simpler.
-global.cookiefindoutmore = Find out more about cookies
-
-global.browserprompt = For a safer, faster, better experience online you should upgrade your browser.
-global.browserfindoutmore = Find out more about browsers
-global.browserclosetitle = Dismiss this message
-global.browserclosemessage = Close
-
-
-#prototype
-prototype.banner = This is a prototype – your feedback will help us to improve it.
-prototype.link = Find out more
-
 #page 1 - Before You Start
 disposal_beforeyoustart.title = Dispose a vehicle into the motor trade
 disposal_beforeyoustart.p1 = Before you start:
@@ -289,6 +273,7 @@ disposal_disposeconfirmation.exkeeperlettersend = A letter will be sent to
 disposal_disposeconfirmation.sendbutton = Send
 disposal_disposeconfirmation.transactionid = {0}
 disposal_disposeconfirmation.transactionid_label = Transaction id
+disposal_disposeconfirmation.transactionid_message = Transaction message goes here
 disposal_disposeconfirmation.registrationNumber = {0}
 disposal_disposeconfirmation.registrationNumber_label = Registration
 disposal_disposeconfirmation.backbutton = Back
