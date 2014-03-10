@@ -2,7 +2,7 @@ package views.disposal_of_vehicle
 
 import org.specs2.mutable.Specification
 import pages.disposal_of_vehicle._
-import helpers.TestHarness
+import helpers.webbrowser.TestHarness
 
 class Demo2Spec extends Specification with TestHarness  {
 

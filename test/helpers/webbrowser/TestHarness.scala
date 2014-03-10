@@ -1,4 +1,4 @@
-package helpers
+package helpers.webbrowser
 
 import play.api.test._
 import org.openqa.selenium.WebDriver
@@ -7,7 +7,7 @@ import org.specs2.specification.Scope
 import play.api.test.TestServer
 import play.api.test.FakeApplication
 import org.specs2.execute.{Result, AsResult}
-import helpers.webbrowser.WebBrowserDSL
+import WebDriverFactory
 
 // NOTE: Do *not* put any initialisation code in the class below, otherwise delayedInit() gets invoked twice
 // which means around() gets invoked twice and everything is not happy.  Only lazy vals and defs are allowed,

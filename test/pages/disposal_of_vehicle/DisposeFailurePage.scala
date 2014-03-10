@@ -1,7 +1,6 @@
 package pages.disposal_of_vehicle
 
 import org.openqa.selenium.WebDriver
-import helpers.WebDriverFactory
 import helpers.webbrowser._
 
 object DisposeFailurePage extends Page with WebBrowserDSL {

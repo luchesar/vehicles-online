@@ -1,4 +1,4 @@
-package helpers
+package helpers.webbrowser
 
 import app.ConfigProperties._
 import org.openqa.selenium.WebDriver
