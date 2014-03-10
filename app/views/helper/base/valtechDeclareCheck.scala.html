@@ -17,8 +17,8 @@
         id="@CryptoHelper.encryptAES(id)"
         name="@CryptoHelper.encryptAES(name)"
         value="@boxValue"
-        @(if(value == Some(boxValue)) "checked" else "")
-        @(if(field.constraints.find(_._1 == "constraint.required")) "aria-required=true" else "") @* TODO move this into an extension method for fields *@
+        @{if(value == Some(boxValue)) "checked" else ""}
+        @{if(field.constraints.find(_._1 == "constraint.required")) "aria-required=true" else ""} @* TODO move this into an extension method for fields *@
         @toHtmlArgs(htmlArgs.filterKeys(_ != 'value))
     >
 

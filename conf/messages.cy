@@ -171,6 +171,7 @@ address.line3.label= Ardal
 address.line4.label= Postiwch y dref
 address.postcode.label = Cod post
 address.postcode.label.prompt = e.g. SA99 1BD
+address.postcode.validation = WELSH Enter a valid postcode
 
 #page 3 - uprn not found
 disposal_uprnnotfound.title = Gwall cod post yn cadarnhau

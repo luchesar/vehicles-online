@@ -4,7 +4,7 @@
 
 @if(elements.hasErrors && !elements.args.exists(_ == 'showErrors -> false)) {
     <div class="form-item validation">
-    <p class="error">@{elements.errors(elements.lang).mkString(", ")}</p>
+        <p class="error">@{elements.errors(elements.lang).mkString(", ")}</p>
 } else {
     <div class="form-item">
 }
