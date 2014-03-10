@@ -24,7 +24,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
   val disposeForm = Form(
     mapping(
       mileageId -> mileage(),
-      dateOfDisposalId -> dayMonthYear.verifying(rules),
+      dateOfDisposalId -> dayMonthYear.verifying(validDate),
       emailAddressId -> optional(text)
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )

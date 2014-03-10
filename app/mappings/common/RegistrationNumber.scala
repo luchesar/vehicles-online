@@ -2,7 +2,7 @@ package mappings.common
 
 import play.api.data.Mapping
 import play.api.data.Forms._
-import constraints.disposal_of_vehicle.RegistrationNumber.rules
+import constraints.disposal_of_vehicle.RegistrationNumber.validRegistrationNumber
 
 object RegistrationNumber {
   val minLength = 2
@@ -10,6 +10,6 @@ object RegistrationNumber {
   val key = "RegistrationNumber"
 
   def registrationNumber (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[String] = {
-    nonEmptyText(minLength, maxLength) verifying rules
+    nonEmptyText(minLength, maxLength) verifying validRegistrationNumber
   }
 }
