@@ -22,7 +22,6 @@ object WebDriverFactory {
 
   def webDriver: WebDriver = {
     val targetBrowser = getProperty("browser", "htmlunit")
-
     val selectedDriver: WebDriver = {
 
       targetBrowser match {
@@ -46,11 +45,11 @@ object WebDriverFactory {
         }
       }
     }
-    defineTimeout(selectedDriver, 5)
+    defineTimeout(selectedDriver, 5, TimeUnit.SECONDS)
     selectedDriver
   }
 
-  def defineTimeout(SelectedDriver: WebDriver, Seconds: Long) {
-    SelectedDriver.manage().timeouts().implicitlyWait(Seconds, TimeUnit.SECONDS)
+  def defineTimeout(selectedDriver: WebDriver, seconds: Long, timeUnit: TimeUnit) {
+    selectedDriver.manage().timeouts().implicitlyWait(seconds, timeUnit)
   }
 }
