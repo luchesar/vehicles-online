@@ -33,7 +33,7 @@ object EnterAddressManually extends Controller {
               val updatedFormWithErrors = formWithErrors.replaceError("addressAndPostcode.addressLines.line1", "error.required", FormError("addressAndPostcode.addressLines", "error.address.line1Required"))
               BadRequest(views.html.disposal_of_vehicle.enter_address_manually(updatedFormWithErrors))}
             case None => {
-              Logger.error("failed to find dealer name in cache for formWithErrors, redirecting...")
+              Logger.debug("failed to find dealer name in cache for formWithErrors, redirecting...")
               Redirect(routes.SetUpTradeDetails.present)
             }
           },
@@ -44,7 +44,7 @@ object EnterAddressManually extends Controller {
             Redirect(routes.VehicleLookup.present)
           }
           case None => {
-            Logger.error("failed to find dealer name in cache on submit, redirecting...")
+            Logger.debug("failed to find dealer name in cache on submit, redirecting...")
             Redirect(routes.SetUpTradeDetails.present)
           }
         }
