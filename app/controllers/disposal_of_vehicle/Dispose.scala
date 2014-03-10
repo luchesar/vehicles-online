@@ -24,7 +24,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
   val disposeForm = Form(
     mapping(
       mileageId -> mileage(),
-      dateOfDisposalId -> dayMonthYear.verifying(rules),
+      dateOfDisposalId -> dayMonthYear.verifying(validDate),
       emailAddressId -> optional(text)
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
@@ -54,7 +54,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
                 val disposeViewModel = populateModelFromCachedData(dealerDetails, vehicleDetails)
                 BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithErrors))
               case _ =>
-                Logger.error("could not find dealer details in cache on Dispose submit")
+                Logger.debug("could not find dealer details in cache on Dispose submit")
                 Redirect(routes.SetUpTradeDetails.present)
             }
           }
@@ -99,7 +99,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
         }
       }
       case _ => Future {
-        Logger.error("could not find dealer details in cache on Dispose submit")
+        Logger.debug("could not find dealer details in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present)
       }
     }
