@@ -57,7 +57,9 @@
             'maxLength -> Mileage.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
             'title -> Messages("disposal_dispose.mileage.validation")))
 
+            <div id=@mappings.disposal_of_vehicle.Dispose.dateOfDisposalId>
             @inputDayMonthYear(disposeForm(dateOfDisposalId), args = Map('_label -> Messages("disposal_dispose.dateofdisposal.label")))
+            </div>
 
             <p>@Messages("disposal_dispose.exkeeperlettertext")</p>
 

@@ -4,7 +4,6 @@ import play.api.mvc._
 
 object UprnNotFound extends Controller {
   def present = Action {
-    implicit request =>
-      Ok(views.html.disposal_of_vehicle.uprn_not_found())
+    implicit request => Ok(views.html.disposal_of_vehicle.uprn_not_found())
   }
 }
