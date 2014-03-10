@@ -15,8 +15,7 @@ import ExecutionContext.Implicits.global
 
 class BusinessChooseYourAddress @Inject()(addressLookupService: services.AddressLookupService) extends Controller {
   private lazy val fetchAddresses = {
-    /* Needs to be a lazy val otherwise when the page is IoC'd the form will execute it, so if you were jumping to the
-     page with nothing in the cache it will blow up in the constructor before it gets to the code to redirect to another page. */
+    /* Needs to be a lazy val otherwise when the page is IoC'd the form will execute it, so if you were jumping to the page with nothing in the cache it will blow up in the constructor before it gets to the code to redirect to another page. */
     val postcode = fetchTraderDetailsFromCache match {
       case Some(setupTradeDetailsModel) => setupTradeDetailsModel.traderPostcode
       case None => ??? //"TEST"
@@ -27,8 +26,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
   val form = Form(
     mapping(
       /* We cannot apply constraints to this drop down as it is populated by web call to an address lookup service.
-      Validation is done when we make a second web call with the UPRN, so if a bad guy is injecting a non-existent UPRN
-      then it will fail at that step instead */
+      Validation is done when we make a second web call with the UPRN, so if a bad guy is injecting a non-existent UPRN then it will fail at that step instead */
       addressSelectId -> dropDown
     )(BusinessChooseYourAddressModel.apply)(BusinessChooseYourAddressModel.unapply)
   )
@@ -37,8 +35,9 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
     implicit request =>
       fetchTraderDetailsFromCache match {
         case Some(dealerDetails) => {
-          fetchAddresses.map { addresses =>
-            val f = fetchBusinessChooseYourAddressModelFromCache match {
+          fetchAddresses.map {
+            addresses =>
+              val f = fetchBusinessChooseYourAddressModelFromCache match {
               case Some(cached) => form.fill(cached)
               case None => form // Blank form.
             }
@@ -74,8 +73,8 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
       form.bindFromRequest.fold(
         formWithErrors =>
           fetchTraderDetailsFromCache match {
-            case Some(dealerDetails) => fetchAddresses.map { addresses =>
-              BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, dealerDetails.traderBusinessName, addresses))
+            case Some(dealerDetails) => fetchAddresses.map {
+              addresses => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, dealerDetails.traderBusinessName, addresses))
             }
             case None => Future {
               Logger.error("failed to find dealer name in cache for formWithErrors, redirecting...")

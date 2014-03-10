@@ -17,8 +17,8 @@ object SetUpTradeDetails extends Controller {
     )(SetupTradeDetailsModel.apply)(SetupTradeDetailsModel.unapply)
   )
 
-  def present = Action { implicit request =>
-//    fetchModelFromSession
+  def present = Action {
+    implicit request =>
     Ok(views.html.disposal_of_vehicle.setup_trade_details(traderLookupForm))
   }
 
