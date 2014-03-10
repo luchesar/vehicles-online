@@ -52,6 +52,10 @@
 	    color:$black;
 	    margin-bottom:0.4em;
 	  }
+	  .emphasized {
+		  @include bold-24;
+		  display: block;
+	  }
 	}
 	
 		
@@ -122,6 +126,30 @@
 		ol, ul, p {
 			a {
 				color:$green;
+			}
+		}
+	}
+	
+	.alert-complete {
+		@extend .alert;
+		background: $turquoise;
+		border:none;
+		text-align: center;
+		h1, h2, h3, p, ul {
+			color:#FFF;
+		}
+		h1, h2, h3 {
+			display: inline-block;
+			background: url(images/icon-tick-green.gif) left 3px no-repeat;
+			padding-left:40px;
+			@include bold-27;
+			.ie7 &, .ie6 & {
+				display: block;
+				background: none;
+				padding-left:0;
+			}
+			@media screen and (max-width: $device-small) {
+				background-position: left top;
 			}
 		}
 	}
