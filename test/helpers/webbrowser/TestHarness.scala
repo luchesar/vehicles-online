@@ -7,6 +7,8 @@ import org.specs2.specification.Scope
 import play.api.test.TestServer
 import play.api.test.FakeApplication
 import org.specs2.execute.{Result, AsResult}
+import play.api.Configuration
+import play.Logger
 
 // NOTE: Do *not* put any initialisation code in the class below, otherwise delayedInit() gets invoked twice
 // which means around() gets invoked twice and everything is not happy.  Only lazy vals and defs are allowed,
@@ -14,12 +16,12 @@ import org.specs2.execute.{Result, AsResult}
 
 trait TestHarness {
 
-  abstract class WebBrowser(implicit val webDriver: WebDriver = WebDriverFactory.webDriver,
-                            val app: FakeApplication = FakeApplication(),
-                            val port: Int = 9001) extends Around with Scope with WebBrowserDSL {
+  abstract class WebBrowser(val app: FakeApplication = FakeApplication(), val port: Int = 9001)
+      extends Around with Scope with WebBrowserDSL {
 
     //implicit def implicitApp = app
     //implicit def implicitPort: Port = port
+    implicit lazy val webDriver: WebDriver = WebDriverFactory.webDriver
 
     override def around[T: AsResult](t: => T): Result = {
       try {

@@ -5,7 +5,7 @@ import helpers.webbrowser._
 
 object VehicleLookupPage extends Page with WebBrowserDSL {
 
-  override val url: String = WebDriverFactory.baseUrl + "disposal-of-vehicle/vehicle-lookup"
+  override val url: String = WebDriverFactory.testUrl + "disposal-of-vehicle/vehicle-lookup"
   override val title: String = "Dispose a vehicle into the motor trade: vehicle"
 
   def vehicleRegistrationNumber(implicit driver: WebDriver): TextField = textField(id("registrationNumber"))

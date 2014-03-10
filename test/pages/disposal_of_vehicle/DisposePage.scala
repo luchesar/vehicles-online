@@ -5,7 +5,7 @@ import helpers.webbrowser._
 
 object DisposePage extends Page with WebBrowserDSL {
 
-  override val url: String = WebDriverFactory.baseUrl + "disposal-of-vehicle/dispose"
+  override val url: String = WebDriverFactory.testUrl + "disposal-of-vehicle/dispose"
   override val title: String = "Dispose a vehicle into the motor trade: confirm"
 
   def mileage(implicit driver: WebDriver): TextField = textField(id("mileage"))

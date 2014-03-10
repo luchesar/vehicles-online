@@ -5,7 +5,7 @@ import helpers.webbrowser._
 
 object VehicleLookupFailurePage extends Page with WebBrowserDSL {
 
-  override val url: String = WebDriverFactory.baseUrl + "disposal-of-vehicle/vehicle-lookup-failure"
+  override val url: String = WebDriverFactory.testUrl + "disposal-of-vehicle/vehicle-lookup-failure"
   override val title: String = "Dispose a vehicle into the motor trade: vehicle lookup failure"
 
   def setupTradeDetails(implicit driver: WebDriver): Element = find(id("setuptradedetails")).get

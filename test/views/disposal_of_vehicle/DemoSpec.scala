@@ -10,7 +10,6 @@ import org.openqa.selenium.firefox.FirefoxDriver
 
 class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
-println("*** about to start featur")
   feature("Dispose of a vehicle to trade") {
 
       info("As a vehicle trader")
@@ -42,7 +41,6 @@ println("*** about to start featur")
 
           And("I click the Select button")
           click on BusinessChangeYourAddressPage.select
-          click on DisposePage.back
 
           And("I enter \"A1\" in the vehicle registration number field")
           VehicleLookupPage.vehicleRegistrationNumber enter "A1"
