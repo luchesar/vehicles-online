@@ -11,10 +11,8 @@ import org.openqa.selenium.firefox.FirefoxDriver
 
 class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
-
+println("*** about to start featur")
   feature("Dispose of a vehicle to trade") {
-
-    //UseTestServer {
 
       info("As a vehicle trader")
       info("I want to dispose of a vehicle for a customer")

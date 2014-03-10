@@ -22,45 +22,34 @@ object WebDriverFactory {
 
   def webDriver: WebDriver = {
     val targetBrowser = getProperty("browser", "htmlunit")
-
     val selectedDriver: WebDriver = {
-      // TODO replace the if-elseif with a match
-      if (targetBrowser.equalsIgnoreCase("chrome")) {
-        systemProperties.setProperty("webdriver.chrome.driver", getProperty("webdriver.chrome.driver", "drivers/chromedriver-2.9_macosx"))
-        new ChromeDriver()
-      }
-      else if (targetBrowser.equalsIgnoreCase("ie") || targetBrowser.equalsIgnoreCase("internetexplorer")) new InternetExplorerDriver()
-      else if (targetBrowser.equalsIgnoreCase("safari")) new SafariDriver()
-      else if (targetBrowser.equalsIgnoreCase("htmlunit")) {
-        val driver = new HtmlUnitDriver()
-        driver.setJavascriptEnabled(true)
-        driver
-      }
-      /* Comment out pahntomjs support as need newer version of selenium
-      else if (targetBrowser.equalsIgnoreCase("phantomjs")) {
-        systemProperties.setProperty("webdriver.phantomjs.binary", getProperty("webdriver.phantomjs.binary", "drivers/phantomjs-1.9.7_macosx"))
 
-        val capabilities = new DesiredCapabilities
-        capabilities.setJavascriptEnabled(true)
-        capabilities.setCapability("takesScreenshot", false)
-        capabilities.setCapability(
-          PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
-          systemProperties.getProperty("webdriver.phantomjs.binary"))
-        capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, Array("--ignore-ssl-errors=yes", "--web-security=false", "--ssl-protocol=any"));
-
-        PhantomJSDriverObject(capabilities)
-      }*/
-      else {
-        // Default
-        val firefoxProfile = new FirefoxProfile()
-        firefoxProfile.setAcceptUntrustedCertificates(true)
-        new FirefoxDriver(firefoxProfile)
+      targetBrowser match {
+        case "chrome" => {
+          systemProperties.setProperty("webdriver.chrome.driver", getProperty("webdriver.chrome.driver", "drivers/chromedriver-2.9_macosx"))
+          new ChromeDriver()
+        }
+        case "ie" => new InternetExplorerDriver()
+        case "internetexplorer" => new InternetExplorerDriver()
+        case "safari" => new SafariDriver()
+        case "htmlunit" => {
+          val driver = new HtmlUnitDriver()
+          driver.setJavascriptEnabled(true)
+          driver
+        }
+        case _ => {
+          // Default
+          val firefoxProfile = new FirefoxProfile()
+          firefoxProfile.setAcceptUntrustedCertificates(true)
+          new FirefoxDriver(firefoxProfile)
+        }
       }
     }
-
-    // TODO probably should make the timeout configurable
-    selectedDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS)
-
+    defineTimeout(selectedDriver, 5, TimeUnit.SECONDS)
     selectedDriver
+  }
+
+  def defineTimeout(selectedDriver: WebDriver, seconds: Long, timeUnit: TimeUnit) {
+    selectedDriver.manage().timeouts().implicitlyWait(seconds, timeUnit)
   }
 }
