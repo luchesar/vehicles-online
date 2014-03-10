@@ -7,9 +7,8 @@ import org.openqa.selenium.ie.InternetExplorerDriver
 import org.openqa.selenium.safari.SafariDriver
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.firefox.{FirefoxDriver, FirefoxProfile}
-
-//import org.openqa.selenium.phantomjs.{PhantomJSDriver, PhantomJSDriverService}
-//import org.openqa.selenium.remote.DesiredCapabilities
+import org.openqa.selenium.phantomjs.{PhantomJSDriver, PhantomJSDriverService}
+import org.openqa.selenium.remote.DesiredCapabilities
 
 import java.util.concurrent.TimeUnit
 
@@ -27,7 +26,7 @@ object WebDriverFactory {
         case "internetexplorer" => new InternetExplorerDriver()
         case "safari" => new SafariDriver()
         case "firefox" => firefoxDriver
-        //case "phantomjs" => phantomjsDriver
+        case "phantomjs" => phantomjsDriver
         case _ => htmlUnitDriver // Default
       }
     }
@@ -68,7 +67,7 @@ object WebDriverFactory {
     new FirefoxDriver(firefoxProfile)
   }
 
-  /*private def phantomjsDriver = {
+  private def phantomjsDriver = {
     systemProperties.setProperty("webdriver.phantomjs.binary", getProperty("webdriver.phantomjs.binary", "drivers/phantomjs-1.9.7_macosx"))
 
     val capabilities = new DesiredCapabilities
@@ -80,5 +79,5 @@ object WebDriverFactory {
     capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, Array("--ignore-ssl-errors=yes", "--web-security=false", "--ssl-protocol=any"));
 
     new PhantomJSDriver(capabilities)
-  }*/
+  }
 }
