@@ -10,18 +10,18 @@ import java.net.URL
 
 class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with WebBrowser with TestHarness {
 
-
+println("*** about to start featur")
   feature("Dispose of a vehicle to trade") {
-
+    println("*** about to start test server")
     UseTestServer {
 
       info("As a vehicle trader")
       info("I want to dispose of a vehicle for a customer")
       info("So they will be removed from the vehicle record as current keeper")
       info("")
-
+      println("*** about to start scenario")
       scenario("Dispose a vehicle to the trade: happy path") {
-
+        println("*** about to start UseWebBrowser")
         UseWebBrowser {
 
           Given("I am on the vehicles online prototype site")
