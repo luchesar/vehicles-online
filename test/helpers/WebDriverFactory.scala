@@ -30,7 +30,7 @@ object WebDriverFactory {
           systemProperties.setProperty("webdriver.chrome.driver", getProperty("webdriver.chrome.driver", "drivers/chromedriver-2.9_macosx"))
           new ChromeDriver()
         }
-        case "ie"  => new InternetExplorerDriver()
+        case "ie" => new InternetExplorerDriver()
         case "internetexplorer" => new InternetExplorerDriver()
         case "safari" => new SafariDriver()
         case "htmlunit" => {
@@ -46,10 +46,11 @@ object WebDriverFactory {
         }
       }
     }
-
-    // TODO probably should make the timeout configurable
-    selectedDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS)
-
+    defineTimeout(selectedDriver, 5)
     selectedDriver
+  }
+
+  def defineTimeout(SelectedDriver: WebDriver, Seconds: Long) {
+    SelectedDriver.manage().timeouts().implicitlyWait(Seconds, TimeUnit.SECONDS)
   }
 }
