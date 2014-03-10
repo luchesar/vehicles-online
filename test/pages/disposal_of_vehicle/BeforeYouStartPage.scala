@@ -4,10 +4,10 @@ import org.openqa.selenium.WebDriver
 import helpers.WebDriverFactory
 import helpers.webbrowser._
 
-object BeforeYouStartPage extends Page with WebBrowser {
+object BeforeYouStartPage extends Page with WebBrowserDSL {
 
   override val url: String = WebDriverFactory.baseUrl
-  override val title: String = "Dispose a vehicle into the motor trade: start"
+  override val title: String = "Dispose a vehicle into the motor trade"
 
   def startNow(implicit driver: WebDriver): Element = find(id("next")).get
 }

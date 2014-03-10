@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver
 import helpers.WebDriverFactory
 import helpers.webbrowser._
 
-object EnterAddressManuallyPage extends Page with WebBrowser {
+object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 
   override val url: String = WebDriverFactory.baseUrl + "disposal-of-vehicle/enter-address-manually"
   override val title: String = "Enter address manually"

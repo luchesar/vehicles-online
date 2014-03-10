@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver
 import helpers.WebDriverFactory
 import helpers.webbrowser._
 
-object VehicleLookupPage extends Page with WebBrowser {
+object VehicleLookupPage extends Page with WebBrowserDSL {
 
   override val url: String = WebDriverFactory.baseUrl + "disposal-of-vehicle/vehicle-lookup"
   override val title: String = "Dispose a vehicle into the motor trade: vehicle"

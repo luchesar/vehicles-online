@@ -7,13 +7,14 @@ import helpers.webbrowser._
 import play.api.test.TestServer
 import org.openqa.selenium.remote.{RemoteWebDriver, DesiredCapabilities}
 import java.net.URL
+import org.openqa.selenium.firefox.FirefoxDriver
 
-class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with WebBrowser with TestHarness {
+class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
 
   feature("Dispose of a vehicle to trade") {
 
-    UseTestServer {
+    //UseTestServer {
 
       info("As a vehicle trader")
       info("I want to dispose of a vehicle for a customer")
@@ -22,7 +23,7 @@ class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeA
 
       scenario("Dispose a vehicle to the trade: happy path") {
 
-        UseWebBrowser {
+        new WebBrowser {
 
           Given("I am on the vehicles online prototype site")
           go to BeforeYouStartPage
@@ -143,5 +144,5 @@ class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeA
         browser.quit()
       }*/
     }
-  }
+  //}
 }

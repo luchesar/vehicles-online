@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit
 import scala.collection.JavaConverters._
 import scala.language.implicitConversions
 
-trait WebBrowser {
+trait WebBrowserDSL {
 
   class CookiesNoun
 

@@ -1,29 +1,33 @@
 package helpers
 
-import play.api.test.TestServer
+import play.api.test._
 import org.openqa.selenium.WebDriver
+import org.specs2.mutable.Around
+import org.specs2.specification.Scope
+import play.api.test.TestServer
+import play.api.test.FakeApplication
+import org.specs2.execute.{Result, AsResult}
+import helpers.webbrowser.WebBrowserDSL
+
+// NOTE: Do *not* put any initialisation code in the class below, otherwise delayedInit() gets invoked twice
+// which means around() gets invoked twice and everything is not happy.  Only lazy vals and defs are allowed,
+// no vals or any other code blocks.
 
 trait TestHarness {
 
-  def UseTestServer[T](block: => T): T = {
-    val testServer = new TestServer(9001)
-    try {
-      testServer.start()
-      block
-    } finally {
-      testServer.stop()
-    }
-  }
+  abstract class WebBrowser(implicit val webDriver: WebDriver = WebDriverFactory.webDriver,
+                            val app: FakeApplication = FakeApplication(),
+                            val port: Int = 9001) extends Around with Scope with WebBrowserDSL {
 
-  def UseWebBrowser[T](block: => T): T = {
-    implicit val webDriver = WebDriverFactory.webDriver
-    //val capability = DesiredCapabilities.firefox()
-    //val capability = DesiredCapabilities.internetExplorer()
-    //implicit val browser = new RemoteWebDriver(new URL("http://127.0.0.1:4444/wd/hub"), capability)
-    try {
-      block
-    } finally {
-      webDriver.quit()
+    //implicit def implicitApp = app
+    //implicit def implicitPort: Port = port
+
+    override def around[T: AsResult](t: => T): Result = {
+      try {
+        Helpers.running(TestServer(port, app))(AsResult.effectively(t))
+      } finally {
+        webDriver.quit()
+      }
     }
   }
 }
