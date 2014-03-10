@@ -2,7 +2,7 @@ package mappings.common
 
 import play.api.data.Mapping
 import play.api.data.Forms._
-import constraints.Postcode.validPostcode
+import constraints.common.Postcode.validPostcode
 
 object Postcode {
   val postcodeId = "postcode"

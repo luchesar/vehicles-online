@@ -8,7 +8,8 @@ import mappings.disposal_of_vehicle.Dispose._
 import mappings.common.{Mileage, DayMonthYear, Consent}
 import Mileage._
 import DayMonthYear._
-import constraints.DayMonthYear._
+import constraints.common
+import common.DayMonthYear._
 import controllers.disposal_of_vehicle.Helpers._
 import models.domain.disposal_of_vehicle.{VehicleDetailsModel, DealerDetailsModel, DisposeFormModel, DisposeModel}
 import models.domain.disposal_of_vehicle.DisposeViewModel

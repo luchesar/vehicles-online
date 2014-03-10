@@ -1,4 +1,4 @@
-package constraints
+package constraints.common
 
 import play.api.data.validation._
 import scala.util.{Failure, Success, Try}
