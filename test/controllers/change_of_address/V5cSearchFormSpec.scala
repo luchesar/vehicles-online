@@ -89,7 +89,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers with MockitoSugar {
     "reject if vehicleVRN is less than minimun" in {
       v5cSearchFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "a").fold(
         formWithErrors => {
-          formWithErrors.errors.length should equal(1)
+          formWithErrors.errors.length should equal(2)
         },
         f => fail("An error should occur")
       )
@@ -98,7 +98,7 @@ class V5cSearchFormSpec extends WordSpec with Matchers with MockitoSugar {
     "reject if vehicleVRN is more than maximum" in {
       v5cSearchFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "AB55CMWE").fold(
         formWithErrors => {
-          formWithErrors.errors.length should equal(1)
+          formWithErrors.errors.length should equal(2)
         },
         f => fail("An error should occur")
       )
