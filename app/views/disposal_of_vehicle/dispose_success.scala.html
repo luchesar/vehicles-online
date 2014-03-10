@@ -9,8 +9,9 @@
 
 @main(Messages("disposal_disposeconfirmation.title")){
 
-<div class="alert-success">
-	<p><strong>Transaction ID: @Messages("disposal_disposeconfirmation.transactionid", data.transactionId.getOrElse(""))</strong><br />@Messages("disposal_disposeconfirmation.transactionid_message")</p>
+<div class="alert-complete">
+    <h2>Disposal complete</h2>
+    <p>Your transaction ID is<br /><span class="emphasized">@Messages("disposal_disposeconfirmation.transactionid", data.transactionId.getOrElse(""))</span></p>
 </div>
 
 <div class="two-col">
