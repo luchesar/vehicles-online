@@ -6,7 +6,7 @@ import org.joda.time.DateTime
 import play.api.data.validation.ValidationError
 
 object DayMonthYear {
-  def rules: Constraint[models.DayMonthYear] = Constraint("constraint.required") {
+  def validDate: Constraint[models.DayMonthYear] = Constraint("constraint.required") {
     case models.DayMonthYear(None, None, None, _, _) => Invalid(ValidationError("error.required"))
     case dmy@models.DayMonthYear(_, _, _, _, _) => dateValidation(dmy)
   }
