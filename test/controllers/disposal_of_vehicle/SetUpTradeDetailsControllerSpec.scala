@@ -71,6 +71,54 @@ class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
       status(result) should equal(BAD_REQUEST)
     }
 
+    "return a bad request when a postcode containing special characters is entered" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(dealerNameId -> "", dealerPostcodeId -> "SA99 1D£")
+
+      // Act
+      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
+    }
+
+    "return a bad request when a postcode with a length more than max length is entered" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(dealerNameId -> "", dealerPostcodeId -> "SA99 1DDD")
+
+      // Act
+      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
+    }
+
+    "return a bad request when a postcode with a length less than min length is entered" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(dealerNameId -> "", dealerPostcodeId -> "SA99")
+
+      // Act
+      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
+    }
+
+    "return a bad request when a postcode with an incorrect format is entered" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(dealerNameId -> "", dealerPostcodeId -> "9A3F2")
+
+      // Act
+      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
+
+      // Assert
+      status(result) should equal(BAD_REQUEST)
+    }
+
 
     "return a bad request if no details are entered" in new WithApplication {
       // Arrange
