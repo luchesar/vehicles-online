@@ -4,7 +4,7 @@ import play.api.test.TestBrowser
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import play.api.Play.current
 import play.api.Logger
-import models.domain.disposal_of_vehicle.{AddressViewModel, AddressLinesModel, AddressAndPostcodeModel, DealerDetailsModel}
+import models.domain.disposal_of_vehicle.{AddressViewModel, DealerDetailsModel}
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress
 
 object BusinessChooseYourAddressPage {

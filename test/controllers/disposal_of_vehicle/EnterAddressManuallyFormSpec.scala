@@ -127,7 +127,7 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
     }
 
     "reject if total length of all address lines is more than maxLengthOfLinesConcatenated" in {
-      addressFiller(line1 = "a" * 50, line2 = "b" * 50, line3 = "c" * 50, line4 = "d" * 50).fold(
+      addressFiller(line1 = "a" * lineMaxLength, line2 = "b" * lineMaxLength, line3 = "c" * lineMaxLength, line4 = "d" * lineMaxLength).fold(
         formWithErrors => formWithErrors.errors.length should equal(1),
         f => fail(s"An error should occur: $f")
       )

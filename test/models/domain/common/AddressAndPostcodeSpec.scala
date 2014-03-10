@@ -1,7 +1,6 @@
 package models.domain.common
 
 import org.scalatest.{Matchers, WordSpec}
-import models.domain.disposal_of_vehicle.{AddressLinesModel, AddressAndPostcodeModel}
 
 class AddressAndPostcodeSpec extends WordSpec with Matchers {
   "Address - model" should {

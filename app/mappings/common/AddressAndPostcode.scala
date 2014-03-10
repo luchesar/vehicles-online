@@ -4,9 +4,9 @@ import play.api.data.Mapping
 import play.api.data.Forms._
 import constraints.AddressLines._
 import mappings.common.Uprn.uprn
-import models.domain.disposal_of_vehicle.AddressAndPostcodeModel
 import mappings.common.AddressLines._
 import mappings.common.Postcode._
+import models.domain.common.AddressAndPostcodeModel
 
 object AddressAndPostcode {
   val id = "addressAndPostcode"

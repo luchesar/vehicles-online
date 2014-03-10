@@ -3,7 +3,7 @@ package mappings.common
 import play.api.data.Mapping
 import play.api.data.Forms._
 import play.api.data.validation.Invalid
-import models.domain.disposal_of_vehicle.AddressLinesModel
+import models.domain.common.AddressLinesModel
 
 object AddressLines {
   val id = "addressLines"
@@ -21,6 +21,4 @@ object AddressLines {
     line3Id -> optional(text(maxLength = lineMaxLength)),
     line4Id -> optional(text(maxLength = lineMaxLength))
   )(AddressLinesModel.apply)(AddressLinesModel.unapply)
-
-
 }
