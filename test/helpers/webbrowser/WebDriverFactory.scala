@@ -25,31 +25,37 @@ object WebDriverFactory {
     val selectedDriver: WebDriver = {
 
       targetBrowser match {
-        case "chrome" => {
-          systemProperties.setProperty("webdriver.chrome.driver", getProperty("webdriver.chrome.driver", "drivers/chromedriver-2.9_macosx"))
-          new ChromeDriver()
-        }
+        case "chrome" => chromeDriver
         case "ie" => new InternetExplorerDriver()
         case "internetexplorer" => new InternetExplorerDriver()
         case "safari" => new SafariDriver()
-        case "htmlunit" => {
-          val driver = new HtmlUnitDriver()
-          driver.setJavascriptEnabled(true)
-          driver
-        }
-        case _ => {
-          // Default
-          val firefoxProfile = new FirefoxProfile()
-          firefoxProfile.setAcceptUntrustedCertificates(true)
-          new FirefoxDriver(firefoxProfile)
-        }
+        case "htmlunit" => htmlunitDriver
+        case _ => firefoxDriver // Default
       }
     }
     defineTimeout(selectedDriver, 5, TimeUnit.SECONDS)
     selectedDriver
   }
 
-  def defineTimeout(selectedDriver: WebDriver, seconds: Long, timeUnit: TimeUnit) {
+  private def chromeDriver = {
+    systemProperties.setProperty("webdriver.chrome.driver", getProperty("webdriver.chrome.driver", "drivers/chromedriver-2.9_macosx"))
+    new ChromeDriver()
+  }
+
+  private def htmlunitDriver = {
+    val driver = new HtmlUnitDriver()
+    driver.setJavascriptEnabled(true)
+    driver
+  }
+
+  private def firefoxDriver = {
+    val firefoxProfile = new FirefoxProfile()
+    firefoxProfile.setAcceptUntrustedCertificates(true)
+    new FirefoxDriver(firefoxProfile)
+  }
+
+  private def defineTimeout(selectedDriver: WebDriver, seconds: Long, timeUnit: TimeUnit) {
     selectedDriver.manage().timeouts().implicitlyWait(seconds, timeUnit)
   }
+
 }
