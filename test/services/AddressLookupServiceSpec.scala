@@ -12,18 +12,17 @@ import services.ordnance_survey.domain._
 import play.api.libs.json.Json
 import java.net.URI
 import play.api.libs.ws.Response
+import org.scalatest._
+import org.scalatest.concurrent._
 
-class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar {
+class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers with MockitoSugar {
 
   // This class allows overriding of the base classes methods which call the real web service.
   class PartialMockAddressLookupService(ws: services.WebService = new FakeWebServiceImpl,
-                                        responseOfPostcodeWebService: Future[Response] = Future {
-                                          mock[Response]
-                                        },
-                                        responseOfUprnWebService: Future[Response] = Future {
-                                          mock[Response]
-                                        },
+                                        responseOfPostcodeWebService: Future[Response] = Future { mock[Response]},
+                                        responseOfUprnWebService: Future[Response] = Future { mock[Response]},
                                         results: Option[Seq[OSAddressbaseResult]]) extends AddressLookupServiceImpl(ws) {
+
     override protected def callPostcodeWebService(postcode: String): Future[Response] = responseOfPostcodeWebService
 
     override protected def callUprnWebService(uprn: String): Future[Response] = responseOfUprnWebService
@@ -45,15 +44,14 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
   )
 
   val oSAddressbaseResultsValidDPA = {
-    val oSAddressbaseResult = OSAddressbaseResult(DPA = Some(oSAddressbaseDPA), LPI = None)
-
-    Seq(oSAddressbaseResult, oSAddressbaseResult, oSAddressbaseResult)
+    val result = OSAddressbaseResult(DPA = Some(oSAddressbaseDPA), LPI = None)
+    Seq(result, result, result)
   }
 
   val oSAddressbaseResultsEmptyDPAAndLPI = {
-    val oSAddressbaseResult = OSAddressbaseResult(DPA = None, LPI = None)
+    val result = OSAddressbaseResult(DPA = None, LPI = None)
 
-    Seq(oSAddressbaseResult, oSAddressbaseResult, oSAddressbaseResult)
+    Seq(result, result, result)
   }
 
   "fetchAddressesForPostcode" should {
@@ -63,9 +61,7 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       when(response.status).thenReturn(200)
 
       val addressLookupService = new PartialMockAddressLookupService(
-        responseOfPostcodeWebService = Future {
-          response
-        },
+        responseOfPostcodeWebService = Future { response },
         results = Some(oSAddressbaseResultsValidDPA)
       )
 
@@ -73,9 +69,9 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       val result = addressLookupService.fetchAddressesForPostcode(postcodeValid)
 
       // Assert
-      result.map { r =>
+      whenReady(result) { r =>
         r.length should equal(oSAddressbaseResultsValidDPA.length)
-        r should equal(oSAddressbaseResultsValidDPA)
+        r should equal(oSAddressbaseResultsValidDPA.map(i => (i.DPA.get.UPRN, i.DPA.get.address)))
       }
     }
 
@@ -85,16 +81,14 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       when(response.status).thenReturn(200)
 
       val addressLookupService = new PartialMockAddressLookupService(
-        responseOfPostcodeWebService = Future {
-          response
-        },
+        responseOfPostcodeWebService = Future { response },
         results = None)
 
       // Act
       val result = addressLookupService.fetchAddressesForPostcode(postcodeValid)
 
       // Assert
-      result.map { r =>
+      whenReady(result) { r =>
         r should equal(Seq.empty)
       }
     }
@@ -105,9 +99,7 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       when(response.status).thenReturn(404)
 
       val addressLookupService = new PartialMockAddressLookupService(
-        responseOfPostcodeWebService = Future {
-          response
-        },
+        responseOfPostcodeWebService = Future { response },
         results = Some(oSAddressbaseResultsValidDPA)
       )
 
@@ -115,7 +107,7 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       val result = addressLookupService.fetchAddressesForPostcode(postcodeValid)
 
       // Assert
-      result.map { r =>
+      whenReady(result) { r =>
         r should equal(Seq.empty)
       }
     }
@@ -126,9 +118,7 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       when(response.status).thenReturn(200)
 
       val addressLookupService = new PartialMockAddressLookupService(
-        responseOfPostcodeWebService = Future {
-          response
-        },
+        responseOfPostcodeWebService = Future { response },
         results = Some(oSAddressbaseResultsEmptyDPAAndLPI)
       )
 
@@ -136,7 +126,7 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       val result = addressLookupService.fetchAddressesForPostcode(postcodeValid)
 
       // Assert
-      result.map { r =>
+      whenReady(result) { r =>
         r should equal(Seq.empty)
       }
     }
@@ -153,9 +143,7 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       }
 
       val addressLookupService = new PartialMockAddressLookupService(
-        responseOfPostcodeWebService = Future {
-          response
-        },
+        responseOfPostcodeWebService = Future { response },
         results = Some(oSAddressbaseResultsEmptyDPAAndLPI)
       )
 
@@ -163,7 +151,7 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       val result = addressLookupService.fetchAddressesForPostcode(postcodeValid)
 
       // Assert
-      result.map { r =>
+      whenReady(result) { r =>
         r should equal(Seq.empty)
       }
     }
@@ -276,9 +264,7 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       when(response.status).thenReturn(200)
 
       val addressLookupService = new PartialMockAddressLookupService(
-        responseOfUprnWebService = Future {
-          response
-        },
+        responseOfUprnWebService = Future { response },
         results = Some(oSAddressbaseResultsValidDPA)
       )
 
@@ -286,10 +272,10 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       val result = addressLookupService.fetchAddressForUprn(oSAddressbaseDPA.UPRN)
 
       // Assert
-      result.map {
+      whenReady(result) {
         case Some(addressViewModel) => {
-          addressViewModel.uprn should equal(oSAddressbaseDPA.UPRN)
-          addressViewModel.address should equal(oSAddressbaseDPA.address)
+          addressViewModel.uprn.map(_.toString) should equal(Some(oSAddressbaseDPA.UPRN))
+          addressViewModel.address === oSAddressbaseDPA.address
         }
         case _ => fail("Should have returned Some(AddressViewModel)")
       }
@@ -301,9 +287,7 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       when(response.status).thenReturn(404)
 
       val addressLookupService = new PartialMockAddressLookupService(
-        responseOfUprnWebService = Future {
-          response
-        },
+        responseOfUprnWebService = Future { response },
         results = Some(oSAddressbaseResultsValidDPA)
       )
 
@@ -311,7 +295,7 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       val result = addressLookupService.fetchAddressForUprn(oSAddressbaseDPA.UPRN)
 
       // Assert
-      result.map {
+      whenReady(result) {
         case None =>
         case _ => fail("Should have returned Some(AddressViewModel)")
       }
@@ -323,9 +307,7 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       when(response.status).thenReturn(200)
 
       val addressLookupService = new PartialMockAddressLookupService(
-        responseOfUprnWebService = Future {
-          response
-        },
+        responseOfUprnWebService = Future { response },
         results = None
       )
 
@@ -333,7 +315,7 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       val result = addressLookupService.fetchAddressForUprn(oSAddressbaseDPA.UPRN)
 
       // Assert
-      result.map {
+      whenReady(result) {
         case None =>
         case _ => fail("Should have returned Some(AddressViewModel)")
       }
@@ -345,9 +327,7 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       when(response.status).thenReturn(200)
 
       val addressLookupService = new PartialMockAddressLookupService(
-        responseOfUprnWebService = Future {
-          response
-        },
+        responseOfUprnWebService = Future { response },
         results = Some(oSAddressbaseResultsEmptyDPAAndLPI)
       )
 
@@ -355,7 +335,7 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       val result = addressLookupService.fetchAddressForUprn(oSAddressbaseDPA.UPRN)
 
       // Assert
-      result.map {
+      whenReady(result) {
         case None =>
         case _ => fail("Should have returned Some(AddressViewModel)")
       }
@@ -367,9 +347,7 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
 
       val addressLookupService = new PartialMockAddressLookupService(
-        responseOfUprnWebService = Future {
-          response
-        },
+        responseOfUprnWebService = Future { response },
         results = Some(oSAddressbaseResultsEmptyDPAAndLPI)
       )
 
@@ -377,7 +355,7 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
       val result = addressLookupService.fetchAddressForUprn(oSAddressbaseDPA.UPRN)
 
       // Assert
-      result.map {
+      whenReady(result) {
         case None =>
         case _ => fail("Should have returned Some(AddressViewModel)")
       }
