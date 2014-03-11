@@ -77,6 +77,13 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
       )
     }
 
+    "reject if line1 is greater than max length" in {
+      addressFiller(line1 = "12345").fold(
+        formWithErrors => formWithErrors.errors.length should equal(1),
+        f => fail("An error should occur")
+      )
+    }
+
     "reject if line2 is more than max length" in {
       addressFiller(line2 = "a" * (lineMaxLength + 1) , line3 = "", line4 = "").fold(
         formWithErrors => formWithErrors.errors.length should equal(1),
@@ -130,6 +137,13 @@ class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSu
       addressFiller(line1 = "a" * lineMaxLength, line2 = "b" * lineMaxLength, line3 = "c" * lineMaxLength, line4 = "d" * lineMaxLength).fold(
         formWithErrors => formWithErrors.errors.length should equal(1),
         f => fail(s"An error should occur: $f")
+      )
+    }
+
+    "reject if html chvrons are in any line" in {
+      addressFiller(line2 = "A<br>B").fold(
+        formWithErrors => formWithErrors.errors.length should equal(1),
+        f => fail("An error should occur")
       )
     }
   }

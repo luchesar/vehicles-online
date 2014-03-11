@@ -9,7 +9,7 @@ import PostcodePage.postcodeValid
 object EnterAddressManuallyPage {
   val url = "/disposal-of-vehicle/enter-address-manually"
   val title = "Enter address manually"
-  val line1Valid = "123 Some street"
+  val line1Valid = "1234"
   val line2Valid = "line-2 stub"
   val line3Valid = "line-3 stub"
   val line4Valid = "line-4 stub"
