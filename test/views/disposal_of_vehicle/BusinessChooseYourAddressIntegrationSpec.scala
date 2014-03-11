@@ -3,20 +3,31 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.Specification
 import helpers.webbrowser.TestHarness
 import pages.disposal_of_vehicle._
+import models.domain.disposal_of_vehicle.{DealerDetailsModel, AddressViewModel}
 
 class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestHarness  {
   "Business choose your address - Integration" should {
 
-    "be presented" in new WebBrowser {
+    /*"be presented" in new WebBrowser {
       // Arrange & Act
-      webDriver.manage().deleteAllCookies()
 
+
+        val key = mappings.disposal_of_vehicle.DealerDetails.dealerDetailsCacheKey
+        val address = AddressViewModel(address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
+        val value = DealerDetailsModel(dealerName = "", dealerAddress = address)
+
+       play.api.cache.Cache.set(key, value)
+
+
+
+     // CacheSetup.setupTraderDetails
       go to BusinessChangeYourAddressPage
 
-     assert(page.title equals SetupTradeDetailsPage.title)
+      //Assert
+     assert(page.title equals BusinessChangeYourAddressPage.title)
     }
 
-   /* "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
+    "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.happyPath(browser)
@@ -35,15 +46,16 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestH
       titleMustEqual(EnterAddressManuallyPage.title)
     }
 
-    "redirect when no traderBusinessName is cached" in new WithBrowser with BrowserMatchers {
+*/
+    "redirect when no traderBusinessName is cached" in new WebBrowser {
 
       // Arrange & Act
-      browser.goTo(BusinessChooseYourAddressPage.url)
+      go to BusinessChangeYourAddressPage
 
       // Assert
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
-
+/*
     "display validation error messages when addressSelected is not in the list" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache()
