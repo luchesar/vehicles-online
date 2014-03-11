@@ -38,7 +38,6 @@ trait BrowserMatchers extends MustMatchers {
     browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {
       // Check there is a validation message displayed against the widget
       val selector = "li[class=validation] p[class=error]"
-      //println("The validation error message = " + browser.find(selector).getText)
       browser.find(selector).getText must not be empty
     }
   }

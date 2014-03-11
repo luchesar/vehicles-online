@@ -5,6 +5,7 @@ import models.domain.disposal_of_vehicle.AddressViewModel
 object Helper {
   val referenceNumberValid = "12345678910"
   val registrationNumberValid = "AB12AWR"
+  val dateOfDisposalValid = (Some(1), Some(2), Some(2014))
   val keeperNameValid = "John Smith"
   val postcodeValid = "CM81QJ"
   val vehicleLookupKey = referenceNumberValid + "." + registrationNumberValid

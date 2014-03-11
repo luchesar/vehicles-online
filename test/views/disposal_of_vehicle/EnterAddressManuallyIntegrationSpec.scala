@@ -45,7 +45,7 @@ class EnterAddressManuallyIntegrationSpec extends Specification with Tags {
       browser.submit("button[type='submit']")
 
       // Assert
-      checkNumberOfValidationErrors(4)
+      checkNumberOfValidationErrors(5)
     }
 
     "display validation error messages when a blank line 1 is entered" in new WithBrowser with BrowserMatchers {
@@ -54,7 +54,7 @@ class EnterAddressManuallyIntegrationSpec extends Specification with Tags {
       EnterAddressManuallyPage.sadPath(browser, line1 = "")
 
       // Assert
-      checkNumberOfValidationErrors(1)
+      checkNumberOfValidationErrors(2)
     }
 
     "display validation error messages when line 1 is entered which is greater than max length" in new WithBrowser with BrowserMatchers {

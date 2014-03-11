@@ -1,12 +1,13 @@
 package controllers.disposal_of_vehicle
 
 import play.api.mvc._
-import play.api.data.Form
+import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import play.api.Logger
 import mappings.common.AddressAndPostcode._
 import controllers.disposal_of_vehicle.Helpers._
 import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
+import utils.helpers.FormHelper._
 
 object EnterAddressManually extends Controller {
   val form = Form(
@@ -28,9 +29,11 @@ object EnterAddressManually extends Controller {
       form.bindFromRequest.fold(
         formWithErrors =>
           fetchDealerNameFromCache match {
-            case Some(name) => BadRequest(views.html.disposal_of_vehicle.enter_address_manually(formWithErrors))
+            case Some(name) => {
+              val updatedFormWithErrors = formWithErrors.replaceError("addressAndPostcode.addressLines.line1", "error.required", FormError("addressAndPostcode.addressLines", "error.address.line1Required"))
+              BadRequest(views.html.disposal_of_vehicle.enter_address_manually(updatedFormWithErrors))}
             case None => {
-              Logger.error("failed to find dealer name in cache for formWithErrors, redirecting...")
+              Logger.debug("failed to find dealer name in cache for formWithErrors, redirecting...")
               Redirect(routes.SetUpTradeDetails.present)
             }
           },
@@ -41,7 +44,7 @@ object EnterAddressManually extends Controller {
             Redirect(routes.VehicleLookup.present)
           }
           case None => {
-            Logger.error("failed to find dealer name in cache on submit, redirecting...")
+            Logger.debug("failed to find dealer name in cache on submit, redirecting...")
             Redirect(routes.SetUpTradeDetails.present)
           }
         }

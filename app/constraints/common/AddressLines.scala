@@ -1,13 +1,12 @@
-package constraints
+package constraints.common
 
 import play.api.data.validation.{ValidationError, Invalid, Valid, Constraint}
-import models.domain.disposal_of_vehicle.AddressLinesModel
 import mappings.common.AddressLines._
-import models.domain.disposal_of_vehicle.AddressLinesModel
+import models.domain.common.AddressLinesModel
 
 object AddressLines {
   def validAddressLines: Constraint[AddressLinesModel] = Constraint[AddressLinesModel]("constraint.required") {
-    case input@AddressLinesModel(Some(line1), _, _, _)  => {
+    case input@AddressLinesModel(line1, _, _, _)  => {
       if(input.totalCharacters <= maxLengthOfLinesConcatenated) Valid
       else Invalid(ValidationError("error.address.maxLengthOfLinesConcatenated"))
     }

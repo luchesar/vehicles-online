@@ -139,13 +139,6 @@ confirm_vehicle_details.button2 = Diddymu
 
 ##disposal prototype##
 
-disposal_beforeyoustart.title = Gwaredu cerbyd i mewn i'r fasnach foduron
-disposal_beforeyoustart.name = Cyn i chi ddechrau, bydd angen y dystysgrif cofrestru cerbyd V5C (llyfr log) ar gyfer y cerbyd yn cael ei waredu i chi.
-disposal_beforeyoustart.p1 = Os oes gan cofrestru personol ar y cerbyd yn cael ei waredu, rhaid i'r ceidwad yn deall y bydd y cofrestriad yn cael ei waredu gyda'r cerbyd.
-disposal_beforeyoustart.p2 = Os yw'r ceidwad presennol yn dymuno cadw cofrestru personol, rhaid iddo yn gyntaf gael ei gadw at dystysgrif, neu ei drosglwyddo i gerbyd arall, a dychwelyd y cofrestriad gwreiddiol i'r cerbyd.
-disposal_beforeyoustart.button = Start now
-disposal_beforeyoustart.button = Ddechrau nawr
-
 #page 1 - Before You Start
 disposal_beforeyoustart.title = Cael gwared cerbyd i mewn i'r fasnach foduron
 disposal_beforeyoustart.p1 = Cyn i chi ddechrau:
@@ -178,6 +171,7 @@ address.line3.label= Ardal
 address.line4.label= Postiwch y dref
 address.postcode.label = Cod post
 address.postcode.label.prompt = e.g. SA99 1BD
+address.postcode.validation = WELSH Enter a valid postcode
 
 #page 3 - uprn not found
 disposal_uprnnotfound.title = Gwall cod post yn cadarnhau
@@ -238,18 +232,14 @@ disposal_disposeconfirmation.exkeeperlettersend = Bydd llythyr yn cael ei anfon 
 disposal_disposeconfirmation.sendbutton = Anfon
 disposal_disposeconfirmation.transactionid = {0}
 disposal_disposeconfirmation.transactionid_label = Trafodiad yn
+disposal_disposeconfirmation.transactionid_message = WELSH Transaction message goes here
+disposal_disposeconfirmation.registrationNumber = {0}
 disposal_disposeconfirmation.registrationNumber_label = Cofrestru
 disposal_disposeconfirmation.backbutton = Holau
 disposal_disposeconfirmation.newdisposalbutton = Gwaredu Newydd
 disposal_disposeconfirmation.disposaldate = Dyddiad gwaredu
 disposal_disposeconfirmation.mileage = Milltiroedd
 disposal_disposeconfirmation.noMileageEntered = Naddo milltiroedd gofnodi
-
-disposal_disposefailure.title = Cael gwared cerbyd i mewn i'r fasnach foduron: methiant
-disposal_disposefailure.name = Methiant
-disposal_disposefailure.p1 = Nid yw wedi bod yn bosibl i gwblhau eich trafodiad. Ffoniwch 0300 790 6802
-disposal_disposefailure.button = Am-edrych gerbyd
-disposal_disposefailure.button2 = Setup Newydd Manylion Masnachwr
 
 disposal_vehiclelookupfailure.title = Cael gwared cerbyd i mewn i'r fasnach foduron: methiant Gwrthdro-edrych gerbyd
 disposal_vehiclelookupfailure.name = Methiant
@@ -264,7 +254,7 @@ widget.optional = (dewisol)
 
 #customer validation messages
 error.restricted.validNumberOnly = Mae''r maes hwn yn derbyn rhifau yn unig 
-error.restricted.validVRNOnly = Rhowch rhif cofrestru cerbyd dilys heb fylchau
+error.restricted.validVRNOnly = Rhowch rhif cofrestru cerbyd dilys
 error.restricted.validPostcode = Rhaid i cod post fod yn y fformat PR2 8AE
 
 datePlaceholder.day = Dydd
@@ -294,6 +284,7 @@ select_default = Dewiswch
 error.invalid = Gwerth annilys
 
 error.address.line1Required = Mae angen o leiaf y llinell gyntaf lenwi gyfeiriad
+addressAndPostcode.addressLines.line1 = WELSH House number
 error.address.maxLengthOfLinesConcatenated = WELSH Address must have fewer than 130 characters
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post

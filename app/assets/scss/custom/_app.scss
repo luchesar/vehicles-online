@@ -47,10 +47,10 @@
  	ol, ul {
  		@include copy-19;
  		list-style:none;
+ 		padding-left:25px;
  		&.list-standard {
 	 		list-style: decimal;
 	 		list-style-position: outside;
-	 		margin-left:1.3em;
 	 		li {
 		 		margin-bottom:1em;
 	 		}

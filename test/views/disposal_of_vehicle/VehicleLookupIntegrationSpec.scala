@@ -61,7 +61,7 @@ class VehicleLookupIntegrationSpec extends Specification with Tags {
       VehicleLookupPage.happyPath(browser, vehicleRegistrationNumber = "a")
 
       //Assert
-      checkNumberOfValidationErrors(1)
+      checkNumberOfValidationErrors(2)
     }
 
     "display one validation error message when a registrationNumber is entered containing special characters" in new WithBrowser with BrowserMatchers {

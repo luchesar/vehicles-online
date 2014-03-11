@@ -1,3 +1,5 @@
 package models.domain.disposal_of_vehicle
 
+import models.domain.common.AddressAndPostcodeModel
+
 case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcodeModel)
