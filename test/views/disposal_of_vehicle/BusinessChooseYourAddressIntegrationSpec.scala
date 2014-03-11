@@ -1,24 +1,22 @@
 package views.disposal_of_vehicle
 
-import org.specs2.mutable.{Specification, Tags}
-import play.api.test.WithBrowser
-import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.{EnterAddressManuallyPage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
-import java.util.concurrent.TimeUnit
-import services.fakes.FakeAddressLookupService.postcodeInvalid
+import org.specs2.mutable.Specification
+import helpers.webbrowser.TestHarness
+import pages.disposal_of_vehicle._
 
-class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
+class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestHarness  {
   "Business choose your address - Integration" should {
-    "be presented" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      browser.goTo(BusinessChooseYourAddressPage.url)
 
-      // Assert
-      titleMustEqual(BusinessChooseYourAddressPage.title)
+    "be presented" in new WebBrowser {
+      // Arrange & Act
+      webDriver.manage().deleteAllCookies()
+
+      go to BusinessChangeYourAddressPage
+
+     assert(page.title equals SetupTradeDetailsPage.title)
     }
 
-    "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
+   /* "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache()
       BusinessChooseYourAddressPage.happyPath(browser)
@@ -121,6 +119,6 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
         val dropdownCount = browser.find("#disposal_businessChooseYourAddress_addressSelect").size
         dropdownCount mustEqual (0) // The dropdown is not present.
       }
-    }
+    }*/
   }
 }
