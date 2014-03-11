@@ -31,9 +31,9 @@ class LoginPage @Inject() (webService: services.LoginWebService) extends Control
         formWithErrors => Future {
           BadRequest(views.html.change_of_address.login_page(formWithErrors))
         },
-        loginPageModel => {
+        loginPageForm => { // TODO this is not really a form, it is a model. We need to rename in all controllers.
           Logger.debug("LoginPage form validation has passed")
-          confirmLogin(webService, loginPageModel)
+          confirmLogin(webService, loginPageForm)
         }
       )
     }
