@@ -1,38 +1,49 @@
 package views.disposal_of_vehicle
 
-import org.specs2.mutable.{Specification, Tags}
-import play.api.test.WithBrowser
-import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.{SetUpTradeDetailsPage, BusinessChooseYourAddressPage}
+import org.specs2.mutable.Specification
+import pages.disposal_of_vehicle._
+import helpers.webbrowser.TestHarness
+import org.openqa.selenium.By
 
-class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
-
+class SetUpTradeDetailsIntegrationSpec extends Specification with TestHarness  {
 
   "SetUpTradeDetails Integration" should {
-    "be presented" in new WithBrowser with BrowserMatchers {
+   /* "be presented" in new WebBrowser {
       // Arrange & Act
-      browser.goTo(SetUpTradeDetailsPage.url)
+      go to SetupTradeDetailsPage
 
       // Assert
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
 
-    "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.happyPath(browser)
+    "go to the next page when correct data is entered" in new WebBrowser {
+      // Arrange
+      go to SetupTradeDetailsPage
+      SetupTradeDetailsPage.dealerName enter "Car Giant"
+      SetupTradeDetailsPage.dealerPostcode enter "CM8 1QJ"
+
+      // Act
+      click on SetupTradeDetailsPage.lookup
 
       // Assert
-      titleMustEqual(BusinessChooseYourAddressPage.title)
-    }
+      assert(page.title equals BusinessChangeYourAddressPage.title)
+    }*/
 
-    "display five validation error messages when no details are entered" in new WithBrowser with BrowserMatchers {
+    "display five validation error messages when no details are entered" in new WebBrowser {
       // Arrange & Act
-      SetUpTradeDetailsPage.happyPath(browser, traderBusinessName = "", traderPostcode = "")
+      SetupTradeDetailsPage.happyPath
 
       // Assert
-      checkNumberOfValidationErrors(5)
+      assert(ErrorPanel.numberOfErrors equals 5)
+
     }
 
+
+  }
+}
+
+
+/*
     "display two validation error messages when a valid postcode is entered with no business name" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       SetUpTradeDetailsPage.happyPath(browser, traderBusinessName = "")
@@ -90,4 +101,4 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with Tags {
       checkNumberOfValidationErrors(1)
     }
   }
-}
+}*/

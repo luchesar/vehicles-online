@@ -90,7 +90,7 @@ class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeA
 
         And("I enter \"Car Giant\" in the business name field")
         SetupTradeDetailsPage.dealerName enter "Car Giant"
-
+l
         And("I enter \"CM8 1QJ\" in the business postcode field")
         SetupTradeDetailsPage.dealerPostcode enter "CM8 1QJ"
 
