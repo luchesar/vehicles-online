@@ -2,7 +2,7 @@ package pages.disposal_of_vehicle
 
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
-
+import helpers.disposal_of_vehicle.Helper._
 object VehicleLookupPage extends Page with WebBrowserDSL {
 
   override val url: String = WebDriverFactory.testUrl + "disposal-of-vehicle/vehicle-lookup"
@@ -17,4 +17,12 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
   def findVehicleDetails(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
 
   def consent(implicit driver: WebDriver): Checkbox = checkbox(id("consent"))
+
+  def happyPath(implicit driver: WebDriver, referenceNumber: String = referenceNumberValid, vehicleRegistrationNumber: String = registrationNumberValid) = {
+    go to VehicleLookupPage
+    VehicleLookupPage.documentReferenceNumber.value = referenceNumber
+    VehicleLookupPage.vehicleRegistrationNumber.value = vehicleRegistrationNumber
+    click on VehicleLookupPage.consent
+    click on VehicleLookupPage.findVehicleDetails
+  }
 }
