@@ -37,10 +37,10 @@ class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeA
           click on SetupTradeDetailsPage.lookup
 
           And("I select \"1, OLIVERS DRIVE, WITHAM, CM8 1QJ\"")
-          BusinessChangeYourAddressPage.chooseAddress.value = "100090327899"
+          BusinessChooseYourAddressPage.chooseAddress.value = "1234"
 
           And("I click the Select button")
-          click on BusinessChangeYourAddressPage.select
+          click on BusinessChooseYourAddressPage.select
 
           And("I enter \"A1\" in the vehicle registration number field")
           VehicleLookupPage.vehicleRegistrationNumber enter "A1"

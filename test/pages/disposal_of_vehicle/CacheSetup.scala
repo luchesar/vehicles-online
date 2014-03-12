@@ -1,20 +1,14 @@
 package pages.disposal_of_vehicle
 
-import helpers.webbrowser.{WebBrowserDSL, Page}
-import org.openqa.selenium.WebDriver
-import models.domain.disposal_of_vehicle.{AddressViewModel, DealerDetailsModel}
+import helpers.disposal_of_vehicle.Helper._
+import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
+import play.api.Play.current
 
-object CacheSetup extends Page with WebBrowserDSL {
-  override val url: String = ""
-  override val title: String = ""
+object CacheSetup {
 
-  def setupTraderDetails(implicit driver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.DealerDetails.dealerDetailsCacheKey
-    val address = AddressViewModel(address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
-    val value = DealerDetailsModel(dealerName = "", dealerAddress = address)
-
-
-    //play.api.cache.Cache.set(key, value)
-
+  def setupTradeDetails(traderPostcode: String = traderPostcodeValid) = {
+    val key = mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
+    val value = SetupTradeDetailsModel(traderBusinessName = traderBusinessNameValid, traderPostcode = traderPostcode)
+    play.api.cache.Cache.set(key, value)
   }
 }

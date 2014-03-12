@@ -8,54 +8,52 @@ import models.domain.disposal_of_vehicle.{DealerDetailsModel, AddressViewModel}
 class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestHarness  {
   "Business choose your address - Integration" should {
 
-    /*"be presented" in new WebBrowser {
+    "be presented" in new WebBrowser {
       // Arrange & Act
-
-
-        val key = mappings.disposal_of_vehicle.DealerDetails.dealerDetailsCacheKey
-        val address = AddressViewModel(address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
-        val value = DealerDetailsModel(dealerName = "", dealerAddress = address)
-
-       play.api.cache.Cache.set(key, value)
-
-
-
-     // CacheSetup.setupTraderDetails
-      go to BusinessChangeYourAddressPage
+      SetupTradeDetailsPage.happyPath
 
       //Assert
-     assert(page.title equals BusinessChangeYourAddressPage.title)
+      assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
-    "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
+    "go to the next page when correct data is entered" in new WebBrowser {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.happyPath(browser)
+      BusinessChooseYourAddressPage.happyPath
 
       // Assert
-      titleMustEqual(VehicleLookupPage.title)
+      assert(page.title equals VehicleLookupPage.title)
     }
 
-    "go to the manual address entry page when manualAddressButton is clicked" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.happyPath(browser)
-      browser.goTo(BusinessChooseYourAddressPage.url)
-      browser.click("#enterAddressManuallyButton")
+    "go to the manual address entry page when manualAddressButton is clicked" in new WebBrowser {
+      // Arrange
+      SetupTradeDetailsPage.happyPath
+
+      //Act
+      click on BusinessChooseYourAddressPage.manualAddress
 
       // Assert
-      titleMustEqual(EnterAddressManuallyPage.title)
+      assert(page.title equals EnterAddressManuallyPage.title)
     }
 
-*/
+    "display previous page when back link is clicked" in new WebBrowser {
+      // Arrange
+      SetupTradeDetailsPage.happyPath
+
+      // Act
+      click on BusinessChooseYourAddressPage.back
+
+      //Assert
+      assert(page.title equals SetupTradeDetailsPage.title)
+    }
+/*
     "redirect when no traderBusinessName is cached" in new WebBrowser {
-
       // Arrange & Act
-      go to BusinessChangeYourAddressPage
+      go to BusinessChooseYourAddressPage
 
       // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
-/*
+
     "display validation error messages when addressSelected is not in the list" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       SetUpTradeDetailsPage.setupCache()
@@ -63,18 +61,6 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestH
 
       //Assert
       checkNumberOfValidationErrors(1)
-    }
-
-    "display previous page when back link is clicked" in new WithBrowser with BrowserMatchers {
-      // Arrange
-      SetUpTradeDetailsPage.setupCache()
-      browser.goTo(BusinessChooseYourAddressPage.url)
-
-      // Act
-      browser.click("#backButton")
-
-      //Assert
-      titleMustEqual(SetUpTradeDetailsPage.title)
     }
 
     "go to the enter address manually page when the enter address manually link is clicked" in new WithBrowser with BrowserMatchers {

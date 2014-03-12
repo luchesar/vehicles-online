@@ -17,15 +17,10 @@ class SetUpTradeDetailsIntegrationSpec extends Specification with TestHarness  {
 
     "go to the next page when correct data is entered" in new WebBrowser {
       // Arrange
-      go to SetupTradeDetailsPage
-      SetupTradeDetailsPage.dealerName enter "Car Giant"
-      SetupTradeDetailsPage.dealerPostcode enter "CM8 1QJ"
-
-      // Act
-      click on SetupTradeDetailsPage.lookup
+      SetupTradeDetailsPage.happyPath
 
       // Assert
-      assert(page.title equals BusinessChangeYourAddressPage.title)
+      assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
     "display five validation error messages when no details are entered" in new WebBrowser {
