@@ -1,116 +1,112 @@
 package views.disposal_of_vehicle
 
-import org.specs2.mutable.{Tags, Specification}
-import play.api.test.WithBrowser
-import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.{VehicleLookupPage, BusinessChooseYourAddressPage, DisposePage, SetUpTradeDetailsPage, DisposeSuccessPage}
+
+import org.specs2.mutable.Specification
+import helpers.webbrowser.TestHarness
+import pages.disposal_of_vehicle._
 
 
-class DisposeIntegrationSpec extends Specification with Tags {
+class DisposeIntegrationSpec extends Specification  with TestHarness {
   "Dispose Integration" should {
-    "be presented" in new WithBrowser with BrowserMatchers {
+
+    "be presented" in new WebBrowser {
       // Arrange & Act
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.setupVehicleDetailsModelCache()
-      browser.goTo(DisposePage.url)
-
-      // Check the page title is correct
-      titleMustEqual(DisposePage.title)
-    }
-
-    "redirect when no vehiclelookupformmodel is cached" in new WithBrowser with BrowserMatchers {
-      // Fill in mandatory data
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.setupCache()
-      browser.goTo(DisposePage.url)
-
-      // Verify we have moved to the next screen
-      titleMustEqual(SetUpTradeDetailsPage.title)
-    }
-
-    "redirect when no traderBusinessName is cached" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      browser.goTo(DisposePage.url)
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      go to DisposePage.url
 
       // Assert
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      assert(page.title equals DisposePage.title)
     }
 
-    "display validation errors when no fields are completed" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.setupVehicleDetailsModelCache()
-
-      DisposePage.happyPath(browser, day = "", month = "", year = "")
-
-      // Assert
-      checkNumberOfValidationErrors(1)
-    }
-
-    "display validation errors when month and year are input but no day" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.setupVehicleDetailsModelCache()
-
-      DisposePage.happyPath(browser,  day = "")
-
-      // Assert
-      checkNumberOfValidationErrors(1)
-    }
-
-    "display validation errors when day and year are input but no month" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.setupVehicleDetailsModelCache()
-
-      DisposePage.happyPath(browser,  month = "")
-
-      // Assert
-      checkNumberOfValidationErrors(1)
-    }
-
-    "display validation errors when day and month are input but no year" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.setupVehicleDetailsModelCache()
-
-      DisposePage.happyPath(browser,  year = "")
-
-      // Assert
-      checkNumberOfValidationErrors(1)
-    }
-
-    "display previous page when back link is clicked" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.setupVehicleDetailsModelCache()
-      browser.goTo(DisposePage.url)
-      browser.click("#backButton")
-
-      // Assert
-      titleMustEqual(VehicleLookupPage.title)
-    }
-
-    "display disposesuccess page on correct submission" in new WithBrowser with BrowserMatchers {
-      //Arrange
-      DisposePage.happyPath(browser)
-
-      //Act
-      browser.click("#submit")
+    "display DisposeSuccess page on correct submission" in new WebBrowser {
+      //Arrange & Act
+      DisposePage.happyPath
 
       //Assert
-      titleMustEqual(DisposeSuccessPage.title)
+      assert(page.title equals DisposeSuccessPage.title)
     }
 
-    "display disposesuccess page on correct submission" in new WithBrowser with BrowserMatchers {
-      //Arrange
-      DisposePage.happyPath(browser)
+    "display validation errors when no fields are completed" in new WebBrowser {
+      // Arrange
+      DisposePage.sadPath
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "redirect when no VehicleLookupFormModel is cached" in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.businessChooseYourAddress()
+      go to DisposePage.url
+
+      // Assert
+      assert(page.title equals SetupTradeDetailsPage.title)
+    }
+
+    "redirect when no traderBusinessName is cached" in new WebBrowser {
+      // Arrange & Act
+      go to DisposePage.url
+
+      // Assert
+      assert(page.title equals SetupTradeDetailsPage.title)
+    }
+
+    "display validation errors when month and year are input but no day" in new WebBrowser {
+      // Arrange
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      go to DisposePage.url
 
       //Act
-      browser.click("#submit")
+      DisposePage.dateOfDisposalMonth select "12"
+      DisposePage.dateOfDisposalYear enter "2013"
+      click on DisposePage.dispose
 
-      //Assert
-      titleMustEqual(DisposeSuccessPage.title)
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display validation errors when day and year are input but no month" in new WebBrowser {
+      // Arrange
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      go to DisposePage.url
+
+      //Act
+      DisposePage.dateOfDisposalDay select "12"
+      DisposePage.dateOfDisposalYear enter "2013"
+      click on DisposePage.dispose
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display validation errors when day and month are input but no year" in new WebBrowser {
+      // Arrange
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      go to DisposePage.url
+
+      //Act
+      DisposePage.dateOfDisposalDay select "12"
+      DisposePage.dateOfDisposalMonth select "2"
+      click on DisposePage.dispose
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display previous page when back link is clicked" in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      go to DisposePage.url
+
+      click on DisposePage.back
+
+      // Assert
+      assert(page.title equals VehicleLookupPage.title)
     }
   }
 }

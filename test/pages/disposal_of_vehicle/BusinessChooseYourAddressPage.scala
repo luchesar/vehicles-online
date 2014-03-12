@@ -10,7 +10,6 @@ object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
 
   def chooseAddress(implicit driver: WebDriver): SingleSel = singleSel(id("disposal_businessChooseYourAddress_addressSelect"))
 
-
   def back(implicit driver: WebDriver): Element = find(id("backButton")).get
 
   def manualAddress(implicit driver: WebDriver): Element = find(id("enterAddressManuallyButton")).get
