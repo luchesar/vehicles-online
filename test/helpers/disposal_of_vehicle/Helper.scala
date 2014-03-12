@@ -13,7 +13,11 @@ object Helper {
   val traderBusinessNameValid = "example trader name"
   val traderPostcodeValid = "CM81QJ"
   val traderaddressValid = "1"
+  val address1 = AddressViewModel(address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
   val addressWithUprn = AddressViewModel(uprn=Some(12345L),address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
+
+  val vehicleMakeValid = "make"
+  val vehicleModelValid = "model"
 
   val consentValid = "true"
   val mileageValid = "20000"

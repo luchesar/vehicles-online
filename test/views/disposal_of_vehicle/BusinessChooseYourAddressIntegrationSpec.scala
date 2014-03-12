@@ -10,7 +10,8 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestH
 
     "be presented" in new WebBrowser {
       // Arrange & Act
-      SetupTradeDetailsPage.happyPath
+      CacheSetup.setupTradeDetails()
+      go to BusinessChooseYourAddressPage.url
 
       //Assert
       assert(page.title equals BusinessChooseYourAddressPage.title)
@@ -26,7 +27,8 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestH
 
     "go to the manual address entry page when manualAddressButton is clicked" in new WebBrowser {
       // Arrange
-      SetupTradeDetailsPage.happyPath
+      CacheSetup.setupTradeDetails()
+      go to BusinessChooseYourAddressPage.url
 
       //Act
       click on BusinessChooseYourAddressPage.manualAddress
@@ -37,7 +39,8 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestH
 
     "display previous page when back link is clicked" in new WebBrowser {
       // Arrange
-      SetupTradeDetailsPage.happyPath
+      CacheSetup.setupTradeDetails()
+      go to BusinessChooseYourAddressPage.url
 
       // Act
       click on BusinessChooseYourAddressPage.back
@@ -45,40 +48,28 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestH
       //Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
-/*
+
     "redirect when no traderBusinessName is cached" in new WebBrowser {
       // Arrange & Act
-      go to BusinessChooseYourAddressPage
+      go to BusinessChooseYourAddressPage.url
 
       // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
-    "display validation error messages when addressSelected is not in the list" in new WithBrowser with BrowserMatchers {
+    "display validation error messages when addressSelected is not in the list" in new WebBrowser {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.sadPath(browser)
+      BusinessChooseYourAddressPage.sadPath
 
       //Assert
-      checkNumberOfValidationErrors(1)
+      assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-    "go to the enter address manually page when the enter address manually link is clicked" in new WithBrowser with BrowserMatchers {
+/* TODO - need to convert the three tests below
+
+    "check number of options in drop down" in new WebBrowser {
       // Arrange
-      SetUpTradeDetailsPage.setupCache()
-      browser.goTo(BusinessChooseYourAddressPage.url)
-
-      // Act
-      browser.click("#enterAddressManuallyButton")
-
-      // Assert
-      titleMustEqual(EnterAddressManuallyPage.title)
-    }
-
-    "check number of options in drop down" in new WithBrowser with BrowserMatchers {
-      // Arrange
-      SetUpTradeDetailsPage.happyPath(browser)
-      browser.goTo(BusinessChooseYourAddressPage.url)
+      SetupTradeDetailsPage.happyPath
 
       //Act
       val result = browser.find("#disposal_businessChooseYourAddress_addressSelect option").size
@@ -86,12 +77,10 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestH
       result must beEqualTo(3) //this test currently looks at hardcoded service, however options within the drop down list are counted correctly
     }
 
-    "display address dropdown when address service returns addresses" in new WithBrowser with BrowserMatchers {
-      // Arrange
-      SetUpTradeDetailsPage.setupCache()
 
-      // Act
-      browser.goTo(BusinessChooseYourAddressPage.url)
+    "display address dropdown when address service returns addresses" in new WebBrowser {
+      // Arrange
+      SetupTradeDetailsPage.happyPath
 
       // Assert
       browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {
@@ -102,6 +91,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestH
         dropdownCount mustEqual (1) // The dropdown is present.
       }
     }
+
 
     "display message when address service returns no addresses" in new WithBrowser with BrowserMatchers {
       // Arrange

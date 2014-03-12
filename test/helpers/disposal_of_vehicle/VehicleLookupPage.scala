@@ -2,17 +2,16 @@ package helpers.disposal_of_vehicle
 
 import play.api.test.TestBrowser
 import helpers.disposal_of_vehicle.Helper._
-import models.domain.disposal_of_vehicle.{VehicleLookupFormModel}
+import models.domain.disposal_of_vehicle.{AddressViewModel, VehicleLookupFormModel, VehicleDetailsModel}
 import helpers.disposal_of_vehicle.BusinessChooseYourAddressPage._
 
 import play.api.Play.current
 import mappings.disposal_of_vehicle.VehicleLookup._
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
-import models.domain.disposal_of_vehicle.VehicleDetailsModel
 
 object VehicleLookupPage {
   val url = "/disposal-of-vehicle/vehicle-lookup"
   val title = "Dispose a vehicle into the motor trade: vehicle"
+  val address1 = AddressViewModel(address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
 
   def happyPath(browser: TestBrowser, referenceNumber: String = referenceNumberValid, vehicleRegistrationNumber: String = registrationNumberValid) = {
     browser.goTo("/disposal-of-vehicle/vehicle-lookup")
