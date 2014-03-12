@@ -1,6 +1,5 @@
-package uk.gov.gds.locality.api.model
+package services.address_lookup.gds.domain
 
-import uk.gov.gds.locality.api.models.LocalAuthority
 
 object LocalAuthorities {
 

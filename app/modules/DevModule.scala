@@ -20,7 +20,7 @@ object DevModule extends ScalaModule {
 
     bind[V5cSearchWebService].to[V5cSearchWebServiceImpl].asEagerSingleton
     bind[LoginWebService].to[LoginWebServiceImpl].asEagerSingleton
-    bind[AddressLookupService].to[ordnance_survey.AddressLookupServiceImpl].asEagerSingleton
+    bind[AddressLookupService].to[services.address_lookup.ordnance_survey.AddressLookupServiceImpl].asEagerSingleton
     bind[WebService].to[WebServiceImpl].asEagerSingleton
     bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton
     bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton

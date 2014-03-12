@@ -1,5 +1,4 @@
-package uk.gov.gds.locality.api.models
-
+package services.address_lookup.gds.domain
 
 import org.joda.time.DateTime
 

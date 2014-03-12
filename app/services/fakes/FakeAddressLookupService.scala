@@ -6,7 +6,7 @@ import ExecutionContext.Implicits.global
 import play.api.libs.ws.Response
 import javax.inject.Inject
 import services.AddressLookupService
-import services.ordnance_survey.domain.OSAddressbaseResult
+import services.address_lookup.ordnance_survey.domain.OSAddressbaseResult
 import play.api.Logger
 
 /**

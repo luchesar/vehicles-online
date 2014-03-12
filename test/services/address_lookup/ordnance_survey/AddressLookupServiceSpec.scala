@@ -1,14 +1,14 @@
-package services
+package services.address_lookup.ordnance_survey
 
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.WordSpec
 import services.fakes.FakeWebServiceImpl
 import org.scalatest.mock.MockitoSugar
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-import services.ordnance_survey.AddressLookupServiceImpl
+import services.address_lookup.ordnance_survey.AddressLookupServiceImpl
 import helpers.disposal_of_vehicle.PostcodePage.postcodeValid
 import org.mockito.Mockito._
-import services.ordnance_survey.domain._
+import services.address_lookup.ordnance_survey.domain._
 import play.api.libs.json.Json
 import java.net.URI
 import play.api.libs.ws.Response

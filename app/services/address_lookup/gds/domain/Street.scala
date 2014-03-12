@@ -1,3 +1,3 @@
-package uk.gov.gds.locality.api.models
+package services.address_lookup.gds.domain
 
 case class Street(usrn: String, streetDescription: String, townName: String, administrativeArea: String)

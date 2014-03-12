@@ -1,4 +1,4 @@
-package uk.gov.gds.locality.api.models
+package services.address_lookup.gds.domain
 
 /**
  * Created by valtechuk on 24/02/2014.

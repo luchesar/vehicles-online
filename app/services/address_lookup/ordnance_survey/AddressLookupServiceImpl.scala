@@ -1,11 +1,11 @@
-package services.ordnance_survey
+package services.address_lookup.ordnance_survey
 
 import services.AddressLookupService
 import models.domain.disposal_of_vehicle.AddressViewModel
 import utils.helpers.Config
 import play.api.Logger
 import com.ning.http.client.Realm.AuthScheme
-import services.ordnance_survey.domain.{OSAddressbaseResult, OSAddressbaseSearchResponse}
+import services.address_lookup.ordnance_survey.domain.{OSAddressbaseResult, OSAddressbaseSearchResponse}
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 import javax.inject.Inject

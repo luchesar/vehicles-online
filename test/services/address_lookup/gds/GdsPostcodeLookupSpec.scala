@@ -1,4 +1,4 @@
-package services.gds
+package services.address_lookup.gds
 
 import org.scalatest.{Matchers, WordSpec}
 import scala.io.Source
