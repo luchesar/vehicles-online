@@ -3,7 +3,6 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.Specification
 import helpers.webbrowser.TestHarness
 import pages.disposal_of_vehicle._
-import models.domain.disposal_of_vehicle.{DealerDetailsModel, AddressViewModel}
 
 class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestHarness  {
   "Business choose your address - Integration" should {
