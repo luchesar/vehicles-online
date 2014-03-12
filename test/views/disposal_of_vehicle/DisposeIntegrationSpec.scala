@@ -4,7 +4,7 @@ import org.specs2.mutable.{Tags, Specification}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
 import helpers.disposal_of_vehicle.{VehicleLookupPage, BusinessChooseYourAddressPage, DisposePage, SetUpTradeDetailsPage, DisposeSuccessPage}
-import mappings.disposal_of_vehicle.Dispose._
+
 
 class DisposeIntegrationSpec extends Specification with Tags {
   "Dispose Integration" should {
