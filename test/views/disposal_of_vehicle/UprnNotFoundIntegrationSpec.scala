@@ -1,53 +1,53 @@
 package views.disposal_of_vehicle
 
-import org.specs2.mutable.{Specification, Tags}
-import play.api.test.WithBrowser
-import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.{UprnNotFoundPage, SetUpTradeDetailsPage, EnterAddressManuallyPage}
+import org.specs2.mutable.Specification
+import pages.disposal_of_vehicle._
+import helpers.webbrowser.TestHarness
 
-class UprnNotFoundIntegrationSpec extends Specification with Tags {
+class UprnNotFoundIntegrationSpec extends Specification with TestHarness  {
 
   "UprnNotFound Integration" should {
-    "be presented" in new WithBrowser with BrowserMatchers {
+    "be presented" in new WebBrowser {
       // Arrange & Act
-      browser.goTo(UprnNotFoundPage.url)
+      go to UprnNotFoundPage
 
       // Assert
-      titleMustEqual(UprnNotFoundPage.title)
+      assert(page.title equals UprnNotFoundPage.title)
     }
 
-    "go to setuptradedetails page after the Setup Trade Details button is clicked" in new WithBrowser with BrowserMatchers {
+    "go to setuptradedetails page after the Setup Trade Details button is clicked" in new WebBrowser {
       // Arrange
-      browser.goTo(UprnNotFoundPage.url)
+      go to UprnNotFoundPage
 
       // Act
-      browser.click("#setuptradedetailsbutton")
+      click on UprnNotFoundPage.setupTradeDetails
 
       // Assert
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
 
-    "go to manualaddress page after the Manual Address button is clicked and trade details have been set up in cache" in new WithBrowser with BrowserMatchers {
+    "go to manualaddress page after the Manual Address button is clicked and trade details have been set up in cache" in new WebBrowser {
       // Arrange
-      SetUpTradeDetailsPage.setupCache()
-      browser.goTo(UprnNotFoundPage.url)
+      CacheSetup.setupTradeDetails()
+      go to UprnNotFoundPage
 
       // Act
-      browser.click("#manualaddressbutton")
+      click on UprnNotFoundPage.manualAddress
 
       // Assert
-      titleMustEqual(EnterAddressManuallyPage.title)
+      assert(page.title equals EnterAddressManuallyPage.title)
+
     }
 
-    "go to setuptradedetails page after the Manual Address button is clicked and trade details have not been set up in cache" in new WithBrowser with BrowserMatchers {
+    "go to setuptradedetails page after the Manual Address button is clicked and trade details have not been set up in cache" in new WebBrowser {
       // Arrange
-      browser.goTo(UprnNotFoundPage.url)
+      go to UprnNotFoundPage
 
       // Act
-      browser.click("#manualaddressbutton")
+      click on UprnNotFoundPage.manualAddress
 
       // Assert
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
   }
 }
