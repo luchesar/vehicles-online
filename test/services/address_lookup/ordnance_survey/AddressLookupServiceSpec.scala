@@ -65,7 +65,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
   }
 
   "fetchAddressesForPostcode" should {
-    "return seq when response status is 200" in {
+    "return seq when response status is 200 and returns results" in {
       val service = addressServiceMock(200, Some(oSAddressbaseResultsValidDPA))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
