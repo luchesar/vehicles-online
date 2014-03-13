@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
 
 object DisposePage extends Page with WebBrowserDSL {
-
+  val urlControllerTest: String = "/disposal-of-vehicle/dispose"
   override val url: String = WebDriverFactory.testUrl + "disposal-of-vehicle/dispose"
   override val title: String = "Dispose a vehicle into the motor trade: confirm"
 
