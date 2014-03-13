@@ -35,141 +35,72 @@ class EnterAddressManuallyIntegrationSpec extends Specification  with TestHarnes
     }
 
     "display validation error messages when no details are entered" in new WebBrowser {
-      // Arrange
-      CacheSetup.setupTradeDetails()
-      go to EnterAddressManuallyPage.url
-
-      // Act
-      click on EnterAddressManuallyPage.next
+      // Arrange & Act
+      EnterAddressManuallyPage.sadPath
 
       // Assert
       assert(ErrorPanel.numberOfErrors equals 5)
     }
 
     "display validation error messages when a blank line 1 is entered" in new WebBrowser {
-      // Arrange
-      CacheSetup.setupTradeDetails()
-      go to EnterAddressManuallyPage.url
-      EnterAddressManuallyPage.addressLine1.value = ""
-      EnterAddressManuallyPage.addressLine2.value = line2Valid
-      EnterAddressManuallyPage.addressLine3.value = line3Valid
-      EnterAddressManuallyPage.addressLine4.value = line4Valid
-      EnterAddressManuallyPage.postcode.value = postcodeValid
-
-      //Act
-      click on EnterAddressManuallyPage.next
+      // Arrange & Act
+      EnterAddressManuallyPage.happyPath(webDriver, line1 = "")
 
       // Assert
       assert(ErrorPanel.numberOfErrors equals 2)
     }
 
     "display validation error messages when line 1 is entered which is greater than max length" in new WebBrowser {
-      CacheSetup.setupTradeDetails()
-      go to EnterAddressManuallyPage.url
-      EnterAddressManuallyPage.addressLine1.value = ("a" * 76)
-      EnterAddressManuallyPage.addressLine2.value = line2Valid
-      EnterAddressManuallyPage.addressLine3.value = line3Valid
-      EnterAddressManuallyPage.addressLine4.value = line4Valid
-      EnterAddressManuallyPage.postcode.value = postcodeValid
-
-      //Act
-      click on EnterAddressManuallyPage.next
+      //Arrange & Act
+      EnterAddressManuallyPage.happyPath(webDriver, line1 = ("a" * 76))
 
       // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display validation error messages when a blank postcode is entered" in new WebBrowser {
-      CacheSetup.setupTradeDetails()
-      go to EnterAddressManuallyPage.url
-      EnterAddressManuallyPage.addressLine1.value = line1Valid
-      EnterAddressManuallyPage.addressLine2.value = line2Valid
-      EnterAddressManuallyPage.addressLine3.value = line3Valid
-      EnterAddressManuallyPage.addressLine4.value = line4Valid
-      EnterAddressManuallyPage.postcode.value = ""
-
-      //Act
-      click on EnterAddressManuallyPage.next
+      //Arrange & Act
+      EnterAddressManuallyPage.happyPath(webDriver, postcode = "")
 
       // Assert
       assert(ErrorPanel.numberOfErrors equals 3)
     }
 
     "display validation error messages when a postcode is entered containing special characters" in new WebBrowser {
-      CacheSetup.setupTradeDetails()
-      go to EnterAddressManuallyPage.url
-      EnterAddressManuallyPage.addressLine1.value = line1Valid
-      EnterAddressManuallyPage.addressLine2.value = line2Valid
-      EnterAddressManuallyPage.addressLine3.value = line3Valid
-      EnterAddressManuallyPage.addressLine4.value = line4Valid
-      EnterAddressManuallyPage.postcode.value = "SA99 1D!"
-
-      //Act
-      click on EnterAddressManuallyPage.next
+      //Arrange & Act
+      EnterAddressManuallyPage.happyPath(webDriver, postcode = "SA99 1D!")
 
       // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display validation error messages when a postcode is entered containing letters only" in new WebBrowser {
-      CacheSetup.setupTradeDetails()
-      go to EnterAddressManuallyPage.url
-      EnterAddressManuallyPage.addressLine1.value = line1Valid
-      EnterAddressManuallyPage.addressLine2.value = line2Valid
-      EnterAddressManuallyPage.addressLine3.value = line3Valid
-      EnterAddressManuallyPage.addressLine4.value = line4Valid
-      EnterAddressManuallyPage.postcode.value = "SQWER"
-
-      //Act
-      click on EnterAddressManuallyPage.next
+      //Arrange & Act
+      EnterAddressManuallyPage.happyPath(webDriver, postcode = "SQWER")
 
       // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display validation error messages when a postcode is entered containing numbers only" in new WebBrowser {
-      CacheSetup.setupTradeDetails()
-      go to EnterAddressManuallyPage.url
-      EnterAddressManuallyPage.addressLine1.value = line1Valid
-      EnterAddressManuallyPage.addressLine2.value = line2Valid
-      EnterAddressManuallyPage.addressLine3.value = line3Valid
-      EnterAddressManuallyPage.addressLine4.value = line4Valid
-      EnterAddressManuallyPage.postcode.value = "12345"
-
-      //Act
-      click on EnterAddressManuallyPage.next
+      //Arrange & Act
+      EnterAddressManuallyPage.happyPath(webDriver, postcode = "12345")
 
       // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display validation error messages when a postcode is entered in an incorrect format" in new WebBrowser {
-      CacheSetup.setupTradeDetails()
-      go to EnterAddressManuallyPage.url
-      EnterAddressManuallyPage.addressLine1.value = line1Valid
-      EnterAddressManuallyPage.addressLine2.value = line2Valid
-      EnterAddressManuallyPage.addressLine3.value = line3Valid
-      EnterAddressManuallyPage.addressLine4.value = line4Valid
-      EnterAddressManuallyPage.postcode.value = "SA99 1B1"
-
-      //Act
-      click on EnterAddressManuallyPage.next
+      //Arrange & Act
+      EnterAddressManuallyPage.happyPath(webDriver, postcode = "SA99 1B1")
 
       // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display validation error messages when a postcode is entered less than min length" in new WebBrowser {
-      CacheSetup.setupTradeDetails()
-      go to EnterAddressManuallyPage.url
-      EnterAddressManuallyPage.addressLine1.value = line1Valid
-      EnterAddressManuallyPage.addressLine2.value = line2Valid
-      EnterAddressManuallyPage.addressLine3.value = line3Valid
-      EnterAddressManuallyPage.addressLine4.value = line4Valid
-      EnterAddressManuallyPage.postcode.value = "SA"
-
-      //Act
-      click on EnterAddressManuallyPage.next
+      //Arrange & Act
+      EnterAddressManuallyPage.happyPath(webDriver, postcode = "SA")
 
       // Assert
       assert(ErrorPanel.numberOfErrors equals 2)

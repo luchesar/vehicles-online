@@ -49,14 +49,9 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
     click on EnterAddressManuallyPage.next
   }
 
-  def sadPath(implicit driver: WebDriver, line1: String = line1Valid, line2: String = line2Valid, line3: String = line3Valid, line4:String = line4Valid, postcode:String = postcodeValid) ={
+  def sadPath(implicit driver: WebDriver) ={
     CacheSetup.setupTradeDetails()
     go to EnterAddressManuallyPage.url
-    EnterAddressManuallyPage.addressLine1.value = line1
-    EnterAddressManuallyPage.addressLine2.value = line2
-    EnterAddressManuallyPage.addressLine3.value = line3
-    EnterAddressManuallyPage.addressLine4.value = line4
-    EnterAddressManuallyPage.postcode.value = postcode
 
     click on EnterAddressManuallyPage.next
   }
