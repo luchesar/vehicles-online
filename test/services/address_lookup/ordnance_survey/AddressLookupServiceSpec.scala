@@ -1,11 +1,10 @@
 package services.address_lookup.ordnance_survey
 
-import org.scalatest.WordSpec
 import services.fakes.FakeWebServiceImpl
 import org.scalatest.mock.MockitoSugar
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-import services.address_lookup.ordnance_survey.AddressLookupServiceImpl
+import services.address_lookup._
 import helpers.disposal_of_vehicle.PostcodePage.postcodeValid
 import org.mockito.Mockito._
 import services.address_lookup.ordnance_survey.domain._
@@ -14,22 +13,9 @@ import java.net.URI
 import play.api.libs.ws.Response
 import org.scalatest._
 import org.scalatest.concurrent._
+import services.AddressLookupService
 
 class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers with MockitoSugar {
-
-  // This class allows overriding of the base classes methods which call the real web service.
-  class PartialMockAddressLookupService(ws: services.WebService = new FakeWebServiceImpl,
-                                        responseOfPostcodeWebService: Future[Response] = Future { mock[Response]},
-                                        responseOfUprnWebService: Future[Response] = Future { mock[Response]},
-                                        results: Option[Seq[OSAddressbaseResult]]) extends AddressLookupServiceImpl(ws) {
-
-    override protected def callPostcodeWebService(postcode: String): Future[Response] = responseOfPostcodeWebService
-
-    override protected def callUprnWebService(uprn: String): Future[Response] = responseOfUprnWebService
-
-    override def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = results
-  }
-
   val oSAddressbaseDPA = OSAddressbaseDPA(
     UPRN = "1",
     address = "a",
@@ -54,14 +40,39 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
     Seq(result, result, result)
   }
 
-  def addressServiceMock(statusCode: Int, results: Option[Seq[OSAddressbaseResult]]) = {
-    val response = mock[Response]
-    when(response.status).thenReturn(statusCode)
+  def addressServiceMock(response: Response, results: Option[Seq[OSAddressbaseResult]]): AddressLookupService = {
+    // This class allows overriding of the base classes methods which call the real web service.
+    class PartialMockAddressLookupService(ws: services.WebService = new FakeWebServiceImpl,
+                                          responseOfPostcodeWebService: Future[Response] = Future {
+                                            mock[Response]
+                                          },
+                                          responseOfUprnWebService: Future[Response] = Future {
+                                            mock[Response]
+                                          },
+                                          results: Option[Seq[OSAddressbaseResult]]) extends ordnance_survey.AddressLookupServiceImpl(ws) {
+
+      override protected def callPostcodeWebService(postcode: String): Future[Response] = responseOfPostcodeWebService
+
+      override protected def callUprnWebService(uprn: String): Future[Response] = responseOfUprnWebService
+
+      override def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = results
+    }
 
     new PartialMockAddressLookupService(
-      responseOfPostcodeWebService = Future { response },
-      responseOfUprnWebService = Future { response },
+      responseOfPostcodeWebService = Future {
+        response
+      },
+      responseOfUprnWebService = Future {
+        response
+      },
       results = results)
+  }
+
+  // Wrap simple response status code in a Response (mock).
+  def addressServiceMock(statusCode: Int, results: Option[Seq[OSAddressbaseResult]]): AddressLookupService = {
+    val response = mock[Response]
+    when(response.status).thenReturn(statusCode)
+    addressServiceMock(response, results)
   }
 
   "fetchAddressesForPostcode" should {
@@ -70,9 +81,10 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) { r =>
-        r.length should equal(oSAddressbaseResultsValidDPA.length)
-        r should equal(oSAddressbaseResultsValidDPA.map(i => (i.DPA.get.UPRN, i.DPA.get.address)))
+      whenReady(result) {
+        r =>
+          r.length should equal(oSAddressbaseResultsValidDPA.length)
+          r should equal(oSAddressbaseResultsValidDPA.map(i => (i.DPA.get.UPRN, i.DPA.get.address)))
       }
     }
 
@@ -81,7 +93,9 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) { _ shouldBe empty}
+      whenReady(result) {
+        _ shouldBe empty
+      }
     }
 
     "return empty seq when response status is not Ok (200)" in {
@@ -89,7 +103,9 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) { _ shouldBe empty }
+      whenReady(result) {
+        _ shouldBe empty
+      }
     }
 
     "return empty seq when the result has no DPA and no LPI" in {
@@ -97,27 +113,21 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) { _ shouldBe empty }
+      whenReady(result) {
+        _ shouldBe empty
+      }
     }
 
     "return empty seq when web service throws an exception" in {
       val response = mock[Response]
       when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
-
-      val oSAddressbaseResultsEmptyDPAAndLPI = {
-        val oSAddressbaseResult = OSAddressbaseResult(DPA = None, LPI = None)
-
-        Seq(oSAddressbaseResult, oSAddressbaseResult, oSAddressbaseResult)
-      }
-
-      val addressLookupService = new PartialMockAddressLookupService(
-        responseOfPostcodeWebService = Future { response },
-        results = Some(oSAddressbaseResultsEmptyDPAAndLPI)
-      )
+      val addressLookupService = addressServiceMock(response, None)
 
       val result = addressLookupService.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) { _ shouldBe empty }
+      whenReady(result) {
+        _ shouldBe empty
+      }
     }
   }
 
@@ -230,7 +240,9 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
 
       val result = service.fetchAddressForUprn(oSAddressbaseDPA.UPRN)
 
-      whenReady(result){ _ should equal(None) }
+      whenReady(result) {
+        _ should equal(None)
+      }
     }
 
     "return none when response status is Ok but results is empty" in {
@@ -238,7 +250,9 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
 
       val result = service.fetchAddressForUprn(oSAddressbaseDPA.UPRN)
 
-      whenReady(result){ _ should equal(None) }
+      whenReady(result) {
+        _ should equal(None)
+      }
     }
 
     "return none when the result has no DPA and no LPI" in {
@@ -246,21 +260,21 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
 
       val result = service.fetchAddressForUprn(oSAddressbaseDPA.UPRN)
 
-      whenReady(result){ _ should equal(None) }
+      whenReady(result) {
+        _ should equal(None)
+      }
     }
 
     "return none when web service throws an exception" in {
       val response = mock[Response]
       when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
-
-      val addressLookupService = new PartialMockAddressLookupService(
-        responseOfUprnWebService = Future { response },
-        results = Some(oSAddressbaseResultsEmptyDPAAndLPI)
-      )
+      val addressLookupService = addressServiceMock(response, None)
 
       val result = addressLookupService.fetchAddressForUprn(oSAddressbaseDPA.UPRN)
 
-      whenReady(result){ _ should equal(None) }
+      whenReady(result) {
+        _ should equal(None)
+      }
     }
   }
 }

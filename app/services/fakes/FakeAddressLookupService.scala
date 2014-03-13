@@ -17,8 +17,6 @@ class FakeAddressLookupService @Inject()(ws: services.WebService) extends Addres
 
   override protected def callUprnWebService(postcode: String): Future[Response] = ???
 
-  override protected def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = ???
-
   override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = Future {
     if (postcode == FakeAddressLookupService.postcodeInvalid) Seq.empty
     else FakeAddressLookupService.fetchedAddresses

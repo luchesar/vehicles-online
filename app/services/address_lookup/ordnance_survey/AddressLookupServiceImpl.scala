@@ -34,7 +34,7 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
       get()
   }
 
-  override def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = {
+  def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = {
     val response = resp.json.asOpt[OSAddressbaseSearchResponse]
     response.flatMap(_.results)
   }
