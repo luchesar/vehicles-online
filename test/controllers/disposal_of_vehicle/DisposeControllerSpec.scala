@@ -5,7 +5,7 @@ import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.Dispose._
-import helpers.disposal_of_vehicle.{DisposePage,DisposeSuccessPage, VehicleLookupPage}
+import helpers.disposal_of_vehicle.{DisposeSuccessPage, VehicleLookupPage}
 import helpers.disposal_of_vehicle.Helper._
 import org.scalatest.mock.MockitoSugar
 import models.domain.disposal_of_vehicle.{DisposeResponse, DisposeModel}
@@ -68,7 +68,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       CacheSetup.businessChooseYourAddress()
       VehicleLookupPage.setupVehicleLookupFormModelCache()
       VehicleLookupPage.setupVehicleDetailsModelCache()
-      DisposePage.setupDisposeModelCache()
+      CacheSetup.disposeModel()
 
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(

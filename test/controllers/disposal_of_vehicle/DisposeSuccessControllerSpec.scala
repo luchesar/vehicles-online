@@ -6,7 +6,7 @@ import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
 import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.{VehicleLookupPage, DisposePage, DisposeSuccessPage}
+import helpers.disposal_of_vehicle.{VehicleLookupPage, DisposeSuccessPage}
 
 class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
 
@@ -72,7 +72,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
 
     "redirect to SetUpTradeDetails on present when only DisposeDetails are cached" in new WithApplication {
       // Arrange
-      DisposePage.setupDisposeFormModelCache()
+      CacheSetup.disposeModel()
       val request = FakeRequest().withSession()
 
       // Act
@@ -85,7 +85,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
     "redirect to SetUpTradeDetails on present when only VehicleDetails and DisposeDetails are cached" in new WithApplication {
       // Arrange
       VehicleLookupPage.setupVehicleDetailsModelCache()
-      DisposePage.setupDisposeFormModelCache()
+      CacheSetup.disposeModel()
       val request = FakeRequest().withSession()
 
       // Act
@@ -111,7 +111,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
     "redirect to SetUpTradeDetails on present when only DisposeDetails and DealerDetails are cached" in new WithApplication {
       // Arrange
       CacheSetup.businessChooseYourAddress()
-      DisposePage.setupDisposeFormModelCache()
+      CacheSetup.disposeModel()
       val request = FakeRequest().withSession()
 
       // Act
@@ -158,7 +158,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
 
     "redirect to SetUpTradeDetails on submit when only DisposeDetails are cached" in new WithApplication {
       // Arrange
-      DisposePage.setupDisposeFormModelCache()
+      CacheSetup.disposeModel()
       val request = FakeRequest().withSession()
 
       // Act
@@ -171,7 +171,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
     "redirect to SetUpTradeDetails on submit when only VehicleDetails and DisposeDetails are cached" in new WithApplication {
       // Arrange
       VehicleLookupPage.setupVehicleDetailsModelCache()
-      DisposePage.setupDisposeFormModelCache()
+      CacheSetup.disposeModel()
       val request = FakeRequest().withSession()
 
       // Act
@@ -197,7 +197,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
     "redirect to SetUpTradeDetails on submit when only DisposeDetails and DealerDetails are cached" in new WithApplication {
       // Arrange
       CacheSetup.businessChooseYourAddress()
-      DisposePage.setupDisposeFormModelCache()
+      CacheSetup.disposeModel()
       val request = FakeRequest().withSession()
 
       // Act
