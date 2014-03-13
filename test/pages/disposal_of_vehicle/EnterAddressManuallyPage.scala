@@ -11,6 +11,7 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
   val line4Valid = "line-4 stub"
   val postcodeValid = "SE16EH"
 
+  val urlControllerTest: String = "/disposal-of-vehicle/enter-address-manually"
   override val url: String = WebDriverFactory.testUrl + "disposal-of-vehicle/enter-address-manually"
   override val title: String = "Enter address manually"
 

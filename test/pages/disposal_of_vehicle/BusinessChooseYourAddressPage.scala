@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
 
 object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
-
+  val urlControllerTest: String = "/disposal-of-vehicle/business-choose-your-address"
   override val url: String = WebDriverFactory.testUrl + "disposal-of-vehicle/business-choose-your-address"
   override val title = "Business: Choose your address"
 

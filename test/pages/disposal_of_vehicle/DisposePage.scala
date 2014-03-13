@@ -5,7 +5,7 @@ import helpers.webbrowser._
 import net.sf.ehcache.config.CacheConfiguration.CacheExceptionHandlerFactoryConfiguration
 
 object DisposePage extends Page with WebBrowserDSL {
-
+  val urlControllerTest: String = "/disposal-of-vehicle/dispose"
   override val url: String = WebDriverFactory.testUrl + "disposal-of-vehicle/dispose"
   override val title: String = "Dispose a vehicle into the motor trade: confirm"
 
