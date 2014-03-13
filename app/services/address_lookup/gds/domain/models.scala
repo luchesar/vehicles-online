@@ -88,13 +88,4 @@ object JsonFormats {
   implicit val placesAddressFormat = Json.format[PlacesAddress]
   implicit val eroFormat = Json.format[Ero]
   implicit val authorityFormat = Json.format[LocalAuthority]
-
-  implicit val streetWrite = Json.writes[Street]
-  implicit val locationWrite = Json.writes[Location]
-  implicit val presentationWrite = Json.writes[Presentation]
-  implicit val detailsWrite = Json.writes[Details]
-  implicit val addressWrite = Json.writes[Address]
-  implicit val placesAddressWrite = Json.writes[PlacesAddress]
-  implicit val eroWrite = Json.writes[Ero]
-  implicit val authorityWrite = Json.writes[LocalAuthority]
 }

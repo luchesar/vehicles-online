@@ -10,7 +10,7 @@ import org.mockito.Mockito._
 import play.api.libs.ws.Response
 import org.scalatest._
 import org.scalatest.concurrent._
-import services.address_lookup.gds.domain.Address
+import services.address_lookup.gds.domain.{Presentation, Details, Location, Address}
 import services.AddressLookupService
 import play.api.libs.json.Json
 import services.address_lookup.gds.domain.JsonFormats.addressFormat
@@ -71,7 +71,9 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
     "return empty seq when micro-service throws" in {
       val response = mock[Response]
       when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
-      val service = addressServiceMockResponse(Future {response}, Seq.empty)
+      val service = addressServiceMockResponse(Future {
+        response
+      }, Seq.empty)
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -102,7 +104,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
   "extract from json" should {
     val addressLookupService = new gds.AddressLookupServiceImpl(ws = new FakeWebServiceImpl)
 
-    "return empty list given invalid json" in {
+    "return empty seq given invalid json" in {
       val inputAsJson = Json.toJson("INVALID")
       val response = mock[Response] // It's very hard to create a Response so use a mock.
       when(response.json).thenReturn(inputAsJson)
@@ -120,11 +122,45 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
 
       val result = addressLookupService.extractFromJson(response)
 
-      result should equal(Seq.empty)
+      result should equal(expectedResults)
     }
 
     "return expected given valid json with results" in {
-      pending
+      val expectedResults: Seq[Address] = Seq(
+        Address(
+          gssCode = "a",
+          countryCode = "b",
+          postcode = "c",
+          houseName = Some("d"),
+          houseNumber = Some("e"),
+          presentation = Presentation(property = Some("f"),
+            street = Some("g"),
+            town = Some("h"),
+            area = Some("i"),
+            postcode = "j",
+            uprn = "k"),
+          details = Details(
+            usrn = "l",
+            isResidential = true,
+            isCommercial = true,
+            isPostalAddress = true,
+            classification = "m",
+            state = "n",
+            organisation = Some("o")
+          ),
+          location = Location(
+            x = 1.0d,
+            y = 2.0d)
+        )
+      )
+
+      val inputAsJson = Json.toJson(expectedResults)
+      val response = mock[Response] // It's very hard to create a Response so use a mock.
+      when(response.json).thenReturn(inputAsJson)
+
+      val result = addressLookupService.extractFromJson(response)
+
+      result should equal(expectedResults)
     }
   }
 }
