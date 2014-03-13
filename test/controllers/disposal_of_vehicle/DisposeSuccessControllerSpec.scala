@@ -6,7 +6,7 @@ import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
 import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.{DisposePage, DisposeSuccessPage}
+import helpers.disposal_of_vehicle.DisposePage
 
 
 class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
@@ -15,7 +15,12 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
 
     "present" in new WithApplication {
       // Arrange
-      DisposeSuccessPage.happyPath()
+      CacheSetup.setupTradeDetails()
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.disposeFormModel()
+      CacheSetup.disposeTransactionId()
+      CacheSetup.vehicleRegistrationNumber()
       val request = FakeRequest().withSession()
 
       // Act
@@ -26,7 +31,12 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
     }
 
     "redirect to next page after the new disposal button is clicked" in new WithApplication {
-      DisposeSuccessPage.happyPath()
+      CacheSetup.setupTradeDetails()
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.disposeFormModel()
+      CacheSetup.disposeTransactionId()
+      CacheSetup.vehicleRegistrationNumber()
       val request = FakeRequest().withSession()
 
       // Act
