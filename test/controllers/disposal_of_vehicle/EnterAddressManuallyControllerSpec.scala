@@ -6,12 +6,11 @@ import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.common.AddressLines._
 import org.specs2.mock.Mockito
-import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
 import mappings.common.{Postcode, AddressAndPostcode, AddressLines}
 import Postcode._
-import helpers.disposal_of_vehicle.PostcodePage._
 import scala.Some
 import pages.disposal_of_vehicle._
+import pages.disposal_of_vehicle.EnterAddressManuallyPage._
 
 class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Mockito {
   "EnterAddressManually - Controller" should {

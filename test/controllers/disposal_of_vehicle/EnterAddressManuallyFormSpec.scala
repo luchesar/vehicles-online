@@ -3,9 +3,8 @@ package controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import org.scalatest.mock.MockitoSugar
 import mappings.common.{Postcode, AddressLines, AddressAndPostcode}
-import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
 import mappings.common.AddressLines._
-import helpers.disposal_of_vehicle.PostcodePage._
+import pages.disposal_of_vehicle.EnterAddressManuallyPage._
 import Postcode._
 
 class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSugar {

@@ -5,7 +5,6 @@ import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.VehicleLookup._
-import helpers.disposal_of_vehicle.EnterAddressManuallyPage
 import helpers.disposal_of_vehicle.Helper._
 import pages.disposal_of_vehicle._
 import org.scalatest.mock.MockitoSugar
@@ -141,7 +140,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       val result = vehicleLookupSuccess.back(request)
 
       // Assert
-      redirectLocation(result) should equal (Some(EnterAddressManuallyPage.url))
+      redirectLocation(result) should equal (Some(EnterAddressManuallyPage.urlControllerTest))
     }
 
     "redirect to BusinessChooseYourAddress when back button is pressed and there is a uprn" in new WithApplication {
