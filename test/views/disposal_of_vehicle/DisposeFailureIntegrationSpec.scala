@@ -1,51 +1,64 @@
 package views.disposal_of_vehicle
 
-import org.specs2.mutable.{Tags, Specification}
-import play.api.test.WithBrowser
-import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle._
+import org.specs2.mutable.Specification
+import pages.disposal_of_vehicle.CacheSetup
+import helpers.webbrowser.TestHarness
+import pages.disposal_of_vehicle._
 
-class DisposeFailureIntegrationSpec extends Specification with Tags {
+class DisposeFailureIntegrationSpec extends Specification with TestHarness {
   "DisposeFailureIntegration" should {
-    "be presented" in new WithBrowser with BrowserMatchers {
+
+    "be presented" in new WebBrowser {
       // Arrange & Act
-      DisposeFailurePage.cacheSetup
-      browser.goTo(DisposeFailurePage.url)
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.disposeFormModel()
+      CacheSetup.disposeTransactionId()
+      CacheSetup.vehicleRegistrationNumber()
+      go to DisposeFailurePage.url
 
       // Assert
-      titleMustEqual(DisposeFailurePage.title)
+      assert(page.title equals DisposeFailurePage.title)
     }
 
-    "redirect to setuptrade details if cache is empty on page load" in new WithBrowser with BrowserMatchers {
+    "redirect to setuptrade details if cache is empty on page load" in new WebBrowser {
       //Arrange & Act
-      browser.goTo(DisposeFailurePage.url)
+      go to DisposeFailurePage.url
 
       //Assert
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
 
-    "redirect to vehiclelookup when button clicked" in new WithBrowser with BrowserMatchers {
+    "redirect to vehiclelookup when button clicked" in new WebBrowser {
       // Arrange
-      DisposeFailurePage.cacheSetup
-      browser.goTo(DisposeFailurePage.url)
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.disposeFormModel()
+      CacheSetup.disposeTransactionId()
+      CacheSetup.vehicleRegistrationNumber()
+      go to DisposeFailurePage.url
 
       // Act
-      browser.click("#vehiclelookup")
+      click on DisposeFailurePage.vehiclelookup
 
       // Assert
-      titleMustEqual(VehicleLookupPage.title)
+      assert(page.title equals VehicleLookupPage.title)
     }
 
-    "redirect to setuptradedetails when button clicked" in new WithBrowser with BrowserMatchers {
+    "redirect to setuptradedetails when button clicked" in new WebBrowser {
       // Arrange
-      DisposeFailurePage.cacheSetup
-      browser.goTo(DisposeFailurePage.url)
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.disposeFormModel()
+      CacheSetup.disposeTransactionId()
+      CacheSetup.vehicleRegistrationNumber()
+      go to DisposeFailurePage.url
 
       // Act
-      browser.click("#setuptradedetails")
+      click on DisposeFailurePage.setuptradedetails
 
       // Assert
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
   }
 }
