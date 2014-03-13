@@ -44,17 +44,6 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
       responseOfUprnWebService = webServiceResponse)
   }
 
-  // Wrap simple response status code in a Response (mock).
-  def addressServiceMock(statusCode: Int): AddressLookupService = {
-    val response = mock[Response]
-    when(response.status).thenReturn(statusCode)
-    addressServiceMockResponse(
-      Future {
-        response
-      }
-    )
-  }
-
   val addressValid: Address =
     Address(
       gssCode = "gssCode stub",
@@ -84,7 +73,13 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
 
   "fetchAddressesForPostcode" should {
     "return empty seq when cannot connect to micro-service" in {
-      val service = addressServiceMock(404)
+      val response = mock[Response]
+      when(response.status).thenReturn(404)
+      val service = addressServiceMockResponse(
+        webServiceResponse = Future {
+          response
+        }
+      )
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -122,6 +117,8 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
       whenReady(result) {
+        verify(response, times(1)).status
+        verify(response, times(1)).json
         _ shouldBe empty
       }
     }

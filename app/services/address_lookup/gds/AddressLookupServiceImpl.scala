@@ -38,13 +38,11 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
 
     callPostcodeWebService(postcode).map {
       resp =>
-        Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}")
+        Logger.debug(s"Http response code from GDS postcode lookup service was: ${resp.status}")
         if (resp.status == play.api.http.Status.OK) toUprnsAndAddresses(resp)
         else Seq.empty // The service returned http code other than 200
     }.recover {
-      case e: Throwable =>
-        Logger.error(s"Ordnance Survey postcode lookup service error: $e")
-        Seq.empty
+      case e: Throwable => Seq.empty
     }
   }
 
