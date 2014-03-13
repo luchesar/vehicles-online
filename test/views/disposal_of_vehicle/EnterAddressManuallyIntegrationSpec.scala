@@ -19,6 +19,7 @@ class EnterAddressManuallyIntegrationSpec extends Specification  with TestHarnes
 
     "accept and redirect when all fields are input with valid entry" in new WebBrowser {
       // Arrange & Act
+      CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath
 
       // Assert
@@ -27,6 +28,7 @@ class EnterAddressManuallyIntegrationSpec extends Specification  with TestHarnes
 
     "accept when only mandatory fields only are input" in new WebBrowser {
       // Arrange & Act
+      CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPathMandatoryFieldsOnly
 
       // Assert
@@ -35,6 +37,7 @@ class EnterAddressManuallyIntegrationSpec extends Specification  with TestHarnes
 
     "display validation error messages when no details are entered" in new WebBrowser {
       // Arrange & Act
+      CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.sadPath
 
       // Assert
@@ -43,6 +46,7 @@ class EnterAddressManuallyIntegrationSpec extends Specification  with TestHarnes
 
     "display validation error messages when a blank line 1 is entered" in new WebBrowser {
       // Arrange & Act
+      CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line1 = "")
 
       // Assert
@@ -51,6 +55,7 @@ class EnterAddressManuallyIntegrationSpec extends Specification  with TestHarnes
 
     "display validation error messages when line 1 is entered which is greater than max length" in new WebBrowser {
       //Arrange & Act
+      CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line1 = ("a" * 76))
 
       // Assert
@@ -59,6 +64,7 @@ class EnterAddressManuallyIntegrationSpec extends Specification  with TestHarnes
 
     "display validation error messages when a blank postcode is entered" in new WebBrowser {
       //Arrange & Act
+      CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, postcode = "")
 
       // Assert
@@ -67,6 +73,7 @@ class EnterAddressManuallyIntegrationSpec extends Specification  with TestHarnes
 
     "display validation error messages when a postcode is entered containing special characters" in new WebBrowser {
       //Arrange & Act
+      CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, postcode = "SA99 1D!")
 
       // Assert
@@ -75,6 +82,7 @@ class EnterAddressManuallyIntegrationSpec extends Specification  with TestHarnes
 
     "display validation error messages when a postcode is entered containing letters only" in new WebBrowser {
       //Arrange & Act
+      CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, postcode = "SQWER")
 
       // Assert
@@ -83,6 +91,7 @@ class EnterAddressManuallyIntegrationSpec extends Specification  with TestHarnes
 
     "display validation error messages when a postcode is entered containing numbers only" in new WebBrowser {
       //Arrange & Act
+      CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, postcode = "12345")
 
       // Assert
@@ -91,6 +100,7 @@ class EnterAddressManuallyIntegrationSpec extends Specification  with TestHarnes
 
     "display validation error messages when a postcode is entered in an incorrect format" in new WebBrowser {
       //Arrange & Act
+      CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, postcode = "SA99 1B1")
 
       // Assert
@@ -99,6 +109,7 @@ class EnterAddressManuallyIntegrationSpec extends Specification  with TestHarnes
 
     "display validation error messages when a postcode is entered less than min length" in new WebBrowser {
       //Arrange & Act
+      CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, postcode = "SA")
 
       // Assert

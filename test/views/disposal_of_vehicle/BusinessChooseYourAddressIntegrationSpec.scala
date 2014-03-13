@@ -18,6 +18,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestH
 
     "go to the next page when correct data is entered" in new WebBrowser {
       // Arrange & Act
+      CacheSetup.setupTradeDetails()
       BusinessChooseYourAddressPage.happyPath
 
       // Assert
@@ -58,6 +59,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestH
 
     "display validation error messages when addressSelected is not in the list" in new WebBrowser {
       // Arrange & Act
+      CacheSetup.setupTradeDetails()
       BusinessChooseYourAddressPage.sadPath
 
       //Assert

@@ -11,13 +11,7 @@ object DisposeSuccessPage extends Page with WebBrowserDSL {
   def newDisposal(implicit driver: WebDriver): Element = find(id("newDisposal")).get
 
   def happyPath(implicit driver: WebDriver) = {
-    CacheSetup.businessChooseYourAddress()
-    CacheSetup.vehicleDetailsModel()
-    CacheSetup.disposeFormModel()
-    CacheSetup.disposeTransactionId()
-    CacheSetup.vehicleRegistrationNumber()
     go to DisposeSuccessPage.url
-
     click on DisposeSuccessPage.newDisposal
   }
 }
