@@ -182,4 +182,25 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
       }
     }
   }
+
+  "fetchAddressForUprn" should {
+    "return empty seq when cannot connect to micro-service" in {
+      pending
+    }
+    "return empty seq when micro-service throws" in {
+      pending
+    }
+    "return empty seq when micro-service returns invalid JSON" in {
+      pending
+    }
+    "return empty seq when micro-service returns empty seq (meaning no addresses found)" in {
+      pending
+    }
+    "return AddressViewModel when micro-service returns a single address" in {
+      pending
+    }
+    "return AddressViewModel of the first in the seq when micro-service returns a many addresses" in {
+      pending
+    }
+  }
 }
