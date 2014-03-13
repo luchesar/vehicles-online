@@ -1,14 +1,9 @@
 package pages.disposal_of_vehicle
 
-import org.openqa.selenium.{By, WebDriver}
+import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
 import helpers.disposal_of_vehicle.Helper._
-import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
-import play.api.test.TestBrowser
-import mappings.disposal_of_vehicle.SetupTradeDetails._
-import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
-import java.util.concurrent.TimeUnit
-import scala.util.Try
+
 
 object SetupTradeDetailsPage extends Page with WebBrowserDSL {
   val urlControllerTest: String = "/disposal-of-vehicle/setup-trade-details"

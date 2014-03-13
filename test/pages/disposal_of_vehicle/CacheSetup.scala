@@ -3,7 +3,6 @@ package pages.disposal_of_vehicle
 import helpers.disposal_of_vehicle.Helper._
 import models.domain.disposal_of_vehicle._
 import play.api.Play.current
-import play.api.Logger
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.DealerDetailsModel
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
