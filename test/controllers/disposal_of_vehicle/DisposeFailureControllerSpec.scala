@@ -7,6 +7,7 @@ import controllers.disposal_of_vehicle
 import play.api.test.Helpers._
 
 import pages.disposal_of_vehicle._
+import helpers.disposal_of_vehicle.CacheSetup
 
 class DisposeFailureControllerSpec extends WordSpec with Matchers with Mockito {
   "DisposalFailure - Controller" should {

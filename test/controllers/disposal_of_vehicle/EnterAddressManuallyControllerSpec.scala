@@ -11,6 +11,7 @@ import Postcode._
 import scala.Some
 import pages.disposal_of_vehicle._
 import pages.disposal_of_vehicle.EnterAddressManuallyPage._
+import helpers.disposal_of_vehicle.CacheSetup
 
 class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Mockito {
   "EnterAddressManually - Controller" should {

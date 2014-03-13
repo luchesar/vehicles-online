@@ -6,6 +6,7 @@ import controllers.disposal_of_vehicle
 import play.api.test.Helpers._
 import scala.Some
 import pages.disposal_of_vehicle._
+import helpers.disposal_of_vehicle.CacheSetup
 
 class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
 

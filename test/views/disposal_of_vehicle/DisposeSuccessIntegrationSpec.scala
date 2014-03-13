@@ -3,6 +3,7 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.Specification
 import pages.disposal_of_vehicle._
 import helpers.webbrowser.TestHarness
+import helpers.disposal_of_vehicle.CacheSetup
 
 class DisposeSuccessIntegrationSpec extends Specification with TestHarness {
   "Dispose confirmation integration" should {

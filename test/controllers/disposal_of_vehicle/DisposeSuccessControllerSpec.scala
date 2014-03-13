@@ -6,6 +6,7 @@ import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
 import pages.disposal_of_vehicle._
+import helpers.disposal_of_vehicle.CacheSetup
 
 
 class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {

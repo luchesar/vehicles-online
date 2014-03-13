@@ -13,6 +13,7 @@ import org.mockito.Matchers._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import services.fakes.{FakeDisposeService, FakeVehicleLookupService}
 import pages.disposal_of_vehicle._
+import helpers.disposal_of_vehicle.CacheSetup
 
 class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSugar {
 

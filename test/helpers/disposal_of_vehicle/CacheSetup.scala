@@ -1,4 +1,4 @@
-package pages.disposal_of_vehicle
+package helpers.disposal_of_vehicle
 
 import helpers.disposal_of_vehicle.Helper._
 import models.domain.disposal_of_vehicle._

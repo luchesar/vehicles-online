@@ -7,6 +7,7 @@ import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import org.scalatest.mock.MockitoSugar
 import pages.disposal_of_vehicle._
 import services.fakes.{FakeAddressLookupService, FakeWebServiceImpl}
+import helpers.disposal_of_vehicle.CacheSetup
 
 class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers with MockitoSugar {
 

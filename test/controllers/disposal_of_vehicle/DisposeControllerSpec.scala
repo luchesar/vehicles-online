@@ -14,6 +14,7 @@ import services.fakes.FakeDisposeService
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import pages.disposal_of_vehicle._
+import helpers.disposal_of_vehicle.CacheSetup
 
 class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
   "Dispose - Controller" should {
