@@ -20,7 +20,7 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
 
   override protected def callUprnWebService(uprn: String): Future[Response] = ???
 
-  def extractFromJson(resp: Response): Seq[Address] = {
+  private def extractFromJson(resp: Response): Seq[Address] = {
     try {
       resp.json.as[Seq[Address]]
     }
