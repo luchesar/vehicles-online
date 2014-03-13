@@ -5,8 +5,6 @@ import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.Dispose._
-import helpers.disposal_of_vehicle.DisposeFailurePage
-
 import helpers.disposal_of_vehicle.Helper._
 import org.scalatest.mock.MockitoSugar
 import models.domain.disposal_of_vehicle.{DisposeResponse, DisposeModel}
@@ -56,7 +54,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
          // Assert
 
-         redirectLocation(result) should equal(Some(DisposeSuccessPage.url))
+         redirectLocation(result) should equal(Some(DisposeSuccessPage.urlControllerTest))
        }
 
     "redirect to dispose error when a fail message is returned by the fake microservice" in new WithApplication {
@@ -69,7 +67,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleLookupFormModel()
       CacheSetup.vehicleDetailsModel()
-      DisposePage.setupDisposeModelCache()
+      CacheSetup.disposeModel()
 
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
