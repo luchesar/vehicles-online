@@ -46,7 +46,13 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
     }
   }
 
-  def postcodeWithNoSpaces(postcode: String): String = postcode.filter(_ != ' ')
-
-  override def fetchAddressForUprn(uprn: String): Future[Option[AddressViewModel]] = ???
+  override def fetchAddressForUprn(uprn: String): Future[Option[AddressViewModel]] = {
+    callUprnWebService(uprn).map {
+      resp =>
+        Logger.debug(s"Http response code from GDS postcode lookup service was: ${resp.status}")
+     ???
+    }.recover {
+      case e: Throwable => None
+    }
+  }
 }

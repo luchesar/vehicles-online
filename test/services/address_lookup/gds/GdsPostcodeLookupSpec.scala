@@ -71,13 +71,13 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
         y = 2.0d)
     )
 
+  val uprnValid = "1234"
+
   "fetchAddressesForPostcode" should {
     "return empty seq when cannot connect to micro-service" in {
-      val response = mock[Response]
-      when(response.status).thenReturn(404)
       val service = addressServiceMockResponse(
         webServiceResponse = Future {
-          response
+          throw new RuntimeException("This error is generated deliberately by a test")
         }
       )
 
@@ -88,12 +88,12 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
       }
     }
 
-    "return empty seq when micro-service throws" in {
+    "return empty seq when response throws" in {
       val response = mock[Response]
       when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
       val service = addressServiceMockResponse(
         webServiceResponse = Future {
-          response
+          throw new RuntimeException("This error is generated deliberately by a test")
         }
       )
 
@@ -117,8 +117,6 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
       whenReady(result) {
-        verify(response, times(1)).status
-        verify(response, times(1)).json
         _ shouldBe empty
       }
     }
@@ -181,16 +179,26 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
   }
 
   "fetchAddressForUprn" should {
-    "return empty seq when cannot connect to micro-service" in {
+    "return None when cannot connect to micro-service" in {
+      val service = addressServiceMockResponse(
+        webServiceResponse = Future {
+          throw new RuntimeException("This error is generated deliberately by a test")
+        }
+      )
+
+      val result = service.fetchAddressForUprn(uprnValid)
+
+      whenReady(result) {
+        _ shouldBe None
+      }
+    }
+    "return None when micro-service throws" in {
       pending
     }
-    "return empty seq when micro-service throws" in {
+    "return None when micro-service returns invalid JSON" in {
       pending
     }
-    "return empty seq when micro-service returns invalid JSON" in {
-      pending
-    }
-    "return empty seq when micro-service returns empty seq (meaning no addresses found)" in {
+    "return None when micro-service returns empty seq (meaning no addresses found)" in {
       pending
     }
     "return AddressViewModel when micro-service returns a single address" in {

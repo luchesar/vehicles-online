@@ -67,8 +67,6 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
     }
   }
 
-  def postcodeWithNoSpaces(postcode: String): String = postcode.filter(_ != ' ')
-
   override def fetchAddressForUprn(uprn: String): Future[Option[AddressViewModel]] = {
     // Extract result from response and return as a view model.
     def toAddressViewModel(resp: Response) = {
