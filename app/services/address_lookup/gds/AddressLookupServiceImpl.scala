@@ -24,11 +24,19 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
   def extractFromJson(resp: Response): Option[Seq[Address]] = ???
 
   override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = {
-
+    def toUprnsAndAddresses(resp: Response): Seq[(String, String)] = {
+      extractFromJson(resp) match {
+        case Some(r) => ???
+        case None =>
+          // Handle no results
+          Logger.debug(s"No results returned for postcode: $postcode")
+          Seq.empty
+      }
+    }
 
     callPostcodeWebService(postcode).map { resp =>
       Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}")
-      if (resp.status == play.api.http.Status.OK) ???
+      if (resp.status == play.api.http.Status.OK) toUprnsAndAddresses(resp)
       else Seq.empty // The service returned http code other than 200
     }.recover {
       case e: Throwable =>

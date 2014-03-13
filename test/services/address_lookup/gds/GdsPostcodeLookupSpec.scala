@@ -79,7 +79,13 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
     }
 
     "return empty seq when micro-service returns empty seq (meaning no addresses found)" in {
-      pending
+      val service = addressServiceMock(200, None)
+
+      val result = service.fetchAddressesForPostcode(postcodeValid)
+
+      whenReady(result) {
+        _ shouldBe empty
+      }
     }
 
     "return empty seq when micro-service returns invalid JSON" in {
