@@ -4,7 +4,7 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.Specification
 import helpers.webbrowser.TestHarness
 import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.{ErrorPanel, CacheSetup}
+import helpers.disposal_of_vehicle.CacheSetup
 
 
 class DisposeIntegrationSpec extends Specification  with TestHarness {
