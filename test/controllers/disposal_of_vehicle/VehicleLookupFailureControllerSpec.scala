@@ -2,7 +2,6 @@ package controllers.disposal_of_vehicle
 
 import org.scalatest.{Matchers, WordSpec}
 import play.api.test.{FakeRequest, WithApplication}
-import helpers.disposal_of_vehicle.{VehicleLookupFailurePage, VehicleLookupPage}
 import controllers.disposal_of_vehicle
 import play.api.test.Helpers._
 import scala.Some
@@ -14,7 +13,9 @@ class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
 
     "present" in new WithApplication {
       // Arrange
-      VehicleLookupFailurePage.cacheSetup()
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleLookupFormModel()
+
       val request = FakeRequest().withSession()
 
       // Act
@@ -26,14 +27,16 @@ class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
 
     "redirect to vehiclelookup on submit" in new WithApplication {
       // Arrange
-      VehicleLookupFailurePage.cacheSetup()
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleLookupFormModel()
+
       val request = FakeRequest().withSession()
 
       // Act
       val result = disposal_of_vehicle.VehicleLookupFailure.submit(request)
 
       // Assert
-      redirectLocation(result) should equal (Some(VehicleLookupPage.url))
+      redirectLocation(result) should equal (Some(VehicleLookupPage.urlControllerTest))
     }
 
     "redirect to setuptraderdetails when cache is empty" in new WithApplication {
@@ -70,7 +73,7 @@ class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
 
     "redirect to setuptraderdetails on if only VehicleLookupFormModelCache is populated" in new WithApplication {
       //Arrange
-      VehicleLookupPage.setupVehicleLookupFormModelCache()
+      CacheSetup.vehicleLookupFormModel()
       val request = FakeRequest().withSession()
 
       // Act
