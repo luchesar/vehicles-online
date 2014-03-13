@@ -109,6 +109,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
 
       // Assert
       redirectLocation(result) should equal(Some(UprnNotFoundPage.urlControllerTest))
+
     }
   }
 }
