@@ -57,25 +57,25 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
 
   val addressValid: Address =
     Address(
-      gssCode = "a",
-      countryCode = "b",
-      postcode = "c",
-      houseName = Some("d"),
-      houseNumber = Some("e"),
-      presentation = Presentation(property = Some("property"),
-        street = Some("street"),
-        town = Some("town"),
-        area = Some("area"),
-        postcode = "postcode",
-        uprn = "uprn"),
+      gssCode = "gssCode stub",
+      countryCode = "countryCode stub",
+      postcode = "postcode stub",
+      houseName = Some("houseName stub"),
+      houseNumber = Some("houseNumber stub"),
+      presentation = Presentation(property = Some("property stub"),
+        street = Some("street stub"),
+        town = Some("town stub"),
+        area = Some("area stub"),
+        postcode = "postcode stub",
+        uprn = "uprn stub"),
       details = Details(
-        usrn = "l",
+        usrn = "usrn stub",
         isResidential = true,
         isCommercial = true,
         isPostalAddress = true,
-        classification = "m",
-        state = "n",
-        organisation = Some("o")
+        classification = "classification stub",
+        state = "state stub",
+        organisation = Some("organisation stub")
       ),
       location = Location(
         x = 1.0d,
@@ -145,7 +145,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
     }
 
     "return seq of (uprn, address) when micro-service returns a single address" in {
-      val expected = ("uprn", "property, street, town, area, postcode")
+      val expected = ("uprn stub", "property stub, street stub, town stub, area stub, postcode stub")
       val input: Seq[Address] = Seq(addressValid)
       val inputAsJson = Json.toJson(input)
       val response = mock[Response]
@@ -164,7 +164,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
     }
 
     "return seq of (uprn, address) when micro-service returns many addresses" in {
-      val expected = ("uprn", "property, street, town, area, postcode")
+      val expected = ("uprn stub", "property stub, street stub, town stub, area stub, postcode stub")
       val input = Seq(addressValid, addressValid, addressValid)
       val inputAsJson = Json.toJson(input)
       val response = mock[Response]
