@@ -141,8 +141,8 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
     "return a bad request when calling webservice throws exception" in new WithApplication {
       //Arrange
       CacheSetup.businessChooseYourAddress()
-      VehicleLookupPage.setupVehicleDetailsModelCache()
-      VehicleLookupPage.setupVehicleLookupFormModelCache()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.vehicleLookupFormModel()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           mileageId -> mileageValid,

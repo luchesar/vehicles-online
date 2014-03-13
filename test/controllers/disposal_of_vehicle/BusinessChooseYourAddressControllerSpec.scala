@@ -3,7 +3,6 @@ package controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
-import helpers.disposal_of_vehicle.{VehicleLookupPage}
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import org.scalatest.mock.MockitoSugar
 import pages.disposal_of_vehicle._
@@ -38,7 +37,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
       val result = businessChooseYourAddress.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(VehicleLookupPage.url))
+      redirectLocation(result) should equal(Some(VehicleLookupPage.urlControllerTest))
     }
 
     "return a bad request after no submission" in new WithApplication {
