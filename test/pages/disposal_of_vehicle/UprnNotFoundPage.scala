@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
 
 object UprnNotFoundPage extends Page with WebBrowserDSL {
-  val urlControllerTest: String = "/disposal-of-vehicle/uprn-not-found"
+  val urlControllerTest: String = "/" + url
   override val url: String = WebDriverFactory.testUrl + "disposal-of-vehicle/uprn-not-found"
   override val title: String = "Error confirming postcode"
 
