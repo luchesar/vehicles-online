@@ -5,14 +5,18 @@ import org.specs2.mock.Mockito
 import play.api.test.{FakeRequest, WithApplication}
 import controllers.disposal_of_vehicle
 import play.api.test.Helpers._
-import helpers.disposal_of_vehicle.{VehicleLookupPage, DisposeFailurePage}
+import helpers.disposal_of_vehicle.VehicleLookupPage
 import pages.disposal_of_vehicle._
 
 class DisposeFailureControllerSpec extends WordSpec with Matchers with Mockito {
   "DisposalFailure - Controller" should {
     "present" in new WithApplication {
       // Arrange
-      DisposeFailurePage.cacheSetup()
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.disposeFormModel()
+      CacheSetup.disposeTransactionId()
+      CacheSetup.vehicleRegistrationNumber()
       val request = FakeRequest().withSession()
 
       // Act
@@ -24,7 +28,11 @@ class DisposeFailureControllerSpec extends WordSpec with Matchers with Mockito {
 
     "redirect to vehicle lookup page when button clicked" in new WithApplication {
       // Arrange
-      DisposeFailurePage.cacheSetup()
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.disposeFormModel()
+      CacheSetup.disposeTransactionId()
+      CacheSetup.vehicleRegistrationNumber()
       val request = FakeRequest().withSession()
 
       // Act

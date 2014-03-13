@@ -5,7 +5,7 @@ import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.Dispose._
-import helpers.disposal_of_vehicle.{DisposePage,DisposeSuccessPage, DisposeFailurePage, VehicleLookupPage}
+import helpers.disposal_of_vehicle.{DisposePage,DisposeSuccessPage, VehicleLookupPage}
 import helpers.disposal_of_vehicle.Helper._
 import org.scalatest.mock.MockitoSugar
 import models.domain.disposal_of_vehicle.{DisposeResponse, DisposeModel}
@@ -81,7 +81,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       val result = dispose.submit(request)
 
       //Assert
-      redirectLocation(result) should equal(Some(DisposeFailurePage.url))
+      redirectLocation(result) should equal(Some(DisposeFailurePage.urlControllerTest))
     }
 
     "redirect to setupTradeDetails page after the dispose button is clicked and no vehicleLookupFormModel is cached" in new WithApplication {
