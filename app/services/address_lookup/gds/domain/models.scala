@@ -26,7 +26,9 @@ case class Presentation(
                          town: Option[String],
                          area: Option[String],
                          postcode: String,
-                         uprn: String)
+                         uprn: String){
+  def toViewModel: String = Seq(property, street, town, area, Some(postcode)).flatten.mkString(", ")
+}
 
 case class Address(
                     gssCode: String,
