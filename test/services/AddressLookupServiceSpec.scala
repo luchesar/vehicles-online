@@ -6,7 +6,7 @@ import org.scalatest.mock.MockitoSugar
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.ordnance_survey.AddressLookupServiceImpl
-import helpers.disposal_of_vehicle.PostcodePage.postcodeValid
+import pages.disposal_of_vehicle.EnterAddressManuallyPage._
 import org.mockito.Mockito._
 import services.ordnance_survey.domain._
 import play.api.libs.json.Json
@@ -170,7 +170,6 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
   }
 
   "postcodeWithNoSpaces" should {
-    import helpers.disposal_of_vehicle.PostcodePage.{postcodeValid, postcodeValidWithSpace}
     val addressLookupService = new AddressLookupServiceImpl(ws = new FakeWebServiceImpl)
 
     "return the same string if no spaces present" in {
