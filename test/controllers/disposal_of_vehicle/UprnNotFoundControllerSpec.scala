@@ -4,7 +4,6 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
-import helpers.disposal_of_vehicle.UprnNotFoundPage
 
 class UprnNotFoundControllerSpec extends WordSpec with Matchers {
 

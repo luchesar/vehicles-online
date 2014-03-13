@@ -2,7 +2,6 @@ package pages.disposal_of_vehicle
 
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
-import net.sf.ehcache.config.CacheConfiguration.CacheExceptionHandlerFactoryConfiguration
 
 object DisposePage extends Page with WebBrowserDSL {
 
