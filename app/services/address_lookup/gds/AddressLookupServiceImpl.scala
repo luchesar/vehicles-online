@@ -32,7 +32,7 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
   override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = {
     def toUprnsAndAddresses(resp: Response): Seq[(String, String)] = {
       extractFromJson(resp) map {
-        address => (address.presentation.uprn, address.presentation.toViewModel)
+        address => (address.presentation.uprn, address.presentation.toViewModel.mkString(", "))
       }
     }
 
@@ -47,12 +47,23 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
   }
 
   override def fetchAddressForUprn(uprn: String): Future[Option[AddressViewModel]] = {
+    def toAddressViewModel(resp: Response) = {
+      val addresses = extractFromJson(resp)
+      require(addresses.length >= 1, s"Should be at least one address for the UPRN: $uprn")
+      val addressViewModel = AddressViewModel(uprn = Some(addresses.head.presentation.uprn.toLong), address = addresses.head.presentation.toViewModel)
+      Some(addressViewModel) // Only return one address per UPRN
+    }
+
     callUprnWebService(uprn).map {
       resp =>
         Logger.debug(s"Http response code from GDS postcode lookup service was: ${resp.status}")
-     ???
+        if (resp.status == play.api.http.Status.OK) toAddressViewModel(resp)
+        else None
     }.recover {
-      case e: Throwable => None
+      case e: Throwable => {
+        Logger.error(s"GDS uprn lookup service error: ${e.getStackTraceString}")
+        None
+      }
     }
   }
 }
