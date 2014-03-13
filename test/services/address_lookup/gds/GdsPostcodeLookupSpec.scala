@@ -192,11 +192,39 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
         _ shouldBe None
       }
     }
-    "return None when micro-service throws" in {
-      pending
+
+    "return None when response throws" in {
+      val response = mock[Response]
+      when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
+      val service = addressServiceMockResponse(
+        webServiceResponse = Future {
+          throw new RuntimeException("This error is generated deliberately by a test")
+        }
+      )
+
+      val result = service.fetchAddressForUprn(uprnValid)
+
+      whenReady(result) {
+        _ shouldBe None
+      }
     }
+
     "return None when micro-service returns invalid JSON" in {
-      pending
+      val inputAsJson = Json.toJson("INVALID")
+      val response = mock[Response]
+      when(response.status).thenReturn(200)
+      when(response.json).thenReturn(inputAsJson)
+      val service = addressServiceMockResponse(
+        webServiceResponse = Future {
+          throw new RuntimeException("This error is generated deliberately by a test")
+        }
+      )
+
+      val result = service.fetchAddressForUprn(uprnValid)
+
+      whenReady(result) {
+        _ shouldBe None
+      }
     }
     "return None when micro-service returns empty seq (meaning no addresses found)" in {
       pending
