@@ -5,8 +5,8 @@ import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import org.scalatest.{Matchers, WordSpec}
-import helpers.disposal_of_vehicle.BusinessChooseYourAddressPage
 import helpers.disposal_of_vehicle.Helper._
+import pages.disposal_of_vehicle._
 
 class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
   "BeforeYouStart - Controller" should {
@@ -32,7 +32,7 @@ class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.url))
+      redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.urlControllerTest))
     }
 
     "return a bad request when only dealerName is entered" in new WithApplication {

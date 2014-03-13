@@ -2,7 +2,7 @@ package controllers.disposal_of_vehicle
 
 import org.scalatest.{Matchers, WordSpec}
 import play.api.test.{FakeRequest, WithApplication}
-import helpers.disposal_of_vehicle.{VehicleLookupFailurePage, BusinessChooseYourAddressPage, VehicleLookupPage}
+import helpers.disposal_of_vehicle.{VehicleLookupFailurePage, VehicleLookupPage}
 import controllers.disposal_of_vehicle
 import play.api.test.Helpers._
 import scala.Some
@@ -58,7 +58,7 @@ class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
 
     "redirect to setuptraderdetails on if only BusinessChooseYourAddress cache is populated" in new WithApplication {
       //Arrange
-      BusinessChooseYourAddressPage.setupCache()
+      CacheSetup.businessChooseYourAddress()
       val request = FakeRequest().withSession()
 
       // Act

@@ -5,7 +5,6 @@ import org.mockito.Mockito._
 import play.api.Play.current
 import mappings.change_of_address.LoginConfirmation
 import models.domain.disposal_of_vehicle.AddressViewModel
-import helpers.disposal_of_vehicle.BusinessChooseYourAddressPage._
 
 object LoginCachePopulate {
   def setupCache() = {

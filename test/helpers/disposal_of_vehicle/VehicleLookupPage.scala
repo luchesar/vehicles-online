@@ -3,7 +3,6 @@ package helpers.disposal_of_vehicle
 import play.api.test.TestBrowser
 import helpers.disposal_of_vehicle.Helper._
 import models.domain.disposal_of_vehicle.{AddressViewModel, VehicleLookupFormModel, VehicleDetailsModel}
-import helpers.disposal_of_vehicle.BusinessChooseYourAddressPage._
 
 import play.api.Play.current
 import mappings.disposal_of_vehicle.VehicleLookup._

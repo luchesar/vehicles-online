@@ -6,13 +6,14 @@ import models.{DayMonthYearObject, DayMonthYear}
 import play.api.Play.current
 import models.domain.disposal_of_vehicle.{DisposeModel, DisposeFormModel}
 import helpers.disposal_of_vehicle.Helper._
+import pages.disposal_of_vehicle.CacheSetup
 
 object DisposePage {
   val url = "/disposal-of-vehicle/dispose"
   val title = "Dispose a vehicle into the motor trade: confirm"
 
   def happyPath(browser: TestBrowser, day: String = "1", month :String = "1", year: String = "2000") = {
-    BusinessChooseYourAddressPage.setupCache()
+    CacheSetup.businessChooseYourAddress()
     VehicleLookupPage.setupVehicleDetailsModelCache()
     VehicleLookupPage.setupVehicleLookupFormModelCache()
     browser.goTo(url)
