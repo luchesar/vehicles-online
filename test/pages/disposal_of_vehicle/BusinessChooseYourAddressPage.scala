@@ -17,14 +17,12 @@ object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
   def select(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
 
   def happyPath(implicit driver: WebDriver) = {
-    CacheSetup.setupTradeDetails()
     go to BusinessChooseYourAddressPage
     BusinessChooseYourAddressPage.chooseAddress.value = "1234"
     click on BusinessChooseYourAddressPage.select
   }
 
   def sadPath(implicit driver: WebDriver) = {
-    CacheSetup.setupTradeDetails()
     go to BusinessChooseYourAddressPage
     click on BusinessChooseYourAddressPage.select
   }

@@ -87,6 +87,11 @@ class DisposeSuccessIntegrationSpec extends Specification with TestHarness {
 
     "display vehicle lookup page when new disposal link is clicked" in new WebBrowser  {
       // Arrange & Act
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.disposeFormModel()
+      CacheSetup.disposeTransactionId()
+      CacheSetup.vehicleRegistrationNumber()
       DisposeSuccessPage.happyPath
 
       //Assert

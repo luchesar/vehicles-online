@@ -21,6 +21,9 @@ class DisposeIntegrationSpec extends Specification  with TestHarness {
 
     "display DisposeSuccess page on correct submission" in new WebBrowser {
       //Arrange & Act
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.vehicleLookupFormModel()
       DisposePage.happyPath
 
       //Assert
@@ -29,6 +32,8 @@ class DisposeIntegrationSpec extends Specification  with TestHarness {
 
     "display validation errors when no fields are completed" in new WebBrowser {
       // Arrange
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
       DisposePage.sadPath
 
       // Assert
