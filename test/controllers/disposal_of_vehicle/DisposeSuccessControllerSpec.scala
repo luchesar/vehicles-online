@@ -6,7 +6,6 @@ import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
 import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.DisposePage
 
 
 class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
@@ -96,7 +95,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
     "redirect to SetUpTradeDetails on present when only VehicleDetails and DisposeDetails are cached" in new WithApplication {
       // Arrange
       CacheSetup.vehicleDetailsModel()
-      DisposePage.setupDisposeFormModelCache()
+      CacheSetup.disposeFormModel()
 
       val request = FakeRequest().withSession()
 
@@ -183,7 +182,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
     "redirect to SetUpTradeDetails on submit when only VehicleDetails and DisposeDetails are cached" in new WithApplication {
       // Arrange
       CacheSetup.vehicleDetailsModel()
-      DisposePage.setupDisposeFormModelCache()
+      CacheSetup.disposeFormModel()
 
       val request = FakeRequest().withSession()
 
