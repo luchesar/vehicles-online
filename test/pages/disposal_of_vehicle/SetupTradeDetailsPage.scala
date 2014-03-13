@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 import scala.util.Try
 
 object SetupTradeDetailsPage extends Page with WebBrowserDSL {
-
+  val urlControllerTest: String = "/disposal-of-vehicle/setup-trade-details"
   override val url: String = WebDriverFactory.testUrl + "disposal-of-vehicle/setup-trade-details"
   override val title: String = "Dispose a vehicle into the motor trade: set-up"
 

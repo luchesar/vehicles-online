@@ -5,7 +5,7 @@ import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.Dispose._
-import helpers.disposal_of_vehicle.{DisposePage,DisposeSuccessPage, DisposeFailurePage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
+import helpers.disposal_of_vehicle.{DisposePage,DisposeSuccessPage, DisposeFailurePage, BusinessChooseYourAddressPage, VehicleLookupPage}
 import helpers.disposal_of_vehicle.Helper._
 import org.scalatest.mock.MockitoSugar
 import models.domain.disposal_of_vehicle.{DisposeResponse, DisposeModel}
@@ -14,6 +14,7 @@ import org.mockito.Matchers._
 import services.fakes.FakeDisposeService
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
+import pages.disposal_of_vehicle._
 
 class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
   "Dispose - Controller" should {
@@ -86,7 +87,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
     "redirect to setupTradeDetails page after the dispose button is clicked and no vehicleLookupFormModel is cached" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           mileageId -> mileageValid,
@@ -99,7 +100,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to setupTradeDetails page when present and previous pages have not been visited" in new WithApplication {
@@ -110,7 +111,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       val result = dispose.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "return a bad request when no details are entered" in new WithApplication {
@@ -136,7 +137,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       val result = dispose.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "return a bad request when calling webservice throws exception" in new WithApplication {

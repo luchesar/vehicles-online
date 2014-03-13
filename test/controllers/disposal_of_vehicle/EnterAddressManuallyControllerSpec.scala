@@ -6,19 +6,19 @@ import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.common.AddressLines._
 import org.specs2.mock.Mockito
-import helpers.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
 import mappings.common.{Postcode, AddressAndPostcode, AddressLines}
 import Postcode._
 import helpers.disposal_of_vehicle.PostcodePage._
 import scala.Some
+import pages.disposal_of_vehicle._
 
 class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Mockito {
   "EnterAddressManually - Controller" should {
 
     "present" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
 
       // Act
@@ -29,7 +29,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
     }
 
     "return bad request when no data is entered" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 
@@ -41,7 +41,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
     }
 
     "return bad request when a valid address is entered without a postcode" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
@@ -57,7 +57,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
     }
 
     "return bad request a valid postcode is entered without an address" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
@@ -77,11 +77,11 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       val result = disposal_of_vehicle.EnterAddressManually.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to Dispose after a valid submission of all fields" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
@@ -94,11 +94,11 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(VehicleLookupPage.url))
+      redirectLocation(result) should equal(Some(VehicleLookupPage.urlControllerTest))
     }
 
     "redirect to Dispose after a valid submission of mandatory fields only" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
@@ -108,7 +108,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(VehicleLookupPage.url))
+      redirectLocation(result) should equal(Some(VehicleLookupPage.urlControllerTest))
     }
 
     "redirect to SetupTraderDetails page when valid submit with no dealer name cached" in new WithApplication {
@@ -124,7 +124,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to SetupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
@@ -135,7 +135,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
   }
 }

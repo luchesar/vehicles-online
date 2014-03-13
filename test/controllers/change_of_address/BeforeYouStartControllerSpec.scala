@@ -29,7 +29,6 @@ class BeforeYouStartControllerSpec extends WordSpec with Matchers {
       val result = change_of_address.BeforeYouStart.submit(request)
 
       // Assert
-      status(result) should equal(SEE_OTHER)
       redirectLocation(result) should equal (Some(KeeperStatusPage.url))
     }
   }

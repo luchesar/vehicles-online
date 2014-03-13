@@ -3,11 +3,10 @@ package controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
-import helpers.disposal_of_vehicle.{SetUpTradeDetailsPage, VehicleLookupPage, UprnNotFoundPage}
+import helpers.disposal_of_vehicle.{VehicleLookupPage, UprnNotFoundPage}
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import org.scalatest.mock.MockitoSugar
-import org.mockito.Mockito._
-import org.mockito.Matchers._
+import pages.disposal_of_vehicle._
 import services.fakes.{FakeAddressLookupService, FakeWebServiceImpl}
 
 class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers with MockitoSugar {
@@ -19,7 +18,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
 
     "present" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
 
       // Act
@@ -31,7 +30,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
 
     "redirect to VehicleLookup page after a valid submit" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(addressSelectId -> "1234")
 
@@ -44,7 +43,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
 
     "return a bad request after no submission" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 
@@ -57,7 +56,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
 
     "return a bad request after a blank submission" in new WithApplication {
       // Arrange
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(addressSelectId -> "")
 
@@ -76,7 +75,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
       val result = businessChooseYourAddress.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to setupTradeDetails page when valid submit with no dealer name cached" in new WithApplication {
@@ -88,7 +87,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
       val result = businessChooseYourAddress.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to setupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
@@ -97,11 +96,11 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
 
       val result = businessChooseYourAddress.submit(request)
 
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to UprnNotFound page when Uprn returns no match on submit" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(addressSelectId -> "9999")
 

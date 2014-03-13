@@ -3,8 +3,8 @@ package controllers.disposal_of_vehicle
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
+import pages.disposal_of_vehicle._
 import org.scalatest.{Matchers, WordSpec}
-import helpers.disposal_of_vehicle.SetUpTradeDetailsPage
 
 class BeforeYouStartControllerSpec extends WordSpec with Matchers {
 
@@ -29,8 +29,7 @@ class BeforeYouStartControllerSpec extends WordSpec with Matchers {
       val result = disposal_of_vehicle.BeforeYouStart.submit(request)
 
       // Assert
-      status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal (Some(SetupTradeDetailsPage.urlControllerTest))
      }
   }
 }

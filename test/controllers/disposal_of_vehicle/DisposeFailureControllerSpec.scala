@@ -5,7 +5,8 @@ import org.specs2.mock.Mockito
 import play.api.test.{FakeRequest, WithApplication}
 import controllers.disposal_of_vehicle
 import play.api.test.Helpers._
-import helpers.disposal_of_vehicle.{SetUpTradeDetailsPage, VehicleLookupPage, DisposeFailurePage}
+import helpers.disposal_of_vehicle.{VehicleLookupPage, DisposeFailurePage}
+import pages.disposal_of_vehicle._
 
 class DisposeFailureControllerSpec extends WordSpec with Matchers with Mockito {
   "DisposalFailure - Controller" should {
@@ -40,7 +41,7 @@ class DisposeFailureControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.DisposeFailure.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
   }
 }

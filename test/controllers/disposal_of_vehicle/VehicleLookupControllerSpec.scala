@@ -5,13 +5,14 @@ import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.VehicleLookup._
-import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetUpTradeDetailsPage, DisposePage, VehicleLookupFailurePage, EnterAddressManuallyPage}
+import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, DisposePage, VehicleLookupFailurePage, EnterAddressManuallyPage}
 import helpers.disposal_of_vehicle.Helper._
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import services.fakes.{FakeDisposeService, FakeVehicleLookupService}
+import pages.disposal_of_vehicle._
 
 class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
@@ -73,7 +74,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       val result = vehicleLookupSuccess.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "return a bad request if no details are entered" in new WithApplication {

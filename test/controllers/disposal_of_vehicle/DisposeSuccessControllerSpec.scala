@@ -5,7 +5,8 @@ import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import org.specs2.mock.Mockito
-import helpers.disposal_of_vehicle.{VehicleLookupPage, DisposePage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, DisposeSuccessPage}
+import pages.disposal_of_vehicle._
+import helpers.disposal_of_vehicle.{VehicleLookupPage, DisposePage, BusinessChooseYourAddressPage, DisposeSuccessPage}
 
 class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
 
@@ -42,7 +43,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to SetUpTradeDetails on present when only DealerDetails are cached" in new WithApplication {
@@ -54,7 +55,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to SetUpTradeDetails on present when only VehicleDetails are cached" in new WithApplication {
@@ -66,7 +67,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to SetUpTradeDetails on present when only DisposeDetails are cached" in new WithApplication {
@@ -78,7 +79,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to SetUpTradeDetails on present when only VehicleDetails and DisposeDetails are cached" in new WithApplication {
@@ -91,7 +92,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to SetUpTradeDetails on present when only VehicleDetails and DealerDetails are cached" in new WithApplication {
@@ -104,7 +105,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to SetUpTradeDetails on present when only DisposeDetails and DealerDetails are cached" in new WithApplication {
@@ -117,7 +118,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to SetUpTradeDetails on submit when cache is empty" in new WithApplication {
@@ -128,7 +129,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to SetUpTradeDetails on submit when only DealerDetails are cached" in new WithApplication {
@@ -140,7 +141,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to SetUpTradeDetails on submit when only VehicleDetails are cached" in new WithApplication {
@@ -152,7 +153,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to SetUpTradeDetails on submit when only DisposeDetails are cached" in new WithApplication {
@@ -164,7 +165,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to SetUpTradeDetails on submit when only VehicleDetails and DisposeDetails are cached" in new WithApplication {
@@ -177,7 +178,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to SetUpTradeDetails on submit when only VehicleDetails and DealerDetails are cached" in new WithApplication {
@@ -190,7 +191,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
     "redirect to SetUpTradeDetails on submit when only DisposeDetails and DealerDetails are cached" in new WithApplication {
@@ -203,7 +204,7 @@ class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
     }
 
   }
