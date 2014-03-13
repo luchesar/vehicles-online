@@ -9,10 +9,10 @@ object DisposeSuccessPage {
   def happyPath() {
     CacheSetup.setupTradeDetails()
     CacheSetup.businessChooseYourAddress()
-    VehicleLookupPage.setupVehicleDetailsModelCache()
-    DisposePage.setupDisposeFormModelCache
-    DisposePage.setupDisposeTransactionIdCache
-    DisposePage.setupRegistrationNumberCache()
+    CacheSetup.vehicleDetailsModel()
+    CacheSetup.disposeFormModel()
+    CacheSetup.disposeTransactionId()
+    CacheSetup.vehicleRegistrationNumber()
   }
 
 }

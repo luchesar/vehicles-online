@@ -5,7 +5,7 @@ import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.VehicleLookup._
-import helpers.disposal_of_vehicle.{DisposePage, VehicleLookupFailurePage, EnterAddressManuallyPage}
+import helpers.disposal_of_vehicle.{DisposePage, EnterAddressManuallyPage}
 import helpers.disposal_of_vehicle.Helper._
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
@@ -63,7 +63,7 @@ class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSug
       val result = vehicleLookupFailure.submit(request)
 
       // Assert
-      redirectLocation(result) should equal (Some(VehicleLookupFailurePage.url))
+      redirectLocation(result) should equal (Some(VehicleLookupFailurePage.urlControllerTest))
     }
 
     "redirect to setupTradeDetails page when user has not set up a trader for disposal" in new WithApplication {

@@ -14,8 +14,7 @@ object DisposePage {
 
   def happyPath(browser: TestBrowser, day: String = "1", month :String = "1", year: String = "2000") = {
     CacheSetup.businessChooseYourAddress()
-    VehicleLookupPage.setupVehicleDetailsModelCache()
-    VehicleLookupPage.setupVehicleLookupFormModelCache()
+
     browser.goTo(url)
     browser.click(s"#${dateOfDisposalId}_day option[value='$day']")
     browser.click(s"#${dateOfDisposalId}_month option[value='$month']")
