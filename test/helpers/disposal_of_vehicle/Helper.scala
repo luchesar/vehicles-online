@@ -13,6 +13,7 @@ object Helper {
   val line4Valid = "line-4 stub"
   val postcodeValid = "CM81QJ"
   val postcodeValidWithSpace = "CM8 1QJ"
+  val postcodeNoResults = "SA99 1DD"
 
   val referenceNumberValid = "12345678910"
   val registrationNumberValid = "AB12AWR"

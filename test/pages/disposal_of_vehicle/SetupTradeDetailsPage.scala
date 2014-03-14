@@ -22,5 +22,4 @@ object SetupTradeDetailsPage extends Page with WebBrowserDSL {
     SetupTradeDetailsPage.dealerPostcode enter traderPostcode
     click on SetupTradeDetailsPage.lookup
   }
-
 }

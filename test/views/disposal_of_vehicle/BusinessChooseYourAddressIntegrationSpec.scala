@@ -5,6 +5,8 @@ import helpers.webbrowser.TestHarness
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
 import pages.common.ErrorPanel
+import java.util.concurrent.TimeUnit
+import helpers.disposal_of_vehicle.Helper._
 
 class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestHarness  {
   "Business choose your address - Integration" should {
@@ -75,37 +77,30 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestH
       //Act
       assert(BusinessChooseYourAddressPage.getListCount equals 1)
     }
-/*
 
+//TODO discuss below two tests to check integrity
     "display address dropdown when address service returns addresses" in new WebBrowser {
-      // Arrange
+      // Arrange & Act
       SetupTradeDetailsPage.happyPath
 
       // Assert
-      browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {
-        // TODO split this into two helpers, pass in the boolean on the first helper, pass in expected size on the second helper.
-        browser.pageSource.contains("No addresses found for that postcode.") must beEqualTo(false) // No "not found" message present.
+      //browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {.
+      val result = webDriver.getPageSource
+      result.contains("No addresses found for that postcode")  must beEqualTo(false)
 
-        val dropdownCount = browser.find("#disposal_businessChooseYourAddress_addressSelect").size
-        dropdownCount mustEqual (1) // The dropdown is present.
-      }
+      assert(BusinessChooseYourAddressPage.getListCount equals 1)
     }
-
-
-    "display message when address service returns no addresses" in new WithBrowser with BrowserMatchers {
+/* //TODO need to amend below test not to use fake microservice
+    "display message when address service returns no addresses" in new WebBrowser {
       // Arrange
-      SetUpTradeDetailsPage.setupCache(traderPostcode = postcodeInvalid)
-
-      // Act
-      browser.goTo(BusinessChooseYourAddressPage.url)
+      SetupTradeDetailsPage.happyPath(webDriver,traderPostcode = postcodeNoResults)
 
       // Assert
-      browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {
-        browser.pageSource.contains("No addresses found for that postcode.") must beEqualTo(true) // "not found" message present.
+      //browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {
+      val result = webDriver.getPageSource
+      result.contains("No addresses found for that postcode")  must beEqualTo(true)
 
-        val dropdownCount = browser.find("#disposal_businessChooseYourAddress_addressSelect").size
-        dropdownCount mustEqual (0) // The dropdown is not present.
-      }
-    }*/
+      assert(BusinessChooseYourAddressPage.getListCount equals 0)
+      }*/
+    }
   }
-}
