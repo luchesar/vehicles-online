@@ -68,18 +68,14 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestH
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-/* TODO - need to convert the three tests below
-
     "check number of options in drop down" in new WebBrowser {
       // Arrange
       SetupTradeDetailsPage.happyPath
 
       //Act
-      val result = browser.find("#disposal_businessChooseYourAddress_addressSelect option").size
-
-      result must beEqualTo(3) //this test currently looks at hardcoded service, however options within the drop down list are counted correctly
+      assert(BusinessChooseYourAddressPage.getListCount equals 1)
     }
-
+/*
 
     "display address dropdown when address service returns addresses" in new WebBrowser {
       // Arrange

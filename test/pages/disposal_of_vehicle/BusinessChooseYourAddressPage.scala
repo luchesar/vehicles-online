@@ -14,6 +14,8 @@ object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
 
   def manualAddress(implicit driver: WebDriver): Element = find(id("enterAddressManuallyButton")).get
 
+  def getListCount(implicit driver: WebDriver): Int = find(xpath("//*[@id='disposal_businessChooseYourAddress_addressSelect']/option")).size
+
   def select(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
 
   def happyPath(implicit driver: WebDriver) = {
