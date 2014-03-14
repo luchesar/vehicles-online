@@ -35,11 +35,10 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
       get()
   }
 
-  def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = {
+  private def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = {
     val response = resp.json.asOpt[OSAddressbaseSearchResponse]
     response.flatMap(_.results)
   }
-
 
   override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = {
     def sort(addresses: Seq[OSAddressbaseDPA]) = {
