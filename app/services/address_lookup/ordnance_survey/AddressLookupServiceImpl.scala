@@ -22,7 +22,7 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
     Logger.debug(s"Calling Ordnance Survey postcode lookup service on $endPoint...")
     ws.url(endPoint).
       withAuth(username = username, password = password, scheme = AuthScheme.BASIC).
-      withRequestTimeout(requestTimeout). // Timeout is in milliseconds // TODO Timeout value should be read from config file
+      withRequestTimeout(requestTimeout). // Timeout is in milliseconds
       get()
   }
 
@@ -31,7 +31,7 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
     Logger.debug(s"Calling Ordnance Survey uprn lookup service on $endPoint...")
     ws.url(endPoint).
       withAuth(username = username, password = password, scheme = AuthScheme.BASIC).
-      withRequestTimeout(30000). // Timeout is in milliseconds // TODO Timeout value should be read from config file
+      withRequestTimeout(30000). // Timeout is in milliseconds
       get()
   }
 

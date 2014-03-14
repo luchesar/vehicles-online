@@ -20,15 +20,22 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
 
   // request should look like    (GET, "/addresses?postcode=kt70ej").withHeaders(validAuthHeader)
   override protected def callPostcodeWebService(postcode: String): Future[Response] = {
-    val endPoint = s"$baseUrl/addresses?postcode=${ postcodeWithNoSpaces(postcode) }" // TODO add lpi to URL, but need to set organisation as Option on the type.
+    val endPoint = s"$baseUrl/addresses?postcode=${ postcodeWithNoSpaces(postcode) }"
     Logger.debug(s"Calling GDS postcode lookup service on $endPoint...")
     ws.url(endPoint).
       withHeaders("AUTHORIZATION" -> authorisation).
-      withRequestTimeout(requestTimeout). // Timeout is in milliseconds // TODO Timeout value should be read from config file
+      withRequestTimeout(requestTimeout). // Timeout is in milliseconds
       get()
   }
 
-  override protected def callUprnWebService(uprn: String): Future[Response] = ???
+  override protected def callUprnWebService(uprn: String): Future[Response] = {
+    val endPoint = s"$baseUrl/uprn?uprn=$uprn"
+    Logger.debug(s"Calling GDS uprn lookup service on $endPoint...")
+    ws.url(endPoint).
+      withHeaders("AUTHORIZATION" -> authorisation).
+      withRequestTimeout(requestTimeout). // Timeout is in milliseconds
+      get()
+  }
 
   private def extractFromJson(resp: Response): Seq[Address] = {
     try resp.json.as[Seq[Address]]
