@@ -12,9 +12,7 @@ import services.address_lookup.gds.domain.Address
 import services.address_lookup.gds.domain.JsonFormats.addressFormat
 
 class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends AddressLookupService {
-  val username = s"${Config.ordnanceSurveyUsername}"
-  val password = s"${Config.ordnanceSurveyPassword}"
-  val baseUrl = s"${Config.ordnanceSurveyBaseUrl}"
+  val baseUrl = s"${Config.gdsAddressLookupBaseUrl}"
 
   override protected def callPostcodeWebService(postcode: String): Future[Response] = ???
 
