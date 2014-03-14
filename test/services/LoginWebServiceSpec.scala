@@ -9,8 +9,9 @@ import play.api.libs.json.Json
 import org.mockito.Mockito._
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
+import org.scalatest.concurrent.ScalaFutures
 
-class LoginWebServiceSpec extends WordSpec with Matchers with MockitoSugar {
+class LoginWebServiceSpec extends WordSpec with ScalaFutures with Matchers with MockitoSugar {
   "invoke" should {
 
     // This class allows overriding of the base classes methods which call the real web service.
@@ -46,10 +47,9 @@ class LoginWebServiceSpec extends WordSpec with Matchers with MockitoSugar {
         }
       )
 
-      // Act
       val result = loginWebServiceImpl.invoke(loginPageModel)
 
-      result.map { r => r should equal(loginResponse)}
+      whenReady(result) { _ should equal(loginResponse)}
     }
   }
 }
