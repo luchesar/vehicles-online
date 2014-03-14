@@ -5,6 +5,9 @@ package mappings.disposal_of_vehicle
  * Also includes the cache key to use when storing the dealer name
  */
 object SetupTradeDetails {
+  val dealerNameMaxLength = 2
+  val dealerNameMinLength = 100
+
   val dealerNameId = "dealerName"
   val dealerPostcodeId = "dealerPostcode"
   val SetupTradeDetailsCacheKey = "setupTradeDetails"
