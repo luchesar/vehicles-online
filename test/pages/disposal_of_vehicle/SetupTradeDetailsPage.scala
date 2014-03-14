@@ -6,9 +6,8 @@ import helpers.disposal_of_vehicle.Helper._
 
 
 object SetupTradeDetailsPage extends Page with WebBrowserDSL {
-  val address = "disposal-of-vehicle/setup-trade-details"
-  val urlControllerTest: String = "/" + address
-  override val url: String = WebDriverFactory.testUrl + address
+  val address = "/disposal-of-vehicle/setup-trade-details"
+  override val url: String = WebDriverFactory.testUrl + address.substring(1)
   override val title: String = "Dispose a vehicle into the motor trade: set-up"
 
   def dealerName(implicit driver: WebDriver): TextField = textField(id("dealerName"))

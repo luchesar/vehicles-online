@@ -38,7 +38,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
       val result = businessChooseYourAddress.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(VehicleLookupPage.urlControllerTest))
+      redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
 
     "return a bad request after no submission" in new WithApplication {
@@ -75,7 +75,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
       val result = businessChooseYourAddress.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to setupTradeDetails page when valid submit with no dealer name cached" in new WithApplication {
@@ -87,7 +87,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
       val result = businessChooseYourAddress.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to setupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
@@ -96,7 +96,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
 
       val result = businessChooseYourAddress.submit(request)
 
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to UprnNotFound page when Uprn returns no match on submit" in new WithApplication {
@@ -108,7 +108,7 @@ class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers wit
       val result = businessChooseYourAddress.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(UprnNotFoundPage.urlControllerTest))
+      redirectLocation(result) should equal(Some(UprnNotFoundPage.address))
 
     }
   }

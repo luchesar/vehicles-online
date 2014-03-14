@@ -40,7 +40,7 @@ class DisposeFailureControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.DisposeFailure.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(VehicleLookupPage.urlControllerTest))
+      redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
 
     "redirect to setuptraderdetails when no details are in cache and submit is selected" in new WithApplication() {
@@ -50,7 +50,7 @@ class DisposeFailureControllerSpec extends WordSpec with Matchers with Mockito {
       val result = disposal_of_vehicle.DisposeFailure.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
   }
 }

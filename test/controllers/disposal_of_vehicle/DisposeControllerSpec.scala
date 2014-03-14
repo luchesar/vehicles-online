@@ -55,7 +55,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
 
          // Assert
 
-         redirectLocation(result) should equal(Some(DisposeSuccessPage.urlControllerTest))
+         redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
        }
 
     "redirect to dispose error when a fail message is returned by the fake microservice" in new WithApplication {
@@ -81,7 +81,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       val result = dispose.submit(request)
 
       //Assert
-      redirectLocation(result) should equal(Some(DisposeFailurePage.urlControllerTest))
+      redirectLocation(result) should equal(Some(DisposeFailurePage.address))
     }
 
     "redirect to setupTradeDetails page after the dispose button is clicked and no vehicleLookupFormModel is cached" in new WithApplication {
@@ -98,7 +98,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       val result = dispose.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to setupTradeDetails page when present and previous pages have not been visited" in new WithApplication {
@@ -109,7 +109,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       val result = dispose.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "return a bad request when no details are entered" in new WithApplication {
@@ -135,7 +135,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       val result = dispose.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "return a bad request when calling webservice throws exception" in new WithApplication {

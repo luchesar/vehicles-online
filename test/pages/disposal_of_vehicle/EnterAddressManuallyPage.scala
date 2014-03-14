@@ -13,9 +13,8 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
   val postcodeValidWithSpace = "SE1 6EH"
 
 
-  val address = "disposal-of-vehicle/enter-address-manually"
-  val urlControllerTest: String = "/" + address
-  override val url: String = WebDriverFactory.testUrl + address
+  val address = "/disposal-of-vehicle/enter-address-manually"
+  override val url: String = WebDriverFactory.testUrl + address.substring(1)
   override val title: String = "Enter address manually"
 
   def addressLine1(implicit driver: WebDriver): TextField = textField(id("addressAndPostcode_addressLines_line1"))

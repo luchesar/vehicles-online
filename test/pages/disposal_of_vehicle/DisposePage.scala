@@ -4,9 +4,8 @@ import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
 
 object DisposePage extends Page with WebBrowserDSL {
-  val address = "disposal-of-vehicle/dispose"
-  val urlControllerTest: String = "/" + address
-  override val url: String = WebDriverFactory.testUrl + address
+  val address = "/disposal-of-vehicle/dispose"
+  override val url: String = WebDriverFactory.testUrl + address.substring(1)
   override val title: String = "Dispose a vehicle into the motor trade: confirm"
 
   def mileage(implicit driver: WebDriver): TextField = textField(id("mileage"))

@@ -32,7 +32,7 @@ class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
 
       // Assert
       status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.urlControllerTest))
+      redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.address))
     }
 
     "return a bad request when only dealerName is entered" in new WithApplication {

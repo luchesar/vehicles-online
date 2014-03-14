@@ -37,7 +37,7 @@ class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
       val result = disposal_of_vehicle.VehicleLookupFailure.submit(request)
 
       // Assert
-      redirectLocation(result) should equal (Some(VehicleLookupPage.urlControllerTest))
+      redirectLocation(result) should equal (Some(VehicleLookupPage.address))
     }
 
     "redirect to setuptraderdetails when cache is empty" in new WithApplication {
@@ -47,7 +47,7 @@ class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
       val result = disposal_of_vehicle.VehicleLookupFailure.present(request)
 
       // Assert
-      redirectLocation(result) should equal (Some(SetupTradeDetailsPage.urlControllerTest))
+      redirectLocation(result) should equal (Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to setuptraderdetails on submit when cache is empty" in new WithApplication {
@@ -57,7 +57,7 @@ class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
       val result = disposal_of_vehicle.VehicleLookupFailure.submit(request)
 
       // Assert
-      redirectLocation(result) should equal (Some(SetupTradeDetailsPage.urlControllerTest))
+      redirectLocation(result) should equal (Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to setuptraderdetails on if only BusinessChooseYourAddress cache is populated" in new WithApplication {
@@ -69,7 +69,7 @@ class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
       val result = disposal_of_vehicle.VehicleLookupFailure.present(request)
 
       // Assert
-      redirectLocation(result) should equal (Some(SetupTradeDetailsPage.urlControllerTest))
+      redirectLocation(result) should equal (Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to setuptraderdetails on if only VehicleLookupFormModelCache is populated" in new WithApplication {
@@ -81,7 +81,7 @@ class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
       val result = disposal_of_vehicle.VehicleLookupFailure.present(request)
 
       // Assert
-      redirectLocation(result) should equal (Some(SetupTradeDetailsPage.urlControllerTest))
+      redirectLocation(result) should equal (Some(SetupTradeDetailsPage.address))
     }
   }
 }

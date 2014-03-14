@@ -77,7 +77,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       val result = disposal_of_vehicle.EnterAddressManually.present(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to Dispose after a valid submission of all fields" in new WithApplication {
@@ -94,7 +94,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(VehicleLookupPage.urlControllerTest))
+      redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
 
     "redirect to Dispose after a valid submission of mandatory fields only" in new WithApplication {
@@ -108,7 +108,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(VehicleLookupPage.urlControllerTest))
+      redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
 
     "redirect to SetupTraderDetails page when valid submit with no dealer name cached" in new WithApplication {
@@ -124,7 +124,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to SetupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
@@ -135,7 +135,7 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
       // Assert
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.urlControllerTest))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
   }
 }

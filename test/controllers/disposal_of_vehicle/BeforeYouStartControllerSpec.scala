@@ -29,7 +29,7 @@ class BeforeYouStartControllerSpec extends WordSpec with Matchers {
       val result = disposal_of_vehicle.BeforeYouStart.submit(request)
 
       // Assert
-      redirectLocation(result) should equal (Some(SetupTradeDetailsPage.urlControllerTest))
+      redirectLocation(result) should equal (Some(SetupTradeDetailsPage.address))
      }
   }
 }
