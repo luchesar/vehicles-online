@@ -4,8 +4,9 @@ import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
 
 object DisposeSuccessPage extends Page with WebBrowserDSL {
-  val urlControllerTest: String = "/disposal-of-vehicle/dispose-success"
-  override val url: String = WebDriverFactory.testUrl + "disposal-of-vehicle/dispose-success"
+  val address = "disposal-of-vehicle/dispose-success"
+  val urlControllerTest: String = "/" + address
+  override val url: String = WebDriverFactory.testUrl + address
   override val title: String = "Dispose a vehicle into the motor trade: summary"
 
   def newDisposal(implicit driver: WebDriver): Element = find(id("newDisposal")).get
