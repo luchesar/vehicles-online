@@ -10,7 +10,7 @@ import models.{DayMonthYear, DayMonthYearObject}
 
 object CacheSetup {
 
-  def setupTradeDetails(traderPostcode: String = traderPostcodeValid) = {
+  def setupTradeDetails(traderPostcode: String = postcodeValid) = {
     val key = mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
     val value = SetupTradeDetailsModel(traderBusinessName = traderBusinessNameValid, traderPostcode = traderPostcode)
     play.api.cache.Cache.set(key, value)

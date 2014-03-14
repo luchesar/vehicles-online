@@ -5,22 +5,20 @@ import models.domain.disposal_of_vehicle.AddressViewModel
 object Helper {
 
   val traderBusinessNameValid = "example trader name"
-  val traderPostcodeValid = "CM81QJ"
   val traderaddressValid = "1"
 
   val line1Valid = "123 Some street"
   val line2Valid = "line-2 stub"
   val line3Valid = "line-3 stub"
   val line4Valid = "line-4 stub"
-  val postcodeValid = "SE16EH"
-  val postcodeValidWithSpace = "SE1 6EH"
+  val postcodeValid = "CM81QJ"
+  val postcodeValidWithSpace = "CM8 1QJ"
 
   val referenceNumberValid = "12345678910"
   val registrationNumberValid = "AB12AWR"
 
   val vehicleMakeValid = "make"
   val vehicleModelValid = "model"
-  val dateOfDisposalValid = (Some(1), Some(2), Some(2014))
   val keeperNameValid = "John Smith"
   val vehicleLookupKey = referenceNumberValid + "." + registrationNumberValid
 
@@ -32,4 +30,5 @@ object Helper {
   val dateOfDisposalDayValid = "25"
   val dateOfDisposalMonthValid = "11"
   val dateOfDisposalYearValid = "1970"
+  val dateOfDisposalValid = (Some(1), Some(2), Some(2014))
 }

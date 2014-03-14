@@ -16,7 +16,7 @@ class SetUpTradeDetailsFormSpec extends WordSpec with Matchers {
     }
 //Trader business name tests
     "reject if trader business name is blank" in {
-      traderLookupFiller(traderBusinessName = "", traderPostcode = traderPostcodeValid).fold(
+      traderLookupFiller(traderBusinessName = "", traderPostcode = postcodeValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(2)
         },
@@ -24,7 +24,7 @@ class SetUpTradeDetailsFormSpec extends WordSpec with Matchers {
     }
 
     "reject if trader business name is less than minimum length" in {
-      traderLookupFiller(traderBusinessName = "A", traderPostcode = traderPostcodeValid).fold(
+      traderLookupFiller(traderBusinessName = "A", traderPostcode = postcodeValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
@@ -32,7 +32,7 @@ class SetUpTradeDetailsFormSpec extends WordSpec with Matchers {
     }
 
     "reject if trader business name is more than the maximum length" in {
-      traderLookupFiller(traderBusinessName = ("A" * 101), traderPostcode = traderPostcodeValid).fold(
+      traderLookupFiller(traderBusinessName = ("A" * 101), traderPostcode = postcodeValid).fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
@@ -40,7 +40,7 @@ class SetUpTradeDetailsFormSpec extends WordSpec with Matchers {
     }
 
     "accept if trader business name is valid" in {
-      traderLookupFiller(traderBusinessName = traderBusinessNameValid, traderPostcode = traderPostcodeValid).fold(
+      traderLookupFiller(traderBusinessName = traderBusinessNameValid, traderPostcode = postcodeValid).fold(
         formWithErrors => {
           fail("An error should occur")
         },
@@ -48,7 +48,7 @@ class SetUpTradeDetailsFormSpec extends WordSpec with Matchers {
     }
 
     "reject if trader postcode is empty" in {
-      traderLookupFiller(traderBusinessName = traderPostcodeValid, traderPostcode = "").fold(
+      traderLookupFiller(traderBusinessName = postcodeValid, traderPostcode = "").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(3)
         },
@@ -56,7 +56,7 @@ class SetUpTradeDetailsFormSpec extends WordSpec with Matchers {
     }
 
     "reject if trader postcode is less than the minimum length" in {
-      traderLookupFiller(traderBusinessName = traderPostcodeValid, traderPostcode = "M15A").fold(
+      traderLookupFiller(traderBusinessName = postcodeValid, traderPostcode = "M15A").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(2)
         },
@@ -64,7 +64,7 @@ class SetUpTradeDetailsFormSpec extends WordSpec with Matchers {
     }
 
     "reject if trader postcode is more than the maximum length" in {
-      traderLookupFiller(traderBusinessName = traderPostcodeValid, traderPostcode = "SA99 1DDD").fold(
+      traderLookupFiller(traderBusinessName = postcodeValid, traderPostcode = "SA99 1DDD").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(2)
         },
@@ -72,7 +72,7 @@ class SetUpTradeDetailsFormSpec extends WordSpec with Matchers {
     }
 
     "reject if trader postcode contains special characters" in {
-      traderLookupFiller(traderBusinessName = traderPostcodeValid, traderPostcode = "SA99 1D$").fold(
+      traderLookupFiller(traderBusinessName = postcodeValid, traderPostcode = "SA99 1D$").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
@@ -80,7 +80,7 @@ class SetUpTradeDetailsFormSpec extends WordSpec with Matchers {
     }
 
     "reject if trader postcode contains an incorrect format" in {
-      traderLookupFiller(traderBusinessName = traderPostcodeValid, traderPostcode = "SAR99").fold(
+      traderLookupFiller(traderBusinessName = postcodeValid, traderPostcode = "SAR99").fold(
         formWithErrors => {
           formWithErrors.errors.length should equal(1)
         },
@@ -88,11 +88,11 @@ class SetUpTradeDetailsFormSpec extends WordSpec with Matchers {
     }
 
     "accept if trader postcode is valid" in {
-      traderLookupFiller(traderBusinessName = traderBusinessNameValid, traderPostcode = traderPostcodeValid).fold(
+      traderLookupFiller(traderBusinessName = traderBusinessNameValid, traderPostcode = postcodeValid).fold(
         formWithErrors => {
           fail("An error should occur")
         },
-        f => f.traderPostcode should equal(traderPostcodeValid))
+        f => f.traderPostcode should equal(postcodeValid))
     }
   }
 }

@@ -25,7 +25,7 @@ class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
     "redirect to next page when the form is completed successfully" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(dealerNameId -> traderBusinessNameValid, dealerPostcodeId -> traderPostcodeValid)
+        .withFormUrlEncodedBody(dealerNameId -> traderBusinessNameValid, dealerPostcodeId -> postcodeValid)
 
       // Act
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
@@ -50,7 +50,7 @@ class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
     "return a bad request when only traderPostcode is entered" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(dealerPostcodeId -> traderPostcodeValid)
+        .withFormUrlEncodedBody(dealerPostcodeId -> postcodeValid)
 
       // Act
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
@@ -135,7 +135,7 @@ class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
     "return a bad request when a dealer name is entered with to many characters" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(dealerNameId -> ("a" * 101), dealerPostcodeId -> traderPostcodeValid)
+        .withFormUrlEncodedBody(dealerNameId -> ("a" * 101), dealerPostcodeId -> postcodeValid)
 
       // Act
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
