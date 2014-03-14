@@ -29,7 +29,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
     class PartialMockAddressLookupService(ws: services.WebService = new FakeWebServiceImpl,
                                           responseOfPostcodeWebService: Future[Response] = Future { mock[Response] },
                                           responseOfUprnWebService: Future[Response] = Future { mock[Response] }
-                                          ) extends gds.AddressLookupServiceImpl(ws) {
+                                           ) extends gds.AddressLookupServiceImpl(ws) {
 
       override protected def callPostcodeWebService(postcode: String): Future[Response] = responseOfPostcodeWebService
 
@@ -70,23 +70,23 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
         y = 2.0d)
     )
 
-  def response(statusCode: Int, inputAsJson: JsValue) = {
+  def response(statusCode: Int, inputAsJson: JsValue) = Future {
     val response = mock[Response] // It's very hard to create a Response so use a mock.
     when(response.status).thenReturn(statusCode)
     when(response.json).thenReturn(inputAsJson)
-    Future { response }
+    response
   }
 
-  def responseThrows = {
+  def responseThrows = Future {
     val response = mock[Response]
     when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
-    Future { response }
+    response
   }
 
-  def responseTimeout = {
+  def responseTimeout = Future {
     val response = mock[Response]
     when(response.status).thenThrow(new java.util.concurrent.TimeoutException("This error is generated deliberately by a test"))
-    Future { response }
+    response
   }
 
   "fetchAddressesForPostcode" should {
