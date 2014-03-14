@@ -12,9 +12,8 @@ import org.scalatest._
 import org.scalatest.concurrent._
 import services.address_lookup.gds.domain.{Presentation, Details, Location, Address}
 import services.AddressLookupService
-import play.api.libs.json.Json
+import play.api.libs.json.{JsValue, Json}
 import services.address_lookup.gds.domain.JsonFormats.addressFormat
-import models.domain.disposal_of_vehicle.AddressViewModel
 
 class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers with MockitoSugar {
   /*
@@ -28,12 +27,9 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
   def addressServiceMockResponse(webServiceResponse: Future[Response]): AddressLookupService = {
     // This class allows overriding of the base classes methods which call the real web service.
     class PartialMockAddressLookupService(ws: services.WebService = new FakeWebServiceImpl,
-                                          responseOfPostcodeWebService: Future[Response] = Future {
-                                            mock[Response]
-                                          },
-                                          responseOfUprnWebService: Future[Response] = Future {
-                                            mock[Response]
-                                          }) extends gds.AddressLookupServiceImpl(ws) {
+                                          responseOfPostcodeWebService: Future[Response] = Future { mock[Response] },
+                                          responseOfUprnWebService: Future[Response] = Future { mock[Response] }
+                                          ) extends gds.AddressLookupServiceImpl(ws) {
 
       override protected def callPostcodeWebService(postcode: String): Future[Response] = responseOfPostcodeWebService
 
@@ -74,13 +70,28 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
         y = 2.0d)
     )
 
+  def response(statusCode: Int, inputAsJson: JsValue) = {
+    val response = mock[Response] // It's very hard to create a Response so use a mock.
+    when(response.status).thenReturn(statusCode)
+    when(response.json).thenReturn(inputAsJson)
+    Future { response }
+  }
+
+  def responseThrows = {
+    val response = mock[Response]
+    when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
+    Future { response }
+  }
+
+  def responseTimeout = {
+    val response = mock[Response]
+    when(response.status).thenThrow(new java.util.concurrent.TimeoutException("This error is generated deliberately by a test"))
+    Future { response }
+  }
+
   "fetchAddressesForPostcode" should {
     "return empty seq when cannot connect to micro-service" in {
-      val service = addressServiceMockResponse(
-        webServiceResponse = Future {
-          throw new java.util.concurrent.TimeoutException("This error is generated deliberately by a test")
-        }
-      )
+      val service = addressServiceMockResponse(responseTimeout)
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -90,13 +101,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
     }
 
     "return empty seq when response throws" in {
-      val response = mock[Response]
-      when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
-      val service = addressServiceMockResponse(
-        webServiceResponse = Future {
-          response
-        }
-      )
+      val service = addressServiceMockResponse(responseThrows)
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -107,13 +112,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
 
     "return empty seq when micro-service returns invalid JSON" in {
       val inputAsJson = Json.toJson("INVALID")
-      val response = mock[Response]
-      when(response.status).thenReturn(200)
-      when(response.json).thenReturn(inputAsJson)
-      val service = addressServiceMockResponse(
-        webServiceResponse = Future {
-          response
-        })
+      val service = addressServiceMockResponse(response(200, inputAsJson))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -125,13 +124,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
     "return empty seq when micro-service response status is not 200 (OK)" in {
       val input: Seq[Address] = Seq(addressValid())
       val inputAsJson = Json.toJson(input)
-      val response = mock[Response]
-      when(response.status).thenReturn(404)
-      when(response.json).thenReturn(inputAsJson)
-      val service = addressServiceMockResponse(
-        webServiceResponse = Future {
-          response
-        })
+      val service = addressServiceMockResponse(response(404, inputAsJson))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -144,13 +137,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
     "return empty seq when micro-service returns empty seq (meaning no addresses found)" in {
       val expectedResults: Seq[Address] = Seq.empty
       val inputAsJson = Json.toJson(expectedResults)
-      val response = mock[Response]
-      when(response.status).thenReturn(200)
-      when(response.json).thenReturn(inputAsJson)
-      val service = addressServiceMockResponse(
-        webServiceResponse = Future {
-          response
-        })
+      val service = addressServiceMockResponse(response(200, inputAsJson))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -163,13 +150,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
       val expected = (uprnValid, "houseName stub, 123, property stub, street stub, town stub, area stub, postcode stub")
       val input: Seq[Address] = Seq(addressValid())
       val inputAsJson = Json.toJson(input)
-      val response = mock[Response]
-      when(response.status).thenReturn(200)
-      when(response.json).thenReturn(inputAsJson)
-      val service = addressServiceMockResponse(
-        webServiceResponse = Future {
-          response
-        })
+      val service = addressServiceMockResponse(response(200, inputAsJson))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -182,13 +163,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
       val expected = (uprnValid, "houseName stub, 123, property stub, street stub, town stub, area stub, postcode stub")
       val input = Seq(addressValid(), addressValid(), addressValid())
       val inputAsJson = Json.toJson(input)
-      val response = mock[Response]
-      when(response.status).thenReturn(200)
-      when(response.json).thenReturn(inputAsJson)
-      val service = addressServiceMockResponse(
-        webServiceResponse = Future {
-          response
-        })
+      val service = addressServiceMockResponse(response(200, inputAsJson))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -209,13 +184,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
         addressValid(houseName = "houseName AAA", houseNumber = "123A")
       )
       val inputAsJson = Json.toJson(input)
-      val response = mock[Response]
-      when(response.status).thenReturn(200)
-      when(response.json).thenReturn(inputAsJson)
-      val service = addressServiceMockResponse(
-        webServiceResponse = Future {
-          response
-        })
+      val service = addressServiceMockResponse(response(200, inputAsJson))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -236,13 +205,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
         addressValid(houseName = "houseName AAA", houseNumber = "123")
       )
       val inputAsJson = Json.toJson(input)
-      val response = mock[Response]
-      when(response.status).thenReturn(200)
-      when(response.json).thenReturn(inputAsJson)
-      val service = addressServiceMockResponse(
-        webServiceResponse = Future {
-          response
-        })
+      val service = addressServiceMockResponse(response(200, inputAsJson))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -254,11 +217,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
 
   "fetchAddressForUprn" should {
     "return None when cannot connect to micro-service" in {
-      val service = addressServiceMockResponse(
-        webServiceResponse = Future {
-          throw new java.util.concurrent.TimeoutException("This error is generated deliberately by a test")
-        }
-      )
+      val service = addressServiceMockResponse(responseTimeout)
 
       val result = service.fetchAddressForUprn(uprnValid)
 
@@ -268,13 +227,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
     }
 
     "return None when response throws" in {
-      val response = mock[Response]
-      when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
-      val service = addressServiceMockResponse(
-        webServiceResponse = Future {
-          response
-        }
-      )
+      val service = addressServiceMockResponse(responseThrows)
 
       val result = service.fetchAddressForUprn(uprnValid)
 
@@ -285,14 +238,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
 
     "return None when micro-service returns invalid JSON" in {
       val inputAsJson = Json.toJson("INVALID")
-      val response = mock[Response]
-      when(response.status).thenReturn(200)
-      when(response.json).thenReturn(inputAsJson)
-      val service = addressServiceMockResponse(
-        webServiceResponse = Future {
-          response
-        }
-      )
+      val service = addressServiceMockResponse(response(200, inputAsJson))
 
       val result = service.fetchAddressForUprn(uprnValid)
 
@@ -304,13 +250,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
     "return None when micro-service response status is not 200 (OK)" in {
       val input: Seq[Address] = Seq(addressValid())
       val inputAsJson = Json.toJson(input)
-      val response = mock[Response]
-      when(response.status).thenReturn(404)
-      when(response.json).thenReturn(inputAsJson)
-      val service = addressServiceMockResponse(
-        webServiceResponse = Future {
-          response
-        })
+      val service = addressServiceMockResponse(response(404, inputAsJson))
 
       val result = service.fetchAddressForUprn(uprnValid)
 
@@ -321,14 +261,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
 
     "return None when micro-service returns empty seq (meaning no addresses found)" in {
       val inputAsJson = Json.toJson(Seq.empty)
-      val response = mock[Response]
-      when(response.status).thenReturn(200)
-      when(response.json).thenReturn(inputAsJson)
-      val service = addressServiceMockResponse(
-        webServiceResponse = Future {
-          response
-        }
-      )
+      val service = addressServiceMockResponse(response(200, inputAsJson))
 
       val result = service.fetchAddressForUprn(uprnValid)
 
@@ -341,13 +274,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
       val expected = Seq("houseName stub, 123, property stub, street stub, town stub, area stub, postcode stub")
       val input: Seq[Address] = Seq(addressValid())
       val inputAsJson = Json.toJson(input)
-      val response = mock[Response]
-      when(response.status).thenReturn(200)
-      when(response.json).thenReturn(inputAsJson)
-      val service = addressServiceMockResponse(
-        webServiceResponse = Future {
-          response
-        })
+      val service = addressServiceMockResponse(response(200, inputAsJson))
 
       val result = service.fetchAddressForUprn(uprnValid)
 
@@ -366,13 +293,7 @@ class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers wit
       val expected = Seq("houseName stub, 123, property stub, street stub, town stub, area stub, postcode stub")
       val input: Seq[Address] = Seq(addressValid(), addressValid(), addressValid())
       val inputAsJson = Json.toJson(input)
-      val response = mock[Response]
-      when(response.status).thenReturn(200)
-      when(response.json).thenReturn(inputAsJson)
-      val service = addressServiceMockResponse(
-        webServiceResponse = Future {
-          response
-        })
+      val service = addressServiceMockResponse(response(200, inputAsJson))
 
       val result = service.fetchAddressForUprn(uprnValid)
 
