@@ -12,7 +12,7 @@ object SetUpTradeDetails extends Controller {
 
   val traderLookupForm = Form(
     mapping(
-      dealerNameId -> nonEmptyText(minLength = 2, maxLength = 100),
+      dealerNameId -> nonEmptyText(minLength = dealerNameMinLength, maxLength = dealerNameMaxLength),
       dealerPostcodeId -> postcode()
     )(SetupTradeDetailsModel.apply)(SetupTradeDetailsModel.unapply)
   )
