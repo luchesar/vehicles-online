@@ -6,7 +6,7 @@ import org.scalatest.mock.MockitoSugar
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.ordnance_survey.AddressLookupServiceImpl
-import pages.disposal_of_vehicle.EnterAddressManuallyPage._
+import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
 import services.ordnance_survey.domain._
 import play.api.libs.json.Json

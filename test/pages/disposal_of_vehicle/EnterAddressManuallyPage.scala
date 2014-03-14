@@ -2,16 +2,9 @@ package pages.disposal_of_vehicle
 
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
+import helpers.disposal_of_vehicle.Helper._
 
 object EnterAddressManuallyPage extends Page with WebBrowserDSL {
-
-  val line1Valid = "123 Some street"
-  val line2Valid = "line-2 stub"
-  val line3Valid = "line-3 stub"
-  val line4Valid = "line-4 stub"
-  val postcodeValid = "SE16EH"
-  val postcodeValidWithSpace = "SE1 6EH"
-
 
   val address = "/disposal-of-vehicle/enter-address-manually"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
