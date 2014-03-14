@@ -3,6 +3,7 @@ package views.disposal_of_vehicle
 import org.specs2.mutable.Specification
 import pages.disposal_of_vehicle._
 import helpers.webbrowser.TestHarness
+import pages.common.ErrorPanel
 
 class SetUpTradeDetailsIntegrationSpec extends Specification with TestHarness  {
 

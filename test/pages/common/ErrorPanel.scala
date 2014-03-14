@@ -1,4 +1,4 @@
-package pages.disposal_of_vehicle
+package pages.common
 
 import helpers.webbrowser.{WebBrowserDSL, Page}
 import org.openqa.selenium.{By, WebDriver}
