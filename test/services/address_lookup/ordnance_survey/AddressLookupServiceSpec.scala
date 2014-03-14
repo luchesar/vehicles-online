@@ -16,9 +16,13 @@ import org.scalatest.concurrent._
 import services.AddressLookupService
 
 class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers with MockitoSugar {
-  val oSAddressbaseDPA = OSAddressbaseDPA(
-    UPRN = "1",
-    address = "a",
+  val uprnValid = "1"
+
+  def oSAddressbaseDPA(houseName: String = "houseName stub", houseNumber: String = "123") = OSAddressbaseDPA(
+    UPRN = uprnValid,
+    address = s"$houseName, $houseNumber, property stub, street stub, town stub, area stub, postcode stub",
+    buildingName = Some(houseName),
+    buildingNumber = Some(houseNumber),
     postTown = "b",
     postCode = "c",
     RPC = "d",
@@ -30,7 +34,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
   )
 
   val oSAddressbaseResultsValidDPA = {
-    val result = OSAddressbaseResult(DPA = Some(oSAddressbaseDPA), LPI = None)
+    val result = OSAddressbaseResult(DPA = Some(oSAddressbaseDPA()), LPI = None)
     Seq(result, result, result)
   }
 
@@ -129,6 +133,50 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
         _ shouldBe empty
       }
     }
+
+    "not throw when an address contains a building number that contains letters" in {
+      val expected = Seq(
+        (uprnValid, "houseName AAA, 123A, property stub, street stub, town stub, area stub, postcode stub"),
+        (uprnValid, "houseName BBB, 123B, property stub, street stub, town stub, area stub, postcode stub"),
+        (uprnValid, "houseName stub, 789C, property stub, street stub, town stub, area stub, postcode stub")
+      )
+      val dpa1 = OSAddressbaseResult(DPA = Some(oSAddressbaseDPA(houseNumber = "789C")), LPI = None)
+      val dpa2 = OSAddressbaseResult(DPA = Some(oSAddressbaseDPA(houseName = "houseName BBB", houseNumber = "123B")), LPI = None)
+      val dpa3 = OSAddressbaseResult(DPA = Some(oSAddressbaseDPA(houseName = "houseName AAA", houseNumber = "123A")), LPI = None)
+      val oSAddressbaseResultsValidDPA = Seq(dpa1, dpa2, dpa3)
+
+      val service = addressServiceMock(200, Some(oSAddressbaseResultsValidDPA))
+
+      val result = service.fetchAddressesForPostcode(postcodeValid)
+
+      whenReady(result) {
+        r =>
+          r.length should equal(oSAddressbaseResultsValidDPA.length)
+          r shouldBe expected
+      }
+    }
+
+    "return seq of (uprn, address) sorted by building number then building name" in {
+      val expected = Seq(
+        (uprnValid, "houseName AAA, 123, property stub, street stub, town stub, area stub, postcode stub"),
+        (uprnValid, "houseName BBB, 123, property stub, street stub, town stub, area stub, postcode stub"),
+        (uprnValid, "houseName stub, 789, property stub, street stub, town stub, area stub, postcode stub")
+      )
+      val dpa1 = OSAddressbaseResult(DPA = Some(oSAddressbaseDPA(houseNumber = "789")), LPI = None)
+      val dpa2 = OSAddressbaseResult(DPA = Some(oSAddressbaseDPA(houseName = "houseName BBB", houseNumber = "123")), LPI = None)
+      val dpa3 = OSAddressbaseResult(DPA = Some(oSAddressbaseDPA(houseName = "houseName AAA", houseNumber = "123")), LPI = None)
+      val oSAddressbaseResultsValidDPA = Seq(dpa1, dpa2, dpa3)
+
+      val service = addressServiceMock(200, Some(oSAddressbaseResultsValidDPA))
+
+      val result = service.fetchAddressesForPostcode(postcodeValid)
+
+      whenReady(result) {
+        r =>
+          r.length should equal(oSAddressbaseResultsValidDPA.length)
+          r shouldBe expected
+      }
+    }
   }
 
   "postcodeWithNoSpaces" should {
@@ -224,13 +272,12 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
     "return AddressViewModel when response status is 200" in {
       val service = addressServiceMock(200, Some(oSAddressbaseResultsValidDPA))
 
-      val result = service.fetchAddressForUprn(oSAddressbaseDPA.UPRN)
+      val result = service.fetchAddressForUprn(oSAddressbaseDPA().UPRN)
 
       whenReady(result) {
-        case Some(addressViewModel) => {
-          addressViewModel.uprn.map(_.toString) should equal(Some(oSAddressbaseDPA.UPRN))
-          addressViewModel.address === oSAddressbaseDPA.address
-        }
+        case Some(addressViewModel) =>
+          addressViewModel.uprn.map(_.toString) should equal(Some(oSAddressbaseDPA().UPRN))
+          addressViewModel.address === oSAddressbaseDPA().address
         case _ => fail("Should have returned Some(AddressViewModel)")
       }
     }
@@ -238,7 +285,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
     "return None when response status is not 200" in {
       val service = addressServiceMock(404, Some(oSAddressbaseResultsValidDPA))
 
-      val result = service.fetchAddressForUprn(oSAddressbaseDPA.UPRN)
+      val result = service.fetchAddressForUprn(oSAddressbaseDPA().UPRN)
 
       whenReady(result) {
         _ should equal(None)
@@ -248,7 +295,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
     "return none when response status is Ok but results is empty" in {
       val service = addressServiceMock(200, None)
 
-      val result = service.fetchAddressForUprn(oSAddressbaseDPA.UPRN)
+      val result = service.fetchAddressForUprn(oSAddressbaseDPA().UPRN)
 
       whenReady(result) {
         _ should equal(None)
@@ -258,7 +305,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
     "return none when the result has no DPA and no LPI" in {
       val service = addressServiceMock(200, Some(oSAddressbaseResultsEmptyDPAAndLPI))
 
-      val result = service.fetchAddressForUprn(oSAddressbaseDPA.UPRN)
+      val result = service.fetchAddressForUprn(oSAddressbaseDPA().UPRN)
 
       whenReady(result) {
         _ should equal(None)
@@ -270,7 +317,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
       when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
       val addressLookupService = addressServiceMock(response, None)
 
-      val result = addressLookupService.fetchAddressForUprn(oSAddressbaseDPA.UPRN)
+      val result = addressLookupService.fetchAddressForUprn(oSAddressbaseDPA().UPRN)
 
       whenReady(result) {
         _ should equal(None)

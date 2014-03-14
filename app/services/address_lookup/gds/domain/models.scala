@@ -2,12 +2,6 @@ package services.address_lookup.gds.domain
 
 import org.joda.time.DateTime
 
-
-
-
-
-
-
 case class Details(
                     usrn: String,
                     isResidential: Boolean,
@@ -39,7 +33,9 @@ case class Address(
                     // createdAt: DateTime,
                     presentation: Presentation,
                     details: Details,
-                    location: Location)
+                    location: Location){
+  def toViewModel = Seq(houseName, houseNumber).flatten ++ presentation.toViewModel
+}
 
 
 case class PlacesAddress(
