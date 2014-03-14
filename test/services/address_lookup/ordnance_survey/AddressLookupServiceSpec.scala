@@ -14,6 +14,7 @@ import play.api.libs.ws.Response
 import org.scalatest._
 import org.scalatest.concurrent._
 import services.AddressLookupService
+import play.api.libs.json.JsValue
 
 class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers with MockitoSugar {
   val uprnValid = "1"
@@ -63,25 +64,32 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
     }
 
     new PartialMockAddressLookupService(
-      responseOfPostcodeWebService = Future {
-        response
-      },
-      responseOfUprnWebService = Future {
-        response
-      },
+      responseOfPostcodeWebService = Future { response },
+      responseOfUprnWebService = Future { response },
       results = results)
   }
 
-  // Wrap simple response status code in a Response (mock).
-  def addressServiceMock(statusCode: Int, results: Option[Seq[OSAddressbaseResult]]): AddressLookupService = {
+  def response(statusCode: Int) = {
     val response = mock[Response]
     when(response.status).thenReturn(statusCode)
-    addressServiceMock(response, results)
+    response
+  }
+
+  def response(inputAsJson: JsValue) = {
+    val response = mock[Response] // It's very hard to create a Response so use a mock.
+    when(response.json).thenReturn(inputAsJson)
+    response
+  }
+
+  def responseThrows = {
+    val response = mock[Response]
+    when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
+    response
   }
 
   "fetchAddressesForPostcode" should {
     "return seq when response status is 200 and returns results" in {
-      val service = addressServiceMock(200, Some(oSAddressbaseResultsValidDPA))
+      val service = addressServiceMock(response(200), Some(oSAddressbaseResultsValidDPA))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -93,7 +101,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
     }
 
     "return empty seq when response status is Ok but results is empty" in {
-      val service = addressServiceMock(200, None)
+      val service = addressServiceMock(response(200), None)
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -103,7 +111,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
     }
 
     "return empty seq when response status is not Ok (200)" in {
-      val service = addressServiceMock(404, Some(oSAddressbaseResultsValidDPA))
+      val service = addressServiceMock(response(404), Some(oSAddressbaseResultsValidDPA))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -113,7 +121,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
     }
 
     "return empty seq when the result has no DPA and no LPI" in {
-      val service = addressServiceMock(200, Some(oSAddressbaseResultsEmptyDPAAndLPI))
+      val service = addressServiceMock(response(200), Some(oSAddressbaseResultsEmptyDPAAndLPI))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -122,10 +130,8 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
       }
     }
 
-    "return empty seq when web service throws an exception" in {
-      val response = mock[Response]
-      when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
-      val addressLookupService = addressServiceMock(response, None)
+    "return empty seq when response throws" in {
+      val addressLookupService = addressServiceMock(responseThrows, None)
 
       val result = addressLookupService.fetchAddressesForPostcode(postcodeValid)
 
@@ -145,7 +151,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
       val dpa3 = OSAddressbaseResult(DPA = Some(oSAddressbaseDPA(houseName = "houseName AAA", houseNumber = "123A")), LPI = None)
       val oSAddressbaseResultsValidDPA = Seq(dpa1, dpa2, dpa3)
 
-      val service = addressServiceMock(200, Some(oSAddressbaseResultsValidDPA))
+      val service = addressServiceMock(response(200), Some(oSAddressbaseResultsValidDPA))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -167,7 +173,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
       val dpa3 = OSAddressbaseResult(DPA = Some(oSAddressbaseDPA(houseName = "houseName AAA", houseNumber = "123")), LPI = None)
       val oSAddressbaseResultsValidDPA = Seq(dpa1, dpa2, dpa3)
 
-      val service = addressServiceMock(200, Some(oSAddressbaseResultsValidDPA))
+      val service = addressServiceMock(response(200), Some(oSAddressbaseResultsValidDPA))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -222,7 +228,6 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
 
     "return expected given valid json with no results" in {
       val expectedResults: Option[Seq[OSAddressbaseResult]] = None
-
       val inputAsJson = {
         val input = OSAddressbaseSearchResponse(
           header = oSAddressbaseHeader,
@@ -230,17 +235,13 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
         Json.toJson(input)
       }
 
-      val response = mock[Response] // It's very hard to create a Response so use a mock.
-      when(response.json).thenReturn(inputAsJson)
-
-      val result = addressLookupService.extractFromJson(response)
+      val result = addressLookupService.extractFromJson(response(inputAsJson))
 
       result should equal(None)
     }
 
     "return expected given valid json with results" in {
       val expectedResults: Option[Seq[OSAddressbaseResult]] = Some(oSAddressbaseResultsValidDPA)
-
       val inputAsJson = {
         val input = OSAddressbaseSearchResponse(
           header = oSAddressbaseHeader,
@@ -248,10 +249,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
         Json.toJson(input)
       }
 
-      val response = mock[Response] // It's very hard to create a Response so use a mock.
-      when(response.json).thenReturn(inputAsJson)
-
-      val result = addressLookupService.extractFromJson(response)
+      val result = addressLookupService.extractFromJson(response(inputAsJson))
 
       result should equal(expectedResults)
     }
@@ -259,10 +257,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
     "return empty list given invalid json" in {
       val inputAsJson = Json.toJson("INVALID")
 
-      val response = mock[Response] // It's very hard to create a Response so use a mock.
-      when(response.json).thenReturn(inputAsJson)
-
-      val result = addressLookupService.extractFromJson(response)
+      val result = addressLookupService.extractFromJson(response(inputAsJson))
 
       result should equal(None)
     }
@@ -270,7 +265,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
 
   "fetchAddressForUprn" should {
     "return AddressViewModel when response status is 200" in {
-      val service = addressServiceMock(200, Some(oSAddressbaseResultsValidDPA))
+      val service = addressServiceMock(response(200), Some(oSAddressbaseResultsValidDPA))
 
       val result = service.fetchAddressForUprn(oSAddressbaseDPA().UPRN)
 
@@ -283,7 +278,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
     }
 
     "return None when response status is not 200" in {
-      val service = addressServiceMock(404, Some(oSAddressbaseResultsValidDPA))
+      val service = addressServiceMock(response(404), Some(oSAddressbaseResultsValidDPA))
 
       val result = service.fetchAddressForUprn(oSAddressbaseDPA().UPRN)
 
@@ -293,7 +288,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
     }
 
     "return none when response status is Ok but results is empty" in {
-      val service = addressServiceMock(200, None)
+      val service = addressServiceMock(response(200), None)
 
       val result = service.fetchAddressForUprn(oSAddressbaseDPA().UPRN)
 
@@ -303,7 +298,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
     }
 
     "return none when the result has no DPA and no LPI" in {
-      val service = addressServiceMock(200, Some(oSAddressbaseResultsEmptyDPAAndLPI))
+      val service = addressServiceMock(response(200), Some(oSAddressbaseResultsEmptyDPAAndLPI))
 
       val result = service.fetchAddressForUprn(oSAddressbaseDPA().UPRN)
 
@@ -313,9 +308,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
     }
 
     "return none when web service throws an exception" in {
-      val response = mock[Response]
-      when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
-      val addressLookupService = addressServiceMock(response, None)
+      val addressLookupService = addressServiceMock(responseThrows, None)
 
       val result = addressLookupService.fetchAddressForUprn(oSAddressbaseDPA().UPRN)
 
