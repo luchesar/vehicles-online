@@ -7,6 +7,7 @@ import controllers.BrowserMatchers
 class SignInProviderIntegrationSpec extends Specification with Tags {
 
   "SignInProvider Integration" should {
+
     "be presented" in new WithBrowser with BrowserMatchers {
       // Arrange & Act
       browser.goTo("/sign-in-provider")
@@ -26,7 +27,6 @@ class SignInProviderIntegrationSpec extends Specification with Tags {
       // Assert
       titleMustEqual("Verified login id")
     }
-
   }
 
 }

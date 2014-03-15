@@ -24,51 +24,39 @@ class V5cSearchControllerSpec extends WordSpec with Matchers with MockitoSugar {
     val vehicleSearch = new VehicleSearch(mockWebService)
 
     "present when user has logged in" in new WithApplication {
-      // Arrange
       setupCache
-
       val request = FakeRequest().withSession()
 
-      // Act
       val result = vehicleSearch.present(request)
 
-      // Assert
       status(result) should equal(OK)
     }
 
     "present login page when user is not logged in" in new WithApplication {
-      // Arrange
       val request = FakeRequest().withSession()
 
-      // Act
       val result = vehicleSearch.present(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(AreYouRegisteredPage.url))
     }
 
     "redirect to next page after the button is clicked" in new WithApplication {
-      // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cDocumentReferenceNumberValid, v5cRegistrationNumberId -> v5cVehicleRegistrationNumberValid)
+        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cDocumentReferenceNumberValid,
+                                v5cRegistrationNumberId -> v5cVehicleRegistrationNumberValid)
 
-      // Act
       val result = vehicleSearch.submit(request)
 
-      // Assert
       status(result) should equal(SEE_OTHER)
       redirectLocation(result) should equal(Some(ConfirmVehicleDetailsPage.url))
     }
 
     "report bad request when no details are entered" in new WithApplication {
-      // Arrange
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 
-      // Act
       val result = vehicleSearch.submit(request)
 
-      // Assert
       status(result) should equal(BAD_REQUEST)
     }
   }

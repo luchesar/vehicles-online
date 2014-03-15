@@ -16,6 +16,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 
 class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
+
   "Dispose - Controller" should {
 
        val mockDisposeModel = mock[DisposeModel]
@@ -24,20 +25,16 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
        val dispose = new disposal_of_vehicle.Dispose(mockWebServiceSuccess)
 
        "present" in new WithApplication {
-         // Arrange
          BusinessChooseYourAddressPage.setupCache()
          VehicleLookupPage.setupVehicleDetailsModelCache()
          val request = FakeRequest().withSession()
 
-         // Act
          val result = dispose.present(request)
 
-         // Assert
          status(result) should equal(OK)
        }
 
        "redirect to dispose success when a success message is returned by the fake microservice" in new WithApplication {
-         //Arrange
          BusinessChooseYourAddressPage.setupCache()
          VehicleLookupPage.setupVehicleDetailsModelCache()
          VehicleLookupPage.setupVehicleLookupFormModelCache()
@@ -49,10 +46,8 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
              s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid
            )
 
-         // Act
          val result = dispose.submit(request)
 
-         // Assert
          status(result) should equal(SEE_OTHER)
          redirectLocation(result) should equal(Some(DisposeSuccessPage.url))
        }
@@ -76,16 +71,15 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
           s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
           s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid
         )
-      // Act
+
       val result = dispose.submit(request)
 
-      //Assert
       status(result) should equal(SEE_OTHER)
       redirectLocation(result) should equal(Some(DisposeFailurePage.url))
     }
 
     "redirect to setupTradeDetails page after the dispose button is clicked and no vehicleLookupFormModel is cached" in new WithApplication {
-      // Arrange
+
       SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
@@ -94,53 +88,41 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
           s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
           s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid)
 
-      // Act
       val result = dispose.submit(request)
 
-      // Assert
       status(result) should equal(SEE_OTHER)
       redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
     }
 
     "redirect to setupTradeDetails page when present and previous pages have not been visited" in new WithApplication {
-      // Arrange
       val request = FakeRequest().withSession()
 
-      // Act
       val result = dispose.present(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
     }
 
     "return a bad request when no details are entered" in new WithApplication {
-      // Arrange
       BusinessChooseYourAddressPage.setupCache()
       VehicleLookupPage.setupVehicleDetailsModelCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 
-      // Act
       val result = dispose.submit(request)
 
-      // Assert
       status(result) should equal(BAD_REQUEST)
     }
 
     "redirect to setupTradeDetails page when form submitted with errors and previous pages have not been visited" in new WithApplication {
-      // Arrange
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 
-      // Act
       val result = dispose.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
     }
 
     "return a bad request when calling webservice throws exception" in new WithApplication {
-      //Arrange
       BusinessChooseYourAddressPage.setupCache()
       VehicleLookupPage.setupVehicleDetailsModelCache()
       VehicleLookupPage.setupVehicleLookupFormModelCache()
@@ -160,10 +142,8 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       })
       val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows)
 
-      // Act
       val result = dispose.submit(request)
 
-      // Assert
       status(result) should equal(BAD_REQUEST)
     }
   }
