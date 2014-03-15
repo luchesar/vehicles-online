@@ -31,69 +31,63 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: services.Address
     )(BusinessChooseYourAddressModel.apply)(BusinessChooseYourAddressModel.unapply)
   )
 
-  def present = Action.async {
-    implicit request =>
-      fetchTraderDetailsFromCache match {
-        case Some(dealerDetails) => {
-          fetchAddresses.map {
-            addresses =>
-              val f = fetchBusinessChooseYourAddressModelFromCache match {
-              case Some(cached) => form.fill(cached)
-              case None => form // Blank form.
-            }
-            Ok(views.html.disposal_of_vehicle.business_choose_your_address(f, dealerDetails.traderBusinessName, addresses))
-          }
+  def present = Action.async { implicit request =>
+    fetchTraderDetailsFromCache match {
+      case Some(dealerDetails) => fetchAddresses.map { addresses =>
+        val f = fetchBusinessChooseYourAddressModelFromCache match {
+          case Some(cached) => form.fill(cached)
+          case None => form // Blank form.
         }
-        case None => Future {
-          Redirect(routes.SetUpTradeDetails.present)
-        }
+        Ok(views.html.disposal_of_vehicle.business_choose_your_address(f, dealerDetails.traderBusinessName, addresses))
       }
+      case None => Future {
+        Redirect(routes.SetUpTradeDetails.present)
+      }
+    }
   }
 
-  def submit = Action.async {
-    implicit request => {
-      /* TODO [SKW] I realised how we would handle redirect when something missing from cache in Carers, pass what we want to do next in as a function:
-       * implicit request => {
-       *    dependsOnTraderDetails {
-       *      form.bindFromRequest.fold(
-       *        ***
-       *    )
-       *  }
-       * }
-       *
-       * def dependsOnTraderDetails (f: SimpleResult) = {
-       *    if(is in cache) f //
-       *    else {
-       *      Logger.error("failed to find dealer name in cache for formWithErrors, redirecting...")
-       *      Redirect(routes.SetUpTradeDetails.present)
-       *    }
-       * }
-       */
+  def submit = Action.async { implicit request =>
+  /* TODO [SKW] I realised how we would handle redirect when something missing from cache in Carers, pass what we want to do next in as a function:
+   * implicit request => {
+   *    dependsOnTraderDetails {
+   *      form.bindFromRequest.fold(
+   *        ***
+   *    )
+   *  }
+   * }
+   *
+   * def dependsOnTraderDetails (f: SimpleResult) = {
+   *    if(is in cache) f //
+   *    else {
+   *      Logger.error("failed to find dealer name in cache for formWithErrors, redirecting...")
+   *      Redirect(routes.SetUpTradeDetails.present)
+   *    }
+   * }
+   */
 
-      form.bindFromRequest.fold(
-        formWithErrors =>
-          fetchTraderDetailsFromCache match {
-            case Some(dealerDetails) => fetchAddresses.map {
-              addresses => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, dealerDetails.traderBusinessName, addresses))
-            }
-            case None => Future {
-              Logger.debug("failed to find dealer name in cache for formWithErrors, redirecting...")
-              Redirect(routes.SetUpTradeDetails.present)
-            }
-          },
-        f =>
-          fetchTraderDetailsFromCache match {
-            case Some(dealerDetails) => {
-              storeBusinessChooseYourAddressModelInCache(f)
-              storeDealerDetailsInCache(f, dealerDetails.traderBusinessName)
-            }
-            case None => Future {
-              Logger.debug("failed to find dealer name in cache on submit, redirecting...")
-              Redirect(routes.SetUpTradeDetails.present)
-            }
+    form.bindFromRequest.fold(
+      formWithErrors =>
+        fetchTraderDetailsFromCache match {
+          case Some(dealerDetails) => fetchAddresses.map { addresses =>
+            BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, dealerDetails.traderBusinessName, addresses))
           }
-      )
-    }
+          case None => Future {
+            Logger.debug("failed to find dealer name in cache for formWithErrors, redirecting...")
+            Redirect(routes.SetUpTradeDetails.present)
+          }
+        },
+      f =>
+        fetchTraderDetailsFromCache match {
+          case Some(dealerDetails) => {
+            storeBusinessChooseYourAddressModelInCache(f)
+            storeDealerDetailsInCache(f, dealerDetails.traderBusinessName)
+          }
+          case None => Future {
+            Logger.debug("failed to find dealer name in cache on submit, redirecting...")
+            Redirect(routes.SetUpTradeDetails.present)
+          }
+        }
+    )
   }
 
   def storeDealerDetailsInCache(model: BusinessChooseYourAddressModel, dealerName: String) = {

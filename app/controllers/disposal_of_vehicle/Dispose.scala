@@ -29,43 +29,39 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 
-  def present = Action {
-    implicit request => {
-      (fetchDealerDetailsFromCache, fetchVehicleDetailsFromCache) match {
-        case (Some(dealerDetails), Some(vehicleDetails)) => {
-          Logger.debug("found dealer details")
-          // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
-          //val filledForm = disposeForm.fill(DisposeFormModel(consent = "false", dateOfDisposal = models.DayMonthYear.today))
-          Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm))
-        }
-        case _ => Redirect(routes.SetUpTradeDetails.present)
+  def present = Action { implicit request => {
+    (fetchDealerDetailsFromCache, fetchVehicleDetailsFromCache) match {
+      case (Some(dealerDetails), Some(vehicleDetails)) => {
+        Logger.debug("found dealer details")
+        // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
+        //val filledForm = disposeForm.fill(DisposeFormModel(consent = "false", dateOfDisposal = models.DayMonthYear.today))
+        Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm))
       }
+      case _ => Redirect(routes.SetUpTradeDetails.present)
     }
   }
+  }
 
-  def submit = Action.async {
-    implicit request => {
-      Logger.debug("Submitted dispose form...")
-      disposeForm.bindFromRequest.fold(
-        formWithErrors => {
-          Future {
-            (fetchDealerDetailsFromCache, fetchVehicleDetailsFromCache) match {
-              case (Some(dealerDetails), Some(vehicleDetails)) =>
-                val disposeViewModel = populateModelFromCachedData(dealerDetails, vehicleDetails)
-                BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithErrors))
-              case _ =>
-                Logger.debug("could not find dealer details in cache on Dispose submit")
-                Redirect(routes.SetUpTradeDetails.present)
-            }
+  def submit = Action.async { implicit request =>
+    Logger.debug("Submitted dispose form...")
+    disposeForm.bindFromRequest.fold(
+      formWithErrors =>
+        Future {
+          (fetchDealerDetailsFromCache, fetchVehicleDetailsFromCache) match {
+            case (Some(dealerDetails), Some(vehicleDetails)) =>
+              val disposeViewModel = populateModelFromCachedData(dealerDetails, vehicleDetails)
+              BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithErrors))
+            case _ =>
+              Logger.debug("could not find dealer details in cache on Dispose submit")
+              Redirect(routes.SetUpTradeDetails.present)
           }
         },
-        f => {
-          storeDisposeFormModelInCache(f)
-          Logger.debug(s"Dispose form submitted - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
-          disposeAction(webService, f)
-        }
-      )
-    }
+      f => {
+        storeDisposeFormModelInCache(f)
+        Logger.debug(s"Dispose form submitted - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
+        disposeAction(webService, f)
+      }
+    )
   }
 
   private def populateModelFromCachedData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {
@@ -80,19 +76,18 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
   private def disposeAction(webService: services.DisposeService, f: DisposeFormModel): Future[SimpleResult] = {
     fetchVehicleLookupDetailsFromCache match {
       case Some(vehicleLookupFormModel) => {
-        val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber, registrationNumber = vehicleLookupFormModel.registrationNumber, dateOfDisposal = f.dateOfDisposal )
+        val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber, registrationNumber = vehicleLookupFormModel.registrationNumber, dateOfDisposal = f.dateOfDisposal)
         storeDisposeModelInCache(disposeModel)
-        webService.invoke(disposeModel).map {
-          resp =>
-            Logger.debug(s"Dispose Web service call successful - response = ${resp}")
-            if (resp.success) {
-              storeDisposeTransactionIdInCache(resp.transactionId)
-              storeDisposeRegistrationNumberInCache(resp.registrationNumber)
-              Redirect(routes.DisposeSuccess.present)
-            }
-            else Redirect(routes.DisposeFailure.present)
-        }.recoverWith {
-          case e: Throwable => Future {
+        webService.invoke(disposeModel).map { resp =>
+          Logger.debug(s"Dispose Web service call successful - response = ${resp}")
+          if (resp.success) {
+            storeDisposeTransactionIdInCache(resp.transactionId)
+            storeDisposeRegistrationNumberInCache(resp.registrationNumber)
+            Redirect(routes.DisposeSuccess.present)
+          }
+          else Redirect(routes.DisposeFailure.present)
+        }.recover {
+          case e: Throwable => {
             Logger.debug(s"Web service call failed. Exception: ${e}")
             BadRequest("The remote server didn't like the request.") // TODO check with BAs what we want to display when the webservice throws exception. We cannot proceed so need to say something like "".
           }
