@@ -1,10 +1,9 @@
 package helpers
 
-import org.scalatest.{Matchers, WordSpec}
 import play.api.test.WithApplication
 import utils.helpers.HtmlArgsExtensions.RichHtmlArgs
 
-class HtmlArgsExtensionsSpec extends WordSpec with Matchers {
+class HtmlArgsExtensionsSpec extends UnitSpec {
   "HtmlArgsExtensions maxlength rules" should {
     val htmlArgsMinimal: Map[Symbol, Any] = Map('title -> "test")
     val htmlArgsWithMaxLength: Map[Symbol, Any] = Map('title -> "test", 'maxLength -> 60)

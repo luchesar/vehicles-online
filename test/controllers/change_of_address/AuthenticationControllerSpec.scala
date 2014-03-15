@@ -2,14 +2,14 @@ package controllers.change_of_address
 
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
-import org.scalatest.{Matchers, WordSpec}
 import mappings.change_of_address
 import change_of_address.Authentication._
-import org.specs2.mock.Mockito
-import helpers.change_of_address.{LoginCachePopulate, AuthenticationPopulate, V5cSearchPagePopulate, AreYouRegisteredPage, Helper}
+import helpers.change_of_address.{LoginCachePopulate, V5cSearchPagePopulate, AreYouRegisteredPage, Helper}
 import LoginCachePopulate._
+import helpers.UnitSpec
+import helpers.UnitSpec
 
-class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito {
+class AuthenticationUnitSpec extends UnitSpec {
 
   "Authentication - Controller" should {
 

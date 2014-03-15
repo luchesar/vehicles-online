@@ -1,16 +1,13 @@
 package controllers.disposal_of_vehicle
 
-import org.scalatest.{Matchers, WordSpec}
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import helpers.disposal_of_vehicle.{SetUpTradeDetailsPage, VehicleLookupPage, UprnNotFoundPage}
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
-import org.scalatest.mock.MockitoSugar
-import org.mockito.Mockito._
-import org.mockito.Matchers._
 import services.fakes.{FakeAddressLookupService, FakeWebServiceImpl}
+import helpers.UnitSpec
 
-class BusinessChooseYourAddressControllerSpec extends WordSpec with Matchers with MockitoSugar {
+class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
   "BusinessChooseYourAddress - Controller" should {
     val fakeWebService = new FakeWebServiceImpl()

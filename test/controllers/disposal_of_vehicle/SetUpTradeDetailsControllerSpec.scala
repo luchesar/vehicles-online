@@ -4,11 +4,11 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import mappings.disposal_of_vehicle.SetupTradeDetails._
-import org.scalatest.{Matchers, WordSpec}
 import helpers.disposal_of_vehicle.BusinessChooseYourAddressPage
 import helpers.disposal_of_vehicle.Helper._
+import helpers.UnitSpec
 
-class SetUpTradeDetailsControllerSpec extends WordSpec with Matchers {
+class SetUpTradeDetailsUnitSpec extends UnitSpec {
   "BeforeYouStart - Controller" should {
 
     "present" in new WithApplication {

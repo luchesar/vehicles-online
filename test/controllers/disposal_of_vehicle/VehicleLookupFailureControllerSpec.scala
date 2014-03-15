@@ -1,13 +1,13 @@
 package controllers.disposal_of_vehicle
 
-import org.scalatest.{Matchers, WordSpec}
 import play.api.test.{FakeRequest, WithApplication}
 import helpers.disposal_of_vehicle._
 import controllers.disposal_of_vehicle
 import play.api.test.Helpers._
 import scala.Some
+import helpers.UnitSpec
 
-class VehicleLookupFailureControllerSpec extends WordSpec with Matchers {
+class VehicleLookupFailureUnitSpec extends UnitSpec {
 
   "VehicleLookupFailurePage - Controller" should {
 

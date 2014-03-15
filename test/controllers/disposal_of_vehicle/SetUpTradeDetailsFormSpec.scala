@@ -1,10 +1,10 @@
 package controllers.disposal_of_vehicle
 
-import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import helpers.disposal_of_vehicle.Helper._
+import helpers.UnitSpec
 
-class SetUpTradeDetailsFormSpec extends WordSpec with Matchers {
+class SetUpTradeDetailsFormSpec extends UnitSpec {
   "SetUpTradeDetails form" should {
     def formWithValidDefaults(traderBusinessName: String = traderBusinessNameValid,
                               traderPostcode: String = traderPostcodeValid) = {

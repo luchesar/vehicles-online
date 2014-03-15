@@ -2,20 +2,19 @@ package controllers.disposal_of_vehicle
 
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
-import controllers.disposal_of_vehicle
-import org.scalatest.{Matchers, WordSpec}
+import controllers.{disposal_of_vehicle}
 import mappings.disposal_of_vehicle.Dispose._
 import helpers.disposal_of_vehicle.{DisposePage,DisposeSuccessPage, DisposeFailurePage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
 import helpers.disposal_of_vehicle.Helper._
-import org.scalatest.mock.MockitoSugar
 import models.domain.disposal_of_vehicle.{DisposeResponse, DisposeModel}
-import org.mockito.Mockito._
-import org.mockito.Matchers._
 import services.fakes.FakeDisposeService
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
+import org.mockito.Mockito._
+import org.mockito.Matchers._
+import helpers.UnitSpec
 
-class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
+class DisposeUnitSpec extends UnitSpec {
 
   "Dispose - Controller" should {
 
@@ -135,7 +134,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
         )
 
       val disposeResponseThrows = mock[DisposeResponse]
-      when(disposeResponseThrows.success).thenThrow(new RuntimeException("expected by DisposeControllerSpec"))
+      when(disposeResponseThrows.success).thenThrow(new RuntimeException("expected by DisposeUnitSpec"))
       val mockWebServiceThrows = mock[services.DisposeService]
       when(mockWebServiceThrows.invoke(any[DisposeModel])).thenReturn(Future {
         disposeResponseThrows

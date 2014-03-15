@@ -1,11 +1,10 @@
 package controllers.change_of_address
 
-import org.scalatest.WordSpec
-import org.scalatest.Matchers
-import org.scalatest.mock.MockitoSugar
 import helpers.change_of_address.Helper._
+import helpers.UnitSpec
+import helpers.UnitSpec
 
-class LoginPageFormSpec extends WordSpec with Matchers with MockitoSugar {
+class LoginPageFormSpec extends UnitSpec {
 
   "LoginPage form" should {
 

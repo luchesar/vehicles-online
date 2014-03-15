@@ -1,28 +1,23 @@
 package views.change_of_address
 
-import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
+import helpers.UiSpec
 
-class VerifyIdentityIntegrationSpec extends Specification with Tags {
+class VerifyIdentityIntegrationSpec extends UiSpec {
 
   "VerifyIdentity Integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
       browser.goTo("/verify-identity")
 
-      // Assert
       titleMustEqual("Change of keeper address3")
     }
 
     "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
-      // Arrange
       browser.goTo("/verify-identity")
 
-      // Act
       browser.submit("button[type='submit']")
 
-      // Assert
       titleMustEqual("Change of keeper address4")
     }
   }

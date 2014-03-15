@@ -3,13 +3,12 @@ package controllers.change_of_address
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.change_of_address
-import org.scalatest.{Matchers, WordSpec}
-import org.specs2.mock.Mockito
 import helpers.change_of_address.{V5cCachePopulate, LoginCachePopulate, V5cSearchPagePopulate, AreYouRegisteredPage, ConfirmVehicleDetailsPage}
 import LoginCachePopulate._
 import V5cCachePopulate._
+import helpers.UnitSpec
 
-class ConfirmVehicleDetailsControllerSpec extends WordSpec with Matchers with Mockito {
+class ConfirmVehicleDetailsUnitSpec extends UnitSpec {
   "ConfirmVehicleDetails - Controller" should {
 
     "present" in new WithApplication {

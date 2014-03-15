@@ -1,13 +1,12 @@
 package controllers.disposal_of_vehicle
 
-import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
-import org.scalatest.mock.MockitoSugar
+import services.fakes.{FakeAddressLookupService, FakeWebServiceImpl}
 import org.mockito.Mockito._
 import org.mockito.Matchers._
-import services.fakes.{FakeAddressLookupService, FakeWebServiceImpl}
+import helpers.UnitSpec
 
-class BusinessChooseYourAddressFormSpec extends WordSpec with Matchers with MockitoSugar {
+class BusinessChooseYourAddressFormSpec extends UnitSpec {
 
   "BusinesssChooseYourAddress Form" should {
 

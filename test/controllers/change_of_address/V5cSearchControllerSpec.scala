@@ -2,7 +2,6 @@ package controllers.change_of_address
 
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
-import org.scalatest.{Matchers, WordSpec}
 import mappings.change_of_address.V5cSearch
 import V5cSearch._
 import helpers.change_of_address.LoginCachePopulate
@@ -10,12 +9,12 @@ import LoginCachePopulate._
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import models.domain.change_of_address.V5cSearchModel
-import org.scalatest.mock.MockitoSugar
 import helpers.change_of_address.Helper._
 import helpers.change_of_address.{AreYouRegisteredPage, ConfirmVehicleDetailsPage}
 import services.fakes.FakeV5cSearchWebService
+import helpers.UnitSpec
 
-class V5cSearchControllerSpec extends WordSpec with Matchers with MockitoSugar {
+class V5cSearchUnitSpec extends UnitSpec {
 
   "V5cSearch - Controller" should {
     val mockV5cSearchModel = mock[V5cSearchModel]

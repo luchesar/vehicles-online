@@ -1,31 +1,26 @@
 package views.change_of_address
 
-import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
+import helpers.UiSpec
 
-class KeeperStatusIntegrationSpec extends Specification with Tags {
+class KeeperStatusIntegrationSpec extends UiSpec {
 
-    "KeeperStatus Integration" should {
-      "be presented" in new WithBrowser with BrowserMatchers {
-        // Arrange & Act
-        browser.goTo("/keeper-status")
+  "KeeperStatus Integration" should {
+    "be presented" in new WithBrowser with BrowserMatchers {
+      browser.goTo("/keeper-status")
 
-        // Assert
-        titleMustEqual("Change of keeper address2")
-      }
-
-      "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
-        // Arrange
-        browser.goTo("/keeper-status")
-
-        // Act
-        browser.submit("button[type='submit']")
-
-        // Assert
-        titleMustEqual("Change of keeper address3")
-      }
+      titleMustEqual("Change of keeper address2")
     }
+
+    "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
+      browser.goTo("/keeper-status")
+
+      browser.submit("button[type='submit']")
+
+      titleMustEqual("Change of keeper address3")
+    }
+  }
 }
 
 

@@ -3,11 +3,10 @@ package controllers.disposal_of_vehicle
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
-import org.scalatest.{Matchers, WordSpec}
-import org.specs2.mock.Mockito
 import helpers.disposal_of_vehicle.{VehicleLookupPage, DisposePage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, DisposeSuccessPage}
+import helpers.UnitSpec
 
-class DisposeSuccessControllerSpec extends WordSpec with Matchers with Mockito {
+class DisposeSuccessUnitSpec extends UnitSpec {
 
   "Disposal confirmation controller" should {
 

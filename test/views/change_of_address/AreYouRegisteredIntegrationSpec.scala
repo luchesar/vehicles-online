@@ -1,10 +1,10 @@
 package views.change_of_address
 
-import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
+import helpers.UiSpec
 
-class AreYouRegisteredIntegrationSpec extends Specification with Tags {
+class AreYouRegisteredIntegrationSpec extends UiSpec {
 
   "AreYouRegistered Integration" should {
     "be presented" in new WithBrowser with BrowserMatchers {

@@ -1,21 +1,19 @@
 package services.address_lookup.gds
 
 import services.fakes.FakeWebServiceImpl
-import org.scalatest.mock.MockitoSugar
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.address_lookup.gds
 import helpers.disposal_of_vehicle.PostcodePage.postcodeValid
 import org.mockito.Mockito._
 import play.api.libs.ws.Response
-import org.scalatest._
-import org.scalatest.concurrent._
 import services.address_lookup.gds.domain.{Presentation, Details, Location, Address}
 import services.AddressLookupService
 import play.api.libs.json.{JsValue, Json}
 import services.address_lookup.gds.domain.JsonFormats.addressFormat
+import helpers.UnitSpec
 
-class GdsPostcodeLookupSpec extends WordSpec with ScalaFutures with Matchers with MockitoSugar {
+class GdsPostcodeLookupSpec extends UnitSpec {
   /*
     The service will:
     1) Send postcode string to GDS micro-service

@@ -3,17 +3,16 @@ package controllers.disposal_of_vehicle
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
-import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.VehicleLookup._
 import helpers.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetUpTradeDetailsPage, DisposePage, VehicleLookupFailurePage, EnterAddressManuallyPage}
 import helpers.disposal_of_vehicle.Helper._
-import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import services.fakes.{FakeDisposeService, FakeVehicleLookupService}
+import helpers.UnitSpec
 
-class VehicleLookupControllerSpec extends WordSpec with Matchers with MockitoSugar {
+class VehicleLookupUnitSpec extends UnitSpec {
 
   "VehicleLookup - Controller" should {
     val mockVehicleLookupFormModelSuccess = mock[VehicleLookupFormModel]

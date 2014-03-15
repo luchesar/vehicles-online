@@ -1,7 +1,6 @@
 package services.address_lookup.ordnance_survey
 
 import services.fakes.FakeWebServiceImpl
-import org.scalatest.mock.MockitoSugar
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.address_lookup._
@@ -11,12 +10,11 @@ import services.address_lookup.ordnance_survey.domain._
 import play.api.libs.json.Json
 import java.net.URI
 import play.api.libs.ws.Response
-import org.scalatest._
-import org.scalatest.concurrent._
 import services.AddressLookupService
 import play.api.libs.json.JsValue
+import helpers.UnitSpec
 
-class OSAddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers with MockitoSugar {
+class OSAddressLookupServiceSpec extends UnitSpec {
   val uprnValid = "1"
 
   def oSAddressbaseDPA(houseName: String = "houseName stub", houseNumber: String = "123") = OSAddressbaseDPA(

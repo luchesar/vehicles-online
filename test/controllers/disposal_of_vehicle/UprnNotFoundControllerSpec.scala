@@ -3,10 +3,9 @@ package controllers.disposal_of_vehicle
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
-import org.scalatest.{Matchers, WordSpec}
-import helpers.disposal_of_vehicle.{SetUpTradeDetailsPage, UprnNotFoundPage}
+import helpers.UnitSpec
 
-class UprnNotFoundControllerSpec extends WordSpec with Matchers {
+class UprnNotFoundUnitSpec extends UnitSpec {
 
   "UprnNotFound - Controller" should {
 

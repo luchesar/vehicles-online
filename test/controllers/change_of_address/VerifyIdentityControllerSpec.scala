@@ -3,10 +3,10 @@ package controllers.change_of_address
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.change_of_address
-import org.scalatest.{Matchers, WordSpec}
 import helpers.change_of_address.AreYouRegisteredPage
+import helpers.UnitSpec
 
-class VerifyIdentityControllerSpec extends WordSpec with Matchers {
+class VerifyIdentityUnitSpec extends UnitSpec {
 
   "VerifyIdentity - Controller" should {
 

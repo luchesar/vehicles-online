@@ -1,14 +1,14 @@
 package controllers.disposal_of_vehicle
 
-import org.scalatest.{Matchers, WordSpec}
-import org.scalatest.mock.MockitoSugar
 import mappings.common.{Postcode, AddressLines, AddressAndPostcode}
 import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
 import mappings.common.AddressLines._
 import helpers.disposal_of_vehicle.PostcodePage._
 import Postcode._
+import helpers.UnitSpec
+import helpers.UnitSpec
 
-class EnterAddressManuallyFormSpec extends WordSpec with Matchers with MockitoSugar {
+class EnterAddressManuallyFormSpec extends UnitSpec {
 
   "EnterAddressManually Form" should {
     def formWithValidDefaults(line1: String = line1Valid,

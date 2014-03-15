@@ -1,13 +1,12 @@
 package controllers.disposal_of_vehicle
 
-import org.scalatest.{Matchers, WordSpec}
-import org.specs2.mock.Mockito
 import play.api.test.{FakeRequest, WithApplication}
-import controllers.disposal_of_vehicle
+import controllers.{disposal_of_vehicle}
 import play.api.test.Helpers._
 import helpers.disposal_of_vehicle.{SetUpTradeDetailsPage, VehicleLookupPage, DisposeFailurePage}
+import helpers.UnitSpec
 
-class DisposeFailureControllerSpec extends WordSpec with Matchers with Mockito {
+class DisposeFailureUnitSpec extends UnitSpec {
 
   "DisposalFailure - Controller" should {
 

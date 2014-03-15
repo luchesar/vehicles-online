@@ -3,17 +3,15 @@ package controllers.disposal_of_vehicle
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
-import org.scalatest.{Matchers, WordSpec}
 import mappings.common.AddressLines._
-import org.specs2.mock.Mockito
 import helpers.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
 import mappings.common.{Postcode, AddressAndPostcode, AddressLines}
 import Postcode._
 import helpers.disposal_of_vehicle.PostcodePage._
-import scala.Some
+import helpers.UnitSpec
 
-class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Mockito {
+class EnterAddressManuallyUnitSpec extends UnitSpec {
   "EnterAddressManually - Controller" should {
 
     "present" in new WithApplication {
