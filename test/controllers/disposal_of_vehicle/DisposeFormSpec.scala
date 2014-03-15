@@ -14,13 +14,18 @@ import org.scalatest.mock.MockitoSugar
 import models.DayMonthYear
 
 class DisposeFormSpec extends WordSpec with Matchers with MockitoSugar {
+
   "Dispose Form" should {
     val mockDisposeModel = mock[DisposeModel]
     val mockWebService = mock[services.DisposeService]
     when(mockWebService.invoke(any[DisposeModel])).thenReturn(new FakeDisposeService().invoke(mockDisposeModel))
     val dispose = new disposal_of_vehicle.Dispose(mockWebService)
 
-    def disposeFormFiller(mileage: String, day: String, month: String, year: String) = {
+    def formWithValidDefaults(mileage: String = mileageValid,
+                   day: String = dateOfDisposalDayValid,
+                   month: String = dateOfDisposalMonthValid,
+                   year: String = dateOfDisposalYearValid) = {
+
       dispose.disposeForm.bind(
         Map(
           mileageId -> mileage,
@@ -32,63 +37,48 @@ class DisposeFormSpec extends WordSpec with Matchers with MockitoSugar {
     }
 
     "reject if mileage is more than maximum" in {
-      disposeFormFiller(mileage = "1000000", day = dateOfDisposalDayValid, month = dateOfDisposalMonthValid, year = dateOfDisposalYearValid).fold (
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(mileage = "1000000").errors should have length 1
     }
 
     "reject if date day is invalid" in {
-      disposeFormFiller(mileage = mileageValid, day = "", month = dateOfDisposalMonthValid, year = dateOfDisposalYearValid).fold (
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(day = "").errors should have length 1
     }
 
     "reject if date month is invalid" in {
-      disposeFormFiller(mileage = mileageValid, day = dateOfDisposalDayValid, month = "", year = dateOfDisposalYearValid).fold (
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(month = "").errors should have length 1
     }
 
     "reject if date year is invalid" in {
-      disposeFormFiller(mileage = mileageValid, day = dateOfDisposalDayValid, month = dateOfDisposalMonthValid, year = "").fold (
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(year = "").errors should have length 1
     }
 
     "accept when all fields contain valid responses" in {
-      disposeFormFiller(mileage = mileageValid, day = dateOfDisposalDayValid, month = dateOfDisposalMonthValid, year = dateOfDisposalYearValid).fold(
-      formWithErrors => {
-          fail("An error should occur")
-        },
-        f => {
-          f.mileage.get should equal(mileageValid.toInt)
-          f.dateOfDisposal should equal(DayMonthYear(Some(dateOfDisposalDayValid.toInt), Some(dateOfDisposalMonthValid.toInt), Some(dateOfDisposalYearValid.toInt)))
-        }
+      val model = formWithValidDefaults(
+        mileage = mileageValid,
+        day = dateOfDisposalDayValid,
+        month = dateOfDisposalMonthValid,
+        year = dateOfDisposalYearValid).get
+
+      model.mileage.get should equal(mileageValid.toInt)
+      model.dateOfDisposal should equal(DayMonthYear(
+        Some(dateOfDisposalDayValid.toInt),
+        Some(dateOfDisposalMonthValid.toInt),
+        Some(dateOfDisposalYearValid.toInt))
       )
     }
 
     "accept when all mandatory fields contain valid responses" in {
-      disposeFormFiller(mileage = "", day = dateOfDisposalDayValid, month = dateOfDisposalMonthValid, year = dateOfDisposalYearValid).fold(
-        formWithErrors => {
-          fail("An error should occur")
-        },
-        f => {
-          f.mileage should equal(None)
-          f.dateOfDisposal should equal(DayMonthYear(Some(dateOfDisposalDayValid.toInt), Some(dateOfDisposalMonthValid.toInt), Some(dateOfDisposalYearValid.toInt)))
-        }
-      )
+      val model = formWithValidDefaults(
+        mileage = "",
+        day = dateOfDisposalDayValid,
+        month = dateOfDisposalMonthValid,
+        year = dateOfDisposalYearValid).get
+
+      model.mileage should equal(None)
+      model.dateOfDisposal should equal(DayMonthYear(
+        Some(dateOfDisposalDayValid.toInt),
+        Some(dateOfDisposalMonthValid.toInt),
+        Some(dateOfDisposalYearValid.toInt)))
     }
   }
 }

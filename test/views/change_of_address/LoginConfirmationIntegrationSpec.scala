@@ -37,8 +37,4 @@ class LoginConfirmationIntegrationSpec extends Specification with Tags {
       titleMustEqual("Change of keeper address8")
     }
   }
-
-
-
-
 }

@@ -66,6 +66,13 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
         response
       },
       results = results)
+
+
+
+    new PartialMockAddressLookupService(
+      responseOfPostcodeWebService = Future { response },
+      responseOfUprnWebService = Future { response },
+      results = results)
   }
 
   // Wrap simple response status code in a Response (mock).
@@ -81,8 +88,7 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) {
-        r =>
+      whenReady(result) { r =>
           r.length should equal(oSAddressbaseResultsValidDPA.length)
           r should equal(oSAddressbaseResultsValidDPA.map(i => (i.DPA.get.UPRN, i.DPA.get.address)))
       }
@@ -128,21 +134,27 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
       whenReady(result) {
         _ shouldBe empty
       }
+
+      whenReady(result) { _ shouldBe empty }
     }
   }
 
   "postcodeWithNoSpaces" should {
     import helpers.disposal_of_vehicle.PostcodePage.{postcodeValid, postcodeValidWithSpace}
-    val addressLookupService = new AddressLookupServiceImpl(ws = new FakeWebServiceImpl)
+    val service = new AddressLookupServiceImpl(ws = new FakeWebServiceImpl)
 
     "return the same string if no spaces present" in {
-      val result = addressLookupService.postcodeWithNoSpaces(postcodeValid)
+      val result = service.postcodeWithNoSpaces(postcodeValid)
 
       result should equal(postcodeValid)
     }
 
+    "return the same string if no spaces present" in {
+      service.postcodeWithNoSpaces(postcodeValid) should equal(postcodeValid)
+    }
+
     "remove spaces when present" in {
-      val result = addressLookupService.postcodeWithNoSpaces(postcodeValidWithSpace)
+      val result = service.postcodeWithNoSpaces(postcodeValidWithSpace)
 
       result should equal(postcodeValid)
     }
@@ -227,10 +239,9 @@ class AddressLookupServiceSpec extends WordSpec with ScalaFutures with Matchers 
       val result = service.fetchAddressForUprn(oSAddressbaseDPA.UPRN)
 
       whenReady(result) {
-        case Some(addressViewModel) => {
+        case Some(addressViewModel) =>
           addressViewModel.uprn.map(_.toString) should equal(Some(oSAddressbaseDPA.UPRN))
           addressViewModel.address === oSAddressbaseDPA.address
-        }
         case _ => fail("Should have returned Some(AddressViewModel)")
       }
     }

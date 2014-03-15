@@ -11,14 +11,10 @@ class UprnNotFoundControllerSpec extends WordSpec with Matchers {
   "UprnNotFound - Controller" should {
 
     "present" in new WithApplication {
-      // Arrange
-
       val request = FakeRequest().withSession()
 
-      // Act
       val result = disposal_of_vehicle.UprnNotFound.present(request)
 
-      // Assert
       status(result) should equal(OK)
     }
   }
