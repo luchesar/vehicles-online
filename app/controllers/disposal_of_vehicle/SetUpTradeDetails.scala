@@ -17,20 +17,17 @@ object SetUpTradeDetails extends Controller {
     )(SetupTradeDetailsModel.apply)(SetupTradeDetailsModel.unapply)
   )
 
-  def present = Action {
-    implicit request =>
+  def present = Action { implicit request =>
     Ok(views.html.disposal_of_vehicle.setup_trade_details(traderLookupForm))
   }
 
-  def submit = Action {
-    implicit request => {
-      traderLookupForm.bindFromRequest.fold(
-        formWithErrors => BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithErrors)),
-        f => {
-          storeTradeDetailsInCache(f)
-          Redirect(routes.BusinessChooseYourAddress.present)
-        }
-      )
-    }
+  def submit = Action { implicit request =>
+    traderLookupForm.bindFromRequest.fold(
+      formWithErrors => BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithErrors)),
+      f => {
+        storeTradeDetailsInCache(f)
+        Redirect(routes.BusinessChooseYourAddress.present)
+      }
+    )
   }
 }

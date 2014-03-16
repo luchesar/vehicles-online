@@ -42,7 +42,7 @@ trait BrowserMatchers extends MustMatchers {
     }
   }
 
-  def checkNumberOfValidationErrors(count: Int) = {
+  def numberOfValidationErrorsMustEqual(count: Int) = {
     findMustEqualSize("div[class=validation-summary] ol li", count) && // Assert number of error messages in the validation-summary div
       isErrorDisplayedAboveWidget
   }

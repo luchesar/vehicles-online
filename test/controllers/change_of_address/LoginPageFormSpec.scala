@@ -1,16 +1,17 @@
 package controllers.change_of_address
 
-import org.scalatest.WordSpec
-import org.scalatest.Matchers
-import org.scalatest.mock.MockitoSugar
 import helpers.change_of_address.Helper._
+import helpers.UnitSpec
+import helpers.UnitSpec
 
-class LoginPageFormSpec extends WordSpec with Matchers with MockitoSugar {
-  "loginPage form" should {
+class LoginPageFormSpec extends UnitSpec {
+
+  "LoginPage form" should {
+
     val mockWebService = mock[services.LoginWebService]
     val loginPage = new LoginPage(mockWebService)
 
-    def loginPageForm(username: String, password: String) = {
+    def form(username: String, password: String) = {
       loginPage.loginPageForm.bind(
         Map(
           mappings.change_of_address.LoginPage.usernameId -> username,
@@ -20,15 +21,9 @@ class LoginPageFormSpec extends WordSpec with Matchers with MockitoSugar {
     }
 
     "Accept when only mandatory fields are filled in" in {
-      loginPageForm(username = usernameValid, password = passwordValid).fold(
-        formWithErrors => {
-          fail("Should be success instead failure has occured")
-        },
-        f => {
-          f.username should equal(usernameValid)
-          f.password should equal(passwordValid)
-        }
-      )
+      val model = form(username = usernameValid, password = passwordValid).get
+      model.username should equal(usernameValid)
+      model.password should equal(passwordValid)
     }
   }
 }

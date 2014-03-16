@@ -6,23 +6,19 @@ import controllers.disposal_of_vehicle.Helpers._
 
 object DisposeSuccess extends Controller {
 
-  def present = Action {
-    implicit request => {
-      (fetchDealerDetailsFromCache, fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache, fetchDisposeTransactionIdFromCache, fetchDisposeRegistrationNumberFromCache) match {
-        case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId), Some(registrationNumber)) =>
-          val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId), Some(registrationNumber))
-          Ok(views.html.disposal_of_vehicle.dispose_success(disposeModel, disposeFormModel))
-        case _ => Redirect(routes.SetUpTradeDetails.present)
-      }
+  def present = Action { implicit request =>
+    (fetchDealerDetailsFromCache, fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache, fetchDisposeTransactionIdFromCache, fetchDisposeRegistrationNumberFromCache) match {
+      case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId), Some(registrationNumber)) =>
+        val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId), Some(registrationNumber))
+        Ok(views.html.disposal_of_vehicle.dispose_success(disposeModel, disposeFormModel))
+      case _ => Redirect(routes.SetUpTradeDetails.present)
     }
   }
 
-  def submit = Action {
-    implicit request => {
-      (fetchDealerDetailsFromCache, fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache) match {
-        case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present)
-        case _ => Redirect(routes.SetUpTradeDetails.present)
-      }
+  def submit = Action { implicit request =>
+    (fetchDealerDetailsFromCache, fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache) match {
+      case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present)
+      case _ => Redirect(routes.SetUpTradeDetails.present)
     }
   }
 

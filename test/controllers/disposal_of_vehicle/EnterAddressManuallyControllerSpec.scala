@@ -3,28 +3,23 @@ package controllers.disposal_of_vehicle
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
-import org.scalatest.{Matchers, WordSpec}
 import mappings.common.AddressLines._
-import org.specs2.mock.Mockito
 import helpers.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
 import mappings.common.{Postcode, AddressAndPostcode, AddressLines}
 import Postcode._
 import helpers.disposal_of_vehicle.PostcodePage._
-import scala.Some
+import helpers.UnitSpec
 
-class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Mockito {
+class EnterAddressManuallyUnitSpec extends UnitSpec {
   "EnterAddressManually - Controller" should {
 
     "present" in new WithApplication {
-      // Arrange
       SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
 
-      // Act
       val result = disposal_of_vehicle.EnterAddressManually.present(request)
 
-      // Assert
       status(result) should equal(OK)
     }
 
@@ -33,10 +28,8 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 
-      // Act
       val result =  disposal_of_vehicle.EnterAddressManually.submit(request)
 
-      // Assert
       status(result) should equal(BAD_REQUEST)
     }
 
@@ -49,10 +42,8 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3Valid,
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4Valid)
 
-      // Act
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
-      // Assert
       status(result) should equal(BAD_REQUEST)
     }
 
@@ -62,21 +53,16 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
         .withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
 
-      // Act
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
-      // Assert
       status(result) should equal(BAD_REQUEST)
     }
 
     "redirect to SetupTraderDetails page when present with no dealer name cached" in new WithApplication {
-      // Arrange
       val request = FakeRequest().withSession()
 
-      // Act
       val result = disposal_of_vehicle.EnterAddressManually.present(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
     }
 
@@ -90,10 +76,8 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4Valid,
           s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
 
-      // Act
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(VehicleLookupPage.url))
     }
 
@@ -104,10 +88,8 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
           s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
 
-      // Act
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(VehicleLookupPage.url))
     }
 
@@ -120,10 +102,8 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4Valid,
           s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
 
-      // Act
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
     }
 
@@ -131,10 +111,8 @@ class EnterAddressManuallyControllerSpec extends WordSpec with Matchers with Moc
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody() //Empty form submission
 
-      // Act
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
     }
   }

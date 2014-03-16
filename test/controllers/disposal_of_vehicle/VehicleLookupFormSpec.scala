@@ -1,6 +1,5 @@
 package controllers.disposal_of_vehicle
 
-import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.VehicleLookup._
 import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
@@ -8,16 +7,19 @@ import org.mockito.Matchers._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import services.fakes.FakeVehicleLookupService
 import controllers.disposal_of_vehicle
-import org.scalatest.mock.MockitoSugar
+import helpers.UnitSpec
 
-class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
+class VehicleLookupFormSpec extends UnitSpec {
+
   "Vehicle lookup form" should {
     val mockVehicleLookupFormModel = mock[VehicleLookupFormModel]
     val mockWebService = mock[services.VehicleLookupService]
     when(mockWebService.invoke(any[VehicleLookupFormModel])).thenReturn(new FakeVehicleLookupService().invoke(mockVehicleLookupFormModel))
     val vehicleLookup = new disposal_of_vehicle.VehicleLookup(mockWebService)
 
-    def vehicleLookupFiller(referenceNumber: String, registrationNumber: String, consent: String) = {
+    def formWithValidDefaults(referenceNumber: String = referenceNumberValid,
+                              registrationNumber: String = registrationNumberValid,
+                              consent: String = consentValid) = {
       vehicleLookup.vehicleLookupForm.bind(
         Map(
           referenceNumberId -> referenceNumber,
@@ -27,770 +29,366 @@ class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
       )
     }
 
-    /***********************
-     * referenceNumber tests
-     */
+    /** *********************
+      * referenceNumber tests
+      */
     "reject if referenceNumber is blank" in {
-      vehicleLookupFiller(referenceNumber = "", registrationNumber = registrationNumberValid, consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(3)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(referenceNumber = "").errors should have length 3
     }
 
     "reject if referenceNumber is less than min length" in {
-      vehicleLookupFiller(referenceNumber = "1234567891", registrationNumber = registrationNumberValid, consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(referenceNumber = "1234567891").errors should have length 1
     }
 
     "reject if referenceNumber is greater than max length" in {
-      vehicleLookupFiller(referenceNumber = "123456789101", registrationNumber = registrationNumberValid, consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(referenceNumber = "123456789101").errors should have length 1
     }
 
     "reject if referenceNumber contains letters" in {
-      vehicleLookupFiller(referenceNumber = "qwertyuiopl", registrationNumber = registrationNumberValid, consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(referenceNumber = "qwertyuiopl").errors should have length 1
     }
 
     "reject if referenceNumber contains special characters" in {
-      vehicleLookupFiller(referenceNumber = "£££££££££££", registrationNumber = registrationNumberValid, consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(referenceNumber = "£££££££££££").errors should have length 1
     }
 
     "accept if referenceNumber is valid" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = registrationNumberValid, consent = consentValid).fold(
-        formWithErrors => {
-          fail("An error should occur")
-        },
-        f => f.referenceNumber should equal(referenceNumberValid)
-      )
+      formWithValidDefaults(registrationNumber = registrationNumberValid).get.referenceNumber should equal(referenceNumberValid)
     }
 
-    /**************************
-     * registrationNumber te
-    */
+    /** ************************
+      * registrationNumber tests
+      */
 
-      "reject if registrationNumber is empty" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(2)
-        },
-        f => fail("An error should occur")
-      )
+    "reject if registrationNumber is empty" in {
+      formWithValidDefaults(registrationNumber = "").errors should have length 2
     }
 
     "reject if registrationNumber is less than min length" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "a", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(2)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "a").errors should have length 2
     }
 
     "reject if registrationNumber is more than max length" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AB53WERT", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AB53WERT").errors should have length 1
     }
 
     "reject if registrationNumber contains special characters" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "ab53ab%", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "ab53ab%").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format 11" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "11", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "11").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AAA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format A1A" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A1A", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "A1A").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AAAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AAAA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format 1111" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "1111", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "1111").errors should have length 1
     }
 
 
     "reject if registrationNumber is in an incorrect format AAAAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAAAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AAAAA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format 1AAAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "1AAAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "1AAAA").errors should have length 1
     }
 
 
     "reject if registrationNumber is in an incorrect format 11111" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "11111", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "11111").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format A99999" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A99999", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "A99999").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AAAA99" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAAA99", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AAAA99").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AAAAA9" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAAAA9", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AAAAA9").errors should have length 1
     }
 
-      "reject if registrationNumber is in an incorrect format AAAAAA" in {
-        vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAAAAA", consent = consentValid).fold(
-          formWithErrors => {
-            formWithErrors.errors.length should equal(1)
-          },
-          f => fail("An error should occur")
-        )
-      }
+    "reject if registrationNumber is in an incorrect format " in {
+      formWithValidDefaults(registrationNumber = "AAAAAAA").errors should have length 1
+    }
 
     "reject if registrationNumber is in an incorrect format 1AAAAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "1AAAAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "1AAAAA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format 11AAAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "11AAAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "11AAAA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format 11111A" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "11111A", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "11111A").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format 111111" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "111111", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "111111").errors should have length 1
     }
 
-      "reject if registrationNumber is in an incorrect format AA999999" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AA999999", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+    "reject if registrationNumber is in an incorrect format AA999999" in {
+      formWithValidDefaults(registrationNumber = "AA999999").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format A9999999" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A9999999", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "A9999999").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format A999A999" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A999A9999", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "A999A9999").errors should have length 1
     }
 
 
     "reject if registrationNumber is in an incorrect format A99999A9" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A99999A9", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "A99999A9").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AAAAAAAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAAAAAAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AAAAAAAA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format A1AAAAAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A1AAAAAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "A1AAAAAA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AA1AAAAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AA1AAAAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AA1AAAAA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AAA1AAAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAA1AAAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AAA1AAAA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AAAA1AAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAAA1AAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AAAA1AAA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AAAAA1AA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAAAA1AA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AAAAA1AA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AAAAAA1A" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAAAAA1A", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AAAAAA1A").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AAAAAAA1" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAAAAAA1", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AAAAAAA1").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AAAAAA11" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAAAAA11", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AAAAAA11").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AAAAA11A" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAAAA11A", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AAAAA11A").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AAAA11AA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAAA11AA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AAAA11AA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AA11AAAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AA11AAAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AA11AAAA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format A11AAAAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A11AAAAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "A11AAAAA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format 11AAAAAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "11AAAAAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "11AAAAAA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format 111AAAAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "111AAAAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "111AAAAA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format A111AAAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A111AAAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "A111AAAA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AAAA111A" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAAA111A", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AAAA111A").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AAAAA111" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAAAA111", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AAAAA111").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format AAAA1111" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAAA1111", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "AAAA1111").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format 11111AAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "11111AAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "11111AAA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format 111111AA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "11111AA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "11111AA").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format 1111111A" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "111111A", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "111111A").errors should have length 1
     }
 
     "reject if registrationNumber is in an incorrect format 11111111" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "1111111", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "1111111").errors should have length 1
     }
 
 
     "reject if registrationNumber is in an incorrect format 1111AAAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "1111AAAA", consent = consentValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(registrationNumber = "1111AAAA").errors should have length 1
     }
 
     "accept if registrationNumber equals A9" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A9", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("A9")
-      )
+      formWithValidDefaults(registrationNumber = "A9").get.registrationNumber should equal("A9")
     }
 
     "accept if registrationNumber equals 9A" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "9A", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("9A")
-      )
+      formWithValidDefaults(registrationNumber = "9A").get.registrationNumber should equal("9A")
     }
 
     "accept if registrationNumber equals AA9" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AA9", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("AA9")
-      )
+      formWithValidDefaults(registrationNumber = "AA9").get.registrationNumber should equal("AA9")
     }
 
     "accept if registrationNumber equals A99" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A99", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("A99")
-      )
+      formWithValidDefaults(registrationNumber = "A99").get.registrationNumber should equal("A99")
     }
 
     "accept if registrationNumber equals 9AA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "9AA", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("9AA")
-      )
+      formWithValidDefaults(registrationNumber = "9AA").get.registrationNumber should equal("9AA")
     }
 
     "accept if registrationNumber equals 99A" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "99A", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("99A")
-      )
+      formWithValidDefaults(registrationNumber = "99A").get.registrationNumber should equal("99A")
     }
 
     "accept if registrationNumber equals AAA9" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAA9", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("AAA9")
-      )
+      formWithValidDefaults(registrationNumber = "AAA9").get.registrationNumber should equal("AAA9")
     }
 
     "accept if registrationNumber equals A999" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A999", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("A999")
-      )
+      formWithValidDefaults(registrationNumber = "A999").get.registrationNumber should equal("A999")
     }
 
     "accept if registrationNumber equals AA99" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AA99", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("AA99")
-      )
+      formWithValidDefaults(registrationNumber = "AA99").get.registrationNumber should equal("AA99")
     }
 
     "accept if registrationNumber equals 9AAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "9AAA", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("9AAA")
-      )
+      formWithValidDefaults(registrationNumber = "9AAA").get.registrationNumber should equal("9AAA")
     }
 
     "accept if registrationNumber equals 99AA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "99AA", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("99AA")
-      )
+      formWithValidDefaults(registrationNumber = "99AA").get.registrationNumber should equal("99AA")
     }
 
     "accept if registrationNumber equals 999A" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "999A", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("999A")
-      )
+      formWithValidDefaults(registrationNumber = "999A").get.registrationNumber should equal("999A")
     }
 
     "accept if registrationNumber equals A9AAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A9AAA", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("A9AAA")
-      )
+      formWithValidDefaults(registrationNumber = "A9AAA").get.registrationNumber should equal("A9AAA")
     }
 
     "accept if registrationNumber equals AAA9A" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAA9A", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("AAA9A")
-      )
+      formWithValidDefaults(registrationNumber = "AAA9A").get.registrationNumber should equal("AAA9A")
     }
 
     "accept if registrationNumber equals AAA99" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAA99", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("AAA99")
-      )
+      formWithValidDefaults(registrationNumber = "AAA99").get.registrationNumber should equal("AAA99")
     }
 
     "accept if registrationNumber equals AA999" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AA999", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("AA999")
-      )
+      formWithValidDefaults(registrationNumber = "AA999").get.registrationNumber should equal("AA999")
     }
 
     "accept if registrationNumber equals 99AAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "99AAA", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("99AAA")
-      )
+      formWithValidDefaults(registrationNumber = "99AAA").get.registrationNumber should equal("99AAA")
     }
 
     "accept if registrationNumber equals 999AA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "999AA", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("999AA")
-      )
+      formWithValidDefaults(registrationNumber = "999AA").get.registrationNumber should equal("999AA")
     }
 
     "accept if registrationNumber equals 9999A" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "9999A", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("9999A")
-      )
+      formWithValidDefaults(registrationNumber = "9999A").get.registrationNumber should equal("9999A")
     }
 
     "accept if registrationNumber equals A9999" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A9999", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("A9999")
-      )
+      formWithValidDefaults(registrationNumber = "A9999").get.registrationNumber should equal("A9999")
     }
 
     "accept if registrationNumber equals A99AAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A99AAA", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("A99AAA")
-      )
+      formWithValidDefaults(registrationNumber = "A99AAA").get.registrationNumber should equal("A99AAA")
     }
 
     "accept if registrationNumber equals AAA99A" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAA99A", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("AAA99A")
-      )
+      formWithValidDefaults(registrationNumber = "AAA99A").get.registrationNumber should equal("AAA99A")
     }
 
     "accept if registrationNumber equals AAA999" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAA999", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("AAA999")
-      )
+      formWithValidDefaults(registrationNumber = "AAA999").get.registrationNumber should equal("AAA999")
     }
 
     "accept if registrationNumber equals 999AAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "999AAA", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("999AAA")
-      )
+      formWithValidDefaults(registrationNumber = "999AAA").get.registrationNumber should equal("999AAA")
     }
 
     "accept if registrationNumber equals AA9999" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AA9999", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("AA9999")
-      )
+      formWithValidDefaults(registrationNumber = "AA9999").get.registrationNumber should equal("AA9999")
     }
 
     "accept if registrationNumber equals 9999AA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "9999AA", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("9999AA")
-      )
+      formWithValidDefaults(registrationNumber = "9999AA").get.registrationNumber should equal("9999AA")
     }
 
     "accept if registrationNumber equals A999AAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "A999AAA", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("A999AAA")
-      )
+      formWithValidDefaults(registrationNumber = "A999AAA").get.registrationNumber should equal("A999AAA")
     }
 
     "accept if registrationNumber equals AAA999A" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAA999A", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("AAA999A")
-      )
+      formWithValidDefaults(registrationNumber = "AAA999A").get.registrationNumber should equal("AAA999A")
     }
 
     "accept if registrationNumber equals AAA9999" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AAA9999", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("AAA9999")
-      )
+      formWithValidDefaults(registrationNumber = "AAA9999").get.registrationNumber should equal("AAA9999")
     }
 
     "accept if registrationNumber equals AA99AAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "AA99AAA", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("AA99AAA")
-      )
+      formWithValidDefaults(registrationNumber = "AA99AAA").get.registrationNumber should equal("AA99AAA")
     }
 
     "accept if registrationNumber equals 9999AAA" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = "9999AAA", consent = consentValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.registrationNumber should equal("9999AAA")
-      )
+      formWithValidDefaults(registrationNumber = "9999AAA").get.registrationNumber should equal("9999AAA")
     }
 
-    /***************
-     * consent tests
-     */
+    /** *************
+      * consent tests
+      */
     "reject if consent is not ticked" in {
-      vehicleLookupFiller(referenceNumber = referenceNumberValid, registrationNumber = registrationNumberValid, consent = "").fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(consent = "").errors should have length 1
     }
 
   }

@@ -18,9 +18,10 @@ object HtmlArgsExtensions {
         case (true, true) => htmlArgs - 'maxLength // Remove maxLength when testing so we can have integration tests cause server side validation errors.
         case (true, false) => htmlArgs // No change
         case (false, true) => htmlArgs // No change
-        case (false, false) =>
+        case (false, false) => {
           // On production we should have a maxLength, so if you forgot to add one then the default is used.
           htmlArgs + ('maxLength -> Mappings.sixty)
+        }
       }
     }
 

@@ -1,7 +1,5 @@
 package services
 
-import org.scalatest.{Matchers, WordSpec}
-import org.scalatest.mock.MockitoSugar
 import play.api.libs.ws.Response
 import models.domain.change_of_address.{LoginConfirmationModel, LoginResponse, LoginPageModel}
 import models.domain.disposal_of_vehicle.AddressViewModel
@@ -9,9 +7,9 @@ import play.api.libs.json.Json
 import org.mockito.Mockito._
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
-import org.scalatest.concurrent.ScalaFutures
+import helpers.UnitSpec
 
-class LoginWebServiceSpec extends WordSpec with ScalaFutures with Matchers with MockitoSugar {
+class LoginWebServiceSpec extends UnitSpec {
   "invoke" should {
 
     // This class allows overriding of the base classes methods which call the real web service.
@@ -32,9 +30,7 @@ class LoginWebServiceSpec extends WordSpec with ScalaFutures with Matchers with 
         loginConfirmationModel = loginConfirmationModel
       )
 
-
       val inputAsJson = Json.toJson(loginResponse)
-
 
       val response = mock[Response]
       when(response.json).thenReturn(inputAsJson)
