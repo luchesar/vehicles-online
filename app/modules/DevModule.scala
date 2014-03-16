@@ -3,6 +3,7 @@ package modules
 import com.tzavellas.sse.guice.ScalaModule
 import play.api.Logger
 import services._
+import services.address_lookup.AddressLookupService
 
 /**
  * Provides real implementations of traits

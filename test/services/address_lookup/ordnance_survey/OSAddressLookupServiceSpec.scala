@@ -10,9 +10,10 @@ import services.address_lookup.ordnance_survey.domain._
 import play.api.libs.json.Json
 import java.net.URI
 import play.api.libs.ws.Response
-import services.AddressLookupService
 import play.api.libs.json.JsValue
 import helpers.UnitSpec
+import play.api.libs.ws.Response
+import scala.Some
 
 class OSAddressLookupServiceSpec extends UnitSpec {
   val uprnValid = "1"

@@ -5,6 +5,7 @@ import services.fakes.{FakeAddressLookupService, FakeWebServiceImpl}
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import helpers.UnitSpec
+import services.address_lookup.AddressLookupService
 
 class BusinessChooseYourAddressFormSpec extends UnitSpec {
 
@@ -12,7 +13,7 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
 
     val addressSelectedValid = "1234"
     val fakeWebService = new FakeWebServiceImpl()
-    val mockAddressLookupService = mock[services.AddressLookupService]
+    val mockAddressLookupService = mock[AddressLookupService]
     val fakeAddressLookupService = new FakeAddressLookupService(fakeWebService)
     when(mockAddressLookupService.fetchAddressesForPostcode(anyString())).thenReturn(fakeAddressLookupService.fetchAddressesForPostcode("TEST"))
     val businessChooseYourAddress = new BusinessChooseYourAddress(mockAddressLookupService)

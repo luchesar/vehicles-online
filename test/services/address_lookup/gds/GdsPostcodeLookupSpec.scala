@@ -3,12 +3,11 @@ package services.address_lookup.gds
 import services.fakes.FakeWebServiceImpl
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-import services.address_lookup.gds
+import services.address_lookup.{AddressLookupService, gds}
 import helpers.disposal_of_vehicle.PostcodePage.postcodeValid
 import org.mockito.Mockito._
 import play.api.libs.ws.Response
 import services.address_lookup.gds.domain.{Presentation, Details, Location, Address}
-import services.AddressLookupService
 import play.api.libs.json.{JsValue, Json}
 import services.address_lookup.gds.domain.JsonFormats.addressFormat
 import helpers.UnitSpec

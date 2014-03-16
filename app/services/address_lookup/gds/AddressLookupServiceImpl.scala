@@ -1,6 +1,5 @@
 package services.address_lookup.gds
 
-import services.AddressLookupService
 import models.domain.disposal_of_vehicle.AddressViewModel
 import utils.helpers.Config
 import play.api.Logger
@@ -12,6 +11,7 @@ import services.address_lookup.gds.domain.Address
 import services.address_lookup.gds.domain.JsonFormats.addressFormat
 import com.ning.http.client.Realm.AuthScheme
 import services.address_lookup.ordnance_survey.domain.OSAddressbaseDPA
+import services.address_lookup.AddressLookupService
 
 class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends AddressLookupService {
   val baseUrl = Config.gdsAddressLookupBaseUrl

@@ -1,6 +1,5 @@
 package services.address_lookup.ordnance_survey
 
-import services.AddressLookupService
 import models.domain.disposal_of_vehicle.AddressViewModel
 import utils.helpers.Config
 import play.api.Logger
@@ -10,6 +9,7 @@ import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 import javax.inject.Inject
 import play.api.libs.ws.Response
+import services.address_lookup.AddressLookupService
 
 class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends AddressLookupService {
   val username = s"${ Config.ordnanceSurveyUsername }"
