@@ -25,7 +25,5 @@ class AreYouRegisteredIntegrationSpec extends Specification with TestHarness {
       // Assert
       assert(page.title equals SignInProviderPage.title)
     }
-
   }
-
 }

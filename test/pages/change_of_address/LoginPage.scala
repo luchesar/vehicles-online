@@ -4,9 +4,9 @@ import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
 
 object LoginPage extends Page with WebBrowserDSL {
-  val address = "/sign-in-provider"
+  val address = "/login-page"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  override val title: String = "Change of keeper address5"
+  override val title: String = "Verified login id"
 
-  def postOffice(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
+  def signIn(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
 }
