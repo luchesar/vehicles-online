@@ -41,7 +41,9 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
         if (resp.status == play.api.http.Status.OK) toDropDown(resp)
         else Seq.empty // The service returned http code other than 200
     }.recover {
-      case e: Throwable => Seq.empty
+      case e: Throwable =>
+        Logger.error(s"GDS postcode lookup service error: $e")
+        Seq.empty
     }
   }
 
@@ -59,7 +61,7 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
         else None
     }.recover {
       case e: Throwable => {
-        Logger.error(s"GDS uprn lookup service error: ${ e }")
+        Logger.error(s"GDS uprn lookup service error: $e")
         None
       }
     }
