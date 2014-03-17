@@ -6,7 +6,7 @@ import org.scalatest.{Matchers, WordSpec}
 import mappings.change_of_address
 import change_of_address.Authentication._
 import org.specs2.mock.Mockito
-import helpers.change_of_address.{LoginCachePopulate, AuthenticationPopulate, V5cSearchPagePopulate, AreYouRegisteredPage, Helper}
+import helpers.change_of_address.{LoginCachePopulate, V5cSearchPagePopulate, AreYouRegisteredPage, Helper}
 import LoginCachePopulate._
 
 class AuthenticationControllerSpec extends WordSpec with Matchers with Mockito {

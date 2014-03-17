@@ -4,7 +4,6 @@ import org.scalatest.{Matchers, WordSpec}
 import mappings.change_of_address.V5cSearch
 import V5cSearch._
 import org.scalatest.mock.MockitoSugar
-import helpers.change_of_address.V5cSearchPagePopulate._
 import helpers.change_of_address.Helper._
 
 class V5cSearchFormSpec extends WordSpec with Matchers with MockitoSugar {

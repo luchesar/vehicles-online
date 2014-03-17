@@ -3,9 +3,7 @@ package controllers.disposal_of_vehicle
 import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.Dispose._
 import helpers.disposal_of_vehicle.Helper._
-import models.domain.disposal_of_vehicle.DisposeModel
 import org.mockito.Mockito._
-import models.domain.disposal_of_vehicle.DisposeModel
 import org.mockito.Matchers._
 import models.domain.disposal_of_vehicle.DisposeModel
 import services.fakes.FakeDisposeService
