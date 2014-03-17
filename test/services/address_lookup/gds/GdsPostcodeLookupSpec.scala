@@ -24,8 +24,8 @@ class GdsPostcodeLookupSpec extends UnitSpec {
   def addressServiceMock(response: Future[Response]): AddressLookupService = {
     // This class allows overriding of the base classes methods which call the real web service.
     class PartialAddressService(responseOfPostcodeWebService: Future[Response],
-                                          responseOfUprnWebService: Future[Response]
-                                           ) extends gds.AddressLookupServiceImpl(new FakeWebServiceImpl) {
+                                responseOfUprnWebService: Future[Response]
+                                 ) extends gds.AddressLookupServiceImpl(new FakeWebServiceImpl) {
 
       override protected def callPostcodeWebService(postcode: String): Future[Response] = responseOfPostcodeWebService
 
@@ -91,9 +91,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) {
-        _ shouldBe empty
-      }
+      whenReady(result) { _ shouldBe empty }
     }
 
     "return empty seq when response throws" in {
@@ -101,9 +99,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) {
-        _ shouldBe empty
-      }
+      whenReady(result) { _ shouldBe empty }
     }
 
     "return empty seq when micro-service returns invalid JSON" in {
@@ -112,9 +108,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) {
-        _ shouldBe empty
-      }
+      whenReady(result) { _ shouldBe empty }
     }
 
     "return empty seq when micro-service response status is not 200 (OK)" in {
@@ -124,9 +118,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) {
-        _ shouldBe empty
-      }
+      whenReady(result) { _ shouldBe empty }
     }
 
 
@@ -137,9 +129,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) {
-        _ shouldBe empty
-      }
+      whenReady(result) { _ shouldBe empty }
     }
 
     "return seq of (uprn, address) when micro-service returns a single address" in {
@@ -150,9 +140,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) {
-        _ shouldBe Seq(expected)
-      }
+      whenReady(result) { _ shouldBe Seq(expected) }
     }
 
     "return seq of (uprn, address) when micro-service returns many addresses" in {
@@ -163,9 +151,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) {
-        _ shouldBe Seq(expected, expected, expected)
-      }
+      whenReady(result) { _ shouldBe Seq(expected, expected, expected) }
     }
 
     "not throw when an address contains a building number that contains letters" in {
@@ -184,9 +170,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) {
-        _ shouldBe expected
-      }
+      whenReady(result) { _ shouldBe expected }
     }
 
     "return seq of (uprn, address) sorted by building number then building name" in {
@@ -205,9 +189,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) {
-        _ shouldBe expected
-      }
+      whenReady(result) { _ shouldBe expected }
     }
   }
 
@@ -217,9 +199,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
       val result = service.fetchAddressForUprn(uprnValid)
 
-      whenReady(result) {
-        _ shouldBe None
-      }
+      whenReady(result) { _ shouldBe None }
     }
 
     "return None when response throws" in {
@@ -227,9 +207,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
       val result = service.fetchAddressForUprn(uprnValid)
 
-      whenReady(result) {
-        _ shouldBe None
-      }
+      whenReady(result) { _ shouldBe None }
     }
 
     "return None when micro-service returns invalid JSON" in {
@@ -238,9 +216,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
       val result = service.fetchAddressForUprn(uprnValid)
 
-      whenReady(result) {
-        _ shouldBe None
-      }
+      whenReady(result) { _ shouldBe None }
     }
 
     "return None when micro-service response status is not 200 (OK)" in {
@@ -250,9 +226,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
       val result = service.fetchAddressForUprn(uprnValid)
 
-      whenReady(result) {
-        _ shouldBe None
-      }
+      whenReady(result) { _ shouldBe None }
     }
 
     "return None when micro-service returns empty seq (meaning no addresses found)" in {
@@ -261,9 +235,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
       val result = service.fetchAddressForUprn(uprnValid)
 
-      whenReady(result) {
-        _ shouldBe None
-      }
+      whenReady(result) { _ shouldBe None }
     }
 
     "return AddressViewModel when micro-service returns a single address" in {
