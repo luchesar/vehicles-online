@@ -25,7 +25,7 @@ class BeforeYouStartIntegrationSpec extends Specification with TestHarness {
       click on BeforeYouStartPage.startNow
 
       // Assert
-      assert(page.title equals KeeperStatus.title)
+      assert(page.title equals KeeperStatusPage.title)
     }
   }
 }
