@@ -107,7 +107,11 @@ class EnterAddressManuallyFormSpec extends UnitSpec {
     }
 
     "reject if html chevrons are in any line" in {
+      formWithValidDefaults(line1 = "A<br>B").errors should have length 1
       formWithValidDefaults(line2 = "A<br>B").errors should have length 1
+      formWithValidDefaults(line3 = "A<br>B").errors should have length 1
+      formWithValidDefaults(line4 = "A<br>B").errors should have length 1
+      formWithValidDefaults(postcode = "A<br>B").errors should have length 1
     }
   }
 }
