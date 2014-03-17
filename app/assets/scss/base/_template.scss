@@ -95,12 +95,17 @@
 		@include bold-19;
 		position: relative;
 		padding-right:6em;
+		
+		@media screen and (max-width: $device-small) {
+			margin-top:10px;
+		}
 		@media screen and (max-width: $device-small) {
         	padding-right:7em;    	
         }
 	}
 	h2 {
 		@include bold-14;
+		margin-top:5px;
 		a {
 			color:$white;
 			text-decoration: none;
