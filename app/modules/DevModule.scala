@@ -4,6 +4,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import play.api.Logger
 import services._
 import services.address_lookup.AddressLookupService
+import services.address_lookup.ordnance_survey.WebServiceImpl
 
 /**
  * Provides real implementations of traits

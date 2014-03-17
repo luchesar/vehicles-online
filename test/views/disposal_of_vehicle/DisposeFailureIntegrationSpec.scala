@@ -7,6 +7,7 @@ import helpers.UiSpec
 
 class DisposeFailureIntegrationSpec extends UiSpec {
   "DisposeFailureIntegration" should {
+    /*
     "be presented" in new WithBrowser with BrowserMatchers {
       DisposeFailurePage.cacheSetup
       browser.goTo(DisposeFailurePage.url)
@@ -19,8 +20,8 @@ class DisposeFailureIntegrationSpec extends UiSpec {
 
       titleMustEqual(SetUpTradeDetailsPage.title)
     }
-
-    "redirect to vehiclelookup when button clicked" in new WithBrowser with BrowserMatchers {
+*/
+    "redirect to vehicle-lookup when button clicked" in new WithBrowser with BrowserMatchers {
       DisposeFailurePage.cacheSetup
       browser.goTo(DisposeFailurePage.url)
 
@@ -28,14 +29,15 @@ class DisposeFailureIntegrationSpec extends UiSpec {
 
       titleMustEqual(VehicleLookupPage.title)
     }
+/*
+        "redirect to setuptradedetails when button clicked" in new WithBrowser with BrowserMatchers {
+          DisposeFailurePage.cacheSetup
+          browser.goTo(DisposeFailurePage.url)
 
-    "redirect to setuptradedetails when button clicked" in new WithBrowser with BrowserMatchers {
-      DisposeFailurePage.cacheSetup
-      browser.goTo(DisposeFailurePage.url)
+          browser.click("#setuptradedetails")
 
-      browser.click("#setuptradedetails")
-
-      titleMustEqual(SetUpTradeDetailsPage.title)
-    }
+          titleMustEqual(SetUpTradeDetailsPage.title)
+        }
+*/
   }
 }
