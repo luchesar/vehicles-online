@@ -3,7 +3,7 @@ package services
 import helpers.UnitSpec
 
 class CacheServiceSpec extends UnitSpec {
-  val cacheService = new CacheServiceImpl()
+  //val cacheService = new CacheServiceImpl()
 
   "new session" should {
     "generate a UUID for this journey" in pending
@@ -21,7 +21,7 @@ class CacheServiceSpec extends UnitSpec {
 
   "remove form" should {
     "remove form when it exists in cache" in pending
-    "do nothing when form is not in cache"
+    "do nothing when form is not in cache" in pending
   }
 
   "timeout" should {
