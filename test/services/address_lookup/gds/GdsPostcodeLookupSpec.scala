@@ -19,17 +19,11 @@ class GdsPostcodeLookupSpec extends UnitSpec {
     2) Get a response from the GDS micro-service
     3) Translate the response into a Seq that can be used by the drop-down
     */
-
-
   def addressServiceMock(response: Future[Response]): AddressLookupService = {
     // This class allows overriding of the base classes methods which call the real web service.
     class PartialAddressService(responseOfPostcodeWebService: Future[Response],
                                 responseOfUprnWebService: Future[Response]
-                                 ) extends gds.AddressLookupServiceImpl(new FakeWebServiceImpl) {
-
-      override protected def callPostcodeWebService(postcode: String): Future[Response] = responseOfPostcodeWebService
-
-      override protected def callUprnWebService(uprn: String): Future[Response] = responseOfUprnWebService
+                                 ) extends gds.AddressLookupServiceImpl(new FakeWebServiceImpl(responseOfPostcodeWebService, responseOfUprnWebService)) {
     }
 
     new PartialAddressService(

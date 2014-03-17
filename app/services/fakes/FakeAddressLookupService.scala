@@ -13,10 +13,6 @@ import services.address_lookup.AddressLookupService
  * Fake implementation of the FakeAddressLookupService trait
  */
 class FakeAddressLookupService @Inject()(ws: services.WebService) extends AddressLookupService {
-  override protected def callPostcodeWebService(postcode: String): Future[Response] = ???
-
-  override protected def callUprnWebService(postcode: String): Future[Response] = ???
-
   override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = Future {
     if (postcode == FakeAddressLookupService.postcodeInvalid) Seq.empty
     else FakeAddressLookupService.fetchedAddresses

@@ -12,29 +12,6 @@ import play.api.libs.ws.Response
 import services.address_lookup.AddressLookupService
 
 class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends AddressLookupService {
-  val username = s"${ Config.ordnanceSurveyUsername }"
-  val password = s"${ Config.ordnanceSurveyPassword }"
-  val baseUrl = s"${ Config.ordnanceSurveyBaseUrl }"
-  val requestTimeout = Config.ordnanceSurveyRequestTimeout.toInt
-
-  override protected def callPostcodeWebService(postcode: String): Future[Response] = {
-    val endPoint = s"$baseUrl/postcode?postcode=${ postcodeWithNoSpaces(postcode) }&dataset=dpa" // TODO add lpi to URL, but need to set organisation as Option on the type.
-    Logger.debug(s"Calling Ordnance Survey postcode lookup service on $endPoint...")
-    ws.url(endPoint).
-      withAuth(username = username, password = password, scheme = AuthScheme.BASIC).
-      withRequestTimeout(requestTimeout). // Timeout is in milliseconds
-      get()
-  }
-
-  override protected def callUprnWebService(uprn: String): Future[Response] = {
-    val endPoint = s"$baseUrl/uprn?uprn=$uprn&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
-    Logger.debug(s"Calling Ordnance Survey uprn lookup service on $endPoint...")
-    ws.url(endPoint).
-      withAuth(username = username, password = password, scheme = AuthScheme.BASIC).
-      withRequestTimeout(30000). // Timeout is in milliseconds
-      get()
-  }
-
   private def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = {
     val response = resp.json.asOpt[OSAddressbaseSearchResponse]
     response.flatMap(_.results)
@@ -60,7 +37,7 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
           Seq.empty
       }
 
-    callPostcodeWebService(postcode).map { resp =>
+    ws.callPostcodeWebService(postcode).map { resp =>
       Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${ resp.status }")
       if (resp.status == play.api.http.Status.OK) toDropDown(resp)
       else Seq.empty // The service returned http code other than 200
@@ -84,7 +61,7 @@ class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends Addres
           None
       }
 
-    callUprnWebService(uprn).map {
+    ws.callUprnWebService(uprn).map {
       resp =>
         Logger.debug(s"Http response code from Ordnance Survey uprn lookup service was: ${ resp.status }")
         if (resp.status == play.api.http.Status.OK) toViewModel(resp)

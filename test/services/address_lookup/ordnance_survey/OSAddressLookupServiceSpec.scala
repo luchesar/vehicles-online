@@ -48,13 +48,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
     // This class allows overriding of the base classes methods which call the real web service.
     class PartialAddressService(responseOfPostcodeWebService: Future[Response],
                                 responseOfUprnWebService: Future[Response],
-                                results: Option[Seq[OSAddressbaseResult]]) extends ordnance_survey.AddressLookupServiceImpl(new FakeWebServiceImpl) {
-
-      override protected def callPostcodeWebService(postcode: String): Future[Response] = responseOfPostcodeWebService
-
-      override protected def callUprnWebService(uprn: String): Future[Response] = responseOfUprnWebService
-
-      //override def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = results
+                                results: Option[Seq[OSAddressbaseResult]]) extends ordnance_survey.AddressLookupServiceImpl(new FakeWebServiceImpl(responseOfPostcodeWebService, responseOfUprnWebService)) {
     }
 
     new PartialAddressService(
@@ -189,23 +183,6 @@ class OSAddressLookupServiceSpec extends UnitSpec {
           r.length should equal(oSAddressbaseResultsValidDPA.length)
           r shouldBe expected
       }
-    }
-  }
-
-  "postcodeWithNoSpaces" should {
-    import helpers.disposal_of_vehicle.PostcodePage.{postcodeValid, postcodeValidWithSpace}
-    val addressLookupService = new AddressLookupServiceImpl(ws = new FakeWebServiceImpl)
-
-    "return the same string if no spaces present" in {
-      val result = addressLookupService.postcodeWithNoSpaces(postcodeValid)
-
-      result should equal(postcodeValid)
-    }
-
-    "remove spaces when present" in {
-      val result = addressLookupService.postcodeWithNoSpaces(postcodeValidWithSpace)
-
-      result should equal(postcodeValid)
     }
   }
 
