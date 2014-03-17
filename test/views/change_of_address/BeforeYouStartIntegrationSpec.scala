@@ -3,30 +3,29 @@ package views.change_of_address
 import org.specs2.mutable.{Specification, Tags}
 import play.api.test.WithBrowser
 import controllers.BrowserMatchers
+import helpers.webbrowser.TestHarness
+import pages.change_of_address._
 
-class BeforeYouStartIntegrationSpec extends Specification with Tags {
+class BeforeYouStartIntegrationSpec extends Specification with TestHarness {
 
   "BeforeYouStart Integration" should {
-    "be presented" in new WithBrowser with BrowserMatchers {
+    "be presented" in new WebBrowser {
       // Arrange & Act
-      browser.goTo("/before-you-start")
+      go to BeforeYouStartPage
 
       // Assert
-      titleMustEqual("Change of keeper address1")
-
+      assert(page.title equals BeforeYouStartPage.title)
     }
 
-    "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
+    "go to next page after the button is clicked" in new WebBrowser {
       // Arrange
-      browser.goTo("/before-you-start")
+      go to BeforeYouStartPage
 
       // Act
-      browser.submit("button[type='submit']")
+      click on BeforeYouStartPage.startNow
 
       // Assert
-      titleMustEqual("Change of keeper address2")
+      assert(page.title equals KeeperStatus.title)
     }
-
   }
-
 }

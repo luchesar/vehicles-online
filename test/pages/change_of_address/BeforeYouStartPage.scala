@@ -4,9 +4,9 @@ import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
 
 object BeforeYouStartPage extends Page with WebBrowserDSL {
-  val address = "before-you-start"
+  val address = "/before-you-start"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  override val title: String = "Dispose a vehicle into the motor trade"
+  override val title: String = "Change of keeper address1"
 
-  def startNow(implicit driver: WebDriver): Element = find(id("next")).get
+  def startNow(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
 }
