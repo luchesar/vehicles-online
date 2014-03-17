@@ -108,9 +108,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) {
-        _ shouldBe empty
-      }
+      whenReady(result) { _ shouldBe empty }
     }
 
     "return empty seq when response status is not Ok (200)" in {
@@ -118,9 +116,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) {
-        _ shouldBe empty
-      }
+      whenReady(result) { _ shouldBe empty }
     }
 
     "return empty seq when the result has no DPA and no LPI" in {
@@ -129,9 +125,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) {
-        _ shouldBe empty
-      }
+      whenReady(result) { _ shouldBe empty }
     }
 
     "return empty seq when response throws" in {
@@ -139,9 +133,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
       val result = addressLookupService.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) {
-        _ shouldBe empty
-      }
+      whenReady(result) { _ shouldBe empty }
     }
 
     "return empty seq given invalid json" in {
@@ -150,9 +142,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) {
-        _ shouldBe empty
-      }
+      whenReady(result) { _ shouldBe empty }
     }
 
     "not throw when an address contains a building number that contains letters" in {
@@ -238,9 +228,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
       val result = service.fetchAddressForUprn(oSAddressbaseDPA().UPRN)
 
-      whenReady(result) {
-        _ should equal(None)
-      }
+      whenReady(result) { _ should equal(None) }
     }
 
     "return none when response status is Ok but results is empty" in {
@@ -249,9 +237,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
       val result = service.fetchAddressForUprn(oSAddressbaseDPA().UPRN)
 
-      whenReady(result) {
-        _ should equal(None)
-      }
+      whenReady(result) { _ should equal(None) }
     }
 
     "return none when the result has no DPA and no LPI" in {
@@ -260,9 +246,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
       val result = service.fetchAddressForUprn(oSAddressbaseDPA().UPRN)
 
-      whenReady(result) {
-        _ should equal(None)
-      }
+      whenReady(result) { _ should equal(None) }
     }
 
     "return none when web service throws an exception" in {
@@ -270,9 +254,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
       val result = addressLookupService.fetchAddressForUprn(oSAddressbaseDPA().UPRN)
 
-      whenReady(result) {
-        _ should equal(None)
-      }
+      whenReady(result) { _ should equal(None) }
     }
   }
 }
