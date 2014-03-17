@@ -7,7 +7,6 @@ import helpers.change_of_address.LoginPagePopulate
 import helpers.change_of_address.AuthenticationPopulate
 import helpers.change_of_address.V5cSearchPagePopulate
 
-
 class V5cSearchIntegrationSpec extends Specification with Tags {
 
   "V5cSearch Integration" should {

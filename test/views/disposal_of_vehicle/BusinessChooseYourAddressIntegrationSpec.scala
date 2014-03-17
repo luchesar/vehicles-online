@@ -5,8 +5,6 @@ import helpers.webbrowser.TestHarness
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
 import pages.common.ErrorPanel
-import java.util.concurrent.TimeUnit
-import helpers.disposal_of_vehicle.Helper._
 
 class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestHarness  {
   "Business choose your address - Integration" should {
