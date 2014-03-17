@@ -14,13 +14,15 @@
 
         <title>@title</title>
 
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("screen.min.css")">
+        
         @{/*<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/date-picker.css")">*/}
         
         <!--[if gt IE 8]><!--> <link href="@routes.Assets.at("stylesheets/header-footer-only.css")" media="screen" rel="stylesheet" type="text/css"> <!--<![endif]-->
         <!--[if IE 6]><link href="@routes.Assets.at("stylesheets/header-footer-only-ie6.css")" media="screen" rel="stylesheet" type="text/css"><![endif]-->
         <!--[if IE 7]><link href="@routes.Assets.at("stylesheets/header-footer-only-ie7.css")" media="screen" rel="stylesheet" type="text/css"><![endif]-->
         <!--[if IE 8]><link href="@routes.Assets.at("stylesheets/header-footer-only-ie8.css")" media="screen" rel="stylesheet" type="text/css"><![endif]-->
+        
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("screen.min.css")">
 
         <link href="@routes.Assets.at("stylesheets/print.css")" media="print" rel="stylesheet" type="text/css">
 
@@ -83,8 +85,11 @@
                             <img src="@routes.Assets.at("images/gov.uk_logotype-2x.png")" alt="GOV.UK">
                         </a>
                     </div>
-
-                    <h1 class="page-title alpha"><strong>@{Messages("main.banner")(lang)}</strong> <span>alpha</span></h1>
+					
+					<div class="header-phase">
+                    	<h1 class="page-title alpha"><strong>@{Messages("main.banner")(lang)}</strong> <span>alpha</span></h1>
+                    	<h2><a href="">Help and feedback</a></h2>
+                    </div>
 
                 </div>
             </div>
