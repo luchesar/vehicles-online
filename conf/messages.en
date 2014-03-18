@@ -193,10 +193,10 @@ disposal_beforeyoustart.button = Start now
 disposal_setuptradedetails.title = Dispose a vehicle into the motor trade: set-up
 disposal_setuptradedetails.name = Dispose a vehicle into the motor trade
 disposal_setuptradedetails.p1 = Set-up trade details
-disposal_setuptradedetails.tradernamelabel = Business name
+disposal_setuptradedetails.tradernamelabel = Trader name
 disposal_setuptradedetails.traderpostcodelabel = Postcode
 disposal_setuptradedetails.traderpostcodelabel.validation = Please enter a valid business postcode
-disposal_setuptradedetails.button = Look-up
+disposal_setuptradedetails.button = Find address
 
 #page 3
 disposal_businessChooseYourAddress_title = Business: Choose your address
