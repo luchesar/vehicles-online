@@ -145,7 +145,7 @@ prototype.banner = Mae hwn yn brototeip - bydd eich adborth yn ein helpu i wella
 prototype.link = Cael gwybod mwy
 
 #page 1 - Before You Start
-disposal_beforeyoustart.title = Gwerthu cerbyd i mewn i'r fasnach foduron
+disposal_beforeyoustart.title = Cael gwared cerbyd i mewn i'r fasnach foduron
 disposal_beforeyoustart.p1 = Cyn i chi ddechrau:
 disposal_beforeyoustart.listitem1 = Bydd angen y dystysgrif cofrestru cerbyd V5C (llyfr log) i chi am y cerbyd yn cael ei waredu
 disposal_beforeyoustart.listitem2 = Os oes gan cofrestru personol ar y cerbyd yn cael ei waredu, rhaid i'r ceidwad yn deall y bydd y cofrestriad yn cael ei waredu gyda'r cerbyd. Os yw'r ceidwad presennol yn dymuno cadw cofrestru personol, rhaid iddo yn gyntaf gael ei gadw at dystysgrif, neu ei drosglwyddo i gerbyd arall, a dychwelyd y cofrestriad gwreiddiol i'r cerbyd.
