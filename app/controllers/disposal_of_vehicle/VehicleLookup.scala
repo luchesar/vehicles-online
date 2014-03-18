@@ -42,7 +42,10 @@ class VehicleLookup @Inject()(webService: services.VehicleLookupService) extends
             case None => Redirect(routes.SetUpTradeDetails.present)
           }
         },
-      f => lookupVehicle(webService, f)
+      f => {
+        val modelWithoutSpaces = f.copy(registrationNumber = f.registrationNumber.replace(" ","")) // DE7 Strip spaces from input as it is not allowed in the micro-service.
+        lookupVehicle(webService, modelWithoutSpaces)
+      }
     )
   }
 
