@@ -7,7 +7,7 @@ object Helper {
   val traderBusinessNameValid = "example trader name"
   val traderaddressValid = "1"
 
-  val line1Valid = "123 Some street"
+  val line1Valid = "123"
   val line2Valid = "line-2 stub"
   val line3Valid = "line-3 stub"
   val line4Valid = "line-4 stub"
