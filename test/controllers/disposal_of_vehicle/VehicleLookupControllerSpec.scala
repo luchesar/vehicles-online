@@ -5,6 +5,7 @@ import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import mappings.disposal_of_vehicle.VehicleLookup._
 import helpers.disposal_of_vehicle.Helper._
+import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel

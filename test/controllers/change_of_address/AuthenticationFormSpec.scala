@@ -2,6 +2,7 @@ package controllers.change_of_address
 
 import mappings.change_of_address
 import change_of_address.Authentication._
+import org.scalatest.{Matchers, WordSpec}
 import helpers.change_of_address.Helper._
 import helpers.UnitSpec
 

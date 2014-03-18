@@ -1,5 +1,7 @@
 package views.disposal_of_vehicle
 
+
+import org.specs2.mutable.Specification
 import helpers.webbrowser.TestHarness
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
@@ -7,6 +9,7 @@ import pages.common.ErrorPanel
 import helpers.UiSpec
 
 class DisposeIntegrationSpec extends UiSpec with TestHarness {
+
   "Dispose Integration" should {
 
     "be presented" in new WebBrowser {

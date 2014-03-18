@@ -2,6 +2,7 @@ package controllers.change_of_address
 
 import mappings.change_of_address.V5cSearch
 import V5cSearch._
+import org.scalatest.mock.MockitoSugar
 import helpers.change_of_address.Helper._
 import helpers.UnitSpec
 import helpers.UnitSpec

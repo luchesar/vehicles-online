@@ -3,8 +3,6 @@ package functional
 import org.scalatest.{BeforeAndAfterAll, Matchers, GivenWhenThen, FeatureSpec}
 import pages.disposal_of_vehicle._
 import helpers.webbrowser._
-import play.api.test.TestServer
-import org.openqa.selenium.remote.DesiredCapabilities
 
 class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 

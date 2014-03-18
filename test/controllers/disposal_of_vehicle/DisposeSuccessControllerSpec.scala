@@ -6,6 +6,7 @@ import controllers.disposal_of_vehicle
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UnitSpec
+
 class DisposeSuccessUnitSpec extends UnitSpec {
 
   "Disposal success controller" should {

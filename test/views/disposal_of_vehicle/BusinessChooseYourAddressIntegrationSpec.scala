@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit
 import helpers.disposal_of_vehicle.Helper._
 import helpers.UiSpec
 
+
 class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "Business choose your address - Integration" should {
 

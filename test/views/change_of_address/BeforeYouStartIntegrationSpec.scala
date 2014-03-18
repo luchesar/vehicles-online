@@ -1,6 +1,7 @@
 package views.change_of_address
 
 import helpers.UiSpec
+import org.specs2.mutable.Specification
 import helpers.webbrowser.TestHarness
 import pages.change_of_address._
 
