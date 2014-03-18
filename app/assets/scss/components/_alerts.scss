@@ -92,9 +92,12 @@
 	
 	.alert-warning {
 		@extend .alert;
-		border-color: $orange;
-		background: lighten($orange-25, 7%);
-		color:darken($orange, 10%);
+		border: none;
+		background: transparent url(https://assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png) left top no-repeat;
+		padding: {
+			top:.3em;
+			left:3em;
+		}
 		  	
 		&.alert-withicon {
 		  	&:after {
@@ -106,8 +109,10 @@
 		}
 		  
 		ol, ul, p {
+			@include bold-19;
+			color:#000;
 			a {
-				color:darken($orange, 10%);
+				color:#000;
 			}
 		}
 	}
