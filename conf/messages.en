@@ -201,6 +201,8 @@ disposal_setuptradedetails.tradernamelabel = Trader name
 disposal_setuptradedetails.traderpostcodelabel = Postcode
 disposal_setuptradedetails.traderpostcodelabel.validation = Please enter a valid business postcode
 disposal_setuptradedetails.button = Find address
+dealerName = Trader name
+dealerPostcode = Postcode
 
 #page 3
 disposal_businessChooseYourAddress_title = Business: Choose your address

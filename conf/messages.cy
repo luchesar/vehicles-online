@@ -197,6 +197,8 @@ disposal_setuptradedetails.tradernamelabel = Enw masnachwr
 disposal_setuptradedetails.traderpostcodelabel = Cod post
 disposal_setuptradedetails.traderpostcodelabel.validation = Teipiwch eich côd post busnes dilys
 disposal_setuptradedetails.button = Dod o hyd i gyfeiriad
+dealerName = Enw masnachwr
+dealerPostcode = Cod post
 
 disposal_vehiclelookup.title = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_vehiclelookup.name = Gwaredu cerbyd i mewn i'r fasnach foduron
