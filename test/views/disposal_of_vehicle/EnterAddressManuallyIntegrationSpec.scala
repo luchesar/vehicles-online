@@ -10,7 +10,7 @@ import helpers.UiSpec
 class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
   "EnterAddressManually integration" should {
-/*
+
     "be presented" in new WebBrowser {
       // Arrange & Act
       CacheSetup.setupTradeDetails()
@@ -19,7 +19,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       // Assert
       assert(page.title equals EnterAddressManuallyPage.title)
     }
-*/
+
     "accept and redirect when all fields are input with valid entry" in new WebBrowser {
       // Arrange & Act
       CacheSetup.setupTradeDetails()
@@ -28,7 +28,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       // Assert
       //assert(page.title equals VehicleLookupPage.title)
     }
-/*
+
     "accept when only mandatory fields only are input" in new WebBrowser {
       // Arrange & Act
       CacheSetup.setupTradeDetails()
@@ -117,6 +117,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
       // Assert
       assert(ErrorPanel.numberOfErrors equals 2)
-    }*/
+    }
   }
 }
