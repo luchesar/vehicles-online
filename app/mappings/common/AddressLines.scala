@@ -12,7 +12,7 @@ object AddressLines {
   val line3Id = "line3"
   val line4Id = "line4"
   val line1MinLength = 1
-  val line1MaxLength = 4
+  val line1MaxLength = 50
   val lineMaxLength = 75
   val maxLengthOfLinesConcatenated = 130
 

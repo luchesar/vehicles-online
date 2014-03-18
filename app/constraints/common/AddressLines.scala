@@ -10,7 +10,11 @@ object AddressLines {
       // Reject when:
       // Too many characters
       // HTML or XML markup
-      if(input.totalCharacters <= maxLengthOfLinesConcatenated && input.toViewFormat.forall(line => !line.contains("<"))) Valid // TODO: replace the line.contains with regex to check there are no HTML or XML markup in each string.
+      val inputRegex = """^[A-Za-z0-9\s\-]*$""".r
+      if(input.totalCharacters <= maxLengthOfLinesConcatenated &&
+        inputRegex.pattern.matcher(input.toViewFormat.mkString).matches
+      )
+        Valid
       else Invalid(ValidationError("error.address.maxLengthOfLinesConcatenated"))
     }
     case _ => Invalid(ValidationError("error.address.line1Required"))

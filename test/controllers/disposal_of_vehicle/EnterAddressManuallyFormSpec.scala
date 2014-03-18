@@ -66,7 +66,11 @@ class EnterAddressManuallyFormSpec extends UnitSpec {
     }
 
     "reject if line1 is greater than max length" in {
-      formWithValidDefaults(line1 = "12345").errors should have length 1
+      formWithValidDefaults(line1 = "a" * (line1MaxLength + 1)).errors should have length 1
+    }
+
+    "reject if line1 contains special characters" in {
+      formWithValidDefaults(line1 = "The*House").errors should have length 1
     }
 
     "reject if line2 is more than max length" in {
