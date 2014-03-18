@@ -46,6 +46,24 @@ class VehicleLookupUnitSpec extends UnitSpec {
       redirectLocation(result) should equal (Some(DisposePage.address))
      }
 
+    "submit removes spaces from registrationNumber" in new WithApplication { // DE7 Spaces should be stripped
+      // Arrange
+      CacheSetup.businessChooseYourAddress()
+
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(referenceNumberId -> referenceNumberValid, registrationNumberId -> "9999 AAA", consentId -> consentValid)
+
+      val result = vehicleLookupSuccess.submit(request)
+
+      whenReady(result) {
+        r => controllers.disposal_of_vehicle.Helpers.fetchVehicleLookupDetailsFromCache match {
+          case Some(f) => f.registrationNumber should equal("9999AAA")
+          case _ => fail("Should have found model in the cache")
+        }
+      }
+    }
+
+
     "redirect to VehicleLookupFailure after a submit and false message returned from the fake microservice" in new WithApplication {
       val mockVehicleLookupFormModelFailure = mock[VehicleLookupFormModel]
       when (mockVehicleLookupFormModelFailure.referenceNumber).thenReturn(FakeDisposeService.failureReferenceNumber)
