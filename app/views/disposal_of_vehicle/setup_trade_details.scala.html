@@ -13,7 +13,10 @@
 
     @form(action = controllers.disposal_of_vehicle.routes.SetUpTradeDetails.submit) {
 
-    <h2>@Messages("disposal_setuptradedetails.p1")</h2>
+    @{/*
+    	Removed following review feedback 18/3/14
+    	<h2>@Messages("disposal_setuptradedetails.p1")</h2>
+    */}
     
     @valtechInputText(traderLookupForm(dealerNameId), args =
     Map('_label -> Messages("disposal_setuptradedetails.tradernamelabel"),
