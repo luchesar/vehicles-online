@@ -3,8 +3,9 @@ package views.change_of_address
 import org.specs2.mutable.Specification
 import helpers.webbrowser.TestHarness
 import pages.change_of_address._
+import helpers.UiSpec
 
-class LoginPageIntegrationSpec extends Specification with TestHarness {
+class LoginPageIntegrationSpec extends UiSpec with TestHarness {
 
   "LoginPage Integration" should {
     "be presented" in new WebBrowser {
@@ -23,7 +24,5 @@ class LoginPageIntegrationSpec extends Specification with TestHarness {
       // Assert the title from the next page
       //assert(page.title equals LoginPage.title)
     }
-
   }
-
 }

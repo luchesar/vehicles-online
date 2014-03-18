@@ -1,16 +1,16 @@
 package controllers.disposal_of_vehicle
 
-import org.scalatest.{Matchers, WordSpec}
-import org.specs2.mock.Mockito
 import play.api.test.{FakeRequest, WithApplication}
-import controllers.disposal_of_vehicle
+import controllers.{disposal_of_vehicle}
 import play.api.test.Helpers._
-
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
+import helpers.UnitSpec
 
-class DisposeFailureControllerSpec extends WordSpec with Matchers with Mockito {
+class DisposeFailureUnitSpec extends UnitSpec {
+
   "DisposalFailure - Controller" should {
+
     "present" in new WithApplication {
       // Arrange
       CacheSetup.businessChooseYourAddress()
@@ -18,12 +18,11 @@ class DisposeFailureControllerSpec extends WordSpec with Matchers with Mockito {
       CacheSetup.disposeFormModel()
       CacheSetup.disposeTransactionId()
       CacheSetup.vehicleRegistrationNumber()
+
       val request = FakeRequest().withSession()
 
-      // Act
       val result = disposal_of_vehicle.DisposeFailure.present(request)
 
-      // Assert
       status(result) should equal(OK)
     }
 
@@ -34,9 +33,9 @@ class DisposeFailureControllerSpec extends WordSpec with Matchers with Mockito {
       CacheSetup.disposeFormModel()
       CacheSetup.disposeTransactionId()
       CacheSetup.vehicleRegistrationNumber()
+
       val request = FakeRequest().withSession()
 
-      // Act
       val result = disposal_of_vehicle.DisposeFailure.submit(request)
 
       // Assert
@@ -46,7 +45,6 @@ class DisposeFailureControllerSpec extends WordSpec with Matchers with Mockito {
     "redirect to setuptraderdetails when no details are in cache and submit is selected" in new WithApplication() {
       val request = FakeRequest().withSession()
 
-      // Act
       val result = disposal_of_vehicle.DisposeFailure.submit(request)
 
       // Assert

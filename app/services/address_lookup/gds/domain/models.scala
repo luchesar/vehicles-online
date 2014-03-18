@@ -1,13 +1,6 @@
-package uk.gov.gds.locality.api.models
-
+package services.address_lookup.gds.domain
 
 import org.joda.time.DateTime
-
-
-
-
-
-
 
 case class Details(
                     usrn: String,
@@ -27,7 +20,9 @@ case class Presentation(
                          town: Option[String],
                          area: Option[String],
                          postcode: String,
-                         uprn: String)
+                         uprn: String){
+  def toViewModel = Seq(property, street, town, area, Some(postcode)).flatten
+}
 
 case class Address(
                     gssCode: String,
@@ -38,7 +33,9 @@ case class Address(
                     // createdAt: DateTime,
                     presentation: Presentation,
                     details: Details,
-                    location: Location)
+                    location: Location){
+  def toViewModel = Seq(houseName, houseNumber).flatten ++ presentation.toViewModel
+}
 
 
 case class PlacesAddress(
@@ -87,13 +84,4 @@ object JsonFormats {
   implicit val placesAddressFormat = Json.format[PlacesAddress]
   implicit val eroFormat = Json.format[Ero]
   implicit val authorityFormat = Json.format[LocalAuthority]
-
-  implicit val streetWrite = Json.writes[Street]
-  implicit val locationWrite = Json.writes[Location]
-  implicit val presentationWrite = Json.writes[Presentation]
-  implicit val detailsWrite = Json.writes[Details]
-  implicit val addressWrite = Json.writes[Address]
-  implicit val placesAddressWrite = Json.writes[PlacesAddress]
-  implicit val eroWrite = Json.writes[Ero]
-  implicit val authorityWrite = Json.writes[LocalAuthority]
 }

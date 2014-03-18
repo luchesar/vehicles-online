@@ -1,11 +1,14 @@
 package views.disposal_of_vehicle
 
-import org.specs2.mutable.Specification
 import pages.disposal_of_vehicle._
 import helpers.webbrowser.TestHarness
 import pages.common.ErrorPanel
+import play.api.test.WithBrowser
+import controllers.BrowserMatchers
+import helpers.UiSpec
 
-class SetUpTradeDetailsIntegrationSpec extends Specification with TestHarness  {
+
+class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
 
   "SetUpTradeDetails Integration" should {
     "be presented" in new WebBrowser {

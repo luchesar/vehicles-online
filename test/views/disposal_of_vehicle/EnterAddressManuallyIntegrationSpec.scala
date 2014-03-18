@@ -5,8 +5,9 @@ import pages.disposal_of_vehicle._
 import helpers.webbrowser.TestHarness
 import helpers.disposal_of_vehicle.CacheSetup
 import pages.common.ErrorPanel
+import helpers.UiSpec
 
-class EnterAddressManuallyIntegrationSpec extends Specification  with TestHarness {
+class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
   "EnterAddressManually integration" should {
 

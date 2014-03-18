@@ -5,9 +5,9 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import play.api.libs.ws.Response
 import javax.inject.Inject
-import services.AddressLookupService
-import services.ordnance_survey.domain.OSAddressbaseResult
+import services.address_lookup.ordnance_survey.domain.OSAddressbaseResult
 import play.api.Logger
+import services.address_lookup.AddressLookupService
 
 /**
  * Fake implementation of the FakeAddressLookupService trait
@@ -16,8 +16,6 @@ class FakeAddressLookupService @Inject()(ws: services.WebService) extends Addres
   override protected def callPostcodeWebService(postcode: String): Future[Response] = ???
 
   override protected def callUprnWebService(postcode: String): Future[Response] = ???
-
-  override protected def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = ???
 
   override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = Future {
     if (postcode == FakeAddressLookupService.postcodeInvalid) Seq.empty

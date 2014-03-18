@@ -4,6 +4,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import services._
 import play.api.Logger
 import services.fakes._
+import services.address_lookup.AddressLookupService
 
 object TestModule extends ScalaModule {
   /**

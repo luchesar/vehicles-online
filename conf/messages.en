@@ -177,6 +177,10 @@ error.invalid = Invalid value
 # DISPOSAL OF VEHICLE
 ##
 
+#prototype
+prototype.banner = This is a prototype – your feedback will help us to improve it.
+prototype.link = Find out more
+
 #page 1 - Before You Start
 disposal_beforeyoustart.title = Dispose a vehicle into the motor trade
 disposal_beforeyoustart.p1 = Before you start:

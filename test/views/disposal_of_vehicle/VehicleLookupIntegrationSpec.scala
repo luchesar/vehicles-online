@@ -1,13 +1,13 @@
 package views.disposal_of_vehicle
 
-import org.specs2.mutable.Specification
 import pages.disposal_of_vehicle._
 import helpers.webbrowser.TestHarness
 import helpers.disposal_of_vehicle.Helper._
 import helpers.disposal_of_vehicle.CacheSetup
 import pages.common.ErrorPanel
+import helpers.UiSpec
 
-class VehicleLookupIntegrationSpec extends Specification with TestHarness {
+class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
   "VehicleLookupIntegrationSpec Integration" should {
 
@@ -32,7 +32,6 @@ class VehicleLookupIntegrationSpec extends Specification with TestHarness {
      "go to the next page when correct data is entered" in  new WebBrowser {
        // Arrange & Act
        CacheSetup.businessChooseYourAddress()
-
        VehicleLookupPage.happyPath
 
        // Assert

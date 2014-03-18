@@ -2,7 +2,6 @@ package controllers.change_of_address
 
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
-import org.scalatest.{Matchers, WordSpec}
 import mappings.change_of_address.V5cSearch
 import V5cSearch._
 import helpers.change_of_address.LoginCachePopulate
@@ -10,12 +9,12 @@ import LoginCachePopulate._
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import models.domain.change_of_address.V5cSearchModel
-import org.scalatest.mock.MockitoSugar
 import helpers.change_of_address.Helper._
 import helpers.change_of_address.{AreYouRegisteredPage, ConfirmVehicleDetailsPage}
 import services.fakes.FakeV5cSearchWebService
+import helpers.UnitSpec
 
-class V5cSearchControllerSpec extends WordSpec with Matchers with MockitoSugar {
+class V5cSearchUnitSpec extends UnitSpec {
 
   "V5cSearch - Controller" should {
     val mockV5cSearchModel = mock[V5cSearchModel]
@@ -24,51 +23,39 @@ class V5cSearchControllerSpec extends WordSpec with Matchers with MockitoSugar {
     val vehicleSearch = new VehicleSearch(mockWebService)
 
     "present when user has logged in" in new WithApplication {
-      // Arrange
       setupCache
-
       val request = FakeRequest().withSession()
 
-      // Act
       val result = vehicleSearch.present(request)
 
-      // Assert
       status(result) should equal(OK)
     }
 
     "present login page when user is not logged in" in new WithApplication {
-      // Arrange
       val request = FakeRequest().withSession()
 
-      // Act
       val result = vehicleSearch.present(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(AreYouRegisteredPage.url))
     }
 
     "redirect to next page after the button is clicked" in new WithApplication {
-      // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cDocumentReferenceNumberValid, v5cRegistrationNumberId -> v5cVehicleRegistrationNumberValid)
+        .withFormUrlEncodedBody(v5cReferenceNumberId -> v5cDocumentReferenceNumberValid,
+                                v5cRegistrationNumberId -> v5cVehicleRegistrationNumberValid)
 
-      // Act
       val result = vehicleSearch.submit(request)
 
-      // Assert
       status(result) should equal(SEE_OTHER)
       redirectLocation(result) should equal(Some(ConfirmVehicleDetailsPage.url))
     }
 
     "report bad request when no details are entered" in new WithApplication {
-      // Arrange
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 
-      // Act
       val result = vehicleSearch.submit(request)
 
-      // Assert
       status(result) should equal(BAD_REQUEST)
     }
   }

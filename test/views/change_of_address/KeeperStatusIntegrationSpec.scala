@@ -1,10 +1,10 @@
 package views.change_of_address
 
-import org.specs2.mutable.Specification
 import helpers.webbrowser.TestHarness
 import pages.change_of_address._
+import helpers.UiSpec
 
-class KeeperStatusIntegrationSpec extends Specification with TestHarness {
+class KeeperStatusIntegrationSpec extends UiSpec with TestHarness {
 
     "KeeperStatus Integration" should {
       "be presented" in new WebBrowser {
@@ -26,6 +26,6 @@ class KeeperStatusIntegrationSpec extends Specification with TestHarness {
         assert(page.title equals VerifyIdentityPage.title)
       }
     }
-}
+  }
 
 

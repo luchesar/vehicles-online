@@ -1,11 +1,11 @@
 package views.disposal_of_vehicle
 
-import org.specs2.mutable.Specification
 import pages.disposal_of_vehicle._
 import helpers.webbrowser.TestHarness
 import helpers.disposal_of_vehicle.CacheSetup
+import helpers.UiSpec
 
-class VehicleLookupFailureIntegrationSpec extends Specification with TestHarness  {
+class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
   "VehicleLookupFailureIntegration" should {
     "be presented" in new WebBrowser {
       //Arrange & Act

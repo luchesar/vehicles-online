@@ -7,8 +7,9 @@ import helpers.disposal_of_vehicle.CacheSetup
 import pages.common.ErrorPanel
 import java.util.concurrent.TimeUnit
 import helpers.disposal_of_vehicle.Helper._
+import helpers.UiSpec
 
-class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestHarness  {
+class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "Business choose your address - Integration" should {
 
     "be presented" in new WebBrowser {
@@ -70,6 +71,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestH
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
+
     "check number of options in drop down" in new WebBrowser {
       // Arrange
       SetupTradeDetailsPage.happyPath
@@ -90,6 +92,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestH
 
       assert(BusinessChooseYourAddressPage.getListCount equals 1)
     }
+
 /* //TODO need to amend below test not to use fake microservice
     "display message when address service returns no addresses" in new WebBrowser {
       // Arrange
@@ -99,6 +102,7 @@ class BusinessChooseYourAddressIntegrationSpec extends Specification  with TestH
       //browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {
       val result = webDriver.getPageSource
       result.contains("No addresses found for that postcode")  must beEqualTo(true)
+
 
       assert(BusinessChooseYourAddressPage.getListCount equals 0)
       }*/

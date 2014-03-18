@@ -139,6 +139,10 @@ confirm_vehicle_details.button2 = Diddymu
 
 ##disposal prototype##
 
+#prototype
+prototype.banner = Mae hwn yn brototeip - bydd eich adborth yn ein helpu i wella.
+prototype.link = Cael gwybod mwy
+
 #page 1 - Before You Start
 disposal_beforeyoustart.title = Cael gwared cerbyd i mewn i'r fasnach foduron
 disposal_beforeyoustart.p1 = Cyn i chi ddechrau:

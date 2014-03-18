@@ -1,4 +1,4 @@
-package services.ordnance_survey.domain
+package services.address_lookup.ordnance_survey.domain
 
 import play.api.libs.json._
 import play.api.libs.functional.syntax._

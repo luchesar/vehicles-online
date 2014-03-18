@@ -1,12 +1,11 @@
-package services.ordinance_survey.domain
+package services.address_lookup.ordnance_survey.domain
 
-import org.scalatest.{Matchers, WordSpec}
 import scala.io.Source
 import java.net.URI
 import play.api.libs.json._
-import services.ordnance_survey.domain.OSAddressbaseSearchResponse
+import helpers.UnitSpec
 
-class OSAddressbasePostcodeResponseSpec extends WordSpec with Matchers {
+class OSAddressbasePostcodeResponseSpec extends UnitSpec {
   "Response Parser loading json for ec1a 4jq" should {
     def getResource(name: String) = Source.fromURL(this.getClass.getResource(s"/$name")).mkString("")
 

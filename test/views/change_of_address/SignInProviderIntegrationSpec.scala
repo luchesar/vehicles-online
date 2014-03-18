@@ -1,10 +1,10 @@
 package views.change_of_address
 
-import org.specs2.mutable.Specification
 import helpers.webbrowser.TestHarness
 import pages.change_of_address._
+import helpers.UiSpec
 
-class SignInProviderIntegrationSpec extends Specification with TestHarness{
+class SignInProviderIntegrationSpec extends UiSpec with TestHarness{
 
   "SignInProvider Integration" should {
     "be presented" in new WebBrowser {

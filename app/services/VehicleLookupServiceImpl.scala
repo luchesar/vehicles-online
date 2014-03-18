@@ -22,10 +22,9 @@ class VehicleLookupServiceImpl() extends VehicleLookupService {
     Logger.debug(s"Calling vehicle lookup micro service on ${endPoint} with request object: ${cmd}...")
     val futureOfResponse = WS.url(endPoint).post(Json.toJson(cmd))
 
-    futureOfResponse.map {
-      resp =>
-        Logger.debug(s"Http response code from vehicle lookup micro service was: ${resp.status}")
-        resp.json.as[VehicleDetailsResponse]
+    futureOfResponse.map { resp =>
+      Logger.debug(s"Http response code from vehicle lookup micro service was: ${resp.status}")
+      resp.json.as[VehicleDetailsResponse]
     }
   }
 }

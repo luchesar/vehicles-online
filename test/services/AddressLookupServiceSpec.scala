@@ -5,13 +5,13 @@ import services.fakes.FakeWebServiceImpl
 import org.scalatest.mock.MockitoSugar
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-import services.ordnance_survey.AddressLookupServiceImpl
 import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
-import services.ordnance_survey.domain._
 import play.api.libs.json.Json
 import java.net.URI
 import play.api.libs.ws.Response
+import services.address_lookup.ordnance_survey.domain._
+import services.address_lookup.ordnance_survey.AddressLookupServiceImpl
 
 class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar {
 
@@ -27,8 +27,6 @@ class AddressLookupServiceSpec extends WordSpec with Matchers with MockitoSugar 
     override protected def callPostcodeWebService(postcode: String): Future[Response] = responseOfPostcodeWebService
 
     override protected def callUprnWebService(uprn: String): Future[Response] = responseOfUprnWebService
-
-    override def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = results
   }
 
   val oSAddressbaseDPA = OSAddressbaseDPA(

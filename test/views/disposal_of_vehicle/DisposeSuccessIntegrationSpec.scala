@@ -1,11 +1,11 @@
 package views.disposal_of_vehicle
 
-import org.specs2.mutable.Specification
 import pages.disposal_of_vehicle._
 import helpers.webbrowser.TestHarness
 import helpers.disposal_of_vehicle.CacheSetup
+import helpers.UiSpec
 
-class DisposeSuccessIntegrationSpec extends Specification with TestHarness {
+class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
   "Dispose confirmation integration" should {
 
     "be presented" in new WebBrowser {

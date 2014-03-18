@@ -2,21 +2,21 @@ package controllers.disposal_of_vehicle
 
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
-import controllers.disposal_of_vehicle
-import org.scalatest.{Matchers, WordSpec}
+import controllers.{disposal_of_vehicle}
 import mappings.disposal_of_vehicle.Dispose._
 import helpers.disposal_of_vehicle.Helper._
-import org.scalatest.mock.MockitoSugar
 import models.domain.disposal_of_vehicle.{DisposeResponse, DisposeModel}
-import org.mockito.Mockito._
-import org.mockito.Matchers._
 import services.fakes.FakeDisposeService
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
+import org.mockito.Mockito._
+import org.mockito.Matchers._
+import helpers.UnitSpec
 
-class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
+class DisposeUnitSpec extends UnitSpec {
+
   "Dispose - Controller" should {
 
        val mockDisposeModel = mock[DisposeModel]
@@ -28,12 +28,11 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
          // Arrange
          CacheSetup.businessChooseYourAddress()
          CacheSetup.vehicleDetailsModel()
+
          val request = FakeRequest().withSession()
 
-         // Act
          val result = dispose.present(request)
 
-         // Assert
          status(result) should equal(OK)
        }
 
@@ -42,6 +41,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
          CacheSetup.businessChooseYourAddress()
          CacheSetup.vehicleDetailsModel()
          CacheSetup.vehicleLookupFormModel()
+
          val request = FakeRequest().withSession()
            .withFormUrlEncodedBody(
              mileageId -> mileageValid,
@@ -50,11 +50,9 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
              s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid
            )
 
-         // Act
          val result = dispose.submit(request)
 
          // Assert
-
          redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
        }
 
@@ -77,7 +75,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
           s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
           s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid
         )
-      // Act
+
       val result = dispose.submit(request)
 
       //Assert
@@ -87,6 +85,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
     "redirect to setupTradeDetails page after the dispose button is clicked and no vehicleLookupFormModel is cached" in new WithApplication {
       // Arrange
       CacheSetup.setupTradeDetails()
+
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           mileageId -> mileageValid,
@@ -94,7 +93,6 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
           s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
           s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid)
 
-      // Act
       val result = dispose.submit(request)
 
       // Assert
@@ -102,10 +100,8 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
     }
 
     "redirect to setupTradeDetails page when present and previous pages have not been visited" in new WithApplication {
-      // Arrange
       val request = FakeRequest().withSession()
 
-      // Act
       val result = dispose.present(request)
 
       // Assert
@@ -116,22 +112,19 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       // Arrange
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
+
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 
-      // Act
       val result = dispose.submit(request)
 
-      // Assert
       status(result) should equal(BAD_REQUEST)
     }
 
     "redirect to setupTradeDetails page when form submitted with errors and previous pages have not been visited" in new WithApplication {
-      // Arrange
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 
-      // Act
       val result = dispose.submit(request)
 
       // Assert
@@ -143,6 +136,7 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       CacheSetup.vehicleLookupFormModel()
+
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           mileageId -> mileageValid,
@@ -152,17 +146,15 @@ class DisposeControllerSpec extends WordSpec with Matchers with MockitoSugar {
         )
 
       val disposeResponseThrows = mock[DisposeResponse]
-      when(disposeResponseThrows.success).thenThrow(new RuntimeException("expected by DisposeControllerSpec"))
+      when(disposeResponseThrows.success).thenThrow(new RuntimeException("expected by DisposeUnitSpec"))
       val mockWebServiceThrows = mock[services.DisposeService]
       when(mockWebServiceThrows.invoke(any[DisposeModel])).thenReturn(Future {
         disposeResponseThrows
       })
       val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows)
 
-      // Act
       val result = dispose.submit(request)
 
-      // Assert
       status(result) should equal(BAD_REQUEST)
     }
   }
