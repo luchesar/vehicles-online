@@ -7,11 +7,15 @@ import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
 import services.fakes.{FakeAddressLookupService, FakeWebServiceImpl}
 import helpers.UnitSpec
+import play.api.libs.ws.Response
+import scala.concurrent.{ExecutionContext, Future}
+import ExecutionContext.Implicits.global
 
 class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
   "BusinessChooseYourAddress - Controller" should {
-    val fakeWebService = new FakeWebServiceImpl()
+    def response = Future { mock[Response] }
+    val fakeWebService = new FakeWebServiceImpl(response, response)
     val fakeAddressLookupService = new FakeAddressLookupService(fakeWebService)
     val businessChooseYourAddress = new BusinessChooseYourAddress(fakeAddressLookupService)
 

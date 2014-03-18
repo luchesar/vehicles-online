@@ -1,13 +1,11 @@
-package services.address_lookup
+package services.address_lookup.ordnance_survey
 
-import services.address_lookup.ordnance_survey.AddressLookupServiceImpl
-import services.fakes.FakeWebServiceImpl
 import helpers.UnitSpec
 import helpers.disposal_of_vehicle.Helper._
 
-class AddressLookupSpec extends UnitSpec {
+class WebServiceImplSpec extends UnitSpec {
   "postcodeWithNoSpaces" should {
-    val addressLookupService = new AddressLookupServiceImpl(ws = new FakeWebServiceImpl)
+    val addressLookupService = new services.address_lookup.ordnance_survey.WebServiceImpl()
 
     "return the same string if no spaces present" in {
       val result = addressLookupService.postcodeWithNoSpaces(postcodeValid)

@@ -1,5 +1,6 @@
 #main
-main.banner = Cerbydau ar-lein
+main.banner = Cael gwared cerbyd i mewn i'r fasnach foduron
+main.banner.help = Cymorth ac adborth
 
 global.cookiemessage = GOV.UK yn defnyddio cwcis i wneud y safle yn symlach.
 global.cookiefindoutmore = Cael gwybod mwy am gwcis
@@ -187,10 +188,10 @@ disposal_uprnnotfound.setuptradedetailsbutton = Hun roi cyfeiriad
 disposal_setuptradedetails.title = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_setuptradedetails.name = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_setuptradedetails.p1 = Manylion masnach sefydlu
-disposal_setuptradedetails.tradernamelabel = Enw'r busnes
+disposal_setuptradedetails.tradernamelabel = Enw masnachwr
 disposal_setuptradedetails.traderpostcodelabel = Cod post
 disposal_setuptradedetails.traderpostcodelabel.validation = Teipiwch eich côd post busnes dilys
-disposal_setuptradedetails.button = Am-edrych
+disposal_setuptradedetails.button = Dod o hyd i gyfeiriad
 
 disposal_vehiclelookup.title = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_vehiclelookup.name = Gwaredu cerbyd i mewn i'r fasnach foduron
