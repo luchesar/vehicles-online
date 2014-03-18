@@ -3,8 +3,9 @@ package controllers.disposal_of_vehicle
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
-import helpers.disposal_of_vehicle.SetUpTradeDetailsPage
+import pages.disposal_of_vehicle._
 import helpers.UnitSpec
+
 
 class BeforeYouStartUnitSpec extends UnitSpec {
 
@@ -23,8 +24,7 @@ class BeforeYouStartUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.BeforeYouStart.submit(request)
 
-      status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
-    }
+      redirectLocation(result) should equal (Some(SetupTradeDetailsPage.address))
+     }
   }
 }

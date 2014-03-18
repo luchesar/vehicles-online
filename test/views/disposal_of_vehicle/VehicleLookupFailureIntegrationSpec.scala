@@ -1,55 +1,72 @@
 package views.disposal_of_vehicle
 
-import play.api.test.WithBrowser
-import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle._
+import pages.disposal_of_vehicle._
+import helpers.webbrowser.TestHarness
+import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UiSpec
 
-class VehicleLookupFailureIntegrationSpec extends UiSpec {
-  "DisposeFailureIntegration" should {
-    "be presented" in new WithBrowser with BrowserMatchers {
-      VehicleLookupFailurePage.cacheSetup()
-      browser.goTo(VehicleLookupFailurePage.url)
+class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
+  "VehicleLookupFailureIntegration" should {
+    "be presented" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleLookupFormModel()
+      go to VehicleLookupFailurePage
 
-      titleMustEqual(VehicleLookupFailurePage.title)
+      // Assert
+      assert(page.title equals VehicleLookupFailurePage.title)
     }
 
-    "redirect to setuptrade details if cache is empty on page load" in new WithBrowser with BrowserMatchers {
-      browser.goTo(VehicleLookupFailurePage.url)
+    "redirect to setuptrade details if cache is empty on page load" in new WebBrowser {
+      //Arrange & Act
+      go to VehicleLookupFailurePage
 
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      //Assert
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
 
-    "redirect to setuptrade details if only VehicleLookupFormModelCache is populated" in new WithBrowser with BrowserMatchers {
-      VehicleLookupPage.setupVehicleLookupFormModelCache()
-      browser.goTo(VehicleLookupFailurePage.url)
+    "redirect to setuptrade details if only VehicleLookupFormModelCache is populated" in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.vehicleLookupFormModel()
+      go to VehicleLookupFailurePage
 
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      // Assert
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
 
-    "redirect to setuptrade details if only BusinessChooseYourAddress cache is populated" in new WithBrowser with BrowserMatchers {
-      BusinessChooseYourAddressPage.setupCache()
-      browser.goTo(VehicleLookupFailurePage.url)
+    "redirect to setuptrade details if only BusinessChooseYourAddress cache is populated" in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.businessChooseYourAddress()
+      go to VehicleLookupFailurePage
 
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      // Assert
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
 
-    "redirect to vehiclelookup when button clicked" in new WithBrowser with BrowserMatchers {
-      VehicleLookupFailurePage.cacheSetup()
-      browser.goTo(VehicleLookupFailurePage.url)
+    "redirect to vehiclelookup when button clicked" in new WebBrowser {
+      // Arrange
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleLookupFormModel()
+      go to VehicleLookupFailurePage
 
-      browser.click("#vehiclelookup")
+      // Act
+      click on VehicleLookupFailurePage.vehicleLookup
 
-      titleMustEqual(VehicleLookupPage.title)
+      // Assert
+      assert(page.title equals VehicleLookupPage.title)
     }
 
-    "redirect to setuptradedetails when button clicked" in new WithBrowser with BrowserMatchers {
-      VehicleLookupFailurePage.cacheSetup()
-      browser.goTo(VehicleLookupFailurePage.url)
+    "redirect to setuptradedetails when button clicked" in new WebBrowser {
+      // Arrange
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleLookupFormModel()
+      go to VehicleLookupFailurePage
 
-      browser.click("#setuptradedetails")
+      // Act
+      click on VehicleLookupFailurePage.setupTradeDetails
 
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      // Assert
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
   }
 }

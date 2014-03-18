@@ -4,7 +4,7 @@ import play.api.test.TestBrowser
 import mappings.common.{Postcode, AddressAndPostcode, AddressLines}
 import mappings.common.AddressLines._
 import Postcode._
-import PostcodePage.postcodeValid
+import helpers.disposal_of_vehicle.Helper._
 
 object EnterAddressManuallyPage {
   val url = "/disposal-of-vehicle/enter-address-manually"

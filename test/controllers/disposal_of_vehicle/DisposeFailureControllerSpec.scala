@@ -3,7 +3,8 @@ package controllers.disposal_of_vehicle
 import play.api.test.{FakeRequest, WithApplication}
 import controllers.{disposal_of_vehicle}
 import play.api.test.Helpers._
-import helpers.disposal_of_vehicle.{SetUpTradeDetailsPage, VehicleLookupPage, DisposeFailurePage}
+import pages.disposal_of_vehicle._
+import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UnitSpec
 
 class DisposeFailureUnitSpec extends UnitSpec {
@@ -11,7 +12,13 @@ class DisposeFailureUnitSpec extends UnitSpec {
   "DisposalFailure - Controller" should {
 
     "present" in new WithApplication {
-      DisposeFailurePage.cacheSetup()
+      // Arrange
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.disposeFormModel()
+      CacheSetup.disposeTransactionId()
+      CacheSetup.vehicleRegistrationNumber()
+
       val request = FakeRequest().withSession()
 
       val result = disposal_of_vehicle.DisposeFailure.present(request)
@@ -20,12 +27,19 @@ class DisposeFailureUnitSpec extends UnitSpec {
     }
 
     "redirect to vehicle lookup page when button clicked" in new WithApplication {
-      DisposeFailurePage.cacheSetup()
+      // Arrange
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.disposeFormModel()
+      CacheSetup.disposeTransactionId()
+      CacheSetup.vehicleRegistrationNumber()
+
       val request = FakeRequest().withSession()
 
       val result = disposal_of_vehicle.DisposeFailure.submit(request)
 
-      redirectLocation(result) should equal(Some(VehicleLookupPage.url))
+      // Assert
+      redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
 
     "redirect to setuptraderdetails when no details are in cache and submit is selected" in new WithApplication() {
@@ -33,7 +47,8 @@ class DisposeFailureUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.DisposeFailure.submit(request)
 
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      // Assert
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
   }
 }

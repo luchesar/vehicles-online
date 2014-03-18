@@ -1,25 +1,29 @@
 package views.disposal_of_vehicle
 
-import play.api.test.WithBrowser
-import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.{BeforeYouStartPage, SetUpTradeDetailsPage}
+import pages.disposal_of_vehicle._
+import helpers.webbrowser.TestHarness
 import helpers.UiSpec
 
-class BeforeYouStartIntegrationSpec extends UiSpec {
+class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness  {
 
   "BeforeYouStart Integration" should {
-    "be presented" in new WithBrowser with BrowserMatchers {
-      browser.goTo(BeforeYouStartPage.url)
+    "be presented" in new WebBrowser {
+      // Arrange & Act
+      go to BeforeYouStartPage
 
-      titleMustEqual(BeforeYouStartPage.title)
+      // Assert
+      assert(page.title equals BeforeYouStartPage.title)
     }
 
-    "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
-      browser.goTo(BeforeYouStartPage.url)
+    "go to next page after the button is clicked" in new WebBrowser {
+      // Arrange
+      go to BeforeYouStartPage
 
-      browser.click("#next")
+      // Act
+      click on BeforeYouStartPage.startNow
 
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      // Assert
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
   }
 }

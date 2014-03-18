@@ -7,7 +7,7 @@ import helpers.UnitSpec
 class SetUpTradeDetailsFormSpec extends UnitSpec {
   "SetUpTradeDetails form" should {
     def formWithValidDefaults(traderBusinessName: String = traderBusinessNameValid,
-                              traderPostcode: String = traderPostcodeValid) = {
+                              traderPostcode: String = postcodeValid) = {
      SetUpTradeDetails.traderLookupForm.bind(
         Map(
           dealerNameId -> traderBusinessName,
@@ -29,7 +29,7 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
     }
 
     "accept if trader business name is valid" in {
-      formWithValidDefaults(traderBusinessName = traderBusinessNameValid, traderPostcode = traderPostcodeValid).
+      formWithValidDefaults(traderBusinessName = traderBusinessNameValid, traderPostcode = postcodeValid).
         get.traderBusinessName should equal(traderBusinessNameValid)
     }
 
@@ -54,8 +54,8 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
     }
 
     "accept if trader postcode is valid" in {
-      formWithValidDefaults(traderBusinessName = traderBusinessNameValid, traderPostcode = traderPostcodeValid).
-        get.traderPostcode should equal(traderPostcodeValid)
+      formWithValidDefaults(traderBusinessName = traderBusinessNameValid, traderPostcode = postcodeValid).
+        get.traderPostcode should equal(postcodeValid)
     }
   }
 }

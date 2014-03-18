@@ -1,12 +1,11 @@
 package controllers.disposal_of_vehicle
 
 import mappings.common.{Postcode, AddressLines, AddressAndPostcode}
-import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
 import mappings.common.AddressLines._
-import helpers.disposal_of_vehicle.PostcodePage._
+import helpers.disposal_of_vehicle.Helper._
 import Postcode._
 import helpers.UnitSpec
-import helpers.UnitSpec
+
 
 class EnterAddressManuallyFormSpec extends UnitSpec {
 

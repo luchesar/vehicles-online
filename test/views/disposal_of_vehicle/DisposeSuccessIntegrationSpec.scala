@@ -1,77 +1,102 @@
 package views.disposal_of_vehicle
 
-import play.api.test.WithBrowser
-import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle._
+import pages.disposal_of_vehicle._
+import helpers.webbrowser.TestHarness
+import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UiSpec
 
-class DisposeSuccessIntegrationSpec extends UiSpec {
+class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
   "Dispose confirmation integration" should {
-    "be presented" in new WithBrowser with BrowserMatchers {
-      DisposeFailurePage.cacheSetup
-      browser.goTo(DisposeSuccessPage.url)
 
-      titleMustEqual(DisposeSuccessPage.title)
+    "be presented" in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.disposeFormModel()
+      CacheSetup.disposeTransactionId()
+      CacheSetup.vehicleRegistrationNumber()
+      go to DisposeSuccessPage.url
+
+      // Assert
+      assert(page.title equals DisposeSuccessPage.title)
     }
 
-    "redirect when no details are cached" in new WithBrowser with BrowserMatchers {
-      browser.goTo(DisposeSuccessPage.url)
+    "redirect when no details are cached" in new WebBrowser {
+      // Arrange & Act
+      go to DisposeSuccessPage.url
 
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      // Assert
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
 
-    "redirect when only DealerDetails are cached" in new WithBrowser with BrowserMatchers {
-      BusinessChooseYourAddressPage.setupCache()
-      browser.goTo(DisposeSuccessPage.url)
+    "redirect when only DealerDetails are cached" in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.businessChooseYourAddress()
+      go to DisposeSuccessPage.url
 
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      // Assert
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
 
-    "redirect when only VehicleDetails are cached" in new WithBrowser with BrowserMatchers {
-      VehicleLookupPage.setupVehicleDetailsModelCache()
-      browser.goTo(DisposeSuccessPage.url)
+    "redirect when only VehicleDetails are cached" in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.vehicleDetailsModel()
+      go to DisposeSuccessPage.url
 
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      // Assert
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
 
-    "redirect when only DisposeDetails are cached" in new WithBrowser with BrowserMatchers {
-      DisposePage.setupDisposeFormModelCache()
-      browser.goTo(DisposeSuccessPage.url)
+    "redirect when only DisposeDetails are cached" in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.disposeFormModel()
+      go to DisposeSuccessPage.url
 
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      // Assert
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
 
-    "redirect when only DealerDetails and VehicleDetails are cached" in new WithBrowser with BrowserMatchers {
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.setupVehicleDetailsModelCache()
-      browser.goTo(DisposeSuccessPage.url)
+    "redirect when only DealerDetails and VehicleDetails are cached" in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      go to DisposeSuccessPage.url
 
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      // Assert
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
 
-    "redirect when only DisposeDetails and VehicleDetails are cached" in new WithBrowser with BrowserMatchers {
-      DisposePage.setupDisposeFormModelCache()
-      VehicleLookupPage.setupVehicleDetailsModelCache()
-      browser.goTo(DisposeSuccessPage.url)
+    "redirect when only DisposeDetails and VehicleDetails are cached" in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.disposeFormModel()
+      CacheSetup.vehicleDetailsModel()
+      go to DisposeSuccessPage.url
 
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      // Assert
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
 
-    "redirect when only DisposeDetails and DealerDetails are cached" in new WithBrowser with BrowserMatchers {
-      DisposePage.setupDisposeFormModelCache()
-      BusinessChooseYourAddressPage.setupCache()
-      browser.goTo(DisposeSuccessPage.url)
+    "redirect when only DisposeDetails and DealerDetails are cached" in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.disposeFormModel()
+      CacheSetup.businessChooseYourAddress()
+      go to DisposeSuccessPage.url
 
-      titleMustEqual(SetUpTradeDetailsPage.title)
+      // Assert
+      assert(page.title equals SetupTradeDetailsPage.title)
     }
 
-    "display vehicle lookup page when new disposal link is clicked" in new WithBrowser with BrowserMatchers {
-      DisposeFailurePage.cacheSetup
-      browser.goTo(DisposeSuccessPage.url)
+    "display vehicle lookup page when new disposal link is clicked" in new WebBrowser  {
+      // Arrange & Act
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.disposeFormModel()
+      CacheSetup.disposeTransactionId()
+      CacheSetup.vehicleRegistrationNumber()
+      DisposeSuccessPage.happyPath
 
-      browser.click("#newDisposal")
-
-      titleMustEqual(VehicleLookupPage.title)
+      //Assert
+      assert(page.title equals VehicleLookupPage.title)
     }
   }
 }

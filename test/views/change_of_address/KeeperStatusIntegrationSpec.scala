@@ -1,26 +1,31 @@
 package views.change_of_address
 
-import play.api.test.WithBrowser
-import controllers.BrowserMatchers
+import helpers.webbrowser.TestHarness
+import pages.change_of_address._
 import helpers.UiSpec
 
-class KeeperStatusIntegrationSpec extends UiSpec {
+class KeeperStatusIntegrationSpec extends UiSpec with TestHarness {
 
-  "KeeperStatus Integration" should {
-    "be presented" in new WithBrowser with BrowserMatchers {
-      browser.goTo("/keeper-status")
+    "KeeperStatus Integration" should {
+      "be presented" in new WebBrowser {
+        // Arrange & Act
+        go to KeeperStatusPage
 
-      titleMustEqual("Change of keeper address2")
-    }
+        // Assert
+        assert(page.title equals KeeperStatusPage.title)
+      }
 
-    "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
-      browser.goTo("/keeper-status")
+      "go to next page after the button is clicked" in new WebBrowser {
+        // Arrange
+        go to KeeperStatusPage
 
-      browser.submit("button[type='submit']")
+        // Act
+        click on KeeperStatusPage.privateIndividual
 
-      titleMustEqual("Change of keeper address3")
+        // Assert
+        assert(page.title equals VerifyIdentityPage.title)
+      }
     }
   }
-}
 
 

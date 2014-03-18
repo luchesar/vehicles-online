@@ -4,7 +4,7 @@ import services.fakes.FakeWebServiceImpl
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.address_lookup.{AddressLookupService, gds}
-import helpers.disposal_of_vehicle.PostcodePage.postcodeValid
+import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
 import play.api.libs.ws.Response
 import services.address_lookup.gds.domain.{Presentation, Details, Location, Address}

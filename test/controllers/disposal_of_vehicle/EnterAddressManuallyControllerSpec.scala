@@ -4,18 +4,21 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import mappings.common.AddressLines._
+import scala.Some
+import pages.disposal_of_vehicle._
+import helpers.disposal_of_vehicle.Helper._
 import helpers.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.EnterAddressManuallyPage._
 import mappings.common.{Postcode, AddressAndPostcode, AddressLines}
 import Postcode._
-import helpers.disposal_of_vehicle.PostcodePage._
 import helpers.UnitSpec
 
 class EnterAddressManuallyUnitSpec extends UnitSpec {
   "EnterAddressManually - Controller" should {
 
     "present" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
+      // Arrange
+      CacheSetup.setupTradeDetails()
+
       val request = FakeRequest().withSession()
 
       val result = disposal_of_vehicle.EnterAddressManually.present(request)
@@ -24,7 +27,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "return bad request when no data is entered" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 
@@ -34,7 +37,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "return bad request when a valid address is entered without a postcode" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
@@ -48,7 +51,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "return bad request a valid postcode is entered without an address" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
@@ -63,11 +66,12 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.EnterAddressManually.present(request)
 
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      // Assert
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to Dispose after a valid submission of all fields" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
@@ -78,11 +82,12 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
-      redirectLocation(result) should equal(Some(VehicleLookupPage.url))
+      // Assert
+      redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
 
     "redirect to Dispose after a valid submission of mandatory fields only" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
@@ -90,7 +95,8 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
-      redirectLocation(result) should equal(Some(VehicleLookupPage.url))
+      // Assert
+      redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
 
     "redirect to SetupTraderDetails page when valid submit with no dealer name cached" in new WithApplication {
@@ -104,7 +110,8 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      // Assert
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to SetupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
@@ -113,7 +120,8 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      // Assert
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
   }
 }

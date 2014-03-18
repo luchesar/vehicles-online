@@ -4,7 +4,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import mappings.disposal_of_vehicle.SetupTradeDetails._
-import helpers.disposal_of_vehicle.BusinessChooseYourAddressPage
+import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.Helper._
 import helpers.UnitSpec
 
@@ -21,12 +21,11 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
     "redirect to next page when the form is completed successfully" in new WithApplication {
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(dealerNameId -> traderBusinessNameValid, dealerPostcodeId -> traderPostcodeValid)
+        .withFormUrlEncodedBody(dealerNameId -> traderBusinessNameValid, dealerPostcodeId -> postcodeValid)
 
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
 
-      status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.url))
+      redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.address))
     }
 
     "return a bad request when only dealerName is entered" in new WithApplication {
@@ -40,7 +39,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
     "return a bad request when only traderPostcode is entered" in new WithApplication {
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(dealerPostcodeId -> traderPostcodeValid)
+        .withFormUrlEncodedBody(dealerPostcodeId -> postcodeValid)
 
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
 
@@ -99,6 +98,18 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
 
+      status(result) should equal(BAD_REQUEST)
+    }
+
+    "return a bad request when a dealer name is entered with to many characters" in new WithApplication {
+      // Arrange
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(dealerNameId -> ("a" * 101), dealerPostcodeId -> postcodeValid)
+
+      // Act
+      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
+
+      // Assert
       status(result) should equal(BAD_REQUEST)
     }
   }

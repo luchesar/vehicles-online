@@ -20,7 +20,7 @@ class VehicleLookup @Inject()(webService: services.VehicleLookupService) extends
 
   val vehicleLookupForm = Form(
     mapping(
-      referenceNumberId -> referenceNumber(minLength = referenceNumberLength, maxLength = referenceNumberLength),
+      referenceNumberId -> referenceNumber(minLength = referenceNumberLength , maxLength = referenceNumberLength),
       registrationNumberId -> registrationNumber(minLength = registrationNumberMinLength, maxLength = registrationNumberMaxLength),
       consentId -> consent
     )(VehicleLookupFormModel.apply)(VehicleLookupFormModel.unapply)

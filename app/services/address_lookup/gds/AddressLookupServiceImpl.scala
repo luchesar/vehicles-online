@@ -9,8 +9,6 @@ import javax.inject.Inject
 import play.api.libs.ws.Response
 import services.address_lookup.gds.domain.Address
 import services.address_lookup.gds.domain.JsonFormats.addressFormat
-import com.ning.http.client.Realm.AuthScheme
-import services.address_lookup.ordnance_survey.domain.OSAddressbaseDPA
 import services.address_lookup.AddressLookupService
 
 class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends AddressLookupService {

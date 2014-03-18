@@ -13,6 +13,8 @@ object ApplicationBuild extends Build {
     // Add your project dependencies here,
     jdbc,
     cache,
+    "org.seleniumhq.selenium" % "selenium-java" % "2.40.0" % "test" withSources() withJavadoc(),
+    "com.github.detro.ghostdriver" % "phantomjsdriver" % "1.1.0" % "test" withSources() withJavadoc(),
     "org.specs2" %% "specs2" % "2.3.7" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
     "org.scalatest" % "scalatest_2.10" % "2.0" % "test",

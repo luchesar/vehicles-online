@@ -23,7 +23,7 @@ class BeforeYouStartUnitSpec extends UnitSpec {
 
       val result = change_of_address.BeforeYouStart.submit(request)
 
-      status(result) should equal(SEE_OTHER)
+      // Assert
       redirectLocation(result) should equal (Some(KeeperStatusPage.url))
     }
   }

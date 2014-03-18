@@ -2,8 +2,9 @@ package controllers.disposal_of_vehicle
 
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
-import helpers.disposal_of_vehicle.{SetUpTradeDetailsPage, VehicleLookupPage, UprnNotFoundPage}
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
+import pages.disposal_of_vehicle._
+import helpers.disposal_of_vehicle.CacheSetup
 import services.fakes.{FakeAddressLookupService, FakeWebServiceImpl}
 import helpers.UnitSpec
 import play.api.libs.ws.Response
@@ -19,7 +20,9 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     val businessChooseYourAddress = new BusinessChooseYourAddress(fakeAddressLookupService)
 
     "present" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
+      // Arrange
+      CacheSetup.setupTradeDetails()
+
       val request = FakeRequest().withSession()
 
       val result = businessChooseYourAddress.present(request)
@@ -28,17 +31,22 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "redirect to VehicleLookup page after a valid submit" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
+      // Arrange
+      CacheSetup.setupTradeDetails()
+
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(addressSelectId -> "1234")
 
       val result = businessChooseYourAddress.submit(request)
 
-      redirectLocation(result) should equal(Some(VehicleLookupPage.url))
+      // Assert
+      redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
 
     "return a bad request after no submission" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
+      // Arrange
+      CacheSetup.setupTradeDetails()
+
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 
@@ -48,7 +56,9 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "return a bad request after a blank submission" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
+      // Arrange
+      CacheSetup.setupTradeDetails()
+
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(addressSelectId -> "")
 
@@ -62,7 +72,9 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
       val result = businessChooseYourAddress.present(request)
 
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      // Assert
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
+
     }
 
     "redirect to setupTradeDetails page when valid submit with no dealer name cached" in new WithApplication {
@@ -71,7 +83,8 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
       val result = businessChooseYourAddress.submit(request)
 
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      // Assert
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to setupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
@@ -80,17 +93,18 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
       val result = businessChooseYourAddress.submit(request)
 
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to UprnNotFound page when Uprn returns no match on submit" in new WithApplication {
-      SetUpTradeDetailsPage.setupCache()
+      CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(addressSelectId -> "9999")
 
       val result = businessChooseYourAddress.submit(request)
 
-      redirectLocation(result) should equal(Some(UprnNotFoundPage.url))
+      // Assert
+      redirectLocation(result) should equal(Some(UprnNotFoundPage.address))
     }
   }
 }

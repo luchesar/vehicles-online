@@ -4,6 +4,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import mappings.change_of_address
 import change_of_address.Authentication._
+import org.specs2.mock.Mockito
 import helpers.change_of_address.{LoginCachePopulate, V5cSearchPagePopulate, AreYouRegisteredPage, Helper}
 import LoginCachePopulate._
 import helpers.UnitSpec

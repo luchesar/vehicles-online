@@ -4,12 +4,13 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.{disposal_of_vehicle}
 import mappings.disposal_of_vehicle.Dispose._
-import helpers.disposal_of_vehicle.{DisposePage,DisposeSuccessPage, DisposeFailurePage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
 import helpers.disposal_of_vehicle.Helper._
 import models.domain.disposal_of_vehicle.{DisposeResponse, DisposeModel}
 import services.fakes.FakeDisposeService
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
+import pages.disposal_of_vehicle._
+import helpers.disposal_of_vehicle.CacheSetup
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import helpers.UnitSpec
@@ -24,8 +25,10 @@ class DisposeUnitSpec extends UnitSpec {
        val dispose = new disposal_of_vehicle.Dispose(mockWebServiceSuccess)
 
        "present" in new WithApplication {
-         BusinessChooseYourAddressPage.setupCache()
-         VehicleLookupPage.setupVehicleDetailsModelCache()
+         // Arrange
+         CacheSetup.businessChooseYourAddress()
+         CacheSetup.vehicleDetailsModel()
+
          val request = FakeRequest().withSession()
 
          val result = dispose.present(request)
@@ -34,9 +37,11 @@ class DisposeUnitSpec extends UnitSpec {
        }
 
        "redirect to dispose success when a success message is returned by the fake microservice" in new WithApplication {
-         BusinessChooseYourAddressPage.setupCache()
-         VehicleLookupPage.setupVehicleDetailsModelCache()
-         VehicleLookupPage.setupVehicleLookupFormModelCache()
+         //Arrange
+         CacheSetup.businessChooseYourAddress()
+         CacheSetup.vehicleDetailsModel()
+         CacheSetup.vehicleLookupFormModel()
+
          val request = FakeRequest().withSession()
            .withFormUrlEncodedBody(
              mileageId -> mileageValid,
@@ -47,8 +52,8 @@ class DisposeUnitSpec extends UnitSpec {
 
          val result = dispose.submit(request)
 
-         status(result) should equal(SEE_OTHER)
-         redirectLocation(result) should equal(Some(DisposeSuccessPage.url))
+         // Assert
+         redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
        }
 
     "redirect to dispose error when a fail message is returned by the fake microservice" in new WithApplication {
@@ -58,10 +63,10 @@ class DisposeUnitSpec extends UnitSpec {
       when(mockWebServiceFailure.invoke(any[DisposeModel])).thenReturn(new FakeDisposeService().invoke(mockDisposeModelFails))
       val dispose = new disposal_of_vehicle.Dispose(mockWebServiceFailure)
 
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.setupVehicleLookupFormModelCache()
-      VehicleLookupPage.setupVehicleDetailsModelCache()
-      DisposePage.setupDisposeModelCache()
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleLookupFormModel()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.disposeModel()
 
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
@@ -73,13 +78,14 @@ class DisposeUnitSpec extends UnitSpec {
 
       val result = dispose.submit(request)
 
-      status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal(Some(DisposeFailurePage.url))
+      //Assert
+      redirectLocation(result) should equal(Some(DisposeFailurePage.address))
     }
 
     "redirect to setupTradeDetails page after the dispose button is clicked and no vehicleLookupFormModel is cached" in new WithApplication {
+      // Arrange
+      CacheSetup.setupTradeDetails()
 
-      SetUpTradeDetailsPage.setupCache()
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           mileageId -> mileageValid,
@@ -89,8 +95,8 @@ class DisposeUnitSpec extends UnitSpec {
 
       val result = dispose.submit(request)
 
-      status(result) should equal(SEE_OTHER)
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      // Assert
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to setupTradeDetails page when present and previous pages have not been visited" in new WithApplication {
@@ -98,12 +104,15 @@ class DisposeUnitSpec extends UnitSpec {
 
       val result = dispose.present(request)
 
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      // Assert
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "return a bad request when no details are entered" in new WithApplication {
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.setupVehicleDetailsModelCache()
+      // Arrange
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody()
 
@@ -118,13 +127,16 @@ class DisposeUnitSpec extends UnitSpec {
 
       val result = dispose.submit(request)
 
-      redirectLocation(result) should equal(Some(SetUpTradeDetailsPage.url))
+      // Assert
+      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "return a bad request when calling webservice throws exception" in new WithApplication {
-      BusinessChooseYourAddressPage.setupCache()
-      VehicleLookupPage.setupVehicleDetailsModelCache()
-      VehicleLookupPage.setupVehicleLookupFormModelCache()
+      //Arrange
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.vehicleLookupFormModel()
+
       val request = FakeRequest().withSession()
         .withFormUrlEncodedBody(
           mileageId -> mileageValid,
