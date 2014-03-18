@@ -6,6 +6,7 @@ import helpers.disposal_of_vehicle.Helper._
 import Postcode._
 import helpers.UnitSpec
 
+
 class EnterAddressManuallyFormSpec extends UnitSpec {
 
   "EnterAddressManually Form" should {

@@ -25,7 +25,6 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
 
-      status(result) should equal(SEE_OTHER)
       redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.address))
     }
 
