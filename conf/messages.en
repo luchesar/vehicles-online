@@ -185,12 +185,16 @@ prototype.link = Find out more
 #page 1 - Before You Start
 disposal_beforeyoustart.title = Sell a vehicle into the motor trade
 disposal_beforeyoustart.p1 = Before you start:
-disposal_beforeyoustart.listitem1 = You will need the V5C vehicle registration certificate (log book) for the vehicle to be disposed!
-disposal_beforeyoustart.listitem2 = If the vehicle being disposed of has a personal registration, the keeper must understand that the registration will be disposed of with the vehicle. If the current keeper wishes to keep a personal registration, it must first be retained to a certificate, or transferred to another vehicle, and the original registration returned to the vehicle.
+disposal_beforeyoustart.listitem1 = You will need the most recent vehicle registration certificate (V5C) to sell the vehicle. There must be no changes needed to the V5C and the name and address of the registered keeper must be up to date and correct. You can check this information using the Vehicle Enquiry Service (VES). 
+
+disposal_beforeyoustart.listitem2 = If the vehicle being sold has a personal registration number, the keeper must understand that the registration number will be sold with the vehicle. If the keeper wants to keep the personal registration number, they must firstly retain or transfer it to another vehicle.
+
+disposal_beforeyoustart.listitem3 = Only a sale to the motor trade can be notified using this service. Any other notification such as a sale to a private individual or change of address cannot currently be made on-line.  These requests must be made by sending the application and any relevant documentation to DVLA, Swansea.
+
 disposal_beforeyoustart.button = Start now
 
 #page 2 - set-up trade details
-disposal_setuptradedetails.title = Dispose a vehicle into the motor trade: set-up
+disposal_setuptradedetails.title = Provide your trader details
 disposal_setuptradedetails.name = Dispose a vehicle into the motor trade
 disposal_setuptradedetails.p1 = Set-up trade details
 disposal_setuptradedetails.tradernamelabel = Trader name

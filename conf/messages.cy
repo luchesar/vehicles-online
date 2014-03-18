@@ -147,8 +147,13 @@ prototype.link = Cael gwybod mwy
 #page 1 - Before You Start
 disposal_beforeyoustart.title = Cael gwared cerbyd i mewn i'r fasnach foduron
 disposal_beforeyoustart.p1 = Cyn i chi ddechrau:
-disposal_beforeyoustart.listitem1 = Bydd angen y dystysgrif cofrestru cerbyd V5C (llyfr log) i chi am y cerbyd yn cael ei waredu
-disposal_beforeyoustart.listitem2 = Os oes gan cofrestru personol ar y cerbyd yn cael ei waredu, rhaid i'r ceidwad yn deall y bydd y cofrestriad yn cael ei waredu gyda'r cerbyd. Os yw'r ceidwad presennol yn dymuno cadw cofrestru personol, rhaid iddo yn gyntaf gael ei gadw at dystysgrif, neu ei drosglwyddo i gerbyd arall, a dychwelyd y cofrestriad gwreiddiol i'r cerbyd.
+
+disposal_beforeyoustart.listitem1 = Bydd angen y dystysgrif cofrestru cerbyd mwyaf diweddar (V5C) i chi werthu'r cerbyd. Ni ddylai fod unrhyw angen i'r V5C newidiadau a rhaid i'r enw a chyfeiriad y ceidwad cofrestredig fod yn gyfoes ac yn gywir. Gallwch wirio y wybodaeth hon trwy ddefnyddio'r Gwasanaeth Ymholiadau Cerbydau (VES)
+
+disposal_beforeyoustart.listitem2 = Os oes gan y cerbyd yn cael ei werthu rhif cofrestru personol, mae'n rhaid i'r ceidwad yn deall y bydd y rhif cofrestru yn cael ei werthu gyda'r cerbyd. Os yw'r ceidwad yn awyddus i gadw rhif cofrestru personol, rhaid iddynt gadw yn gyntaf neu ei drosglwyddo i gerbyd arall.
+
+disposal_beforeyoustart.listitem3 = Dim ond yn gwerthu i'r fasnach modur yn cael eu hysbysu gan ddefnyddio'r gwasanaeth hwn. Ni all unrhyw hysbysiad arall megis gwerthu i unigolyn preifat neu newid cyfeiriad yn cael ei wneud ar-lein ar hyn o bryd. Rhaid i'r ceisiadau gael eu gwneud drwy anfon y cais ac unrhyw ddogfennau sy'n berthnasol i DVLA, Abertawe.
+
 disposal_beforeyoustart.button = Ddechrau nawr
 
 #page 3
@@ -185,7 +190,7 @@ disposal_uprnnotfound.manualaddressbutton = Manylion masnach sefydlu
 disposal_uprnnotfound.setuptradedetailsbutton = Hun roi cyfeiriad
 
 #page not known - Vehicle Lookup
-disposal_setuptradedetails.title = Gwaredu cerbyd i mewn i'r fasnach foduron
+disposal_setuptradedetails.title = Rhoi eich manylion masnachwr
 disposal_setuptradedetails.name = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_setuptradedetails.p1 = Manylion masnach sefydlu
 disposal_setuptradedetails.tradernamelabel = Enw masnachwr

@@ -8,7 +8,7 @@ import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 
 object SetUpTradeDetailsPage {
   val url = "/disposal-of-vehicle/setup-trade-details"
-  val title = "Dispose a vehicle into the motor trade: set-up"
+  val title = "Provide your trader details"
 
   def setupCache(traderPostcode: String = traderPostcodeValid) = {
     val key = mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
