@@ -1,5 +1,6 @@
 #main
-main.banner = Cerbydau ar-lein
+main.banner = Cael gwared cerbyd i mewn i'r fasnach foduron
+main.banner.help = Cymorth ac adborth
 
 global.cookiemessage = GOV.UK yn defnyddio cwcis i wneud y safle yn symlach.
 global.cookiefindoutmore = Cael gwybod mwy am gwcis

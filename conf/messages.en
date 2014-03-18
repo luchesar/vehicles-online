@@ -4,6 +4,7 @@
 
 #main
 main.banner = Dispose a vehicle into the motor trade
+main.banner.help = Help and feedback
 
 global.cookiemessage = GOV.UK uses cookies to make the site simpler.
 global.cookiefindoutmore = Find out more about cookies
