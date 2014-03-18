@@ -42,6 +42,10 @@
 	 	.ie & {
 		 	font-size:19px;
 	 	}
+	 	
+	 	&.link-manual-address {
+		 	margin-top:-1em;
+	 	}
  	}
 
  	ol, ul {
@@ -61,7 +65,7 @@
  	.summary-detail-list {
 		margin:2.3rem 0 2rem 0;
 		padding:0;
-		
+		@include clearfix;
 		dt, dd {
 			@include copy-19;
 			margin-bottom:1.2rem;
@@ -71,7 +75,7 @@
 		}
 		dt {
 			float:left;
-			width:150px;
+			width:190px;
 			font-weight: bold;
 			clear:left;
 		}
