@@ -298,3 +298,6 @@ addressAndPostcode.addressLines.line1 = WELSH House number
 error.address.maxLengthOfLinesConcatenated = WELSH Address must have fewer than 130 characters
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post
+error.validTraderBusinessName = Nid yw nodau annilys chaniateir
+dealerName = Masnachwr Enw
+dealerPostcode = Cod post

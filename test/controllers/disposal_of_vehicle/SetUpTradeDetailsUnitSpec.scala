@@ -104,7 +104,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
     "return a bad request when a dealer name is entered with to many characters" in new WithApplication {
       // Arrange
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(dealerNameId -> ("a" * 101), dealerPostcodeId -> postcodeValid)
+        .withFormUrlEncodedBody(dealerNameId -> ("a" * 31), dealerPostcodeId -> postcodeValid)
 
       // Act
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)

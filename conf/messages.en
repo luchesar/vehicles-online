@@ -202,6 +202,7 @@ disposal_setuptradedetails.traderpostcodelabel = Postcode
 disposal_setuptradedetails.traderpostcodelabel.validation = Please enter a valid business postcode
 disposal_setuptradedetails.button = Find address
 
+
 #page 3
 disposal_businessChooseYourAddress_title = Business: Choose your address
 disposal_businessChooseYourAddress_legend = Set up trade details
@@ -311,3 +312,6 @@ addressAndPostcode.addressLines.line1 = House number
 error.address.maxLengthOfLinesConcatenated = Address must have fewer than 130 characters
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
+error.validTraderBusinessName = Invalid characters are not allowed
+dealerName = Trader Name
+dealerPostcode = Postcode
