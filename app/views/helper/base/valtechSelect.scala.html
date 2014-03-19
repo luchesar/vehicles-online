@@ -18,8 +18,8 @@
         @defaultOption(htmlArgs)
 
         <option value="">@Messages(defaultOptionMessage)</option> @* Default option that appears at the top of a drop down. Should describe the column. *@
-        @options.map { case (mappingValue, humanReadableLabel) =>
+            @options.map { case (mappingValue, humanReadableLabel) =>
             <option value="@mappingValue" @(if(selectedKey == Some(mappingValue)) "selected" else "")>@humanReadableLabel</option>
-        }
+            }
     </select>
 }

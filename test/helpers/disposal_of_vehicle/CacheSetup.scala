@@ -6,7 +6,7 @@ import play.api.Play.current
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.DealerDetailsModel
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
-import models.{DayMonthYear, DayMonthYearObject}
+import models.DayMonthYear
 
 object CacheSetup {
 
@@ -36,11 +36,11 @@ object CacheSetup {
 
   def disposeFormModel() = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeFormModelCacheKey
-    val value = DisposeFormModel(dateOfDisposal = DayMonthYearObject.today, emailAddress = None)
+    val value = DisposeFormModel(dateOfDisposal = DayMonthYear.today, emailAddress = None)
     play.api.cache.Cache.set(key, value)
   }
 
-  def disposeModel(referenceNumber:String = referenceNumberValid, registrationNumber:String = registrationNumberValid, dateOfDisposal:DayMonthYear = DayMonthYearObject.today) = {
+  def disposeModel(referenceNumber:String = referenceNumberValid, registrationNumber:String = registrationNumberValid, dateOfDisposal:DayMonthYear = DayMonthYear.today) = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeModelCacheKey
     val value = DisposeModel(referenceNumber, registrationNumber, dateOfDisposal)
     play.api.cache.Cache.set(key, value)

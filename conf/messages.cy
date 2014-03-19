@@ -238,6 +238,10 @@ disposal_dispose.emaillabel = Cyfeiriad e-bost i Gwsmeriaid
 dateOfDisposal_day = Diwrnod gwaredu
 dateOfDisposal_month = Mis gwaredu
 dateOfDisposal_year = Flwyddyn waredu
+dateOfDisposal.day = Diwrnod gwaredu
+dateOfDisposal.month = Mis gwaredu
+dateOfDisposal.year = Flwyddyn waredu
+error.date.invalidYear = WELSH You must enter a valid year
 
 disposal_disposeconfirmation.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion
 disposal_disposeconfirmation.disposaldetails = Gwaredu
@@ -307,5 +311,3 @@ error.address.maxLengthOfLinesConcatenated = WELSH Address must have fewer than 
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post
 error.validTraderBusinessName = Nid yw nodau annilys chaniateir
-dealerName = Masnachwr Enw
-dealerPostcode = Cod post

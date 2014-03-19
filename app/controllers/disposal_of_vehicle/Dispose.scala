@@ -1,13 +1,12 @@
 package controllers.disposal_of_vehicle
 
-import play.api.data.Form
+import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import play.api.Logger
 import play.api.mvc._
 import mappings.disposal_of_vehicle.Dispose._
-import mappings.common.{Mileage, DayMonthYear}
-import Mileage._
-import DayMonthYear._
+import mappings.common.Mileage._
+import mappings.common.DayMonthYear.dayMonthYear
 import constraints.common
 import common.DayMonthYear._
 import controllers.disposal_of_vehicle.Helpers._
@@ -17,7 +16,7 @@ import scala.Some
 import com.google.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-
+import utils.helpers.FormHelper._
 
 class Dispose @Inject()(webService: services.DisposeService) extends Controller {
 
@@ -50,7 +49,13 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
           (fetchDealerDetailsFromCache, fetchVehicleDetailsFromCache) match {
             case (Some(dealerDetails), Some(vehicleDetails)) =>
               val disposeViewModel = populateModelFromCachedData(dealerDetails, vehicleDetails)
-              BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithErrors))
+              // When the user doesn't select a value from the drop-down then the mapping will fail to match on an Int before
+              // it gets to the constraints, so we need to replace the error type with one that will give a relevant message.
+              val formWithReplacedErrors = formWithErrors.
+                replaceError("dateOfDisposal.day", "error.number", FormError("dateOfDisposal.day", "error.dropDownInvalid")).
+                replaceError("dateOfDisposal.month", "error.number", FormError("dateOfDisposal.month", "error.dropDownInvalid")).
+                replaceError("dateOfDisposal.year", "error.number", FormError("dateOfDisposal.year", "error.date.invalidYear"))
+              BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors))
             case _ =>
               Logger.debug("could not find dealer details in cache on Dispose submit")
               Redirect(routes.SetUpTradeDetails.present)

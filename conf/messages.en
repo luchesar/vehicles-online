@@ -279,6 +279,10 @@ disposal_dispose.emaillabel = Customer email address
 dateOfDisposal_day = Day of disposal
 dateOfDisposal_month = Month of disposal
 dateOfDisposal_year = Year of disposal
+dateOfDisposal.day = Day of disposal
+dateOfDisposal.month = Month of disposal
+dateOfDisposal.year = Year of disposal
+error.date.invalidYear = You must enter a valid year
 
 #page 6 - summary
 disposal_disposeconfirmation.title = Dispose a vehicle into the motor trade: summary
@@ -321,5 +325,3 @@ error.address.maxLengthOfLinesConcatenated = Address must have fewer than 130 ch
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
 error.validTraderBusinessName = Invalid characters are not allowed
-dealerName = Trader Name
-dealerPostcode = Postcode
