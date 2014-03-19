@@ -61,7 +61,7 @@
 
         </div>
 
-        <div class="second-col">
+        <div class="second-col disposal-form">
         
             <h2>@Messages("disposal_dispose.disposevehicleto")</h2>
             
@@ -75,7 +75,7 @@
             args = Map('_label -> Messages("disposal_dispose.emaillabel"),
             '_showConstraints -> false))
             
-            <div id=@mappings.disposal_of_vehicle.Dispose.dateOfDisposalId>
+            <div id=@mappings.disposal_of_vehicle.Dispose.dateOfDisposalId class="disposal-date">
             @inputDayMonthYear(disposeForm(dateOfDisposalId), args = Map('_label -> Messages("disposal_dispose.dateofdisposal.label")))
             </div>
                     

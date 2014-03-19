@@ -16,7 +16,6 @@
 	.section-content {
 		padding: 1.7em 1em 4em 1em;
       @include clearfix;
-      overflow: hidden;
 	}
 
 	h1 {
@@ -113,6 +112,18 @@
 				clear:both;
 				margin-bottom:2em;
 			}
+		}
+	}
+	
+	.disposal-form {
+		.form-steps {
+			margin-top:-20px;
+		}
+	}
+	
+	.disposal-date {
+		legend {
+			margin-top:20px;
 		}
 	}
 }
