@@ -157,15 +157,17 @@ disposal_beforeyoustart.listitem3 = Dim ond yn gwerthu i'r fasnach modur yn cael
 disposal_beforeyoustart.button = Ddechrau nawr
 
 #page 3
-disposal_businessChooseYourAddress_title = Busnes: dewiswch eich cyfeiriad
+disposal_businessChooseYourAddress_title = Dewiswch eich cyfeiriad masnach
 disposal_businessChooseYourAddress_legend = Manylion sefydlu masnach
-disposal_businessChooseYourAddress_businessName_label = Enw busnes
+disposal_businessChooseYourAddress_businessName_label = Enw masnachwr
 disposal_businessChooseYourAddress_businessName = {0}
+disposal_businessChooseYourAddress_businessEmail_label = E-bost masnachwr
+disposal_businessChooseYourAddress_businessAddress_label = Gyfeiriad masnachwr
 disposal_businessChooseYourAddress_addressSelect = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress_addressSelect_label = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress.backbutton = Holau
 disposal_businessChooseYourAddress.submitbutton = Dewis
-disposal_businessChooseYourAddress.manualAddressEntry = Rhowch gyfeiriad llaw
+disposal_businessChooseYourAddress.manualAddressEntry = Methu dod o hyd i'ch cyfeiriad? Rhowch eich cyfeiriad llaw
 error.dropDownInvalid = Dewiswch werth o''r rhestr a ollyngir i lawr
 disposal_businessChooseYourAddress_noaddressesfound = Dim canlyniadau ar gyfer y cod post cyfeiriadau. Cliciwch ar y botwm yn ôl i fynd i mewn i god post wahanol neu roi cyfeiriad llaw
 
@@ -192,7 +194,7 @@ disposal_uprnnotfound.setuptradedetailsbutton = Hun roi cyfeiriad
 #page not known - Vehicle Lookup
 disposal_setuptradedetails.title = Rhoi eich manylion masnachwr
 disposal_setuptradedetails.name = Gwaredu cerbyd i mewn i'r fasnach foduron
-disposal_setuptradedetails.p1 = Manylion masnach sefydlu
+disposal_setuptradedetails.p1 = Cerbyd yn cael ei werthu
 disposal_setuptradedetails.tradernamelabel = Enw masnachwr
 disposal_setuptradedetails.traderpostcodelabel = Cod post
 disposal_setuptradedetails.traderpostcodelabel.validation = Teipiwch eich côd post busnes dilys
@@ -214,9 +216,13 @@ disposal_vehiclelookup.consentnotgiven = Nodwch fod gennych ganiatâd y ceidwad 
 disposal_vehiclelookup.backbutton = Holau
 disposal_vehiclelookup.button = Dod o hyd i
 disposal_vehiclelookup.button2 = Golygu
+disposal_vehiclelookup.tradernamelabel = Enw masnachwr
+disposal_vehiclelookup.traderaddresslabel = Gyfeiriad masnachwr
+disposal_vehiclelookup.traderemaillabel = Cadarnhad
 
 disposal_dispose.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion
 disposal_dispose.vehicledetails = Manylion y cerbyd
+disposal_dispose.vehiclereg = Rhif cofrestru
 disposal_dispose.vehiclemake = Gwneud
 disposal_dispose.vehiclemodel = Model
 disposal_dispose.vehiclekeeper = Ceidwad

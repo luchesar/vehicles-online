@@ -205,15 +205,17 @@ dealerName = Trader name
 dealerPostcode = Postcode
 
 #page 3
-disposal_businessChooseYourAddress_title = Business: Choose your address
+disposal_businessChooseYourAddress_title = Select your trade address
 disposal_businessChooseYourAddress_legend = Set up trade details
-disposal_businessChooseYourAddress_businessName_label = Business name
+disposal_businessChooseYourAddress_businessName_label = Trader name
 disposal_businessChooseYourAddress_businessName = {0}
+disposal_businessChooseYourAddress_businessEmail_label = Trader email
+disposal_businessChooseYourAddress_businessAddress_label = Trader address
 disposal_businessChooseYourAddress_addressSelect = Choose your address
 disposal_businessChooseYourAddress_addressSelect_label = Choose your address
 disposal_businessChooseYourAddress.backbutton = Back
 disposal_businessChooseYourAddress.submitbutton = Select
-disposal_businessChooseYourAddress.manualAddressEntry = Enter address manually
+disposal_businessChooseYourAddress.manualAddressEntry = Unable to find your address? Enter your address manually
 error.dropDownInvalid = Please select a value from the drop down list.
 disposal_businessChooseYourAddress_noaddressesfound = No addresses found for that postcode. Click the back button to enter a different postcode or enter an address manually
 
@@ -241,7 +243,7 @@ disposal_uprnnotfound.setuptradedetailsbutton = Manually enter address
 #page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Dispose a vehicle into the motor trade: vehicle
 disposal_vehiclelookup.name = Dispose a vehicle into the motor trade
-disposal_vehiclelookup.p1 = Find a vehicle
+disposal_vehiclelookup.p1 = Vehicle being sold
 disposal_vehiclelookup.p2 = Vehicle disposed to
 disposal_vehiclelookup.warning.p1 = Do not dispose of a vehicle with a personal registration unless the current keeper understands that the registration will be disposed of along with the vehicle.
 disposal_vehiclelookup.warning.p2 = Retain or transfer personal registrations before disposing to the trade.
@@ -253,10 +255,14 @@ disposal_vehiclelookup.consentnotgiven = Please indicate you have the current ke
 disposal_vehiclelookup.backbutton = Back
 disposal_vehiclelookup.button = Find vehicle details
 disposal_vehiclelookup.button2 = Edit
+disposal_vehiclelookup.tradernamelabel = Trader name
+disposal_vehiclelookup.traderaddresslabel = Trader address
+disposal_vehiclelookup.traderemaillabel = Confirmations
 
 #page 5 - confirm disposal
 disposal_dispose.title = Dispose a vehicle into the motor trade: confirm
 disposal_dispose.vehicledetails = Vehicle details
+disposal_dispose.vehiclereg = Registration number
 disposal_dispose.vehiclemake = Make
 disposal_dispose.vehiclemodel = Model
 disposal_dispose.vehiclekeeper = Keeper

@@ -15,18 +15,21 @@
     @errorsSummary(vehicleLookupForm)
 
     @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit) {
-    
-    	<div class="alert-warning">
-			<p>@Messages("disposal_vehiclelookup.warning.p1") @Messages("disposal_vehiclelookup.warning.p2")</p>
-		</div>
 
 		<div class="two-col clearfix">
 		
 			<div id="TraderDetailsDiv" class="first-col">
 				<h2>@Messages("disposal_vehiclelookup.p2")</h2>
-				<p><strong>@data.dealerName</strong><br />
-                    @for(addr <- data.dealerAddress.address) {@addr<br/>}
-				</p>
+
+				<dl class="summary-detail-list">
+					<dt>@Messages("disposal_vehiclelookup.tradernamelabel")</dt>
+					<dd>@data.dealerName</dd>
+					<dt>@Messages("disposal_vehiclelookup.traderaddresslabel")</dt>
+					<dd>@for(addr <- data.dealerAddress.address) {@addr<br/>}</dd>
+					<dt>@Messages("disposal_vehiclelookup.traderemaillabel")</dt>
+					<dd>&lt;trader email address&gt;</dd>
+				</dl>
+                
                 @{/*
 				<div class="form-steps">
 					<a class="button-not-implemented" title="Edit disposal address" aria-disabled="true" disabled>@Messages("disposal_vehiclelookup.button2")</a></p>
