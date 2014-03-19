@@ -3,7 +3,6 @@ package helpers.disposal_of_vehicle
 import models.domain.disposal_of_vehicle.AddressViewModel
 
 object Helper {
-
   val traderBusinessNameValid = "example trader name"
   val traderaddressValid = "1"
 

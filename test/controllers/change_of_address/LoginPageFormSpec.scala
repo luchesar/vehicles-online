@@ -2,7 +2,6 @@ package controllers.change_of_address
 
 import helpers.change_of_address.Helper._
 import helpers.UnitSpec
-import helpers.UnitSpec
 
 class LoginPageFormSpec extends UnitSpec {
 

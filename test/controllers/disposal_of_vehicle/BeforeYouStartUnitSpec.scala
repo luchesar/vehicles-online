@@ -6,7 +6,6 @@ import controllers.disposal_of_vehicle
 import pages.disposal_of_vehicle._
 import helpers.UnitSpec
 
-
 class BeforeYouStartUnitSpec extends UnitSpec {
 
   "BeforeYouStart - Controller" should {
