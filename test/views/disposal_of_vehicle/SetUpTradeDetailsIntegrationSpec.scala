@@ -6,7 +6,6 @@ import pages.common.ErrorPanel
 import helpers.disposal_of_vehicle.Helper._
 import helpers.UiSpec
 
-
 class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
 
   "SetUpTradeDetails Integration" should {

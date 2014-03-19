@@ -8,7 +8,6 @@ import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UnitSpec
 
-
 class VehicleLookupFailureUnitSpec extends UnitSpec {
 
   "VehicleLookupFailurePage - Controller" should {
