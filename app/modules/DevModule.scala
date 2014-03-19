@@ -22,11 +22,19 @@ object DevModule extends ScalaModule {
 
     bind[V5cSearchWebService].to[V5cSearchWebServiceImpl].asEagerSingleton
     bind[LoginWebService].to[LoginWebServiceImpl].asEagerSingleton
-    bind[AddressLookupService].to[services.address_lookup.ordnance_survey.AddressLookupServiceImpl].asEagerSingleton
-    bind[WebService].to[services.address_lookup.ordnance_survey.WebServiceImpl].asEagerSingleton
-    //bind[AddressLookupService].to[services.address_lookup.gds.AddressLookupServiceImpl].asEagerSingleton
-    //bind[WebService].to[services.address_lookup.gds.WebServiceImpl].asEagerSingleton
+    //ordnanceSurveyAddressLookup()
+    gdsAddressLookup()
     bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton
     bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton
+  }
+
+  private def ordnanceSurveyAddressLookup() = {
+    bind[AddressLookupService].to[services.address_lookup.ordnance_survey.AddressLookupServiceImpl].asEagerSingleton
+    bind[WebService].to[services.address_lookup.ordnance_survey.WebServiceImpl].asEagerSingleton
+  }
+
+  private def gdsAddressLookup() = {
+    bind[AddressLookupService].to[services.address_lookup.gds.AddressLookupServiceImpl].asEagerSingleton
+    bind[WebService].to[services.address_lookup.gds.WebServiceImpl].asEagerSingleton
   }
 }

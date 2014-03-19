@@ -204,6 +204,7 @@ disposal_setuptradedetails.button = Find address
 dealerName = Trader name
 dealerPostcode = Postcode
 
+
 #page 3
 disposal_businessChooseYourAddress_title = Select your trade address
 disposal_businessChooseYourAddress_legend = Set up trade details
@@ -225,7 +226,7 @@ disposal_enteraddressmanually.submitbutton = Next
 disposal_enteraddressmanually.backbutton = Back
 addressAndPostcode_addressLines = Address
 address.lines.label = Address
-address.line1.label = House number
+address.line1.label = House number / House name
 address.line2.label= Street name
 address.line3.label= Area
 address.line4.label= Post town
@@ -314,8 +315,11 @@ disposal_vehiclelookupfailure.p1 = It has not been possible to locate this vehic
 disposal_vehiclelookupfailure.button = Vehicle Lookup
 disposal_vehiclelookupfailure.button2 = Setup New Trader Details
 
-error.address.line1Required = Address needs at least the house number filled in
-addressAndPostcode.addressLines.line1 = House number
+error.address.line1Required = Address needs at least the house number / house name filled in
+addressAndPostcode.addressLines.line1 = House number / House name
 error.address.maxLengthOfLinesConcatenated = Address must have fewer than 130 characters
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
+error.validTraderBusinessName = Invalid characters are not allowed
+dealerName = Trader Name
+dealerPostcode = Postcode
