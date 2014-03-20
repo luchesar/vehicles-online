@@ -13,7 +13,6 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
       CacheSetup.vehicleLookupFormModel()
       go to VehicleLookupFailurePage
 
-      // Assert
       assert(page.title equals VehicleLookupFailurePage.title)
     }
 
@@ -30,7 +29,6 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
       CacheSetup.vehicleLookupFormModel()
       go to VehicleLookupFailurePage
 
-      // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
@@ -39,12 +37,10 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
       CacheSetup.businessChooseYourAddress()
       go to VehicleLookupFailurePage
 
-      // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
     "redirect to vehiclelookup when button clicked" in new WebBrowser {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleLookupFormModel()
       go to VehicleLookupFailurePage
@@ -52,12 +48,10 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
       // Act
       click on VehicleLookupFailurePage.vehicleLookup
 
-      // Assert
       assert(page.title equals VehicleLookupPage.title)
     }
 
     "redirect to setuptradedetails when button clicked" in new WebBrowser {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleLookupFormModel()
       go to VehicleLookupFailurePage
@@ -65,7 +59,6 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
       // Act
       click on VehicleLookupFailurePage.setupTradeDetails
 
-      // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
   }

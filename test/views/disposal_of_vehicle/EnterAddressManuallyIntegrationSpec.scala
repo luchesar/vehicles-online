@@ -16,7 +16,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       go to EnterAddressManuallyPage.url
 
-      // Assert
       assert(page.title equals EnterAddressManuallyPage.title)
     }
 
@@ -25,7 +24,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath
 
-      // Assert
       assert(page.title equals VehicleLookupPage.title)
     }
 
@@ -34,7 +32,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPathMandatoryFieldsOnly
 
-      // Assert
       assert(page.title equals VehicleLookupPage.title)
     }
 
@@ -43,7 +40,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.sadPath
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 5)
     }
 
@@ -52,7 +48,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line1 = "")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 2)
     }
 
@@ -62,7 +57,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line1 = ("a" * 76))
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -71,7 +65,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, postcode = "")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 3)
     }
 
@@ -80,7 +73,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, postcode = "SA99 1D!")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -89,7 +81,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, postcode = "SQWER")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -98,7 +89,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, postcode = "12345")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -107,7 +97,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, postcode = "SA99 1B1")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -116,7 +105,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, postcode = "SA")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 2)
     }
 
@@ -125,7 +113,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line1= line1Valid + "?")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -134,7 +121,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line1= line1Valid + "%")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -143,7 +129,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line1= line1Valid + "/")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -152,7 +137,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line1= line1Valid + "+")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -161,7 +145,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line1= line1Valid + "£")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -170,7 +153,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line1= line1Valid + "^")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -179,7 +161,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line1 = line1Valid + ",")
 
-      // Assert
       assert(page.title equals VehicleLookupPage.title)
     }
 
@@ -188,7 +169,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line1 = line1Valid + ".")
 
-      // Assert
       assert(page.title equals VehicleLookupPage.title)
     }
 
@@ -198,7 +178,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line2= line2Valid + "?")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -207,7 +186,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line2= line2Valid + "%")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -216,7 +194,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line2= line2Valid + "/")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -225,7 +202,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line2= line2Valid + "+")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -234,7 +210,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line2= line2Valid + "£")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -243,7 +218,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line2= line2Valid + "^")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -252,7 +226,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line2 = line2Valid + ",")
 
-      // Assert
       assert(page.title equals VehicleLookupPage.title)
     }
 
@@ -261,7 +234,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line2 = line2Valid + ".")
 
-      // Assert
       assert(page.title equals VehicleLookupPage.title)
     }
 
@@ -270,7 +242,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line3= line3Valid + "?")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -279,7 +250,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line3= line3Valid + "%")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -288,7 +258,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line3= line3Valid + "/")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -297,7 +266,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line3= line3Valid + "+")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -306,7 +274,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line3= line3Valid + "£")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -315,7 +282,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line3= line3Valid + "^")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -324,7 +290,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line3 = line3Valid + ",")
 
-      // Assert
       assert(page.title equals VehicleLookupPage.title)
     }
 
@@ -333,7 +298,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line3 = line3Valid + ".")
 
-      // Assert
       assert(page.title equals VehicleLookupPage.title)
     }
 
@@ -342,7 +306,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line4= line4Valid + "?")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -352,7 +315,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line4= line4Valid + "%")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -361,7 +323,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line4= line4Valid + "/")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -370,7 +331,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line4= line4Valid + "+")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -379,7 +339,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line4= line4Valid + "£")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -388,7 +347,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line4= line4Valid + "^")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -397,7 +355,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line4 = line4Valid + ",")
 
-      // Assert
       assert(page.title equals VehicleLookupPage.title)
     }
 
@@ -406,7 +363,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line4 = line4Valid + ".")
 
-      // Assert
       assert(page.title equals VehicleLookupPage.title)
     }
 

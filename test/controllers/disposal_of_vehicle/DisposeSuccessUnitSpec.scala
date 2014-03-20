@@ -12,7 +12,6 @@ class DisposeSuccessUnitSpec extends UnitSpec {
   "Disposal success controller" should {
 
     "present" in new WithApplication {
-      // Arrange
       CacheSetup.setupTradeDetails()
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
@@ -38,7 +37,6 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
 
@@ -47,48 +45,40 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to SetUpTradeDetails on present when only DealerDetails are cached" in new WithApplication {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
 
       val request = FakeRequest().withSession()
 
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to SetUpTradeDetails on present when only VehicleDetails are cached" in new WithApplication {
-      // Arrange
       CacheSetup.vehicleDetailsModel()
 
       val request = FakeRequest().withSession()
 
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to SetUpTradeDetails on present when only DisposeDetails are cached" in new WithApplication {
-      // Arrange
       CacheSetup.disposeModel()
 
       val request = FakeRequest().withSession()
 
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to SetUpTradeDetails on present when only VehicleDetails and DisposeDetails are cached" in new WithApplication {
-      // Arrange
       CacheSetup.vehicleDetailsModel()
       CacheSetup.disposeFormModel()
 
@@ -96,12 +86,10 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to SetUpTradeDetails on present when only VehicleDetails and DealerDetails are cached" in new WithApplication {
-      // Arrange
       CacheSetup.vehicleDetailsModel()
       CacheSetup.businessChooseYourAddress()
 
@@ -109,12 +97,10 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to SetUpTradeDetails on present when only DisposeDetails and DealerDetails are cached" in new WithApplication {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
       CacheSetup.disposeModel()
 
@@ -122,7 +108,6 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
@@ -131,48 +116,40 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to SetUpTradeDetails on submit when only DealerDetails are cached" in new WithApplication {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
 
       val request = FakeRequest().withSession()
 
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to SetUpTradeDetails on submit when only VehicleDetails are cached" in new WithApplication {
-      // Arrange
       CacheSetup.vehicleDetailsModel()
 
       val request = FakeRequest().withSession()
 
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to SetUpTradeDetails on submit when only DisposeDetails are cached" in new WithApplication {
-      // Arrange
       CacheSetup.disposeModel()
 
       val request = FakeRequest().withSession()
 
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to SetUpTradeDetails on submit when only VehicleDetails and DisposeDetails are cached" in new WithApplication {
-      // Arrange
       CacheSetup.vehicleDetailsModel()
       CacheSetup.disposeFormModel()
 
@@ -180,12 +157,10 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to SetUpTradeDetails on submit when only VehicleDetails and DealerDetails are cached" in new WithApplication {
-      // Arrange
       CacheSetup.vehicleDetailsModel()
       CacheSetup.businessChooseYourAddress()
 
@@ -193,12 +168,10 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to SetUpTradeDetails on submit when only DisposeDetails and DealerDetails are cached" in new WithApplication {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
       CacheSetup.disposeModel()
 
@@ -206,7 +179,6 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
   }

@@ -17,7 +17,6 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
 
-      // Assert
       assert(page.title equals DisposePage.title)
     }
 
@@ -33,12 +32,10 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display validation errors when no fields are completed" in new WebBrowser {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       DisposePage.sadPath
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 3)
     }
 
@@ -47,7 +44,6 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.businessChooseYourAddress()
       go to DisposePage.url
 
-      // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
@@ -55,12 +51,10 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       // Arrange & Act
       go to DisposePage.url
 
-      // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
     "display validation errors when month and year are input but no day" in new WebBrowser {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
@@ -70,12 +64,10 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       DisposePage.dateOfDisposalYear enter "2013"
       click on DisposePage.dispose
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display validation errors when day and year are input but no month" in new WebBrowser {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
@@ -85,12 +77,10 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       DisposePage.dateOfDisposalYear enter "2013"
       click on DisposePage.dispose
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display validation errors when day and month are input but no year" in new WebBrowser {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
@@ -100,7 +90,6 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       DisposePage.dateOfDisposalMonth select "2"
       click on DisposePage.dispose
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -112,7 +101,6 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
       click on DisposePage.back
 
-      // Assert
       assert(page.title equals VehicleLookupPage.title)
     }
   }

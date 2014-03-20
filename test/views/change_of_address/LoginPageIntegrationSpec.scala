@@ -12,7 +12,6 @@ class LoginPageIntegrationSpec extends UiSpec with TestHarness {
       // Arrange & Act
       go to LoginPage
 
-      // Assert
       assert(page.title equals LoginPage.title)
     }
     "go to next page after the button is clicked" in new WebBrowser {

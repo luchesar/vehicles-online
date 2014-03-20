@@ -17,7 +17,6 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.vehicleRegistrationNumber()
       go to DisposeFailurePage.url
 
-      // Assert
       assert(page.title equals DisposeFailurePage.title)
     }
 
@@ -30,7 +29,6 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect to vehiclelookup when button clicked" in new WebBrowser {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       CacheSetup.disposeFormModel()
@@ -41,12 +39,10 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
       // Act
       click on DisposeFailurePage.vehiclelookup
 
-      // Assert
       assert(page.title equals VehicleLookupPage.title)
     }
 
     "redirect to setuptradedetails when button clicked" in new WebBrowser {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       CacheSetup.disposeFormModel()
@@ -57,7 +53,6 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
       // Act
       click on DisposeFailurePage.setuptradedetails
 
-      // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
   }

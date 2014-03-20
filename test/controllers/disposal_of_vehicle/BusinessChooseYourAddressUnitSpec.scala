@@ -20,7 +20,6 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     val businessChooseYourAddress = new BusinessChooseYourAddress(fakeAddressLookupService)
 
     "present" in new WithApplication {
-      // Arrange
       CacheSetup.setupTradeDetails()
 
       val request = FakeRequest().withSession()
@@ -31,7 +30,6 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "redirect to VehicleLookup page after a valid submit" in new WithApplication {
-      // Arrange
       CacheSetup.setupTradeDetails()
 
       val request = FakeRequest().withSession()
@@ -39,12 +37,10 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
       val result = businessChooseYourAddress.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
 
     "return a bad request after no submission" in new WithApplication {
-      // Arrange
       CacheSetup.setupTradeDetails()
 
       val request = FakeRequest().withSession()
@@ -56,7 +52,6 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "return a bad request after a blank submission" in new WithApplication {
-      // Arrange
       CacheSetup.setupTradeDetails()
 
       val request = FakeRequest().withSession()
@@ -72,7 +67,6 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
       val result = businessChooseYourAddress.present(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
 
     }
@@ -83,7 +77,6 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
       val result = businessChooseYourAddress.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
@@ -103,7 +96,6 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
       val result = businessChooseYourAddress.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(UprnNotFoundPage.address))
     }
   }

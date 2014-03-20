@@ -12,7 +12,6 @@ class DisposeFailureUnitSpec extends UnitSpec {
   "DisposalFailure - Controller" should {
 
     "present" in new WithApplication {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       CacheSetup.disposeFormModel()
@@ -27,7 +26,6 @@ class DisposeFailureUnitSpec extends UnitSpec {
     }
 
     "redirect to vehicle lookup page when button clicked" in new WithApplication {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       CacheSetup.disposeFormModel()
@@ -38,7 +36,6 @@ class DisposeFailureUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.DisposeFailure.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
 
@@ -47,7 +44,6 @@ class DisposeFailureUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.DisposeFailure.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
   }

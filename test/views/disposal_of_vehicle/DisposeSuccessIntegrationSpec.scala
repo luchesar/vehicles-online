@@ -17,7 +17,6 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.vehicleRegistrationNumber()
       go to DisposeSuccessPage.url
 
-      // Assert
       assert(page.title equals DisposeSuccessPage.title)
     }
 
@@ -25,7 +24,6 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       // Arrange & Act
       go to DisposeSuccessPage.url
 
-      // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
@@ -34,7 +32,6 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.businessChooseYourAddress()
       go to DisposeSuccessPage.url
 
-      // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
@@ -43,7 +40,6 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.vehicleDetailsModel()
       go to DisposeSuccessPage.url
 
-      // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
@@ -52,7 +48,6 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.disposeFormModel()
       go to DisposeSuccessPage.url
 
-      // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
@@ -62,7 +57,6 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.vehicleDetailsModel()
       go to DisposeSuccessPage.url
 
-      // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
@@ -72,7 +66,6 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.vehicleDetailsModel()
       go to DisposeSuccessPage.url
 
-      // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
@@ -82,7 +75,6 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.businessChooseYourAddress()
       go to DisposeSuccessPage.url
 
-      // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 

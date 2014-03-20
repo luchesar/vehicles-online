@@ -18,7 +18,6 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
   "EnterAddressManually - Controller" should {
 
     "present" in new WithApplication {
-      // Arrange
       CacheSetup.setupTradeDetails()
 
       val request = FakeRequest().withSession()
@@ -68,7 +67,6 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.EnterAddressManually.present(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
@@ -84,7 +82,6 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
 
@@ -97,7 +94,6 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
 
@@ -136,7 +132,6 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
@@ -146,7 +141,6 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
   }

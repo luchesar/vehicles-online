@@ -15,15 +15,12 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       go to SetupTradeDetailsPage
 
-      // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
     "go to the next page when correct data is entered" in new WebBrowser {
-      // Arrange
       SetupTradeDetailsPage.happyPath
 
-      // Assert
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
@@ -31,7 +28,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath( webDriver,"","")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 5)
 
     }
@@ -40,7 +36,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = "")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 2)
     }
 
@@ -48,7 +43,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = "m")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -56,7 +50,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderPostcode = "")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 3)
     }
 
@@ -64,7 +57,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderPostcode = "a")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 2)
     }
 
@@ -72,7 +64,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderPostcode = "SAR99")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -80,7 +71,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + ">")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -88,7 +78,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + ">")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -96,7 +85,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "!")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -104,7 +92,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "=")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -112,7 +99,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "$")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -120,7 +106,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "/")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -128,7 +113,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "?")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -136,7 +120,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "#")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -144,7 +127,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "?")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -152,7 +134,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "]")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -160,7 +141,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "?")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -168,7 +148,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "1")
 
-      // Assert
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
@@ -176,7 +155,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "W")
 
-      // Assert
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
@@ -184,7 +162,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "+")
 
-      // Assert
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
@@ -192,7 +169,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "-")
 
-      // Assert
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
@@ -200,7 +176,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "(")
 
-      // Assert
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
@@ -208,7 +183,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + ")")
 
-      // Assert
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
@@ -216,7 +190,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + ".")
 
-      // Assert
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
@@ -224,7 +197,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "&")
 
-      // Assert
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
@@ -232,7 +204,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + ",")
 
-      // Assert
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
@@ -240,7 +211,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "@")
 
-      // Assert
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
@@ -248,7 +218,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver,traderBusinessName = "" )
 
-      // Assert
       assert(Accessibility.ariaRequiredPresent(webDriver,"dealerName") equals true)
     }
 
@@ -256,7 +225,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver,traderBusinessName = "$£%&" )
 
-      // Assert
       assert(Accessibility.ariaInvalidPresent(webDriver,"dealerName") equals true)
     }
 
@@ -264,7 +232,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver,traderPostcode = "" )
 
-      // Assert
       assert(Accessibility.ariaRequiredPresent(webDriver,"dealerPostcode") equals true)
     }
 
@@ -272,7 +239,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver,traderPostcode = "$£%&" )
 
-      // Assert
       assert(Accessibility.ariaInvalidPresent(webDriver,"dealerPostcode") equals true)
     }
   }

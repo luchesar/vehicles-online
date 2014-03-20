@@ -23,24 +23,20 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       BusinessChooseYourAddressPage.happyPath
 
-      // Assert
       assert(page.title equals VehicleLookupPage.title)
     }
 
     "go to the manual address entry page when manualAddressButton is clicked" in new WebBrowser {
-      // Arrange
       CacheSetup.setupTradeDetails()
       go to BusinessChooseYourAddressPage.url
 
       //Act
       click on BusinessChooseYourAddressPage.manualAddress
 
-      // Assert
       assert(page.title equals EnterAddressManuallyPage.title)
     }
 
     "display previous page when back link is clicked" in new WebBrowser {
-      // Arrange
       CacheSetup.setupTradeDetails()
       go to BusinessChooseYourAddressPage.url
 
@@ -55,7 +51,6 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
       // Arrange & Act
       go to BusinessChooseYourAddressPage.url
 
-      // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
@@ -70,7 +65,6 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 
 
     "check number of options in drop down" in new WebBrowser {
-      // Arrange
       SetupTradeDetailsPage.happyPath
 
       //Act
@@ -82,7 +76,6 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath
 
-      // Assert
       //browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {.
       val result = webDriver.getPageSource
       result.contains("No addresses found for that postcode")  must beEqualTo(false)
@@ -92,10 +85,8 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 
 /* //TODO need to amend below test not to use fake microservice
     "display message when address service returns no addresses" in new WebBrowser {
-      // Arrange
       SetupTradeDetailsPage.happyPath(webDriver,traderPostcode = postcodeNoResults)
 
-      // Assert
       //browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {
       val result = webDriver.getPageSource
       result.contains("No addresses found for that postcode")  must beEqualTo(true)

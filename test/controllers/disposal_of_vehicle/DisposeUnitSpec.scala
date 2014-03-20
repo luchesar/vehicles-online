@@ -25,7 +25,6 @@ class DisposeUnitSpec extends UnitSpec {
        val dispose = new disposal_of_vehicle.Dispose(mockWebServiceSuccess)
 
        "present" in new WithApplication {
-         // Arrange
          CacheSetup.businessChooseYourAddress()
          CacheSetup.vehicleDetailsModel()
 
@@ -37,7 +36,6 @@ class DisposeUnitSpec extends UnitSpec {
        }
 
        "redirect to dispose success when a success message is returned by the fake microservice" in new WithApplication {
-         //Arrange
          CacheSetup.businessChooseYourAddress()
          CacheSetup.vehicleDetailsModel()
          CacheSetup.vehicleLookupFormModel()
@@ -52,8 +50,7 @@ class DisposeUnitSpec extends UnitSpec {
 
          val result = dispose.submit(request)
 
-         // Assert
-         redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
+            redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
        }
 
     "redirect to dispose error when a fail message is returned by the fake microservice" in new WithApplication {
@@ -83,7 +80,6 @@ class DisposeUnitSpec extends UnitSpec {
     }
 
     "redirect to setupTradeDetails page after the dispose button is clicked and no vehicleLookupFormModel is cached" in new WithApplication {
-      // Arrange
       CacheSetup.setupTradeDetails()
 
       val request = FakeRequest().withSession()
@@ -95,7 +91,6 @@ class DisposeUnitSpec extends UnitSpec {
 
       val result = dispose.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
@@ -104,12 +99,10 @@ class DisposeUnitSpec extends UnitSpec {
 
       val result = dispose.present(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "return a bad request when no details are entered" in new WithApplication {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
 
@@ -127,12 +120,10 @@ class DisposeUnitSpec extends UnitSpec {
 
       val result = dispose.submit(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "return a bad request when calling webservice throws exception" in new WithApplication {
-      //Arrange
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       CacheSetup.vehicleLookupFormModel()

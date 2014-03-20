@@ -16,7 +16,6 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.businessChooseYourAddress()
       go to VehicleLookupPage
 
-      // Assert
       assert(page.title equals VehicleLookupPage.title)
     }
 
@@ -25,7 +24,6 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       // Arrange & Act
       go to VehicleLookupPage
 
-      // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
@@ -34,8 +32,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
        CacheSetup.businessChooseYourAddress()
        VehicleLookupPage.happyPath
 
-       // Assert
-       assert(page.title equals DisposePage.title)
+        assert(page.title equals DisposePage.title)
      }
 
     "display three validation error messages when no referenceNumber is entered" in new WebBrowser {
@@ -43,7 +40,6 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.businessChooseYourAddress()
       VehicleLookupPage.happyPath(webDriver, referenceNumber = "")
 
-      // Assert
       assert(ErrorPanel.numberOfErrors equals 3)
     }
 
@@ -105,7 +101,6 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       // Arrange & Act
       go to VehicleLookupPage
 
-      // Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 

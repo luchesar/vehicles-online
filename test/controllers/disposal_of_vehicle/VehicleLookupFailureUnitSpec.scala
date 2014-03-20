@@ -13,7 +13,6 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
   "VehicleLookupFailurePage - Controller" should {
 
     "present" in new WithApplication {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleLookupFormModel()
 
@@ -25,7 +24,6 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
     }
 
     "redirect to vehiclelookup on submit" in new WithApplication {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleLookupFormModel()
 
@@ -33,7 +31,6 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.VehicleLookupFailure.submit(request)
 
-      // Assert
       redirectLocation(result) should equal (Some(VehicleLookupPage.address))
     }
 
@@ -42,7 +39,6 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.VehicleLookupFailure.present(request)
 
-      // Assert
       redirectLocation(result) should equal (Some(SetupTradeDetailsPage.address))
     }
 
@@ -52,31 +48,26 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
       val result = disposal_of_vehicle.VehicleLookupFailure.submit(request)
 
 
-      // Assert
       redirectLocation(result) should equal (Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to setuptraderdetails on if only BusinessChooseYourAddress cache is populated" in new WithApplication {
-      //Arrange
       CacheSetup.businessChooseYourAddress()
 
       val request = FakeRequest().withSession()
 
       val result = disposal_of_vehicle.VehicleLookupFailure.present(request)
 
-      // Assert
       redirectLocation(result) should equal (Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to setuptraderdetails on if only VehicleLookupFormModelCache is populated" in new WithApplication {
-      //Arrange
       CacheSetup.vehicleLookupFormModel()
 
       val request = FakeRequest().withSession()
 
       val result = disposal_of_vehicle.VehicleLookupFailure.present(request)
 
-      // Assert
       redirectLocation(result) should equal (Some(SetupTradeDetailsPage.address))
     }
   }

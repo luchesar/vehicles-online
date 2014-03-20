@@ -23,7 +23,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
     val vehicleLookupSuccess = new disposal_of_vehicle.VehicleLookup(mockWebServiceSuccess)
 
     "present" in new WithApplication {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
 
       val request = FakeRequest().withSession()
@@ -34,7 +33,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to Dispose after a valid submit and true message returned from the fake microservice" in new WithApplication {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
 
       val request = FakeRequest().withSession()
@@ -42,12 +40,10 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
       val result = vehicleLookupSuccess.submit(request)
 
-      // Assert
       redirectLocation(result) should equal (Some(DisposePage.address))
      }
 
     "submit removes spaces from registrationNumber" in new WithApplication { // DE7 Spaces should be stripped
-      // Arrange
       CacheSetup.businessChooseYourAddress()
 
       val request = FakeRequest().withSession()
@@ -71,7 +67,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
       when(mockWebServiceFailure.invoke(any[VehicleLookupFormModel])).thenReturn(new FakeVehicleLookupService().invoke(mockVehicleLookupFormModelFailure))
       val vehicleLookupFailure = new disposal_of_vehicle.VehicleLookup(mockWebServiceFailure)
 
-      // Arrange
       CacheSetup.businessChooseYourAddress()
 
       val request = FakeRequest().withSession()
@@ -79,7 +74,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
       val result = vehicleLookupFailure.submit(request)
 
-      // Assert
       redirectLocation(result) should equal (Some(VehicleLookupFailurePage.address))
     }
 
@@ -88,12 +82,10 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
       val result = vehicleLookupSuccess.present(request)
 
-      // Assert
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "return a bad request if no details are entered" in new WithApplication {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
 
       val request = FakeRequest().withSession()
@@ -105,7 +97,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "return a bad request if empty strings are entered" in new WithApplication {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
 
       val request = FakeRequest().withSession()
@@ -117,7 +108,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "return a bad request if only ReferenceNumber is entered" in new WithApplication {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
 
       val request = FakeRequest().withSession()
@@ -129,7 +119,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "return a bad request if only RegistrationNumber is entered" in new WithApplication {
-      // Arrange
       CacheSetup.businessChooseYourAddress()
 
       val request = FakeRequest().withSession()
@@ -141,7 +130,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to EnterAddressManually when back button is pressed and there is no uprn" in new WithApplication {
-      //Arrange
       CacheSetup.businessChooseYourAddress()
 
       val request = FakeRequest().withSession()
@@ -149,12 +137,10 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
       val result = vehicleLookupSuccess.back(request)
 
-      // Assert
       redirectLocation(result) should equal (Some(EnterAddressManuallyPage.address))
     }
 
     "redirect to BusinessChooseYourAddress when back button is pressed and there is a uprn" in new WithApplication {
-      //Arrange
       CacheSetup.businessChooseYourAddress(addressWithUprn)
 
       val request = FakeRequest().withSession()
@@ -162,12 +148,10 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
       val result = vehicleLookupSuccess.back(request)
 
-      // Assert
       redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.address))
     }
 
     "redirect to SetUpTradeDetails when back button and the user has completed the vehicle lookup form " in new WithApplication {
-      //Arrange
       CacheSetup.businessChooseYourAddress(addressWithUprn)
 
       val request = FakeRequest().withSession()
@@ -175,7 +159,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
       val result = vehicleLookupSuccess.back(request)
 
-      // Assert
       redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.address))
     }
   }
