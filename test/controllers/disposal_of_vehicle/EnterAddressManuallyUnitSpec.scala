@@ -11,6 +11,8 @@ import helpers.disposal_of_vehicle._
 import mappings.common.{Postcode, AddressAndPostcode, AddressLines}
 import Postcode._
 import helpers.UnitSpec
+import mappings.disposal_of_vehicle.VehicleLookup._
+import scala.Some
 
 class EnterAddressManuallyUnitSpec extends UnitSpec {
   "EnterAddressManually - Controller" should {
@@ -97,6 +99,30 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
       // Assert
       redirectLocation(result) should equal(Some(VehicleLookupPage.address))
+    }
+
+    "submit removes commas and full stops from address" in new WithApplication {
+      CacheSetup.setupTradeDetails()
+      val request = FakeRequest().withSession()
+        .withFormUrlEncodedBody(
+          s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> "my,house.",
+          s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> "my,street.",
+          s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> "my,area.",
+          s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> "my,town.",
+          s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
+
+      val result = disposal_of_vehicle.EnterAddressManually.submit(request)
+
+
+      whenReady(result) {
+        r => controllers.disposal_of_vehicle.Helpers.fetchDealerDetailsFromCache match {
+          case Some(f) => {
+            println(f.dealerAddress.address)
+            f.dealerAddress.address should equal (List("myhouse", "mystreet", "myarea", "mytown", "CM81QJ"))
+          }
+          case _ => fail("Should have found model in the cache")
+        }
+      }
     }
 
     "redirect to SetupTraderDetails page when valid submit with no dealer name cached" in new WithApplication {
