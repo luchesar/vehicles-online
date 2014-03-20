@@ -39,7 +39,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       DisposePage.sadPath
 
       // Assert
-      assert(ErrorPanel.numberOfErrors equals 1)
+      assert(ErrorPanel.numberOfErrors equals 3)
     }
 
     "redirect when no VehicleLookupFormModel is cached" in new WebBrowser {

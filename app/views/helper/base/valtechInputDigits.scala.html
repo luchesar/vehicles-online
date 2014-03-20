@@ -17,6 +17,7 @@
         pattern="[0-9]{1,20}"
         title="Must be numbers only" @* TODO move this value into a constant *@
         value="@value"
-        @{if(field.constraints.find(_._1 == "constraint.required")) "aria-required=true" else ""} @* TODO move this into an extension method for fields *@
+        @{if(field.constraints.find(_._1 == "constraint.required")) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
+        @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
         @toHtmlArgs(htmlArgs.maxLengthRules.autoCompleteRules)>
 }

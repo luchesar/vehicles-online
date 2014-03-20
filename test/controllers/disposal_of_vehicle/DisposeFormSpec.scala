@@ -58,9 +58,9 @@ class DisposeFormSpec extends UnitSpec {
 
       model.mileage.get should equal(mileageValid.toInt)
       model.dateOfDisposal should equal(DayMonthYear(
-        Some(dateOfDisposalDayValid.toInt),
-        Some(dateOfDisposalMonthValid.toInt),
-        Some(dateOfDisposalYearValid.toInt))
+        dateOfDisposalDayValid.toInt,
+        dateOfDisposalMonthValid.toInt,
+        dateOfDisposalYearValid.toInt)
       )
     }
 
@@ -73,9 +73,9 @@ class DisposeFormSpec extends UnitSpec {
 
       model.mileage should equal(None)
       model.dateOfDisposal should equal(DayMonthYear(
-        Some(dateOfDisposalDayValid.toInt),
-        Some(dateOfDisposalMonthValid.toInt),
-        Some(dateOfDisposalYearValid.toInt)))
+        dateOfDisposalDayValid.toInt,
+        dateOfDisposalMonthValid.toInt,
+        dateOfDisposalYearValid.toInt))
     }
   }
 }

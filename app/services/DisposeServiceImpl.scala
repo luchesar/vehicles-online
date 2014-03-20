@@ -3,17 +3,12 @@ package services
 import play.api.libs.json.Json
 import play.api.libs.ws.WS
 import play.api.Logger
-import models.DayMonthYear
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.Config
-import models.domain.disposal_of_vehicle._
+import models.domain.disposal_of_vehicle.{DisposeResponse, DisposeModel}
 
 class DisposeServiceImpl() extends DisposeService {
-  implicit val disposeResponseFormat = Json.format[DisposeResponse]
-  implicit val dayMonthYearFormat = Json.format[DayMonthYear]
-  implicit val disposeModelFormat = Json.format[DisposeModel]
-
   override def invoke(cmd: DisposeModel): Future[DisposeResponse] = {
     val endPoint = s"${Config.microServiceBaseUrl}/dispose"
     Logger.debug(s"Calling dispose vehicle micro service on ${endPoint} with request object: ${cmd}...")

@@ -21,9 +21,6 @@
 		<h2>@Messages("disposal_disposeconfirmation.disposaldetails")</h2>
 		
 		<dl class="summary-detail-list">
-            
-            <dt>@Messages("disposal_disposeconfirmation.transactionid_label")</dt>
-            <dd>@Messages("disposal_disposeconfirmation.transactionid", data.transactionId.getOrElse(""))</dd>
 
             <dt>@Messages("disposal_disposeconfirmation.registrationNumber_label")</dt>
             <dd>@Messages("disposal_disposeconfirmation.registrationNumber", data.registrationNumber.getOrElse(""))</dd>
@@ -34,11 +31,14 @@
 			<dt>@Messages("disposal_disposeconfirmation.vehiclemodel")</dt>
 			<dd>@data.vehicleModel</dd>
 			
+			@{/*
+				removed 17/3/14
 			<dt>@Messages("disposal_disposeconfirmation.vehiclekeeper")</dt>
 			<dd>
 				@data.keeperName<br />
                 @for(addr <- data.keeperAddress.address) {@addr<br/>}
 			</dd>
+			*/}
 			
 			<dt>@Messages("disposal_disposeconfirmation.disposedto")</dt>
 			<dd>
@@ -51,6 +51,8 @@
                 @{disposeModel.dateOfDisposal.`dd/MM/yyyy`}
             </dd>
             
+            @{/*
+            	removed 17/3/14
             @if(disposeModel.mileage != None) {
                 <dt>@Messages("disposal_disposeconfirmation.mileage")</dt>
                 <dd>@{disposeModel.mileage}</dd>
@@ -58,6 +60,7 @@
                 <dt>@Messages("disposal_disposeconfirmation.mileage")</dt>
                 <dd>@Messages("disposal_disposeconfirmation.noMileageEntered")</dd>
             }
+            */}
             
 		</dl>
 
