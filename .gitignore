@@ -48,3 +48,4 @@ test.sc
 vagrant_ansible_inventory_default
 .vagrant
 workdir/
+/conf/vehiclesOnline.conf

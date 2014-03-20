@@ -3,8 +3,10 @@ package views.disposal_of_vehicle
 import pages.disposal_of_vehicle._
 import helpers.webbrowser.TestHarness
 import pages.common.ErrorPanel
+import pages.common.Accessibility
 import helpers.disposal_of_vehicle.Helper._
 import helpers.UiSpec
+import org.openqa.selenium.By
 
 class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
 
@@ -240,6 +242,22 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
 
       // Assert
       assert(page.title equals BusinessChooseYourAddressPage.title)
+    }
+
+    "add aria required attribute to dealer name field when required field not input" in new WebBrowser {
+      // Arrange & Act
+      SetupTradeDetailsPage.happyPath(webDriver,traderBusinessName = "" )
+
+      // Assert
+      assert(Accessibility.ariaRequiredPresent(webDriver,"dealerName") equals true)
+    }
+
+    "add aria invalid attribute to dealer name field when invalid characters input on field" in new WebBrowser {
+      // Arrange & Act
+      SetupTradeDetailsPage.happyPath(webDriver,traderBusinessName = "$£%&" )
+
+      // Assert
+      assert(Accessibility.ariaInvalidPresent(webDriver,"dealerName") equals true)
     }
   }
 }
