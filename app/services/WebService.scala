@@ -1,6 +1,10 @@
 package services
 
-// Wrapper around our webservice call so that we can inject mock versions or real version (which is a play object without a trait!)
+import scala.concurrent.Future
+import play.api.libs.ws.Response
+
+// Wrapper around our webservice call so that we can IoC fake versions for testing or use the real version.
 trait WebService {
-  def url(url : scala.Predef.String) : play.api.libs.ws.WS.WSRequestHolder
+  def callPostcodeWebService(postcode: String): Future[Response]
+  def callUprnWebService(uprn: String): Future[Response]
 }

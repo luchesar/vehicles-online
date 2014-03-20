@@ -37,11 +37,12 @@
                     "10" -> Messages("datePlaceholder.October"),
                     "11" -> Messages("datePlaceholder.November"),
                     "12" -> Messages("datePlaceholder.December")
-                ))
+                )
+            )
         </div>
 
         <div class="form-item">
-        @valtechInputDigits(field("year"), args = Map('placeholder -> "YYYY", 'maxLength -> 4))
+            @valtechInputDigits(field("year"), args = Map('placeholder -> "YYYY", 'maxLength -> 4)) @* TODO maxLength value should be a constant, not a magic number *@
         </div>
     </div>
 

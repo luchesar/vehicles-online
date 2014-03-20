@@ -1,29 +1,28 @@
 package views.change_of_address
 
-import org.specs2.mutable.{Specification, Tags}
-import play.api.test.WithBrowser
-import controllers.BrowserMatchers
-import helpers.change_of_address.LoginPagePopulate._
+import org.specs2.mutable.Specification
+import helpers.webbrowser.TestHarness
+import pages.change_of_address._
+import helpers.UiSpec
 
-class LoginPageIntegrationSpec extends Specification with Tags {
+class LoginPageIntegrationSpec extends UiSpec with TestHarness {
 
   "LoginPage Integration" should {
-    "be presented" in new WithBrowser with BrowserMatchers {
+    "be presented" in new WebBrowser {
       // Arrange & Act
-      browser.goTo("/login-page")
+      go to LoginPage
 
       // Assert
-      titleMustEqual("Verified login id")
+      assert(page.title equals LoginPage.title)
     }
-
-    "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
+    "go to next page after the button is clicked" in new WebBrowser {
       //Arrange / Act
-      happyPath(browser)
+      //happyPath(browser)
+
+      LoginPage.happyPath
 
       // Assert the title from the next page
-      titleMustEqual("Login confirmation")
+      //assert(page.title equals LoginPage.title)
     }
-
   }
-
 }

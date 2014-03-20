@@ -1,12 +1,11 @@
 package models.domain.common
 
 import org.scalatest.{Matchers, WordSpec}
-import models.domain.disposal_of_vehicle.{AddressLinesModel, AddressAndPostcodeModel}
 
 class AddressAndPostcodeSpec extends WordSpec with Matchers {
   "Address - model" should {
     "return expected toString value" in {
-      val address = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = Some("a"),
+      val address = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = "a",
         line2 = Some("b"),
         line3 = Some("c"),
         line4 = Some("d")),
@@ -18,7 +17,7 @@ class AddressAndPostcodeSpec extends WordSpec with Matchers {
     }
 
     "return expected toString value with missings values" in {
-      val address = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = Some("a"),
+      val address = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = "a",
         line2 = None,
         line3 = None,
         line4 = None),

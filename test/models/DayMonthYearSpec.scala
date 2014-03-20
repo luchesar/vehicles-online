@@ -60,12 +60,12 @@ class DayMonthYearSpec extends WordSpec with Matchers {
     }
 
     "Format to yyyy-MM-dd of empty DayMonthYear should give empty" in {
-      val dmy = DayMonthYear(None, None, None)
+      val dmy = DayMonthYear(0, 0, 0)
       dmy.`yyyy-MM-dd` should equal("")
     }
 
     "Format to yyyy-MM-dd'T'HH:mm:00" in {
-      val dmy = DayMonthYear(Some(30), Some(5), Some(2002), Some(9), Some(45))
+      val dmy = DayMonthYear(30, 5, 2002, Some(9), Some(45))
       dmy.`yyyy-MM-dd'T'HH:mm:00` should equal("2002-05-30T09:45:00")
     }
 
@@ -75,11 +75,11 @@ class DayMonthYearSpec extends WordSpec with Matchers {
     }
 
     "accept a Joda DateTime" in {
-      val dmy = DayMonthYear(new DateTime(2013, 2, 23, 0, 0))
+      val dmy = DayMonthYear.from(new DateTime(2013, 2, 23, 0, 0))
 
-      dmy.day should equal(Some(23))
-      dmy.month should equal(Some(2))
-      dmy.year should equal(Some(2013))
+      dmy.day should equal(23)
+      dmy.month should equal(2)
+      dmy.year should equal(2013)
     }
 
     "format as '23 September, 2013' " in {
@@ -89,7 +89,7 @@ class DayMonthYearSpec extends WordSpec with Matchers {
 
     "include time" in {
       val dmyWithTime = DayMonthYear(23, 9, 2013).withTime(hour = 14, minutes = 55)
-      dmyWithTime shouldEqual DayMonthYear(Some(23), Some(9), Some(2013), Some(14), Some(55))
+      dmyWithTime shouldEqual DayMonthYear(23, 9, 2013, Some(14), Some(55))
     }
 
     """accept format "01 September, 2001" """ in {
@@ -98,6 +98,10 @@ class DayMonthYearSpec extends WordSpec with Matchers {
 
     """accept format "01 September 2001" """ in {
       Try(DateTimeFormat.forPattern("dd MMMM yyyy").parseDateTime("01 September 2001")).isSuccess should equal(true)
+    }
+
+    """reject format "31 February 2001" """ in {
+      Try(DateTimeFormat.forPattern("dd MMMM yyyy").parseDateTime("31 February 2001")).isFailure should equal(true)
     }
   }
 }

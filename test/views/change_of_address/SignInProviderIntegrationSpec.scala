@@ -1,32 +1,29 @@
 package views.change_of_address
 
-import org.specs2.mutable.{Specification, Tags}
-import play.api.test.WithBrowser
-import controllers.BrowserMatchers
+import helpers.webbrowser.TestHarness
+import pages.change_of_address._
+import helpers.UiSpec
 
-class SignInProviderIntegrationSpec extends Specification with Tags {
+class SignInProviderIntegrationSpec extends UiSpec with TestHarness{
 
   "SignInProvider Integration" should {
-    "be presented" in new WithBrowser with BrowserMatchers {
+    "be presented" in new WebBrowser {
       // Arrange & Act
-      browser.goTo("/sign-in-provider")
+      go to SignInProviderPage
 
       // Assert
-      titleMustEqual("Change of keeper address5")
-
+      assert(page.title equals SignInProviderPage.title)
     }
 
-    "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
+    "go to next page after the button is clicked" in new WebBrowser {
       // Arrange
-      browser.goTo("/sign-in-provider")
+      go to SignInProviderPage
 
       // Act
-      browser.submit("button[type='submit']")
+      click on SignInProviderPage.postOffice
 
       // Assert
-      titleMustEqual("Verified login id")
+      assert(page.title equals LoginPage.title)
     }
-
   }
-
 }

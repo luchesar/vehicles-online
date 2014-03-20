@@ -8,10 +8,34 @@
 	  padding: 1em .7em;
 	  margin: 1.2em 0;
 	  color:darken($light-blue, 20%);
+	  position: relative;
+	  
+	  .alert-icon {
+		  @extend %alert-icon;
+		  display: none;
+	  }
+	  
+	  &.alert-withicon {
+		  padding-left:65px;
+		  .alert-icon {
+		  	display: block;
+		  }
+		  .ie7 &, .ie8 & {
+			  padding-left:.7em;
+			  .alert-icon {
+				  display: none !important;
+			  }
+		  }
+	  }
+	  
 	  ol, ul, p {
 	    list-style: none;
 	    padding: 0;
 	    margin: 0 0 1em 0;
+	    font-size: 1.6rem;
+	    .ie & {
+		    font-size: 16px;
+	    }
 	    &:last-child {
 		    margin-bottom:0;
 	    }
@@ -28,6 +52,25 @@
 	    color:$black;
 	    margin-bottom:0.4em;
 	  }
+	  .emphasized {
+	  	word-break: break-all;
+		  @include bold-24;
+		  display: block;
+	  }
+	}
+	
+		
+	%alert-icon {
+		font-size:50px;
+		position: absolute;
+		top:0.2rem;
+		left:2rem;
+		line-height: 100%;
+		height: 50%;
+		.ie & {
+			font-size: 40px;
+			left:1rem;
+		}
 	}
 	
 	// error alert message
@@ -36,6 +79,11 @@
 	  border-color: $mellow-red;
 	  background: $error-bg;
 	  color:$mellow-red;
+	  &.alert-withicon {
+		  &:after {
+			  content:'\2718';
+		  }
+	  }
 	  ol, ul, p {
 	    a {
 	      color:$mellow-red;
@@ -45,24 +93,51 @@
 	
 	.alert-warning {
 		@extend .alert;
-		border-color: $orange;
-		background: $orange-25;
-		color:$orange;
+		border: none;
+		background: transparent url(https://assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png) left top no-repeat;
+		padding: {
+			top:.3em;
+			left:3em;
+		}
+		  	
+		&.alert-withicon {
+		  	&:after {
+			  content:"\0021";
+			  top:1.5rem;
+			  left:2.5rem;
+			  font-weight: bold;
+		  }
+		}
+		  
 		ol, ul, p {
+			@include bold-19;
+			color:#000;
 			a {
-				color:$orange;
+				color:#000;
 			}
 		}
 	}
 	
-	.alert-success {
+	.alert-complete {
 		@extend .alert;
-		background: $green-25;
-		border-color: $green;
-		color:$green;
-		ol, ul, p {
-			a {
-				color:$green;
+		background: $turquoise;
+		border:none;
+		text-align: center;
+		h1, h2, h3, p, ul {
+			color:#FFF;
+		}
+		h1, h2, h3 {
+			display: inline-block;
+			background: url(images/icon-tick-green.gif) left 3px no-repeat;
+			padding-left:40px;
+			@include bold-27;
+			.ie7 &, .ie6 & {
+				display: block;
+				background: none;
+				padding-left:0;
+			}
+			@media screen and (max-width: $device-small) {
+				background-position: left top;
 			}
 		}
 	}
@@ -91,7 +166,7 @@
 	    .error {
 	        color: $mellow-red;
 	        font-weight: 300;
-	        font-size: 1.6rem;
+	        font-size: 1.5rem;
 	        padding:0;
 	        margin:0 0 .5em 0;
 	

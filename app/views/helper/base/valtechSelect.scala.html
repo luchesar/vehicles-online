@@ -9,12 +9,17 @@
 @helper.input(field, args.toSeq: _*) { (id, name, selectedKey, htmlArgs) =>
     @valtechLabel(field, args)
 
-<select id="@CryptoHelper.encryptAES(field.id)" name="@CryptoHelper.encryptAES(name)" @toHtmlArgs(htmlArgs)>
-    @defaultOption(htmlArgs)
+    <select id="@CryptoHelper.encryptAES(field.id)"
+        name="@CryptoHelper.encryptAES(name)"
+        @{if(field.constraints.find(_._1 == "constraint.required")) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
+        @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
+        @toHtmlArgs(htmlArgs)
+    >
+        @defaultOption(htmlArgs)
 
-<option value="">@Messages(defaultOptionMessage)</option> @* Default option that appears at the top of a drop down. Should describe the column. *@
-    @options.map { case (mappingValue, humanReadableLabel) =>
-    <option value="@mappingValue" @(if(selectedKey == Some(mappingValue)) "selected" else "")>@humanReadableLabel</option>
-    }
-</select>
+        <option value="">@Messages(defaultOptionMessage)</option> @* Default option that appears at the top of a drop down. Should describe the column. *@
+            @options.map { case (mappingValue, humanReadableLabel) =>
+            <option value="@mappingValue" @(if(selectedKey == Some(mappingValue)) "selected" else "")>@humanReadableLabel</option>
+            }
+    </select>
 }

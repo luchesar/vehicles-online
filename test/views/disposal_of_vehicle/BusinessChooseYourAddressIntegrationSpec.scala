@@ -1,126 +1,107 @@
 package views.disposal_of_vehicle
 
-import org.specs2.mutable.{Specification, Tags}
-import play.api.test.WithBrowser
-import controllers.BrowserMatchers
-import helpers.disposal_of_vehicle.{EnterAddressManuallyPage, BusinessChooseYourAddressPage, SetUpTradeDetailsPage, VehicleLookupPage}
-import java.util.concurrent.TimeUnit
-import services.fakes.FakeAddressLookupService.postcodeInvalid
+import helpers.webbrowser.TestHarness
+import pages.disposal_of_vehicle._
+import helpers.disposal_of_vehicle.CacheSetup
+import pages.common.ErrorPanel
+import helpers.UiSpec
 
-class BusinessChooseYourAddressIntegrationSpec extends Specification with Tags {
+class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "Business choose your address - Integration" should {
-    "be presented" in new WithBrowser with BrowserMatchers {
+
+    "be presented" in new WebBrowser {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      browser.goTo(BusinessChooseYourAddressPage.url)
-
-      // Assert
-      titleMustEqual(BusinessChooseYourAddressPage.title)
-    }
-
-    "go to the next page when correct data is entered" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.happyPath(browser)
-
-      // Assert
-      titleMustEqual(VehicleLookupPage.title)
-    }
-
-    "go to the manual address entry page when manualAddressButton is clicked" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.happyPath(browser)
-      browser.goTo(BusinessChooseYourAddressPage.url)
-      browser.click("#enterAddressManuallyButton")
-
-      // Assert
-      titleMustEqual(EnterAddressManuallyPage.title)
-    }
-
-    "redirect when no traderBusinessName is cached" in new WithBrowser with BrowserMatchers {
-
-      // Arrange & Act
-      browser.goTo(BusinessChooseYourAddressPage.url)
-
-      // Assert
-      titleMustEqual(SetUpTradeDetailsPage.title)
-    }
-
-    "display validation error messages when addressSelected is not in the list" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      BusinessChooseYourAddressPage.sadPath(browser)
+      CacheSetup.setupTradeDetails()
+      go to BusinessChooseYourAddressPage.url
 
       //Assert
-      checkNumberOfValidationErrors(1)
+      assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
-    "display previous page when back link is clicked" in new WithBrowser with BrowserMatchers {
-      // Arrange
-      SetUpTradeDetailsPage.setupCache()
-      browser.goTo(BusinessChooseYourAddressPage.url)
-
-      // Act
-      browser.click("#backButton")
-
-      //Assert
-      titleMustEqual(SetUpTradeDetailsPage.title)
-    }
-
-    "go to the enter address manually page when the enter address manually link is clicked" in new WithBrowser with BrowserMatchers {
-      // Arrange
-      SetUpTradeDetailsPage.setupCache()
-      browser.goTo(BusinessChooseYourAddressPage.url)
-
-      // Act
-      browser.click("#enterAddressManuallyButton")
+    "go to the next page when correct data is entered" in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.setupTradeDetails()
+      BusinessChooseYourAddressPage.happyPath
 
       // Assert
-      titleMustEqual(EnterAddressManuallyPage.title)
+      assert(page.title equals VehicleLookupPage.title)
     }
 
-    "check number of options in drop down" in new WithBrowser with BrowserMatchers {
+    "go to the manual address entry page when manualAddressButton is clicked" in new WebBrowser {
       // Arrange
-      SetUpTradeDetailsPage.happyPath(browser)
-      browser.goTo(BusinessChooseYourAddressPage.url)
+      CacheSetup.setupTradeDetails()
+      go to BusinessChooseYourAddressPage.url
 
       //Act
-      val result = browser.find("#disposal_businessChooseYourAddress_addressSelect option").size
-
-      result must beEqualTo(3) //this test currently looks at hardcoded service, however options within the drop down list are counted correctly
-    }
-
-    "display address dropdown when address service returns addresses" in new WithBrowser with BrowserMatchers {
-      // Arrange
-      SetUpTradeDetailsPage.setupCache()
-
-      // Act
-      browser.goTo(BusinessChooseYourAddressPage.url)
+      click on BusinessChooseYourAddressPage.manualAddress
 
       // Assert
-      browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {
-        // TODO split this into two helpers, pass in the boolean on the first helper, pass in expected size on the second helper.
-        browser.pageSource.contains("No addresses found for that postcode.") must beEqualTo(false) // No "not found" message present.
-
-        val dropdownCount = browser.find("#disposal_businessChooseYourAddress_addressSelect").size
-        dropdownCount mustEqual (1) // The dropdown is present.
-      }
+      assert(page.title equals EnterAddressManuallyPage.title)
     }
 
-    "display message when address service returns no addresses" in new WithBrowser with BrowserMatchers {
+    "display previous page when back link is clicked" in new WebBrowser {
       // Arrange
-      SetUpTradeDetailsPage.setupCache(dealerPostcode = postcodeInvalid)
+      CacheSetup.setupTradeDetails()
+      go to BusinessChooseYourAddressPage.url
 
       // Act
-      browser.goTo(BusinessChooseYourAddressPage.url)
+      click on BusinessChooseYourAddressPage.back
+
+      //Assert
+      assert(page.title equals SetupTradeDetailsPage.title)
+    }
+
+    "redirect when no traderBusinessName is cached" in new WebBrowser {
+      // Arrange & Act
+      go to BusinessChooseYourAddressPage.url
 
       // Assert
-      browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {
-        browser.pageSource.contains("No addresses found for that postcode.") must beEqualTo(true) // "not found" message present.
+      assert(page.title equals SetupTradeDetailsPage.title)
+    }
 
-        val dropdownCount = browser.find("#disposal_businessChooseYourAddress_addressSelect").size
-        dropdownCount mustEqual (0) // The dropdown is not present.
-      }
+    "display validation error messages when addressSelected is not in the list" in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.setupTradeDetails()
+      BusinessChooseYourAddressPage.sadPath
+
+      //Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+
+    "check number of options in drop down" in new WebBrowser {
+      // Arrange
+      SetupTradeDetailsPage.happyPath
+
+      //Act
+      assert(BusinessChooseYourAddressPage.getListCount equals 1)
+    }
+
+//TODO discuss below two tests to check integrity
+    "display address dropdown when address service returns addresses" in new WebBrowser {
+      // Arrange & Act
+      SetupTradeDetailsPage.happyPath
+
+      // Assert
+      //browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {.
+      val result = webDriver.getPageSource
+      result.contains("No addresses found for that postcode")  must beEqualTo(false)
+
+      assert(BusinessChooseYourAddressPage.getListCount equals 1)
+    }
+
+/* //TODO need to amend below test not to use fake microservice
+    "display message when address service returns no addresses" in new WebBrowser {
+      // Arrange
+      SetupTradeDetailsPage.happyPath(webDriver,traderPostcode = postcodeNoResults)
+
+      // Assert
+      //browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {
+      val result = webDriver.getPageSource
+      result.contains("No addresses found for that postcode")  must beEqualTo(true)
+
+
+      assert(BusinessChooseYourAddressPage.getListCount equals 0)
+      }*/
     }
   }
-}

@@ -130,7 +130,6 @@
 	.form-item {
 		margin:0 0 1.5em 0;
 		padding: 0;
-	
 	}
 	
 	// style labels for checkboxes and radio widgets
@@ -178,7 +177,9 @@
 	   			max-width: 10em;
 	   			top:-3px;
 	   			line-height:normal;
-	     		padding:px;
+	   			.ie7 &, .ie6 & {
+		   			top:7px;
+	   			}
 	   		}
 	   		input {
 	   			min-width: 4em;
@@ -214,7 +215,7 @@
 	}
 	
 	// helper text beneath a form element
-	.helper {
+	.helper, .helper-tooltip {
 		font: {
 			size:1.5rem;
 			weight:300;

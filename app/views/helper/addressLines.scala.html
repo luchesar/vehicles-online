@@ -1,41 +1,54 @@
 @(field: play.api.data.Field, args: Map[Symbol, Any])(implicit lang: Lang)
 
 @import views.html.helper.base.valtechInputText
-@import utils.helpers.EmptyTemplate._
+@import utils.helpers.BaseTemplate._
 @import views.html.helper.checkConstraintRequired
+@import helper._
+@import utils.helpers.CryptoHelper
+@import utils.helpers._
+@import views.html.helper.base._
 
-@checkConstraintRequired(field, args)
-<div class="form-address-stack">
-    <div class="form-item">
-    @valtechInputText(field(mappings.common.AddressLines.line1Id),
-        args = Map('_label -> Messages("vehicles.address.line1.label"),
-        'placeholder -> Messages("disposal_enteraddressmanually.address.line1.placeholder"),
-        '_showConstraints -> false,
-        'maxLength -> mappings.common.AddressLines.lineMaxLength.toString, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-        'title -> Messages("vehicles.address.line1.label")))
+
+@input(field,args.toSeq: _*){(id, name, value, htmlArgs) =>
+    @checkConstraintRequired(field, args)
+
+    <div class="form-address-stack" id = "@id">
+        <div class="form-item">
+        @valtechInputText(field(mappings.common.AddressLines.line1Id),
+            args = Map(
+                '_label -> Messages("address.line1.label"),
+                'placeholder -> Messages("address.line1.label"),
+                '_showConstraints -> false,
+                'maxLength -> mappings.common.AddressLines.lineMaxLength.toString, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                'title -> Messages("address.line1.label"),
+                'showErrors -> false))
+        </div>
+        <div class="form-item">
+        @valtechInputText(field(mappings.common.AddressLines.line2Id),
+            args = Map(
+                '_label -> Messages("address.line2.label"),
+                'placeholder -> Messages("address.line2.label"),
+                '_showConstraints -> false,
+                'maxLength -> mappings.common.AddressLines.lineMaxLength.toString, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                'title -> Messages("address.line2.label")))
+        </div>
+        <div class="form-item">
+        @valtechInputText(field(mappings.common.AddressLines.line3Id),
+            args = Map(
+                '_label -> Messages("address.line3.label"),
+                'placeholder -> Messages("address.line3.label"),
+                '_showConstraints -> false,
+                'maxLength -> mappings.common.AddressLines.lineMaxLength.toString, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                'title -> Messages("address.line3.label")))
+        </div>
+        <div class="form-item">
+        @valtechInputText(field(mappings.common.AddressLines.line4Id),
+            args = Map(
+                '_label -> Messages("address.line4.label"),
+                'placeholder -> Messages("address.line4.label"),
+                '_showConstraints -> false,
+                'maxLength -> mappings.common.AddressLines.lineMaxLength.toString, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                'title -> Messages("address.line4.label")))
+        </div>
     </div>
-    <div class="form-item">
-    @valtechInputText(field(mappings.common.AddressLines.line2Id),
-        args = Map('_label -> Messages("vehicles.address.line2.label"),
-        'placeholder -> Messages("disposal_enteraddressmanually.address.line2.placeholder"),
-        '_showConstraints -> false,
-        'maxLength -> mappings.common.AddressLines.lineMaxLength.toString, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-        'title -> Messages("vehicles.address.line2.label")))
-    </div>
-    <div class="form-item">
-    @valtechInputText(field(mappings.common.AddressLines.line3Id),
-        args = Map('placeholder -> Messages("disposal_enteraddressmanually.address.line3.placeholder"),
-        '_label -> Messages("vehicles.address.line3.label"),
-        '_showConstraints -> false,
-        'maxLength -> mappings.common.AddressLines.lineMaxLength.toString, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-        'title -> Messages("vehicles.address.line3.label")))
-    </div>
-    <div class="form-item">
-    @valtechInputText(field(mappings.common.AddressLines.line4Id),
-        args = Map('placeholder -> Messages("disposal_enteraddressmanually.address.line4.placeholder"),
-        '_label -> Messages("vehicles.address.line4.label"),
-        '_showConstraints -> false,
-        'maxLength -> mappings.common.AddressLines.lineMaxLength.toString, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-        'title -> Messages("vehicles.address.line4.label")))
-    </div>
-</div>
+}

@@ -12,25 +12,22 @@ object SetUpTradeDetails extends Controller {
 
   val traderLookupForm = Form(
     mapping(
-      dealerNameId -> nonEmptyText(minLength = 2, maxLength = 100),
+      dealerNameId -> traderBusinessName(minLength = dealerNameMinLength, maxLength = dealerNameMaxLength),
       dealerPostcodeId -> postcode()
     )(SetupTradeDetailsModel.apply)(SetupTradeDetailsModel.unapply)
   )
 
   def present = Action { implicit request =>
-//    fetchModelFromSession
     Ok(views.html.disposal_of_vehicle.setup_trade_details(traderLookupForm))
   }
 
-  def submit = Action {
-    implicit request => {
-      traderLookupForm.bindFromRequest.fold(
-        formWithErrors => BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithErrors)),
-        f => {
-          storeTradeDetailsInCache(f)
-          Redirect(routes.BusinessChooseYourAddress.present)
-        }
-      )
-    }
+  def submit = Action { implicit request =>
+    traderLookupForm.bindFromRequest.fold(
+      formWithErrors => BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithErrors)),
+      f => {
+        storeTradeDetailsInCache(f)
+        Redirect(routes.BusinessChooseYourAddress.present)
+      }
+    )
   }
 }

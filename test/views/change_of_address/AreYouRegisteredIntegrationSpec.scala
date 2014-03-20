@@ -1,32 +1,29 @@
 package views.change_of_address
 
-import org.specs2.mutable.{Specification, Tags}
-import play.api.test.WithBrowser
-import controllers.BrowserMatchers
+import helpers.webbrowser.TestHarness
+import pages.change_of_address._
+import helpers.UiSpec
 
-class AreYouRegisteredIntegrationSpec extends Specification with Tags {
+class AreYouRegisteredIntegrationSpec extends UiSpec with TestHarness {
 
   "AreYouRegistered Integration" should {
-    "be presented" in new WithBrowser with BrowserMatchers {
+    "be presented" in new WebBrowser {
       // Arrange & Act
-      browser.goTo("/are-you-registered")
+      go to AreYouRegisteredPage
 
       // Assert
-      titleMustEqual("Change of keeper address4")
-
+      assert(page.title equals AreYouRegisteredPage.title)
     }
 
-    "go to next page after the button is clicked" in new WithBrowser with BrowserMatchers {
+    "go to next page after the button is clicked" in new WebBrowser {
       // Arrange
-      browser.goTo("/are-you-registered")
+      go to AreYouRegisteredPage
 
       // Act
-      browser.submit("button[type='submit']")
+      click on AreYouRegisteredPage.signIn
 
       // Assert
-      titleMustEqual("Change of keeper address5")
+      assert(page.title equals SignInProviderPage.title)
     }
-
   }
-
 }

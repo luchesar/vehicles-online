@@ -6,26 +6,24 @@ import controllers.disposal_of_vehicle.Helpers._
 import scala.Some
 
 object VehicleLookupFailure extends Controller {
-  def present = Action {
-    implicit request =>
-      (fetchDealerDetailsFromCache, fetchVehicleLookupDetailsFromCache) match {
-        case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) => {
-          Logger.debug("found dealer and vehicle details")
-          Ok(views.html.disposal_of_vehicle.vehicle_lookup_failure(vehicleLookUpFormModelDetails))
-        }
-        case _ => Redirect(routes.SetUpTradeDetails.present)
+  def present = Action { implicit request =>
+    (fetchDealerDetailsFromCache, fetchVehicleLookupDetailsFromCache) match {
+      case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) => {
+        Logger.debug("found dealer and vehicle details")
+        Ok(views.html.disposal_of_vehicle.vehicle_lookup_failure(vehicleLookUpFormModelDetails))
       }
+      case _ => Redirect(routes.SetUpTradeDetails.present)
+    }
   }
 
-  def submit = Action {
-    implicit request =>
-      (fetchDealerDetailsFromCache, fetchVehicleLookupDetailsFromCache) match {
-        case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) => {
-          Logger.debug("found dealer and vehicle details")
-          Redirect(routes.VehicleLookup.present)
-        }
-        case _ => Redirect(routes.SetUpTradeDetails.present)
+  def submit = Action { implicit request =>
+    (fetchDealerDetailsFromCache, fetchVehicleLookupDetailsFromCache) match {
+      case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) => {
+        Logger.debug("found dealer and vehicle details")
+        Redirect(routes.VehicleLookup.present)
       }
+      case _ => Redirect(routes.SetUpTradeDetails.present)
+    }
   }
 }
 

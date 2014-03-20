@@ -17,9 +17,7 @@ class LoginWebServiceImpl() extends LoginWebService {
   }
 
   override def invoke(cmd: LoginPageModel): Future[LoginResponse] = {
-    val result = callWebService(cmd)
-
-    result.map { resp =>
+    callWebService(cmd).map { resp =>
       Logger.debug(s"Http response code from Login micro service was: ${resp.status}")
       resp.json.as[LoginResponse]
     }

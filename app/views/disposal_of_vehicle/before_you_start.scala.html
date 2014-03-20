@@ -4,10 +4,13 @@
 @import helper.twitterBootstrap._
 
 @main(Messages("disposal_beforeyoustart.title")){
-
-	<p><strong>@Messages("disposal_beforeyoustart.name")</strong></p>
+    
     <p>@Messages("disposal_beforeyoustart.p1")</p>
-    <p>@Messages("disposal_beforeyoustart.p2")</p>
+    <ol class="list-standard">
+    	<li>@Messages("disposal_beforeyoustart.listitem1") <a href="https://www.taxdisc.direct.gov.uk/EvlPortalApp/app/enquiry" target="_blank">@Messages("disposal_beforeyoustart.listitem1linktext")</a>.</li>
+    	<li>@Messages("disposal_beforeyoustart.listitem2")</li>
+    	<li>@Messages("disposal_beforeyoustart.listitem3")</li>
+    </ol>
 
 
     <div class="form-steps">

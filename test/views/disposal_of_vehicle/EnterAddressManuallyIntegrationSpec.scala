@@ -1,132 +1,121 @@
 package views.disposal_of_vehicle
 
-import play.api.test.WithBrowser
-import controllers.BrowserMatchers
-import org.specs2.mutable.{Tags, Specification}
-import helpers.disposal_of_vehicle.{SetUpTradeDetailsPage, EnterAddressManuallyPage}
+import pages.disposal_of_vehicle._
+import helpers.webbrowser.TestHarness
+import helpers.disposal_of_vehicle.CacheSetup
+import pages.common.ErrorPanel
+import helpers.UiSpec
 
-class EnterAddressManuallyIntegrationSpec extends Specification with Tags {
+class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
   "EnterAddressManually integration" should {
 
-    "be presented" in new WithBrowser with BrowserMatchers {
+    "be presented" in new WebBrowser {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      browser.goTo(EnterAddressManuallyPage.url)
+      CacheSetup.setupTradeDetails()
+      go to EnterAddressManuallyPage.url
 
       // Assert
-      titleMustEqual(EnterAddressManuallyPage.title)
+      assert(page.title equals EnterAddressManuallyPage.title)
     }
 
-    "accept when all fields are input" in new WithBrowser with BrowserMatchers {
+    "accept and redirect when all fields are input with valid entry" in new WebBrowser {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      EnterAddressManuallyPage.happyPath(browser)
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath
 
       // Assert
-      checkNumberOfValidationErrors(0)
+      //assert(page.title equals VehicleLookupPage.title)
     }
 
-    "accept when only mandatory fields only are input" in new WithBrowser with BrowserMatchers {
+    "accept when only mandatory fields only are input" in new WebBrowser {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      EnterAddressManuallyPage.happyPathMandatoryFieldsOnly(browser)
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPathMandatoryFieldsOnly
 
       // Assert
-      checkNumberOfValidationErrors(0)
+      assert(page.title equals VehicleLookupPage.title)
     }
 
-    "display validation error messages when no details are entered" in new WithBrowser with BrowserMatchers {
-      // Arrange
-      SetUpTradeDetailsPage.setupCache()
-      browser.goTo(EnterAddressManuallyPage.url)
-
-      // Act
-      browser.submit("button[type='submit']")
+    "display validation error messages when no details are entered" in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.sadPath
 
       // Assert
-      checkNumberOfValidationErrors(4)
+      assert(ErrorPanel.numberOfErrors equals 5)
     }
 
-    "display validation error messages when a blank line 1 is entered" in new WithBrowser with BrowserMatchers {
+    "display validation error messages when a blank line 1 is entered" in new WebBrowser {
       // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      EnterAddressManuallyPage.sadPath(browser, line1 = "")
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line1 = "")
 
       // Assert
-      checkNumberOfValidationErrors(1)
+      assert(ErrorPanel.numberOfErrors equals 2)
     }
 
-    "display validation error messages when line 1 is entered which is greater than max length" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.happyPath(browser)
-      EnterAddressManuallyPage.sadPath(browser, line1 = "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwerty")
+    "display validation error messages when line 1 is entered which is greater than max length" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line1 = ("a" * 76))
 
       // Assert
-      checkNumberOfValidationErrors(1)
+      assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-    "display validation error messages when a blank postcode is entered" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.happyPath(browser)
-      EnterAddressManuallyPage.sadPath(browser, postcode = "")
+    "display validation error messages when a blank postcode is entered" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, postcode = "")
 
       // Assert
-      checkNumberOfValidationErrors(3)
+      assert(ErrorPanel.numberOfErrors equals 3)
     }
 
-    "display validation error messages when a postcode is entered containing special characters" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      EnterAddressManuallyPage.sadPath(browser, postcode = "SA99 1B!")
+    "display validation error messages when a postcode is entered containing special characters" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, postcode = "SA99 1D!")
 
       // Assert
-      checkNumberOfValidationErrors(1)
+      assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-    "display validation error messages when a postcode is entered containing letters only" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      EnterAddressManuallyPage.sadPath(browser, postcode = "ABCDE")
+    "display validation error messages when a postcode is entered containing letters only" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, postcode = "SQWER")
 
       // Assert
-      checkNumberOfValidationErrors(1)
+      assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-    "display validation error messages when a postcode is entered containing numbers only" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      EnterAddressManuallyPage.sadPath(browser, postcode = "12345")
+    "display validation error messages when a postcode is entered containing numbers only" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, postcode = "12345")
 
       // Assert
-      checkNumberOfValidationErrors(1)
+      assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-    "display validation error messages when a postcode is entered in an incorrect format" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      EnterAddressManuallyPage.sadPath(browser, postcode = "SA99 1B1")
+    "display validation error messages when a postcode is entered in an incorrect format" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, postcode = "SA99 1B1")
 
       // Assert
-      checkNumberOfValidationErrors(1)
+      assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-    "display validation error messages when a postcode is entered less than min length" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      EnterAddressManuallyPage.sadPath(browser, postcode = "SA99")
+    "display validation error messages when a postcode is entered less than min length" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, postcode = "SA")
 
       // Assert
-      checkNumberOfValidationErrors(2)
-    }
-
-    "display validation error messages when a postcode is entered greater than max legnth" in new WithBrowser with BrowserMatchers {
-      // Arrange & Act
-      SetUpTradeDetailsPage.setupCache()
-      EnterAddressManuallyPage.sadPath(browser, postcode = "SA99 1BDD")
-
-      // Assert
-      checkNumberOfValidationErrors(2)
+      assert(ErrorPanel.numberOfErrors equals 2)
     }
   }
 }

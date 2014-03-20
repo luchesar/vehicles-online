@@ -1,28 +1,30 @@
 package controllers.disposal_of_vehicle
 
-import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.Dispose._
 import helpers.disposal_of_vehicle.Helper._
-import models.domain.disposal_of_vehicle.DisposeModel
 import org.mockito.Mockito._
-import models.domain.disposal_of_vehicle.DisposeModel
 import org.mockito.Matchers._
 import models.domain.disposal_of_vehicle.DisposeModel
 import services.fakes.FakeDisposeService
 import controllers.disposal_of_vehicle
-import org.scalatest.mock.MockitoSugar
+import models.DayMonthYear
+import helpers.UnitSpec
 
-class DisposeFormSpec extends WordSpec with Matchers with MockitoSugar {
+class DisposeFormSpec extends UnitSpec {
+
   "Dispose Form" should {
     val mockDisposeModel = mock[DisposeModel]
     val mockWebService = mock[services.DisposeService]
     when(mockWebService.invoke(any[DisposeModel])).thenReturn(new FakeDisposeService().invoke(mockDisposeModel))
     val dispose = new disposal_of_vehicle.Dispose(mockWebService)
 
-    def disposeFormFiller(consent: String, mileage: String, day: String, month: String, year: String) = {
+    def formWithValidDefaults(mileage: String = mileageValid,
+                   day: String = dateOfDisposalDayValid,
+                   month: String = dateOfDisposalMonthValid,
+                   year: String = dateOfDisposalYearValid) = {
+
       dispose.disposeForm.bind(
         Map(
-          consentId -> consent,
           mileageId -> mileage,
           s"${dateOfDisposalId}.day" -> day,
           s"${dateOfDisposalId}.month" -> month,
@@ -32,67 +34,48 @@ class DisposeFormSpec extends WordSpec with Matchers with MockitoSugar {
     }
 
     "reject if mileage is more than maximum" in {
-      disposeFormFiller(consent = consentValid, mileage = "1000000", day = dateOfDisposalDayValid, month = dateOfDisposalMonthValid, year = dateOfDisposalYearValid).fold (
-        formWithErrors => {
-          println(formWithErrors.errors)
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
-    }
-
-    "reject if consent is not ticked" in {
-      disposeFormFiller(consent = "", mileage = mileageValid, day = dateOfDisposalDayValid, month = dateOfDisposalMonthValid, year = dateOfDisposalYearValid).fold (
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(mileage = "1000000").errors should have length 1
     }
 
     "reject if date day is invalid" in {
-      disposeFormFiller(consent = consentValid, mileage = mileageValid, day = "", month = dateOfDisposalMonthValid, year = dateOfDisposalYearValid).fold (
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(day = "").errors should have length 1
     }
 
     "reject if date month is invalid" in {
-      disposeFormFiller(consent = consentValid, mileage = mileageValid, day = dateOfDisposalDayValid, month = "", year = dateOfDisposalYearValid).fold (
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(month = "").errors should have length 1
     }
 
     "reject if date year is invalid" in {
-      disposeFormFiller(consent = consentValid, mileage = mileageValid, day = dateOfDisposalDayValid, month = dateOfDisposalMonthValid, year = "").fold (
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+      formWithValidDefaults(year = "").errors should have length 1
     }
 
     "accept when all fields contain valid responses" in {
-      disposeFormFiller(consent = consentValid, mileage = mileageValid, day = dateOfDisposalDayValid, month = dateOfDisposalMonthValid, year = dateOfDisposalYearValid).fold(
-      formWithErrors => {
-          fail("An error should occur")
-        },
-        f => f.consent should equal(consentValid)
+      val model = formWithValidDefaults(
+        mileage = mileageValid,
+        day = dateOfDisposalDayValid,
+        month = dateOfDisposalMonthValid,
+        year = dateOfDisposalYearValid).get
+
+      model.mileage.get should equal(mileageValid.toInt)
+      model.dateOfDisposal should equal(DayMonthYear(
+        dateOfDisposalDayValid.toInt,
+        dateOfDisposalMonthValid.toInt,
+        dateOfDisposalYearValid.toInt)
       )
     }
 
     "accept when all mandatory fields contain valid responses" in {
-      disposeFormFiller(consent = consentValid, mileage = "", day = dateOfDisposalDayValid, month = dateOfDisposalMonthValid, year = dateOfDisposalYearValid).fold(
-        formWithErrors => {
-          fail("An error should occur")
-        },
-        f => f.consent should equal(consentValid)
-      )
+      val model = formWithValidDefaults(
+        mileage = "",
+        day = dateOfDisposalDayValid,
+        month = dateOfDisposalMonthValid,
+        year = dateOfDisposalYearValid).get
+
+      model.mileage should equal(None)
+      model.dateOfDisposal should equal(DayMonthYear(
+        dateOfDisposalDayValid.toInt,
+        dateOfDisposalMonthValid.toInt,
+        dateOfDisposalYearValid.toInt))
     }
   }
 }

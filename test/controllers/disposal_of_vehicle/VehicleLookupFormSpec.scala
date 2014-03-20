@@ -1,446 +1,395 @@
 package controllers.disposal_of_vehicle
 
-import org.scalatest.{Matchers, WordSpec}
 import mappings.disposal_of_vehicle.VehicleLookup._
 import helpers.disposal_of_vehicle.Helper._
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import org.mockito.Mockito._
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import org.mockito.Matchers._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import services.fakes.FakeVehicleLookupService
 import controllers.disposal_of_vehicle
-import org.scalatest.mock.MockitoSugar
+import helpers.UnitSpec
 
-class VehicleLookupFormSpec extends WordSpec with Matchers with MockitoSugar{
-  "V5cSearch Form" should {
+class VehicleLookupFormSpec extends UnitSpec {
+
+  "Vehicle lookup form" should {
     val mockVehicleLookupFormModel = mock[VehicleLookupFormModel]
     val mockWebService = mock[services.VehicleLookupService]
     when(mockWebService.invoke(any[VehicleLookupFormModel])).thenReturn(new FakeVehicleLookupService().invoke(mockVehicleLookupFormModel))
     val vehicleLookup = new disposal_of_vehicle.VehicleLookup(mockWebService)
 
-    def vehicleLookupFiller(v5cReferenceNumber: String, v5cRegistrationNumber: String, v5cKeeperName: String, v5cPostcode: String ) = {
+    def formWithValidDefaults(referenceNumber: String = referenceNumberValid,
+                              registrationNumber: String = registrationNumberValid,
+                              consent: String = consentValid) = {
       vehicleLookup.vehicleLookupForm.bind(
         Map(
-          v5cReferenceNumberId -> v5cReferenceNumber,
-          v5cRegistrationNumberId-> v5cRegistrationNumber,
-          v5cKeeperNameId ->  v5cKeeperName,
-          v5cPostcodeId -> v5cPostcode
+          referenceNumberId -> referenceNumber,
+          registrationNumberId -> registrationNumber,
+          consentId -> consent
         )
       )
     }
-//v5cReferenceNumber tests
-    "reject if v5cReferenceNumber is blank" in {
-      vehicleLookupFiller(v5cReferenceNumber = "", v5cRegistrationNumber = v5cVehicleRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(3)
-        },
-        f => fail("An error should occur")
-      )
+
+    /** *********************
+      * referenceNumber tests
+      */
+    "reject if referenceNumber is blank" in {
+      formWithValidDefaults(referenceNumber = "").errors should have length 3
     }
 
-    "reject if v5cReferenceNumber is less than min length" in {
-      vehicleLookupFiller(v5cReferenceNumber = "1234567891", v5cRegistrationNumber = v5cVehicleRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+    "reject if referenceNumber is less than min length" in {
+      formWithValidDefaults(referenceNumber = "1234567891").errors should have length 1
     }
 
-    "reject if v5cReferenceNumber is greater than max length" in {
-      vehicleLookupFiller(v5cReferenceNumber = "123456789101", v5cRegistrationNumber = v5cVehicleRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+    "reject if referenceNumber is greater than max length" in {
+      formWithValidDefaults(referenceNumber = "123456789101").errors should have length 1
     }
 
-    "reject if v5cReferenceNumber contains letters" in {
-      vehicleLookupFiller(v5cReferenceNumber = "qwertyuiopl", v5cRegistrationNumber = v5cVehicleRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+    "reject if referenceNumber contains letters" in {
+      formWithValidDefaults(referenceNumber = "qwertyuiopl").errors should have length 1
     }
 
-    "reject if v5cReferenceNumber contains special characters" in {
-      vehicleLookupFiller(v5cReferenceNumber = "£££££££££££", v5cRegistrationNumber = v5cVehicleRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+    "reject if referenceNumber contains special characters" in {
+      formWithValidDefaults(referenceNumber = "£££££££££££").errors should have length 1
     }
 
-    "accept if v5cReferenceNumber is valid" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = v5cVehicleRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {
-          fail("An error should occur")
-        },
-        f => f.v5cReferenceNumber should equal(v5cDocumentReferenceNumberValid)
-      )
+    "accept if referenceNumber is valid" in {
+      formWithValidDefaults(registrationNumber = registrationNumberValid).get.referenceNumber should equal(referenceNumberValid)
     }
 
-//v5cRegistrationNumber tests
-    "reject if v5cRegistrationNumber is empty" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(2)
-        },
-        f => fail("An error should occur")
-      )
+    /** ************************
+      * registrationNumber tests
+      */
+
+    "reject if registrationNumber is empty" in {
+      formWithValidDefaults(registrationNumber = "").errors should have length 2
     }
 
-    "reject if v5cRegistrationNumber is less than min length" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "a", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+    "reject if registrationNumber is less than min length" in {
+      formWithValidDefaults(registrationNumber = "a").errors should have length 2
     }
 
-    "reject if v5cRegistrationNumber is more than max length" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "AB53 WERT", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+    "reject if registrationNumber is more than max length" in {
+      formWithValidDefaults(registrationNumber = "AB53WERT").errors should have length 1
     }
 
-    "reject if v5cRegistrationNumber contains special characters" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "ab53ab%", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+    "reject if registrationNumber contains special characters" in {
+      formWithValidDefaults(registrationNumber = "ab53ab%").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals A 9" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "A 9", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("A 9")
-      )
+    "reject if registrationNumber is in an incorrect format AA" in {
+      formWithValidDefaults(registrationNumber = "AA").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals 9 A" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "9 A", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("9 A")
-      )
+    "reject if registrationNumber is in an incorrect format 11" in {
+      formWithValidDefaults(registrationNumber = "11").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals AA 9" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "AA 9", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("AA 9")
-      )
+    "reject if registrationNumber is in an incorrect format AAA" in {
+      formWithValidDefaults(registrationNumber = "AAA").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals A 99" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "A 99", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("A 99")
-      )
+    "reject if registrationNumber is in an incorrect format A1A" in {
+      formWithValidDefaults(registrationNumber = "A1A").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals 9 AA" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "9 AA", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("9 AA")
-      )
+    "reject if registrationNumber is in an incorrect format AAAA" in {
+      formWithValidDefaults(registrationNumber = "AAAA").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals 99 A" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "99 A", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("99 A")
-      )
+    "reject if registrationNumber is in an incorrect format 1111" in {
+      formWithValidDefaults(registrationNumber = "1111").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals AAA 9" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "AAA 9", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("AAA 9")
-      )
+
+    "reject if registrationNumber is in an incorrect format AAAAA" in {
+      formWithValidDefaults(registrationNumber = "AAAAA").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals A 999" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "A 999", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("A 999")
-      )
+    "reject if registrationNumber is in an incorrect format 1AAAA" in {
+      formWithValidDefaults(registrationNumber = "1AAAA").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals AA 99" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "AA 99", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("AA 99")
-      )
+
+    "reject if registrationNumber is in an incorrect format 11111" in {
+      formWithValidDefaults(registrationNumber = "11111").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals 9 AAA" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "9 AAA", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("9 AAA")
-      )
+    "reject if registrationNumber is in an incorrect format A99999" in {
+      formWithValidDefaults(registrationNumber = "A99999").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals 99 AA" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "99 AA", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("99 AA")
-      )
+    "reject if registrationNumber is in an incorrect format AAAA99" in {
+      formWithValidDefaults(registrationNumber = "AAAA99").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals 999 A" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "999 A", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("999 A")
-      )
+    "reject if registrationNumber is in an incorrect format AAAAA9" in {
+      formWithValidDefaults(registrationNumber = "AAAAA9").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals A9 AAA" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "A9 AAA", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("A9 AAA")
-      )
+    "reject if registrationNumber is in an incorrect format " in {
+      formWithValidDefaults(registrationNumber = "AAAAAAA").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals AAA 9A" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "AAA 9A", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("AAA 9A")
-      )
+    "reject if registrationNumber is in an incorrect format 1AAAAA" in {
+      formWithValidDefaults(registrationNumber = "1AAAAA").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals AAA 99" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "AAA 99", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("AAA 99")
-      )
+    "reject if registrationNumber is in an incorrect format 11AAAA" in {
+      formWithValidDefaults(registrationNumber = "11AAAA").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals AA 999" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "AA 999", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("AA 999")
-      )
+    "reject if registrationNumber is in an incorrect format 11111A" in {
+      formWithValidDefaults(registrationNumber = "11111A").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals 99 AAA" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "99 AAA", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("99 AAA")
-      )
+    "reject if registrationNumber is in an incorrect format 111111" in {
+      formWithValidDefaults(registrationNumber = "111111").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals 999 AA" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "999 AA", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("999 AA")
-      )
+    "reject if registrationNumber is in an incorrect format AA999999" in {
+      formWithValidDefaults(registrationNumber = "AA999999").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals 9999 A" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "9999 A", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("9999 A")
-      )
+    "reject if registrationNumber is in an incorrect format A9999999" in {
+      formWithValidDefaults(registrationNumber = "A9999999").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals A 9999" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "A 9999", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("A 9999")
-      )
+    "reject if registrationNumber is in an incorrect format A999A999" in {
+      formWithValidDefaults(registrationNumber = "A999A9999").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals A99 AAA" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "A99 AAA", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("A99 AAA")
-      )
+
+    "reject if registrationNumber is in an incorrect format A99999A9" in {
+      formWithValidDefaults(registrationNumber = "A99999A9").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals AAA 99A" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "AAA 99A", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("AAA 99A")
-      )
+    "reject if registrationNumber is in an incorrect format AAAAAAAA" in {
+      formWithValidDefaults(registrationNumber = "AAAAAAAA").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals AAA 999" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "AAA 999", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("AAA 999")
-      )
+    "reject if registrationNumber is in an incorrect format A1AAAAAA" in {
+      formWithValidDefaults(registrationNumber = "A1AAAAAA").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals 999 AAA" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "999 AAA", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("999 AAA")
-      )
+    "reject if registrationNumber is in an incorrect format AA1AAAAA" in {
+      formWithValidDefaults(registrationNumber = "AA1AAAAA").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals AA 9999" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "AA 9999", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("AA 9999")
-      )
+    "reject if registrationNumber is in an incorrect format AAA1AAAA" in {
+      formWithValidDefaults(registrationNumber = "AAA1AAAA").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals 9999 AA" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "9999 AA", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("9999 AA")
-      )
+    "reject if registrationNumber is in an incorrect format AAAA1AAA" in {
+      formWithValidDefaults(registrationNumber = "AAAA1AAA").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals A999 AAA" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "A999 AAA", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("A999 AAA")
-      )
+    "reject if registrationNumber is in an incorrect format AAAAA1AA" in {
+      formWithValidDefaults(registrationNumber = "AAAAA1AA").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals AAA 999A" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "AAA 999A", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("AAA 999A")
-      )
+    "reject if registrationNumber is in an incorrect format AAAAAA1A" in {
+      formWithValidDefaults(registrationNumber = "AAAAAA1A").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals AAA 9999" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "AAA 9999", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("AAA 9999")
-      )
+    "reject if registrationNumber is in an incorrect format AAAAAAA1" in {
+      formWithValidDefaults(registrationNumber = "AAAAAAA1").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals AA99 AAA" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "AA99 AAA", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("AA99 AAA")
-      )
+    "reject if registrationNumber is in an incorrect format AAAAAA11" in {
+      formWithValidDefaults(registrationNumber = "AAAAAA11").errors should have length 1
     }
 
-    "accept if v5cRegistrationNumber equals 9999 AAA" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = "9999 AAA", v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {fail("An error should occur")
-        },
-        f => f.v5cRegistrationNumber should equal("9999 AAA")
-      )
+    "reject if registrationNumber is in an incorrect format AAAAA11A" in {
+      formWithValidDefaults(registrationNumber = "AAAAA11A").errors should have length 1
     }
 
-    //v5cKeeperName tests
-    "reject if v5cKeeperName is empty" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = v5cVehicleRegistrationNumberValid, v5cKeeperName = "", v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(2)
-        },
-        f => fail("An error should occur")
-      )
+    "reject if registrationNumber is in an incorrect format AAAA11AA" in {
+      formWithValidDefaults(registrationNumber = "AAAA11AA").errors should have length 1
     }
 
-    "reject if v5cKeeperName is more than max length" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = v5cVehicleRegistrationNumberValid, v5cKeeperName = "qwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopqwertyuiopq", v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+    "reject if registrationNumber is in an incorrect format AA11AAAA" in {
+      formWithValidDefaults(registrationNumber = "AA11AAAA").errors should have length 1
     }
 
-    "accept if v5cKeeperName is valid" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = v5cVehicleRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {
-          fail("An error should occur")
-        },
-        f => f.v5cKeeperName should equal(v5cKeeperNameValid)
-      )
+    "reject if registrationNumber is in an incorrect format A11AAAAA" in {
+      formWithValidDefaults(registrationNumber = "A11AAAAA").errors should have length 1
     }
 
-//v5cPostcode tests
-    "reject if v5cPostcode is empty" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = v5cVehicleRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = "").fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(3)
-        },
-        f => fail("An error should occur")
-      )
+    "reject if registrationNumber is in an incorrect format 11AAAAAA" in {
+      formWithValidDefaults(registrationNumber = "11AAAAAA").errors should have length 1
     }
 
-    "reject if v5cPostcode is less than min length" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = v5cVehicleRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = "sa91").fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(2)
-        },
-        f => fail("An error should occur")
-      )
+    "reject if registrationNumber is in an incorrect format 111AAAAA" in {
+      formWithValidDefaults(registrationNumber = "111AAAAA").errors should have length 1
     }
 
-    "reject if v5cPostcode is more than max length" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = v5cVehicleRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = "sa991bdsp").fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(2)
-        },
-        f => fail("An error should occur")
-      )
+    "reject if registrationNumber is in an incorrect format A111AAAA" in {
+      formWithValidDefaults(registrationNumber = "A111AAAA").errors should have length 1
     }
 
-    "reject if v5cPostcode contains special characters" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = v5cVehicleRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = "sa991d£").fold(
-        formWithErrors => {
-          formWithErrors.errors.length should equal(1)
-        },
-        f => fail("An error should occur")
-      )
+    "reject if registrationNumber is in an incorrect format AAAA111A" in {
+      formWithValidDefaults(registrationNumber = "AAAA111A").errors should have length 1
     }
 
-    "accept if v5cPostcode is valid" in {
-      vehicleLookupFiller(v5cReferenceNumber = v5cDocumentReferenceNumberValid, v5cRegistrationNumber = v5cVehicleRegistrationNumberValid, v5cKeeperName = v5cKeeperNameValid, v5cPostcode = v5cPostcodeValid).fold(
-        formWithErrors => {
-          fail("An error should occur")
-        },
-        f => f.v5cPostcode should equal(v5cPostcodeValid)
-      )
+    "reject if registrationNumber is in an incorrect format AAAAA111" in {
+      formWithValidDefaults(registrationNumber = "AAAAA111").errors should have length 1
     }
+
+    "reject if registrationNumber is in an incorrect format AAAA1111" in {
+      formWithValidDefaults(registrationNumber = "AAAA1111").errors should have length 1
+    }
+
+    "reject if registrationNumber is in an incorrect format 11111AAA" in {
+      formWithValidDefaults(registrationNumber = "11111AAA").errors should have length 1
+    }
+
+    "reject if registrationNumber is in an incorrect format 111111AA" in {
+      formWithValidDefaults(registrationNumber = "11111AA").errors should have length 1
+    }
+
+    "reject if registrationNumber is in an incorrect format 1111111A" in {
+      formWithValidDefaults(registrationNumber = "111111A").errors should have length 1
+    }
+
+    "reject if registrationNumber is in an incorrect format 11111111" in {
+      formWithValidDefaults(registrationNumber = "1111111").errors should have length 1
+    }
+
+
+    "reject if registrationNumber is in an incorrect format 1111AAAA" in {
+      formWithValidDefaults(registrationNumber = "1111AAAA").errors should have length 1
+    }
+
+    "accept if registrationNumber equals A9" in {
+      formWithValidDefaults(registrationNumber = "A9").get.registrationNumber should equal("A9")
+    }
+
+    "accept if registrationNumber equals 9A" in {
+      formWithValidDefaults(registrationNumber = "9A").get.registrationNumber should equal("9A")
+    }
+
+    "accept if registrationNumber equals AA9" in {
+      formWithValidDefaults(registrationNumber = "AA9").get.registrationNumber should equal("AA9")
+    }
+
+    "accept if registrationNumber equals A99" in {
+      formWithValidDefaults(registrationNumber = "A99").get.registrationNumber should equal("A99")
+    }
+
+    "accept if registrationNumber equals 9AA" in {
+      formWithValidDefaults(registrationNumber = "9AA").get.registrationNumber should equal("9AA")
+    }
+
+    "accept if registrationNumber equals 99A" in {
+      formWithValidDefaults(registrationNumber = "99A").get.registrationNumber should equal("99A")
+    }
+
+    "accept if registrationNumber equals AAA9" in {
+      formWithValidDefaults(registrationNumber = "AAA9").get.registrationNumber should equal("AAA9")
+    }
+
+    "accept if registrationNumber equals A999" in {
+      formWithValidDefaults(registrationNumber = "A999").get.registrationNumber should equal("A999")
+    }
+
+    "accept if registrationNumber equals AA99" in {
+      formWithValidDefaults(registrationNumber = "AA99").get.registrationNumber should equal("AA99")
+    }
+
+    "accept if registrationNumber equals 9AAA" in {
+      formWithValidDefaults(registrationNumber = "9AAA").get.registrationNumber should equal("9AAA")
+    }
+
+    "accept if registrationNumber equals 99AA" in {
+      formWithValidDefaults(registrationNumber = "99AA").get.registrationNumber should equal("99AA")
+    }
+
+    "accept if registrationNumber equals 999A" in {
+      formWithValidDefaults(registrationNumber = "999A").get.registrationNumber should equal("999A")
+    }
+
+    "accept if registrationNumber equals A9AAA" in {
+      formWithValidDefaults(registrationNumber = "A9AAA").get.registrationNumber should equal("A9AAA")
+    }
+
+    "accept if registrationNumber equals AAA9A" in {
+      formWithValidDefaults(registrationNumber = "AAA9A").get.registrationNumber should equal("AAA9A")
+    }
+
+    "accept if registrationNumber equals AAA99" in {
+      formWithValidDefaults(registrationNumber = "AAA99").get.registrationNumber should equal("AAA99")
+    }
+
+    "accept if registrationNumber equals AA999" in {
+      formWithValidDefaults(registrationNumber = "AA999").get.registrationNumber should equal("AA999")
+    }
+
+    "accept if registrationNumber equals 99AAA" in {
+      formWithValidDefaults(registrationNumber = "99AAA").get.registrationNumber should equal("99AAA")
+    }
+
+    "accept if registrationNumber equals 999AA" in {
+      formWithValidDefaults(registrationNumber = "999AA").get.registrationNumber should equal("999AA")
+    }
+
+    "accept if registrationNumber equals 9999A" in {
+      formWithValidDefaults(registrationNumber = "9999A").get.registrationNumber should equal("9999A")
+    }
+
+    "accept if registrationNumber equals A9999" in {
+      formWithValidDefaults(registrationNumber = "A9999").get.registrationNumber should equal("A9999")
+    }
+
+    "accept if registrationNumber equals A99AAA" in {
+      formWithValidDefaults(registrationNumber = "A99AAA").get.registrationNumber should equal("A99AAA")
+    }
+
+    "accept if registrationNumber equals AAA99A" in {
+      formWithValidDefaults(registrationNumber = "AAA99A").get.registrationNumber should equal("AAA99A")
+    }
+
+    "accept if registrationNumber equals AAA999" in {
+      formWithValidDefaults(registrationNumber = "AAA999").get.registrationNumber should equal("AAA999")
+    }
+
+    "accept if registrationNumber equals 999AAA" in {
+      formWithValidDefaults(registrationNumber = "999AAA").get.registrationNumber should equal("999AAA")
+    }
+
+    "accept if registrationNumber equals AA9999" in {
+      formWithValidDefaults(registrationNumber = "AA9999").get.registrationNumber should equal("AA9999")
+    }
+
+    "accept if registrationNumber equals 9999AA" in {
+      formWithValidDefaults(registrationNumber = "9999AA").get.registrationNumber should equal("9999AA")
+    }
+
+    "accept if registrationNumber equals A999AAA" in {
+      formWithValidDefaults(registrationNumber = "A999AAA").get.registrationNumber should equal("A999AAA")
+    }
+
+    "accept if registrationNumber equals AAA999A" in {
+      formWithValidDefaults(registrationNumber = "AAA999A").get.registrationNumber should equal("AAA999A")
+    }
+
+    "accept if registrationNumber equals AAA9999" in {
+      formWithValidDefaults(registrationNumber = "AAA9999").get.registrationNumber should equal("AAA9999")
+    }
+
+    "accept if registrationNumber equals AA99AAA" in {
+      formWithValidDefaults(registrationNumber = "AA99AAA").get.registrationNumber should equal("AA99AAA")
+    }
+
+    "accept if registrationNumber equals 9999AAA" in {
+      formWithValidDefaults(registrationNumber = "9999AAA").get.registrationNumber should equal("9999AAA")
+    }
+
+    /** *************
+      * consent tests
+      */
+    "reject if consent is not ticked" in {
+      formWithValidDefaults(consent = "").errors should have length 1
+    }
+
   }
 }

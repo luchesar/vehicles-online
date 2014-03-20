@@ -5,11 +5,10 @@ import play.api.Logger
 
 object BeforeYouStart extends Controller {
 
-  def present = Action {
-    implicit request =>
-      val uniqueId = java.util.UUID.randomUUID.toString
-      Logger.debug(s"BeforeYouStart - storing the following in session: modelId = $uniqueId")
-      Ok(views.html.disposal_of_vehicle.before_you_start()).withSession("modelId" -> uniqueId)
+  def present = Action { implicit request =>
+    val uniqueId = java.util.UUID.randomUUID.toString
+    Logger.debug(s"BeforeYouStart - storing the following in session: modelId = $uniqueId")
+    Ok(views.html.disposal_of_vehicle.before_you_start()).withSession("modelId" -> uniqueId)
   }
 
   def submit = Action { implicit request =>
@@ -17,5 +16,4 @@ object BeforeYouStart extends Controller {
     Logger.debug(s"BeforeYouStart - reading modelId from session: $modelId")
     Redirect(routes.SetUpTradeDetails.present)
   }
-
 }

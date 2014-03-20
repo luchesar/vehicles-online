@@ -1,16 +1,7 @@
 package object app {
+
   import play.api.Play
   import scala.util.{Success, Try}
-
-  val mb = 131072
-
-  def convertToMB(bytes: Long) = {
-    bytes / mb
-  }
-
-  def convertToBytes(megaBytes: Long) = {
-    megaBytes * mb
-  }
 
   object ConfigProperties {
     def getProperty(property: String, default: Int) = Try(Play.current.configuration.getInt(property).getOrElse(default)) match {
@@ -33,6 +24,5 @@ package object app {
       case _ => default
     }
   }
-
 
 }

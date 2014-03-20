@@ -13,17 +13,16 @@ import controllers.change_of_address.Helpers._
 import mappings.change_of_address.V5cSearch
 import mappings.common.Postcode._
 import V5cSearch._
-import mappings.common.{V5cReferenceNumber, V5cRegistrationNumber}
-import V5cReferenceNumber._
-import V5cRegistrationNumber._
+import mappings.common.{ReferenceNumber, RegistrationNumber}
+import ReferenceNumber._
+import RegistrationNumber._
 import javax.inject.Inject
 
 class VehicleSearch @Inject() (webService: services.V5cSearchWebService) extends Controller {
   val vehicleSearchForm = Form(
     mapping(
-      v5cReferenceNumberId -> v5cReferenceNumber(minLength = 11, maxLength = 11),
-      v5cRegistrationNumberId -> v5CRegistrationNumber(minLength = 2, maxLength = 7),
-      v5cPostcodeId -> postcode()
+      v5cReferenceNumberId -> referenceNumber(minLength = 11, maxLength = 11),
+      v5cRegistrationNumberId -> registrationNumber(minLength = 2, maxLength = 7)
     )(V5cSearchModel.apply)(V5cSearchModel.unapply)
   )
 
@@ -46,8 +45,8 @@ class VehicleSearch @Inject() (webService: services.V5cSearchWebService) extends
           val result = webService.invoke(v5cForm).map { resp =>
             Logger.debug(s"Web service call successful - response = ${resp}")
 
-            Cache.set(V5cRegistrationNumber.key, v5cForm.v5cRegistrationNumber)
-            Cache.set(V5cReferenceNumber.key, v5cForm.v5cReferenceNumber)
+            Cache.set(RegistrationNumber.key, v5cForm.v5cRegistrationNumber)
+            Cache.set(ReferenceNumber.key, v5cForm.v5cReferenceNumber)
 
             val key = v5cForm.v5cReferenceNumber + "." + v5cForm.v5cRegistrationNumber
             Logger.debug(s"V5cSearch storing data returned from micro service in cache using key: $key")

@@ -13,7 +13,6 @@ object V5cSearchPagePopulate {
     browser.goTo("/v5c-search")
     browser.fill(s"#${v5cReferenceNumberId}") `with` v5cDocumentReferenceNumber
     browser.fill(s"#${v5cRegistrationNumberId}") `with` v5cVehicleRegistrationNumber
-    browser.fill(s"#${v5cPostcodeId}") `with` v5cPostcode
     browser.submit("button[type='submit']")
   }
 }

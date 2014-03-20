@@ -1,19 +1,34 @@
 package helpers.disposal_of_vehicle
 
-object Helper {
-  val v5cDocumentReferenceNumberValid = "12345678910"
-  val v5cVehicleRegistrationNumberValid = "AB12AWR"
-  val v5cKeeperNameValid = "John Smith"
-  val v5cPostcodeValid = "CM81QJ"
-  val v5ckey = v5cDocumentReferenceNumberValid + "." + v5cVehicleRegistrationNumberValid
+import models.domain.disposal_of_vehicle.AddressViewModel
 
+object Helper {
   val traderBusinessNameValid = "example trader name"
-  val traderPostcodeValid = "CM81QJ"
   val traderaddressValid = "1"
 
+  val line1Valid = "123"
+  val line2Valid = "line-2 stub"
+  val line3Valid = "line-3 stub"
+  val line4Valid = "line-4 stub"
+  val postcodeValid = "CM81QJ"
+  val postcodeValidWithSpace = "CM8 1QJ"
+  val postcodeNoResults = "SA99 1DD"
+
+  val referenceNumberValid = "12345678910"
+  val registrationNumberValid = "AB12AWR"
+
+  val vehicleMakeValid = "make"
+  val vehicleModelValid = "model"
+  val keeperNameValid = "John Smith"
+  val vehicleLookupKey = referenceNumberValid + "." + registrationNumberValid
+
+  val address1 = AddressViewModel(address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
+  val addressWithUprn = AddressViewModel(uprn=Some(12345L),address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
+  
   val consentValid = "true"
   val mileageValid = "20000"
   val dateOfDisposalDayValid = "25"
   val dateOfDisposalMonthValid = "11"
   val dateOfDisposalYearValid = "1970"
+  val dateOfDisposalValid = (Some(1), Some(2), Some(2014))
 }

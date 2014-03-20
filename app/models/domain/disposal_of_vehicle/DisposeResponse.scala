@@ -1,3 +1,9 @@
 package models.domain.disposal_of_vehicle
 
-case class DisposeResponse (success: Boolean, message: String, transactionId: String)
+import play.api.libs.json.Json
+
+case class DisposeResponse (success: Boolean, message: String, transactionId: String, registrationNumber: String, auditId: String)
+
+object DisposeResponse{
+  implicit val disposeResponseFormat = Json.format[DisposeResponse]
+}

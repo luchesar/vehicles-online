@@ -38,12 +38,11 @@ trait BrowserMatchers extends MustMatchers {
     browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {
       // Check there is a validation message displayed against the widget
       val selector = "li[class=validation] p[class=error]"
-      //println("The validation error message = " + browser.find(selector).getText)
       browser.find(selector).getText must not be empty
     }
   }
 
-  def checkNumberOfValidationErrors(count: Int) = {
+  def numberOfValidationErrorsMustEqual(count: Int) = {
     findMustEqualSize("div[class=validation-summary] ol li", count) && // Assert number of error messages in the validation-summary div
       isErrorDisplayedAboveWidget
   }
