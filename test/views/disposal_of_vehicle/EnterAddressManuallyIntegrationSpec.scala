@@ -5,6 +5,7 @@ import helpers.webbrowser.TestHarness
 import helpers.disposal_of_vehicle.CacheSetup
 import pages.common.ErrorPanel
 import helpers.UiSpec
+import helpers.disposal_of_vehicle.Helper._
 
 class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
@@ -25,7 +26,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       EnterAddressManuallyPage.happyPath
 
       // Assert
-      //assert(page.title equals VehicleLookupPage.title)
+      assert(page.title equals VehicleLookupPage.title)
     }
 
     "accept when only mandatory fields only are input" in new WebBrowser {
@@ -46,7 +47,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       assert(ErrorPanel.numberOfErrors equals 5)
     }
 
-    "display validation error messages when a blank line 1 is entered" in new WebBrowser {
+    "display validation error messages when a blank line1 is entered" in new WebBrowser {
       // Arrange & Act
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line1 = "")
@@ -55,7 +56,8 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       assert(ErrorPanel.numberOfErrors equals 2)
     }
 
-    "display validation error messages when line 1 is entered which is greater than max length" in new WebBrowser {
+
+    "display validation error messages when line1 is entered which is greater than max length" in new WebBrowser {
       //Arrange & Act
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line1 = ("a" * 76))
@@ -117,5 +119,296 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       // Assert
       assert(ErrorPanel.numberOfErrors equals 2)
     }
+
+    "display one validaton error message when an invalid character is entered into address line 1 !" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line1= line1Valid + "?")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 1 %" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line1= line1Valid + "%")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 1 /" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line1= line1Valid + "/")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 1 +" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line1= line1Valid + "+")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 1 £" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line1= line1Valid + "£")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 1 ^" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line1= line1Valid + "^")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "accept and redirect when line1 contains ," in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line1 = line1Valid + ",")
+
+      // Assert
+      assert(page.title equals VehicleLookupPage.title)
+    }
+
+    "accept and redirect when line1 contains ." in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line1 = line1Valid + ".")
+
+      // Assert
+      assert(page.title equals VehicleLookupPage.title)
+    }
+
+
+    "display one validaton error message when an invalid character is entered into address line 2 !" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line2= line2Valid + "?")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 2 %" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line2= line2Valid + "%")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 2 /" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line2= line2Valid + "/")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 2 +" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line2= line2Valid + "+")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 2 £" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line2= line2Valid + "£")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 2 ^" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line2= line2Valid + "^")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "accept and redirect when line2 contains ," in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line2 = line2Valid + ",")
+
+      // Assert
+      assert(page.title equals VehicleLookupPage.title)
+    }
+
+    "accept and redirect when line2 contains ." in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line2 = line2Valid + ".")
+
+      // Assert
+      assert(page.title equals VehicleLookupPage.title)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 3 !" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line3= line3Valid + "?")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 3 %" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line3= line3Valid + "%")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 3 /" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line3= line3Valid + "/")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 3 +" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line3= line3Valid + "+")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 3 £" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line3= line3Valid + "£")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 3 ^" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line3= line3Valid + "^")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "accept and redirect when line3 contains ," in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line3 = line3Valid + ",")
+
+      // Assert
+      assert(page.title equals VehicleLookupPage.title)
+    }
+
+    "accept and redirect when line3 contains ." in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line3 = line3Valid + ".")
+
+      // Assert
+      assert(page.title equals VehicleLookupPage.title)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 4 !" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line4= line4Valid + "?")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+
+    "display one validaton error message when an invalid character is entered into address line 4 %" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line4= line4Valid + "%")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 4 /" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line4= line4Valid + "/")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 4 +" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line4= line4Valid + "+")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 4 £" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line4= line4Valid + "£")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validaton error message when an invalid character is entered into address line 4 ^" in new WebBrowser {
+      //Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line4= line4Valid + "^")
+
+      // Assert
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "accept and redirect when line4 contains ," in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line4 = line4Valid + ",")
+
+      // Assert
+      assert(page.title equals VehicleLookupPage.title)
+    }
+
+    "accept and redirect when line4 contains ." in new WebBrowser {
+      // Arrange & Act
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line4 = line4Valid + ".")
+
+      // Assert
+      assert(page.title equals VehicleLookupPage.title)
+    }
+
   }
 }
