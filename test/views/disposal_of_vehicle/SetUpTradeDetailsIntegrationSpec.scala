@@ -244,7 +244,7 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
-    "add aria required attribute to dealer name field when required field not input" in new WebBrowser {
+    "add aria required attribute to trader name field when required field not input" in new WebBrowser {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver,traderBusinessName = "" )
 
@@ -252,12 +252,28 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       assert(Accessibility.ariaRequiredPresent(webDriver,"dealerName") equals true)
     }
 
-    "add aria invalid attribute to dealer name field when invalid characters input on field" in new WebBrowser {
+    "add aria invalid attribute to trader name field when invalid characters input on field" in new WebBrowser {
       // Arrange & Act
       SetupTradeDetailsPage.happyPath(webDriver,traderBusinessName = "$£%&" )
 
       // Assert
       assert(Accessibility.ariaInvalidPresent(webDriver,"dealerName") equals true)
+    }
+
+    "add aria required attribute to trader postcode field when required field not input" in new WebBrowser {
+      // Arrange & Act
+      SetupTradeDetailsPage.happyPath(webDriver,traderPostcode = "" )
+
+      // Assert
+      assert(Accessibility.ariaRequiredPresent(webDriver,"dealerPostcode") equals true)
+    }
+
+    "add aria invalid attribute to trader postcode field when invalid characters input on field" in new WebBrowser {
+      // Arrange & Act
+      SetupTradeDetailsPage.happyPath(webDriver,traderPostcode = "$£%&" )
+
+      // Assert
+      assert(Accessibility.ariaInvalidPresent(webDriver,"dealerPostcode") equals true)
     }
   }
 }
