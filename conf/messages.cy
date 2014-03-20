@@ -163,7 +163,6 @@ disposal_businessChooseYourAddress_title = Dewiswch eich cyfeiriad masnach
 disposal_businessChooseYourAddress_legend = Manylion sefydlu masnach
 disposal_businessChooseYourAddress_businessName_label = Enw masnachwr
 disposal_businessChooseYourAddress_businessName = {0}
-disposal_businessChooseYourAddress_businessEmail_label = E-bost masnachwr
 disposal_businessChooseYourAddress_businessAddress_label = Gyfeiriad masnachwr
 disposal_businessChooseYourAddress_addressSelect = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress_addressSelect_label = Dewiswch eich cyfeiriad
@@ -220,7 +219,6 @@ disposal_vehiclelookup.button = Dod o hyd i
 disposal_vehiclelookup.button2 = Golygu
 disposal_vehiclelookup.tradernamelabel = Enw masnachwr
 disposal_vehiclelookup.traderaddresslabel = Gyfeiriad masnachwr
-disposal_vehiclelookup.traderemaillabel = Cadarnhad
 
 disposal_dispose.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion
 disposal_dispose.vehicledetails = Manylion y cerbyd
@@ -264,6 +262,7 @@ disposal_disposeconfirmation.newdisposalbutton = Gwaredu Newydd
 disposal_disposeconfirmation.disposaldate = Dyddiad gwaredu
 disposal_disposeconfirmation.mileage = Milltiroedd
 disposal_disposeconfirmation.noMileageEntered = Naddo milltiroedd gofnodi
+disposal_disposeconfirmation.exitbutton = Gadael
 
 disposal_vehiclelookupfailure.title = Cael gwared cerbyd i mewn i'r fasnach foduron: methiant Gwrthdro-edrych gerbyd
 disposal_vehiclelookupfailure.name = Methiant

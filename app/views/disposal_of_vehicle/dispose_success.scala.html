@@ -77,7 +77,13 @@
 		@{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
     	<div class="form-steps">
     		<a id="newDisposal" class="button" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present">@Messages("disposal_disposeconfirmation.newdisposalbutton")</a>
+    		<a id="exitDisposal" class="button" href="/">@Messages("disposal_disposeconfirmation.exitbutton")</a>
     		<a class="button-not-implemented" aria-disabled="true">@Messages("global.buttonnavprint")</a>
+    		
+    		<br />
+    		
+    		@{ /* URL tbc */}
+    		<a href="#" class="button-text">Survey</a>
     		
         </div>
             
