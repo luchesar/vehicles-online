@@ -15,11 +15,11 @@ object ApplicationBuild extends Build {
     cache,
     "org.seleniumhq.selenium" % "selenium-java" % "2.40.0" % "test" withSources() withJavadoc(),
     "com.github.detro.ghostdriver" % "phantomjsdriver" % "1.1.0" % "test" withSources() withJavadoc(),
-    "org.specs2" %% "specs2" % "2.3.7" % "test" withSources() withJavadoc(),
+    "org.specs2" %% "specs2" % "2.3.10" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
-    "org.scalatest" % "scalatest_2.10" % "2.0" % "test",
-    "com.google.inject" % "guice" % "3.0",
-    "com.tzavellas" % "sse-guice" % "0.7.1" // Scala DSL for Guice
+    "org.scalatest" % "scalatest_2.10" % "2.1.1" % "test" withSources() withJavadoc(),
+    "com.google.inject" % "guice" % "4.0-beta" withSources() withJavadoc(),
+    "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc() // Scala DSL for Guice
   )
 
   val sOrg = Seq(organization := "Driver & Vehicle Licensing Agency")
