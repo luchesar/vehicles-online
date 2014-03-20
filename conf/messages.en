@@ -19,8 +19,10 @@ global.buttonnavcancel = Cancel
 global.buttonnavupdate = Update
 global.buttonnavprint = Print
 
-footer.helpdesk = Helpdesk
-footer.privacypolicy = Privacy & Cookies
+footer.helpdesk = Help
+footer.privacypolicy = Cookies
+footer.contact = Contact
+footer.welsh = Cymraeg
 footer.builtbyintro = Built by
 footer.builtby = Driver & Vehicle Licensing Agency
 
@@ -185,7 +187,8 @@ prototype.link = Find out more
 #page 1 - Before You Start
 disposal_beforeyoustart.title = Sell a vehicle into the motor trade
 disposal_beforeyoustart.p1 = Before you start:
-disposal_beforeyoustart.listitem1 = You will need the most recent vehicle registration certificate (V5C) to sell the vehicle. There must be no changes needed to the V5C and the name and address of the registered keeper must be up to date and correct. You can check this information using the Vehicle Enquiry Service (VES). 
+disposal_beforeyoustart.listitem1 = You will need the most recent vehicle registration certificate (V5C) to sell the vehicle. There must be no changes needed to the V5C and the name and address of the registered keeper must be up to date and correct. You can check this information using the
+disposal_beforeyoustart.listitem1linktext = Vehicle Enquiry Service (VES)
 
 disposal_beforeyoustart.listitem2 = If the vehicle being sold has a personal registration number, the keeper must understand that the registration number will be sold with the vehicle. If the keeper wants to keep the personal registration number, they must firstly retain or transfer it to another vehicle.
 
@@ -248,7 +251,7 @@ disposal_vehiclelookup.p1 = Vehicle being sold
 disposal_vehiclelookup.p2 = Vehicle disposed to
 disposal_vehiclelookup.warning.p1 = Do not dispose of a vehicle with a personal registration unless the current keeper understands that the registration will be disposed of along with the vehicle.
 disposal_vehiclelookup.warning.p2 = Retain or transfer personal registrations before disposing to the trade.
-disposal_vehiclelookup.refnumlabel = Document reference number
+disposal_vehiclelookup.refnumlabel = Latest doc reference number
 disposal_vehiclelookup.refnumlabel.refNumIncorrect = You must enter a number with a length of 11 digits
 disposal_vehiclelookup.vrninputlabel = Vehicle registration number
 disposal_vehiclelookup.consent = I have the consent of the current keeper to dispose of this vehicle
@@ -322,6 +325,7 @@ disposal_vehiclelookupfailure.button2 = Setup New Trader Details
 error.address.line1Required = Address needs at least the house number / house name filled in
 addressAndPostcode.addressLines.line1 = House number / House name
 error.address.maxLengthOfLinesConcatenated = Address must have fewer than 130 characters
+error.address.characterinvalid = Invalid characters are not allowed
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
 error.validTraderBusinessName = Invalid characters are not allowed

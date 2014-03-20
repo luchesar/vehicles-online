@@ -77,9 +77,18 @@
 			width:190px;
 			font-weight: bold;
 			clear:left;
+			
+			@media screen and (max-width: $device-small) {
+				padding-top:0;
+				margin-bottom:0;
+			}
 		}
 		dd {
 			overflow: hidden;
+			
+			@media screen and (max-width: $device-small) {
+				clear:both;
+			}
 		}
 	}
 	

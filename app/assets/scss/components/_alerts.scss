@@ -53,6 +53,7 @@
 	    margin-bottom:0.4em;
 	  }
 	  .emphasized {
+	  	word-break: break-all;
 		  @include bold-24;
 		  display: block;
 	  }
