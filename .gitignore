@@ -44,4 +44,7 @@ dist
 /bin
 test.sc
 *.worksheet
-/conf/vehiclesOnline.conf
+/conf/vehiclesOnline.confworkdir/
+vagrant_ansible_inventory_default
+.vagrant
+workdir/
