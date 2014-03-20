@@ -1,23 +1,31 @@
 package models.domain.disposal_of_vehicle
 
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
+import mappings.disposal_of_vehicle.EnterAddressManually._
 
 case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcodeModel) {
   def stripPunctuation = {
-    val line1Stripped = addressAndPostcodeModel.addressLinesModel.line1.replace(",", "")
+
+    val line1Stripped = addressAndPostcodeModel.addressLinesModel.line1.replace(invalidCharacter1, StringEmpty)replace(invalidCharacter2, StringEmpty)
 
     val line2Stripped = addressAndPostcodeModel.addressLinesModel.line2 match {
-      case Some(line) => Some(line.replace(",", ""))
+      case Some(line) => {
+        Some(line.replace(invalidCharacter1, StringEmpty).replace(invalidCharacter2, StringEmpty))
+      }
       case _ => None
     }
 
     val line3Stripped = addressAndPostcodeModel.addressLinesModel.line3 match {
-      case Some(line) => Some(line.replace(",", ""))
+      case Some(line) => {
+        Some(line.replace(invalidCharacter1, StringEmpty).replace(invalidCharacter2, StringEmpty))
+      }
       case _ => None
     }
 
     val line4Stripped = addressAndPostcodeModel.addressLinesModel.line4 match {
-      case Some(line) => Some(line.replace(",", ""))
+      case Some(line) => {
+        Some(line.replace(invalidCharacter1, StringEmpty).replace(invalidCharacter2, StringEmpty))
+      }
       case _ => None
     }
 
