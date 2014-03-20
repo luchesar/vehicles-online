@@ -308,8 +308,9 @@ select_default = Dewiswch
 error.invalid = Gwerth annilys
 
 error.address.line1Required = Mae angen o leiaf y llinell gyntaf lenwi gyfeiriad
-addressAndPostcode.addressLines.line1 = WELSH House number
-error.address.maxLengthOfLinesConcatenated = WELSH Address must have fewer than 130 characters
+addressAndPostcode.addressLines.line1 = Rhif y ty / Enw ty
+error.address.maxLengthOfLinesConcatenated = Mae'n rhaid i gyfeiriad gael llai na 130 nod
+error.address.characterinvalid = Nid yw nodau annilys chaniateir
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post
 error.validTraderBusinessName = Nid yw nodau annilys chaniateir

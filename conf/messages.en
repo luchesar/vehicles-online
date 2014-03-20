@@ -325,6 +325,7 @@ disposal_vehiclelookupfailure.button2 = Setup New Trader Details
 error.address.line1Required = Address needs at least the house number / house name filled in
 addressAndPostcode.addressLines.line1 = House number / House name
 error.address.maxLengthOfLinesConcatenated = Address must have fewer than 130 characters
+error.address.characterinvalid = Invalid characters are not allowed
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
 error.validTraderBusinessName = Invalid characters are not allowed
