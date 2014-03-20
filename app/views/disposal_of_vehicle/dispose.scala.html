@@ -29,10 +29,10 @@
                 <dd>@data.vehicleMake</dd>
                 <dt>@Messages("disposal_dispose.vehiclemodel")</dt>
                 <dd>@data.vehicleModel</dd>
-                <dt>@Messages("disposal_dispose.vehiclekeeper")</dt>
                 
                 @{/*
                 	Removed in changes 19/3/14
+                <dt>@Messages("disposal_dispose.vehiclekeeper")</dt>
                 <dd>
                     @data.keeperName<br />
                     @for(addr <- data.keeperAddress.address) {@addr<br/>}
@@ -40,6 +40,10 @@
                 */}
                 
             </dl>
+            
+            <div class="alert-warning">
+            	<p>If the details above do not match the vehicle to be sold, please <a href="https://www.gov.uk/contact">contact the DVLA.</a></p>
+            </div>
             
             @valtechInputText(disposeForm(mileageId), args =
             Map('_label -> Messages("disposal_dispose.mileage.label"),

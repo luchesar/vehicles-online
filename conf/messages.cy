@@ -15,8 +15,10 @@ global.buttonnavcancel = Ganslo
 global.buttonnavupdate = Diweddariad
 global.buttonnavprint = Print
 
-footer.helpdesk = Desg Gymorth
-footer.privacypolicy = Preifatrwydd & Cwcis
+footer.helpdesk = Gymorth
+footer.privacypolicy = Cwcis
+footer.contact = Cyswllt
+footer.welsh = Cymraeg
 footer.builtbyintro = Adeiladwyd gan
 footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
 
