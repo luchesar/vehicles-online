@@ -108,8 +108,8 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-    "display one validation error message when a trader name is entered containing ?" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "?")
+    "display one validation error message when a trader name is entered containing \"" in new WebBrowser {
+      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "\"")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
@@ -120,8 +120,32 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-    "display one validation error message when a trader name is entered containing ?" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "?")
+    "display one validation error message when a trader name is entered containing £" in new WebBrowser {
+      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "£")
+
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validation error message when a trader name is entered containing $" in new WebBrowser {
+      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "$")
+
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validation error message when a trader name is entered containing %" in new WebBrowser {
+      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "%")
+
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validation error message when a trader name is entered containing ^" in new WebBrowser {
+      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "^")
+
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
+    "display one validation error message when a trader name is entered containing _" in new WebBrowser {
+      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "_")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
@@ -134,6 +158,12 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
 
     "display no error messages when a trader name is entered containing a captial letter" in new WebBrowser {
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "W")
+
+      assert(page.title equals BusinessChooseYourAddressPage.title)
+    }
+
+    "display no error messages when a trader name is entered containing '" in new WebBrowser {
+      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "'")
 
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
