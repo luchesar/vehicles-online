@@ -9,7 +9,6 @@ class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
 
   "UprnNotFound Integration" should {
     "be presented" in new WebBrowser {
-      // Arrange & Act
       go to UprnNotFoundPage
 
       assert(page.title equals UprnNotFoundPage.title)
@@ -18,7 +17,6 @@ class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
     "go to setuptradedetails page after the Setup Trade Details button is clicked" in new WebBrowser {
       go to UprnNotFoundPage
 
-      // Act
       click on UprnNotFoundPage.setupTradeDetails
 
       assert(page.title equals SetupTradeDetailsPage.title)
@@ -28,7 +26,6 @@ class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       go to UprnNotFoundPage
 
-      // Act
       click on UprnNotFoundPage.manualAddress
 
       assert(page.title equals EnterAddressManuallyPage.title)
@@ -38,7 +35,6 @@ class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
     "go to setuptradedetails page after the Manual Address button is clicked and trade details have not been set up in cache" in new WebBrowser {
       go to UprnNotFoundPage
 
-      // Act
       click on UprnNotFoundPage.manualAddress
 
       assert(page.title equals SetupTradeDetailsPage.title)

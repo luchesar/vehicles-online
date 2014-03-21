@@ -8,7 +8,6 @@ import helpers.UiSpec
 class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
   "VehicleLookupFailureIntegration" should {
     "be presented" in new WebBrowser {
-      //Arrange & Act
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleLookupFormModel()
       go to VehicleLookupFailurePage
@@ -17,15 +16,12 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
     }
 
     "redirect to setuptrade details if cache is empty on page load" in new WebBrowser {
-      //Arrange & Act
       go to VehicleLookupFailurePage
 
-      //Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
     "redirect to setuptrade details if only VehicleLookupFormModelCache is populated" in new WebBrowser {
-      // Arrange & Act
       CacheSetup.vehicleLookupFormModel()
       go to VehicleLookupFailurePage
 
@@ -33,7 +29,6 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
     }
 
     "redirect to setuptrade details if only BusinessChooseYourAddress cache is populated" in new WebBrowser {
-      // Arrange & Act
       CacheSetup.businessChooseYourAddress()
       go to VehicleLookupFailurePage
 
@@ -45,7 +40,6 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
       CacheSetup.vehicleLookupFormModel()
       go to VehicleLookupFailurePage
 
-      // Act
       click on VehicleLookupFailurePage.vehicleLookup
 
       assert(page.title equals VehicleLookupPage.title)
@@ -56,7 +50,6 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
       CacheSetup.vehicleLookupFormModel()
       go to VehicleLookupFailurePage
 
-      // Act
       click on VehicleLookupFailurePage.setupTradeDetails
 
       assert(page.title equals SetupTradeDetailsPage.title)
