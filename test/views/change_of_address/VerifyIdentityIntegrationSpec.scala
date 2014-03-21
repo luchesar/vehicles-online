@@ -8,7 +8,6 @@ class VerifyIdentityIntegrationSpec extends UiSpec with TestHarness {
 
   "VerifyIdentity Integration" should {
     "be presented" in new WebBrowser {
-      // Arrange & Act
       go to VerifyIdentityPage
 
       assert(page.title equals VerifyIdentityPage.title)
@@ -17,7 +16,6 @@ class VerifyIdentityIntegrationSpec extends UiSpec with TestHarness {
     "go to next page after the button is clicked" in new WebBrowser {
       go to VerifyIdentityPage
 
-      // Act
       click on VerifyIdentityPage.existingIdentityProfile
 
       assert(page.title equals AreYouRegisteredPage.title)

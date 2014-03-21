@@ -9,7 +9,6 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
   "DisposeFailureIntegration" should {
 
     "be presented" in new WebBrowser {
-      // Arrange & Act
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       CacheSetup.disposeFormModel()
@@ -21,10 +20,8 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect to setuptrade details if cache is empty on page load" in new WebBrowser {
-      //Arrange & Act
       go to DisposeFailurePage.url
 
-      //Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
@@ -36,7 +33,6 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.vehicleRegistrationNumber()
       go to DisposeFailurePage.url
 
-      // Act
       click on DisposeFailurePage.vehiclelookup
 
       assert(page.title equals VehicleLookupPage.title)
@@ -50,7 +46,6 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.vehicleRegistrationNumber()
       go to DisposeFailurePage.url
 
-      // Act
       click on DisposeFailurePage.setuptradedetails
 
       assert(page.title equals SetupTradeDetailsPage.title)

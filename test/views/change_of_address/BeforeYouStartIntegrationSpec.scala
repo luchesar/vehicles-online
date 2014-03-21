@@ -9,7 +9,6 @@ class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
   "BeforeYouStart Integration" should {
     "be presented" in new WebBrowser {
-      // Arrange & Act
       go to BeforeYouStartPage
 
       assert(page.title equals BeforeYouStartPage.title)
@@ -18,7 +17,6 @@ class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
     "go to next page after the button is clicked" in new WebBrowser {
       go to BeforeYouStartPage
 
-      // Act
       click on BeforeYouStartPage.startNow
 
       assert(page.title equals KeeperStatusPage.title)

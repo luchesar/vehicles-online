@@ -8,19 +8,17 @@ class KeeperStatusIntegrationSpec extends UiSpec with TestHarness {
 
     "KeeperStatus Integration" should {
       "be presented" in new WebBrowser {
-        // Arrange & Act
         go to KeeperStatusPage
 
-          assert(page.title equals KeeperStatusPage.title)
+        assert(page.title equals KeeperStatusPage.title)
       }
 
       "go to next page after the button is clicked" in new WebBrowser {
-          go to KeeperStatusPage
+        go to KeeperStatusPage
 
-        // Act
         click on KeeperStatusPage.privateIndividual
 
-          assert(page.title equals VerifyIdentityPage.title)
+        assert(page.title equals VerifyIdentityPage.title)
       }
     }
   }

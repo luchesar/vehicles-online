@@ -8,7 +8,6 @@ class SignInProviderIntegrationSpec extends UiSpec with TestHarness{
 
   "SignInProvider Integration" should {
     "be presented" in new WebBrowser {
-      // Arrange & Act
       go to SignInProviderPage
 
       assert(page.title equals SignInProviderPage.title)
@@ -17,7 +16,6 @@ class SignInProviderIntegrationSpec extends UiSpec with TestHarness{
     "go to next page after the button is clicked" in new WebBrowser {
       go to SignInProviderPage
 
-      // Act
       click on SignInProviderPage.postOffice
 
       assert(page.title equals LoginPage.title)

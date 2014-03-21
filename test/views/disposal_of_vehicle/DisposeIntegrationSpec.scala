@@ -12,7 +12,6 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
   "Dispose Integration" should {
 
     "be presented" in new WebBrowser {
-      // Arrange & Act
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
@@ -21,13 +20,11 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display DisposeSuccess page on correct submission" in new WebBrowser {
-      //Arrange & Act
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       CacheSetup.vehicleLookupFormModel()
       DisposePage.happyPath
 
-      //Assert
       assert(page.title equals DisposeSuccessPage.title)
     }
 
@@ -40,7 +37,6 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect when no VehicleLookupFormModel is cached" in new WebBrowser {
-      // Arrange & Act
       CacheSetup.businessChooseYourAddress()
       go to DisposePage.url
 
@@ -48,7 +44,6 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect when no traderBusinessName is cached" in new WebBrowser {
-      // Arrange & Act
       go to DisposePage.url
 
       assert(page.title equals SetupTradeDetailsPage.title)
@@ -59,7 +54,6 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
 
-      //Act
       DisposePage.dateOfDisposalMonth select "12"
       DisposePage.dateOfDisposalYear enter "2013"
       click on DisposePage.dispose
@@ -72,7 +66,6 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
 
-      //Act
       DisposePage.dateOfDisposalDay select "12"
       DisposePage.dateOfDisposalYear enter "2013"
       click on DisposePage.dispose
@@ -85,7 +78,6 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
 
-      //Act
       DisposePage.dateOfDisposalDay select "12"
       DisposePage.dateOfDisposalMonth select "2"
       click on DisposePage.dispose
@@ -94,7 +86,6 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display previous page when back link is clicked" in new WebBrowser {
-      // Arrange & Act
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url

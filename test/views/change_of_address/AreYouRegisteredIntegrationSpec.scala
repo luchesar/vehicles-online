@@ -8,7 +8,6 @@ class AreYouRegisteredIntegrationSpec extends UiSpec with TestHarness {
 
   "AreYouRegistered Integration" should {
     "be presented" in new WebBrowser {
-      // Arrange & Act
       go to AreYouRegisteredPage
 
       assert(page.title equals AreYouRegisteredPage.title)
@@ -17,7 +16,6 @@ class AreYouRegisteredIntegrationSpec extends UiSpec with TestHarness {
     "go to next page after the button is clicked" in new WebBrowser {
       go to AreYouRegisteredPage
 
-      // Act
       click on AreYouRegisteredPage.signIn
 
       assert(page.title equals SignInProviderPage.title)
