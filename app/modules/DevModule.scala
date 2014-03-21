@@ -19,8 +19,8 @@ object DevModule extends ScalaModule {
   def configure() {
     Logger.debug("Guice is loading DevModule")
 
-    //ordnanceSurveyAddressLookup()
-    gdsAddressLookup()
+    ordnanceSurveyAddressLookup()
+//    gdsAddressLookup()
     bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton
     bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton
   }
