@@ -15,8 +15,6 @@ object TestModule extends ScalaModule {
 
     val fakeWebServiceImpl = new FakeWebServiceImpl()
 
-    bind[V5cSearchWebService].to[FakeV5cSearchWebService]
-    bind[LoginWebService].to[FakeLoginWebService]
     bind[AddressLookupService].to[FakeAddressLookupService]
     bind[WebService].toInstance(fakeWebServiceImpl)
     bind[VehicleLookupService].to[FakeVehicleLookupService].asEagerSingleton

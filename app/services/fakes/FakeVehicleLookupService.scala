@@ -1,8 +1,7 @@
 package services.fakes
 
-import services.{VehicleLookupService, LoginWebService}
+import services.VehicleLookupService
 import models.domain.disposal_of_vehicle.{VehicleDetailsModel, VehicleDetailsResponse, VehicleLookupFormModel, AddressViewModel}
-import models.domain.change_of_address.{LoginConfirmationModel, LoginResponse, LoginPageModel}
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 

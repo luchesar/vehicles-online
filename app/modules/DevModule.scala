@@ -4,7 +4,6 @@ import com.tzavellas.sse.guice.ScalaModule
 import play.api.Logger
 import services._
 import services.address_lookup.AddressLookupService
-import services.address_lookup.ordnance_survey.WebServiceImpl
 
 /**
  * Provides real implementations of traits
@@ -20,8 +19,6 @@ object DevModule extends ScalaModule {
   def configure() {
     Logger.debug("Guice is loading DevModule")
 
-    bind[V5cSearchWebService].to[V5cSearchWebServiceImpl].asEagerSingleton
-    bind[LoginWebService].to[LoginWebServiceImpl].asEagerSingleton
     //ordnanceSurveyAddressLookup()
     gdsAddressLookup()
     bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton
