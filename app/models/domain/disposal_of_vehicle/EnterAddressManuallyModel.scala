@@ -25,6 +25,29 @@ case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcode
     }
   }
 
+  /* TODO - discuss use of below code to remove multiple commas and full stops from end of address
+  def stripEndOfLineRequiredFieldLoop(inputline:String): String = {
+    var line = inputline
+    while (line.takeRight(1) == "," || line.takeRight(1) == ".") {
+      line = line.dropRight(1)
+    }
+    return line
+  }
+
+  def stripEndOfLineOptionalFieldLoop(inputline:Option[String]): Option[String] = {
+    inputline match {
+      case Some(inputline) => {
+        var line = inputline
+        while (line.takeRight(1) == "," || line.takeRight(1) == ".") {
+          line = line.dropRight(1)
+        }
+        return Some(line)
+        }
+      case _ => None
+    }
+  }
+  */
+
   def stripCharsNotAccepted = {
 
     val line1 = stripEndOfLineRequiredField(addressAndPostcodeModel.addressLinesModel.line1)
