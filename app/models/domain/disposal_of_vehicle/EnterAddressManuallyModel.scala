@@ -13,7 +13,6 @@ case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcode
     val line3Stripped = stripLineOptionalField(addressAndPostcodeModel.addressLinesModel.line3, charsNotAccepted)
     val line4Stripped = stripLineOptionalField(addressAndPostcodeModel.addressLinesModel.line4, charsNotAccepted)
 
-    copy(addressAndPostcodeModel =
-      addressAndPostcodeModel.copy(addressLinesModel = AddressLinesModel(line1Stripped, line2Stripped, line3Stripped, line4Stripped)))
+    copy(addressAndPostcodeModel = addressAndPostcodeModel.copy(addressLinesModel = AddressLinesModel(line1Stripped, line2Stripped, line3Stripped, line4Stripped)))
  }
 }
