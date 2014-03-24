@@ -92,13 +92,13 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
 
-    "submit removes commas and full stops from address" in new WithApplication {
+    "submit removes commas and full stops from the end of each address line" in new WithApplication {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> "my,house.",
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> "my,street.",
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> "my,area.",
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> "my,town.",
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> "my house,",
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> "my street.",
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> "my area.",
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> "my town,",
         s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
 
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
@@ -106,7 +106,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       whenReady(result) {
         r => controllers.disposal_of_vehicle.Helpers.fetchDealerDetailsFromCache match {
           case Some(f) => {
-            f.dealerAddress.address should equal (List("myhouse", "mystreet", "myarea", "mytown", "CM81QJ"))
+            f.dealerAddress.address should equal (List("my house", "my street", "my area", "my town", "CM81QJ"))
           }
           case _ => fail("Should have found model in the cache")
         }
