@@ -40,17 +40,15 @@ class DisposeUnitSpec extends UnitSpec {
          CacheSetup.vehicleDetailsModel()
          CacheSetup.vehicleLookupFormModel()
 
-         val request = FakeRequest().withSession()
-           .withFormUrlEncodedBody(
-             mileageId -> mileageValid,
-             s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
-             s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
-             s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid
-           )
+         val request = FakeRequest().withSession().withFormUrlEncodedBody(
+          mileageId -> mileageValid,
+          s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
+          s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
+          s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid)
 
          val result = dispose.submit(request)
 
-            redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
+         redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
        }
 
     "redirect to dispose error when a fail message is returned by the fake microservice" in new WithApplication {
@@ -65,13 +63,11 @@ class DisposeUnitSpec extends UnitSpec {
       CacheSetup.vehicleDetailsModel()
       CacheSetup.disposeModel()
 
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(
-          mileageId -> mileageValid,
-          s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
-          s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
-          s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid
-        )
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        mileageId -> mileageValid,
+        s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
+        s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
+        s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid)
 
       val result = dispose.submit(request)
 
@@ -82,12 +78,11 @@ class DisposeUnitSpec extends UnitSpec {
     "redirect to setupTradeDetails page after the dispose button is clicked and no vehicleLookupFormModel is cached" in new WithApplication {
       CacheSetup.setupTradeDetails()
 
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(
-          mileageId -> mileageValid,
-          s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
-          s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
-          s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid)
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        mileageId -> mileageValid,
+        s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
+        s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
+        s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid)
 
       val result = dispose.submit(request)
 
@@ -106,8 +101,7 @@ class DisposeUnitSpec extends UnitSpec {
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
 
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody()
+      val request = FakeRequest().withSession().withFormUrlEncodedBody()
 
       val result = dispose.submit(request)
 
@@ -115,8 +109,7 @@ class DisposeUnitSpec extends UnitSpec {
     }
 
     "redirect to setupTradeDetails page when form submitted with errors and previous pages have not been visited" in new WithApplication {
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody()
+      val request = FakeRequest().withSession().withFormUrlEncodedBody()
 
       val result = dispose.submit(request)
 
@@ -128,13 +121,11 @@ class DisposeUnitSpec extends UnitSpec {
       CacheSetup.vehicleDetailsModel()
       CacheSetup.vehicleLookupFormModel()
 
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(
-          mileageId -> mileageValid,
-          s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
-          s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
-          s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid
-        )
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        mileageId -> mileageValid,
+        s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
+        s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
+        s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid)
 
       val disposeResponseThrows = mock[DisposeResponse]
       when(disposeResponseThrows.success).thenThrow(new RuntimeException("expected by DisposeUnitSpec"))

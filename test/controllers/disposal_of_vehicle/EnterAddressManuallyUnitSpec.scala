@@ -29,8 +29,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "return bad request when no data is entered" in new WithApplication {
       CacheSetup.setupTradeDetails()
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody()
+      val request = FakeRequest().withSession().withFormUrlEncodedBody()
 
       val result =  disposal_of_vehicle.EnterAddressManually.submit(request)
 
@@ -39,12 +38,11 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "return bad request when a valid address is entered without a postcode" in new WithApplication {
       CacheSetup.setupTradeDetails()
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> line2Valid,
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3Valid,
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4Valid)
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> line2Valid,
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3Valid,
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4Valid)
 
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
@@ -53,8 +51,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "return bad request a valid postcode is entered without an address" in new WithApplication {
       CacheSetup.setupTradeDetails()
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
 
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
@@ -72,13 +69,12 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "redirect to Dispose after a valid submission of all fields" in new WithApplication {
       CacheSetup.setupTradeDetails()
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> line2Valid,
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3Valid,
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4Valid,
-          s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> line2Valid,
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3Valid,
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4Valid,
+        s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
 
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
@@ -87,8 +83,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "redirect to Dispose after a valid submission of mandatory fields only" in new WithApplication {
       CacheSetup.setupTradeDetails()
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
           s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
 
@@ -99,13 +94,12 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "submit removes commas and full stops from address" in new WithApplication {
       CacheSetup.setupTradeDetails()
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> "my,house.",
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> "my,street.",
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> "my,area.",
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> "my,town.",
-          s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> "my,house.",
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> "my,street.",
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> "my,area.",
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> "my,town.",
+        s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
 
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
@@ -120,13 +114,12 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "redirect to SetupTraderDetails page when valid submit with no dealer name cached" in new WithApplication {
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> line2Valid,
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3Valid,
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4Valid,
-          s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> line2Valid,
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3Valid,
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4Valid,
+        s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
 
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
@@ -134,8 +127,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "redirect to SetupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody()
+      val request = FakeRequest().withSession().withFormUrlEncodedBody()
 
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 

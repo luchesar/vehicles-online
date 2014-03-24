@@ -32,8 +32,8 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "redirect to VehicleLookup page after a valid submit" in new WithApplication {
       CacheSetup.setupTradeDetails()
 
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(addressSelectId -> "1234")
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        addressSelectId -> "1234")
 
       val result = businessChooseYourAddress.submit(request)
 
@@ -43,8 +43,7 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "return a bad request after no submission" in new WithApplication {
       CacheSetup.setupTradeDetails()
 
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody()
+      val request = FakeRequest().withSession().withFormUrlEncodedBody()
 
       val result = businessChooseYourAddress.submit(request)
 
@@ -54,8 +53,8 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "return a bad request after a blank submission" in new WithApplication {
       CacheSetup.setupTradeDetails()
 
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(addressSelectId -> "")
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        addressSelectId -> "")
 
       val result = businessChooseYourAddress.submit(request)
 
@@ -72,8 +71,8 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "redirect to setupTradeDetails page when valid submit with no dealer name cached" in new WithApplication {
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(addressSelectId -> "1234")
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        addressSelectId -> "1234")
 
       val result = businessChooseYourAddress.submit(request)
 
@@ -81,8 +80,8 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "redirect to setupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(addressSelectId -> "")
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        addressSelectId -> "")
 
       val result = businessChooseYourAddress.submit(request)
 
@@ -91,8 +90,8 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
     "redirect to UprnNotFound page when Uprn returns no match on submit" in new WithApplication {
       CacheSetup.setupTradeDetails()
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(addressSelectId -> "9999")
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        addressSelectId -> "9999")
 
       val result = businessChooseYourAddress.submit(request)
 
