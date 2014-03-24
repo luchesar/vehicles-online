@@ -8,8 +8,6 @@ case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcode
     inputline.takeRight(1) match {
       case (",") => inputline.dropRight(1)
       case (".") => inputline.dropRight(1)
-      case (",.") => inputline.dropRight(2)
-      case (".,") => inputline.dropRight(2)
       case _ => inputline
     }
   }
@@ -20,8 +18,6 @@ case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcode
         inputline.takeRight(1) match {
           case (",") => Some(inputline.dropRight(1))
           case (".") => Some(inputline.dropRight(1))
-          case (",.") => Some(inputline.dropRight(2))
-          case (".,") => Some(inputline.dropRight(2))
           case _ => Some(inputline)
         }
       }
