@@ -35,8 +35,10 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "redirect to Dispose after a valid submit and true message returned from the fake microservice" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
 
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(referenceNumberId -> referenceNumberValid, registrationNumberId -> registrationNumberValid, consentId -> consentValid)
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        referenceNumberId -> referenceNumberValid,
+        registrationNumberId -> registrationNumberValid,
+        consentId -> consentValid)
 
       val result = vehicleLookupSuccess.submit(request)
 
@@ -46,8 +48,10 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "submit removes spaces from registrationNumber" in new WithApplication { // DE7 Spaces should be stripped
       CacheSetup.businessChooseYourAddress()
 
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(referenceNumberId -> referenceNumberValid, registrationNumberId -> "9999 AAA", consentId -> consentValid)
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        referenceNumberId -> referenceNumberValid,
+        registrationNumberId -> "9999 AAA",
+        consentId -> consentValid)
 
       val result = vehicleLookupSuccess.submit(request)
 
@@ -69,8 +73,10 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
       CacheSetup.businessChooseYourAddress()
 
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(referenceNumberId -> referenceNumberValid, registrationNumberId -> registrationNumberValid, consentId -> consentValid)
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        referenceNumberId -> referenceNumberValid,
+        registrationNumberId -> registrationNumberValid,
+        consentId -> consentValid)
 
       val result = vehicleLookupFailure.submit(request)
 
@@ -88,8 +94,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "return a bad request if no details are entered" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
 
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody()
+      val request = FakeRequest().withSession().withFormUrlEncodedBody()
 
       val result = vehicleLookupSuccess.submit(request)
 
@@ -99,8 +104,9 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "return a bad request if empty strings are entered" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
 
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(referenceNumberId -> "", registrationNumberId -> "")
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        referenceNumberId -> "",
+        registrationNumberId -> "")
 
       val result = vehicleLookupSuccess.submit(request)
 
@@ -110,8 +116,8 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "return a bad request if only ReferenceNumber is entered" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
 
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(referenceNumberId -> referenceNumberValid)
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        referenceNumberId -> referenceNumberValid)
 
       val result = vehicleLookupSuccess.submit(request)
 
@@ -121,8 +127,8 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "return a bad request if only RegistrationNumber is entered" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
 
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(registrationNumberId -> registrationNumberValid)
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        registrationNumberId -> registrationNumberValid)
 
       val result = vehicleLookupSuccess.submit(request)
 
@@ -132,8 +138,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "redirect to EnterAddressManually when back button is pressed and there is no uprn" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
 
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody()
+      val request = FakeRequest().withSession().withFormUrlEncodedBody()
 
       val result = vehicleLookupSuccess.back(request)
 
@@ -143,8 +148,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "redirect to BusinessChooseYourAddress when back button is pressed and there is a uprn" in new WithApplication {
       CacheSetup.businessChooseYourAddress(addressWithUprn)
 
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody()
+      val request = FakeRequest().withSession().withFormUrlEncodedBody()
 
       val result = vehicleLookupSuccess.back(request)
 
@@ -154,8 +158,10 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "redirect to SetUpTradeDetails when back button and the user has completed the vehicle lookup form " in new WithApplication {
       CacheSetup.businessChooseYourAddress(addressWithUprn)
 
-      val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody(referenceNumberId -> referenceNumberValid, registrationNumberId -> registrationNumberValid, consentId -> consentValid)
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        referenceNumberId -> referenceNumberValid,
+        registrationNumberId -> registrationNumberValid,
+        consentId -> consentValid)
 
       val result = vehicleLookupSuccess.back(request)
 
