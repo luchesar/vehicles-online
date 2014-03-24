@@ -109,11 +109,9 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
-
       whenReady(result) {
         r => controllers.disposal_of_vehicle.Helpers.fetchDealerDetailsFromCache match {
           case Some(f) => {
-            println(f.dealerAddress.address)
             f.dealerAddress.address should equal (List("myhouse", "mystreet", "myarea", "mytown", "CM81QJ"))
           }
           case _ => fail("Should have found model in the cache")
@@ -137,7 +135,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "redirect to SetupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
       val request = FakeRequest().withSession()
-        .withFormUrlEncodedBody() //Empty form submission
+        .withFormUrlEncodedBody()
 
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
 
