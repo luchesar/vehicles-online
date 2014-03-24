@@ -16,7 +16,7 @@ class FakeDisposeService extends DisposeService {
   def generateDisposeResponse(statusReturned: Boolean, messageReturned: String) =
     DisposeResponse(success = statusReturned, message = messageReturned, transactionId = "1234", registrationNumber = registrationNumberValid, auditId = auditIdValid)
 
-  override def invoke(cmd: DisposeModel): Future[DisposeResponse] = Future {
+  override def invoke(cmd: DisposeRequest): Future[DisposeResponse] = Future {
     if (cmd.referenceNumber == FakeDisposeService.failureReferenceNumber) generateDisposeResponse(false, failMessage)
     else generateDisposeResponse(true, successMessage)
   }

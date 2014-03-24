@@ -43,6 +43,14 @@ case class DayMonthYear(day: Int, month: Int, year: Int,
     case Success(dt: DateTime) => DateTimeFormat.forPattern(pattern).print(dt)
     case Failure(_) => ""
   }
+
+  def toDateTime: Option[DateTime] = {
+    try {
+      Some(new DateTime(year, month, day, hour.getOrElse(0), minutes.getOrElse(0)))
+    } catch {
+      case e: Exception => None
+    }
+  }
 }
 
 object DayMonthYearComparator extends Ordering[Option[DayMonthYear]] {

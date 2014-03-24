@@ -10,13 +10,20 @@ import mappings.common.DayMonthYear.dayMonthYear
 import constraints.common
 import common.DayMonthYear._
 import controllers.disposal_of_vehicle.Helpers._
-import models.domain.disposal_of_vehicle.{VehicleDetailsModel, DealerDetailsModel, DisposeFormModel, DisposeModel}
-import models.domain.disposal_of_vehicle.DisposeViewModel
+import models.domain.disposal_of_vehicle._
 import scala.Some
 import com.google.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.FormHelper._
+import models.domain.disposal_of_vehicle.DisposeFormModel
+import play.api.data.FormError
+import scala.Some
+import play.api.mvc.SimpleResult
+import models.domain.disposal_of_vehicle.VehicleDetailsModel
+import models.domain.disposal_of_vehicle.DealerDetailsModel
+import models.domain.disposal_of_vehicle.DisposeViewModel
+import org.joda.time.format.{ISODateTimeFormat, DateTimeFormatter}
 
 class Dispose @Inject()(webService: services.DisposeService) extends Controller {
 
@@ -83,7 +90,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
       case Some(vehicleLookupFormModel) => {
         val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber, registrationNumber = vehicleLookupFormModel.registrationNumber, dateOfDisposal = f.dateOfDisposal)
         storeDisposeModelInCache(disposeModel)
-        webService.invoke(disposeModel).map { resp =>
+        webService.invoke(buildMicroServiceRequest(disposeModel)).map { resp =>
           Logger.debug(s"Dispose Web service call successful - response = ${resp}")
           if (resp.success) {
             storeDisposeTransactionIdInCache(resp.transactionId)
@@ -103,5 +110,14 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
         Redirect(routes.SetUpTradeDetails.present)
       }
     }
+  }
+
+  private def buildMicroServiceRequest(disposeModel: DisposeModel):DisposeRequest = {
+    val dateTime = disposeModel.dateOfDisposal.toDateTime.get
+    val formatter = ISODateTimeFormat.dateTime()
+    val isoDateTimeString = formatter.print(dateTime)
+    val isoDateTimeNoMillisString = isoDateTimeString.substring(0, isoDateTimeString.indexOf("."))
+    DisposeRequest(referenceNumber = disposeModel.referenceNumber, registrationNumber = disposeModel.registrationNumber,
+      dateOfDisposal = isoDateTimeNoMillisString)
   }
 }

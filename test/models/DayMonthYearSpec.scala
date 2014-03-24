@@ -103,5 +103,30 @@ class DayMonthYearSpec extends WordSpec with Matchers {
     """reject format "31 February 2001" """ in {
       Try(DateTimeFormat.forPattern("dd MMMM yyyy").parseDateTime("31 February 2001")).isFailure should equal(true)
     }
+
+    "convert to a valid date time" in {
+      val year = 2000
+      val month = 11
+      val day = 25
+      val dayMonthYear = DayMonthYear(day = day, month = month, year = year)
+      dayMonthYear.toDateTime.isEmpty should equal(false) // Indicates we get a Some[T] back from the Option[T]
+      dayMonthYear.toDateTime.get should equal(new DateTime(year, month, day, 0, 0))
+    }
+
+    "not convert to a valid date time when DayMonthYear contains invalid day" in {
+      val dayMonthYear = DayMonthYear(day = 99, month = 11, year = 2000)
+      dayMonthYear.toDateTime.isEmpty should equal(true) // Indicates we get a None back from the Option[T]
+    }
+
+    "not convert to a valid date time when DayMonthYear contains invalid month" in {
+      val dayMonthYear = DayMonthYear(day = 25, month = 99, year =2000)
+      dayMonthYear.toDateTime.isEmpty should equal(true)
+    }
+
+    "not convert to a valid date time when DayMonthYear contains invalid year" in {
+      val dayMonthYear = DayMonthYear(day = 25, month = 99, year =20001)
+      dayMonthYear.toDateTime.isEmpty should equal(true)
+    }
+
   }
 }

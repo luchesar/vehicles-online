@@ -5,7 +5,7 @@ import play.api.test.Helpers._
 import controllers.{disposal_of_vehicle}
 import mappings.disposal_of_vehicle.Dispose._
 import helpers.disposal_of_vehicle.Helper._
-import models.domain.disposal_of_vehicle.{DisposeResponse, DisposeModel}
+import models.domain.disposal_of_vehicle.{DisposeRequest, DisposeResponse, DisposeModel}
 import services.fakes.FakeDisposeService
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
@@ -19,9 +19,9 @@ class DisposeUnitSpec extends UnitSpec {
 
   "Dispose - Controller" should {
 
-       val mockDisposeModel = mock[DisposeModel]
+       val mockDisposeRequest = mock[DisposeRequest]
        val mockWebServiceSuccess = mock[services.DisposeService]
-       when(mockWebServiceSuccess.invoke(any[DisposeModel])).thenReturn(new FakeDisposeService().invoke(mockDisposeModel))
+       when(mockWebServiceSuccess.invoke(any[DisposeRequest])).thenReturn(new FakeDisposeService().invoke(mockDisposeRequest))
        val dispose = new disposal_of_vehicle.Dispose(mockWebServiceSuccess)
 
        "present" in new WithApplication {
@@ -54,10 +54,10 @@ class DisposeUnitSpec extends UnitSpec {
        }
 
     "redirect to dispose error when a fail message is returned by the fake microservice" in new WithApplication {
-      val mockDisposeModelFails = mock[DisposeModel]
-      when (mockDisposeModelFails.referenceNumber).thenReturn(FakeDisposeService.failureReferenceNumber)
+      val mockDisposeRequestFails = mock[DisposeRequest]
+      when (mockDisposeRequestFails.referenceNumber).thenReturn(FakeDisposeService.failureReferenceNumber)
       val mockWebServiceFailure = mock[services.DisposeService]
-      when(mockWebServiceFailure.invoke(any[DisposeModel])).thenReturn(new FakeDisposeService().invoke(mockDisposeModelFails))
+      when(mockWebServiceFailure.invoke(any[DisposeRequest])).thenReturn(new FakeDisposeService().invoke(mockDisposeRequestFails))
       val dispose = new disposal_of_vehicle.Dispose(mockWebServiceFailure)
 
       CacheSetup.businessChooseYourAddress()
@@ -139,7 +139,7 @@ class DisposeUnitSpec extends UnitSpec {
       val disposeResponseThrows = mock[DisposeResponse]
       when(disposeResponseThrows.success).thenThrow(new RuntimeException("expected by DisposeUnitSpec"))
       val mockWebServiceThrows = mock[services.DisposeService]
-      when(mockWebServiceThrows.invoke(any[DisposeModel])).thenReturn(Future {
+      when(mockWebServiceThrows.invoke(any[DisposeRequest])).thenReturn(Future {
         disposeResponseThrows
       })
       val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows)
