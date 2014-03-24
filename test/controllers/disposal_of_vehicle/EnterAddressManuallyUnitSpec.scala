@@ -114,7 +114,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         r => controllers.disposal_of_vehicle.Helpers.fetchDealerDetailsFromCache match {
           case Some(f) => {
             println(f.dealerAddress.address)
-            f.dealerAddress.address should equal (List("my house ", "my street ", "my area ", "my town ", "CM81QJ"))
+            f.dealerAddress.address should equal (List("myhouse", "mystreet", "myarea", "mytown", "CM81QJ"))
           }
           case _ => fail("Should have found model in the cache")
         }

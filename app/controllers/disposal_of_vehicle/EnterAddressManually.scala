@@ -40,7 +40,7 @@ object EnterAddressManually extends Controller {
         f =>
           fetchDealerNameFromCache match {
           case Some(name) => {
-            storeDealerDetailsInCache(f.stripPunctuation, name)
+            storeDealerDetailsInCache(f.stripCharsNotAccepted, name)
             Redirect(routes.VehicleLookup.present)
           }
           case None => {
