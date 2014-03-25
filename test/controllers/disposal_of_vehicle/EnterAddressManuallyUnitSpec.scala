@@ -155,6 +155,17 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
+    "submit does not accept an address containing only full stops" in new WithApplication {
+      CacheSetup.setupTradeDetails()
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> "...",
+        s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
+
+      val result = disposal_of_vehicle.EnterAddressManually.submit(request)
+
+      status(result) should equal(BAD_REQUEST)
+    }
+
     "redirect to SetupTraderDetails page when valid submit with no dealer name cached" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
