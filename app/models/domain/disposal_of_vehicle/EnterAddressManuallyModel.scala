@@ -38,6 +38,7 @@ case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcode
     return line
   }
 
+
   def stripEndOfLineOptionalFieldLoop(inputline:Option[String]): Option[String] = {
     inputline match {
       case Some(inputline) => {

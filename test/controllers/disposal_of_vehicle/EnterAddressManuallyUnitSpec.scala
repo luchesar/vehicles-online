@@ -134,6 +134,27 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
+    "submit does not remove multiple commas and full stops from the middle address line" in new WithApplication {
+      CacheSetup.setupTradeDetails()
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> "flat 1.1",
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> "long road, off high street",
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> "little village, my town",
+        s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> "my city, my county",
+        s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
+
+      val result = disposal_of_vehicle.EnterAddressManually.submit(request)
+
+      whenReady(result) {
+        r => controllers.disposal_of_vehicle.Helpers.fetchDealerDetailsFromCache match {
+          case Some(f) => {
+            f.dealerAddress.address should equal (List("flat 1.1", "long road, off high street", "little village, my town", "my city, my county", "CM81QJ"))
+          }
+          case _ => fail("Should have found model in the cache")
+        }
+      }
+    }
+
     "redirect to SetupTraderDetails page when valid submit with no dealer name cached" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
