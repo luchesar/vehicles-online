@@ -89,7 +89,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result, Timeout.apply(Span(1, Second))) {
+      whenReady(result, Timeout(Span(1, Second))) {
         r =>
           r.length should equal(oSAddressbaseResultsValidDPA.length)
           r should equal(oSAddressbaseResultsValidDPA.map(i => (i.DPA.get.UPRN, i.DPA.get.address)))
