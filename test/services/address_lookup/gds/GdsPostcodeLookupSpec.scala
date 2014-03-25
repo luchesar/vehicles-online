@@ -1,6 +1,6 @@
 package services.address_lookup.gds
 
-import services.fakes.FakeWebServiceImpl
+import services.fakes.{FakeResponse, FakeWebServiceImpl}
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.address_lookup.{AddressLookupService, gds}
@@ -11,6 +11,8 @@ import services.address_lookup.gds.domain.{Presentation, Details, Location, Addr
 import play.api.libs.json.{JsValue, Json}
 import services.address_lookup.gds.domain.JsonFormats.addressFormat
 import helpers.UnitSpec
+import org.scalatest.concurrent.PatienceConfiguration.Timeout
+import org.scalatest.time.{Second, Span}
 
 class GdsPostcodeLookupSpec extends UnitSpec {
   /*
@@ -61,10 +63,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
     )
 
   def response(statusCode: Int, inputAsJson: JsValue) = Future {
-    val response = mock[Response] // It's very hard to create a Response so use a mock.
-    when(response.status).thenReturn(statusCode)
-    when(response.json).thenReturn(inputAsJson)
-    response
+    FakeResponse(status = statusCode, fakeJson = Some(inputAsJson))
   }
 
   def responseThrows = Future {
@@ -78,14 +77,14 @@ class GdsPostcodeLookupSpec extends UnitSpec {
     when(response.status).thenThrow(new java.util.concurrent.TimeoutException("This error is generated deliberately by a test"))
     response
   }
-/*
+
   "fetchAddressesForPostcode" should {
     "return empty seq when cannot connect to micro-service" in {
       val service = addressServiceMock(responseTimeout)
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) { _ shouldBe empty }
+      whenReady(result, Timeout(Span(1, Second))) { _ shouldBe empty }
     }
 
     "return empty seq when response throws" in {
@@ -93,7 +92,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
-      whenReady(result) { _ shouldBe empty }
+      whenReady(result, Timeout(Span(1, Second))) { _ shouldBe empty }
     }
 
     "return empty seq when micro-service returns invalid JSON" in {
@@ -268,5 +267,5 @@ class GdsPostcodeLookupSpec extends UnitSpec {
       }
     }
   }
-*/
+
 }

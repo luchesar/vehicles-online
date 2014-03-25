@@ -74,7 +74,7 @@ object FakeWebServiceImpl {
       )
 
     import services.address_lookup.gds.domain.JsonFormats._
-    val inputAsJson = Json.toJson(gdsAddressValid())
+    val inputAsJson = Json.toJson(Seq(gdsAddressValid()))
 
     Future {
       FakeResponse(status = 200, fakeJson = Some(inputAsJson))
