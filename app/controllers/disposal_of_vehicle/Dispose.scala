@@ -116,8 +116,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
     val dateTime = disposeModel.dateOfDisposal.toDateTime.get
     val formatter = ISODateTimeFormat.dateTime()
     val isoDateTimeString = formatter.print(dateTime)
-    val isoDateTimeNoMillisString = isoDateTimeString.substring(0, isoDateTimeString.indexOf("."))
     DisposeRequest(referenceNumber = disposeModel.referenceNumber, registrationNumber = disposeModel.registrationNumber,
-      dateOfDisposal = isoDateTimeNoMillisString)
+      dateOfDisposal = isoDateTimeString)
   }
 }
