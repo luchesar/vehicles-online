@@ -40,9 +40,9 @@ object CacheSetup {
     play.api.cache.Cache.set(key, value)
   }
 
-  def disposeModel(referenceNumber:String = referenceNumberValid, registrationNumber:String = registrationNumberValid, dateOfDisposal:DayMonthYear = DayMonthYear.today) = {
+  def disposeModel(referenceNumber:String = referenceNumberValid, registrationNumber:String = registrationNumberValid, dateOfDisposal:DayMonthYear = DayMonthYear.today, mileage:Option[Int] = None) = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeModelCacheKey
-    val value = DisposeModel(referenceNumber, registrationNumber, dateOfDisposal)
+    val value = DisposeModel(referenceNumber, registrationNumber, dateOfDisposal, mileage)
     play.api.cache.Cache.set(key, value)
   }
 
