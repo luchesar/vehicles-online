@@ -23,7 +23,7 @@ import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.DealerDetailsModel
 import models.domain.disposal_of_vehicle.DisposeViewModel
-import org.joda.time.format.{ISODateTimeFormat, DateTimeFormatter}
+import org.joda.time.format.{ISODateTimeFormat}
 
 class Dispose @Inject()(webService: services.DisposeService) extends Controller {
 
@@ -88,7 +88,8 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
   private def disposeAction(webService: services.DisposeService, f: DisposeFormModel): Future[SimpleResult] = {
     fetchVehicleLookupDetailsFromCache match {
       case Some(vehicleLookupFormModel) => {
-        val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber, registrationNumber = vehicleLookupFormModel.registrationNumber, dateOfDisposal = f.dateOfDisposal)
+        val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,
+          registrationNumber = vehicleLookupFormModel.registrationNumber, dateOfDisposal = f.dateOfDisposal, mileage = f.mileage)
         storeDisposeModelInCache(disposeModel)
         webService.invoke(buildMicroServiceRequest(disposeModel)).map { resp =>
           Logger.debug(s"Dispose Web service call successful - response = ${resp}")
@@ -117,6 +118,6 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
     val formatter = ISODateTimeFormat.dateTime()
     val isoDateTimeString = formatter.print(dateTime)
     DisposeRequest(referenceNumber = disposeModel.referenceNumber, registrationNumber = disposeModel.registrationNumber,
-      dateOfDisposal = isoDateTimeString)
+      dateOfDisposal = isoDateTimeString, mileage = disposeModel.mileage)
   }
 }

@@ -5,8 +5,5 @@ import play.api.libs.json.Json
 
 case class DisposeModel(referenceNumber: String,
                         registrationNumber: String,
-                         dateOfDisposal: DayMonthYear)
-
-object DisposeModel {
-  implicit val disposeModelFormat = Json.format[DisposeModel]
-}
+                        dateOfDisposal: DayMonthYear,
+                        mileage: Option[Int])

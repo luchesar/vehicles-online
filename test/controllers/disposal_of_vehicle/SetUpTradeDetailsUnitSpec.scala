@@ -38,6 +38,16 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
       status(result) should equal(BAD_REQUEST)
     }
 
+    "return a bad request when a trader name is entered containing only punctuation is entered" in new WithApplication {
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        dealerNameId -> "...",
+        dealerPostcodeId -> postcodeValid)
+
+      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
+
+      status(result) should equal(BAD_REQUEST)
+    }
+
     "return a bad request when only traderPostcode is entered" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         dealerPostcodeId -> postcodeValid)
