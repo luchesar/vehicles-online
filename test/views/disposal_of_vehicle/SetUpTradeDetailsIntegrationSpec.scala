@@ -23,17 +23,17 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
-    "display five validation error messages when no details are entered" in new WebBrowser {
+    "display six validation error messages when no details are entered" in new WebBrowser {
       SetupTradeDetailsPage.happyPath( webDriver,"","")
 
-      assert(ErrorPanel.numberOfErrors equals 5)
+      assert(ErrorPanel.numberOfErrors equals 6)
 
     }
 
-    "display two validation error messages when a valid postcode is entered with no business name" in new WebBrowser  {
+    "display three validation error messages when a valid postcode is entered with no business name" in new WebBrowser  {
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = "")
 
-      assert(ErrorPanel.numberOfErrors equals 2)
+      assert(ErrorPanel.numberOfErrors equals 3)
     }
 
     "display one validation error message when a valid postcode is entered with a business name less than min length" in new WebBrowser {

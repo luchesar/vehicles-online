@@ -17,7 +17,7 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
     }
 
     "reject if trader business name is blank" in {
-      formWithValidDefaults(traderBusinessName = "").errors should have length 2
+      formWithValidDefaults(traderBusinessName = "").errors should have length 3
     }
 
     "reject if trader business name is less than minimum length" in {
