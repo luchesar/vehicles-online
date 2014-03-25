@@ -84,6 +84,8 @@
 #global-header {
 	.header-logo {
 		float:left;
+		margin-right:80px !important;
+		margin-bottom:10px !important;
 		width:auto !important;
 	}
 }
@@ -91,14 +93,12 @@
 .header-phase {
 	float:left;
 	margin-left:15px;
+	margin-bottom:8px;
 	h1.page-title {
 		@include bold-19;
 		position: relative;
 		padding-right:6em;
 		
-		@media screen and (max-width: $device-small) {
-			margin-top:10px;
-		}
 		@media screen and (max-width: $device-small) {
         	padding-right:7em;    	
         }
@@ -118,7 +118,7 @@
 
 /* Header - Global Overrides - inc !important overrides */
 html {background: #dee0e2!important;}
-#global-header #logo img {left: -211px!important;}
+//#global-header #logo img {left: -211px!important;}
 #global-header .header-wrapper {padding: 0.5em 1px!important;}
 
 .carers-allowance-footer {padding-top: 30px!important; padding-bottom: 30px!important;}
