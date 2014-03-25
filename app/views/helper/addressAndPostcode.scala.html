@@ -6,6 +6,7 @@
 @import views.html.helper.base._
 @import utils.helpers.BaseTemplate._
 
+<fieldset>
 @input(field,args.toSeq: _*){(id, name, value, htmlArgs) =>
     @addressLines(field(mappings.common.AddressLines.id),
         args = Map('_label -> Messages("address.lines.label")))
@@ -19,4 +20,5 @@
             'title -> Messages("address.postcode.validation")
         )
     )
-}
+
+}</fieldset>

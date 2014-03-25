@@ -8,10 +8,8 @@
 @import utils.helpers._
 @import views.html.helper.base._
 
-
 @input(field,args.toSeq: _*){(id, name, value, htmlArgs) =>
-    @checkConstraintRequired(field, args)
-
+<legend> @valtechLabelText(field, args)</legend>
     <div class="form-address-stack" id = "@id">
         <div class="form-item">
         @valtechInputText(field(mappings.common.AddressLines.line1Id),
@@ -51,4 +49,5 @@
                 'title -> Messages("address.line4.label")))
         </div>
     </div>
+
 }
