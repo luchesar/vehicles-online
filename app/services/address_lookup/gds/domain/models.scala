@@ -34,7 +34,7 @@ case class Address(
                     presentation: Presentation,
                     details: Details,
                     location: Location){
-  def toViewModel = Seq(houseName, houseNumber).flatten ++ presentation.toViewModel
+  def toViewModel = presentation.toViewModel
 }
 
 

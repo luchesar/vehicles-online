@@ -1,5 +1,6 @@
 package modules
 
+import app.ConfigProperties._
 import com.tzavellas.sse.guice.ScalaModule
 import services._
 import play.api.Logger
@@ -13,8 +14,10 @@ object TestModule extends ScalaModule {
   def configure() {
     Logger.debug("Guice is loading TestModule")
 
-    //ordnanceSurveyAddressLookup()
-    gdsAddressLookup()
+    getProperty("addressLookupService.type", "ordnanceSurvey") match {
+      case "ordnanceSurvey" => ordnanceSurveyAddressLookup()
+      case _ => gdsAddressLookup()
+    }
     bind[VehicleLookupService].to[FakeVehicleLookupService].asEagerSingleton()
     bind[DisposeService].to[FakeDisposeService].asEagerSingleton()
   }

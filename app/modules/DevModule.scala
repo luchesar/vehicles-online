@@ -24,18 +24,18 @@ object DevModule extends ScalaModule {
       case "ordnanceSurvey" => ordnanceSurveyAddressLookup()
       case _ => gdsAddressLookup()
     }
-
     bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton()
     bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton()
   }
 
   private def ordnanceSurveyAddressLookup() = {
+    Logger.debug("IoC ordnance survey address lookup service")
     bind[AddressLookupService].to[services.address_lookup.ordnance_survey.AddressLookupServiceImpl].asEagerSingleton()
     bind[WebService].to[services.address_lookup.ordnance_survey.WebServiceImpl].asEagerSingleton()
   }
 
   private def gdsAddressLookup() = {
-    println("***************** gds")
+    Logger.debug("IoC gds address lookup service")
     bind[AddressLookupService].to[services.address_lookup.gds.AddressLookupServiceImpl].asEagerSingleton()
     bind[WebService].to[services.address_lookup.gds.WebServiceImpl].asEagerSingleton()
   }
