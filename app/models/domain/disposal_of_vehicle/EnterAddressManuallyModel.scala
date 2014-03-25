@@ -4,11 +4,10 @@ import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 
 case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcodeModel) {
 
-  val regex = """^[A-Za-z0-9\s\-]*$""".r
-
   def stripEndOfLineRequired(inputline:String): String = {
+    val submitRegex = """^[A-Za-z0-9\s\-]*$""".r
     inputline.takeRight(1) match {
-      case a if !regex.pattern.matcher(a).matches => stripEndOfLineRequired(inputline.dropRight(1))
+      case a if !submitRegex.pattern.matcher(a).matches => stripEndOfLineRequired(inputline.dropRight(1))
       case _ => inputline
     }
   }
@@ -21,7 +20,6 @@ case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcode
   }
 
   def stripCharsNotAccepted = {
-
     val line1 = stripEndOfLineRequired(addressAndPostcodeModel.addressLinesModel.line1)
     val line2 = stripEndOfLineOptionalField(addressAndPostcodeModel.addressLinesModel.line2)
     val line3 = stripEndOfLineOptionalField(addressAndPostcodeModel.addressLinesModel.line3)
