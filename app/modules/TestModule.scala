@@ -13,11 +13,27 @@ object TestModule extends ScalaModule {
   def configure() {
     Logger.debug("Guice is loading TestModule")
 
-    val fakeWebServiceImpl = new FakeWebServiceImpl()
+    ordnanceSurveyAddressLookup()
+    //gdsAddressLookup()
+    bind[VehicleLookupService].to[FakeVehicleLookupService].asEagerSingleton()
+    bind[DisposeService].to[FakeDisposeService].asEagerSingleton()
+  }
 
+  private def ordnanceSurveyAddressLookup() = {
     bind[AddressLookupService].to[FakeAddressLookupService]
+    val fakeWebServiceImpl = new FakeWebServiceImpl(
+      responseOfPostcodeWebService = FakeWebServiceImpl.responseValidForOrdnanceSurvey,
+      responseOfUprnWebService = FakeWebServiceImpl.responseValidForOrdnanceSurvey
+    )
     bind[WebService].toInstance(fakeWebServiceImpl)
-    bind[VehicleLookupService].to[FakeVehicleLookupService].asEagerSingleton
-    bind[DisposeService].to[FakeDisposeService].asEagerSingleton
+  }
+
+  private def gdsAddressLookup() = {
+    bind[AddressLookupService].to[FakeAddressLookupService]
+    val fakeWebServiceImpl = new FakeWebServiceImpl(
+      responseOfPostcodeWebService = FakeWebServiceImpl.responseValidForOrdnanceSurvey,
+      responseOfUprnWebService = FakeWebServiceImpl.responseValidForOrdnanceSurvey
+    )
+    bind[WebService].toInstance(fakeWebServiceImpl)
   }
 }

@@ -1,20 +1,21 @@
 package services.fakes
 
-import play.api.libs.ws.{WS, Response}
+import play.api.libs.ws.Response
 import services.WebService
-import scala.concurrent.Future
 import services.address_lookup.ordnance_survey.domain.{OSAddressbaseResult, OSAddressbaseDPA}
 import play.api.libs.json.Json
+import scala.concurrent.{ExecutionContext, Future}
+import ExecutionContext.Implicits.global
 
-class FakeWebServiceImpl (responseOfPostcodeWebService: Future[Response] = FakeWebServiceImpl.responseValid,
-                         responseOfUprnWebService: Future[Response] = FakeWebServiceImpl.responseValid) extends WebService {
+class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
+                         responseOfUprnWebService: Future[Response]) extends WebService {
   override def callPostcodeWebService(postcode: String): Future[Response] = responseOfPostcodeWebService
 
   override def callUprnWebService(postcode: String): Future[Response] = responseOfUprnWebService
 }
 
 object FakeWebServiceImpl {
-  val responseValid = {
+  val responseValidForOrdnanceSurvey = {
     val uprnValid = "1"
 
     def oSAddressbaseDPA(houseName: String = "houseName stub", houseNumber: String = "123") = OSAddressbaseDPA(
@@ -38,7 +39,8 @@ object FakeWebServiceImpl {
     }
     val inputAsJson = Json.toJson(oSAddressbaseResultsValidDPA)
 
-    WS.url("http://localhost:9000/"). // Needs a valid format of URL, but we will never call it
-      post(inputAsJson)
+    Future {
+      FakeResponse(status = 200, fakeJson = Some(inputAsJson))
+    }
   }
 }
