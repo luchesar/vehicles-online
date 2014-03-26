@@ -10,16 +10,13 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "Business choose your address - Integration" should {
 
     "be presented" in new WebBrowser {
-      // Arrange & Act
       CacheSetup.setupTradeDetails()
       go to BusinessChooseYourAddressPage.url
 
-      //Assert
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
     "go to the next page when correct data is entered" in new WebBrowser {
-      // Arrange & Act
       CacheSetup.setupTradeDetails()
       BusinessChooseYourAddressPage.happyPath
 
@@ -30,7 +27,6 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       go to BusinessChooseYourAddressPage.url
 
-      //Act
       click on BusinessChooseYourAddressPage.manualAddress
 
       assert(page.title equals EnterAddressManuallyPage.title)
@@ -40,26 +36,21 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       go to BusinessChooseYourAddressPage.url
 
-      // Act
       click on BusinessChooseYourAddressPage.back
 
-      //Assert
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
     "redirect when no traderBusinessName is cached" in new WebBrowser {
-      // Arrange & Act
       go to BusinessChooseYourAddressPage.url
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
     "display validation error messages when addressSelected is not in the list" in new WebBrowser {
-      // Arrange & Act
       CacheSetup.setupTradeDetails()
       BusinessChooseYourAddressPage.sadPath
 
-      //Assert
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -67,13 +58,11 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
     "check number of options in drop down" in new WebBrowser {
       SetupTradeDetailsPage.happyPath
 
-      //Act
       assert(BusinessChooseYourAddressPage.getListCount equals 1)
     }
 
-//TODO discuss below two tests to check integrity
+//TODO discuss below test to check integrity
     "display address dropdown when address service returns addresses" in new WebBrowser {
-      // Arrange & Act
       SetupTradeDetailsPage.happyPath
 
       //browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {.

@@ -126,13 +126,13 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
     "not throw when an address contains a building number that contains letters" in {
       val expected = Seq(
-        (uprnValid, "houseName AAA, 123A, property stub, street stub, town stub, area stub, postcode stub"),
-        (uprnValid, "houseName BBB, 123B, property stub, street stub, town stub, area stub, postcode stub"),
-        (uprnValid, "houseName stub, 789C, property stub, street stub, town stub, area stub, postcode stub")
+        (uprnValid, "presentationProperty AAA, 123A, property stub, street stub, town stub, area stub, postcode stub"),
+        (uprnValid, "presentationProperty BBB, 123B, property stub, street stub, town stub, area stub, postcode stub"),
+        (uprnValid, "presentationProperty stub, 789C, property stub, street stub, town stub, area stub, postcode stub")
       )
       val dpa1 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(houseNumber = "789C")), LPI = None)
-      val dpa2 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(houseName = "houseName BBB", houseNumber = "123B")), LPI = None)
-      val dpa3 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(houseName = "houseName AAA", houseNumber = "123A")), LPI = None)
+      val dpa2 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(houseName = "presentationProperty BBB", houseNumber = "123B")), LPI = None)
+      val dpa3 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(houseName = "presentationProperty AAA", houseNumber = "123A")), LPI = None)
       val oSAddressbaseResultsValidDPA = Seq(dpa1, dpa2, dpa3)
 
       val input = OSAddressbaseSearchResponse(header = header, results = Some(oSAddressbaseResultsValidDPA))
@@ -149,13 +149,13 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
     "return seq of (uprn, address) sorted by building number then building name" in {
       val expected = Seq(
-        (uprnValid, "houseName AAA, 123, property stub, street stub, town stub, area stub, postcode stub"),
-        (uprnValid, "houseName BBB, 123, property stub, street stub, town stub, area stub, postcode stub"),
-        (uprnValid, "houseName stub, 789, property stub, street stub, town stub, area stub, postcode stub")
+        (uprnValid, "presentationProperty AAA, 123, property stub, street stub, town stub, area stub, postcode stub"),
+        (uprnValid, "presentationProperty BBB, 123, property stub, street stub, town stub, area stub, postcode stub"),
+        (uprnValid, "presentationProperty stub, 789, property stub, street stub, town stub, area stub, postcode stub")
       )
       val dpa1 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(houseNumber = "789")), LPI = None)
-      val dpa2 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(houseName = "houseName BBB", houseNumber = "123")), LPI = None)
-      val dpa3 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(houseName = "houseName AAA", houseNumber = "123")), LPI = None)
+      val dpa2 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(houseName = "presentationProperty BBB", houseNumber = "123")), LPI = None)
+      val dpa3 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(houseName = "presentationProperty AAA", houseNumber = "123")), LPI = None)
       val oSAddressbaseResultsValidDPA = Seq(dpa1, dpa2, dpa3)
 
       val input = OSAddressbaseSearchResponse(header = header, results = Some(oSAddressbaseResultsValidDPA))
