@@ -6,6 +6,6 @@ object Dispose {
   val disposeFormModelCacheKey = "disposeForm"
   val disposeFormTransactionIdCacheKey = "disposeFormTransactionId"
   val disposeFormRegistrationNumberCacheKey = "disposeFormRegistrationNumber"
-  val disposeModelCacheKey = "disposeModel"
+  val disposeModelCacheKey = "formModel"
   val emailAddressId = "emailAddress"
 }

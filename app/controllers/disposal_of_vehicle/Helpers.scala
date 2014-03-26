@@ -73,7 +73,7 @@ object Helpers {
   def storeDisposeModelInCache(value: DisposeModel) = {
     val key = disposeModelCacheKey
     Cache.set(key, value)
-    Logger.debug(s"Dispose - stored disposeModel in cache: key = $key, value = $value")
+    Logger.debug(s"Dispose - stored formModel in cache: key = $key, value = $value")
   }
 
   def fetchDealerNameFromCache: Option[String] = {
