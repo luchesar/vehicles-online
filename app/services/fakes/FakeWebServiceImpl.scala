@@ -18,7 +18,7 @@ class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
 object FakeWebServiceImpl {
   val uprnValid = "1"
 
-  def osAddressbaseDPA(houseName: String = "houseName stub", houseNumber: String = "123") = OSAddressbaseDPA(
+  def osAddressbaseDPA(houseName: String = "presentationProperty stub", houseNumber: String = "123") = OSAddressbaseDPA(
     UPRN = uprnValid,
     address = s"$houseName, $houseNumber, property stub, street stub, town stub, area stub, postcode stub",
     buildingName = Some(houseName),
@@ -46,15 +46,15 @@ object FakeWebServiceImpl {
   }
 
 
-  def gdsAddress(houseName: String = "houseName stub", houseNumber: String = "123"): Address =
+  def gdsAddress(presentationProperty: String = "property stub", presentationStreet: String = "123"): Address =
     Address(
       gssCode = "gssCode stub",
       countryCode = "countryCode stub",
       postcode = "postcode stub",
-      houseName = Some(houseName),
-      houseNumber = Some(houseNumber),
-      presentation = Presentation(property = Some("property stub"),
-        street = Some("street stub"),
+      houseName = Some("presentationProperty stub"),
+      houseNumber = Some("123"),
+      presentation = Presentation(property = Some(presentationProperty),
+        street = Some(presentationStreet),
         town = Some("town stub"),
         area = Some("area stub"),
         postcode = "postcode stub",
