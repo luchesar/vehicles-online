@@ -59,8 +59,10 @@ class VehicleLookup @Inject()(webService: services.VehicleLookupService) extends
   }
 
   private def lookupVehicle(webService: services.VehicleLookupService, model: VehicleLookupFormModel): Future[SimpleResult] = {
+    // TODO we need to have a request obj and a response object, don't send a web layer model.
     webService.invoke(model).map { resp =>
       Logger.debug(s"VehicleLookup Web service call successful - response = ${resp}")
+      // TODO Don't save these two models, instead we need a combined model that has what the user entered into the form plus the micro-service response.
       storeVehicleLookupFormModelInCache(model)
       if (resp.success) {
         storeVehicleDetailsInCache(resp.vehicleDetailsModel)

@@ -81,7 +81,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
         fetchTraderDetailsFromCache match {
           case Some(dealerDetails) => {
             storeBusinessChooseYourAddressModelInCache(f)
-            storeDealerDetailsInCache(f, dealerDetails.traderBusinessName)
+            storeDealerDetailsInCache(f, dealerDetails.traderBusinessName) // TODO is this redundant??? Delete and test.
           }
           case None => Future {
             Logger.debug("failed to find dealer name in cache on submit, redirecting...")
