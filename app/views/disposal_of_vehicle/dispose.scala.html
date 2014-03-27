@@ -14,9 +14,9 @@
     
     @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit) {
     
-    <div class="alert-warning">
-		<p>@Messages("disposal_vehiclelookup.warning.p1") @Messages("disposal_vehiclelookup.warning.p2")</p>
-	</div>
+	<div class="alert-warning">
+    	<p>If the details above do not match the vehicle to be sold, please <a href="https://www.gov.uk/contact">contact the DVLA.</a></p>
+    </div>
 
     <div class="two-col clearfix">
 
@@ -41,9 +41,7 @@
                 
             </dl>
             
-            <div class="alert-warning">
-            	<p>If the details above do not match the vehicle to be sold, please <a href="https://www.gov.uk/contact">contact the DVLA.</a></p>
-            </div>
+            
             
             @valtechInputText(disposeForm(mileageId), args =
             Map('_label -> Messages("disposal_dispose.mileage.label"),

@@ -264,19 +264,19 @@ disposal_vehiclelookup.tradernamelabel = Trader name
 disposal_vehiclelookup.traderaddresslabel = Trader address
 
 #page 5 - confirm disposal
-disposal_dispose.title = Dispose a vehicle into the motor trade: confirm
-disposal_dispose.vehicledetails = Vehicle details
+disposal_dispose.title = Complete & confirm
+disposal_dispose.vehicledetails = Vehicle being sold
 disposal_dispose.vehiclereg = Registration number
 disposal_dispose.vehiclemake = Make
 disposal_dispose.vehiclemodel = Model
 disposal_dispose.vehiclekeeper = Keeper
-disposal_dispose.disposevehicleto = Dispose vehicle to
+disposal_dispose.disposevehicleto = About the sale
 disposal_dispose.mileage.label = Vehicle mileage
 disposal_dispose.mileage.validation = You must enter a valid mileage between 0 and 999999
 dateOfDisposal = Date of disposal
 disposal_dispose.dateofdisposal.label = Date of disposal
 disposal_dispose.backbutton = Back
-disposal_dispose.submitbutton = Dispose
+disposal_dispose.submitbutton = Confirm sale
 disposal_dispose.exkeeperlettertext = If you would prefer to receive an immediate email acknowledgement, please provide an email address
 disposal_dispose.emaillabel = Customer email address
 dateOfDisposal_day = Day of disposal
