@@ -202,14 +202,14 @@ disposal_setuptradedetails.p1 = Cerbyd yn cael ei werthu
 disposal_setuptradedetails.tradernamelabel = Enw masnachwr
 disposal_setuptradedetails.traderpostcodelabel = Cod post
 disposal_setuptradedetails.traderpostcodelabel.validation = Teipiwch eich côd post busnes dilys
-disposal_setuptradedetails.button = Dod o hyd i gyfeiriad
+disposal_setuptradedetails.button = Nesaf
 dealerName = Enw masnachwr
 dealerPostcode = Cod post
 
-disposal_vehiclelookup.title = Gwaredu cerbyd i mewn i'r fasnach foduron
+disposal_vehiclelookup.title = Dod o hyd i fanylion y cerbyd
 disposal_vehiclelookup.name = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_vehiclelookup.p1 = Dod o hyd i gerbyd
-disposal_vehiclelookup.p2 = Cerbyd waredu i
+disposal_vehiclelookup.p2 = Bydd cerbyd yn cael ei werthu i
 disposal_vehiclelookup.warning.p1 = Peidiwch â gwaredu cerbyd gyda chofrestru personol oni bai bod y ceidwad ar hyn o bryd yn deall y bydd y cofrestriad yn cael eu gwaredu ynghyd â'r cerbyd.
 disposal_vehiclelookup.warning.p2 = Cadw neu drosglwyddo cofrestriadau personol cyn cael gwared i'r fasnach.
 disposal_vehiclelookup.refnumlabel = V5C Rhif cyfeirnod y ddogfen

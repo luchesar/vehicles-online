@@ -246,10 +246,10 @@ disposal_uprnnotfound.setuptradedetailsbutton = Manually enter address
 
 
 #page 4 - vehicle Lookup
-disposal_vehiclelookup.title = Dispose a vehicle into the motor trade: vehicle
+disposal_vehiclelookup.title = Find vehicle details
 disposal_vehiclelookup.name = Dispose a vehicle into the motor trade
 disposal_vehiclelookup.p1 = Vehicle being sold
-disposal_vehiclelookup.p2 = Vehicle disposed to
+disposal_vehiclelookup.p2 = Vehicle will be sold to
 disposal_vehiclelookup.warning.p1 = Do not dispose of a vehicle with a personal registration unless the current keeper understands that the registration will be disposed of along with the vehicle.
 disposal_vehiclelookup.warning.p2 = Retain or transfer personal registrations before disposing to the trade.
 disposal_vehiclelookup.refnumlabel = Latest doc reference number
@@ -258,7 +258,7 @@ disposal_vehiclelookup.vrninputlabel = Vehicle registration number
 disposal_vehiclelookup.consent = I have the consent of the current keeper to dispose of this vehicle
 disposal_vehiclelookup.consentnotgiven = Please indicate you have the current keeper''s consent
 disposal_vehiclelookup.backbutton = Back
-disposal_vehiclelookup.button = Find vehicle details
+disposal_vehiclelookup.button = Next
 disposal_vehiclelookup.button2 = Edit
 disposal_vehiclelookup.tradernamelabel = Trader name
 disposal_vehiclelookup.traderaddresslabel = Trader address
