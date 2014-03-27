@@ -25,7 +25,9 @@ object DisposeFailure extends Controller {
   }
 
   private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {
-    DisposeViewModel(vehicleMake = vehicleDetails.vehicleMake,
+    DisposeViewModel(
+      registrationNumber = vehicleDetails.registrationNumber,
+      vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
       keeperName = vehicleDetails.keeperName,
       keeperAddress = vehicleDetails.keeperAddress,

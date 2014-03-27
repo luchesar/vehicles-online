@@ -22,9 +22,9 @@ object CacheSetup {
     play.api.cache.Cache.set(key, value)
   }
 
-  def vehicleDetailsModel(vehicleMake: String = vehicleMakeValid, vehicleModel:String = vehicleModelValid, keeperName:String = keeperNameValid) = {
+  def vehicleDetailsModel(registrationNumber: String = registrationNumberValid, vehicleMake: String = vehicleMakeValid, vehicleModel:String = vehicleModelValid, keeperName:String = keeperNameValid) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
-    val value = VehicleDetailsModel(vehicleMake,vehicleModel,keeperName,keeperAddress = address1)
+    val value = VehicleDetailsModel(registrationNumber, vehicleMake,vehicleModel,keeperName,keeperAddress = address1)
     play.api.cache.Cache.set(key, value)
   }
 

@@ -77,12 +77,16 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
   }
 
   private def populateModelFromCachedData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {
-    DisposeViewModel(vehicleMake = vehicleDetails.vehicleMake,
+    val model = DisposeViewModel(
+      registrationNumber = vehicleDetails.registrationNumber,
+      vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
       keeperName = vehicleDetails.keeperName,
       keeperAddress = vehicleDetails.keeperAddress,
       dealerName = dealerDetails.dealerName,
       dealerAddress = dealerDetails.dealerAddress)
+    Logger.debug(s"Dispose page read the following data from cache: ${model}")
+    model
   }
 
   private def disposeAction(webService: services.DisposeService, f: DisposeFormModel): Future[SimpleResult] = {
