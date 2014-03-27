@@ -57,7 +57,17 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
       status(result) should equal(BAD_REQUEST)
     }
 
-    "return a bad request when empty strings are entered" in new WithApplication {
+    "return a bad request when dealer name is empty" in new WithApplication {
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        dealerNameId -> "",
+        dealerPostcodeId -> postcodeValid)
+
+      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
+
+      status(result) should equal(BAD_REQUEST)
+    }
+
+    "return a bad request when postcode is empty" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         dealerNameId -> traderBusinessNameValid,
         dealerPostcodeId -> "")
