@@ -5,6 +5,7 @@ import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
 import pages.common.ErrorPanel
 import helpers.UiSpec
+import services.fakes.FakeAddressLookupService
 
 class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "Business choose your address - Integration" should {
@@ -54,34 +55,30 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-
-    "check number of options in drop down" in new WebBrowser {
+    "not display 'No addresses found' message when address service returns addresses" in new WebBrowser {
       SetupTradeDetailsPage.happyPath
 
-      assert(BusinessChooseYourAddressPage.getListCount equals 1)
+      val result = webDriver.getPageSource
+
+      result.contains("No addresses found for that postcode")  must beEqualTo(false) // Does not contain message
     }
 
-//TODO discuss below test to check integrity
-    "display address dropdown when address service returns addresses" in new WebBrowser {
+    "display expected addresses in dropdown when address service returns addresses" in new WebBrowser {
       SetupTradeDetailsPage.happyPath
 
-      //browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {.
       val result = webDriver.getPageSource
-      result.contains("No addresses found for that postcode")  must beEqualTo(false)
 
-      assert(BusinessChooseYourAddressPage.getListCount equals 1)
+      assert(BusinessChooseYourAddressPage.getListCount equals 3) // The first option is the "Please select..." and the other options are the addresses.
+      result.contains(FakeAddressLookupService.address1.address.mkString(", "))  must beEqualTo(true)
+      result.contains(FakeAddressLookupService.address2.address.mkString(", "))  must beEqualTo(true)
     }
 
-/* //TODO need to amend below test not to use fake microservice
-    "display message when address service returns no addresses" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver,traderPostcode = postcodeNoResults)
+    "display 'No addresses found' message when address service returns no addresses" in new WebBrowser {
+      SetupTradeDetailsPage.submitInvalidPostcode
 
-      //browser.waitUntil[Boolean](duration, TimeUnit.SECONDS) {
       val result = webDriver.getPageSource
-      result.contains("No addresses found for that postcode")  must beEqualTo(true)
 
-
-      assert(BusinessChooseYourAddressPage.getListCount equals 0)
-      }*/
+      result.contains("No addresses found for that postcode")  must beEqualTo(true) // Does not contain message
     }
   }
+}
