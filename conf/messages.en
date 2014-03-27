@@ -196,8 +196,6 @@ disposal_beforeyoustart.listitem3 = If the vehicle being sold has a personal reg
 
 disposal_beforeyoustart.listitem4 = Only a sale to the motor trade can be notified using this service. Any other notification such as a sale to a private individual or change of address cannot currently be made on-line.  These requests must be made by sending the application and any relevant documentation to DVLA, Swansea.
 
-disposal_beforeyoustart.listitem5 = Do not dispose of a vehicle with a personal registration unless the current keeper understands that the registration will be disposed of along with the vehicle. Retain or transfer personal registrations before disposing to the trade.
-
 disposal_beforeyoustart.button = Start now
 
 #page 2 - set-up trade details
@@ -222,7 +220,7 @@ disposal_businessChooseYourAddress_addressSelect = Choose your address
 disposal_businessChooseYourAddress_addressSelect_label = Choose your address
 disposal_businessChooseYourAddress.backbutton = Back
 disposal_businessChooseYourAddress.submitbutton = Select
-disposal_businessChooseYourAddress.manualAddressEntry = Unable to find your address? Enter your address manually
+disposal_businessChooseYourAddress.manualAddressEntry = I can't find my address
 error.dropDownInvalid = Please select a value from the drop down list.
 disposal_businessChooseYourAddress_noaddressesfound = No addresses found for that postcode. Click the back button to enter a different postcode or enter an address manually
 
@@ -232,7 +230,7 @@ disposal_enteraddressmanually.submitbutton = Next
 disposal_enteraddressmanually.backbutton = Back
 addressAndPostcode_addressLines = Address
 address.lines.label = Address
-address.line1.label = House number / House name
+address.line1.label = Building name or number
 address.line2.label= Street name
 address.line3.label= Area
 address.line4.label= Post town
@@ -248,10 +246,10 @@ disposal_uprnnotfound.setuptradedetailsbutton = Manually enter address
 
 
 #page 4 - vehicle Lookup
-disposal_vehiclelookup.title = Dispose a vehicle into the motor trade: vehicle
+disposal_vehiclelookup.title = Find vehicle details
 disposal_vehiclelookup.name = Dispose a vehicle into the motor trade
 disposal_vehiclelookup.p1 = Vehicle being sold
-disposal_vehiclelookup.p2 = Vehicle disposed to
+disposal_vehiclelookup.p2 = Vehicle will be sold to
 disposal_vehiclelookup.warning.p1 = Do not dispose of a vehicle with a personal registration unless the current keeper understands that the registration will be disposed of along with the vehicle.
 disposal_vehiclelookup.warning.p2 = Retain or transfer personal registrations before disposing to the trade.
 disposal_vehiclelookup.refnumlabel = Latest doc reference number
@@ -260,7 +258,7 @@ disposal_vehiclelookup.vrninputlabel = Vehicle registration number
 disposal_vehiclelookup.consent = I have the consent of the current keeper to dispose of this vehicle
 disposal_vehiclelookup.consentnotgiven = Please indicate you have the current keeper''s consent
 disposal_vehiclelookup.backbutton = Back
-disposal_vehiclelookup.button = Find vehicle details
+disposal_vehiclelookup.button = Next
 disposal_vehiclelookup.button2 = Edit
 disposal_vehiclelookup.tradernamelabel = Trader name
 disposal_vehiclelookup.traderaddresslabel = Trader address
