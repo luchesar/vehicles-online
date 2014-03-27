@@ -196,8 +196,6 @@ disposal_beforeyoustart.listitem3 = If the vehicle being sold has a personal reg
 
 disposal_beforeyoustart.listitem4 = Only a sale to the motor trade can be notified using this service. Any other notification such as a sale to a private individual or change of address cannot currently be made on-line.  These requests must be made by sending the application and any relevant documentation to DVLA, Swansea.
 
-disposal_beforeyoustart.listitem5 = Do not dispose of a vehicle with a personal registration unless the current keeper understands that the registration will be disposed of along with the vehicle. Retain or transfer personal registrations before disposing to the trade.
-
 disposal_beforeyoustart.button = Start now
 
 #page 2 - set-up trade details

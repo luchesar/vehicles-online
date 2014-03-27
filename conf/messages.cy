@@ -159,8 +159,6 @@ disposal_beforeyoustart.listitem3 = Os oes gan y cerbyd yn cael ei werthu rhif c
 
 disposal_beforeyoustart.listitem4 = Dim ond yn gwerthu i'r fasnach modur yn cael eu hysbysu gan ddefnyddio'r gwasanaeth hwn. Ni all unrhyw hysbysiad arall megis gwerthu i unigolyn preifat neu newid cyfeiriad yn cael ei wneud ar-lein ar hyn o bryd. Rhaid i'r ceisiadau gael eu gwneud drwy anfon y cais ac unrhyw ddogfennau sy'n berthnasol i DVLA, Abertawe.
 
-disposal_beforeyoustart.listitem5 = Peidiwch â gwaredu cerbyd gyda chofrestru personol oni bai bod y ceidwad ar hyn o bryd yn deall y bydd y cofrestriad yn cael eu gwaredu ynghyd â'r cerbyd. Cadw neu drosglwyddo cofrestriadau personol cyn cael gwared i'r fasnach.
-
 disposal_beforeyoustart.button = Ddechrau nawr
 
 #page 3
