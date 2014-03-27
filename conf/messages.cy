@@ -171,7 +171,7 @@ disposal_businessChooseYourAddress_addressSelect = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress_addressSelect_label = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress.backbutton = Holau
 disposal_businessChooseYourAddress.submitbutton = Dewis
-disposal_businessChooseYourAddress.manualAddressEntry = Methu dod o hyd i'ch cyfeiriad? Rhowch eich cyfeiriad llaw
+disposal_businessChooseYourAddress.manualAddressEntry = Ni allaf ddod o hyd i fy nghyfeiriad
 error.dropDownInvalid = Dewiswch werth o''r rhestr a ollyngir i lawr
 disposal_businessChooseYourAddress_noaddressesfound = Dim canlyniadau ar gyfer y cod post cyfeiriadau. Cliciwch ar y botwm yn ôl i fynd i mewn i god post wahanol neu roi cyfeiriad llaw
 
