@@ -159,8 +159,6 @@ disposal_beforeyoustart.listitem3 = Os oes gan y cerbyd yn cael ei werthu rhif c
 
 disposal_beforeyoustart.listitem4 = Dim ond yn gwerthu i'r fasnach modur yn cael eu hysbysu gan ddefnyddio'r gwasanaeth hwn. Ni all unrhyw hysbysiad arall megis gwerthu i unigolyn preifat neu newid cyfeiriad yn cael ei wneud ar-lein ar hyn o bryd. Rhaid i'r ceisiadau gael eu gwneud drwy anfon y cais ac unrhyw ddogfennau sy'n berthnasol i DVLA, Abertawe.
 
-disposal_beforeyoustart.listitem5 = Peidiwch â gwaredu cerbyd gyda chofrestru personol oni bai bod y ceidwad ar hyn o bryd yn deall y bydd y cofrestriad yn cael eu gwaredu ynghyd â'r cerbyd. Cadw neu drosglwyddo cofrestriadau personol cyn cael gwared i'r fasnach.
-
 disposal_beforeyoustart.button = Ddechrau nawr
 
 #page 3
@@ -173,7 +171,7 @@ disposal_businessChooseYourAddress_addressSelect = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress_addressSelect_label = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress.backbutton = Holau
 disposal_businessChooseYourAddress.submitbutton = Dewis
-disposal_businessChooseYourAddress.manualAddressEntry = Methu dod o hyd i'ch cyfeiriad? Rhowch eich cyfeiriad llaw
+disposal_businessChooseYourAddress.manualAddressEntry = Ni allaf ddod o hyd i fy nghyfeiriad
 error.dropDownInvalid = Dewiswch werth o''r rhestr a ollyngir i lawr
 disposal_businessChooseYourAddress_noaddressesfound = Dim canlyniadau ar gyfer y cod post cyfeiriadau. Cliciwch ar y botwm yn ôl i fynd i mewn i god post wahanol neu roi cyfeiriad llaw
 
@@ -183,7 +181,7 @@ disposal_enteraddressmanually.submitbutton = Nesaf
 disposal_enteraddressmanually.backbutton = Yn ôl
 addressAndPostcode_addressLines = Cyfeiriad
 address.lines.label = Cyfeiriad
-address.line1.label = Rhif y ty
+address.line1.label = Enw'r adeilad neu rif
 address.line2.label= Enwau strydoedd
 address.line3.label= Ardal
 address.line4.label= Postiwch y dref
