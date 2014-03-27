@@ -9,7 +9,7 @@ import ReferenceNumber._
 import RegistrationNumber._
 import mappings.disposal_of_vehicle.VehicleLookup._
 import Consent._
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import models.domain.disposal_of_vehicle.{VehicleDetailsRequest, VehicleDetailsModel, VehicleLookupFormModel}
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import com.google.inject.Inject
@@ -59,8 +59,7 @@ class VehicleLookup @Inject()(webService: services.VehicleLookupService) extends
   }
 
   private def lookupVehicle(webService: services.VehicleLookupService, model: VehicleLookupFormModel): Future[SimpleResult] = {
-    // TODO we need to have a request obj and a response object, don't send a web layer model.
-    webService.invoke(model).map { resp =>
+    webService.invoke(buildMicroServiceRequest(model)).map { resp =>
       Logger.debug(s"VehicleLookup Web service call successful - response = ${resp}")
       // TODO Don't save these two models, instead we need a combined model that has what the user entered into the form plus the micro-service response.
       storeVehicleLookupFormModelInCache(model)
@@ -75,6 +74,10 @@ class VehicleLookup @Inject()(webService: services.VehicleLookupService) extends
         BadRequest("The remote server didn't like the request.")
       }
     }
+  }
+
+  private def buildMicroServiceRequest(formModel: VehicleLookupFormModel):VehicleDetailsRequest = {
+    VehicleDetailsRequest(referenceNumber = formModel.referenceNumber, registrationNumber = formModel.registrationNumber, consent = formModel.consent)
   }
 
 }

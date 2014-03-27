@@ -15,9 +15,9 @@ class VehicleLookupServiceImpl() extends VehicleLookupService {
   implicit val addressViewModel = Json.format[AddressViewModel]
   implicit val vehicleDetailsModel = Json.format[VehicleDetailsModel]
   implicit val vehicleDetailsResponse = Json.format[VehicleDetailsResponse]
-  implicit val vehicleLookupFormModel = Json.writes[VehicleLookupFormModel]
+  implicit val vehicleDetailsRequest = Json.writes[VehicleDetailsRequest]
 
-  override def invoke(cmd: VehicleLookupFormModel): Future[VehicleDetailsResponse] = {
+  override def invoke(cmd: VehicleDetailsRequest): Future[VehicleDetailsResponse] = {
     val endPoint = s"${Config.microServiceBaseUrl}/vehicles/vehicle-lookup"
     Logger.debug(s"Calling vehicle lookup micro service on ${endPoint} with request object: ${cmd}...")
     val futureOfResponse = WS.url(endPoint).post(Json.toJson(cmd))

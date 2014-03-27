@@ -4,7 +4,7 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
 import org.mockito.Matchers._
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import models.domain.disposal_of_vehicle.{VehicleDetailsRequest, VehicleLookupFormModel}
 import services.fakes.FakeVehicleLookupService
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
@@ -12,9 +12,9 @@ import helpers.UnitSpec
 class VehicleLookupFormSpec extends UnitSpec {
 
   "Vehicle lookup form" should {
-    val mockVehicleLookupFormModel = mock[VehicleLookupFormModel]
+    val mockVehicleDetailsRequest = mock[VehicleDetailsRequest]
     val mockWebService = mock[services.VehicleLookupService]
-    when(mockWebService.invoke(any[VehicleLookupFormModel])).thenReturn(new FakeVehicleLookupService().invoke(mockVehicleLookupFormModel))
+    when(mockWebService.invoke(any[VehicleDetailsRequest])).thenReturn(new FakeVehicleLookupService().invoke(mockVehicleDetailsRequest))
     val vehicleLookup = new disposal_of_vehicle.VehicleLookup(mockWebService)
 
     def formWithValidDefaults(referenceNumber: String = referenceNumberValid,
