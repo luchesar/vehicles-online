@@ -31,6 +31,10 @@ mkdir -p workdir/etc/monit.d
   cd -
 )
 
+# add a git log file
+git log > workdir/$RPM_PREFIX/git-log.txt
+git log
+
 # add the init files
 cp -r $MONIT_FILES_DIR/* workdir/etc/monit.d
 cp -r $UPSTART_FILES_DIR/* workdir/etc/init
