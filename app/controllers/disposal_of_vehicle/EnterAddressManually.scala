@@ -7,7 +7,7 @@ import play.api.Logger
 import mappings.common.AddressAndPostcode._
 import controllers.disposal_of_vehicle.Helpers._
 import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
-import utils.helpers.FormHelper._
+import utils.helpers.FormExtensions._
 
 object EnterAddressManually extends Controller {
   val form = Form(

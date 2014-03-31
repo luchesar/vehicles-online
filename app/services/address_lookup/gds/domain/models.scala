@@ -37,33 +37,6 @@ case class Address(
   def toViewModel = presentation.toViewModel
 }
 
-
-case class PlacesAddress(
-                          lineOne: String,
-                          lineTwo: String,
-                          lineThree: String,
-                          lineFour: String,
-                          lineFive: String,
-                          county: String,
-                          city: String,
-                          postcode: String,
-                          uprn: String
-                          )
-
-object PlacesAddress {
-  def fromAddress(address: Address) = PlacesAddress(
-    address.presentation.property.getOrElse(address.presentation.street.getOrElse("")),
-    if(address.presentation.property.isDefined) address.presentation.street.getOrElse("") else "",
-    "",
-    "",
-    "",
-    address.presentation.area.getOrElse(""),
-    address.presentation.town.getOrElse(""),
-    address.presentation.postcode,
-    address.presentation.uprn
-  )
-}
-
 case class Ero(telephoneNumber: String = "")
 case class LocalAuthority(gssId: String, opcsId: String, name: String, ero: Ero = Ero())
 
@@ -81,7 +54,6 @@ object JsonFormats {
   implicit val presentationFormat = Json.format[Presentation]
   implicit val detailsFormat = Json.format[Details]
   implicit val addressFormat = Json.format[Address]
-  implicit val placesAddressFormat = Json.format[PlacesAddress]
   implicit val eroFormat = Json.format[Ero]
   implicit val authorityFormat = Json.format[LocalAuthority]
 }

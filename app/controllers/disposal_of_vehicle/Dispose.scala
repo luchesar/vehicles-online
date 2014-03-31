@@ -1,6 +1,6 @@
 package controllers.disposal_of_vehicle
 
-import play.api.data.{FormError, Form}
+import play.api.data.{Form}
 import play.api.data.Forms._
 import play.api.Logger
 import play.api.mvc._
@@ -11,11 +11,10 @@ import constraints.common
 import common.DayMonthYear._
 import controllers.disposal_of_vehicle.Helpers._
 import models.domain.disposal_of_vehicle._
-import scala.Some
 import com.google.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-import utils.helpers.FormHelper._
+import utils.helpers.FormExtensions._
 import models.domain.disposal_of_vehicle.DisposeFormModel
 import play.api.data.FormError
 import scala.Some
