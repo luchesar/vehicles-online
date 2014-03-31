@@ -265,6 +265,8 @@ disposal_vehiclelookup.traderaddresslabel = Trader address
 
 #page 5 - confirm disposal
 disposal_dispose.title = Complete & confirm
+disposal_dispose.warning=If the details above do not match the vehicle to be sold, please
+disposal_dispose.warning.link=contact the DVLA.
 disposal_dispose.vehicledetails = Vehicle being sold
 disposal_dispose.vehiclereg = Registration number
 disposal_dispose.vehiclemake = Make

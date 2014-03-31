@@ -224,6 +224,8 @@ disposal_vehiclelookup.tradernamelabel = Enw masnachwr
 disposal_vehiclelookup.traderaddresslabel = Gyfeiriad masnachwr
 
 disposal_dispose.title = Cwblhau & gadarnhau
+disposal_dispose.warning = Os yw''r manylion uchod yn cyd-fynd â''r cerbyd i gael ei werthu, os gwelwch yn dda
+disposal_dispose.warning.link = cysylltu â''r DVLA.
 disposal_dispose.vehicledetails = Cerbyd yn cael ei werthu
 disposal_dispose.vehiclereg = Rhif cofrestru
 disposal_dispose.vehiclemake = Gwneud
