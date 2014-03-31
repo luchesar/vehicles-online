@@ -14,7 +14,7 @@ class FakeVehicleLookupService extends VehicleLookupService {
   def generateVehicleLookupFormModel(statusReturned: Boolean = false, messageReturned: String = failMessage) =
     VehicleDetailsResponse(statusReturned, message = messageReturned, vehicleDetailsDto =
     VehicleDetailsDto(registrationNumber = "PJ056YY", vehicleMake = "Alfa Romeo", vehicleModel = "Alfasud ti", keeperName =
-      "Keeper Name", keeperAddress = AddressViewModel(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
+      "Keeper Name", keeperAddress = AddressDto(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
 
   override def invoke(cmd: VehicleDetailsRequest): Future[VehicleDetailsResponse] = Future {
     if (cmd.referenceNumber == "9" * 11) generateVehicleLookupFormModel(false, failMessage)
