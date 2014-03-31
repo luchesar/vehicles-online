@@ -7,6 +7,7 @@ import scala.concurrent.Future
 import play.api.Logger
 import com.ning.http.client.Realm.AuthScheme
 
+// TODO rename class to AddressLookupServiceImpl and and trait to AddressLookupService
 class WebServiceImpl extends WebService {
   val username = s"${ Config.ordnanceSurveyUsername }"
   val password = s"${ Config.ordnanceSurveyPassword }"

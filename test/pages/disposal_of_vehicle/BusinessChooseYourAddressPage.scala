@@ -2,6 +2,7 @@ package pages.disposal_of_vehicle
 
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
+import org.openqa.selenium.support.ui.Select
 
 object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
   val address: String = "/disposal-of-vehicle/business-choose-your-address"
@@ -14,7 +15,9 @@ object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
 
   def manualAddress(implicit driver: WebDriver): Element = find(id("enterAddressManuallyButton")).get
 
-  def getListCount(implicit driver: WebDriver): Int = find(xpath("//*[@id='disposal_businessChooseYourAddress_addressSelect']/option")).size
+  def getList(implicit driver: WebDriver) = singleSel(id("disposal_businessChooseYourAddress_addressSelect")).getOptions
+
+  def getListCount(implicit driver: WebDriver): Int = getList.size
 
   def select(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
 

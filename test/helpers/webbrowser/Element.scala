@@ -277,6 +277,8 @@ class SingleSel(val underlying: WebElement) extends Element {
         throw new TestFailedException(e.getMessage)
     }
   }
+
+  def getOptions = select.getOptions
 }
 
 class MultiSel(val underlying: WebElement) extends Element {
