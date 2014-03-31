@@ -7,12 +7,12 @@ import play.api.libs.ws.Response
 import javax.inject.Inject
 import services.address_lookup.ordnance_survey.domain.OSAddressbaseResult
 import play.api.Logger
-import services.address_lookup.AddressLookupService
+import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 
 /**
  * Fake implementation of the FakeAddressLookupService trait
  */
-class FakeAddressLookupService @Inject()(ws: services.WebService) extends AddressLookupService {
+class FakeAddressLookupService @Inject()(ws: AddressLookupWebService) extends AddressLookupService {
   override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = Future {
     if (postcode == FakeAddressLookupService.postcodeInvalid) Seq.empty
     else FakeAddressLookupService.fetchedAddresses

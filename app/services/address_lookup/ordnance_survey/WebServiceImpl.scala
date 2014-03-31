@@ -1,14 +1,13 @@
 package services.address_lookup.ordnance_survey
 
 import play.api.libs.ws.{Response, WS}
-import services.WebService
 import utils.helpers.Config
 import scala.concurrent.Future
 import play.api.Logger
 import com.ning.http.client.Realm.AuthScheme
+import services.address_lookup.AddressLookupWebService
 
-// TODO rename class to AddressLookupServiceImpl and and trait to AddressLookupService
-class WebServiceImpl extends WebService {
+class WebServiceImpl extends AddressLookupWebService {
   val username = s"${ Config.ordnanceSurveyUsername }"
   val password = s"${ Config.ordnanceSurveyPassword }"
   val baseUrl = s"${ Config.ordnanceSurveyBaseUrl }"

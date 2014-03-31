@@ -4,7 +4,8 @@ import app.ConfigProperties._
 import com.tzavellas.sse.guice.ScalaModule
 import play.api.Logger
 import services._
-import services.address_lookup.AddressLookupService
+import services.address_lookup.{AddressLookupWebService, AddressLookupService}
+import services.vehicle_lookup.{VehicleLookupWebServiceImpl, VehicleLookupWebService}
 
 /**
  * Provides real implementations of traits
@@ -24,6 +25,7 @@ object DevModule extends ScalaModule {
       case "ordnanceSurvey" => ordnanceSurveyAddressLookup()
       case _ => gdsAddressLookup()
     }
+    bind[VehicleLookupWebService].to[VehicleLookupWebServiceImpl].asEagerSingleton()
     bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton()
     bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton()
   }
@@ -31,12 +33,12 @@ object DevModule extends ScalaModule {
   private def ordnanceSurveyAddressLookup() = {
     Logger.debug("IoC ordnance survey address lookup service")
     bind[AddressLookupService].to[services.address_lookup.ordnance_survey.AddressLookupServiceImpl].asEagerSingleton()
-    bind[WebService].to[services.address_lookup.ordnance_survey.WebServiceImpl].asEagerSingleton()
+    bind[AddressLookupWebService].to[services.address_lookup.ordnance_survey.WebServiceImpl].asEagerSingleton()
   }
 
   private def gdsAddressLookup() = {
     Logger.debug("IoC gds address lookup service")
     bind[AddressLookupService].to[services.address_lookup.gds.AddressLookupServiceImpl].asEagerSingleton()
-    bind[WebService].to[services.address_lookup.gds.WebServiceImpl].asEagerSingleton()
+    bind[AddressLookupWebService].to[services.address_lookup.gds.WebServiceImpl].asEagerSingleton()
   }
 }

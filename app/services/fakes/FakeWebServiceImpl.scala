@@ -1,15 +1,15 @@
 package services.fakes
 
 import play.api.libs.ws.Response
-import services.WebService
 import services.address_lookup.ordnance_survey.domain.{OSAddressbaseResult, OSAddressbaseDPA}
 import play.api.libs.json.Json
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.address_lookup.gds.domain.{Location, Details, Presentation, Address}
+import services.address_lookup.AddressLookupWebService
 
 class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
-                         responseOfUprnWebService: Future[Response]) extends WebService {
+                         responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
   override def callPostcodeWebService(postcode: String): Future[Response] = responseOfPostcodeWebService
 
   override def callUprnWebService(postcode: String): Future[Response] = responseOfUprnWebService

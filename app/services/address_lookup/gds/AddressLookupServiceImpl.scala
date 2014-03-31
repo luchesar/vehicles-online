@@ -9,9 +9,9 @@ import javax.inject.Inject
 import play.api.libs.ws.Response
 import services.address_lookup.gds.domain.Address
 import services.address_lookup.gds.domain.JsonFormats.addressFormat
-import services.address_lookup.AddressLookupService
+import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 
-class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends AddressLookupService {
+class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends AddressLookupService {
   private def extractFromJson(resp: Response): Seq[Address] = {
     try resp.json.as[Seq[Address]]
     catch {
