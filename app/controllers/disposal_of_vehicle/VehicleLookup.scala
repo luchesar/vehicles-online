@@ -64,7 +64,7 @@ class VehicleLookup @Inject()(webService: services.VehicleLookupService) extends
       // TODO Don't save these two models, instead we need a combined model that has what the user entered into the form plus the micro-service response.
       storeVehicleLookupFormModelInCache(model)
       if (resp.success) {
-        storeVehicleDetailsInCache(resp.vehicleDetailsModel)
+        storeVehicleDetailsInCache(VehicleDetailsModel.fromDto(resp.vehicleDetailsDto))
         Redirect(routes.Dispose.present)
       }
       else Redirect(routes.VehicleLookupFailure.present)
@@ -77,7 +77,7 @@ class VehicleLookup @Inject()(webService: services.VehicleLookupService) extends
   }
 
   private def buildMicroServiceRequest(formModel: VehicleLookupFormModel):VehicleDetailsRequest = {
-    VehicleDetailsRequest(referenceNumber = formModel.referenceNumber, registrationNumber = formModel.registrationNumber, consent = formModel.consent)
+    VehicleDetailsRequest(referenceNumber = formModel.referenceNumber, registrationNumber = formModel.registrationNumber)
   }
 
 }

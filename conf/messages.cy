@@ -224,6 +224,8 @@ disposal_vehiclelookup.tradernamelabel = Enw masnachwr
 disposal_vehiclelookup.traderaddresslabel = Gyfeiriad masnachwr
 
 disposal_dispose.title = Cwblhau & gadarnhau
+disposal_dispose.warning = Os yw''r manylion uchod yn cyd-fynd â''r cerbyd i gael ei werthu, os gwelwch yn dda
+disposal_dispose.warning.link = cysylltu â''r DVLA.
 disposal_dispose.vehicledetails = Cerbyd yn cael ei werthu
 disposal_dispose.vehiclereg = Rhif cofrestru
 disposal_dispose.vehiclemake = Gwneud
@@ -266,6 +268,7 @@ disposal_disposeconfirmation.disposaldate = Dyddiad gwaredu
 disposal_disposeconfirmation.mileage = Milltiroedd
 disposal_disposeconfirmation.noMileageEntered = Naddo milltiroedd gofnodi
 disposal_disposeconfirmation.exitbutton = Gadael
+disposal_disposeconfirmation.survey = Arolwg
 
 disposal_vehiclelookupfailure.title = Cael gwared cerbyd i mewn i'r fasnach foduron: methiant Gwrthdro-edrych gerbyd
 disposal_vehiclelookupfailure.name = Methiant

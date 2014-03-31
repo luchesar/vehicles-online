@@ -15,7 +15,7 @@
     @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit) {
     
 	<div class="alert-warning">
-    	<p>If the details above do not match the vehicle to be sold, please <a href="https://www.gov.uk/contact">contact the DVLA.</a></p>
+    	<p>@Messages("disposal_dispose.warning")&nbsp;<a href="https://www.gov.uk/contact">@Messages("disposal_dispose.warning.link")</a></p>
     </div>
 
     <div class="two-col clearfix">
