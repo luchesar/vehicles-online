@@ -11,7 +11,7 @@ object ReferenceNumber {
   val pattern = s"\\d{$minLength,$maxLength}" // Digits only with specified size.
   val key = "ReferenceNumber"
 
-  def referenceNumber (minLength: Int = ReferenceNumber.minLength, maxLength: Int = common.ReferenceNumber.maxLength): Mapping[String] = {
+  def referenceNumber: Mapping[String] = {
     nonEmptyText(minLength, maxLength) verifying NumberOnly.rules
   }
 }

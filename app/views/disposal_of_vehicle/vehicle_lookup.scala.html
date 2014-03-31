@@ -1,6 +1,5 @@
 @(data: models.domain.disposal_of_vehicle.DealerDetailsModel, vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang)
 
-@import mappings.common.Postcode
 @import helper._
 @import utils.helpers.BaseTemplate._
 @import views.html.helper.base._
@@ -9,7 +8,6 @@
 @import mappings.disposal_of_vehicle.VehicleLookup._
 @import mappings.common.ReferenceNumber
 @import mappings.common.RegistrationNumber
-@import mappings.common.KeeperName
 
 @main(Messages("disposal_vehiclelookup.title")) {
     @errorsSummary(vehicleLookupForm)
