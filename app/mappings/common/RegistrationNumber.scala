@@ -9,7 +9,7 @@ object RegistrationNumber {
   val maxLength = 8
   val key = "RegistrationNumber"
 
-  def registrationNumber (minLength: Int = Int.MinValue, maxLength: Int = Int.MaxValue): Mapping[String] = {
+  def registrationNumber: Mapping[String] = {
     nonEmptyText(minLength, maxLength) verifying validRegistrationNumber
   }
 }

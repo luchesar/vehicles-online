@@ -10,7 +10,7 @@ object Postcode {
   val minLength = 5
   val maxLength = 8
 
-  def postcode (minLength: Int = minLength, maxLength: Int = maxLength): Mapping[String] = {
+  def postcode: Mapping[String] = {
     nonEmptyText(minLength, maxLength) verifying validPostcode
   }
 }

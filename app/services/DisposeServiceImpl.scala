@@ -7,6 +7,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.Config
 import models.domain.disposal_of_vehicle.{DisposeRequest, DisposeResponse}
+import models.domain.disposal_of_vehicle.DisposeRequest.disposeRequestFormat
 
 class DisposeServiceImpl() extends DisposeService {
   override def invoke(cmd: DisposeRequest): Future[DisposeResponse] = {
