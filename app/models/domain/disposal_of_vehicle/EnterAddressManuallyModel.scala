@@ -7,22 +7,21 @@ case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcode
   def stripCharsNotAccepted = {
     @tailrec
     def stripEndOfLine(inputLine: Option[String]): Option[String] = inputLine match {
-      case Some(line) => {
-        val submitRegex = """^[A-Za-z0-9\s\-]*$""".r
+      case Some(line) =>
+        val whitelist = """^[A-Za-z0-9\s\-]*$""".r
         line.takeRight(1) match {
-          case lastChar if !submitRegex.pattern.matcher(lastChar).matches => stripEndOfLine(Some(line.dropRight(1)))
+          case lastChar if !whitelist.pattern.matcher(lastChar).matches => stripEndOfLine(Some(line.dropRight(1)))
           case _ => inputLine
         }
-      }
       case _ => None
     }
 
-    require(!addressAndPostcodeModel.addressLinesModel.line1.isEmpty, "Address line1 must have content")
     val line1 = stripEndOfLine(Some(addressAndPostcodeModel.addressLinesModel.line1))
     val line2 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line2)
     val line3 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line3)
     val line4 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line4)
 
+    require(line1.isDefined, "Address line1 must have content")
     copy(addressAndPostcodeModel = addressAndPostcodeModel.copy(addressLinesModel = AddressLinesModel(line1.get, line2, line3, line4)))
   }
 }
