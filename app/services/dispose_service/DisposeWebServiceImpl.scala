@@ -10,7 +10,7 @@ import play.api.Logger
 class DisposeWebServiceImpl extends DisposeWebService {
   val endPoint = s"${Config.microServiceBaseUrl}/vehicles/dispose/v1"
 
-  def callVehicleLookupService(request: DisposeRequest): Future[Response] = {
+  def callDisposeService(request: DisposeRequest): Future[Response] = {
     Logger.debug(s"Calling dispose vehicle micro service on $endPoint with request object: $request...")
     WS.url(endPoint).post(Json.toJson(request))
   }

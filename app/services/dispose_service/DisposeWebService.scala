@@ -5,5 +5,5 @@ import play.api.libs.ws.Response
 import models.domain.disposal_of_vehicle.DisposeRequest
 
 trait DisposeWebService {
-  def callVehicleLookupService(request: DisposeRequest): Future[Response]
+  def callDisposeService(request: DisposeRequest): Future[Response]
 }
