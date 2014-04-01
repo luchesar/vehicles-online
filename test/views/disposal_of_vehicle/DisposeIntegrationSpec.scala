@@ -40,8 +40,17 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.businessChooseYourAddress()
       go to DisposePage.url
 
+      assert(page.title equals VehicleLookupPage.title)
+    }
+
+
+    "redirect when no VehicleLookupFormModel is cached" in new WebBrowser {
+      CacheSetup.vehicleDetailsModel()
+      go to DisposePage.url
+
       assert(page.title equals SetupTradeDetailsPage.title)
     }
+
 
     "redirect when no traderBusinessName is cached" in new WebBrowser {
       go to DisposePage.url
