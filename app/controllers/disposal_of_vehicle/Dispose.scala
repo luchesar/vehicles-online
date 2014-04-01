@@ -23,8 +23,9 @@ import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.DealerDetailsModel
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import org.joda.time.format.{ISODateTimeFormat}
+import services.dispose_service.DisposeService
 
-class Dispose @Inject()(webService: services.DisposeService) extends Controller {
+class Dispose @Inject()(webService: DisposeService) extends Controller {
 
   val disposeForm = Form(
     mapping(
@@ -88,7 +89,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
     model
   }
 
-  private def disposeAction(webService: services.DisposeService, f: DisposeFormModel): Future[SimpleResult] = {
+  private def disposeAction(webService: DisposeService, f: DisposeFormModel): Future[SimpleResult] = {
     fetchVehicleLookupDetailsFromCache match {
       case Some(vehicleLookupFormModel) => {
         val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,

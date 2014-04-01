@@ -6,7 +6,6 @@ import controllers.{disposal_of_vehicle}
 import mappings.disposal_of_vehicle.Dispose._
 import helpers.disposal_of_vehicle.Helper._
 import models.domain.disposal_of_vehicle.{DisposeRequest, DisposeResponse, DisposeModel}
-import services.fakes.FakeDisposeService
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import pages.disposal_of_vehicle._
@@ -14,13 +13,15 @@ import helpers.disposal_of_vehicle.CacheSetup
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import helpers.UnitSpec
+import services.dispose_service.DisposeService
+import services.fakes.FakeDisposeService
 
 class DisposeUnitSpec extends UnitSpec {
 
   "Dispose - Controller" should {
 
        val mockDisposeRequest = mock[DisposeRequest]
-       val mockWebServiceSuccess = mock[services.DisposeService]
+       val mockWebServiceSuccess = mock[DisposeService]
        when(mockWebServiceSuccess.invoke(any[DisposeRequest])).thenReturn(new FakeDisposeService().invoke(mockDisposeRequest))
        val dispose = new disposal_of_vehicle.Dispose(mockWebServiceSuccess)
 
@@ -54,7 +55,7 @@ class DisposeUnitSpec extends UnitSpec {
     "redirect to dispose error when a fail message is returned by the fake microservice" in new WithApplication {
       val mockDisposeRequestFails = mock[DisposeRequest]
       when (mockDisposeRequestFails.referenceNumber).thenReturn(FakeDisposeService.failureReferenceNumber)
-      val mockWebServiceFailure = mock[services.DisposeService]
+      val mockWebServiceFailure = mock[DisposeService]
       when(mockWebServiceFailure.invoke(any[DisposeRequest])).thenReturn(new FakeDisposeService().invoke(mockDisposeRequestFails))
       val dispose = new disposal_of_vehicle.Dispose(mockWebServiceFailure)
 
@@ -129,7 +130,7 @@ class DisposeUnitSpec extends UnitSpec {
 
       val disposeResponseThrows = mock[DisposeResponse]
       when(disposeResponseThrows.success).thenThrow(new RuntimeException("expected by DisposeUnitSpec"))
-      val mockWebServiceThrows = mock[services.DisposeService]
+      val mockWebServiceThrows = mock[DisposeService]
       when(mockWebServiceThrows.invoke(any[DisposeRequest])).thenReturn(Future {
         disposeResponseThrows
       })

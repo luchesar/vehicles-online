@@ -1,4 +1,4 @@
-package services
+package services.dispose_service
 
 import play.api.libs.json.Json
 import play.api.libs.ws.WS

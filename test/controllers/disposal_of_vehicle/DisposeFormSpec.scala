@@ -5,16 +5,17 @@ import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import models.domain.disposal_of_vehicle.{DisposeRequest, DisposeModel}
-import services.fakes.FakeDisposeService
 import controllers.disposal_of_vehicle
 import models.DayMonthYear
 import helpers.UnitSpec
+import services.dispose_service.DisposeService
+import services.fakes.FakeDisposeService
 
 class DisposeFormSpec extends UnitSpec {
 
   "Dispose Form" should {
     val mockDisposeRequest = mock[DisposeRequest]
-    val mockWebService = mock[services.DisposeService]
+    val mockWebService = mock[DisposeService]
     when(mockWebService.invoke(any[DisposeRequest])).thenReturn(new FakeDisposeService().invoke(mockDisposeRequest))
     val dispose = new disposal_of_vehicle.Dispose(mockWebService)
 

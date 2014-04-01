@@ -1,11 +1,10 @@
 package services.fakes
 
-import services.DisposeService
 import models.domain.disposal_of_vehicle._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import models.domain.disposal_of_vehicle.DisposeResponse
-import play.api.Logger
+import services.dispose_service.DisposeService
 
 class FakeDisposeService extends DisposeService {
   val successMessage = "Fake Web Dispose Service - Good response"
