@@ -5,7 +5,6 @@ import models.domain.disposal_of_vehicle._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import models.domain.disposal_of_vehicle.VehicleDetailsResponse
-import scala.Some
 
 class FakeVehicleLookupService extends VehicleLookupService {
   val successMessage = "Fake Web Lookup Service - Good response"
@@ -21,3 +20,6 @@ class FakeVehicleLookupService extends VehicleLookupService {
     else generateVehicleLookupFormModel(true, successMessage)
   }
 }
+
+
+class FakeVehicleLookupWebService extends VehicleLookupWebService

@@ -7,19 +7,40 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
 import org.mockito.Matchers._
-import models.domain.disposal_of_vehicle.{VehicleDetailsRequest}
-import services.fakes.{FakeDisposeService, FakeVehicleLookupService}
+import models.domain.disposal_of_vehicle.{AddressDto, VehicleDetailsDto, VehicleDetailsResponse, VehicleDetailsRequest}
+import services.fakes.{FakeResponse, FakeDisposeService, FakeVehicleLookupService}
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UnitSpec
+import services.vehicle_lookup.VehicleLookupWebService
+import scala.concurrent.{ExecutionContext, Future}
+import play.api.libs.json.Json
+import ExecutionContext.Implicits.global
+import services.VehicleLookupServiceImpl
 
 class VehicleLookupUnitSpec extends UnitSpec {
 
   "VehicleLookup - Controller" should {
-    val mockVehicleDetailsRequestSuccess = mock[VehicleDetailsRequest]
-    val mockWebServiceSuccess = mock[services.VehicleLookupService]
-    when(mockWebServiceSuccess.invoke(any[VehicleDetailsRequest])).thenReturn(new FakeVehicleLookupService().invoke(mockVehicleDetailsRequestSuccess))
-    val vehicleLookupSuccess = new disposal_of_vehicle.VehicleLookup(mockWebServiceSuccess)
+    val vehicleLookupSuccess = {
+      val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
+      when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
+        val vehicleDetailsResponse =
+          VehicleDetailsResponse(true,
+            message = "Fake Web Lookup Service - Good response",
+            vehicleDetailsDto = VehicleDetailsDto(registrationNumber = "PJ056YY",
+              vehicleMake = "Alfa Romeo",
+              vehicleModel = "Alfasud ti",
+              keeperName = "Keeper Name",
+              keeperAddress = AddressDto(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
+        val responseAsJson = Json.toJson(vehicleDetailsResponse)
+
+        new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+      })
+
+      val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
+
+      new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
+    }
 
     "present" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
@@ -64,11 +85,26 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
 
     "redirect to VehicleLookupFailure after a submit and false message returned from the fake microservice" in new WithApplication {
-      val mockVehicleDetailsRequestFailure = mock[VehicleDetailsRequest]
-      when (mockVehicleDetailsRequestFailure.referenceNumber).thenReturn(FakeDisposeService.failureReferenceNumber)
-      val mockWebServiceFailure = mock[services.VehicleLookupService]
-      when(mockWebServiceFailure.invoke(any[VehicleDetailsRequest])).thenReturn(new FakeVehicleLookupService().invoke(mockVehicleDetailsRequestFailure))
-      val vehicleLookupFailure = new disposal_of_vehicle.VehicleLookup(mockWebServiceFailure)
+      val vehicleLookupFailure = {
+        val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
+        when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
+          val vehicleDetailsResponse =
+            VehicleDetailsResponse(false,
+              message = "Fake Web Dispose Service - Bad response",
+              vehicleDetailsDto = VehicleDetailsDto(registrationNumber = "PJ056YY",
+                vehicleMake = "Alfa Romeo",
+                vehicleModel = "Alfasud ti",
+                keeperName = "Keeper Name",
+                keeperAddress = AddressDto(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
+          val responseAsJson = Json.toJson(vehicleDetailsResponse)
+
+          new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+        })
+
+        val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
+
+        new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
+      }
 
       CacheSetup.businessChooseYourAddress()
 
