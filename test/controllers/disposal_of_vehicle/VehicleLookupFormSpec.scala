@@ -130,7 +130,6 @@ class VehicleLookupFormSpec extends UnitSpec {
       formWithValidDefaults(registrationNumber = "1AAAA").errors should have length 1
     }
 
-
     "reject if registrationNumber is in an incorrect format 11111" in {
       formWithValidDefaults(registrationNumber = "11111").errors should have length 1
     }
@@ -276,9 +275,16 @@ class VehicleLookupFormSpec extends UnitSpec {
       formWithValidDefaults(registrationNumber = "1111111").errors should have length 1
     }
 
-
     "reject if registrationNumber is in an incorrect format 1111AAAA" in {
       formWithValidDefaults(registrationNumber = "1111AAAA").errors should have length 1
+    }
+
+    "reject if registrationNumber is in an incorrect format AA11AA" in {
+      formWithValidDefaults(registrationNumber = "AA11AA").errors should have length 1
+    }
+
+    "reject if registrationNumber is in an incorrect format 11AA11" in {
+      formWithValidDefaults(registrationNumber = "11AA11").errors should have length 1
     }
 
     "accept if registrationNumber equals A9" in {
