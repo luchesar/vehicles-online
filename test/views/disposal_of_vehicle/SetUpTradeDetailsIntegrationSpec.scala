@@ -126,12 +126,6 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-    "display one validation error message when a trader name is entered containing $" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "$")
-
-      assert(ErrorPanel.numberOfErrors equals 1)
-    }
-
     "display one validation error message when a trader name is entered containing %" in new WebBrowser {
       SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "%")
 

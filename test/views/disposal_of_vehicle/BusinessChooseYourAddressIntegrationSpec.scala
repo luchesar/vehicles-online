@@ -60,7 +60,7 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 
       val result = webDriver.getPageSource
 
-      result.contains("No addresses found for that postcode")  must beEqualTo(false) // Does not contain message
+      assert(result.contains("No addresses found for that postcode") equals false) // Does not contain message
     }
 
     "display expected addresses in dropdown when address service returns addresses" in new WebBrowser {
@@ -69,8 +69,8 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
       val result = webDriver.getPageSource
 
       assert(BusinessChooseYourAddressPage.getListCount equals 3) // The first option is the "Please select..." and the other options are the addresses.
-      result.contains(FakeAddressLookupService.address1.address.mkString(", "))  must beEqualTo(true)
-      result.contains(FakeAddressLookupService.address2.address.mkString(", "))  must beEqualTo(true)
+      assert(result.contains(FakeAddressLookupService.address1.address.mkString(", ")) equals true)
+      assert(result.contains(FakeAddressLookupService.address2.address.mkString(", ")) equals true)
     }
 
     "display 'No addresses found' message when address service returns no addresses" in new WebBrowser {
@@ -78,7 +78,7 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 
       val result = webDriver.getPageSource
 
-      result.contains("No addresses found for that postcode")  must beEqualTo(true) // Does not contain message
+      assert(result.contains("No addresses found for that postcode") equals true) // Does not contain message
     }
   }
 }
