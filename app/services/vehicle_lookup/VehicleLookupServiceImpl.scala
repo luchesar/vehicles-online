@@ -1,4 +1,4 @@
-package services
+package services.vehicle_lookup
 
 import play.api.Logger
 import scala.concurrent.{ExecutionContext, Future}
