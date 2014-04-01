@@ -93,6 +93,12 @@ class VehicleLookupFormSpec extends UnitSpec {
       formWithValidDefaults(registrationNumber = "AB53WERT").errors should have length 1
     }
 
+
+    "reject if registrationNumber is more than max length 2" in {
+      formWithValidDefaults(registrationNumber = "PJ056YYY").errors should have length 1
+    }
+
+
     "reject if registrationNumber contains special characters" in {
       formWithValidDefaults(registrationNumber = "ab53ab%").errors should have length 1
     }
@@ -146,7 +152,7 @@ class VehicleLookupFormSpec extends UnitSpec {
       formWithValidDefaults(registrationNumber = "AAAAA9").errors should have length 1
     }
 
-    "reject if registrationNumber is in an incorrect format " in {
+    "reject if registrationNumber is in an incorrect format AAAAAAA" in {
       formWithValidDefaults(registrationNumber = "AAAAAAA").errors should have length 1
     }
 
