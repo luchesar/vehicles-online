@@ -1,8 +1,12 @@
 package services.dispose_service
 
-/**
- * Created by valtechuk on 01/04/2014.
- */
+import models.domain.disposal_of_vehicle.DisposeRequest
+import scala.concurrent.Future
+import play.api.libs.ws.{WS, Response}
+import play.api.libs.json.Json
+import utils.helpers.Config
+import play.api.Logger
+
 class DisposeWebServiceImpl extends DisposeWebService {
   val endPoint = s"${Config.microServiceBaseUrl}/vehicles/dispose/v1"
 

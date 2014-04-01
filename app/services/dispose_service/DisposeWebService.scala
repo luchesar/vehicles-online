@@ -1,8 +1,9 @@
 package services.dispose_service
 
-/**
- * Created by valtechuk on 01/04/2014.
- */
+import scala.concurrent.Future
+import play.api.libs.ws.Response
+import models.domain.disposal_of_vehicle.DisposeRequest
+
 trait DisposeWebService {
   def callVehicleLookupService(request: DisposeRequest): Future[Response]
 }

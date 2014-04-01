@@ -1,23 +1,22 @@
 package services.dispose_service
 
-import play.api.libs.json.Json
-import play.api.libs.ws.WS
 import play.api.Logger
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.Config
 import models.domain.disposal_of_vehicle.{DisposeRequest, DisposeResponse}
 import models.domain.disposal_of_vehicle.DisposeRequest.disposeRequestFormat
+import javax.inject.Inject
 
-class DisposeServiceImpl() extends DisposeService {
+class DisposeServiceImpl @Inject()(ws: DisposeWebService) extends DisposeService {
   override def invoke(cmd: DisposeRequest): Future[DisposeResponse] = {
     val endPoint = s"${Config.microServiceBaseUrl}/vehicles/dispose/v1"
-    Logger.debug(s"Calling dispose vehicle micro service on ${endPoint} with request object: ${cmd}...")
-    val futureOfResponse = WS.url(endPoint).post(Json.toJson(cmd))
+    Logger.debug(s"Calling dispose vehicle micro service on $endPoint with request object: $cmd...")
 
-    futureOfResponse.map { resp =>
-      Logger.debug(s"Http response code from dispose vehicle micro service was: ${resp.status}")
-      resp.json.as[DisposeResponse]
+    ws.callVehicleLookupService(cmd).map {
+      resp =>
+        Logger.debug(s"Http response code from dispose vehicle micro service was: ${resp.status}")
+        resp.json.as[DisposeResponse]
     }
   }
 }

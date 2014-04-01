@@ -8,8 +8,7 @@ import models.domain.disposal_of_vehicle._
 import services.fakes.FakeResponse
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
-import services.VehicleLookupServiceImpl
-import services.vehicle_lookup.VehicleLookupWebService
+import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global

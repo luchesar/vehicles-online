@@ -1,11 +1,10 @@
 package services.fakes
 
-import services.VehicleLookupService
 import models.domain.disposal_of_vehicle._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import models.domain.disposal_of_vehicle.VehicleDetailsResponse
-import services.vehicle_lookup.VehicleLookupWebService
+import services.vehicle_lookup.{VehicleLookupService, VehicleLookupWebService}
 import play.api.libs.json.Json
 
 class FakeVehicleLookupWebService extends VehicleLookupWebService {
