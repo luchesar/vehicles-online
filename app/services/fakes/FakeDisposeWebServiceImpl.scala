@@ -4,7 +4,7 @@ import models.domain.disposal_of_vehicle._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import models.domain.disposal_of_vehicle.DisposeResponse
-import services.dispose_service.{DisposeWebService, DisposeService}
+import services.dispose_service.DisposeWebService
 import play.api.libs.ws.Response
 import scala.Some
 import play.api.libs.json.Json
