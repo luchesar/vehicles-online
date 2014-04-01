@@ -9,26 +9,6 @@ import play.api.libs.ws.Response
 import scala.Some
 import play.api.libs.json.Json
 
-class FakeDisposeService extends DisposeService {
-  val successMessage = "Fake Web Dispose Service - Good response"
-  val failMessage = "Fake Web Dispose Service - Bad response"
-  val registrationNumberValid = "Q123ABC"
-  val auditIdValid = "7575"
-
-  def generateDisposeResponse(statusReturned: Boolean, messageReturned: String) =
-    DisposeResponse(success = statusReturned, message = messageReturned, transactionId = "1234", registrationNumber = registrationNumberValid, auditId = auditIdValid)
-
-  override def invoke(cmd: DisposeRequest): Future[DisposeResponse] = Future {
-    if (cmd.referenceNumber == FakeDisposeService.failureReferenceNumber) generateDisposeResponse(false, failMessage)
-    else generateDisposeResponse(true, successMessage)
-  }
-}
-
-object FakeDisposeService {
-  val failureReferenceNumber = "9" * 11
-}
-
-
 class FakeDisposeWebServiceImpl extends DisposeWebService {
   override def callDisposeService(request: DisposeRequest): Future[Response] = Future {
     val disposeResponse =
