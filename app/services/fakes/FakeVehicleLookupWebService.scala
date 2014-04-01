@@ -6,6 +6,7 @@ import ExecutionContext.Implicits.global
 import models.domain.disposal_of_vehicle.VehicleDetailsResponse
 import services.vehicle_lookup.{VehicleLookupService, VehicleLookupWebService}
 import play.api.libs.json.Json
+import play.api.Logger
 
 class FakeVehicleLookupWebService extends VehicleLookupWebService {
   override def callVehicleLookupService(request: VehicleDetailsRequest) = Future {
@@ -24,7 +25,7 @@ class FakeVehicleLookupWebService extends VehicleLookupWebService {
         vehicleDetailsDto = vehicleDetails)
 
     val responseAsJson = Json.toJson(vehicleDetailsResponse)
-
+    Logger.debug(s"FakeVehicleLookupWebService callVehicleLookupService with: $responseAsJson")
     new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
   }
 }

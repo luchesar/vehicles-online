@@ -27,7 +27,7 @@ object TestModule extends ScalaModule {
   }
 
   private def ordnanceSurveyAddressLookup() = {
-    bind[AddressLookupService].to[FakeAddressLookupService]
+    bind[AddressLookupService].to[services.address_lookup.ordnance_survey.AddressLookupServiceImpl]
     val fakeWebServiceImpl = new FakeWebServiceImpl(
       responseOfPostcodeWebService = FakeWebServiceImpl.responseValidForOrdnanceSurvey,
       responseOfUprnWebService = FakeWebServiceImpl.responseValidForOrdnanceSurvey
@@ -36,7 +36,7 @@ object TestModule extends ScalaModule {
   }
 
   private def gdsAddressLookup() = {
-    bind[AddressLookupService].to[FakeAddressLookupService]
+    bind[AddressLookupService].to[services.address_lookup.gds.AddressLookupServiceImpl]
     val fakeWebServiceImpl = new FakeWebServiceImpl(
       responseOfPostcodeWebService = FakeWebServiceImpl.responseValidForGdsAddressLookup,
       responseOfUprnWebService = FakeWebServiceImpl.responseValidForGdsAddressLookup

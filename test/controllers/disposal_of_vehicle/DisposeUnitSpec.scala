@@ -12,7 +12,7 @@ import org.mockito.Mockito._
 import org.mockito.Matchers._
 import helpers.UnitSpec
 import services.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeService}
-import services.fakes.{FakeResponse, FakeDisposeService}
+import services.fakes.{FakeResponse}
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global

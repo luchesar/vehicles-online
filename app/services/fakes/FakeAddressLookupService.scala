@@ -12,7 +12,7 @@ import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 /**
  * Fake implementation of the FakeAddressLookupService trait
  */
-class FakeAddressLookupService @Inject()(ws: AddressLookupWebService) extends AddressLookupService {
+class FakeAddressLookupService @Inject()(ws: AddressLookupWebService) extends AddressLookupService { // TODO I think this class should no longer exist and we should have the real service call the fake webservice.
   override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = Future {
     if (postcode == FakeAddressLookupService.postcodeInvalid) Seq.empty
     else FakeAddressLookupService.fetchedAddresses

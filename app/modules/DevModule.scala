@@ -3,7 +3,6 @@ package modules
 import app.ConfigProperties._
 import com.tzavellas.sse.guice.ScalaModule
 import play.api.Logger
-import services._
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebServiceImpl, VehicleLookupWebService}
 import services.dispose_service.{DisposeWebServiceImpl, DisposeWebService, DisposeServiceImpl, DisposeService}

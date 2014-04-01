@@ -3,6 +3,7 @@ package functional
 import org.scalatest.{BeforeAndAfterAll, Matchers, GivenWhenThen, FeatureSpec}
 import pages.disposal_of_vehicle._
 import helpers.webbrowser._
+import services.fakes.FakeWebServiceImpl.uprnValid
 
 class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
@@ -33,7 +34,7 @@ class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeA
           click on SetupTradeDetailsPage.lookup
 
           And("I select \"1, OLIVERS DRIVE, WITHAM, CM8 1QJ\"")
-          BusinessChooseYourAddressPage.chooseAddress.value = "1234"
+          BusinessChooseYourAddressPage.chooseAddress.value = uprnValid.toString
 
           And("I click the Select button")
           click on BusinessChooseYourAddressPage.select

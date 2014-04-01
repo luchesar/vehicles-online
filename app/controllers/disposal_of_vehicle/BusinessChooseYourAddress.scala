@@ -48,24 +48,6 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
   }
 
   def submit = Action.async { implicit request =>
-  /* TODO [SKW] I realised how we would handle redirect when something missing from cache in Carers, pass what we want to do next in as a function:
-   * implicit request => {
-   *    dependsOnTraderDetails {
-   *      form.bindFromRequest.fold(
-   *        ***
-   *    )
-   *  }
-   * }
-   *
-   * def dependsOnTraderDetails (f: SimpleResult) = {
-   *    if(is in cache) f //
-   *    else {
-   *      Logger.error("failed to find dealer name in cache for formWithErrors, redirecting...")
-   *      Redirect(routes.SetUpTradeDetails.present)
-   *    }
-   * }
-   */
-
     form.bindFromRequest.fold(
       formWithErrors =>
         fetchTraderDetailsFromCache match {

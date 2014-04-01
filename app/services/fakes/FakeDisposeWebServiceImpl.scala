@@ -8,6 +8,7 @@ import services.dispose_service.DisposeWebService
 import play.api.libs.ws.Response
 import scala.Some
 import play.api.libs.json.Json
+import play.api.Logger
 
 class FakeDisposeWebServiceImpl extends DisposeWebService {
   override def callDisposeService(request: DisposeRequest): Future[Response] = Future {
@@ -18,7 +19,7 @@ class FakeDisposeWebServiceImpl extends DisposeWebService {
         registrationNumber = "AB12AWR",
         auditId = "7575")
     val responseAsJson = Json.toJson(disposeResponse)
-
+    Logger.debug(s"FakeVehicleLookupWebService callVehicleLookupService with: $responseAsJson")
     new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
   }
 }
