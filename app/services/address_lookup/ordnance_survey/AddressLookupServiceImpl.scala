@@ -9,9 +9,9 @@ import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 import javax.inject.Inject
 import play.api.libs.ws.Response
-import services.address_lookup.AddressLookupService
+import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 
-class AddressLookupServiceImpl @Inject()(ws: services.WebService) extends AddressLookupService {
+class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends AddressLookupService {
   private def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = {
     val response = resp.json.asOpt[OSAddressbaseSearchResponse]
     response.flatMap(_.results)

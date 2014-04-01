@@ -4,18 +4,39 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
 import org.mockito.Matchers._
-import models.domain.disposal_of_vehicle.{VehicleDetailsRequest, VehicleLookupFormModel}
-import services.fakes.FakeVehicleLookupService
+import models.domain.disposal_of_vehicle._
+import services.fakes.FakeResponse
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
+import services.VehicleLookupServiceImpl
+import services.vehicle_lookup.VehicleLookupWebService
+import scala.concurrent.{ExecutionContext, Future}
+import play.api.libs.json.Json
+import ExecutionContext.Implicits.global
 
 class VehicleLookupFormSpec extends UnitSpec {
 
   "Vehicle lookup form" should {
-    val mockVehicleDetailsRequest = mock[VehicleDetailsRequest]
-    val mockWebService = mock[services.VehicleLookupService]
-    when(mockWebService.invoke(any[VehicleDetailsRequest])).thenReturn(new FakeVehicleLookupService().invoke(mockVehicleDetailsRequest))
-    val vehicleLookup = new disposal_of_vehicle.VehicleLookup(mockWebService)
+    val vehicleLookup = {
+      val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
+      when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
+        val vehicleDetailsResponse =
+          VehicleDetailsResponse(true,
+            message = "Fake Web Lookup Service - Good response",
+            vehicleDetailsDto = VehicleDetailsDto(registrationNumber = "PJ056YY",
+              vehicleMake = "Alfa Romeo",
+              vehicleModel = "Alfasud ti",
+              keeperName = "Keeper Name",
+              keeperAddress = AddressDto(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
+        val responseAsJson = Json.toJson(vehicleDetailsResponse)
+
+        new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+      })
+
+      val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
+
+      new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
+    }
 
     def formWithValidDefaults(referenceNumber: String = referenceNumberValid,
                               registrationNumber: String = registrationNumberValid,

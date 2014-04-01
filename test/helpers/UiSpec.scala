@@ -1,5 +1,5 @@
 package helpers
 
-import org.specs2.mutable.{Tags, Specification}
+import org.scalatest.{Matchers, WordSpec}
 
-abstract class UiSpec extends Specification with Tags
+abstract class UiSpec extends WordSpec with Matchers

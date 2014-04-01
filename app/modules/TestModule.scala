@@ -5,7 +5,8 @@ import com.tzavellas.sse.guice.ScalaModule
 import services._
 import play.api.Logger
 import services.fakes._
-import services.address_lookup.AddressLookupService
+import services.address_lookup.{AddressLookupWebService, AddressLookupService}
+import services.vehicle_lookup.{VehicleLookupWebServiceImpl, VehicleLookupWebService}
 
 object TestModule extends ScalaModule {
   /**
@@ -18,7 +19,8 @@ object TestModule extends ScalaModule {
       case "ordnanceSurvey" => ordnanceSurveyAddressLookup()
       case _ => gdsAddressLookup()
     }
-    bind[VehicleLookupService].to[FakeVehicleLookupService].asEagerSingleton()
+    bind[VehicleLookupWebService].to[FakeVehicleLookupWebService].asEagerSingleton()
+    bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton()
     bind[DisposeService].to[FakeDisposeService].asEagerSingleton()
   }
 
@@ -28,7 +30,7 @@ object TestModule extends ScalaModule {
       responseOfPostcodeWebService = FakeWebServiceImpl.responseValidForOrdnanceSurvey,
       responseOfUprnWebService = FakeWebServiceImpl.responseValidForOrdnanceSurvey
     )
-    bind[WebService].toInstance(fakeWebServiceImpl)
+    bind[AddressLookupWebService].toInstance(fakeWebServiceImpl)
   }
 
   private def gdsAddressLookup() = {
@@ -37,6 +39,6 @@ object TestModule extends ScalaModule {
       responseOfPostcodeWebService = FakeWebServiceImpl.responseValidForGdsAddressLookup,
       responseOfUprnWebService = FakeWebServiceImpl.responseValidForGdsAddressLookup
     )
-    bind[WebService].toInstance(fakeWebServiceImpl)
+    bind[AddressLookupWebService].toInstance(fakeWebServiceImpl)
   }
 }

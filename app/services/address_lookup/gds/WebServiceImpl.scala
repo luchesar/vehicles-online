@@ -1,12 +1,12 @@
 package services.address_lookup.gds
 
 import play.api.libs.ws.{Response, WS}
-import services.WebService
 import scala.concurrent.Future
 import play.api.Logger
 import utils.helpers.Config
+import services.address_lookup.AddressLookupWebService
 
-class WebServiceImpl extends WebService {
+class WebServiceImpl extends AddressLookupWebService {
   val baseUrl = Config.gdsAddressLookupBaseUrl
   val authorisation = Config.gdsAddressLookupAuthorisation
   val requestTimeout = Config.gdsAddressLookupRequestTimeout.toInt
