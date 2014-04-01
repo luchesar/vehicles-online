@@ -110,13 +110,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-    "display one validaton error message when an invalid character is entered into address line 1 /" in new WebBrowser {
-      CacheSetup.setupTradeDetails()
-      EnterAddressManuallyPage.happyPath(webDriver, line1= line1Valid + "/")
-
-      assert(ErrorPanel.numberOfErrors equals 1)
-    }
-
     "display one validaton error message when an invalid character is entered into address line 1 +" in new WebBrowser {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line1= line1Valid + "+")
@@ -138,6 +131,13 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
+    "display one validaton error message when an invalid character is entered into address line 1 (" in new WebBrowser {
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line1= line1Valid + "(")
+
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
     "accept and redirect when line1 contains ," in new WebBrowser {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line1 = line1Valid + ",")
@@ -148,6 +148,20 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
     "accept and redirect when line1 contains ." in new WebBrowser {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line1 = line1Valid + ".")
+
+      assert(page.title equals VehicleLookupPage.title)
+    }
+
+    "accept and redirect when line1 contains /" in new WebBrowser {
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line1 = line1Valid + "/")
+
+      assert(page.title equals VehicleLookupPage.title)
+    }
+
+    "accept and redirect when line1 contains \\" in new WebBrowser {
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line1 = line1Valid + "\\")
 
       assert(page.title equals VehicleLookupPage.title)
     }
@@ -167,9 +181,9 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-    "display one validaton error message when an invalid character is entered into address line 2 /" in new WebBrowser {
+    "display one validaton error message when an invalid character is entered into address line 2 #" in new WebBrowser {
       CacheSetup.setupTradeDetails()
-      EnterAddressManuallyPage.happyPath(webDriver, line2= line2Valid + "/")
+      EnterAddressManuallyPage.happyPath(webDriver, line2= line2Valid + "#")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
@@ -195,6 +209,13 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
+    "display one validaton error message when an invalid character is entered into address line 2 (" in new WebBrowser {
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line2= line2Valid + "(")
+
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
     "accept and redirect when line2 contains ," in new WebBrowser {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line2 = line2Valid + ",")
@@ -205,6 +226,20 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
     "accept and redirect when line2 contains ." in new WebBrowser {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line2 = line2Valid + ".")
+
+      assert(page.title equals VehicleLookupPage.title)
+    }
+
+    "accept and redirect when line2 contains /" in new WebBrowser {
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line2 = line2Valid + "/")
+
+      assert(page.title equals VehicleLookupPage.title)
+    }
+
+    "accept and redirect when line2 contains \\" in new WebBrowser {
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line2 = line2Valid + "\\")
 
       assert(page.title equals VehicleLookupPage.title)
     }
@@ -223,9 +258,9 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-    "display one validaton error message when an invalid character is entered into address line 3 /" in new WebBrowser {
+    "display one validaton error message when an invalid character is entered into address line 3 #" in new WebBrowser {
       CacheSetup.setupTradeDetails()
-      EnterAddressManuallyPage.happyPath(webDriver, line3= line3Valid + "/")
+      EnterAddressManuallyPage.happyPath(webDriver, line3= line3Valid + "#")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
@@ -251,6 +286,13 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
+    "display one validaton error message when an invalid character is entered into address line 3 (" in new WebBrowser {
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line3= line3Valid + "(")
+
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
     "accept and redirect when line3 contains ," in new WebBrowser {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line3 = line3Valid + ",")
@@ -261,6 +303,20 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
     "accept and redirect when line3 contains ." in new WebBrowser {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line3 = line3Valid + ".")
+
+      assert(page.title equals VehicleLookupPage.title)
+    }
+
+    "accept and redirect when line3 contains /" in new WebBrowser {
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line3 = line3Valid + "/")
+
+      assert(page.title equals VehicleLookupPage.title)
+    }
+
+    "accept and redirect when line3 contains \\" in new WebBrowser {
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line3 = line3Valid + "\\")
 
       assert(page.title equals VehicleLookupPage.title)
     }
@@ -280,9 +336,9 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-    "display one validaton error message when an invalid character is entered into address line 4 /" in new WebBrowser {
+    "display one validaton error message when an invalid character is entered into address line 4 #" in new WebBrowser {
       CacheSetup.setupTradeDetails()
-      EnterAddressManuallyPage.happyPath(webDriver, line4= line4Valid + "/")
+      EnterAddressManuallyPage.happyPath(webDriver, line4= line4Valid + "#")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
@@ -308,6 +364,13 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
+    "display one validaton error message when an invalid character is entered into address line 4 (" in new WebBrowser {
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line4= line4Valid + "(")
+
+      assert(ErrorPanel.numberOfErrors equals 1)
+    }
+
     "accept and redirect when line4 contains ," in new WebBrowser {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line4 = line4Valid + ",")
@@ -318,6 +381,20 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
     "accept and redirect when line4 contains ." in new WebBrowser {
       CacheSetup.setupTradeDetails()
       EnterAddressManuallyPage.happyPath(webDriver, line4 = line4Valid + ".")
+
+      assert(page.title equals VehicleLookupPage.title)
+    }
+
+    "accept and redirect when line4 contains /" in new WebBrowser {
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line4 = line4Valid + "/")
+
+      assert(page.title equals VehicleLookupPage.title)
+    }
+
+    "accept and redirect when line4 contains \\" in new WebBrowser {
+      CacheSetup.setupTradeDetails()
+      EnterAddressManuallyPage.happyPath(webDriver, line4 = line4Valid + "\\")
 
       assert(page.title equals VehicleLookupPage.title)
     }

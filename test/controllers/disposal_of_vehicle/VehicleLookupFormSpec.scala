@@ -372,7 +372,7 @@ class VehicleLookupFormSpec extends UnitSpec {
       formWithValidDefaults(registrationNumber = "AAA999A").get.registrationNumber should equal("AAA999A")
     }
 
-    "accept if registrationNumber equals AAA9999" in {
+    "accept if registrationNumber equals AAA9999 (NI format)" in {
       formWithValidDefaults(registrationNumber = "AAA9999").get.registrationNumber should equal("AAA9999")
     }
 
