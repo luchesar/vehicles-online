@@ -19,8 +19,8 @@ object TestModule extends ScalaModule {
       case "ordnanceSurvey" => ordnanceSurveyAddressLookup()
       case _ => gdsAddressLookup()
     }
-    bind[VehicleLookupWebService].to[VehicleLookupWebServiceImpl].asEagerSingleton() // TODO replace with new'ing up a fake web service.
-    bind[VehicleLookupService].to[FakeVehicleLookupService].asEagerSingleton()
+    bind[VehicleLookupWebService].to[FakeVehicleLookupWebService].asEagerSingleton()
+    bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton()
     bind[DisposeService].to[FakeDisposeService].asEagerSingleton()
   }
 

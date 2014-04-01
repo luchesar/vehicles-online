@@ -8,7 +8,7 @@ import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import models.domain.disposal_of_vehicle.{AddressDto, VehicleDetailsDto, VehicleDetailsResponse, VehicleDetailsRequest}
-import services.fakes.{FakeResponse, FakeDisposeService, FakeVehicleLookupService}
+import services.fakes.FakeResponse
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UnitSpec
