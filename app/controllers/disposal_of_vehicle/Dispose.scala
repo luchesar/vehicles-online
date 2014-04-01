@@ -35,17 +35,19 @@ class Dispose @Inject()(webService: DisposeService) extends Controller {
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 
-  def present = Action { implicit request => {
-    (fetchDealerDetailsFromCache, fetchVehicleDetailsFromCache) match {
-      case (Some(dealerDetails), Some(vehicleDetails)) => {
-        Logger.debug("found dealer details")
-        // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
-        //val filledForm = disposeForm.fill(DisposeFormModel(consent = "false", dateOfDisposal = models.DayMonthYear.today))
-        Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm))
+    def present = Action { implicit request => {
+      fetchDealerDetailsFromCache match {
+        case (Some(dealerDetails)) => {
+          Logger.debug("found dealer details")
+          // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
+          fetchVehicleDetailsFromCache match {
+            case (Some(vehicleDetails)) =>  Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm))
+            case _ => Redirect(routes.VehicleLookup.present)
+          }
+        }
+        case _ => Redirect(routes.SetUpTradeDetails.present)
       }
-      case _ => Redirect(routes.SetUpTradeDetails.present)
     }
-  }
   }
 
   def submit = Action.async { implicit request =>
