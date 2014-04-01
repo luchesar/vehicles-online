@@ -43,7 +43,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
 
-    "redirect when no VehicleLookupFormModel is cached" in new WebBrowser {
+    "redirect when no businessChooseYourAddress is cached" in new WebBrowser {
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
 
