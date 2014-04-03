@@ -23,8 +23,8 @@ class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
 object FakeWebServiceImpl {
   val uprnValid = 12345L
 
-  def osAddressbaseDPA(houseName: String = "presentationProperty stub", houseNumber: String = "123") = OSAddressbaseDPA(
-    UPRN = uprnValid.toString,
+  def osAddressbaseDPA(uprn: String = uprnValid.toString, houseName: String = "presentationProperty stub", houseNumber: String = "123") = OSAddressbaseDPA(
+    UPRN = uprn,
     address = s"$houseName, $houseNumber, property stub, street stub, town stub, area stub, postcode stub",
     buildingName = Some(houseName),
     buildingNumber = Some(houseNumber),
@@ -48,8 +48,11 @@ object FakeWebServiceImpl {
 
   def responseValidForOrdnanceSurvey: Future[Response] = {
     val results = {
-      val result = OSAddressbaseResult(DPA = Some(osAddressbaseDPA()), LPI = None)
-      Seq(result, result, result)
+      val result1 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA()), LPI = None)
+      val result2 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(uprn = "67890", houseNumber = "456")), LPI = None)
+      val result3 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(uprn = "111213", houseNumber = "789")), LPI = None)
+
+      Seq(result1, result2, result3)
     }
     val response = OSAddressbaseSearchResponse(header = header,
       results = Some(results))

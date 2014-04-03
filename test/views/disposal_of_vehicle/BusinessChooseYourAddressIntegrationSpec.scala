@@ -68,9 +68,10 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 
       val result = webDriver.getPageSource
 
-      assert(BusinessChooseYourAddressPage.getListCount equals 3) // The first option is the "Please select..." and the other options are the addresses.
-      assert(result.contains("property stub, 123, town stub, area stub, postcode stub"))
-      assert(result.contains("property stub, 456, town stub, area stub, postcode stub"))
+      assert(BusinessChooseYourAddressPage.getListCount equals 4) // The first option is the "Please select..." and the other options are the addresses.
+      assert(result.contains("presentationProperty stub, 123, property stub, street stub, town stub, area stub, postcode stub"))
+      assert(result.contains("presentationProperty stub, 456, property stub, street stub, town stub, area stub, postcode stub"))
+      assert(result.contains("presentationProperty stub, 789, property stub, street stub, town stub, area stub, postcode stub"))
     }
 
     "display 'No addresses found' message when address service returns no addresses" in new WebBrowser {
