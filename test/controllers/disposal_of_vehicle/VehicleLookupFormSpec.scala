@@ -93,11 +93,9 @@ class VehicleLookupFormSpec extends UnitSpec {
       formWithValidDefaults(registrationNumber = "AB53WERT").errors should have length 1
     }
 
-
     "reject if registrationNumber is more than max length 2" in {
       formWithValidDefaults(registrationNumber = "PJ056YYY").errors should have length 1
     }
-
 
     "reject if registrationNumber contains special characters" in {
       formWithValidDefaults(registrationNumber = "ab53ab%").errors should have length 1
@@ -126,7 +124,6 @@ class VehicleLookupFormSpec extends UnitSpec {
     "reject if registrationNumber is in an incorrect format 1111" in {
       formWithValidDefaults(registrationNumber = "1111").errors should have length 1
     }
-
 
     "reject if registrationNumber is in an incorrect format AAAAA" in {
       formWithValidDefaults(registrationNumber = "AAAAA").errors should have length 1
@@ -183,7 +180,6 @@ class VehicleLookupFormSpec extends UnitSpec {
     "reject if registrationNumber is in an incorrect format A999A999" in {
       formWithValidDefaults(registrationNumber = "A999A9999").errors should have length 1
     }
-
 
     "reject if registrationNumber is in an incorrect format A99999A9" in {
       formWithValidDefaults(registrationNumber = "A99999A9").errors should have length 1
@@ -291,6 +287,10 @@ class VehicleLookupFormSpec extends UnitSpec {
 
     "reject if registrationNumber is in an incorrect format 11AA11" in {
       formWithValidDefaults(registrationNumber = "11AA11").errors should have length 1
+    }
+
+    "accept if registrationNumber equals WV54XKW" in {
+      formWithValidDefaults(registrationNumber = "WV54XKW").get.registrationNumber should equal("WV54XKW")
     }
 
     "accept if registrationNumber equals A9" in {
@@ -412,10 +412,6 @@ class VehicleLookupFormSpec extends UnitSpec {
     "accept if registrationNumber equals 9999AAA (NI format)" in {
       formWithValidDefaults(registrationNumber = "9999AAA").get.registrationNumber should equal("9999AAA")
     }
-
-
-
-
 
     /** *************
       * consent tests
