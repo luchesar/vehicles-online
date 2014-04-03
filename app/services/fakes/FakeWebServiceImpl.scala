@@ -7,6 +7,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.address_lookup.gds.domain.{Location, Details, Presentation, Address}
 import services.address_lookup.AddressLookupWebService
+import java.net.URI
 
 class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                          responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
@@ -16,7 +17,7 @@ class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
     }
     else responseOfPostcodeWebService
 
-  override def callUprnWebService(postcode: String): Future[Response] = responseOfUprnWebService
+  override def callUprnWebService(uprn: String): Future[Response] = responseOfUprnWebService
 }
 
 object FakeWebServiceImpl {
@@ -37,12 +38,32 @@ object FakeWebServiceImpl {
     matchDescription = "f"
   )
 
+  private val header = OSAddressbaseHeader(uri = new URI(""),
+    query="",
+    offset=0,
+    totalresults=2,
+    format="",
+    dataset="",
+    maxresults=2)
+
   def responseValidForOrdnanceSurvey: Future[Response] = {
-    val oSAddressbaseResultsValidDPA = {
+    val results = {
       val result = OSAddressbaseResult(DPA = Some(osAddressbaseDPA()), LPI = None)
       Seq(result, result, result)
     }
-    val inputAsJson = Json.toJson(oSAddressbaseResultsValidDPA)
+    val response = OSAddressbaseSearchResponse(header = header,
+      results = Some(results))
+    val inputAsJson = Json.toJson(response)
+
+    Future {
+      FakeResponse(status = 200, fakeJson = Some(inputAsJson))
+    }
+  }
+
+  def responseValidForOrdnanceSurveyNotFound: Future[Response] = {
+    val response = OSAddressbaseSearchResponse(header = header,
+      results = None)
+    val inputAsJson = Json.toJson(response)
 
     Future {
       FakeResponse(status = 200, fakeJson = Some(inputAsJson))

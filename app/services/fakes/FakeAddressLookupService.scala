@@ -19,12 +19,13 @@ class FakeAddressLookupService @Inject()(ws: AddressLookupWebService) extends Ad
   }
 
   override def fetchAddressForUprn(uprn: String): Future[Option[AddressViewModel]] = Future {
-    if (uprn == "9999") None
+    if (uprn == FakeAddressLookupService.uprnInvalid.toString) None
     else Some(FakeAddressLookupService.address1)
   }
 }
 
 object FakeAddressLookupService {
+  val uprnInvalid = 9999L
   val postcodeInvalid = "xx99xx"
   val address1 = AddressViewModel(uprn = Some(1234L), address = Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
   val address2 = AddressViewModel(uprn = Some(4567L), address = Seq("Penarth Road", "Cardiff", "CF11 8TT"))
