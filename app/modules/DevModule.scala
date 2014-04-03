@@ -3,9 +3,9 @@ package modules
 import app.ConfigProperties._
 import com.tzavellas.sse.guice.ScalaModule
 import play.api.Logger
-import services._
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
-import services.vehicle_lookup.{VehicleLookupWebServiceImpl, VehicleLookupWebService}
+import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebServiceImpl, VehicleLookupWebService}
+import services.dispose_service.{DisposeWebServiceImpl, DisposeWebService, DisposeServiceImpl, DisposeService}
 
 /**
  * Provides real implementations of traits
@@ -27,6 +27,7 @@ object DevModule extends ScalaModule {
     }
     bind[VehicleLookupWebService].to[VehicleLookupWebServiceImpl].asEagerSingleton()
     bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton()
+    bind[DisposeWebService].to[DisposeWebServiceImpl].asEagerSingleton()
     bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton()
   }
 

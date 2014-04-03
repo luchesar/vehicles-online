@@ -1,6 +1,7 @@
 package helpers.disposal_of_vehicle
 
 import models.domain.disposal_of_vehicle.AddressViewModel
+import services.fakes.FakeWebServiceImpl.uprnValid
 
 object Helper {
   val traderBusinessNameValid = "example trader name"
@@ -23,7 +24,7 @@ object Helper {
   val vehicleLookupKey = referenceNumberValid + "." + registrationNumberValid
 
   val address1 = AddressViewModel(address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
-  val addressWithUprn = AddressViewModel(uprn=Some(12345L),address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
+  val addressWithUprn = AddressViewModel(uprn=Some(uprnValid),address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
   
   val consentValid = "true"
   val mileageValid = "20000"

@@ -9,7 +9,6 @@ import services.fakes.FakeAddressLookupService
 
 class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "Business choose your address - Integration" should {
-
     "be presented" in new WebBrowser {
       CacheSetup.setupTradeDetails()
       go to BusinessChooseYourAddressPage.url
@@ -19,6 +18,7 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 
     "go to the next page when correct data is entered" in new WebBrowser {
       CacheSetup.setupTradeDetails()
+
       BusinessChooseYourAddressPage.happyPath
 
       assert(page.title equals VehicleLookupPage.title)
@@ -69,8 +69,8 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
       val result = webDriver.getPageSource
 
       assert(BusinessChooseYourAddressPage.getListCount equals 3) // The first option is the "Please select..." and the other options are the addresses.
-      assert(result.contains(FakeAddressLookupService.address1.address.mkString(", ")) equals true)
-      assert(result.contains(FakeAddressLookupService.address2.address.mkString(", ")) equals true)
+      assert(result.contains("property stub, 123, town stub, area stub, postcode stub"))
+      assert(result.contains("property stub, 456, town stub, area stub, postcode stub"))
     }
 
     "display 'No addresses found' message when address service returns no addresses" in new WebBrowser {

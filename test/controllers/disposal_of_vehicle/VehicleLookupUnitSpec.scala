@@ -12,11 +12,10 @@ import services.fakes.FakeResponse
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UnitSpec
-import services.vehicle_lookup.VehicleLookupWebService
+import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
-import services.VehicleLookupServiceImpl
 
 class VehicleLookupUnitSpec extends UnitSpec {
 

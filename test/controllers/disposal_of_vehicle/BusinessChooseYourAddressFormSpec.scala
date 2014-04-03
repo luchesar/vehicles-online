@@ -11,15 +11,17 @@ import ExecutionContext.Implicits.global
 import play.api.libs.ws.Response
 
 class BusinessChooseYourAddressFormSpec extends UnitSpec {
-
   "BusinesssChooseYourAddress Form" should {
-    def response = Future { mock[Response] }
     val addressSelectedValid = "1234"
-    val fakeWebService = new FakeWebServiceImpl(response, response)
-    val mockAddressLookupService = mock[AddressLookupService]
-    val fakeAddressLookupService = new FakeAddressLookupService(fakeWebService)
-    when(mockAddressLookupService.fetchAddressesForPostcode(anyString())).thenReturn(fakeAddressLookupService.fetchAddressesForPostcode("TEST"))
-    val businessChooseYourAddress = new BusinessChooseYourAddress(mockAddressLookupService)
+
+    val businessChooseYourAddress = {
+      def response = Future { mock[Response] }
+      val fakeWebService = new FakeWebServiceImpl(response, response)
+      val mockAddressLookupService = mock[AddressLookupService]
+      val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
+      when(mockAddressLookupService.fetchAddressesForPostcode(anyString())).thenReturn(addressLookupService.fetchAddressesForPostcode("TEST"))
+      new BusinessChooseYourAddress(mockAddressLookupService)
+    }
 
     def formWithValidDefaults(addressSelected: String = addressSelectedValid) = {
       businessChooseYourAddress.form.bind(

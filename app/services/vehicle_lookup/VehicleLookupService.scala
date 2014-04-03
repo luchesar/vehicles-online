@@ -1,4 +1,4 @@
-package services
+package services.vehicle_lookup
 
 import scala.concurrent.Future
 import models.domain.disposal_of_vehicle.{VehicleDetailsRequest, VehicleDetailsResponse}

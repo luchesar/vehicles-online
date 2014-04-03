@@ -1,7 +1,7 @@
 package services.fakes
 
 import play.api.libs.ws.Response
-import services.address_lookup.ordnance_survey.domain.{OSAddressbaseResult, OSAddressbaseDPA}
+import services.address_lookup.ordnance_survey.domain.{OSAddressbaseHeader, OSAddressbaseSearchResponse, OSAddressbaseResult, OSAddressbaseDPA}
 import play.api.libs.json.Json
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
@@ -10,16 +10,20 @@ import services.address_lookup.AddressLookupWebService
 
 class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                          responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
-  override def callPostcodeWebService(postcode: String): Future[Response] = responseOfPostcodeWebService
+  override def callPostcodeWebService(postcode: String): Future[Response] =
+    if (postcode == FakeAddressLookupService.postcodeInvalid) Future {
+      FakeResponse(status = 200, fakeJson = None)
+    }
+    else responseOfPostcodeWebService
 
   override def callUprnWebService(postcode: String): Future[Response] = responseOfUprnWebService
 }
 
 object FakeWebServiceImpl {
-  val uprnValid = "1"
+  val uprnValid = 12345L
 
   def osAddressbaseDPA(houseName: String = "presentationProperty stub", houseNumber: String = "123") = OSAddressbaseDPA(
-    UPRN = uprnValid,
+    UPRN = uprnValid.toString,
     address = s"$houseName, $houseNumber, property stub, street stub, town stub, area stub, postcode stub",
     buildingName = Some(houseName),
     buildingNumber = Some(houseNumber),
@@ -58,7 +62,7 @@ object FakeWebServiceImpl {
         town = Some("town stub"),
         area = Some("area stub"),
         postcode = "postcode stub",
-        uprn = uprnValid),
+        uprn = uprnValid.toString),
       details = Details(
         usrn = "usrn stub",
         isResidential = true,
@@ -75,7 +79,7 @@ object FakeWebServiceImpl {
 
   def responseValidForGdsAddressLookup: Future[Response] = {
     import services.address_lookup.gds.domain.JsonFormats._
-    val inputAsJson = Json.toJson(Seq(gdsAddress()))
+    val inputAsJson = Json.toJson(Seq(gdsAddress(), gdsAddress(presentationStreet = "456")))
 
     Future {
       FakeResponse(status = 200, fakeJson = Some(inputAsJson))

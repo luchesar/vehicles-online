@@ -35,13 +35,12 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       assert(ErrorPanel.numberOfErrors equals 3)
     }
 
-    "redirect when no VehicleLookupFormModel is cached" in new WebBrowser {
+    "redirect when no vehicleDetailsModel is cached" in new WebBrowser {
       CacheSetup.businessChooseYourAddress()
       go to DisposePage.url
 
       assert(page.title equals VehicleLookupPage.title)
     }
-
 
     "redirect when no businessChooseYourAddress is cached" in new WebBrowser {
       CacheSetup.vehicleDetailsModel()
@@ -49,7 +48,6 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
-
 
     "redirect when no traderBusinessName is cached" in new WebBrowser {
       go to DisposePage.url

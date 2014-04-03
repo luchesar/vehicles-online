@@ -12,12 +12,14 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 
 class BusinessChooseYourAddressUnitSpec extends UnitSpec {
-
   "BusinessChooseYourAddress - Controller" should {
-    def response = Future { mock[Response] }
-    val fakeWebService = new FakeWebServiceImpl(response, response)
-    val fakeAddressLookupService = new FakeAddressLookupService(fakeWebService)
-    val businessChooseYourAddress = new BusinessChooseYourAddress(fakeAddressLookupService)
+    val businessChooseYourAddress = {
+      def response = Future { mock[Response] }
+      val fakeWebService = new FakeWebServiceImpl(response, response)
+      val fakeAddressLookupService = new FakeAddressLookupService(fakeWebService)
+
+      new BusinessChooseYourAddress(fakeAddressLookupService)
+    }
 
     "present" in new WithApplication {
       CacheSetup.setupTradeDetails()

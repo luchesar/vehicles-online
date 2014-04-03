@@ -6,7 +6,8 @@ import services._
 import play.api.Logger
 import services.fakes._
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
-import services.vehicle_lookup.{VehicleLookupWebServiceImpl, VehicleLookupWebService}
+import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebServiceImpl, VehicleLookupWebService}
+import services.dispose_service.{DisposeServiceImpl, DisposeWebServiceImpl, DisposeWebService, DisposeService}
 
 object TestModule extends ScalaModule {
   /**
@@ -21,11 +22,12 @@ object TestModule extends ScalaModule {
     }
     bind[VehicleLookupWebService].to[FakeVehicleLookupWebService].asEagerSingleton()
     bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton()
-    bind[DisposeService].to[FakeDisposeService].asEagerSingleton()
+    bind[DisposeWebService].to[FakeDisposeWebServiceImpl].asEagerSingleton()
+    bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton()
   }
 
   private def ordnanceSurveyAddressLookup() = {
-    bind[AddressLookupService].to[FakeAddressLookupService]
+    bind[AddressLookupService].to[services.address_lookup.ordnance_survey.AddressLookupServiceImpl]
     val fakeWebServiceImpl = new FakeWebServiceImpl(
       responseOfPostcodeWebService = FakeWebServiceImpl.responseValidForOrdnanceSurvey,
       responseOfUprnWebService = FakeWebServiceImpl.responseValidForOrdnanceSurvey
@@ -34,7 +36,7 @@ object TestModule extends ScalaModule {
   }
 
   private def gdsAddressLookup() = {
-    bind[AddressLookupService].to[FakeAddressLookupService]
+    bind[AddressLookupService].to[services.address_lookup.gds.AddressLookupServiceImpl]
     val fakeWebServiceImpl = new FakeWebServiceImpl(
       responseOfPostcodeWebService = FakeWebServiceImpl.responseValidForGdsAddressLookup,
       responseOfUprnWebService = FakeWebServiceImpl.responseValidForGdsAddressLookup

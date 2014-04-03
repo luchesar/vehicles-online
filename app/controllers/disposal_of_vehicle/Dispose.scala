@@ -23,8 +23,9 @@ import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.DealerDetailsModel
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import org.joda.time.format.{ISODateTimeFormat}
+import services.dispose_service.DisposeService
 
-class Dispose @Inject()(webService: services.DisposeService) extends Controller {
+class Dispose @Inject()(webService: DisposeService) extends Controller {
 
   val disposeForm = Form(
     mapping(
@@ -90,14 +91,14 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
     model
   }
 
-  private def disposeAction(webService: services.DisposeService, f: DisposeFormModel): Future[SimpleResult] = {
+  private def disposeAction(webService: DisposeService, f: DisposeFormModel): Future[SimpleResult] = {
     fetchVehicleLookupDetailsFromCache match {
       case Some(vehicleLookupFormModel) => {
-        val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,
-          registrationNumber = vehicleLookupFormModel.registrationNumber, dateOfDisposal = f.dateOfDisposal, mileage = f.mileage)
+        val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,registrationNumber = vehicleLookupFormModel.registrationNumber, 
+          dateOfDisposal = f.dateOfDisposal, mileage = f.mileage)
         storeDisposeModelInCache(disposeModel)
-        webService.invoke(buildMicroServiceRequest(disposeModel)).map { resp =>
-          Logger.debug(s"Dispose Web service call successful - response = ${resp}")
+        webService.invoke(buildDisposeMicroServiceRequest(disposeModel)).map {
+          resp => Logger.debug(s"Dispose Web service call successful - response = ${resp}")
           if (resp.success) {
             storeDisposeTransactionIdInCache(resp.transactionId)
             storeDisposeRegistrationNumberInCache(resp.registrationNumber)
@@ -106,7 +107,7 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
           else Redirect(routes.DisposeFailure.present)
         }.recover {
           case e: Throwable => {
-            Logger.debug(s"Web service call failed. Exception: ${e}")
+            Logger.debug(s"Dispose Web service call failed. Exception: ${e}")
             BadRequest("The remote server didn't like the request.") // TODO check with BAs what we want to display when the webservice throws exception. We cannot proceed so need to say something like "".
           }
         }
@@ -118,11 +119,10 @@ class Dispose @Inject()(webService: services.DisposeService) extends Controller 
     }
   }
 
-  private def buildMicroServiceRequest(disposeModel: DisposeModel):DisposeRequest = {
+  private def buildDisposeMicroServiceRequest(disposeModel: DisposeModel):DisposeRequest = {
     val dateTime = disposeModel.dateOfDisposal.toDateTime.get
     val formatter = ISODateTimeFormat.dateTime()
     val isoDateTimeString = formatter.print(dateTime)
-    DisposeRequest(referenceNumber = disposeModel.referenceNumber, registrationNumber = disposeModel.registrationNumber,
-      dateOfDisposal = isoDateTimeString, mileage = disposeModel.mileage)
+    DisposeRequest(referenceNumber = disposeModel.referenceNumber, registrationNumber = disposeModel.registrationNumber, dateOfDisposal = isoDateTimeString, mileage = disposeModel.mileage)
   }
 }

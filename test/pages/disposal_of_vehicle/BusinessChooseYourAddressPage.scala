@@ -2,7 +2,7 @@ package pages.disposal_of_vehicle
 
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
-import org.openqa.selenium.support.ui.Select
+import services.fakes.FakeWebServiceImpl.uprnValid
 
 object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
   val address: String = "/disposal-of-vehicle/business-choose-your-address"
@@ -23,7 +23,7 @@ object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
 
   def happyPath(implicit driver: WebDriver) = {
     go to BusinessChooseYourAddressPage
-    BusinessChooseYourAddressPage.chooseAddress.value = "1234"
+    BusinessChooseYourAddressPage.chooseAddress.value = uprnValid.toString
     click on BusinessChooseYourAddressPage.select
   }
 

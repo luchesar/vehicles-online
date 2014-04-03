@@ -15,8 +15,9 @@ import ExecutionContext.Implicits.global
 import com.google.inject.Inject
 import controllers.disposal_of_vehicle.Helpers._
 import controllers.disposal_of_vehicle.Helpers.{storeVehicleDetailsInCache, storeVehicleLookupFormModelInCache}
+import services.vehicle_lookup.VehicleLookupService
 
-class VehicleLookup @Inject()(webService: services.VehicleLookupService) extends Controller {
+class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controller {
 
   val vehicleLookupForm = Form(
     mapping(
@@ -58,7 +59,7 @@ class VehicleLookup @Inject()(webService: services.VehicleLookupService) extends
     }
   }
 
-  private def lookupVehicle(webService: services.VehicleLookupService, model: VehicleLookupFormModel): Future[SimpleResult] = {
+  private def lookupVehicle(webService: VehicleLookupService, model: VehicleLookupFormModel): Future[SimpleResult] = {
     webService.invoke(buildMicroServiceRequest(model)).map { resp =>
       Logger.debug(s"VehicleLookup Web service call successful - response = ${resp}")
       // TODO Don't save these two models, instead we need a combined model that has what the user entered into the form plus the micro-service response.

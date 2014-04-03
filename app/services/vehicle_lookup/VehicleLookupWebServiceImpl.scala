@@ -11,7 +11,7 @@ import models.domain.disposal_of_vehicle.VehicleDetailsRequest.vehicleDetailsReq
 class VehicleLookupWebServiceImpl extends VehicleLookupWebService {
   val endPoint = s"${Config.microServiceBaseUrl}/vehicles/lookup/v1"
 
-  def callVehicleLookupService(request: VehicleDetailsRequest): Future[Response] = {
+  override def callVehicleLookupService(request: VehicleDetailsRequest): Future[Response] = {
     Logger.debug(s"Calling vehicle lookup micro service on ${endPoint} with request object: $request...")
     WS.url(endPoint).post(Json.toJson(request))
   }
