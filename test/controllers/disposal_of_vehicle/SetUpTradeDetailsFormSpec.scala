@@ -17,7 +17,14 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
     }
 
     "reject if trader business name is blank" in {
-      formWithValidDefaults(traderBusinessName = "").errors should have length 3
+      val errors = formWithValidDefaults(traderBusinessName = "").errors
+      errors should have length 3
+      errors(0).key should equal("dealerName")
+      errors(0).message should equal("error.minLength")
+      errors(1).key should equal("dealerName")
+      errors(1).message should equal("error.required")
+      errors(2).key should equal("dealerName")
+      errors(2).message should equal("error.validTraderBusinessName")
     }
 
     "reject if trader business name is less than minimum length" in {
