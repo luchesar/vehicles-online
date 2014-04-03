@@ -17,6 +17,7 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
     }
 
     "reject if trader business name is blank" in {
+      // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderBusinessName = "").errors
       errors should have length 3
       errors(0).key should equal("dealerName")
