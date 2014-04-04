@@ -24,13 +24,14 @@ import models.domain.disposal_of_vehicle.DealerDetailsModel
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import org.joda.time.format.{ISODateTimeFormat}
 import services.dispose_service.DisposeService
+import services.DateService
 
-class Dispose @Inject()(webService: DisposeService) extends Controller {
+class Dispose @Inject()(webService: DisposeService, dateService: DateService) extends Controller {
 
   val disposeForm = Form(
     mapping(
       mileageId -> mileage(),
-      dateOfDisposalId -> dayMonthYear.verifying(validDate),
+      dateOfDisposalId -> dayMonthYear.verifying(validDate, withinTwoYears(dateService)),
       emailAddressId -> optional(text)
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )

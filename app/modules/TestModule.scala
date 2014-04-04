@@ -24,6 +24,7 @@ object TestModule extends ScalaModule {
     bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton()
     bind[DisposeWebService].to[FakeDisposeWebServiceImpl].asEagerSingleton()
     bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton()
+    bind[DateService].to[DateServiceImpl].asEagerSingleton()
   }
 
   private def ordnanceSurveyAddressLookup() = {
