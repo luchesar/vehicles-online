@@ -53,7 +53,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
 
-      val count = countSubstring(contentAsString(result), "Invalid characters are not allowed")
+      val count = countSubstring(contentAsString(result), "Must be between two and 30 characters and not contain invalid characters")
       count should equal(2)
     }
 
@@ -64,7 +64,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
 
-      val count = countSubstring(contentAsString(result), "Invalid characters are not allowed")
+      val count = countSubstring(contentAsString(result), "Must be between two and 30 characters and not contain invalid characters")
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
       // the page and once above the field.
     }
