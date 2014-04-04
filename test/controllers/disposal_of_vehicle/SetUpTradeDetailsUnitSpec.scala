@@ -48,7 +48,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
     "replace max length error message for traderBusinessName with standard error message (US158)" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        dealerNameId -> ("a" * 31),
+        dealerNameId -> "a" * (dealerNameMaxLength + 1),
         dealerPostcodeId -> postcodeValid)
 
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
