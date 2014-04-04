@@ -7,8 +7,17 @@ import mappings.disposal_of_vehicle.SetupTradeDetails._
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.Helper._
 import helpers.UnitSpec
+import scala.annotation.tailrec
 
 class SetUpTradeDetailsUnitSpec extends UnitSpec {
+  def countSubstring(str1:String, str2:String):Int={
+    @tailrec def count(pos:Int, c:Int):Int={
+      val idx=str1 indexOf(str2, pos)
+      if(idx == -1) c else count(idx+str2.size, c+1)
+    }
+    count(0,0)
+  }
+
   "BeforeYouStart - Controller" should {
 
     "present" in new WithApplication {
@@ -29,95 +38,6 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
       redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.address))
     }
 
-    "return a bad request when only dealerName is entered" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        dealerNameId -> traderBusinessNameValid)
-
-      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
-
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request when a trader name is entered containing only punctuation is entered" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        dealerNameId -> "...",
-        dealerPostcodeId -> postcodeValid)
-
-      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
-
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request when only traderPostcode is entered" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        dealerPostcodeId -> postcodeValid)
-
-      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
-
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request when dealer name is empty" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        dealerNameId -> "",
-        dealerPostcodeId -> postcodeValid)
-
-      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
-
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request when postcode is empty" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        dealerNameId -> traderBusinessNameValid,
-        dealerPostcodeId -> "")
-
-      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
-
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request when a postcode containing special characters is entered" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        dealerNameId -> traderBusinessNameValid,
-        dealerPostcodeId -> "SA99 1D£")
-
-      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
-
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request when a postcode with a length more than max length is entered" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        dealerNameId -> traderBusinessNameValid,
-        dealerPostcodeId -> "SA99 1DDD")
-
-      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
-
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request when a postcode with a length less than min length is entered" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        dealerNameId -> traderBusinessNameValid,
-        dealerPostcodeId -> "SA99")
-
-      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
-
-      status(result) should equal(BAD_REQUEST)
-    }
-
-    "return a bad request when a postcode with an incorrect format is entered" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        dealerNameId -> traderBusinessNameValid,
-        dealerPostcodeId -> "9A3F2")
-
-      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
-
-      status(result) should equal(BAD_REQUEST)
-    }
-
-
     "return a bad request if no details are entered" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
 
@@ -126,14 +46,27 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
       status(result) should equal(BAD_REQUEST)
     }
 
-    "return a bad request when a dealer name is entered with to many characters" in new WithApplication {
+    "replace max length error message for traderBusinessName with exactly one error message (US158)" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         dealerNameId -> ("a" * 31),
         dealerPostcodeId -> postcodeValid)
 
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
 
-      status(result) should equal(BAD_REQUEST)
+      val count = countSubstring(contentAsString(result), "Invalid characters are not allowed")
+      count should equal(2)
+    }
+
+    "replace different error messages for traderBusinessName with exactly one error message (US158)" in new WithApplication {
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        dealerNameId -> "",
+        dealerPostcodeId -> postcodeValid)
+
+      val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
+
+      val count = countSubstring(contentAsString(result), "Invalid characters are not allowed")
+      count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
+      // the page and once above the field.
     }
   }
 }

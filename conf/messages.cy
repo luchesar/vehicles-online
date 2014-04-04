@@ -318,4 +318,4 @@ error.address.maxLengthOfLinesConcatenated = Mae'n rhaid i gyfeiriad gael llai n
 error.address.characterinvalid = Nid yw nodau annilys chaniateir
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post
-error.validTraderBusinessName = Nid yw nodau annilys chaniateir
+error.validTraderBusinessName = Rhaid iddo fod rhwng dwy a 30 cymeriadau a ydynt yn cynnwys nodau annilys

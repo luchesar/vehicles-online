@@ -12,13 +12,14 @@ object FormExtensions {
   // Extension method for forms.
   class RichForm[T](form: Form[T])(implicit request: Request[_]) {
     def replaceError(key: String, message: String, newError: FormError): Form[T] = {
-      def matchingError(e: FormError) = e.key == key && e.message == message
-      val oldError = form.errors.find(matchingError)
-      if (oldError.isDefined) {
-        val error = if (newError.args.isEmpty) FormError(newError.key,newError.message,oldError.get.args) else newError
-        form.copy(errors = form.errors.filterNot(e => e.key == key && e.message == message)).withError(error)
+      def matchingError(e: FormError) = e.key == key && e.message == message // Matches on key AND message, but is not checking args.
+      val errorToReplace = form.errors.find(matchingError)
+      errorToReplace match {
+        case Some(n) => form.copy(errors = form.errors.filterNot(matchingError)).withError(newError) // Replace the error we were looking for.
+        case None => form
       }
-      else form
     }
+
+    def distinctErrors: Form[T] = form.copy(errors = form.errors.distinct)
   }
 }

@@ -13,7 +13,7 @@ object SetUpTradeDetails extends Controller {
 
   val traderLookupForm = Form(
     mapping(
-      dealerNameId -> traderBusinessName(minLength = dealerNameMinLength, maxLength = dealerNameMaxLength),
+      dealerNameId -> traderBusinessName(),
       dealerPostcodeId -> postcode
     )(SetupTradeDetailsModel.apply)(SetupTradeDetailsModel.unapply)
   )
@@ -26,9 +26,10 @@ object SetUpTradeDetails extends Controller {
     traderLookupForm.bindFromRequest.fold(
       formWithErrors => {
         val formWithReplacedErrors = formWithErrors.
-          replaceError("dealerName", "error.minLength", FormError("dealerName", "error.validTraderBusinessName")).
-          replaceError("dealerName", "error.required", FormError("dealerName", "error.validTraderBusinessName"))
-        // TODO we don't want 3 of the same error message so remore duplicates from the list. This means a 'distinctErrors' func on the FormExtensions
+          replaceError("dealerName", "error.minLength", FormError(key = "dealerName", message = "error.validTraderBusinessName", args = Seq.empty)).
+          replaceError("dealerName", "error.maxLength", FormError(key = "dealerName", message = "error.validTraderBusinessName", args = Seq.empty)).
+          replaceError("dealerName", "error.required", FormError(key = "dealerName", message = "error.validTraderBusinessName", args = Seq.empty)).
+          distinctErrors
         BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors))
       },
       f => {

@@ -99,7 +99,6 @@ class DisposeUnitSpec extends UnitSpec {
 
       val result = disposeFailure.submit(request)
 
-      //Assert
       redirectLocation(result) should equal(Some(DisposeFailurePage.address))
     }
 
