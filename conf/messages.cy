@@ -222,6 +222,13 @@ disposal_vehiclelookup.button = Dod o hyd i
 disposal_vehiclelookup.button2 = Golygu
 disposal_vehiclelookup.tradernamelabel = Enw masnachwr
 disposal_vehiclelookup.traderaddresslabel = Gyfeiriad masnachwr
+registrationNumber = Rhif cofrestru cerbyd
+referenceNumber = Rhif cyfeirnod Dogfen
+consent = Caniatâd
+error.validRegistrationNumber = Rhaid iddo fod yn rhif cofrestru cerbyd dilys
+error.validDocumentReferenceNumber = Rhaid fod yn rhif 11-digid
+
+
 
 disposal_dispose.title = Cwblhau & gadarnhau
 disposal_dispose.warning = Os yw''r manylion uchod yn cyd-fynd â''r cerbyd i gael ei werthu, os gwelwch yn dda

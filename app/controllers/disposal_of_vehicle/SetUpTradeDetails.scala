@@ -26,9 +26,9 @@ object SetUpTradeDetails extends Controller {
     traderLookupForm.bindFromRequest.fold(
       formWithErrors => {
         val formWithReplacedErrors = formWithErrors.
-          replaceError("dealerName", "error.minLength", FormError(key = "dealerName", message = "error.validTraderBusinessName", args = Seq.empty)).
-          replaceError("dealerName", "error.maxLength", FormError(key = "dealerName", message = "error.validTraderBusinessName", args = Seq.empty)).
-          replaceError("dealerName", "error.required", FormError(key = "dealerName", message = "error.validTraderBusinessName", args = Seq.empty)).
+          replaceError(dealerNameId, "error.minLength", FormError(key = dealerNameId, message = "error.validTraderBusinessName", args = Seq.empty)).
+          replaceError(dealerNameId, "error.maxLength", FormError(key = dealerNameId, message = "error.validTraderBusinessName", args = Seq.empty)).
+          replaceError(dealerNameId, "error.required", FormError(key = dealerNameId, message = "error.validTraderBusinessName", args = Seq.empty)).
           distinctErrors
         BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors))
       },

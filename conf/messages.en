@@ -262,6 +262,11 @@ disposal_vehiclelookup.button = Next
 disposal_vehiclelookup.button2 = Edit
 disposal_vehiclelookup.tradernamelabel = Trader name
 disposal_vehiclelookup.traderaddresslabel = Trader address
+registrationNumber = Vehicle registration number
+referenceNumber = Document reference number
+consent = Consent
+error.validRegistrationNumber = Must be a valid vehicle registration mark
+error.validDocumentReferenceNumber = Must be an 11-digit number
 
 #page 5 - confirm disposal
 disposal_dispose.title = Complete & confirm
