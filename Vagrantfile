@@ -1,7 +1,19 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant.require_plugin "vagrant-ansible-local"
+# USAGE:
+# 1) Set the following variables in your .bashrc:
+#   GIT_REMOTE_STRING using the http format:
+#   http://some/secure-repo.git
+# and GIT_SECRET_PASSPHRASE containing the secret-password
+#
+# source ~/.bashrc
+# vagrant plugin install ansible
+# vagrant plugin install vagrant-serverspec
+# vagrant up
+
+Vagrant.require_plugin "ansible"
+Vagrant.require_plugin "vagrant-serverspec"
 
 Vagrant.configure("2") do |config|
   # All Vagrant configuration is done here. The most common configuration
@@ -18,7 +30,7 @@ Vagrant.configure("2") do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network :forwarded_port, guest: 80, host: 8080
+  config.vm.network :forwarded_port, guest: 9000, host: 9000
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -48,7 +60,7 @@ Vagrant.configure("2") do |config|
   #   vb.gui = true
 
     # Use VBoxManage to customize the VM. For example to change memory:
-    vb.customize ["modifyvm", :id, "--memory", "1024"]
+    vb.customize ["modifyvm", :id, "--memory", "2048"]
 
     # dns issue
     vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
@@ -64,6 +76,14 @@ Vagrant.configure("2") do |config|
     ansible.verbose = "v"
     #ansible.tags = "sass"
     ansible.playbook = "ansible/playbook.yml"
+    ansible.extra_vars = {
+      GIT_REMOTE_STRING: ENV['GIT_REMOTE_STRING'],
+      GIT_SECRET_PASSPHRASE: ENV['GIT_SECRET_PASSPHRASE']
+    }
+  end
+
+  config.vm.provision :serverspec do |spec|
+    spec.pattern = '*_spec.rb'
   end
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
