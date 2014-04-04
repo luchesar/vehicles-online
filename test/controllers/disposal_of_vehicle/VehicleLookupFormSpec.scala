@@ -53,7 +53,15 @@ class VehicleLookupFormSpec extends UnitSpec {
       * referenceNumber tests
       */
     "reject if referenceNumber is blank" in {
-      formWithValidDefaults(referenceNumber = "").errors should have length 3
+      val errors = formWithValidDefaults(referenceNumber = "").errors
+      errors should have length 3
+      val expectedKey = "referenceNumber"
+      errors(0).key should equal(expectedKey)
+      errors(0).message should equal("error.minLength")
+      errors(1).key should equal(expectedKey)
+      errors(1).message should equal("error.required")
+      errors(2).key should equal(expectedKey)
+      errors(2).message should equal("error.restricted.validNumberOnly")
     }
 
     "reject if referenceNumber is less than min length" in {

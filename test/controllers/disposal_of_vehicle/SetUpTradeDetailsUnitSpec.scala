@@ -46,7 +46,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
       status(result) should equal(BAD_REQUEST)
     }
 
-    "replace max length error message for traderBusinessName with exactly one error message (US158)" in new WithApplication {
+    "replace max length error message for traderBusinessName with standard error message (US158)" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         dealerNameId -> ("a" * 31),
         dealerPostcodeId -> postcodeValid)
@@ -57,7 +57,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
       count should equal(2)
     }
 
-    "replace different error messages for traderBusinessName with exactly one error message (US158)" in new WithApplication {
+    "replace required and min length error messages for traderBusinessName with standard error message (US158)" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         dealerNameId -> "",
         dealerPostcodeId -> postcodeValid)

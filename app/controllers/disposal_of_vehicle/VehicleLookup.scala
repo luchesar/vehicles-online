@@ -43,9 +43,11 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
             case Some(dealerDetails) =>
               val formWithReplacedErrors = formWithErrors.
                 replaceError(registrationNumberId, "error.minLength", FormError(key = registrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
+                replaceError(registrationNumberId, "error.maxLength", FormError(key = registrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
                 replaceError(registrationNumberId, "error.required", FormError(key = registrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
 
                 replaceError(referenceNumberId, "error.minLength", FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
+                replaceError(referenceNumberId, "error.maxLength", FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
                 replaceError(referenceNumberId, "error.required", FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
                 replaceError(referenceNumberId, "error.restricted.validNumberOnly", FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
                 distinctErrors
