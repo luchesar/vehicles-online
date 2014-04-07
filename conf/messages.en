@@ -153,7 +153,7 @@ widget.optional = (optional)
 #customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
 error.restricted.validVRNOnly = Please enter a valid vehicle registration number
-error.restricted.validPostcode = A post code must be in the format PR2 8AE
+error.restricted.validPostcode = Must be between 5 and 8 characters and in the format PR2 8AE
 
 datePlaceholder.day=Day
 datePlaceholder.month=Month
@@ -171,9 +171,6 @@ datePlaceholder.November=November
 datePlaceholder.December=December
 
 select_default = Please select
-
-
-
 error.invalid = Invalid value
 
 ##

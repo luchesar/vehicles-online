@@ -20,11 +20,11 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
       // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderBusinessName = "").errors
       errors should have length 3
-      errors(0).key should equal("dealerName")
+      errors(0).key should equal(dealerNameId)
       errors(0).message should equal("error.minLength")
-      errors(1).key should equal("dealerName")
+      errors(1).key should equal(dealerNameId)
       errors(1).message should equal("error.required")
-      errors(2).key should equal("dealerName")
+      errors(2).key should equal(dealerNameId)
       errors(2).message should equal("error.validTraderBusinessName")
     }
 
@@ -42,7 +42,15 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
     }
 
     "reject if trader postcode is empty" in {
-      formWithValidDefaults(traderPostcode = "").errors should have length 3
+      // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
+      val errors = formWithValidDefaults(traderPostcode = "").errors
+      errors should have length 3
+      errors(0).key should equal(dealerPostcodeId)
+      errors(0).message should equal("error.minLength")
+      errors(1).key should equal(dealerPostcodeId)
+      errors(1).message should equal("error.required")
+      errors(2).key should equal(dealerPostcodeId)
+      errors(2).message should equal("error.restricted.validPostcode")
     }
 
     "reject if trader postcode is less than the minimum length" in {

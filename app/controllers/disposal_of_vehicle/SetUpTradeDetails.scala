@@ -29,6 +29,10 @@ object SetUpTradeDetails extends Controller {
           replaceError(dealerNameId, "error.minLength", FormError(key = dealerNameId, message = "error.validTraderBusinessName", args = Seq.empty)).
           replaceError(dealerNameId, "error.maxLength", FormError(key = dealerNameId, message = "error.validTraderBusinessName", args = Seq.empty)).
           replaceError(dealerNameId, "error.required", FormError(key = dealerNameId, message = "error.validTraderBusinessName", args = Seq.empty)).
+
+          replaceError(dealerPostcodeId, "error.minLength", FormError(key = dealerPostcodeId, message = "error.restricted.validPostcode", args = Seq.empty)).
+          replaceError(dealerPostcodeId, "error.maxLength", FormError(key = dealerPostcodeId, message = "error.restricted.validPostcode", args = Seq.empty)).
+          replaceError(dealerPostcodeId, "error.required", FormError(key = dealerPostcodeId, message = "error.restricted.validPostcode", args = Seq.empty)).
           distinctErrors
         BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors))
       },
