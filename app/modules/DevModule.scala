@@ -6,6 +6,7 @@ import play.api.Logger
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebServiceImpl, VehicleLookupWebService}
 import services.dispose_service.{DisposeWebServiceImpl, DisposeWebService, DisposeServiceImpl, DisposeService}
+import services.{DateServiceImpl, DateService}
 
 /**
  * Provides real implementations of traits
@@ -29,6 +30,7 @@ object DevModule extends ScalaModule {
     bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton()
     bind[DisposeWebService].to[DisposeWebServiceImpl].asEagerSingleton()
     bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton()
+    bind[DateService].to[DateServiceImpl].asEagerSingleton()
   }
 
   private def ordnanceSurveyAddressLookup() = {

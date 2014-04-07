@@ -16,8 +16,17 @@ import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebServic
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
+import scala.annotation.tailrec
 
 class VehicleLookupUnitSpec extends UnitSpec {
+
+  def countSubstring(str1:String, str2:String):Int={
+    @tailrec def count(pos:Int, c:Int):Int={
+      val idx=str1 indexOf(str2, pos)
+      if(idx == -1) c else count(idx+str2.size, c+1)
+    }
+    count(0,0)
+  }
 
   "VehicleLookup - Controller" should {
     val vehicleLookupSuccess = {
@@ -167,6 +176,54 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val result = vehicleLookupSuccess.submit(request)
 
       status(result) should equal(BAD_REQUEST)
+    }
+
+    "replace max length error message for document reference number with standard error message (US43)" in new WithApplication {
+      CacheSetup.businessChooseYourAddress()
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        referenceNumberId -> "1" * (referenceNumberLength + 1),
+        registrationNumberId -> registrationNumberValid)
+
+      val result = vehicleLookupSuccess.submit(request)
+      val count = countSubstring(contentAsString(result), "Must be an 11-digit number")
+      count should equal(2)
+    }
+
+    "replace required and min length error messages for document reference number with standard error message (US43)" in new WithApplication {
+      CacheSetup.businessChooseYourAddress()
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        referenceNumberId -> "",
+        registrationNumberId -> registrationNumberValid)
+
+      val result = vehicleLookupSuccess.submit(request)
+
+      val count = countSubstring(contentAsString(result), "Must be an 11-digit number")
+      count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
+      // the page and once above the field.
+    }
+
+    "replace max length error message for vehicle registration mark with standard error message (US43)" in new WithApplication {
+      CacheSetup.businessChooseYourAddress()
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        referenceNumberId -> referenceNumberValid,
+        registrationNumberId -> "PJ05YYYX")
+
+      val result = vehicleLookupSuccess.submit(request)
+      val count = countSubstring(contentAsString(result), "Please enter a valid vehicle registration number")
+      count should equal(2)
+    }
+
+    "replace required and min length error messages for vehicle registration mark with standard error message (US43)" in new WithApplication {
+      CacheSetup.businessChooseYourAddress()
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        referenceNumberId -> referenceNumberValid,
+        registrationNumberId -> "")
+
+      val result = vehicleLookupSuccess.submit(request)
+
+      val count = countSubstring(contentAsString(result), "Please enter a valid vehicle registration number")
+      count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
+      // the page and once above the field.
     }
 
     "redirect to EnterAddressManually when back button is pressed and there is no uprn" in new WithApplication {

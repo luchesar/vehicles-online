@@ -16,10 +16,19 @@ import services.fakes.{FakeResponse}
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
+import services.DateServiceImpl
 
 class DisposeUnitSpec extends UnitSpec {
 
   "Dispose - Controller" should {
+    def dateService(day: Int = dateOfDisposalDayValid.toInt, month: Int = dateOfDisposalMonthValid.toInt, year: Int = dateOfDisposalYearValid.toInt) = {
+      val dateService = mock[DateServiceImpl]
+      when(dateService.today).thenReturn(new models.DayMonthYear(day = day,
+        month = month,
+        year = year))
+      dateService
+    }
+
     val disposeSuccess = {
       val ws = mock[DisposeWebService]
       when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
@@ -36,7 +45,7 @@ class DisposeUnitSpec extends UnitSpec {
 
       val disposeServiceImpl = new DisposeServiceImpl(ws)
 
-      new disposal_of_vehicle.Dispose(disposeServiceImpl)
+      new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService())
     }
 
     "present" in new WithApplication {
@@ -83,7 +92,7 @@ class DisposeUnitSpec extends UnitSpec {
 
         val disposeServiceImpl = new DisposeServiceImpl(ws)
 
-        new disposal_of_vehicle.Dispose(disposeServiceImpl)
+        new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService())
       }
 
       CacheSetup.businessChooseYourAddress()
@@ -150,9 +159,9 @@ class DisposeUnitSpec extends UnitSpec {
 
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         mileageId -> mileageValid,
-        s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
-        s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
-        s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid)
+        s"$dateOfDisposalId.day" -> dateOfDisposalDayValid,
+        s"$dateOfDisposalId.month" -> dateOfDisposalMonthValid,
+        s"$dateOfDisposalId.year" -> dateOfDisposalYearValid)
 
       val disposeResponseThrows = mock[DisposeResponse]
       when(disposeResponseThrows.success).thenThrow(new RuntimeException("expected by DisposeUnitSpec"))
@@ -160,7 +169,8 @@ class DisposeUnitSpec extends UnitSpec {
       when(mockWebServiceThrows.invoke(any[DisposeRequest])).thenReturn(Future {
         disposeResponseThrows
       })
-      val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows)
+
+      val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateService())
 
       val result = dispose.submit(request)
 

@@ -13,11 +13,23 @@ import services.fakes.FakeResponse
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
+import services.{DateService, DateServiceImpl}
 
 class DisposeFormSpec extends UnitSpec {
 
   "Dispose Form" should {
-    val dispose = {
+    def dateServiceStub(dayToday: Int = dateOfDisposalDayValid.toInt,
+                        monthToday: Int = dateOfDisposalMonthValid.toInt,
+                        yearToday: Int = dateOfDisposalYearValid.toInt) = {
+      val dayMonthYearStub = new models.DayMonthYear(day = dayToday,
+        month = monthToday,
+        year = yearToday)
+      val dateService = mock[DateServiceImpl]
+      when(dateService.today).thenReturn(dayMonthYearStub)
+      dateService
+    }
+
+    def dispose(dateService: DateService = dateServiceStub()) = {
       val ws = mock[DisposeWebService]
       when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
         val disposeResponse =
@@ -33,20 +45,21 @@ class DisposeFormSpec extends UnitSpec {
 
       val disposeServiceImpl = new DisposeServiceImpl(ws)
 
-      new disposal_of_vehicle.Dispose(disposeServiceImpl)
+      new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService)
     }
 
     def formWithValidDefaults(mileage: String = mileageValid,
-                              day: String = dateOfDisposalDayValid,
-                              month: String = dateOfDisposalMonthValid,
-                              year: String = dateOfDisposalYearValid) = {
+                              dayOfDispose: String = dateOfDisposalDayValid,
+                              monthOfDispose: String = dateOfDisposalMonthValid,
+                              yearOfDispose: String = dateOfDisposalYearValid,
+                              disposeController: Dispose = dispose()) = {
 
-      dispose.disposeForm.bind(
+      disposeController.disposeForm.bind(
         Map(
           mileageId -> mileage,
-          s"${dateOfDisposalId}.day" -> day,
-          s"${dateOfDisposalId}.month" -> month,
-          s"${dateOfDisposalId}.year" -> year
+          s"$dateOfDisposalId.day" -> dayOfDispose,
+          s"$dateOfDisposalId.month" -> monthOfDispose,
+          s"$dateOfDisposalId.year" -> yearOfDispose
         )
       )
     }
@@ -56,23 +69,23 @@ class DisposeFormSpec extends UnitSpec {
     }
 
     "reject if date day is invalid" in {
-      formWithValidDefaults(day = "").errors should have length 1
+      formWithValidDefaults(dayOfDispose = "").errors should have length 1
     }
 
     "reject if date month is invalid" in {
-      formWithValidDefaults(month = "").errors should have length 1
+      formWithValidDefaults(monthOfDispose = "").errors should have length 1
     }
 
     "reject if date year is invalid" in {
-      formWithValidDefaults(year = "").errors should have length 1
+      formWithValidDefaults(yearOfDispose = "").errors should have length 1
     }
 
     "accept when all fields contain valid responses" in {
       val model = formWithValidDefaults(
         mileage = mileageValid,
-        day = dateOfDisposalDayValid,
-        month = dateOfDisposalMonthValid,
-        year = dateOfDisposalYearValid).get
+        dayOfDispose = dateOfDisposalDayValid,
+        monthOfDispose = dateOfDisposalMonthValid,
+        yearOfDispose = dateOfDisposalYearValid).get
 
       model.mileage.get should equal(mileageValid.toInt)
       model.dateOfDisposal should equal(DayMonthYear(
@@ -85,15 +98,40 @@ class DisposeFormSpec extends UnitSpec {
     "accept when all mandatory fields contain valid responses" in {
       val model = formWithValidDefaults(
         mileage = "",
-        day = dateOfDisposalDayValid,
-        month = dateOfDisposalMonthValid,
-        year = dateOfDisposalYearValid).get
+        dayOfDispose = dateOfDisposalDayValid,
+        monthOfDispose = dateOfDisposalMonthValid,
+        yearOfDispose = dateOfDisposalYearValid).get
 
       model.mileage should equal(None)
       model.dateOfDisposal should equal(DayMonthYear(
         dateOfDisposalDayValid.toInt,
         dateOfDisposalMonthValid.toInt,
         dateOfDisposalYearValid.toInt))
+    }
+
+    "reject if date is in the future" in {
+      // TODO write constraint and test
+      pending
+    }
+
+    "reject if date is more than 2 years in the past" in {
+      // TODO We need a fake DateService that we IoC in the TestModule.
+      val dayToday: Int = dateOfDisposalDayValid.toInt
+      val yearToday: Int = dateOfDisposalYearValid.toInt
+      val dateServiceStubbedDateInFuture = dateServiceStub(dayToday = dayToday, yearToday = yearToday)
+      val disposeController = dispose(dateService = dateServiceStubbedDateInFuture)
+      val dayOfDispose = (dayToday - 1).toString
+      val yearOfDispose = (yearToday - 2).toString
+
+      // Attempting to dispose with a date 2 years and 1 day into the past.
+      val result = formWithValidDefaults(
+        dayOfDispose = dayOfDispose,
+        yearOfDispose = yearOfDispose,
+        disposeController = disposeController)
+
+      result.errors should have length 1
+      result.errors(0).key should equal("dateOfDisposal")
+      result.errors(0).message should equal("error.withinTwoYears")
     }
   }
 }

@@ -206,6 +206,7 @@ disposal_setuptradedetails.button = Nesaf
 dealerName = Enw masnachwr
 dealerPostcode = Cod post
 
+#page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Dod o hyd i fanylion y cerbyd
 disposal_vehiclelookup.name = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_vehiclelookup.p1 = Dod o hyd i gerbyd
@@ -222,7 +223,12 @@ disposal_vehiclelookup.button = Dod o hyd i
 disposal_vehiclelookup.button2 = Golygu
 disposal_vehiclelookup.tradernamelabel = Enw masnachwr
 disposal_vehiclelookup.traderaddresslabel = Gyfeiriad masnachwr
+registrationNumber = Rhif cofrestru cerbyd
+referenceNumber = Rhif cyfeirnod Dogfen
+consent = Caniatâd
+error.validDocumentReferenceNumber = Rhaid fod yn rhif 11-digid
 
+#page 5 - confirm disposal
 disposal_dispose.title = Cwblhau & gadarnhau
 disposal_dispose.warning = Os yw''r manylion uchod yn cyd-fynd â''r cerbyd i gael ei werthu, os gwelwch yn dda
 disposal_dispose.warning.link = cysylltu â''r DVLA.
@@ -234,7 +240,7 @@ disposal_dispose.vehiclekeeper = Ceidwad
 disposal_dispose.disposevehicleto = Am y gwerthiant
 disposal_dispose.mileage.label = Milltiroedd cerbydau
 disposal_dispose.mileage.validation = Mae''n rhaid i chi fynd i mewn milltiroedd dilys rhwng 0 a 999,999
-dateOfDisposal = Date of disposal
+dateOfDisposal = Dyddiad gwaredu
 disposal_dispose.dateofdisposal.label = Dyddiad y gwaredu
 disposal_dispose.backbutton = Holau
 disposal_dispose.submitbutton = Cadarnhau gwerthu
@@ -246,8 +252,10 @@ dateOfDisposal_year = Flwyddyn waredu
 dateOfDisposal.day = Diwrnod gwaredu
 dateOfDisposal.month = Mis gwaredu
 dateOfDisposal.year = Flwyddyn waredu
-error.date.invalidYear = WELSH You must enter a valid year
+error.date.invalidYear = Mae'n rhaid i chi fynd i mewn i flwyddyn dilys
+error.withinTwoYears = Rhaid i ddyddiad gwared fod o fewn dwy flynedd
 
+#page 6 - summary
 disposal_disposeconfirmation.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion
 disposal_disposeconfirmation.disposaldetails = Gwaredu
 disposal_disposeconfirmation.vehiclemake = Gwneud

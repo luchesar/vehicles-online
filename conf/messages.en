@@ -244,7 +244,6 @@ disposal_uprnnotfound.p1 = An error has occurred validating your postcode. Pleas
 disposal_uprnnotfound.manualaddressbutton = Set-up trade details
 disposal_uprnnotfound.setuptradedetailsbutton = Manually enter address
 
-
 #page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Find vehicle details
 disposal_vehiclelookup.name = Dispose a vehicle into the motor trade
@@ -262,6 +261,10 @@ disposal_vehiclelookup.button = Next
 disposal_vehiclelookup.button2 = Edit
 disposal_vehiclelookup.tradernamelabel = Trader name
 disposal_vehiclelookup.traderaddresslabel = Trader address
+registrationNumber = Vehicle registration number
+referenceNumber = Document reference number
+consent = Consent
+error.validDocumentReferenceNumber = Must be an 11-digit number
 
 #page 5 - confirm disposal
 disposal_dispose.title = Complete & confirm
@@ -288,6 +291,7 @@ dateOfDisposal.day = Day of disposal
 dateOfDisposal.month = Month of disposal
 dateOfDisposal.year = Year of disposal
 error.date.invalidYear = You must enter a valid year
+error.withinTwoYears = The date of dispose must be within two years
 
 #page 6 - summary
 disposal_disposeconfirmation.title = Dispose a vehicle into the motor trade: summary

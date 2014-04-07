@@ -1,7 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import play.api.mvc._
-import play.api.data.Form
+import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import play.api.Logger
 import mappings.common.{ReferenceNumber, RegistrationNumber, Consent}
@@ -16,6 +16,7 @@ import com.google.inject.Inject
 import controllers.disposal_of_vehicle.Helpers._
 import controllers.disposal_of_vehicle.Helpers.{storeVehicleDetailsInCache, storeVehicleLookupFormModelInCache}
 import services.vehicle_lookup.VehicleLookupService
+import utils.helpers.FormExtensions._
 
 class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controller {
 
@@ -39,7 +40,18 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
       formWithErrors =>
         Future {
           fetchDealerDetailsFromCache match {
-            case Some(dealerDetails) => BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithErrors))
+            case Some(dealerDetails) =>
+              val formWithReplacedErrors = formWithErrors.
+                replaceError(registrationNumberId, "error.minLength", FormError(key = registrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
+                replaceError(registrationNumberId, "error.maxLength", FormError(key = registrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
+                replaceError(registrationNumberId, "error.required", FormError(key = registrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
+
+                replaceError(referenceNumberId, "error.minLength", FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
+                replaceError(referenceNumberId, "error.maxLength", FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
+                replaceError(referenceNumberId, "error.required", FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
+                replaceError(referenceNumberId, "error.restricted.validNumberOnly", FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
+                distinctErrors
+              BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithReplacedErrors))
             case None => Redirect(routes.SetUpTradeDetails.present)
           }
         },
