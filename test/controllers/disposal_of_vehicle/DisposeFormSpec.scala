@@ -128,7 +128,7 @@ class DisposeFormSpec extends UnitSpec {
         dayOfDispose = dayOfDispose,
         yearOfDispose = yearOfDispose,
         disposeController = disposeController)
-      
+
       result.errors should have length 1
       result.errors(0).key should equal("dateOfDisposal")
       result.errors(0).message should equal("error.withinTwoYears")

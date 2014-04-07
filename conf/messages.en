@@ -291,6 +291,7 @@ dateOfDisposal.day = Day of disposal
 dateOfDisposal.month = Month of disposal
 dateOfDisposal.year = Year of disposal
 error.date.invalidYear = You must enter a valid year
+error.withinTwoYears = The date of dispose must be within two years
 
 #page 6 - summary
 disposal_disposeconfirmation.title = Dispose a vehicle into the motor trade: summary
