@@ -2,6 +2,7 @@ package pages.disposal_of_vehicle
 
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
+import helpers.disposal_of_vehicle.Helper._
 
 object DisposePage extends Page with WebBrowserDSL {
   val address = "/disposal-of-vehicle/dispose"
@@ -25,9 +26,9 @@ object DisposePage extends Page with WebBrowserDSL {
   def happyPath(implicit driver: WebDriver) = {
     go to DisposePage.url
     DisposePage.mileage enter "50000"
-    DisposePage.dateOfDisposalDay select "31"
-    DisposePage.dateOfDisposalMonth select "12"
-    DisposePage.dateOfDisposalYear enter "2013"
+    DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
+    DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
+    DisposePage.dateOfDisposalYear enter dateOfDisposalYearValid
     DisposePage.emailAddress enter  "test@testemail.com"
     click on DisposePage.dispose
   }
