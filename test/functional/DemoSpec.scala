@@ -66,6 +66,9 @@ class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeA
           And("I enter \"viv.richards@emailprovider.co.uk\" in the email address field")
           DisposePage.emailAddress enter "viv.richards@emailprovider.co.uk"
 
+          And("I select \"I have the consent of the current keeper to dispose of this vehicle\"")
+          click on DisposePage.consent
+
           When("I click the dispose button")
           click on DisposePage.dispose
 

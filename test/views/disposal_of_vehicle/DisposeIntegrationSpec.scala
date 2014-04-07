@@ -32,7 +32,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.vehicleDetailsModel()
       DisposePage.sadPath
 
-      assert(ErrorPanel.numberOfErrors equals 3)
+      assert(ErrorPanel.numberOfErrors equals 4)
     }
 
     "redirect when no vehicleDetailsModel is cached" in new WebBrowser {
@@ -62,6 +62,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
       DisposePage.dateOfDisposalMonth select "12"
       DisposePage.dateOfDisposalYear enter "2013"
+      click on DisposePage.consent
       click on DisposePage.dispose
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -74,6 +75,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
       DisposePage.dateOfDisposalDay select "12"
       DisposePage.dateOfDisposalYear enter "2013"
+      click on DisposePage.consent
       click on DisposePage.dispose
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -86,6 +88,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
       DisposePage.dateOfDisposalDay select "12"
       DisposePage.dateOfDisposalMonth select "2"
+      click on DisposePage.consent
       click on DisposePage.dispose
 
       assert(ErrorPanel.numberOfErrors equals 1)
