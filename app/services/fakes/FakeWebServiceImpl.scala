@@ -22,6 +22,7 @@ class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
 
 object FakeWebServiceImpl {
   val uprnValid = 12345L
+  val uprnValid2 = 4567L
 
   def osAddressbaseDPA(uprn: String = uprnValid.toString, houseName: String = "presentationProperty stub", houseNumber: String = "123") = OSAddressbaseDPA(
     UPRN = uprn,
