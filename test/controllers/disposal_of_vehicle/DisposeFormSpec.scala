@@ -110,16 +110,26 @@ class DisposeFormSpec extends UnitSpec {
     }
 
     "reject if date is in the future" in {
-      // TODO write constraint and test
-      pending
+      val dayToday: Int = dateOfDisposalDayValid.toInt
+      val dateServiceStubbed = dateServiceStub()
+      val disposeController = dispose(dateService = dateServiceStubbed)
+      val dayOfDispose = (dayToday + 1).toString
+
+      // Attempting to dispose with a date 1 day into the future.
+      val result = formWithValidDefaults(
+        dayOfDispose = dayOfDispose,
+        disposeController = disposeController)
+
+      result.errors should have length 1
+      result.errors(0).key should equal("dateOfDisposal")
+      result.errors(0).message should equal("error.withinTwoYears")
     }
 
     "reject if date is more than 2 years in the past" in {
-      // TODO We need a fake DateService that we IoC in the TestModule.
       val dayToday: Int = dateOfDisposalDayValid.toInt
       val yearToday: Int = dateOfDisposalYearValid.toInt
-      val dateServiceStubbedDateInFuture = dateServiceStub(dayToday = dayToday, yearToday = yearToday)
-      val disposeController = dispose(dateService = dateServiceStubbedDateInFuture)
+      val dateServiceStubbed = dateServiceStub()
+      val disposeController = dispose(dateService = dateServiceStubbed)
       val dayOfDispose = (dayToday - 1).toString
       val yearOfDispose = (yearToday - 2).toString
 
