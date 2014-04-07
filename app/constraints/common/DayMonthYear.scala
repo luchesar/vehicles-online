@@ -27,8 +27,8 @@ object DayMonthYear {
   def withinTwoYears(dateService: DateService): Constraint[models.DayMonthYear] = {
     import scala.language.postfixOps
     Constraint("constraint.withinTwoYears") {
-      case dmy@models.DayMonthYear(_, _, _, _, _) if dmy.`yyyy-MM-dd` >= (dateService.today - 2 years).`yyyy-MM-dd` &&
-        dmy.`yyyy-MM-dd` <= dateService.today.`yyyy-MM-dd`=> Valid
+      case dmy@models.DayMonthYear(_, _, _, _, _) if dmy >= (dateService.today - 2 years) &&
+        dmy <= dateService.today => Valid
       case _ => Invalid(ValidationError("error.withinTwoYears"))
     }
   }
