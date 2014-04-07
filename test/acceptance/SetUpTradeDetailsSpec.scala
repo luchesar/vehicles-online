@@ -1,4 +1,4 @@
-package functional
+package acceptance
 
 import org.scalatest.{BeforeAndAfterAll, Matchers, GivenWhenThen, FeatureSpec}
 import pages.disposal_of_vehicle._
