@@ -4,6 +4,7 @@ import org.scalatest.{BeforeAndAfterAll, Matchers, GivenWhenThen, FeatureSpec}
 import pages.disposal_of_vehicle._
 import helpers.webbrowser._
 import services.fakes.FakeWebServiceImpl.uprnValid
+import helpers.disposal_of_vehicle.Helper._
 
 class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
@@ -25,10 +26,10 @@ class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeA
           click on BeforeYouStartPage.startNow
 
           And("I enter \"Car Giant\" in the business name field")
-          SetupTradeDetailsPage.dealerName enter "Car Giant"
+          SetupTradeDetailsPage.dealerName enter traderBusinessNameValid
 
           And("I enter \"CM8 1QJ\" in the business postcode field")
-          SetupTradeDetailsPage.dealerPostcode enter "CM8 1QJ"
+          SetupTradeDetailsPage.dealerPostcode enter postcodeValidWithSpace
 
           And("I click the Look-up button")
           click on SetupTradeDetailsPage.lookup
@@ -40,10 +41,10 @@ class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeA
           click on BusinessChooseYourAddressPage.select
 
           And("I enter \"A1\" in the vehicle registration number field")
-          VehicleLookupPage.vehicleRegistrationNumber enter "A1"
+          VehicleLookupPage.vehicleRegistrationNumber enter registrationNumberValid
 
           And("I enter \"12345678910\" in the V5C document reference number field")
-          VehicleLookupPage.documentReferenceNumber enter "12345678910"
+          VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
 
           And("I select \"I have the consent of the current keeper to dispose of this vehicle\" from the date of disposal month dropdown")
           click on VehicleLookupPage.consent
@@ -52,19 +53,19 @@ class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeA
           click on VehicleLookupPage.findVehicleDetails
 
           And("I enter \"10000\" in the vehicle mileage field")
-          DisposePage.mileage enter "10000"
+          DisposePage.mileage enter mileageValid
 
           And("I select \"01\" from the date of disposal day dropdown")
-          DisposePage.dateOfDisposalDay select "1"
+          DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
 
           And("I select \"March\" from the date of disposal month dropdown")
-          DisposePage.dateOfDisposalMonth select "3"
+          DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
 
           And("I enter \"2014\" in the date of disposal year field")
-          DisposePage.dateOfDisposalYear enter "2014"
+          DisposePage.dateOfDisposalYear enter dateOfDisposalYearValid
 
           And("I enter \"viv.richards@emailprovider.co.uk\" in the email address field")
-          DisposePage.emailAddress enter "viv.richards@emailprovider.co.uk"
+          DisposePage.emailAddress enter emailValid
 
           And("I select \"I have the consent of the current keeper to dispose of this vehicle\"")
           click on DisposePage.consent

@@ -31,5 +31,5 @@ object Helper {
   val dateOfDisposalDayValid = "25"
   val dateOfDisposalMonthValid = "11"
   val dateOfDisposalYearValid = "1970"
-  val dateOfDisposalValid = (Some(1), Some(2), Some(2014))
+  val emailValid = "viv.richards@emailprovider.co.uk"
 }
