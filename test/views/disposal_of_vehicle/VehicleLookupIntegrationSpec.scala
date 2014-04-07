@@ -42,7 +42,6 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "display one validation error message when no registrationNumber is entered" in new WebBrowser {
       CacheSetup.businessChooseYourAddress()
       VehicleLookupPage.happyPath(webDriver, vehicleRegistrationNumber = "")
-
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 

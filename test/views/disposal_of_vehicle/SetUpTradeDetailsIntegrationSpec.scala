@@ -23,11 +23,10 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
-    "display six validation error messages when no details are entered" in new WebBrowser {
+    "display two summary validation error messages when no details are entered" in new WebBrowser {
       SetupTradeDetailsPage.happyPath( webDriver,"","")
 
-      assert(ErrorPanel.numberOfErrors equals 4)
-
+      assert(ErrorPanel.numberOfErrors equals 2)
     }
 
     "display three validation error messages when a valid postcode is entered with no business name" in new WebBrowser  {
@@ -42,16 +41,16 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-    "display three validation error messages when a valid business name is entered with no postcode" in new WebBrowser {
+    "display one validation error message when a valid business name is entered with no postcode" in new WebBrowser {
       SetupTradeDetailsPage.happyPath(webDriver, traderPostcode = "")
 
-      assert(ErrorPanel.numberOfErrors equals 3)
+      assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-    "display two validation error messages when a valid business name is entered with a postcode less than min length" in new WebBrowser {
+    "display one validation error message when a valid business name is entered with a postcode less than min length" in new WebBrowser {
       SetupTradeDetailsPage.happyPath(webDriver, traderPostcode = "a")
 
-      assert(ErrorPanel.numberOfErrors equals 2)
+      assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a valid business name is entered with a postcode containing an incorrect format" in new WebBrowser {
