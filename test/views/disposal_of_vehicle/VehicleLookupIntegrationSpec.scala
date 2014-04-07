@@ -43,7 +43,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.businessChooseYourAddress()
       VehicleLookupPage.happyPath(webDriver, vehicleRegistrationNumber = "")
 
-      assert(ErrorPanel.numberOfErrors equals 2)
+      assert(ErrorPanel.numberOfErrors equals 3)
     }
 
     "display one validation error message when a registrationNumber is entered containing one character" in new WebBrowser {
@@ -64,14 +64,14 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.businessChooseYourAddress()
       VehicleLookupPage.happyPath(webDriver, referenceNumber = "", vehicleRegistrationNumber = "")
 
-      assert(ErrorPanel.numberOfErrors equals 5)
+      assert(ErrorPanel.numberOfErrors equals 6)
     }
 
     "display two validation error messages when only a valid referenceNumber is entered" in new WebBrowser {
       CacheSetup.businessChooseYourAddress()
       VehicleLookupPage.happyPath(webDriver, vehicleRegistrationNumber = "")
 
-      assert(ErrorPanel.numberOfErrors equals 2)
+      assert(ErrorPanel.numberOfErrors equals 3)
     }
 
     "display three validation error messages when only a valid registrationNumber is entered" in new WebBrowser {
