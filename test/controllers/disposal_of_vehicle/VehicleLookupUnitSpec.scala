@@ -17,7 +17,6 @@ import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
 import scala.annotation.tailrec
-import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
 
 class VehicleLookupUnitSpec extends UnitSpec {
@@ -99,7 +98,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
         when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
           val vehicleDetailsResponse =
-            VehicleDetailsResponse(false,
+            VehicleDetailsResponse(success = false,
               message = "Fake Web Dispose Service - Bad response",
               vehicleDetailsDto = VehicleDetailsDto(registrationNumber = "PJ056YY",
                 vehicleMake = "Alfa Romeo",

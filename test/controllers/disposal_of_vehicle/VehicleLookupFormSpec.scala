@@ -12,7 +12,6 @@ import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebServic
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
-import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
 
 class VehicleLookupFormSpec extends UnitSpec {

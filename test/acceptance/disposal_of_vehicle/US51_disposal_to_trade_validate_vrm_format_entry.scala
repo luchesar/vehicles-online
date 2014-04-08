@@ -6,7 +6,6 @@ import helpers.disposal_of_vehicle.Helper._
 import helpers.disposal_of_vehicle.CacheSetup
 import models.domain.disposal_of_vehicle.AddressViewModel
 import pages.disposal_of_vehicle.VehicleLookupPage
-import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
 
 class US51_disposal_to_trade_validate_vrm_format_entry extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {

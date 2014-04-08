@@ -4,10 +4,10 @@ import models.domain.disposal_of_vehicle._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import models.domain.disposal_of_vehicle.VehicleDetailsResponse
-import services.vehicle_lookup.{VehicleLookupService, VehicleLookupWebService}
+import services.vehicle_lookup.{VehicleLookupWebService}
 import play.api.libs.json.Json
 import play.api.Logger
-import FakeDisposeWebServiceImpl._
+import FakeVehicleLookupWebService._
 
 class FakeVehicleLookupWebService extends VehicleLookupWebService {
   override def callVehicleLookupService(request: VehicleDetailsRequest) = Future {
@@ -18,10 +18,10 @@ class FakeVehicleLookupWebService extends VehicleLookupWebService {
       keeperAddress = AddressDto(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2")))
 
     val vehicleDetailsResponse =
-      if (request.referenceNumber == "9" * 11) VehicleDetailsResponse(false,
+      if (request.referenceNumber == "9" * 11) VehicleDetailsResponse(success = false,
         message = "Fake Web Dispose Service - Bad response",
         vehicleDetailsDto = vehicleDetails)
-      else VehicleDetailsResponse(true,
+      else VehicleDetailsResponse(success = true,
         message = "Fake Web Lookup Service - Good response",
         vehicleDetailsDto = vehicleDetails)
 
@@ -32,5 +32,6 @@ class FakeVehicleLookupWebService extends VehicleLookupWebService {
 }
 
 object FakeVehicleLookupWebService {
+  val registrationNumberValid = "AB12AWR"
   val referenceNumberValid = "12345678910"
 }

@@ -6,7 +6,6 @@ import helpers.webbrowser._
 import helpers.disposal_of_vehicle.Helper._
 import helpers.disposal_of_vehicle.CacheSetup
 import models.domain.disposal_of_vehicle.AddressViewModel
-import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
 
 class US43_validate_document_reference_entry_format_error_messages extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {

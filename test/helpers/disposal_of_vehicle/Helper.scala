@@ -2,7 +2,6 @@ package helpers.disposal_of_vehicle
 
 import models.domain.disposal_of_vehicle.AddressViewModel
 import services.fakes.FakeWebServiceImpl.uprnValid
-import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
 
 object Helper {

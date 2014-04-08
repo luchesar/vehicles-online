@@ -15,7 +15,7 @@ import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
 import services.{DateService, DateServiceImpl}
 import services.fakes.FakeDateServiceImpl._
-import services.fakes.FakeDisposeWebServiceImpl._
+import services.fakes.FakeVehicleLookupWebService._
 
 class DisposeFormSpec extends UnitSpec {
 
