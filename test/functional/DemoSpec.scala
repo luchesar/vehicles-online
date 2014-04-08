@@ -63,7 +63,7 @@ class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeA
           DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
 
           And("I enter \"2014\" in the date of disposal year field")
-          DisposePage.dateOfDisposalYear enter dateOfDisposalYearValid
+          DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
 
           And("I enter \"viv.richards@emailprovider.co.uk\" in the email address field")
           DisposePage.emailAddress enter emailValid

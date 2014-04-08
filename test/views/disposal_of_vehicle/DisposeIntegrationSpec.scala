@@ -5,6 +5,7 @@ import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
 import pages.common.ErrorPanel
 import helpers.UiSpec
+import services.fakes.FakeDateServiceImpl._
 
 class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
@@ -60,8 +61,8 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
 
-      DisposePage.dateOfDisposalMonth select "12"
-      DisposePage.dateOfDisposalYear enter "2013"
+      DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
+      DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
       click on DisposePage.consent
       click on DisposePage.dispose
 
@@ -73,8 +74,8 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
 
-      DisposePage.dateOfDisposalDay select "12"
-      DisposePage.dateOfDisposalYear enter "2013"
+      DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
+      DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
       click on DisposePage.consent
       click on DisposePage.dispose
 
@@ -86,8 +87,8 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
 
-      DisposePage.dateOfDisposalDay select "12"
-      DisposePage.dateOfDisposalMonth select "2"
+      DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
+      DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
       click on DisposePage.consent
       click on DisposePage.dispose
 

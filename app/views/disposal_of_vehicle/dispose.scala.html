@@ -1,4 +1,4 @@
-@(data: models.domain.disposal_of_vehicle.DisposeViewModel, disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel])(implicit lang: Lang)
+@(data: models.domain.disposal_of_vehicle.DisposeViewModel, disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel], years: Seq[(String, String)])(implicit lang: Lang)
 
 @import helper._
 @import views.html.helper.base._
@@ -75,7 +75,7 @@
             '_showConstraints -> false))
             
             <div id=@mappings.disposal_of_vehicle.Dispose.dateOfDisposalId class="disposal-date">
-            @inputDayMonthYear(disposeForm(dateOfDisposalId), args = Map('_label -> Messages("disposal_dispose.dateofdisposal.label")))
+            @inputDayMonthYear(disposeForm(dateOfDisposalId), years, args = Map('_label -> Messages("disposal_dispose.dateofdisposal.label")))
             </div>
 
             <div class="form-declaration">

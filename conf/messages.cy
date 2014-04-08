@@ -299,6 +299,7 @@ error.restricted.validPostcode = Rhaid i cod post fod yn y fformat PR2 8AE
 
 datePlaceholder.day = Dydd
 datePlaceholder.month = Mis
+datePlaceholder.year=Blwyddyn
 datePlaceholder.January = Ionawr
 datePlaceholder.February = Chwefror
 datePlaceholder.March = Mawrth
