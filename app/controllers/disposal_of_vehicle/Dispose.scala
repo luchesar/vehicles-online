@@ -121,7 +121,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
         }.recover {
           case e: Throwable =>
             Logger.debug(s"Dispose Web service call failed. Exception: $e")
-            BadRequest("The remote server didn't like the request.") // TODO check with BAs what we want to display when the webservice throws exception. We cannot proceed so need to say something like "".
+            BadRequest("The remote server didn't like the request.") // TODO check with US114 to see what we should redirect to.
         }
       case _ => Future {
         Logger.debug("could not find dealer details in cache on Dispose submit")
