@@ -256,6 +256,7 @@ dateOfDisposal.month = Mis gwaredu
 dateOfDisposal.year = Flwyddyn waredu
 error.date.invalidYear = Mae'n rhaid i chi fynd i mewn i flwyddyn dilys
 error.withinTwoYears = Rhaid i ddyddiad gwared fod o fewn dwy flynedd
+disposal_dispose.consent.mandatory = Rhaid i chi gael cydsyniad y ceidwad cofrestredig i hysbysu gwerthu cerbyd hwn
 
 #page 6 - summary
 disposal_disposeconfirmation.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion

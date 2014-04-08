@@ -68,7 +68,8 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
               val formWithReplacedErrors = formWithErrors.
                 replaceError("dateOfDisposal.day", "error.number", FormError("dateOfDisposal.day", "error.dropDownInvalid")).
                 replaceError("dateOfDisposal.month", "error.number", FormError("dateOfDisposal.month", "error.dropDownInvalid")).
-                replaceError("dateOfDisposal.year", "error.number", FormError("dateOfDisposal.year", "error.date.invalidYear"))
+                replaceError("dateOfDisposal.year", "error.number", FormError("dateOfDisposal.year", "error.date.invalidYear")).
+                replaceError(consentId, "error.required", FormError(key = consentId, message = "disposal_dispose.consent.mandatory", args = Seq.empty))
               BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors))
             case _ =>
               Logger.debug("could not find dealer details in cache on Dispose submit")
