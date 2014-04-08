@@ -30,6 +30,7 @@ class DisposeSpec extends FeatureSpec with GivenWhenThen with Matchers with Befo
         DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
         DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
         DisposePage.dateOfDisposalYear enter dateOfDisposalYearValid
+        click on DisposePage.consent
 
         When("they submit the details")
         click on DisposePage.dispose
