@@ -1,11 +1,11 @@
-package acceptance
+package acceptance.disposal_of_vehicle
 
 import org.scalatest.{BeforeAndAfterAll, Matchers, GivenWhenThen, FeatureSpec}
 import pages.disposal_of_vehicle._
 import helpers.webbrowser._
 import helpers.disposal_of_vehicle.Helper._
 
-class SetUpTradeDetailsSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
+class US158_disposal_to_trade_business_name_error_messages extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
   feature("US158: Disposal to Trade: Business Name - Error Messages") {
     info("As a Motor Trader")
@@ -51,31 +51,4 @@ class SetUpTradeDetailsSpec extends FeatureSpec with GivenWhenThen with Matchers
       }
     }
   }
-
-  feature("Disposal to Trade: Postcode - Error Messages") {
-    info("As a Motor Trader")
-    info("I want to receive an appropriate error message when I enter a disallowed postcode")
-    info("so that I can correct it and move to the next step in the transaction")
-    info("")
-
-    scenario("No postcode entered") {
-      new WebBrowser {
-        Given("the motor trader has entered no postcode")
-        go to BeforeYouStartPage
-        click on BeforeYouStartPage.startNow
-        SetupTradeDetailsPage.dealerName enter traderBusinessNameValid
-        // Note: leave the postcode field blank to cause errors.
-
-        When("the postcode does not comply with formatting rules")
-        click on SetupTradeDetailsPage.lookup
-
-        Then("a single appropriate message is displayed")
-        page.text should include("Must be between 5 and 8 characters and in the format PR2 8AE")
-
-        And("the motor trader remains on the current step in the")
-        page.title should equal("Provide your trader details")
-      }
-    }
-  }
-
 }
