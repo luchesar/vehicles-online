@@ -2,6 +2,8 @@ package helpers.disposal_of_vehicle
 
 import models.domain.disposal_of_vehicle.AddressViewModel
 import services.fakes.FakeWebServiceImpl.uprnValid
+import services.fakes.FakeDisposeWebServiceImpl._
+import services.fakes.FakeVehicleLookupWebService._
 
 object Helper {
   val traderBusinessNameValid = "example trader name"
@@ -14,9 +16,6 @@ object Helper {
   val postcodeValid = "CM81QJ"
   val postcodeValidWithSpace = "CM8 1QJ"
   val postcodeNoResults = "SA99 1DD"
-
-  val referenceNumberValid = "12345678910"
-  val registrationNumberValid = "AB12AWR"
 
   val vehicleMakeValid = "make"
   val vehicleModelValid = "model"

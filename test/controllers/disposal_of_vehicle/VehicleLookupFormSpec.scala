@@ -12,6 +12,8 @@ import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebServic
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
+import services.fakes.FakeDisposeWebServiceImpl._
+import services.fakes.FakeVehicleLookupWebService._
 
 class VehicleLookupFormSpec extends UnitSpec {
 
@@ -22,7 +24,7 @@ class VehicleLookupFormSpec extends UnitSpec {
         val vehicleDetailsResponse =
           VehicleDetailsResponse(true,
             message = "Fake Web Lookup Service - Good response",
-            vehicleDetailsDto = VehicleDetailsDto(registrationNumber = "PJ056YY",
+            vehicleDetailsDto = VehicleDetailsDto(registrationNumber = "PJ056YY", // TODO don't use magic numbers, use constants!
               vehicleMake = "Alfa Romeo",
               vehicleModel = "Alfasud ti",
               keeperName = "Keeper Name",

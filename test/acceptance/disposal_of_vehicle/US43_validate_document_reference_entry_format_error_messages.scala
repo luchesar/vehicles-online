@@ -6,6 +6,8 @@ import helpers.webbrowser._
 import helpers.disposal_of_vehicle.Helper._
 import helpers.disposal_of_vehicle.CacheSetup
 import models.domain.disposal_of_vehicle.AddressViewModel
+import services.fakes.FakeDisposeWebServiceImpl._
+import services.fakes.FakeVehicleLookupWebService._
 
 class US43_validate_document_reference_entry_format_error_messages extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
@@ -55,33 +57,6 @@ class US43_validate_document_reference_entry_format_error_messages extends Featu
 
         And("the motor trader progresses to the next step in the transaction")
         page.title should equal("Complete & confirm")
-      }
-    }
-  }
-
-  feature("US43: Validate vehicle registration number format - Error Messages") {
-    info("As a Motor Trader")
-    info("I want to receive an appropriate error message when I enter an invalid vehicle registration number")
-    info("so that I can correct it and move to the next step in the transaction")
-    info("")
-
-    scenario("No vehicle registration number entered") {
-      new WebBrowser {
-        Given("the motor trader has entered a vehicle registration number in an invalid format")
-        cacheSetup
-        go to VehicleLookupPage
-
-        // Note: leave the vehicle registration number field blank to cause errors.
-        VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
-
-        When("they attempt to submit the information")
-        click on VehicleLookupPage.findVehicleDetails
-
-        Then("a single appropriate message is displayed")
-        page.text should include("Please enter a valid vehicle registration number")
-
-        And("the motor trader remains on the current step")
-        page.title should equal("Find vehicle details")
       }
     }
   }

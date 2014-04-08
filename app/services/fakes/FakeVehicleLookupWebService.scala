@@ -7,10 +7,11 @@ import models.domain.disposal_of_vehicle.VehicleDetailsResponse
 import services.vehicle_lookup.{VehicleLookupService, VehicleLookupWebService}
 import play.api.libs.json.Json
 import play.api.Logger
+import FakeDisposeWebServiceImpl._
 
 class FakeVehicleLookupWebService extends VehicleLookupWebService {
   override def callVehicleLookupService(request: VehicleDetailsRequest) = Future {
-    val vehicleDetails = VehicleDetailsDto(registrationNumber = "PJ056YY",
+    val vehicleDetails = VehicleDetailsDto(registrationNumber = registrationNumberValid,
       vehicleMake = "Alfa Romeo",
       vehicleModel = "Alfasud ti",
       keeperName = "Keeper Name",
@@ -28,4 +29,8 @@ class FakeVehicleLookupWebService extends VehicleLookupWebService {
     Logger.debug(s"FakeVehicleLookupWebService callVehicleLookupService with: $responseAsJson")
     new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
   }
+}
+
+object FakeVehicleLookupWebService {
+  val referenceNumberValid = "12345678910"
 }
