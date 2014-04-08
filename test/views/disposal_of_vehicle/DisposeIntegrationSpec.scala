@@ -33,7 +33,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.vehicleDetailsModel()
       DisposePage.sadPath
 
-      assert(ErrorPanel.numberOfErrors equals 4)
+      assert(ErrorPanel.numberOfErrors equals 2)
     }
 
     "redirect when no vehicleDetailsModel is cached" in new WebBrowser {

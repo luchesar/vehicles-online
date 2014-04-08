@@ -71,10 +71,13 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
               // When the user doesn't select a value from the drop-down then the mapping will fail to match on an Int before
               // it gets to the constraints, so we need to replace the error type with one that will give a relevant message.
               val formWithReplacedErrors = formWithErrors.
-                replaceError("dateOfDisposal.day", "error.number", FormError("dateOfDisposal.day", "error.dropDownInvalid")).
-                replaceError("dateOfDisposal.month", "error.number", FormError("dateOfDisposal.month", "error.dropDownInvalid")).
-                replaceError("dateOfDisposal.year", "error.number", FormError("dateOfDisposal.year", "error.date.invalidYear")).
-                replaceError(consentId, "error.required", FormError(key = consentId, message = "disposal_dispose.consent.mandatory", args = Seq.empty))
+                replaceError("dateOfDisposal.day", "error.number", FormError("dateOfDisposal", "error.dateOfDisposal")).
+                replaceError("dateOfDisposal.month", "error.number", FormError("dateOfDisposal", "error.dateOfDisposal")).
+                replaceError("dateOfDisposal.year", "error.number", FormError("dateOfDisposal", "error.dateOfDisposal")).
+                replaceError("dateOfDisposal", "error.withinTwoYears", FormError("dateOfDisposal", "error.dateOfDisposal")).
+                replaceError("dateOfDisposal", "error.notInFuture", FormError("dateOfDisposal", "error.dateOfDisposal")).
+                replaceError(consentId, "error.required", FormError(key = consentId, message = "disposal_dispose.consent.mandatory", args = Seq.empty)).
+                distinctErrors
               BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors, yearsDropdown))
             case _ =>
               Logger.debug("could not find dealer details in cache on Dispose submit")

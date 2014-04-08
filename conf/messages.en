@@ -287,8 +287,7 @@ dateOfDisposal_year = Year of disposal
 dateOfDisposal.day = Day of disposal
 dateOfDisposal.month = Month of disposal
 dateOfDisposal.year = Year of disposal
-error.date.invalidYear = You must enter a valid year
-error.withinTwoYears = Must be between today and two years ago
+error.dateOfDisposal = Must be between today and two years ago
 disposal_dispose.consent.mandatory = You must have the consent of the registered keeper to notify the sale of this vehicle
 consent = Consent
 

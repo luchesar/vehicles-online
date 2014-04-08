@@ -38,9 +38,9 @@ object DayMonthYear {
   def notInFuture(dateService: DateService): Constraint[models.DayMonthYear] = {
     // Date must be after a year
     import scala.language.postfixOps
-    Constraint("constraint.withinTwoYears") {
+    Constraint("constraint.notInFuture") {
       case dmy@models.DayMonthYear(_, _, _, _, _) if dmy <= dateService.today => Valid
-      case _ => Invalid(ValidationError("error.withinTwoYears"))
+      case _ => Invalid(ValidationError("error.notInFuture"))
     }
   }
 }
