@@ -68,7 +68,8 @@ class DisposeUnitSpec extends UnitSpec {
         mileageId -> mileageValid,
         s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
         s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
-        s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid)
+        s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid,
+        consentId -> consentValid)
 
       val result = disposeSuccess.submit(request)
 
@@ -104,7 +105,8 @@ class DisposeUnitSpec extends UnitSpec {
         mileageId -> mileageValid,
         s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
         s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
-        s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid)
+        s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid,
+        consentId -> consentValid)
 
       val result = disposeFailure.submit(request)
 

@@ -53,6 +53,7 @@ class DisposeFormSpec extends UnitSpec {
                               dayOfDispose: String = dateOfDisposalDayValid,
                               monthOfDispose: String = dateOfDisposalMonthValid,
                               yearOfDispose: String = dateOfDisposalYearValid,
+                              consent: String = consentValid,
                               disposeController: Dispose = dispose()) = {
 
       disposeController.disposeForm.bind(
@@ -60,7 +61,8 @@ class DisposeFormSpec extends UnitSpec {
           mileageId -> mileage,
           s"$dateOfDisposalId.day" -> dayOfDispose,
           s"$dateOfDisposalId.month" -> monthOfDispose,
-          s"$dateOfDisposalId.year" -> yearOfDispose
+          s"$dateOfDisposalId.year" -> yearOfDispose,
+          consentId -> consent
         )
       )
     }
@@ -144,5 +146,10 @@ class DisposeFormSpec extends UnitSpec {
       result.errors(0).key should equal("dateOfDisposal")
       result.errors(0).message should equal("error.withinTwoYears")
     }
+
+    "reject if consent is not ticked" in {
+      formWithValidDefaults(consent = "").errors should have length 1
+    }
   }
+
 }

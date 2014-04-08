@@ -7,6 +7,7 @@ import play.api.mvc._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.common.Mileage._
 import mappings.common.DayMonthYear.dayMonthYear
+import mappings.common.Consent._
 import constraints.common
 import common.DayMonthYear._
 import controllers.disposal_of_vehicle.Helpers._
@@ -16,15 +17,17 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.FormExtensions._
 import models.domain.disposal_of_vehicle.DisposeFormModel
-import play.api.data.FormError
-import scala.Some
-import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
-import models.domain.disposal_of_vehicle.DealerDetailsModel
-import models.domain.disposal_of_vehicle.DisposeViewModel
 import org.joda.time.format.{ISODateTimeFormat}
 import services.dispose_service.DisposeService
 import services.DateService
+import models.domain.disposal_of_vehicle.DisposeFormModel
+import play.api.data.FormError
+import scala.Some
+import play.api.mvc.SimpleResult
+import models.domain.disposal_of_vehicle.DealerDetailsModel
+import models.domain.disposal_of_vehicle.DisposeModel
+import models.domain.disposal_of_vehicle.DisposeViewModel
 
 class Dispose @Inject()(webService: DisposeService, dateService: DateService) extends Controller {
 
@@ -32,7 +35,8 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
     mapping(
       mileageId -> mileage(),
       dateOfDisposalId -> dayMonthYear.verifying(validDate, withinTwoYears(dateService)),
-      emailAddressId -> optional(text)
+      emailAddressId -> optional(text),
+      consentId -> consent
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 

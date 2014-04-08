@@ -19,6 +19,8 @@ object DisposePage extends Page with WebBrowserDSL {
 
   def emailAddress(implicit driver: WebDriver): TextField = textField(id("emailAddress"))
 
+  def consent(implicit driver: WebDriver): Checkbox = checkbox(id("consent"))
+
   def back(implicit driver: WebDriver): Element = find(id("backButton")).get
 
   def dispose(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
@@ -30,6 +32,7 @@ object DisposePage extends Page with WebBrowserDSL {
     DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
     DisposePage.dateOfDisposalYear enter dateOfDisposalYearValid
     DisposePage.emailAddress enter  "test@testemail.com"
+    click on DisposePage.consent
     click on DisposePage.dispose
   }
 
