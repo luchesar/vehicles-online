@@ -36,7 +36,8 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       mileageId -> mileage(),
       dateOfDisposalId -> dayMonthYear.verifying(validDate, withinTwoYears(dateService)),
       emailAddressId -> optional(text),
-      consentId -> consent
+      consentId -> consent,
+      lossOfRegistrationConsentId -> consent
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 
@@ -69,7 +70,8 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
                 replaceError("dateOfDisposal.day", "error.number", FormError("dateOfDisposal.day", "error.dropDownInvalid")).
                 replaceError("dateOfDisposal.month", "error.number", FormError("dateOfDisposal.month", "error.dropDownInvalid")).
                 replaceError("dateOfDisposal.year", "error.number", FormError("dateOfDisposal.year", "error.date.invalidYear")).
-                replaceError(consentId, "error.required", FormError(key = consentId, message = "disposal_dispose.consent.mandatory", args = Seq.empty))
+                replaceError(consentId, "error.required", FormError(key = consentId, message = "disposal_dispose.consent.notgiven", args = Seq.empty)).
+                replaceError(lossOfRegistrationConsentId, "error.required", FormError(key = lossOfRegistrationConsentId, message = "disposal_dispose.loss_of_registration_consent.notgiven", args = Seq.empty))
               BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors))
             case _ =>
               Logger.debug("could not find dealer details in cache on Dispose submit")
