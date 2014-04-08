@@ -47,9 +47,6 @@ class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeA
           And("I enter \"12345678910\" in the V5C document reference number field")
           VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
 
-          And("I select \"I have the consent of the current keeper to dispose of this vehicle\" from the date of disposal month dropdown")
-          click on VehicleLookupPage.consent
-
           And("I click the find vehicle details button")
           click on VehicleLookupPage.findVehicleDetails
 

@@ -153,7 +153,7 @@ widget.optional = (optional)
 #customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
 error.restricted.validVRNOnly = Please enter a valid vehicle registration number
-error.restricted.validPostcode = Must be between 5 and 8 characters and in the format PR2 8AE
+error.restricted.validPostcode = Must be between 5 and 8 characters and in a valid format eg. PR2 8AE
 
 datePlaceholder.day=Day
 datePlaceholder.month=Month
@@ -252,8 +252,6 @@ disposal_vehiclelookup.warning.p2 = Retain or transfer personal registrations be
 disposal_vehiclelookup.refnumlabel = Latest doc reference number
 disposal_vehiclelookup.refnumlabel.refNumIncorrect = You must enter a number with a length of 11 digits
 disposal_vehiclelookup.vrninputlabel = Vehicle registration number
-disposal_vehiclelookup.consent = I have the consent of the current keeper to dispose of this vehicle
-disposal_vehiclelookup.consentnotgiven = Please indicate you have the current keeper''s consent
 disposal_vehiclelookup.backbutton = Back
 disposal_vehiclelookup.button = Next
 disposal_vehiclelookup.button2 = Edit
@@ -261,7 +259,6 @@ disposal_vehiclelookup.tradernamelabel = Trader name
 disposal_vehiclelookup.traderaddresslabel = Trader address
 registrationNumber = Vehicle registration number
 referenceNumber = Document reference number
-consent = Consent
 error.validDocumentReferenceNumber = Must be an 11-digit number
 
 #page 5 - confirm disposal
@@ -293,6 +290,7 @@ dateOfDisposal.year = Year of disposal
 error.date.invalidYear = You must enter a valid year
 error.withinTwoYears = Must be between today and two years ago
 disposal_dispose.consent.mandatory = You must have the consent of the registered keeper to notify the sale of this vehicle
+consent = Consent
 
 #page 6 - summary
 disposal_disposeconfirmation.title = Dispose a vehicle into the motor trade: summary

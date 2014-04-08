@@ -216,8 +216,6 @@ disposal_vehiclelookup.warning.p2 = Cadw neu drosglwyddo cofrestriadau personol 
 disposal_vehiclelookup.refnumlabel = V5C Rhif cyfeirnod y ddogfen
 disposal_vehiclelookup.refnumlabel.refNumIncorrect = Mae'n rhaid i chi fynd i mewn i nifer sydd â hyd o 11 digid
 disposal_vehiclelookup.vrninputlabel = Rhif cofrestru cerbyd
-disposal_vehiclelookup.consent = gennyf ganiatâd y ceidwad presennol i gael gwared ar y cerbyd hwn
-disposal_vehiclelookup.consentnotgiven = Nodwch fod gennych ganiatâd y ceidwad presennol'' s
 disposal_vehiclelookup.backbutton = Holau
 disposal_vehiclelookup.button = Dod o hyd i
 disposal_vehiclelookup.button2 = Golygu
@@ -225,7 +223,6 @@ disposal_vehiclelookup.tradernamelabel = Enw masnachwr
 disposal_vehiclelookup.traderaddresslabel = Gyfeiriad masnachwr
 registrationNumber = Rhif cofrestru cerbyd
 referenceNumber = Rhif cyfeirnod Dogfen
-consent = Caniatâd
 error.validDocumentReferenceNumber = Rhaid fod yn rhif 11-digid
 
 #page 5 - confirm disposal
@@ -257,6 +254,7 @@ dateOfDisposal.year = Flwyddyn waredu
 error.date.invalidYear = Mae'n rhaid i chi fynd i mewn i flwyddyn dilys
 error.withinTwoYears = Rhaid i ddyddiad gwared fod o fewn dwy flynedd
 disposal_dispose.consent.mandatory = Rhaid i chi gael cydsyniad y ceidwad cofrestredig i hysbysu gwerthu cerbyd hwn
+consent = Caniatâd
 
 #page 6 - summary
 disposal_disposeconfirmation.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion

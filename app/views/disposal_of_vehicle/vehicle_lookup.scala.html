@@ -48,11 +48,6 @@
                     'maxLength -> ReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                     'title -> Messages("disposal_vehiclelookup.refnumlabel.refNumIncorrect")))
 
-                <div class="form-declaration">
-                    @* Checkbox must not be pre-ticked. *@
-                    @valtechDeclareCheck(vehicleLookupForm(consentId), args = Map('id -> "consent", '_showConstraints -> false, '_label -> Messages("disposal_vehiclelookup.consent")))
-                </div>
-
 				@{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
 				<div class="form-steps">
 					<button type="submit" name="action" class="button">@Messages("disposal_vehiclelookup.button")</button>

@@ -28,7 +28,6 @@ class Orphaned extends FeatureSpec with GivenWhenThen with Matchers with BeforeA
 
         // Note: leave the vehicle registration number field blank to cause errors.
         VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
-        click on VehicleLookupPage.consent
 
         When("they attempt to submit the information")
         click on VehicleLookupPage.findVehicleDetails
