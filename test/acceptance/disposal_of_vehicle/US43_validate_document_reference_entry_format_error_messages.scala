@@ -28,7 +28,6 @@ class US43_validate_document_reference_entry_format_error_messages extends Featu
 
         // Note: leave the document reference number field blank to cause errors.
         VehicleLookupPage.vehicleRegistrationNumber enter registrationNumberValid
-        click on VehicleLookupPage.consent
 
         When("they attempt to submit the information")
         click on VehicleLookupPage.findVehicleDetails
@@ -50,7 +49,6 @@ class US43_validate_document_reference_entry_format_error_messages extends Featu
         // Populate everything correctly
         VehicleLookupPage.vehicleRegistrationNumber enter registrationNumberValid
         VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
-        click on VehicleLookupPage.consent
 
         When("the data complies with formatting rules")
         click on SetupTradeDetailsPage.lookup
@@ -75,7 +73,6 @@ class US43_validate_document_reference_entry_format_error_messages extends Featu
 
         // Note: leave the vehicle registration number field blank to cause errors.
         VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
-        click on VehicleLookupPage.consent
 
         When("they attempt to submit the information")
         click on VehicleLookupPage.findVehicleDetails

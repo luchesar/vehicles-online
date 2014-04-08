@@ -28,9 +28,9 @@ object CacheSetup {
     play.api.cache.Cache.set(key, value)
   }
 
-  def vehicleLookupFormModel (referenceNumber: String = referenceNumberValid, registrationNumber: String = registrationNumberValid, consent: String = consentValid) = {
+  def vehicleLookupFormModel (referenceNumber: String = referenceNumberValid, registrationNumber: String = registrationNumberValid) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupFormModelCacheKey
-    val value = VehicleLookupFormModel(referenceNumber, registrationNumber, consent)
+    val value = VehicleLookupFormModel(referenceNumber, registrationNumber)
     play.api.cache.Cache.set(key, value)
   }
 

@@ -23,8 +23,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
   val vehicleLookupForm = Form(
     mapping(
       referenceNumberId -> referenceNumber,
-      registrationNumberId -> registrationNumber,
-      consentId -> consent
+      registrationNumberId -> registrationNumber
     )(VehicleLookupFormModel.apply)(VehicleLookupFormModel.unapply)
   )
 
