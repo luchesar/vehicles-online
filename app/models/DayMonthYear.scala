@@ -79,6 +79,23 @@ case class DayMonthYear(day: Int, month: Int, year: Int,
       case notEqual => notEqual
     }
   }
+
+  @tailrec
+  final def yearRangeToDropdown(yearsIntoThePast: Int,
+                      accumulator: Seq[(String, String)] = Seq.empty // Add to this before recursion and finally on exit
+                       ): Seq[(String, String)] = {
+    // Populate a dropdown with the years between a starting year and now.
+    def dropdownFormat = {
+      // Turn year into a format that can be displayed by a dropdown
+      val yearInPast = (year - yearsIntoThePast).toString
+      Seq(yearInPast -> yearInPast)
+    }
+
+    yearsIntoThePast match {
+      case 0 => accumulator ++ dropdownFormat
+      case _ => yearRangeToDropdown(yearsIntoThePast - 1, accumulator ++ dropdownFormat) // Add to end of the list, then recurse
+    }
+  }
 }
 
 object DayMonthYear {
@@ -91,24 +108,6 @@ object DayMonthYear {
   def today = {
     val now = DateTime.now()
     new DayMonthYear(now.dayOfMonth().get, now.monthOfYear().get, now.year().get)
-  }
-
-  @tailrec
-  def yearsToDropdown(yearNow: Int,
-                      offsetIntoThePast: Int,
-                      accumulator: Seq[(String, String)] = Seq.empty // Add to this before recursion and finally on exit
-                       ): Seq[(String, String)] = {
-    // Populate a year dropdown with years between a starting point and now.
-    def viewFormat = {
-      // Turn year into a format that can be displayed by a dropdown
-      val yearInPast = (yearNow - offsetIntoThePast).toString
-      Seq(yearInPast -> yearInPast)
-    }
-
-    offsetIntoThePast match {
-      case 0 => accumulator ++ viewFormat
-      case _ => yearsToDropdown(yearNow, offsetIntoThePast - 1, accumulator ++ viewFormat) // Add to end of the list, then recurse
-    }
   }
 }
 

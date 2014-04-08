@@ -29,7 +29,7 @@ import models.domain.disposal_of_vehicle.DealerDetailsModel
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import scala.annotation.tailrec
-import mappings.disposal_of_vehicle.Dispose.dateOfDisposalMaxOffsetIntoThePast
+import mappings.disposal_of_vehicle.Dispose.dateOfDisposalYearsIntoThePast
 import scala.language.postfixOps
 
 class Dispose @Inject()(webService: DisposeService, dateService: DateService) extends Controller {
@@ -37,14 +37,14 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
     mapping(
       mileageId -> mileage(),
       dateOfDisposalId -> dayMonthYear.verifying(validDate,
-        after(earliest = dateService.today - dateOfDisposalMaxOffsetIntoThePast years),
+        after(earliest = dateService.today - dateOfDisposalYearsIntoThePast years),
         notInFuture(dateService)),
       emailAddressId -> optional(text),
       consentId -> consent
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 
-  private val years: Seq[(String, String)] = models.DayMonthYear.yearsToDropdown(yearNow = dateService.today.year, offsetIntoThePast = dateOfDisposalMaxOffsetIntoThePast)
+  private val yearsDropdown: Seq[(String, String)] = dateService.today.yearRangeToDropdown(yearsIntoThePast = dateOfDisposalYearsIntoThePast)
 
   def present = Action { implicit request => {
       fetchDealerDetailsFromCache match {
@@ -52,7 +52,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
           Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
           fetchVehicleDetailsFromCache match {
-            case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm, years))
+            case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm, yearsDropdown))
             case _ => Redirect(routes.VehicleLookup.present)
           }
         case _ => Redirect(routes.SetUpTradeDetails.present)
@@ -75,7 +75,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
                 replaceError("dateOfDisposal.month", "error.number", FormError("dateOfDisposal.month", "error.dropDownInvalid")).
                 replaceError("dateOfDisposal.year", "error.number", FormError("dateOfDisposal.year", "error.date.invalidYear")).
                 replaceError(consentId, "error.required", FormError(key = consentId, message = "disposal_dispose.consent.mandatory", args = Seq.empty))
-              BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors, years))
+              BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors, yearsDropdown))
             case _ =>
               Logger.debug("could not find dealer details in cache on Dispose submit")
               Redirect(routes.SetUpTradeDetails.present)
