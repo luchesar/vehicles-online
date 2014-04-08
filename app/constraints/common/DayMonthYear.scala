@@ -9,15 +9,13 @@ import services.DateService
 object DayMonthYear {
   def required: Constraint[Int] = Constraint[Int]("constraint.required") {
     case i if i > 0 => Valid
-    case _ => Invalid(ValidationError("error.dropDownInvalid")) // TODO should we combine this with the other error message?
+    case _ => Invalid(ValidationError("error.dropDownInvalid"))
   }
 
   def validDate: Constraint[models.DayMonthYear] = {
     def dateValidation(dmy: models.DayMonthYear): ValidationResult = Try(new DateTime(dmy.year, dmy.month, dmy.day, 0, 0)) match {
-      case Success(dt: DateTime) if dt.getYear > 9999 || dt.getYear < 999 => Invalid(ValidationError("error.invalid")) // TODO extract the magic numbers into constants.
-      case Success(dt: DateTime) if dt.getYear > 9999 || dt.getYear < 999 => Invalid(ValidationError("error.invalid"))
-      case Success(dt: DateTime) => Valid
-      case Failure(_) => Invalid(ValidationError("error.invalid"))
+      case Success(dt: DateTime) if dt.getYear > 999 || dt.getYear < 9999 => Valid // TODO extract the magic numbers into constants.
+      case _ => Invalid(ValidationError("error.invalid"))
     }
 
     Constraint("constraint.required") {
