@@ -14,6 +14,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
 import services.{DateService, DateServiceImpl}
+import services.fakes.FakeDateServiceImpl._
 
 class DisposeFormSpec extends UnitSpec {
 

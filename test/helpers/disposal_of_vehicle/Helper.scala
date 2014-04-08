@@ -28,8 +28,5 @@ object Helper {
   
   val consentValid = "true"
   val mileageValid = "20000"
-  val dateOfDisposalDayValid = "25"
-  val dateOfDisposalMonthValid = "11"
-  val dateOfDisposalYearValid = "1970"
   val emailValid = "viv.richards@emailprovider.co.uk"
 }

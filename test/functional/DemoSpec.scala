@@ -5,6 +5,7 @@ import pages.disposal_of_vehicle._
 import helpers.webbrowser._
 import services.fakes.FakeWebServiceImpl.uprnValid
 import helpers.disposal_of_vehicle.Helper._
+import services.fakes.FakeDateServiceImpl._
 
 class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 

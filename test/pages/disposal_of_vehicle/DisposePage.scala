@@ -2,7 +2,7 @@ package pages.disposal_of_vehicle
 
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
-import helpers.disposal_of_vehicle.Helper._
+import services.fakes.FakeDateServiceImpl._
 
 object DisposePage extends Page with WebBrowserDSL {
   val address = "/disposal-of-vehicle/dispose"
