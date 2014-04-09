@@ -147,6 +147,10 @@ class DisposeFormSpec extends UnitSpec {
     "reject if consent is not ticked" in {
       formWithValidDefaults(consent = "").errors should have length 1
     }
+
+    "reject if loss of registration consent is not ticked" in {
+      formWithValidDefaults(lossOfRegistrationConsent = "").errors should have length 1
+    }
   }
 
 }
