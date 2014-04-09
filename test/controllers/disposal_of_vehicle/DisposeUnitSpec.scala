@@ -32,26 +32,31 @@ class DisposeUnitSpec extends UnitSpec {
       dateService
     }
 
+    def buildCorrectlyPopulatedRequest = {
+      FakeRequest().withSession().withFormUrlEncodedBody(
+      mileageId -> mileageValid,
+      s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
+      s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
+      s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid,
+      consentId -> consentValid,
+      lossOfRegistrationConsentId -> consentValid)
+    }
+
     val disposeSuccess = {
       val ws = mock[DisposeWebService]
       when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
         val responseAsJson = Json.toJson(disposeResponseSuccess)
         new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
       })
-
       val disposeServiceImpl = new DisposeServiceImpl(ws)
-
       new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService())
     }
 
     "present" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
-
       val request = FakeRequest().withSession()
-
       val result = disposeSuccess.present(request)
-
       status(result) should equal(OK)
     }
 
@@ -59,16 +64,7 @@ class DisposeUnitSpec extends UnitSpec {
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       CacheSetup.vehicleLookupFormModel()
-
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        mileageId -> mileageValid,
-        s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
-        s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
-        s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid,
-        consentId -> consentValid)
-
-      val result = disposeSuccess.submit(request)
-
+      val result = disposeSuccess.submit(buildCorrectlyPopulatedRequest)
       redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
     }
 
@@ -83,12 +79,9 @@ class DisposeUnitSpec extends UnitSpec {
               registrationNumber = "",
               auditId = "")
           val responseAsJson = Json.toJson(disposeResponse)
-
           new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
         })
-
         val disposeServiceImpl = new DisposeServiceImpl(ws)
-
         new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService())
       }
 
@@ -97,56 +90,38 @@ class DisposeUnitSpec extends UnitSpec {
       CacheSetup.vehicleDetailsModel()
       CacheSetup.disposeModel()
 
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        mileageId -> mileageValid,
-        s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
-        s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
-        s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid,
-        consentId -> consentValid)
-
-      val result = disposeFailure.submit(request)
-
+      val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
       redirectLocation(result) should equal(Some(DisposeFailurePage.address))
     }
 
     "redirect to setupTradeDetails page after the dispose button is clicked and no vehicleLookupFormModel is cached" in new WithApplication {
       CacheSetup.setupTradeDetails()
-
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         mileageId -> mileageValid,
         s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
         s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
         s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid)
-
       val result = disposeSuccess.submit(request)
-
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to setupTradeDetails page when present and previous pages have not been visited" in new WithApplication {
       val request = FakeRequest().withSession()
-
       val result = disposeSuccess.present(request)
-
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "return a bad request when no details are entered" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
-
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
-
       val result = disposeSuccess.submit(request)
-
       status(result) should equal(BAD_REQUEST)
     }
 
     "redirect to setupTradeDetails page when form submitted with errors and previous pages have not been visited" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
-
       val result = disposeSuccess.submit(request)
-
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
@@ -160,18 +135,14 @@ class DisposeUnitSpec extends UnitSpec {
         s"$dateOfDisposalId.day" -> dateOfDisposalDayValid,
         s"$dateOfDisposalId.month" -> dateOfDisposalMonthValid,
         s"$dateOfDisposalId.year" -> dateOfDisposalYearValid)
-
       val disposeResponseThrows = mock[DisposeResponse]
       when(disposeResponseThrows.success).thenThrow(new RuntimeException("expected by DisposeUnitSpec"))
       val mockWebServiceThrows = mock[DisposeService]
       when(mockWebServiceThrows.invoke(any[DisposeRequest])).thenReturn(Future {
         disposeResponseThrows
       })
-
       val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateService())
-
       val result = dispose.submit(request)
-
       status(result) should equal(BAD_REQUEST)
     }
   }

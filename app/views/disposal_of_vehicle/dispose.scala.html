@@ -82,6 +82,9 @@
                 @* Checkbox must not be pre-ticked. *@
                 @valtechDeclareCheck(disposeForm(consentId), args = Map('id -> "consent", '_showConstraints -> false, '_label -> Messages("disposal_dispose.consent")))
             </div>
+            <div class="form-declaration">
+                @valtechDeclareCheck(disposeForm(lossOfRegistrationConsentId), args = Map('id -> "lossOfRegistrationConsent", '_showConstraints -> false, '_label -> Messages("disposal_dispose.loss_of_registration.consent")))
+            </div>
 
             @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
             <div class="form-steps">

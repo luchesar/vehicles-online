@@ -56,6 +56,7 @@ class DisposeFormSpec extends UnitSpec {
                               monthOfDispose: String = dateOfDisposalMonthValid,
                               yearOfDispose: String = dateOfDisposalYearValid,
                               consent: String = consentValid,
+                              lossOfRegistrationConsent: String = consentValid,
                               disposeController: Dispose = dispose()) = {
 
       disposeController.disposeForm.bind(
@@ -64,7 +65,8 @@ class DisposeFormSpec extends UnitSpec {
           s"$dateOfDisposalId.day" -> dayOfDispose,
           s"$dateOfDisposalId.month" -> monthOfDispose,
           s"$dateOfDisposalId.year" -> yearOfDispose,
-          consentId -> consent
+          consentId -> consent,
+          lossOfRegistrationConsentId -> lossOfRegistrationConsent
         )
       )
     }

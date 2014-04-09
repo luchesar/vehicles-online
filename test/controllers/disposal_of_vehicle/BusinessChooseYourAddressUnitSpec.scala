@@ -32,7 +32,7 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "redirect to VehicleLookup page after a valid submit" in new WithApplication {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        addressSelectId -> uprnValid.toString)
+        addressSelectId -> traderUprnValid.toString)
       val businessChooseYourAddress = businessChooseYourAddressWithFakeWebService()
 
       val result = businessChooseYourAddress.submit(request)
@@ -73,7 +73,7 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
     "redirect to setupTradeDetails page when valid submit with no dealer name cached" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        addressSelectId -> uprnValid.toString)
+        addressSelectId -> traderUprnValid.toString)
       val businessChooseYourAddress = businessChooseYourAddressWithFakeWebService()
 
       val result = businessChooseYourAddress.submit(request)

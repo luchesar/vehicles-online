@@ -21,6 +21,8 @@ object DisposePage extends Page with WebBrowserDSL {
 
   def consent(implicit driver: WebDriver): Checkbox = checkbox(id("consent"))
 
+  def lossOfRegistrationConsent(implicit driver: WebDriver): Checkbox = checkbox(id("lossOfRegistrationConsent"))
+
   def back(implicit driver: WebDriver): Element = find(id("backButton")).get
 
   def dispose(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
@@ -33,6 +35,7 @@ object DisposePage extends Page with WebBrowserDSL {
     DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
     DisposePage.emailAddress enter  "test@testemail.com" // TODO don't use magic number, use a constant!
     click on DisposePage.consent
+    click on DisposePage.lossOfRegistrationConsent
     click on DisposePage.dispose
   }
 

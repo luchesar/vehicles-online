@@ -17,7 +17,7 @@ import services.fakes.FakeResponse
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.Span
 import org.scalatest.time.Second
-import services.fakes.FakeWebServiceImpl.{osAddressbaseDPA, uprnValid}
+import services.fakes.FakeWebServiceImpl.{osAddressbaseDPA, traderUprnValid}
 
 class OSAddressLookupServiceSpec extends UnitSpec {
   val oSAddressbaseResultsValidDPA = {
@@ -126,9 +126,9 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
     "not throw when an address contains a building number that contains letters" in {
       val expected = Seq(
-        (uprnValid.toString, "presentationProperty AAA, 123A, property stub, street stub, town stub, area stub, postcode stub"),
-        (uprnValid.toString, "presentationProperty BBB, 123B, property stub, street stub, town stub, area stub, postcode stub"),
-        (uprnValid.toString, "presentationProperty stub, 789C, property stub, street stub, town stub, area stub, postcode stub")
+        (traderUprnValid.toString, "presentationProperty AAA, 123A, property stub, street stub, town stub, area stub, postcode stub"),
+        (traderUprnValid.toString, "presentationProperty BBB, 123B, property stub, street stub, town stub, area stub, postcode stub"),
+        (traderUprnValid.toString, "presentationProperty stub, 789C, property stub, street stub, town stub, area stub, postcode stub")
       )
       val dpa1 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(houseNumber = "789C")), LPI = None)
       val dpa2 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(houseName = "presentationProperty BBB", houseNumber = "123B")), LPI = None)
@@ -149,9 +149,9 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
     "return seq of (uprn, address) sorted by building number then building name" in {
       val expected = Seq(
-        (uprnValid.toString, "presentationProperty AAA, 123, property stub, street stub, town stub, area stub, postcode stub"),
-        (uprnValid.toString, "presentationProperty BBB, 123, property stub, street stub, town stub, area stub, postcode stub"),
-        (uprnValid.toString, "presentationProperty stub, 789, property stub, street stub, town stub, area stub, postcode stub")
+        (traderUprnValid.toString, "presentationProperty AAA, 123, property stub, street stub, town stub, area stub, postcode stub"),
+        (traderUprnValid.toString, "presentationProperty BBB, 123, property stub, street stub, town stub, area stub, postcode stub"),
+        (traderUprnValid.toString, "presentationProperty stub, 789, property stub, street stub, town stub, area stub, postcode stub")
       )
       val dpa1 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(houseNumber = "789")), LPI = None)
       val dpa2 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(houseName = "presentationProperty BBB", houseNumber = "123")), LPI = None)

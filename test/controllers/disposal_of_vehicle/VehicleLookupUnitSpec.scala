@@ -37,10 +37,10 @@ class VehicleLookupUnitSpec extends UnitSpec {
           VehicleDetailsResponse(true,
             message = "Fake Web Lookup Service - Good response",
             vehicleDetailsDto = VehicleDetailsDto(registrationNumber = "PJ056YY", // TODO don't use magic numbers, use constants!
-              vehicleMake = FakeVehicleLookupWebService.vehicleMakeValid,
-              vehicleModel = FakeVehicleLookupWebService.vehicleModelValid,
-              keeperName = FakeVehicleLookupWebService.keeperNameValid,
-              keeperAddress = AddressDto(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
+              vehicleMake = vehicleMakeValid,
+              vehicleModel = vehicleModelValid,
+              keeperName = keeperNameValid,
+              keeperAddress = AddressDto(uprn = Some(keeperUprnValid), address = Seq("line1", "line2", "line2"))))
         val responseAsJson = Json.toJson(vehicleDetailsResponse)
 
         new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
@@ -101,10 +101,10 @@ class VehicleLookupUnitSpec extends UnitSpec {
             VehicleDetailsResponse(success = false,
               message = "Fake Web Dispose Service - Bad response",
               vehicleDetailsDto = VehicleDetailsDto(registrationNumber = "PJ056YY",
-                vehicleMake = FakeVehicleLookupWebService.vehicleMakeValid,
-                vehicleModel = FakeVehicleLookupWebService.vehicleModelValid,
-                keeperName = FakeVehicleLookupWebService.keeperNameValid,
-                keeperAddress = AddressDto(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
+                vehicleMake = vehicleMakeValid,
+                vehicleModel = vehicleModelValid,
+                keeperName = keeperNameValid,
+                keeperAddress = AddressDto(uprn = Some(keeperUprnValid), address = Seq("line1", "line2", "line2"))))
           val responseAsJson = Json.toJson(vehicleDetailsResponse)
 
           new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.

@@ -3,7 +3,7 @@ package functional
 import org.scalatest.{BeforeAndAfterAll, Matchers, GivenWhenThen, FeatureSpec}
 import pages.disposal_of_vehicle._
 import helpers.webbrowser._
-import services.fakes.FakeWebServiceImpl.uprnValid
+import services.fakes.FakeWebServiceImpl.traderUprnValid
 import helpers.disposal_of_vehicle.Helper._
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
@@ -37,7 +37,7 @@ class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeA
           click on SetupTradeDetailsPage.lookup
 
           And("I select \"1, OLIVERS DRIVE, WITHAM, CM8 1QJ\"")
-          BusinessChooseYourAddressPage.chooseAddress.value = uprnValid.toString
+          BusinessChooseYourAddressPage.chooseAddress.value = traderUprnValid.toString
 
           And("I click the Select button")
           click on BusinessChooseYourAddressPage.select
@@ -68,6 +68,9 @@ class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeA
 
           And("I select \"I have the consent of the current keeper to dispose of this vehicle\"")
           click on DisposePage.consent
+
+          And("I select \"I have the confirmation that the current keeper is aware that the registration will be disposed of with the vehicle\"")
+          click on DisposePage.lossOfRegistrationConsent
 
           When("I click the dispose button")
           click on DisposePage.dispose

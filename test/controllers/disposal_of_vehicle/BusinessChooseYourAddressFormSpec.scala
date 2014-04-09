@@ -23,14 +23,14 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
       new BusinessChooseYourAddress(mockAddressLookupService)
     }
 
-    def formWithValidDefaults(addressSelected: String = uprnValid.toString) = {
+    def formWithValidDefaults(addressSelected: String = traderUprnValid.toString) = {
       businessChooseYourAddress.form.bind(
         Map(addressSelectId -> addressSelected)
       )
     }
 
     "accept if form is valid" in {
-      formWithValidDefaults().get.uprnSelected should equal(uprnValid)
+      formWithValidDefaults().get.uprnSelected should equal(traderUprnValid)
     }
 
     "reject if addressSelect is empty" in {

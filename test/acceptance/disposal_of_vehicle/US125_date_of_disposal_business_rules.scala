@@ -31,6 +31,7 @@ class US125_date_of_disposal_business_rules extends FeatureSpec with GivenWhenTh
         DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
         DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
         click on DisposePage.consent
+        click on DisposePage.lossOfRegistrationConsent
 
         When("they submit the details")
         click on DisposePage.dispose

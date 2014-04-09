@@ -15,7 +15,7 @@ class FakeVehicleLookupWebService extends VehicleLookupWebService {
       vehicleMake = vehicleMakeValid,
       vehicleModel = vehicleModelValid,
       keeperName = keeperNameValid,
-      keeperAddress = AddressDto(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2")))
+      keeperAddress = AddressDto(uprn = Some(keeperUprnValid), address = Seq("line1", "line2", "line2")))
 
     val vehicleDetailsResponse =
       if (request.referenceNumber == "9" * 11) VehicleDetailsResponse(success = false,
@@ -37,4 +37,5 @@ object FakeVehicleLookupWebService {
   val vehicleMakeValid = "Alfa Romeo"
   val vehicleModelValid = "Alfasud ti"
   val keeperNameValid = "Keeper Name"
+  val keeperUprnValid = 10123456789L
 }

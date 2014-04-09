@@ -40,7 +40,8 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
         after(earliest = dateService.today - dateOfDisposalYearsIntoThePast years),
         notInFuture(dateService)),
       emailAddressId -> optional(text),
-      consentId -> consent
+      consentId -> consent,
+      lossOfRegistrationConsentId -> consent
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 
@@ -75,7 +76,8 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
                 replaceError("dateOfDisposal.month", FormError("dateOfDisposal", "error.dateOfDisposal")).
                 replaceError("dateOfDisposal.year", FormError("dateOfDisposal", "error.dateOfDisposal")).
                 replaceError("dateOfDisposal", FormError("dateOfDisposal", "error.dateOfDisposal")).
-                replaceError(consentId, "error.required", FormError(key = consentId, message = "disposal_dispose.consent.mandatory", args = Seq.empty)).
+                replaceError(consentId, "error.required", FormError(key = consentId, message = "disposal_dispose.consent.notgiven", args = Seq.empty)).
+                replaceError(lossOfRegistrationConsentId, "error.required", FormError(key = lossOfRegistrationConsentId, message = "disposal_dispose.loss_of_registration.consent.notgiven", args = Seq.empty)).
                 distinctErrors
               BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors, yearsDropdown))
             case _ =>
