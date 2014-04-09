@@ -5,7 +5,7 @@ import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import models.domain.disposal_of_vehicle._
-import services.fakes.{FakeVehicleLookupWebService, FakeResponse}
+import services.fakes.FakeResponse
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
@@ -20,16 +20,7 @@ class VehicleLookupFormSpec extends UnitSpec {
     val vehicleLookup = {
       val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
       when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
-        val vehicleDetailsResponse =
-          VehicleDetailsResponse(success = true,
-            message = "Fake Web Lookup Service - Good response",
-            vehicleDetailsDto = VehicleDetailsDto(registrationNumber = "PJ056YY", // TODO don't use magic numbers, use constants!
-              vehicleMake = vehicleMakeValid,
-              vehicleModel = vehicleModelValid,
-              keeperName = keeperNameValid,
-              keeperAddress = AddressDto(uprn = Some(keeperUprnValid), address = Seq("line1", "line2", "line2"))))
-        val responseAsJson = Json.toJson(vehicleDetailsResponse)
-
+        val responseAsJson = Json.toJson(vehicleDetailsResponseSuccess)
         new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
       })
 
@@ -66,7 +57,7 @@ class VehicleLookupFormSpec extends UnitSpec {
     "reject if referenceNumber is blank" in {
       val errors = formWithValidDefaults(referenceNumber = "").errors
       errors should have length 3
-      val expectedKey = "referenceNumber"
+      val expectedKey = "referenceNumber" // TODO should come from the mapping.
       errors(0).key should equal(expectedKey)
       errors(0).message should equal("error.minLength")
       errors(1).key should equal(expectedKey)

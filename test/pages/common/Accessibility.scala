@@ -7,7 +7,7 @@ object Accessibility extends Page with WebBrowserDSL {
   override val url: String = ""
   override val title: String = ""
 
-  def ariaRequiredPresent(implicit driver: WebDriver, controlName: String) : Boolean = driver.findElement(By.id(controlName)).getAttribute("aria-required").toBoolean
-  def ariaInvalidPresent(implicit driver: WebDriver, controlName: String) : Boolean = driver.findElement(By.id(controlName)).getAttribute("aria-invalid").toBoolean
+  def ariaRequiredPresent(controlName: String)(implicit driver: WebDriver) : Boolean = driver.findElement(By.id(controlName)).getAttribute("aria-required").toBoolean
+  def ariaInvalidPresent(controlName: String)(implicit driver: WebDriver) : Boolean = driver.findElement(By.id(controlName)).getAttribute("aria-invalid").toBoolean
 
 }
