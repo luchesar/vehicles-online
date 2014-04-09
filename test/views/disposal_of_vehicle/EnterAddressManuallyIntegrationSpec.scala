@@ -6,6 +6,7 @@ import helpers.disposal_of_vehicle.CacheSetup
 import pages.common.ErrorPanel
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.Helper._
+import services.fakes.FakeAddressLookupService._
 
 class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 

@@ -2,17 +2,15 @@ package acceptance.disposal_of_vehicle
 
 import org.scalatest.{BeforeAndAfterAll, Matchers, GivenWhenThen, FeatureSpec}
 import helpers.webbrowser._
-import helpers.disposal_of_vehicle.Helper._
 import helpers.disposal_of_vehicle.CacheSetup
-import models.domain.disposal_of_vehicle.AddressViewModel
 import pages.disposal_of_vehicle.VehicleLookupPage
 import services.fakes.FakeVehicleLookupWebService._
 
 class US51_disposal_to_trade_validate_vrm_format_entry extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
   private def cacheSetup() = {
-    CacheSetup.setupTradeDetails("CT117PB")
-    CacheSetup.businessChooseYourAddress(new AddressViewModel(address = Seq("My address", "London")))
+    CacheSetup.setupTradeDetails()
+    CacheSetup.businessChooseYourAddress()
   }
 
   feature("US51: Validate vehicle registration number format - Error Messages") {
@@ -24,7 +22,7 @@ class US51_disposal_to_trade_validate_vrm_format_entry extends FeatureSpec with 
     scenario("Vehicle registration number entered") {
       new WebBrowser {
         Given("a motor trader has entered a VRM in a valid format")
-        cacheSetup
+        cacheSetup()
         go to VehicleLookupPage
 
         // Note: leave the vehicle registration number field blank to cause errors.
@@ -45,7 +43,7 @@ class US51_disposal_to_trade_validate_vrm_format_entry extends FeatureSpec with 
     scenario("No vehicle registration number entered") {
       new WebBrowser {
         Given("the motor trader has entered a vehicle registration number in an invalid format")
-        cacheSetup
+        cacheSetup()
         go to VehicleLookupPage
 
         // Note: leave the vehicle registration number field blank to cause errors.

@@ -18,6 +18,7 @@ import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.Span
 import org.scalatest.time.Second
 import services.fakes.FakeWebServiceImpl.{osAddressbaseDPA, traderUprnValid}
+import services.fakes.FakeAddressLookupService._
 
 class OSAddressLookupServiceSpec extends UnitSpec {
   val oSAddressbaseResultsValidDPA = {

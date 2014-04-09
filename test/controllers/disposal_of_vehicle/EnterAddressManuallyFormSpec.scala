@@ -5,6 +5,7 @@ import mappings.common.AddressLines._
 import helpers.disposal_of_vehicle.Helper._
 import Postcode._
 import helpers.UnitSpec
+import services.fakes.FakeAddressLookupService._
 
 
 class EnterAddressManuallyFormSpec extends UnitSpec {

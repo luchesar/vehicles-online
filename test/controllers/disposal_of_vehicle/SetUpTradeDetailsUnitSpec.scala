@@ -7,7 +7,7 @@ import mappings.disposal_of_vehicle.SetupTradeDetails._
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.Helper._
 import helpers.UnitSpec
-import scala.annotation.tailrec
+import services.fakes.FakeAddressLookupService._
 
 class SetUpTradeDetailsUnitSpec extends UnitSpec {
 

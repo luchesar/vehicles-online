@@ -3,7 +3,7 @@ package pages.disposal_of_vehicle
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
 import helpers.disposal_of_vehicle.Helper._
-import services.fakes.FakeAddressLookupService
+import services.fakes.FakeAddressLookupService._
 
 object SetupTradeDetailsPage extends Page with WebBrowserDSL {
   val address = "/disposal-of-vehicle/setup-trade-details"
@@ -26,7 +26,7 @@ object SetupTradeDetailsPage extends Page with WebBrowserDSL {
   def submitInvalidPostcode(implicit driver: WebDriver) = {
     go to SetupTradeDetailsPage
     dealerName enter traderBusinessNameValid
-    dealerPostcode enter FakeAddressLookupService.postcodeInvalid
+    dealerPostcode enter postcodeInvalid
     click on lookup
   }
 }

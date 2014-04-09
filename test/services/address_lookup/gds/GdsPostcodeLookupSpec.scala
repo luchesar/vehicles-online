@@ -4,7 +4,6 @@ import services.fakes.{FakeResponse, FakeWebServiceImpl}
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.address_lookup.{AddressLookupService, gds}
-import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
 import play.api.libs.ws.Response
 import services.address_lookup.gds.domain.Address
@@ -15,6 +14,7 @@ import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Second, Span}
 import services.fakes.FakeWebServiceImpl.gdsAddress
 import services.fakes.FakeWebServiceImpl.traderUprnValid
+import services.fakes.FakeAddressLookupService._
 
 class GdsPostcodeLookupSpec extends UnitSpec {
   /*
