@@ -29,7 +29,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
       })
 
       val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
-
       new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
     }
 
@@ -44,11 +43,8 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "present" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
-
       val request = FakeRequest().withSession()
-
       val result = vehicleLookupSuccess.present(request)
-
       status(result) should equal(OK)
     }
 
@@ -58,7 +54,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
 
       val result = vehicleLookupSuccess.submit(request)
-
       redirectLocation(result) should equal (Some(DisposePage.address))
      }
 
@@ -72,7 +67,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r => controllers.disposal_of_vehicle.Helpers.fetchVehicleLookupDetailsFromCache match {
           case Some(f) => f.registrationNumber should equal(registrationNumberValid)
-          case _ => fail("Should have found model in the cache")
+          case _ => fail("Should have found registration number in the cache")
         }
       }
     }
@@ -86,41 +81,31 @@ class VehicleLookupUnitSpec extends UnitSpec {
         })
 
         val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
-
         new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
       }
 
       CacheSetup.businessChooseYourAddress()
-
       val request = buildCorrectlyPopulatedRequest()
-
       val result = vehicleLookupFailure.submit(request)
-
       redirectLocation(result) should equal (Some(VehicleLookupFailurePage.address))
     }
 
     "redirect to setupTradeDetails page when user has not set up a trader for disposal" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-
       val result = vehicleLookupSuccess.present(request)
-
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "return a bad request if no details are entered" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
-
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "", registrationNumber = "", consent = "")
-
       val result = vehicleLookupSuccess.submit(request)
-
       status(result) should equal(BAD_REQUEST)
     }
 
     "replace max length error message for document reference number with standard error message (US43)" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (referenceNumberLength + 1))
-
       val result = vehicleLookupSuccess.submit(request)
       val count = countSubstring(contentAsString(result), "Must be an 11-digit number")
       count should equal(2)
@@ -129,9 +114,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "replace required and min length error messages for document reference number with standard error message (US43)" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "")
-
       val result = vehicleLookupSuccess.submit(request)
-
       val count = countSubstring(contentAsString(result), "Must be an 11-digit number")
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
       // the page and once above the field.
@@ -140,9 +123,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "replace max length error message for vehicle registration mark with standard error message (US43)" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "PJ05YYYX")
-
       val result = vehicleLookupSuccess.submit(request)
-
       val count = countSubstring(contentAsString(result), "Please enter a valid vehicle registration number")
       count should equal(2)
     }
@@ -150,9 +131,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "replace required and min length error messages for vehicle registration mark with standard error message (US43)" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "")
-
       val result = vehicleLookupSuccess.submit(request)
-
       val count = countSubstring(contentAsString(result), "Please enter a valid vehicle registration number")
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
       // the page and once above the field.
@@ -160,31 +139,22 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to EnterAddressManually when back button is pressed and there is no uprn" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
-
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
-
       val result = vehicleLookupSuccess.back(request)
-
       redirectLocation(result) should equal (Some(EnterAddressManuallyPage.address))
     }
 
     "redirect to BusinessChooseYourAddress when back button is pressed and there is a uprn" in new WithApplication {
       CacheSetup.businessChooseYourAddress(addressWithUprn)
-
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
-
       val result = vehicleLookupSuccess.back(request)
-
       redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.address))
     }
 
     "redirect to SetUpTradeDetails when back button and the user has completed the vehicle lookup form" in new WithApplication {
       CacheSetup.businessChooseYourAddress(addressWithUprn)
-
       val request = buildCorrectlyPopulatedRequest()
-
       val result = vehicleLookupSuccess.back(request)
-
       redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.address))
     }
   }
