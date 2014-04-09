@@ -9,5 +9,6 @@ object Dispose {
   val disposeModelCacheKey = "formModel"
   val emailAddressId = "emailAddress"
   val consentId = "consent"
+  val lossOfRegistrationConsentId = "lossOfRegistrationConsent"
   val dateOfDisposalYearsIntoThePast = 2
 }

@@ -40,7 +40,8 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
         after(earliest = dateService.today - dateOfDisposalYearsIntoThePast years),
         notInFuture(dateService)),
       emailAddressId -> optional(text),
-      consentId -> consent
+      consentId -> consent,
+      lossOfRegistrationConsentId -> consent
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 
@@ -75,7 +76,8 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
                 replaceError("dateOfDisposal.month", FormError("dateOfDisposal", "error.dateOfDisposal")).
                 replaceError("dateOfDisposal.year", FormError("dateOfDisposal", "error.dateOfDisposal")).
                 replaceError("dateOfDisposal", FormError("dateOfDisposal", "error.dateOfDisposal")).
-                replaceError(consentId, "error.required", FormError(key = consentId, message = "disposal_dispose.consent.mandatory", args = Seq.empty)).
+                replaceError(consentId, "error.required", FormError(key = consentId, message = "disposal_dispose.consent.notgiven", args = Seq.empty)).
+                replaceError(lossOfRegistrationConsentId, "error.required", FormError(key = lossOfRegistrationConsentId, message = "disposal_dispose.loss_of_registration.consent.notgiven", args = Seq.empty)).
                 distinctErrors
               BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors, yearsDropdown))
             case _ =>
@@ -121,7 +123,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
         }.recover {
           case e: Throwable =>
             Logger.debug(s"Dispose Web service call failed. Exception: $e")
-            BadRequest("The remote server didn't like the request.") // TODO check with BAs what we want to display when the webservice throws exception. We cannot proceed so need to say something like "".
+            BadRequest("The remote server didn't like the request.") // TODO check with US114 to see what we should redirect to.
         }
       case _ => Future {
         Logger.debug("could not find dealer details in cache on Dispose submit")

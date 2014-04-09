@@ -15,7 +15,6 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
-
       assert(page.title equals DisposePage.title)
     }
 
@@ -24,35 +23,30 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.vehicleDetailsModel()
       CacheSetup.vehicleLookupFormModel()
       DisposePage.happyPath
-
       assert(page.title equals DisposeSuccessPage.title)
     }
 
-    "display validation errors when no fields are completed" in new WebBrowser {
+    "display validation errors when no data is entered" in new WebBrowser {
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       DisposePage.sadPath
-
-      assert(ErrorPanel.numberOfErrors equals 2)
+      assert(ErrorPanel.numberOfErrors equals 3)
     }
 
     "redirect when no vehicleDetailsModel is cached" in new WebBrowser {
       CacheSetup.businessChooseYourAddress()
       go to DisposePage.url
-
       assert(page.title equals VehicleLookupPage.title)
     }
 
     "redirect when no businessChooseYourAddress is cached" in new WebBrowser {
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
-
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
     "redirect when no traderBusinessName is cached" in new WebBrowser {
       go to DisposePage.url
-
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
@@ -60,12 +54,11 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
-
       DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
       DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
       click on DisposePage.consent
+      click on DisposePage.lossOfRegistrationConsent
       click on DisposePage.dispose
-
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -73,12 +66,11 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
-
       DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
       DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
       click on DisposePage.consent
+      click on DisposePage.lossOfRegistrationConsent
       click on DisposePage.dispose
-
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -86,12 +78,11 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
-
       DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
       DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
       click on DisposePage.consent
+      click on DisposePage.lossOfRegistrationConsent
       click on DisposePage.dispose
-
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
@@ -99,9 +90,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       go to DisposePage.url
-
       click on DisposePage.back
-
       assert(page.title equals VehicleLookupPage.title)
     }
   }
