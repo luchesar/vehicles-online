@@ -9,7 +9,6 @@ import helpers.disposal_of_vehicle._
 import mappings.common.{Postcode, AddressAndPostcode, AddressLines}
 import Postcode._
 import helpers.UnitSpec
-import mappings.disposal_of_vehicle.VehicleLookup._
 import services.fakes.FakeAddressLookupService._
 
 class EnterAddressManuallyUnitSpec extends UnitSpec {
@@ -103,9 +102,8 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
       whenReady(result) {
         r => controllers.disposal_of_vehicle.Helpers.fetchDealerDetailsFromCache match {
-          case Some(f) => {
+          case Some(f) =>
             f.dealerAddress.address should equal (List("my house", "my street", "my area", "my town", "CM81QJ"))
-          }
           case _ => fail("Should have found model in the cache")
         }
       }
@@ -124,9 +122,8 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
       whenReady(result) {
         r => controllers.disposal_of_vehicle.Helpers.fetchDealerDetailsFromCache match {
-          case Some(f) => {
+          case Some(f) =>
             f.dealerAddress.address should equal (List("my house", "my street", "my area", "my town", "CM81QJ"))
-          }
           case _ => fail("Should have found model in the cache")
         }
       }
@@ -145,9 +142,8 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
       whenReady(result) {
         r => controllers.disposal_of_vehicle.Helpers.fetchDealerDetailsFromCache match {
-          case Some(f) => {
+          case Some(f) =>
             f.dealerAddress.address should equal (List("flat 1.1", "long road, off high street", "little village, my town", "my city, my county", "CM81QJ"))
-          }
           case _ => fail("Should have found model in the cache")
         }
       }
