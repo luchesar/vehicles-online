@@ -30,4 +30,11 @@ object FakeDisposeWebServiceImpl {
       transactionId = transactionIdValid,
       registrationNumber = registrationNumberValid,
       auditId = auditIdValid)
+
+  val disposeResponseFailure =
+    DisposeResponse(success = false,
+      message = "Fake Web Dispose Service - Bad response",
+      transactionId = "",
+      registrationNumber = "",
+      auditId = "")
 }

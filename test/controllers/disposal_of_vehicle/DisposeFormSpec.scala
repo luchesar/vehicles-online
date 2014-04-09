@@ -4,7 +4,7 @@ import mappings.disposal_of_vehicle.Dispose._
 import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
 import org.mockito.Matchers._
-import models.domain.disposal_of_vehicle.{DisposeResponse, DisposeRequest}
+import models.domain.disposal_of_vehicle.DisposeRequest
 import controllers.disposal_of_vehicle
 import models.DayMonthYear
 import helpers.UnitSpec
@@ -15,7 +15,6 @@ import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
 import services.{DateService, DateServiceImpl}
 import services.fakes.FakeDateServiceImpl._
-import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeDisposeWebServiceImpl._
 
 class DisposeFormSpec extends UnitSpec {
@@ -35,13 +34,7 @@ class DisposeFormSpec extends UnitSpec {
     def dispose(dateService: DateService = dateServiceStub()) = {
       val ws = mock[DisposeWebService]
       when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
-        val disposeResponse =
-          DisposeResponse(success = true,
-            message = "Fake Web Dispose Service - Good response",
-            transactionId = transactionIdValid,
-            registrationNumber = registrationNumberValid,
-            auditId = auditIdValid)
-        val responseAsJson = Json.toJson(disposeResponse)
+        val responseAsJson = Json.toJson(disposeResponseSuccess)
 
         new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
       })

@@ -2,7 +2,6 @@ package controllers.disposal_of_vehicle
 
 import mappings.common.{Postcode, AddressLines, AddressAndPostcode}
 import mappings.common.AddressLines._
-import helpers.disposal_of_vehicle.Helper._
 import Postcode._
 import helpers.UnitSpec
 import services.fakes.FakeAddressLookupService._
