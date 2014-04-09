@@ -7,6 +7,7 @@ import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.DealerDetailsModel
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import models.DayMonthYear
+import services.fakes.FakeVehicleLookupWebService._
 
 object CacheSetup {
 

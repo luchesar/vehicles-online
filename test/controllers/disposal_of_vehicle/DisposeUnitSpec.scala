@@ -18,6 +18,7 @@ import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
 import services.DateServiceImpl
 import services.fakes.FakeDateServiceImpl._
+import services.fakes.FakeVehicleLookupWebService._
 
 class DisposeUnitSpec extends UnitSpec {
 
@@ -46,7 +47,7 @@ class DisposeUnitSpec extends UnitSpec {
         val disposeResponse =
           DisposeResponse(success = true,
             message = "Fake Web Dispose Service - Good response",
-            transactionId = "1234",
+            transactionId = "1234",  // TODO don't use magic numbers, use constants!
             registrationNumber = registrationNumberValid,
             auditId = "7575")
         val responseAsJson = Json.toJson(disposeResponse)

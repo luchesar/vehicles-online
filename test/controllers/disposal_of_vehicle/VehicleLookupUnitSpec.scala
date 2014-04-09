@@ -17,6 +17,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
 import scala.annotation.tailrec
+import services.fakes.FakeVehicleLookupWebService._
 
 class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -35,7 +36,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         val vehicleDetailsResponse =
           VehicleDetailsResponse(true,
             message = "Fake Web Lookup Service - Good response",
-            vehicleDetailsDto = VehicleDetailsDto(registrationNumber = "PJ056YY",
+            vehicleDetailsDto = VehicleDetailsDto(registrationNumber = "PJ056YY", // TODO don't use magic numbers, use constants!
               vehicleMake = "Alfa Romeo",
               vehicleModel = "Alfasud ti",
               keeperName = "Keeper Name",
@@ -97,7 +98,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
         when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
           val vehicleDetailsResponse =
-            VehicleDetailsResponse(false,
+            VehicleDetailsResponse(success = false,
               message = "Fake Web Dispose Service - Bad response",
               vehicleDetailsDto = VehicleDetailsDto(registrationNumber = "PJ056YY",
                 vehicleMake = "Alfa Romeo",
