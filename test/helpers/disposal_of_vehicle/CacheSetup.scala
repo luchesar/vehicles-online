@@ -9,6 +9,7 @@ import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import models.DayMonthYear
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeDisposeWebServiceImpl._
+import services.fakes.FakeVehicleLookupWebService
 
 object CacheSetup {
 
@@ -24,7 +25,7 @@ object CacheSetup {
     play.api.cache.Cache.set(key, value)
   }
 
-  def vehicleDetailsModel(registrationNumber: String = registrationNumberValid, vehicleMake: String = vehicleMakeValid, vehicleModel:String = vehicleModelValid, keeperName:String = keeperNameValid) = {
+  def vehicleDetailsModel(registrationNumber: String = registrationNumberValid, vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid, vehicleModel:String = vehicleModelValid, keeperName:String = keeperNameValid) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
     val value = VehicleDetailsModel(registrationNumber, vehicleMake,vehicleModel,keeperName,keeperAddress = address1)
     play.api.cache.Cache.set(key, value)

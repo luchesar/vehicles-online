@@ -5,7 +5,7 @@ import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import models.domain.disposal_of_vehicle._
-import services.fakes.FakeResponse
+import services.fakes.{FakeVehicleLookupWebService, FakeResponse}
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
@@ -21,12 +21,12 @@ class VehicleLookupFormSpec extends UnitSpec {
       val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
       when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
         val vehicleDetailsResponse =
-          VehicleDetailsResponse(true,
+          VehicleDetailsResponse(success = true,
             message = "Fake Web Lookup Service - Good response",
             vehicleDetailsDto = VehicleDetailsDto(registrationNumber = "PJ056YY", // TODO don't use magic numbers, use constants!
-              vehicleMake = "Alfa Romeo",
-              vehicleModel = "Alfasud ti",
-              keeperName = "Keeper Name",
+              vehicleMake = FakeVehicleLookupWebService.vehicleMakeValid,
+              vehicleModel = FakeVehicleLookupWebService.vehicleModelValid,
+              keeperName = FakeVehicleLookupWebService.keeperNameValid,
               keeperAddress = AddressDto(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
         val responseAsJson = Json.toJson(vehicleDetailsResponse)
 

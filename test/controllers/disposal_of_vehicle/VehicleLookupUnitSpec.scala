@@ -8,7 +8,7 @@ import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import models.domain.disposal_of_vehicle.{AddressDto, VehicleDetailsDto, VehicleDetailsResponse, VehicleDetailsRequest}
-import services.fakes.FakeResponse
+import services.fakes.{FakeVehicleLookupWebService, FakeResponse}
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UnitSpec
@@ -37,9 +37,9 @@ class VehicleLookupUnitSpec extends UnitSpec {
           VehicleDetailsResponse(true,
             message = "Fake Web Lookup Service - Good response",
             vehicleDetailsDto = VehicleDetailsDto(registrationNumber = "PJ056YY", // TODO don't use magic numbers, use constants!
-              vehicleMake = "Alfa Romeo",
-              vehicleModel = "Alfasud ti",
-              keeperName = "Keeper Name",
+              vehicleMake = FakeVehicleLookupWebService.vehicleMakeValid,
+              vehicleModel = FakeVehicleLookupWebService.vehicleModelValid,
+              keeperName = FakeVehicleLookupWebService.keeperNameValid,
               keeperAddress = AddressDto(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
         val responseAsJson = Json.toJson(vehicleDetailsResponse)
 
@@ -101,9 +101,9 @@ class VehicleLookupUnitSpec extends UnitSpec {
             VehicleDetailsResponse(success = false,
               message = "Fake Web Dispose Service - Bad response",
               vehicleDetailsDto = VehicleDetailsDto(registrationNumber = "PJ056YY",
-                vehicleMake = "Alfa Romeo",
-                vehicleModel = "Alfasud ti",
-                keeperName = "Keeper Name",
+                vehicleMake = FakeVehicleLookupWebService.vehicleMakeValid,
+                vehicleModel = FakeVehicleLookupWebService.vehicleModelValid,
+                keeperName = FakeVehicleLookupWebService.keeperNameValid,
                 keeperAddress = AddressDto(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
           val responseAsJson = Json.toJson(vehicleDetailsResponse)
 

@@ -16,9 +16,6 @@ object Helper {
   val postcodeValidWithSpace = "CM8 1QJ"
   val postcodeNoResults = "SA99 1DD"
 
-  val vehicleMakeValid = "make"
-  val vehicleModelValid = "model"
-  val keeperNameValid = "John Smith"
   val vehicleLookupKey = referenceNumberValid + "." + registrationNumberValid
 
   val address1 = AddressViewModel(address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))

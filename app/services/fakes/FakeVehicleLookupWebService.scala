@@ -12,9 +12,9 @@ import FakeVehicleLookupWebService._
 class FakeVehicleLookupWebService extends VehicleLookupWebService {
   override def callVehicleLookupService(request: VehicleDetailsRequest) = Future {
     val vehicleDetails = VehicleDetailsDto(registrationNumber = registrationNumberValid,
-      vehicleMake = "Alfa Romeo",
-      vehicleModel = "Alfasud ti",
-      keeperName = "Keeper Name",
+      vehicleMake = vehicleMakeValid,
+      vehicleModel = vehicleModelValid,
+      keeperName = keeperNameValid,
       keeperAddress = AddressDto(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2")))
 
     val vehicleDetailsResponse =
@@ -34,4 +34,7 @@ class FakeVehicleLookupWebService extends VehicleLookupWebService {
 object FakeVehicleLookupWebService {
   val registrationNumberValid = "AB12AWR"
   val referenceNumberValid = "12345678910"
+  val vehicleMakeValid = "Alfa Romeo"
+  val vehicleModelValid = "Alfasud ti"
+  val keeperNameValid = "Keeper Name"
 }
