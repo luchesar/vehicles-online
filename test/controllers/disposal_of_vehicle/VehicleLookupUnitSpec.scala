@@ -50,20 +50,15 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to Dispose after a valid submit and true message returned from the fake microservice" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
-
       val request = buildCorrectlyPopulatedRequest()
-
       val result = vehicleLookupSuccess.submit(request)
       redirectLocation(result) should equal (Some(DisposePage.address))
      }
 
     "submit removes spaces from registrationNumber" in new WithApplication { // DE7 Spaces should be stripped
       CacheSetup.businessChooseYourAddress()
-
       val request = buildCorrectlyPopulatedRequest(registrationNumber = registrationNumberWithSpaceValid)
-
       val result = vehicleLookupSuccess.submit(request)
-
       whenReady(result) {
         r => controllers.disposal_of_vehicle.Helpers.fetchVehicleLookupDetailsFromCache match {
           case Some(f) => f.registrationNumber should equal(registrationNumberValid)
