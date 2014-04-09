@@ -114,12 +114,13 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
         storeDisposeModelInCache(disposeModel)
         webService.invoke(buildDisposeMicroServiceRequest(disposeModel)).map {
           resp => Logger.debug(s"Dispose Web service call successful - response = $resp")
+          storeDisposeTransactionIdInCache(resp.transactionId)
           if (resp.success) {
-            storeDisposeTransactionIdInCache(resp.transactionId)
             storeDisposeRegistrationNumberInCache(resp.registrationNumber)
             Redirect(routes.DisposeSuccess.present)
           }
-          else Redirect(routes.DisposeFailure.present)
+          else
+            Redirect(routes.DisposeFailure.present)
         }.recover {
           case e: Throwable =>
             Logger.debug(s"Dispose Web service call failed. Exception: $e")
