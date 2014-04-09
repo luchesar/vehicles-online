@@ -41,14 +41,8 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
           fetchDealerDetailsFromCache match {
             case Some(dealerDetails) =>
               val formWithReplacedErrors = formWithErrors.
-                replaceError(registrationNumberId, "error.minLength", FormError(key = registrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
-                replaceError(registrationNumberId, "error.maxLength", FormError(key = registrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
-                replaceError(registrationNumberId, "error.required", FormError(key = registrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
-
-                replaceError(referenceNumberId, "error.minLength", FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
-                replaceError(referenceNumberId, "error.maxLength", FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
-                replaceError(referenceNumberId, "error.required", FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
-                replaceError(referenceNumberId, "error.restricted.validNumberOnly", FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
+                replaceError(registrationNumberId, FormError(key = registrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
+                replaceError(referenceNumberId, FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
                 distinctErrors
               BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithReplacedErrors))
             case None => Redirect(routes.SetUpTradeDetails.present)
@@ -72,7 +66,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
 
   private def lookupVehicle(webService: VehicleLookupService, model: VehicleLookupFormModel): Future[SimpleResult] = {
     webService.invoke(buildMicroServiceRequest(model)).map { resp =>
-      Logger.debug(s"VehicleLookup Web service call successful - response = ${resp}")
+      Logger.debug(s"VehicleLookup Web service call successful - response = $resp")
       // TODO Don't save these two models, instead we need a combined model that has what the user entered into the form plus the micro-service response.
       storeVehicleLookupFormModelInCache(model)
       if (resp.success) {
@@ -82,7 +76,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
       else Redirect(routes.VehicleLookupFailure.present)
     }.recover {
       case e: Throwable => {
-        Logger.debug(s"Web service call failed. Exception: ${e}")
+        Logger.debug(s"Web service call failed. Exception: $e")
         BadRequest("The remote server didn't like the request.") // TODO check the user story for going to an error message page when micro-service kaput (not the same as a system failure).
       }
     }
