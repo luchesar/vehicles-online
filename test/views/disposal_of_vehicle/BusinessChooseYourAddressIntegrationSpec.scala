@@ -5,7 +5,6 @@ import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
 import pages.common.ErrorPanel
 import helpers.UiSpec
-import services.fakes.FakeAddressLookupService
 
 class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "Business choose your address - Integration" should {
@@ -56,7 +55,7 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "not display 'No addresses found' message when address service returns addresses" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath
+      SetupTradeDetailsPage.happyPath()
 
       val result = webDriver.getPageSource
 
@@ -64,7 +63,7 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display expected addresses in dropdown when address service returns addresses" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath
+      SetupTradeDetailsPage.happyPath()
 
       val result = webDriver.getPageSource
 

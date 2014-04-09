@@ -16,7 +16,7 @@ object SetupTradeDetailsPage extends Page with WebBrowserDSL {
 
   def lookup(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
 
-  def happyPath(implicit driver: WebDriver, traderBusinessName: String = traderBusinessNameValid, traderPostcode: String = postcodeValid) = {
+  def happyPath(traderBusinessName: String = traderBusinessNameValid, traderPostcode: String = postcodeValid)(implicit driver: WebDriver) = {
     go to SetupTradeDetailsPage
     dealerName enter traderBusinessName
     dealerPostcode enter traderPostcode
