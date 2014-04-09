@@ -19,9 +19,6 @@ object Helper {
 
   val vehicleLookupKey = referenceNumberValid + "." + registrationNumberValid
 
-  val address1 = AddressViewModel(address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
-  val addressWithUprn = AddressViewModel(uprn=Some(traderUprnValid),address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
-  
   val consentValid = "true"
   val mileageValid = "20000"
   val emailValid = "viv.richards@emailprovider.co.uk"

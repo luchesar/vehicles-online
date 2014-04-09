@@ -2,10 +2,10 @@ package views.disposal_of_vehicle
 
 import pages.disposal_of_vehicle._
 import helpers.webbrowser.TestHarness
-import helpers.disposal_of_vehicle.Helper._
 import helpers.disposal_of_vehicle.CacheSetup
 import pages.common.ErrorPanel
 import helpers.UiSpec
+import services.fakes.FakeAddressLookupService._
 
 class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 

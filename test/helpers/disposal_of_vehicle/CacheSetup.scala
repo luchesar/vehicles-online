@@ -10,6 +10,7 @@ import models.DayMonthYear
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeVehicleLookupWebService
+import services.fakes.FakeAddressLookupService._
 
 object CacheSetup {
 
@@ -19,7 +20,7 @@ object CacheSetup {
     play.api.cache.Cache.set(key, value)
   }
 
-  def businessChooseYourAddress(address: AddressViewModel = address1) = {
+  def businessChooseYourAddress(address: AddressViewModel = addressWithoutUprn) = {
     val key = mappings.disposal_of_vehicle.DealerDetails.dealerDetailsCacheKey
     val value = DealerDetailsModel(dealerName = "", dealerAddress = address)
     play.api.cache.Cache.set(key, value)
@@ -27,7 +28,7 @@ object CacheSetup {
 
   def vehicleDetailsModel(registrationNumber: String = registrationNumberValid, vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid, vehicleModel:String = vehicleModelValid, keeperName:String = keeperNameValid) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
-    val value = VehicleDetailsModel(registrationNumber, vehicleMake,vehicleModel,keeperName,keeperAddress = address1)
+    val value = VehicleDetailsModel(registrationNumber, vehicleMake,vehicleModel,keeperName,keeperAddress = addressWithoutUprn)
     play.api.cache.Cache.set(key, value)
   }
 

@@ -8,7 +8,7 @@ import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import models.domain.disposal_of_vehicle.{AddressDto, VehicleDetailsDto, VehicleDetailsResponse, VehicleDetailsRequest}
-import services.fakes.{FakeVehicleLookupWebService, FakeResponse}
+import services.fakes.FakeResponse
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UnitSpec
@@ -18,6 +18,7 @@ import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
 import scala.annotation.tailrec
 import services.fakes.FakeVehicleLookupWebService._
+import services.fakes.FakeAddressLookupService._
 
 class VehicleLookupUnitSpec extends UnitSpec {
 
