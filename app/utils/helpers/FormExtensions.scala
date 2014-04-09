@@ -2,9 +2,7 @@ package utils.helpers
 
 import scala.language.implicitConversions
 import play.api.data.{FormError, Form}
-import play.api.mvc.{AnyContent, Request}
-import scala.util.{Failure, Success, Try}
-import play.api.Logger
+import play.api.mvc.{Request}
 
 object FormExtensions {
   implicit def formBinding[T](form: Form[T])(implicit request: Request[_]) = new RichForm[T](form)
