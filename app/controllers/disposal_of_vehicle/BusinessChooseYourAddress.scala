@@ -74,7 +74,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
   }
 
   def storeDealerDetailsInCache(model: BusinessChooseYourAddressModel, dealerName: String) = {
-    val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected)
+    val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString)
     lookedUpAddress.map {
       case Some(addr) => {
         val dealerDetailsModel = DealerDetailsModel(dealerName = dealerName, dealerAddress = addr)
