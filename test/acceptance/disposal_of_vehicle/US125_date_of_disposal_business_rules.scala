@@ -9,7 +9,7 @@ import services.fakes.FakeDateServiceImpl._
 class US125_date_of_disposal_business_rules extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
   private def cacheSetup() = {
-    CacheSetup.setupTradeDetails("CT117PB")
+    CacheSetup.setupTradeDetails()
     CacheSetup.businessChooseYourAddress()
     CacheSetup.vehicleDetailsModel()
     CacheSetup.vehicleLookupFormModel()

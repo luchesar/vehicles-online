@@ -7,7 +7,6 @@ import scala.annotation.tailrec
 
 object Helper {
   val traderBusinessNameValid = "example trader name"
-  val traderaddressValid = "1"
 
   val vehicleLookupKey = referenceNumberValid + "." + registrationNumberValid
 
@@ -22,5 +21,4 @@ object Helper {
     }
     count(0,0)
   }
-
 }
