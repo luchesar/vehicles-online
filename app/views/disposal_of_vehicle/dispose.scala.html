@@ -74,16 +74,16 @@
             args = Map('_label -> Messages("disposal_dispose.emaillabel"),
             '_showConstraints -> false))
             
-            <div id=@mappings.disposal_of_vehicle.Dispose.dateOfDisposalId class="disposal-date">
-            @inputDayMonthYear(disposeForm(dateOfDisposalId), years, args = Map('_label -> Messages("disposal_dispose.dateofdisposal.label")))
-            </div>
 
             <div class="form-declaration">
-                @* Checkbox must not be pre-ticked. *@
                 @valtechDeclareCheck(disposeForm(consentId), args = Map('id -> "consent", '_showConstraints -> false, '_label -> Messages("disposal_dispose.consent")))
             </div>
             <div class="form-declaration">
                 @valtechDeclareCheck(disposeForm(lossOfRegistrationConsentId), args = Map('id -> "lossOfRegistrationConsent", '_showConstraints -> false, '_label -> Messages("disposal_dispose.loss_of_registration.consent")))
+            </div>
+
+            <div id=@mappings.disposal_of_vehicle.Dispose.dateOfDisposalId class="disposal-date">
+                @inputDayMonthYear(disposeForm(dateOfDisposalId), years, args = Map('_label -> Messages("disposal_dispose.dateofdisposal.label")))
             </div>
 
             @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
