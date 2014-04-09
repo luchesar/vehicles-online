@@ -32,11 +32,12 @@ class DisposeUnitSpec extends UnitSpec {
     }
 
     def buildCorrectlyPopulatedRequest = {
+      import mappings.common.DayMonthYear._
       FakeRequest().withSession().withFormUrlEncodedBody(
         mileageId -> mileageValid,
-        s"$dateOfDisposalId.day" -> dateOfDisposalDayValid,
-        s"$dateOfDisposalId.month" -> dateOfDisposalMonthValid,
-        s"$dateOfDisposalId.year" -> dateOfDisposalYearValid,
+        s"$dateOfDisposalId.$dayId" -> dateOfDisposalDayValid,
+        s"$dateOfDisposalId.$monthId" -> dateOfDisposalMonthValid,
+        s"$dateOfDisposalId.$yearId" -> dateOfDisposalYearValid,
         consentId -> consentValid,
         lossOfRegistrationConsentId -> consentValid)
     }
