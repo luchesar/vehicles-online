@@ -8,6 +8,7 @@ import models.domain.disposal_of_vehicle.DealerDetailsModel
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import models.DayMonthYear
 import services.fakes.FakeVehicleLookupWebService._
+import services.fakes.FakeDisposeWebServiceImpl._
 
 object CacheSetup {
 
@@ -49,13 +50,13 @@ object CacheSetup {
 
   def disposeTransactionId() = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeFormTransactionIdCacheKey
-    val value = "1234"
+    val value = transactionIdValid
     play.api.cache.Cache.set(key, value)
   }
 
   def vehicleRegistrationNumber() = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeFormRegistrationNumberCacheKey
-    val value = "Q123ZZZ"
+    val value = registrationNumberValid
     play.api.cache.Cache.set(key, value)
   }
 }

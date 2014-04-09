@@ -16,6 +16,7 @@ import ExecutionContext.Implicits.global
 import services.{DateService, DateServiceImpl}
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
+import services.fakes.FakeDisposeWebServiceImpl._
 
 class DisposeFormSpec extends UnitSpec {
 
@@ -37,9 +38,9 @@ class DisposeFormSpec extends UnitSpec {
         val disposeResponse =
           DisposeResponse(success = true,
             message = "Fake Web Dispose Service - Good response",
-            transactionId = "1234", // TODO don't use magic number, use a constant!
+            transactionId = transactionIdValid,
             registrationNumber = registrationNumberValid,
-            auditId = "7575")
+            auditId = auditIdValid)
         val responseAsJson = Json.toJson(disposeResponse)
 
         new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.

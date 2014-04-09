@@ -19,6 +19,7 @@ import ExecutionContext.Implicits.global
 import services.DateServiceImpl
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
+import services.fakes.FakeDisposeWebServiceImpl._
 
 class DisposeUnitSpec extends UnitSpec {
 
@@ -34,14 +35,7 @@ class DisposeUnitSpec extends UnitSpec {
     val disposeSuccess = {
       val ws = mock[DisposeWebService]
       when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
-        val disposeResponse =
-          DisposeResponse(success = true,
-            message = "Fake Web Dispose Service - Good response",
-            transactionId = "1234",  // TODO don't use magic numbers, use constants!
-            registrationNumber = registrationNumberValid,
-            auditId = "7575")
-        val responseAsJson = Json.toJson(disposeResponse)
-
+        val responseAsJson = Json.toJson(disposeResponseSuccess)
         new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
       })
 
