@@ -81,7 +81,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
                 distinctErrors
               BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors, yearsDropdown))
             case _ =>
-              Logger.debug("could not find dealer details in cache on Dispose submit")
+              Logger.debug("could not find expected data in cache on dispose submit - now redirecting...")
               Redirect(routes.SetUpTradeDetails.present)
           }
         },
