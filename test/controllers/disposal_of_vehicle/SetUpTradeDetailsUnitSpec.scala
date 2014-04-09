@@ -12,6 +12,11 @@ import services.fakes.FakeAddressLookupService._
 class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
   "BeforeYouStart - Controller" should {
+    def buildCorrectlyPopulatedRequest(dealerName: String = traderBusinessNameValid.toString, dealerPostcode: String = postcodeValid) = {
+      FakeRequest().withSession().withFormUrlEncodedBody(
+        dealerNameId -> dealerName,
+        dealerPostcodeId -> dealerPostcode)
+    }
 
     "present" in new WithApplication {
       val request = FakeRequest().withSession()
@@ -22,9 +27,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
     }
 
     "redirect to next page when the form is completed successfully" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        dealerNameId -> traderBusinessNameValid,
-        dealerPostcodeId -> postcodeValid)
+      val request = buildCorrectlyPopulatedRequest()
 
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
 
@@ -32,7 +35,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
     }
 
     "return a bad request if no details are entered" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody()
+      val request = buildCorrectlyPopulatedRequest(dealerName = "", dealerPostcode = "")
 
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
 
@@ -40,9 +43,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
     }
 
     "replace max length error message for traderBusinessName with standard error message (US158)" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        dealerNameId -> "a" * (dealerNameMaxLength + 1),
-        dealerPostcodeId -> postcodeValid)
+      val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (dealerNameMaxLength + 1))
 
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
 
@@ -51,9 +52,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
     }
 
     "replace required and min length error messages for traderBusinessName with standard error message (US158)" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        dealerNameId -> "",
-        dealerPostcodeId -> postcodeValid)
+      val request = buildCorrectlyPopulatedRequest(dealerName = "")
 
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
 

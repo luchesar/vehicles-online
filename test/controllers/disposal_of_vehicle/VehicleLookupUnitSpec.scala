@@ -7,7 +7,7 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
 import org.mockito.Matchers._
-import models.domain.disposal_of_vehicle.{AddressDto, VehicleDetailsDto, VehicleDetailsResponse, VehicleDetailsRequest}
+import models.domain.disposal_of_vehicle.VehicleDetailsRequest
 import services.fakes.FakeResponse
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
@@ -33,6 +33,15 @@ class VehicleLookupUnitSpec extends UnitSpec {
       new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
     }
 
+    def buildCorrectlyPopulatedRequest(referenceNumber: String = referenceNumberValid,
+                                       registrationNumber: String = registrationNumberValid,
+                                       consent: String = consentValid) = {
+      FakeRequest().withSession().withFormUrlEncodedBody(
+        referenceNumberId -> referenceNumber,
+        registrationNumberId -> registrationNumber,
+        consentId -> consent)
+    }
+
     "present" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
 
@@ -46,10 +55,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "redirect to Dispose after a valid submit and true message returned from the fake microservice" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
 
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        referenceNumberId -> referenceNumberValid,
-        registrationNumberId -> registrationNumberValid,
-        consentId -> consentValid)
+      val request = buildCorrectlyPopulatedRequest()
 
       val result = vehicleLookupSuccess.submit(request)
 
@@ -59,10 +65,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "submit removes spaces from registrationNumber" in new WithApplication { // DE7 Spaces should be stripped
       CacheSetup.businessChooseYourAddress()
 
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        referenceNumberId -> referenceNumberValid,
-        registrationNumberId -> registrationNumberWithSpaceValid,
-        consentId -> consentValid)
+      val request = buildCorrectlyPopulatedRequest(registrationNumber = registrationNumberWithSpaceValid)
 
       val result = vehicleLookupSuccess.submit(request)
 
@@ -72,15 +75,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
           case _ => fail("Should have found model in the cache")
         }
       }
-    }
-
-    def buildCorrectlyPopulatedRequest(referenceNumber: String = referenceNumberValid,
-                                       registrationNumber: String = registrationNumberValid,
-                                       consent: String = consentValid) = {
-      FakeRequest().withSession().withFormUrlEncodedBody(
-        referenceNumberId -> referenceNumber,
-        registrationNumberId -> registrationNumber,
-        consentId -> consent)
     }
 
     "redirect to VehicleLookupFailure after a submit and false message returned from the fake microservice" in new WithApplication {
