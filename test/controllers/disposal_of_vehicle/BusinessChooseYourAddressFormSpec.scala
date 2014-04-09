@@ -14,17 +14,16 @@ import play.api.libs.ws.Response
 
 class BusinessChooseYourAddressFormSpec extends UnitSpec {
   "BusinesssChooseYourAddress Form" should {
-    val businessChooseYourAddress = {
-      def response = Future { mock[Response] }
+    def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
+      val response = if(uprnFound) responseValidForOrdnanceSurvey else responseValidForOrdnanceSurveyNotFound
       val fakeWebService = new FakeWebServiceImpl(response, response)
-      val mockAddressLookupService = mock[AddressLookupService]
       val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
-      when(mockAddressLookupService.fetchAddressesForPostcode(anyString())).thenReturn(addressLookupService.fetchAddressesForPostcode("TEST"))
-      new BusinessChooseYourAddress(mockAddressLookupService)
+
+      new BusinessChooseYourAddress(addressLookupService)
     }
 
     def formWithValidDefaults(addressSelected: String = traderUprnValid.toString) = {
-      businessChooseYourAddress.form.bind(
+      businessChooseYourAddressWithFakeWebService().form.bind(
         Map(addressSelectId -> addressSelected)
       )
     }
