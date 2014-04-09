@@ -283,6 +283,7 @@ disposal_vehiclelookupfailure.name = Methiant
 disposal_vehiclelookupfailure.p1 = Nid yw wedi bod yn bosibl i ddod o hyd cerbyd hwn. Os gwelwch yn dda ceisiwch eto
 disposal_vehiclelookupfailure.button = Am-edrych gerbyd
 disposal_disposefailure.button2 = Setup Newydd Manylion Masnachwr
+disposal_disposefailure.transactionid = {0}
 
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda
