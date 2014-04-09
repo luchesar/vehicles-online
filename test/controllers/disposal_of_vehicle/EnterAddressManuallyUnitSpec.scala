@@ -13,6 +13,7 @@ import Postcode._
 import helpers.UnitSpec
 import mappings.disposal_of_vehicle.VehicleLookup._
 import scala.Some
+import services.fakes.FakeAddressLookupService._
 
 class EnterAddressManuallyUnitSpec extends UnitSpec {
   "EnterAddressManually - Controller" should {

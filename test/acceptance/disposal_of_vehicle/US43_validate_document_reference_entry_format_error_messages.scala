@@ -3,7 +3,6 @@ package acceptance.disposal_of_vehicle
 import org.scalatest.{BeforeAndAfterAll, Matchers, GivenWhenThen, FeatureSpec}
 import pages.disposal_of_vehicle._
 import helpers.webbrowser._
-import helpers.disposal_of_vehicle.Helper._
 import helpers.disposal_of_vehicle.CacheSetup
 import models.domain.disposal_of_vehicle.AddressViewModel
 import services.fakes.FakeVehicleLookupWebService._
@@ -24,7 +23,7 @@ class US43_validate_document_reference_entry_format_error_messages extends Featu
     scenario("No document reference number entered") {
       new WebBrowser {
         Given("the motor trader has entered a doc ref number in an invalid format (non-digits, empty and/or insufficient length)")
-        cacheSetup
+        cacheSetup()
         go to VehicleLookupPage
 
         // Note: leave the document reference number field blank to cause errors.
@@ -44,7 +43,7 @@ class US43_validate_document_reference_entry_format_error_messages extends Featu
     scenario("Valid data entered") {
       new WebBrowser {
         Given("the motor trader has entered valid data")
-        cacheSetup
+        cacheSetup()
         go to VehicleLookupPage
 
         // Populate everything correctly

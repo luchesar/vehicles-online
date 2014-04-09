@@ -25,7 +25,7 @@ class US125_date_of_disposal_business_rules extends FeatureSpec with GivenWhenTh
       new WebBrowser {
         Given("the motor trader has entered a valid calendar date")
         And("the date conforms to the business rules")
-        cacheSetup
+        cacheSetup()
         go to DisposePage
         DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
         DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid

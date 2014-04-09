@@ -2,7 +2,6 @@ package acceptance.disposal_of_vehicle
 
 import org.scalatest.{BeforeAndAfterAll, Matchers, GivenWhenThen, FeatureSpec}
 import helpers.webbrowser._
-import helpers.disposal_of_vehicle.Helper._
 import helpers.disposal_of_vehicle.CacheSetup
 import models.domain.disposal_of_vehicle.AddressViewModel
 import pages.disposal_of_vehicle.VehicleLookupPage
@@ -24,7 +23,7 @@ class US51_disposal_to_trade_validate_vrm_format_entry extends FeatureSpec with 
     scenario("Vehicle registration number entered") {
       new WebBrowser {
         Given("a motor trader has entered a VRM in a valid format")
-        cacheSetup
+        cacheSetup()
         go to VehicleLookupPage
 
         // Note: leave the vehicle registration number field blank to cause errors.
@@ -45,7 +44,7 @@ class US51_disposal_to_trade_validate_vrm_format_entry extends FeatureSpec with 
     scenario("No vehicle registration number entered") {
       new WebBrowser {
         Given("the motor trader has entered a vehicle registration number in an invalid format")
-        cacheSetup
+        cacheSetup()
         go to VehicleLookupPage
 
         // Note: leave the vehicle registration number field blank to cause errors.

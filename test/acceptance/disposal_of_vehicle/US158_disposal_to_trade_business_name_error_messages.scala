@@ -4,6 +4,7 @@ import org.scalatest.{BeforeAndAfterAll, Matchers, GivenWhenThen, FeatureSpec}
 import pages.disposal_of_vehicle._
 import helpers.webbrowser._
 import helpers.disposal_of_vehicle.Helper._
+import services.fakes.FakeAddressLookupService._
 
 class US158_disposal_to_trade_business_name_error_messages extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
