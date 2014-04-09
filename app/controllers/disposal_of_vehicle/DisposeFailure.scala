@@ -4,6 +4,7 @@ import play.api.mvc._
 import controllers.disposal_of_vehicle.Helpers._
 import models.domain.disposal_of_vehicle.{DealerDetailsModel, DisposeViewModel, VehicleDetailsModel}
 import scala.Some
+import play.api.Logger
 
 object DisposeFailure extends Controller {
 
@@ -13,7 +14,9 @@ object DisposeFailure extends Controller {
         val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId))
         Ok(views.html.disposal_of_vehicle.dispose_failure(disposeModel, disposeFormModel))
       }
-      case _ => Redirect(routes.SetUpTradeDetails.present)
+      case _ =>
+        Logger.debug("could not find all expected data in cache on dispose failure present - now redirecting...")
+        Redirect(routes.SetUpTradeDetails.present)
     }
   }
 

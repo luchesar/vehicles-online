@@ -12,7 +12,7 @@ import org.mockito.Mockito._
 import org.mockito.Matchers._
 import helpers.UnitSpec
 import services.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeService}
-import services.fakes.FakeResponse
+import services.fakes.{FakeDisposeWebServiceImpl, FakeResponse}
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
@@ -72,7 +72,7 @@ class DisposeUnitSpec extends UnitSpec {
         val ws = mock[DisposeWebService]
         when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
           val responseAsJson = Json.toJson(disposeResponseFailure)
-          new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+          new FakeResponse(status = 200, fakeJson = Some(responseAsJson))
         })
         val disposeServiceImpl = new DisposeServiceImpl(ws)
         new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
@@ -85,6 +85,15 @@ class DisposeUnitSpec extends UnitSpec {
 
       val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
       redirectLocation(result) should equal(Some(DisposeFailurePage.address))
+
+      // Verify that the transaction id is now stored in the cache
+      whenReady(result) {
+        r => controllers.disposal_of_vehicle.Helpers.fetchDisposeTransactionIdFromCache match {
+          case Some(txId) =>
+            txId should equal (FakeDisposeWebServiceImpl.transactionIdValid)
+          case _ => fail("Should have found transaction id in the cache")
+        }
+      }
     }
 
     "redirect to setupTradeDetails page after the dispose button is clicked and no vehicleLookupFormModel is cached" in new WithApplication {
@@ -130,5 +139,6 @@ class DisposeUnitSpec extends UnitSpec {
       val result = dispose.submit(request)
       status(result) should equal(BAD_REQUEST)
     }
+
   }
 }
