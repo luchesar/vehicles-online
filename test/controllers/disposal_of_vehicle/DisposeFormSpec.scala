@@ -54,6 +54,7 @@ class DisposeFormSpec extends UnitSpec {
                               monthOfDispose: String = dateOfDisposalMonthValid,
                               yearOfDispose: String = dateOfDisposalYearValid,
                               consent: String = consentValid,
+                              lossOfRegistrationConsent: String = consentValid,
                               disposeController: Dispose = dispose()) = {
 
       disposeController.disposeForm.bind(
@@ -62,7 +63,8 @@ class DisposeFormSpec extends UnitSpec {
           s"$dateOfDisposalId.day" -> dayOfDispose,
           s"$dateOfDisposalId.month" -> monthOfDispose,
           s"$dateOfDisposalId.year" -> yearOfDispose,
-          consentId -> consent
+          consentId -> consent,
+          lossOfRegistrationConsentId -> lossOfRegistrationConsent
         )
       )
     }
@@ -71,15 +73,15 @@ class DisposeFormSpec extends UnitSpec {
       formWithValidDefaults(mileage = "1000000").errors should have length 1
     }
 
-    "reject if date day is invalid" in {
+    "reject if date day is not selected" in {
       formWithValidDefaults(dayOfDispose = "").errors should have length 1
     }
 
-    "reject if date month is invalid" in {
+    "reject if date month is not selected" in {
       formWithValidDefaults(monthOfDispose = "").errors should have length 1
     }
 
-    "reject if date year is invalid" in {
+    "reject if date year is not selected" in {
       formWithValidDefaults(yearOfDispose = "").errors should have length 1
     }
 
@@ -125,7 +127,7 @@ class DisposeFormSpec extends UnitSpec {
 
       result.errors should have length 1
       result.errors(0).key should equal("dateOfDisposal")
-      result.errors(0).message should equal("error.withinTwoYears")
+      result.errors(0).message should equal("error.notInFuture")
     }
 
     "reject if date is more than 2 years in the past" in {

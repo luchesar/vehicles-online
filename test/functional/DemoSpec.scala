@@ -60,13 +60,16 @@ class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeA
           DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
 
           And("I enter \"2014\" in the date of disposal year field")
-          DisposePage.dateOfDisposalYear enter dateOfDisposalYearValid
+          DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
 
           And("I enter \"viv.richards@emailprovider.co.uk\" in the email address field")
           DisposePage.emailAddress enter emailValid
 
           And("I select \"I have the consent of the current keeper to dispose of this vehicle\"")
           click on DisposePage.consent
+
+          And("I select \"I have the confirmation that the current keeper is aware that the registration will be disposed of with the vehicle\"")
+          click on DisposePage.lossOfRegistrationConsent
 
           When("I click the dispose button")
           click on DisposePage.dispose

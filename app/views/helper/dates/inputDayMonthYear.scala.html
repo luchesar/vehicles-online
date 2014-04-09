@@ -1,9 +1,9 @@
-@(field: play.api.data.Field, args: Map[Symbol, Any] = Map.empty)(implicit handler: views.html.helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field, years: Seq[(String, String)], args: Map[Symbol, Any] = Map.empty)(implicit handler: views.html.helper.FieldConstructor, lang: Lang)
 
 @import scala.util.Try
 @import helper.dates._
 @import helper._
 
 @input(field, args.toSeq: _*) { (id, name, value, htmlArgs) =>
-    @datePlaceholder(field, id, args)
+    @datePlaceholder(field, id, years, args)
 }

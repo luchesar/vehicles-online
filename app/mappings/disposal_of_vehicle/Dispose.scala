@@ -10,4 +10,5 @@ object Dispose {
   val emailAddressId = "emailAddress"
   val consentId = "consent"
   val lossOfRegistrationConsentId = "lossOfRegistrationConsent"
+  val dateOfDisposalYearsIntoThePast = 2
 }

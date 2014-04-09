@@ -244,17 +244,20 @@ disposal_dispose.submitbutton = Cadarnhau gwerthu
 disposal_dispose.exkeeperlettertext = Bydd y llythyr yn cadarnhau y gwarediad. Os byddai''n well gennych dderbyn e-bost cydnabyddiaeth ar unwaith, rhowch gyfeiriad e-bost
 disposal_dispose.emaillabel = Cyfeiriad e-bost i Gwsmeriaid
 disposal_dispose.consent = gennyf ganiatâd y ceidwad presennol i gael gwared ar y cerbyd hwn
-disposal_dispose.consentnotgiven = Nodwch fod gennych ganiatâd y ceidwad presennol'' s
+disposal_dispose.consent.notgiven = Nodwch fod gennych ganiatâd y ceidwad presennol'' s
 dateOfDisposal_day = Diwrnod gwaredu
 dateOfDisposal_month = Mis gwaredu
 dateOfDisposal_year = Flwyddyn waredu
 dateOfDisposal.day = Diwrnod gwaredu
 dateOfDisposal.month = Mis gwaredu
 dateOfDisposal.year = Flwyddyn waredu
-error.date.invalidYear = Mae'n rhaid i chi fynd i mewn i flwyddyn dilys
-error.withinTwoYears = Rhaid i ddyddiad gwared fod o fewn dwy flynedd
+error.dateOfDisposal = Rhaid i ddyddiad gwared fod o fewn dwy flynedd
 disposal_dispose.consent.mandatory = Rhaid i chi gael cydsyniad y ceidwad cofrestredig i hysbysu gwerthu cerbyd hwn
 consent = Caniatâd
+disposal_dispose.loss_of_registration.consent = Os gwelwch yn dda cadarnhau bod y ceidwad presennol yn ymwybodol y bydd y cofrestriad yn cael ei waredu gyda''r cerbyd
+disposal_dispose.loss_of_registration.consent.notgiven = Mae''n rhaid i chi gadarnhau eich bod wedi gwneud y ceidwad yn ymwybodol y byddant yn colli y marc cofrestru sy''n gysylltiedig â''r cerbyd hwn
+lossOfRegistrationConsent = Colli caniatâd gofrestru
+
 
 #page 6 - summary
 disposal_disposeconfirmation.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion
@@ -297,6 +300,7 @@ error.restricted.validPostcode = Rhaid i cod post fod yn y fformat PR2 8AE
 
 datePlaceholder.day = Dydd
 datePlaceholder.month = Mis
+datePlaceholder.year=Blwyddyn
 datePlaceholder.January = Ionawr
 datePlaceholder.February = Chwefror
 datePlaceholder.March = Mawrth

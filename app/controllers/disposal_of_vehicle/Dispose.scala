@@ -28,29 +28,34 @@ import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.DealerDetailsModel
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.DisposeViewModel
+import scala.annotation.tailrec
+import mappings.disposal_of_vehicle.Dispose.dateOfDisposalYearsIntoThePast
+import scala.language.postfixOps
 
 class Dispose @Inject()(webService: DisposeService, dateService: DateService) extends Controller {
-
   val disposeForm = Form(
     mapping(
       mileageId -> mileage(),
-      dateOfDisposalId -> dayMonthYear.verifying(validDate, withinTwoYears(dateService)),
+      dateOfDisposalId -> dayMonthYear.verifying(validDate,
+        after(earliest = dateService.today - dateOfDisposalYearsIntoThePast years),
+        notInFuture(dateService)),
       emailAddressId -> optional(text),
       consentId -> consent,
       lossOfRegistrationConsentId -> consent
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 
-    def present = Action { implicit request => {
+  private val yearsDropdown: Seq[(String, String)] = dateService.today.yearRangeToDropdown(yearsIntoThePast = dateOfDisposalYearsIntoThePast)
+
+  def present = Action { implicit request => {
       fetchDealerDetailsFromCache match {
-        case (Some(dealerDetails)) => {
+        case (Some(dealerDetails)) =>
           Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
           fetchVehicleDetailsFromCache match {
-            case (Some(vehicleDetails)) =>  Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm))
+            case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm, yearsDropdown))
             case _ => Redirect(routes.VehicleLookup.present)
           }
-        }
         case _ => Redirect(routes.SetUpTradeDetails.present)
       }
     }
@@ -67,12 +72,14 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
               // When the user doesn't select a value from the drop-down then the mapping will fail to match on an Int before
               // it gets to the constraints, so we need to replace the error type with one that will give a relevant message.
               val formWithReplacedErrors = formWithErrors.
-                replaceError("dateOfDisposal.day", "error.number", FormError("dateOfDisposal.day", "error.dropDownInvalid")).
-                replaceError("dateOfDisposal.month", "error.number", FormError("dateOfDisposal.month", "error.dropDownInvalid")).
-                replaceError("dateOfDisposal.year", "error.number", FormError("dateOfDisposal.year", "error.date.invalidYear")).
+                replaceError("dateOfDisposal.day", FormError("dateOfDisposal", "error.dateOfDisposal")).
+                replaceError("dateOfDisposal.month", FormError("dateOfDisposal", "error.dateOfDisposal")).
+                replaceError("dateOfDisposal.year", FormError("dateOfDisposal", "error.dateOfDisposal")).
+                replaceError("dateOfDisposal", FormError("dateOfDisposal", "error.dateOfDisposal")).
                 replaceError(consentId, "error.required", FormError(key = consentId, message = "disposal_dispose.consent.notgiven", args = Seq.empty)).
-                replaceError(lossOfRegistrationConsentId, "error.required", FormError(key = lossOfRegistrationConsentId, message = "disposal_dispose.loss_of_registration_consent.notgiven", args = Seq.empty))
-              BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors))
+                replaceError(lossOfRegistrationConsentId, "error.required", FormError(key = lossOfRegistrationConsentId, message = "disposal_dispose.loss_of_registration.consent.notgiven", args = Seq.empty)).
+                distinctErrors
+              BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors, yearsDropdown))
             case _ =>
               Logger.debug("could not find dealer details in cache on Dispose submit")
               Redirect(routes.SetUpTradeDetails.present)
@@ -95,18 +102,18 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       keeperAddress = vehicleDetails.keeperAddress,
       dealerName = dealerDetails.dealerName,
       dealerAddress = dealerDetails.dealerAddress)
-    Logger.debug(s"Dispose page read the following data from cache: ${model}")
+    Logger.debug(s"Dispose page read the following data from cache: $model")
     model
   }
 
   private def disposeAction(webService: DisposeService, f: DisposeFormModel): Future[SimpleResult] = {
     fetchVehicleLookupDetailsFromCache match {
-      case Some(vehicleLookupFormModel) => {
+      case Some(vehicleLookupFormModel) =>
         val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,registrationNumber = vehicleLookupFormModel.registrationNumber, 
           dateOfDisposal = f.dateOfDisposal, mileage = f.mileage)
         storeDisposeModelInCache(disposeModel)
         webService.invoke(buildDisposeMicroServiceRequest(disposeModel)).map {
-          resp => Logger.debug(s"Dispose Web service call successful - response = ${resp}")
+          resp => Logger.debug(s"Dispose Web service call successful - response = $resp")
           if (resp.success) {
             storeDisposeTransactionIdInCache(resp.transactionId)
             storeDisposeRegistrationNumberInCache(resp.registrationNumber)
@@ -114,12 +121,10 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
           }
           else Redirect(routes.DisposeFailure.present)
         }.recover {
-          case e: Throwable => {
-            Logger.debug(s"Dispose Web service call failed. Exception: ${e}")
+          case e: Throwable =>
+            Logger.debug(s"Dispose Web service call failed. Exception: $e")
             BadRequest("The remote server didn't like the request.") // TODO check with BAs what we want to display when the webservice throws exception. We cannot proceed so need to say something like "".
-          }
         }
-      }
       case _ => Future {
         Logger.debug("could not find dealer details in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present)

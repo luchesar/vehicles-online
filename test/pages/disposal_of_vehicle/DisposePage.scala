@@ -15,11 +15,13 @@ object DisposePage extends Page with WebBrowserDSL {
 
   def dateOfDisposalMonth(implicit driver: WebDriver): SingleSel = singleSel(id("dateOfDisposal_month"))
 
-  def dateOfDisposalYear(implicit driver: WebDriver): TelField = telField(id("dateOfDisposal_year"))
+  def dateOfDisposalYear(implicit driver: WebDriver): SingleSel = singleSel(id("dateOfDisposal_year"))
 
   def emailAddress(implicit driver: WebDriver): TextField = textField(id("emailAddress"))
 
   def consent(implicit driver: WebDriver): Checkbox = checkbox(id("consent"))
+
+  def lossOfRegistrationConsent(implicit driver: WebDriver): Checkbox = checkbox(id("lossOfRegistrationConsent"))
 
   def back(implicit driver: WebDriver): Element = find(id("backButton")).get
 
@@ -27,12 +29,13 @@ object DisposePage extends Page with WebBrowserDSL {
 
   def happyPath(implicit driver: WebDriver) = {
     go to DisposePage.url
-    DisposePage.mileage enter "50000"
+    DisposePage.mileage enter "50000" // TODO don't use magic number, use a constant!
     DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
     DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
-    DisposePage.dateOfDisposalYear enter dateOfDisposalYearValid
-    DisposePage.emailAddress enter  "test@testemail.com"
+    DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
+    DisposePage.emailAddress enter  "test@testemail.com" // TODO don't use magic number, use a constant!
     click on DisposePage.consent
+    click on DisposePage.lossOfRegistrationConsent
     click on DisposePage.dispose
   }
 
@@ -40,7 +43,7 @@ object DisposePage extends Page with WebBrowserDSL {
     go to DisposePage.url
     DisposePage.dateOfDisposalDay select ""
     DisposePage.dateOfDisposalMonth select ""
-    DisposePage.dateOfDisposalYear enter ""
+    DisposePage.dateOfDisposalYear select ""
     click on DisposePage.dispose
   }
 }

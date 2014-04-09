@@ -3,6 +3,7 @@ package models
 import scala.util.{Failure, Success, Try}
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
+import scala.annotation.tailrec
 
 case class DayMonthYear(day: Int, month: Int, year: Int,
                         hour: Option[Int] = None, minutes: Option[Int] = None) extends Ordered[DayMonthYear] {
@@ -76,6 +77,23 @@ case class DayMonthYear(day: Int, month: Int, year: Int,
         case notEqual => notEqual
       }
       case notEqual => notEqual
+    }
+  }
+
+  @tailrec
+  final def yearRangeToDropdown(yearsIntoThePast: Int,
+                      accumulator: Seq[(String, String)] = Seq.empty // Add to this before recursion and finally on exit
+                       ): Seq[(String, String)] = {
+    // Populate a dropdown with the years between a starting year and now.
+    def dropdownFormat = {
+      // Turn year into a format that can be displayed by a dropdown
+      val yearInPast = (year - yearsIntoThePast).toString
+      Seq(yearInPast -> yearInPast)
+    }
+
+    yearsIntoThePast match {
+      case 0 => accumulator ++ dropdownFormat
+      case _ => yearRangeToDropdown(yearsIntoThePast - 1, accumulator ++ dropdownFormat) // Add to end of the list, then recurse
     }
   }
 }

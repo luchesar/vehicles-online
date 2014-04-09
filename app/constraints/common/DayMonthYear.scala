@@ -8,28 +8,39 @@ import services.DateService
 
 object DayMonthYear {
   def required: Constraint[Int] = Constraint[Int]("constraint.required") {
-    case i if i > 0  => Valid
-    case _ => Invalid(ValidationError("error.dropDownInvalid"))
+    case i if i > 0 => Valid
+    case _ => Invalid(ValidationError("error.dropDownInvalid")) // TODO should we combine this with the other error message?
   }
 
-  def validDate: Constraint[models.DayMonthYear] = Constraint("constraint.required") {
-    case dmy@models.DayMonthYear(_, _, _, _, _) => dateValidation(dmy)
-    case _ => Invalid(ValidationError("error.required"))
+  def validDate: Constraint[models.DayMonthYear] = {
+    def dateValidation(dmy: models.DayMonthYear): ValidationResult = Try(new DateTime(dmy.year, dmy.month, dmy.day, 0, 0)) match {
+      case Success(dt: DateTime) if dt.getYear > 9999 || dt.getYear < 999 => Invalid(ValidationError("error.invalid")) // TODO extract the magic numbers into constants.
+      case Success(dt: DateTime) if dt.getYear > 9999 || dt.getYear < 999 => Invalid(ValidationError("error.invalid"))
+      case Success(dt: DateTime) => Valid
+      case Failure(_) => Invalid(ValidationError("error.invalid"))
+    }
+
+    Constraint("constraint.required") {
+      case dmy@models.DayMonthYear(_, _, _, _, _) => dateValidation(dmy)
+      case _ => Invalid(ValidationError("error.required"))
+    }
   }
 
-  private def dateValidation(dmy: models.DayMonthYear): ValidationResult = Try(new DateTime(dmy.year, dmy.month, dmy.day, 0, 0)) match {
-    case Success(dt: DateTime) if dt.getYear > 9999 || dt.getYear < 999 => Invalid(ValidationError("error.invalid"))
-    case Success(dt: DateTime) if dt.getYear > 9999 || dt.getYear < 999 => Invalid(ValidationError("error.invalid"))
-    case Success(dt: DateTime) => Valid
-    case Failure(_) => Invalid(ValidationError("error.invalid"))
-  }
-
-  def withinTwoYears(dateService: DateService): Constraint[models.DayMonthYear] = {
+  def after(earliest: models.DayMonthYear): Constraint[models.DayMonthYear] = {
+    // Date must be after a year
     import scala.language.postfixOps
     Constraint("constraint.withinTwoYears") {
-      case dmy@models.DayMonthYear(_, _, _, _, _) if dmy >= (dateService.today - 2 years) &&
-        dmy <= dateService.today => Valid
+      case dmy@models.DayMonthYear(_, _, _, _, _) if dmy >= earliest => Valid
       case _ => Invalid(ValidationError("error.withinTwoYears"))
+    }
+  }
+
+  def notInFuture(dateService: DateService): Constraint[models.DayMonthYear] = {
+    // Date must be after a year
+    import scala.language.postfixOps
+    Constraint("constraint.notInFuture") {
+      case dmy@models.DayMonthYear(_, _, _, _, _) if dmy <= dateService.today => Valid
+      case _ => Invalid(ValidationError("error.notInFuture"))
     }
   }
 }
