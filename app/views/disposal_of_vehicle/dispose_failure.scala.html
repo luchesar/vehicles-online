@@ -5,7 +5,12 @@
 
 @main(Messages("disposal_disposefailure.title")){
 
-<p>@Messages("disposal_disposefailure.p1")</p><br>
+<p>@Messages("disposal_disposefailure.p1")</p>
+
+<div class="alert-error">
+    <h2>Disposal failure</h2>
+    <p>Your transaction ID is<br /><span class="emphasized">@Messages("disposal_disposefailure.transactionid", data.transactionId.getOrElse(""))</span></p>
+</div>
 
 
 <div class="form-steps">

@@ -5,6 +5,7 @@ import controllers.{disposal_of_vehicle}
 import play.api.test.Helpers._
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
+import helpers.disposal_of_vehicle.Helper._
 import helpers.UnitSpec
 
 class DisposeFailureUnitSpec extends UnitSpec {
@@ -16,7 +17,6 @@ class DisposeFailureUnitSpec extends UnitSpec {
       CacheSetup.vehicleDetailsModel()
       CacheSetup.disposeFormModel()
       CacheSetup.disposeTransactionId()
-      CacheSetup.vehicleRegistrationNumber()
 
       val request = FakeRequest().withSession()
 
@@ -30,7 +30,6 @@ class DisposeFailureUnitSpec extends UnitSpec {
       CacheSetup.vehicleDetailsModel()
       CacheSetup.disposeFormModel()
       CacheSetup.disposeTransactionId()
-      CacheSetup.vehicleRegistrationNumber()
 
       val request = FakeRequest().withSession()
 
@@ -41,10 +40,10 @@ class DisposeFailureUnitSpec extends UnitSpec {
 
     "redirect to setuptraderdetails when no details are in cache and submit is selected" in new WithApplication() {
       val request = FakeRequest().withSession()
-
       val result = disposal_of_vehicle.DisposeFailure.submit(request)
 
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
   }
 }
+
