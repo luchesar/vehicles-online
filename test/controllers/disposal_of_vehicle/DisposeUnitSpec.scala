@@ -12,13 +12,12 @@ import org.mockito.Mockito._
 import org.mockito.Matchers._
 import helpers.UnitSpec
 import services.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeService}
-import services.fakes.{FakeResponse}
+import services.fakes.FakeResponse
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
 import services.DateServiceImpl
 import services.fakes.FakeDateServiceImpl._
-import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeDisposeWebServiceImpl._
 
 class DisposeUnitSpec extends UnitSpec {
@@ -35,9 +34,9 @@ class DisposeUnitSpec extends UnitSpec {
     def buildCorrectlyPopulatedRequest = {
       FakeRequest().withSession().withFormUrlEncodedBody(
       mileageId -> mileageValid,
-      s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
-      s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
-      s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid,
+      s"$dateOfDisposalId.day" -> dateOfDisposalDayValid,
+      s"$dateOfDisposalId.month" -> dateOfDisposalMonthValid,
+      s"$dateOfDisposalId.year" -> dateOfDisposalYearValid,
       consentId -> consentValid,
       lossOfRegistrationConsentId -> consentValid)
     }
@@ -72,13 +71,7 @@ class DisposeUnitSpec extends UnitSpec {
       val disposeFailure = {
         val ws = mock[DisposeWebService]
         when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
-          val disposeResponse =
-            DisposeResponse(success = false,
-              message = "Fake Web Dispose Service - Bad response",
-              transactionId = "",
-              registrationNumber = "",
-              auditId = "")
-          val responseAsJson = Json.toJson(disposeResponse)
+          val responseAsJson = Json.toJson(disposeResponseSuccess)
           new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
         })
         val disposeServiceImpl = new DisposeServiceImpl(ws)
@@ -98,9 +91,9 @@ class DisposeUnitSpec extends UnitSpec {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         mileageId -> mileageValid,
-        s"${dateOfDisposalId}.day" -> dateOfDisposalDayValid,
-        s"${dateOfDisposalId}.month" -> dateOfDisposalMonthValid,
-        s"${dateOfDisposalId}.year" -> dateOfDisposalYearValid)
+        s"$dateOfDisposalId.day" -> dateOfDisposalDayValid,
+        s"$dateOfDisposalId.month" -> dateOfDisposalMonthValid,
+        s"$dateOfDisposalId.year" -> dateOfDisposalYearValid)
       val result = disposeSuccess.submit(request)
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }

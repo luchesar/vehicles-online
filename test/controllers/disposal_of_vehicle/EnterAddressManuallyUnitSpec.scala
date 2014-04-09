@@ -4,15 +4,12 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import mappings.common.AddressLines._
-import scala.Some
 import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.Helper._
 import helpers.disposal_of_vehicle._
 import mappings.common.{Postcode, AddressAndPostcode, AddressLines}
 import Postcode._
 import helpers.UnitSpec
 import mappings.disposal_of_vehicle.VehicleLookup._
-import scala.Some
 import services.fakes.FakeAddressLookupService._
 
 class EnterAddressManuallyUnitSpec extends UnitSpec {
