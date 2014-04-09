@@ -210,25 +210,25 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
     "add saria required attribute to trader name field when required field not input" in new WebBrowser {
       SetupTradeDetailsPage.happyPath(traderBusinessName = "" )
 
-      assert(Accessibility.ariaRequiredPresent(webDriver,"dealerName") equals true)
+      assert(Accessibility.ariaRequiredPresent("dealerName") equals true)
     }
 
     "add aria invalid attribute to trader name field when invalid characters input on field" in new WebBrowser {
       SetupTradeDetailsPage.happyPath(traderBusinessName = "$£%&" )
 
-      assert(Accessibility.ariaInvalidPresent(webDriver,"dealerName") equals true)
+      assert(Accessibility.ariaInvalidPresent("dealerName") equals true)
     }
 
     "add aria required attribute to trader postcode field when required field not input" in new WebBrowser {
       SetupTradeDetailsPage.happyPath(traderPostcode = "" )
 
-      assert(Accessibility.ariaRequiredPresent(webDriver,"dealerPostcode") equals true)
+      assert(Accessibility.ariaRequiredPresent("dealerPostcode") equals true)
     }
 
     "add aria invalid attribute to trader postcode field when invalid characters input on field" in new WebBrowser {
       SetupTradeDetailsPage.happyPath(traderPostcode = "$£%&" )
 
-      assert(Accessibility.ariaInvalidPresent(webDriver,"dealerPostcode") equals true)
+      assert(Accessibility.ariaInvalidPresent("dealerPostcode") equals true)
     }
   }
 }
