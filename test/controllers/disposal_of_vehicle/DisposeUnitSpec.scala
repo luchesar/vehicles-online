@@ -90,7 +90,7 @@ class DisposeUnitSpec extends UnitSpec {
       whenReady(result) {
         r => controllers.disposal_of_vehicle.Helpers.fetchDisposeTransactionIdFromCache match {
           case Some(txId) =>
-            txId should equal (FakeDisposeWebServiceImpl.transactionIdValid)
+            txId should equal(FakeDisposeWebServiceImpl.transactionIdValid)
           case _ => fail("Should have found transaction id in the cache")
         }
       }
