@@ -5,7 +5,7 @@ import play.api.test.Helpers._
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
-import services.fakes.{FakeAddressLookupService, FakeWebServiceImpl}
+import services.fakes.FakeWebServiceImpl
 import helpers.UnitSpec
 import services.fakes.FakeWebServiceImpl._
 
@@ -94,7 +94,7 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "redirect to UprnNotFound page when Uprn returns no match on submit" in new WithApplication {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        addressSelectId -> FakeAddressLookupService.uprnInvalid.toString)
+        addressSelectId -> traderUprnValid.toString)
       val businessChooseYourAddress = businessChooseYourAddressWithFakeWebService(uprnFound = false)
 
       val result = businessChooseYourAddress.submit(request)
