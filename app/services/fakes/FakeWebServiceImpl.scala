@@ -22,7 +22,7 @@ class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
 
 object FakeWebServiceImpl {
   val traderUprnValid = 12345L
-  val uprnValid2 = 4567L
+  val traderUprnValid2 = 4567L
 
   def osAddressbaseDPA(uprn: String = traderUprnValid.toString, houseName: String = "presentationProperty stub", houseNumber: String = "123") = OSAddressbaseDPA(
     UPRN = uprn,
