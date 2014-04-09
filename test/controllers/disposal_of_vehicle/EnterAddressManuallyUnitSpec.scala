@@ -16,20 +16,15 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "present" in new WithApplication {
       CacheSetup.setupTradeDetails()
-
       val request = FakeRequest().withSession()
-
       val result = disposal_of_vehicle.EnterAddressManually.present(request)
-
       status(result) should equal(OK)
     }
 
     "return bad request when no data is entered" in new WithApplication {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
-
       val result =  disposal_of_vehicle.EnterAddressManually.submit(request)
-
       status(result) should equal(BAD_REQUEST)
     }
 
@@ -40,9 +35,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> line2Valid,
         s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3Valid,
         s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4Valid)
-
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-
       status(result) should equal(BAD_REQUEST)
     }
 
@@ -50,17 +43,13 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
-
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-
       status(result) should equal(BAD_REQUEST)
     }
 
     "redirect to SetupTraderDetails page when present with no dealer name cached" in new WithApplication {
       val request = FakeRequest().withSession()
-
       val result = disposal_of_vehicle.EnterAddressManually.present(request)
-
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
@@ -72,9 +61,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3Valid,
         s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4Valid,
         s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
-
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-
       redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
 
@@ -83,9 +70,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
           s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
           s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
-
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-
       redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
 
@@ -97,9 +82,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> "my area.",
         s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> "my town,",
         s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
-
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-
       whenReady(result) {
         r => controllers.disposal_of_vehicle.Helpers.fetchDealerDetailsFromCache match {
           case Some(f) =>
@@ -117,9 +100,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> "my area.,,..",
         s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> "my town,,,.,,,.",
         s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
-
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-
       whenReady(result) {
         r => controllers.disposal_of_vehicle.Helpers.fetchDealerDetailsFromCache match {
           case Some(f) =>
@@ -137,9 +118,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> "little village, my town",
         s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> "my city, my county",
         s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
-
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-
       whenReady(result) {
         r => controllers.disposal_of_vehicle.Helpers.fetchDealerDetailsFromCache match {
           case Some(f) =>
@@ -154,9 +133,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> "...",
         s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
-
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-
       status(result) should equal(BAD_REQUEST)
     }
 
@@ -167,17 +144,13 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3Valid,
         s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4Valid,
         s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
-
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to SetupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
-
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }
   }
