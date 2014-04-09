@@ -17,7 +17,7 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
 
   def findVehicleDetails(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
 
-  def happyPath(implicit driver: WebDriver, referenceNumber: String = referenceNumberValid, vehicleRegistrationNumber: String = registrationNumberValid) = {
+  def happyPath(referenceNumber: String = referenceNumberValid, vehicleRegistrationNumber: String = registrationNumberValid)(implicit driver: WebDriver) = {
     go to VehicleLookupPage
     VehicleLookupPage.documentReferenceNumber.value = referenceNumber
     VehicleLookupPage.vehicleRegistrationNumber.value = vehicleRegistrationNumber

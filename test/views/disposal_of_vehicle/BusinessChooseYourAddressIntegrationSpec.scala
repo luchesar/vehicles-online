@@ -57,7 +57,7 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
     "not display 'No addresses found' message when address service returns addresses" in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
 
-      val result = webDriver.getPageSource
+      val result = page.source
 
       assert(result.contains("No addresses found for that postcode") equals false) // Does not contain message
     }
@@ -65,7 +65,7 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
     "display expected addresses in dropdown when address service returns addresses" in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
 
-      val result = webDriver.getPageSource
+      val result = page.source
 
       assert(BusinessChooseYourAddressPage.getListCount equals 4) // The first option is the "Please select..." and the other options are the addresses.
       assert(result.contains("presentationProperty stub, 123, property stub, street stub, town stub, area stub, postcode stub"))
@@ -76,7 +76,7 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
     "display 'No addresses found' message when address service returns no addresses" in new WebBrowser {
       SetupTradeDetailsPage.submitInvalidPostcode
 
-      val result = webDriver.getPageSource
+      val result = page.source
 
       assert(result.contains("No addresses found for that postcode") equals true) // Does not contain message
     }

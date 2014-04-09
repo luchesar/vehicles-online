@@ -18,64 +18,63 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       assert(page.title equals VehicleLookupPage.title)
     }
 
-
     "Redirect when no traderBusinessName is cached" in new WebBrowser {
       go to VehicleLookupPage
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
-     "go to the next page when correct data is entered" in  new WebBrowser {
-       CacheSetup.businessChooseYourAddress()
-       VehicleLookupPage.happyPath
+    "go to the next page when correct data is entered" in new WebBrowser {
+      CacheSetup.businessChooseYourAddress()
+      VehicleLookupPage.happyPath()
 
-        assert(page.title equals DisposePage.title)
-     }
+      assert(page.title equals DisposePage.title)
+    }
 
     "display one validation error message when no referenceNumber is entered" in new WebBrowser {
       CacheSetup.businessChooseYourAddress()
-      VehicleLookupPage.happyPath(webDriver, referenceNumber = "")
+      VehicleLookupPage.happyPath(referenceNumber = "")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when no registrationNumber is entered" in new WebBrowser {
       CacheSetup.businessChooseYourAddress()
-      VehicleLookupPage.happyPath(webDriver, vehicleRegistrationNumber = "")
+      VehicleLookupPage.happyPath(vehicleRegistrationNumber = "")
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a registrationNumber is entered containing one character" in new WebBrowser {
       CacheSetup.businessChooseYourAddress()
-      VehicleLookupPage.happyPath(webDriver, vehicleRegistrationNumber = "a")
+      VehicleLookupPage.happyPath(vehicleRegistrationNumber = "a")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a registrationNumber is entered containing special characters" in new WebBrowser {
       CacheSetup.businessChooseYourAddress()
-      VehicleLookupPage.happyPath(webDriver, vehicleRegistrationNumber = "$^")
+      VehicleLookupPage.happyPath(vehicleRegistrationNumber = "$^")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display two validation error messages when no vehicle details are entered but consent is given" in new WebBrowser {
       CacheSetup.businessChooseYourAddress()
-      VehicleLookupPage.happyPath(webDriver, referenceNumber = "", vehicleRegistrationNumber = "")
+      VehicleLookupPage.happyPath(referenceNumber = "", vehicleRegistrationNumber = "")
 
       assert(ErrorPanel.numberOfErrors equals 2)
     }
 
     "display one validation error message when only a valid referenceNumber is entered and consent is given" in new WebBrowser {
       CacheSetup.businessChooseYourAddress()
-      VehicleLookupPage.happyPath(webDriver, vehicleRegistrationNumber = "")
+      VehicleLookupPage.happyPath(vehicleRegistrationNumber = "")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when only a valid registrationNumber is entered and consent is given" in new WebBrowser {
       CacheSetup.businessChooseYourAddress()
-      VehicleLookupPage.happyPath(webDriver, referenceNumber = "")
+      VehicleLookupPage.happyPath(referenceNumber = "")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }

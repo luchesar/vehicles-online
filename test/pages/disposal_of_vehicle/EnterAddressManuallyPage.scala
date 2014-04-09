@@ -24,7 +24,7 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 
   def next(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
 
-  def happyPath(implicit driver: WebDriver, line1: String = line1Valid, line2: String = line2Valid, line3: String = line3Valid, line4:String = line4Valid, postcode:String = postcodeValid) ={
+  def happyPath(line1: String = line1Valid, line2: String = line2Valid, line3: String = line3Valid, line4:String = line4Valid, postcode:String = postcodeValid)(implicit driver: WebDriver) ={
     go to EnterAddressManuallyPage.url
     EnterAddressManuallyPage.addressLine1.value = line1
     EnterAddressManuallyPage.addressLine2.value = line2
@@ -34,7 +34,7 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
     click on EnterAddressManuallyPage.next
   }
 
-  def happyPathMandatoryFieldsOnly(implicit driver: WebDriver, line1: String = line1Valid, postcode:String = postcodeValid) ={
+  def happyPathMandatoryFieldsOnly(line1: String = line1Valid, postcode:String = postcodeValid)(implicit driver: WebDriver) ={
     go to EnterAddressManuallyPage.url
     EnterAddressManuallyPage.addressLine1.value = line1
     EnterAddressManuallyPage.postcode.value = postcode
