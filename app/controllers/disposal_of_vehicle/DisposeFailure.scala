@@ -8,9 +8,9 @@ import scala.Some
 object DisposeFailure extends Controller {
 
   def present = Action { implicit request =>
-    (fetchDealerDetailsFromCache, fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache) match {
-      case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => {
-        val disposeModel = fetchData(dealerDetails, vehicleDetails)
+    (fetchDealerDetailsFromCache, fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache, fetchDisposeTransactionIdFromCache) match {
+      case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId)) => {
+        val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId))
         Ok(views.html.disposal_of_vehicle.dispose_failure(disposeModel, disposeFormModel))
       }
       case _ => Redirect(routes.SetUpTradeDetails.present)
@@ -24,7 +24,7 @@ object DisposeFailure extends Controller {
     }
   }
 
-  private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {
+  private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel, transactionId: Option[String]): DisposeViewModel = {
     DisposeViewModel(
       registrationNumber = vehicleDetails.registrationNumber,
       vehicleMake = vehicleDetails.vehicleMake,
@@ -32,6 +32,8 @@ object DisposeFailure extends Controller {
       keeperName = vehicleDetails.keeperName,
       keeperAddress = vehicleDetails.keeperAddress,
       dealerName = dealerDetails.dealerName,
-      dealerAddress = dealerDetails.dealerAddress)
+      dealerAddress = dealerDetails.dealerAddress,
+      transactionId = transactionId
+    )
   }
 }
