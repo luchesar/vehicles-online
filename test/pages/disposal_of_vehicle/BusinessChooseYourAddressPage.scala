@@ -12,7 +12,7 @@ object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
 
   def chooseAddress(implicit driver: WebDriver): SingleSel = singleSel(id(addressSelectId))
 
-  def back(implicit driver: WebDriver): Element = find(id("backButton")).get
+  def back(implicit driver: WebDriver): Element = find(id(backId)).get
 
   def manualAddress(implicit driver: WebDriver): Element = find(id(enterAddressManuallyButtonId)).get
 
@@ -20,7 +20,7 @@ object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
 
   def getListCount(implicit driver: WebDriver): Int = getList.size
 
-  def select(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
+  def select(implicit driver: WebDriver): Element = find(id(selectId)).get
 
   def happyPath(implicit driver: WebDriver) = {
     go to BusinessChooseYourAddressPage
