@@ -120,7 +120,8 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
         }.recover {
           case e: Throwable =>
             Logger.debug(s"Dispose Web service call failed. Exception: $e")
-            BadRequest("The remote server didn't like the request.") // TODO check with US114 to see what we should redirect to.
+//            BadRequest("The remote server didn't like the request.") // TODO check with US114 to see what we should redirect to.
+            Redirect(routes.MicroServiceError.present)
         }
       case _ => Future {
         Logger.debug("could not find dealer details in cache on Dispose submit")
