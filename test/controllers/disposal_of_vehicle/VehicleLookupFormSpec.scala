@@ -18,7 +18,8 @@ class VehicleLookupFormSpec extends UnitSpec {
     val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
     when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
       val responseAsJson = Json.toJson(vehicleDetailsResponseSuccess)
-      new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+      import play.api.http.Status.OK
+      new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
     new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)

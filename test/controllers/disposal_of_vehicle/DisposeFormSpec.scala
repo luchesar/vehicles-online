@@ -34,7 +34,8 @@ class DisposeFormSpec extends UnitSpec {
     val ws = mock[DisposeWebService]
     when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
       val responseAsJson = Json.toJson(disposeResponseSuccess)
-      new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+      import play.api.http.Status.OK
+      new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
     })
     val disposeServiceImpl = new DisposeServiceImpl(ws)
     new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService)

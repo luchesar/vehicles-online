@@ -19,6 +19,10 @@ import org.scalatest.time.Span
 import org.scalatest.time.Second
 import services.fakes.FakeWebServiceImpl.{osAddressbaseDPA, traderUprnValid}
 import services.fakes.FakeAddressLookupService._
+import play.api.http.Status._
+import play.api.libs.ws.Response
+import org.scalatest.concurrent.PatienceConfiguration.Timeout
+import scala.Some
 
 class OSAddressLookupServiceSpec extends UnitSpec {
   val oSAddressbaseResultsValidDPA = {
@@ -60,8 +64,8 @@ class OSAddressLookupServiceSpec extends UnitSpec {
   }
 
   "fetchAddressesForPostcode" should {
-    "return seq when response status is 200 and returns results" in {
-      val service = addressServiceMock(response(200), Some(oSAddressbaseResultsValidDPA))
+    "return seq when response status is 200 OK and returns results" in {
+      val service = addressServiceMock(response(OK), Some(oSAddressbaseResultsValidDPA))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -74,7 +78,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
     "return empty seq when response status is Ok but results is empty" in {
       val input = OSAddressbaseSearchResponse(header = header, results = None)
-      val service = addressServiceMock(response(200, input), None)
+      val service = addressServiceMock(response(OK, input), None)
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -83,7 +87,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
       }
     }
 
-    "return empty seq when response status is not Ok (200)" in {
+    "return empty seq when response status is not 200 OK" in {
       val service = addressServiceMock(response(404), Some(oSAddressbaseResultsValidDPA))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
@@ -95,7 +99,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
     "return empty seq when the result has no DPA and no LPI" in {
       val input = OSAddressbaseSearchResponse(header = header, results = None)
-      val service = addressServiceMock(response(200, input), Some(oSAddressbaseResultsEmptyDPAAndLPI))
+      val service = addressServiceMock(response(OK, input), Some(oSAddressbaseResultsEmptyDPAAndLPI))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -116,7 +120,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
     "return empty seq given invalid json" in {
       val inputAsJson = Json.toJson("INVALID")
-      val service = addressServiceMock(response(200, inputAsJson), Some(oSAddressbaseResultsValidDPA))
+      val service = addressServiceMock(response(OK, inputAsJson), Some(oSAddressbaseResultsValidDPA))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -137,7 +141,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
       val oSAddressbaseResultsValidDPA = Seq(dpa1, dpa2, dpa3)
 
       val input = OSAddressbaseSearchResponse(header = header, results = Some(oSAddressbaseResultsValidDPA))
-      val service = addressServiceMock(response(200, input), Some(oSAddressbaseResultsValidDPA))
+      val service = addressServiceMock(response(OK, input), Some(oSAddressbaseResultsValidDPA))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -160,7 +164,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
       val oSAddressbaseResultsValidDPA = Seq(dpa1, dpa2, dpa3)
 
       val input = OSAddressbaseSearchResponse(header = header, results = Some(oSAddressbaseResultsValidDPA))
-      val service = addressServiceMock(response(200, input), Some(oSAddressbaseResultsValidDPA))
+      val service = addressServiceMock(response(OK, input), Some(oSAddressbaseResultsValidDPA))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -173,8 +177,8 @@ class OSAddressLookupServiceSpec extends UnitSpec {
   }
 
   "fetchAddressForUprn" should {
-    "return AddressViewModel when response status is 200" in {
-      val service = addressServiceMock(response(200), Some(oSAddressbaseResultsValidDPA))
+    "return AddressViewModel when response status is 200 OK" in {
+      val service = addressServiceMock(response(OK), Some(oSAddressbaseResultsValidDPA))
 
       val result = service.fetchAddressForUprn(osAddressbaseDPA().UPRN)
 
@@ -186,7 +190,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
       }
     }
 
-    "return None when response status is not 200" in {
+    "return None when response status is not 200 OK" in {
       val service = addressServiceMock(response(404), Some(oSAddressbaseResultsValidDPA))
 
       val result = service.fetchAddressForUprn(osAddressbaseDPA().UPRN)
@@ -196,9 +200,9 @@ class OSAddressLookupServiceSpec extends UnitSpec {
       }
     }
 
-    "return none when response status is Ok but results is empty" in {
+    "return none when response status is 200 OK but results is empty" in {
       val input = OSAddressbaseSearchResponse(header = header, results = None)
-      val service = addressServiceMock(response(200, input), None)
+      val service = addressServiceMock(response(OK, input), None)
 
       val result = service.fetchAddressForUprn(osAddressbaseDPA().UPRN)
 
@@ -209,7 +213,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
     "return none when the result has no DPA and no LPI" in {
       val input = OSAddressbaseSearchResponse(header = header, results = Some(oSAddressbaseResultsEmptyDPAAndLPI))
-      val service = addressServiceMock(response(200, input), Some(oSAddressbaseResultsEmptyDPAAndLPI))
+      val service = addressServiceMock(response(OK, input), Some(oSAddressbaseResultsEmptyDPAAndLPI))
 
       val result = service.fetchAddressForUprn(osAddressbaseDPA().UPRN)
 

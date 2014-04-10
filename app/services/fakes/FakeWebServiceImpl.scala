@@ -8,12 +8,19 @@ import ExecutionContext.Implicits.global
 import services.address_lookup.gds.domain.{Location, Details, Presentation, Address}
 import services.address_lookup.AddressLookupWebService
 import java.net.URI
+import play.api.http.Status._
+import play.api.libs.ws.Response
+import services.address_lookup.gds.domain.Location
+import scala.Some
+import services.address_lookup.gds.domain.Details
+import services.address_lookup.gds.domain.Presentation
+import services.address_lookup.gds.domain.Address
 
 class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                          responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
   override def callPostcodeWebService(postcode: String): Future[Response] =
     if (postcode == FakeAddressLookupService.postcodeInvalid) Future {
-      FakeResponse(status = 200, fakeJson = None)
+      FakeResponse(status = OK, fakeJson = None)
     }
     else responseOfPostcodeWebService
 
@@ -60,7 +67,7 @@ object FakeWebServiceImpl {
     val inputAsJson = Json.toJson(response)
 
     Future {
-      FakeResponse(status = 200, fakeJson = Some(inputAsJson))
+      FakeResponse(status = OK, fakeJson = Some(inputAsJson))
     }
   }
 
@@ -70,10 +77,9 @@ object FakeWebServiceImpl {
     val inputAsJson = Json.toJson(response)
 
     Future {
-      FakeResponse(status = 200, fakeJson = Some(inputAsJson))
+      FakeResponse(status = OK, fakeJson = Some(inputAsJson))
     }
   }
-
 
   def gdsAddress(presentationProperty: String = "property stub", presentationStreet: String = "123"): Address =
     Address(
@@ -107,7 +113,7 @@ object FakeWebServiceImpl {
     val inputAsJson = Json.toJson(Seq(gdsAddress(), gdsAddress(presentationStreet = "456")))
 
     Future {
-      FakeResponse(status = 200, fakeJson = Some(inputAsJson))
+      FakeResponse(status = OK, fakeJson = Some(inputAsJson))
     }
   }
 }

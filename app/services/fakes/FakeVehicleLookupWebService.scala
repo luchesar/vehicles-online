@@ -8,6 +8,8 @@ import services.vehicle_lookup.VehicleLookupWebService
 import play.api.libs.json.Json
 import play.api.Logger
 import FakeVehicleLookupWebService._
+import play.api.http.Status._
+import scala.Some
 
 class FakeVehicleLookupWebService extends VehicleLookupWebService {
   override def callVehicleLookupService(request: VehicleDetailsRequest) = Future {
@@ -17,7 +19,7 @@ class FakeVehicleLookupWebService extends VehicleLookupWebService {
 
     val responseAsJson = Json.toJson(vehicleDetailsResponse)
     Logger.debug(s"FakeVehicleLookupWebService callVehicleLookupService with: $responseAsJson")
-    new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+    new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
   }
 }
 
