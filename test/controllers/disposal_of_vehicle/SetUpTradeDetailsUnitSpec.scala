@@ -26,7 +26,9 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
     "redirect to next page when the form is completed successfully" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
-      redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
+      }
     }
 
     "return a bad request if no details are entered" in new WithApplication {
