@@ -279,12 +279,18 @@ disposal_disposeconfirmation.noMileageEntered = Naddo milltiroedd gofnodi
 disposal_disposeconfirmation.exitbutton = Gadael
 disposal_disposeconfirmation.survey = Arolwg
 
-disposal_vehiclelookupfailure.title = Cael gwared cerbyd i mewn i'r fasnach foduron: methiant Gwrthdro-edrych gerbyd
+disposal_vehiclelookupfailure.title = Cael gwared cerbyd i mewn i''r fasnach foduron: methiant Gwrthdro-edrych gerbyd
 disposal_vehiclelookupfailure.name = Methiant
 disposal_vehiclelookupfailure.p1 = Nid yw wedi bod yn bosibl i ddod o hyd cerbyd hwn. Os gwelwch yn dda ceisiwch eto
 disposal_vehiclelookupfailure.button = Am-edrych gerbyd
 disposal_disposefailure.button2 = Setup Newydd Manylion Masnachwr
 disposal_disposefailure.transactionid = {0}
+
+#micro service error page
+micro_service_error.title=Mae''n ddrwg gennym
+micro_service_error.text=Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
+micro_service_error.back.button=Yn ôl
+micro_service_error.exit.button=Gadael
 
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda
@@ -319,8 +325,6 @@ error.maxLength = Uchafswm hyd yn {0}
 
 select_default = Dewiswch
 
-
-
 error.invalid = Gwerth annilys
 
 error.address.line1Required = Mae angen o leiaf y llinell gyntaf lenwi gyfeiriad
@@ -330,3 +334,4 @@ error.address.characterinvalid = Nid yw nodau annilys chaniateir
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post
 error.validTraderBusinessName = Rhaid iddo fod rhwng dwy a 30 cymeriadau a ydynt yn cynnwys nodau annilys
+

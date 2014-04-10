@@ -335,3 +335,9 @@ error.address.characterinvalid = Invalid characters are not allowed
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
 error.validTraderBusinessName = Must be between two and 30 characters and not contain invalid characters
+
+#micro service error page
+micro_service_error.title=We are sorry
+micro_service_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
+micro_service_error.back.button=Back
+micro_service_error.exit.button=Exit
