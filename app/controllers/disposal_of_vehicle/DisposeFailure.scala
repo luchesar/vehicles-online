@@ -32,8 +32,6 @@ object DisposeFailure extends Controller {
       registrationNumber = vehicleDetails.registrationNumber,
       vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
-      keeperName = vehicleDetails.keeperName,
-      keeperAddress = vehicleDetails.keeperAddress,
       dealerName = dealerDetails.dealerName,
       dealerAddress = dealerDetails.dealerAddress,
       transactionId = transactionId

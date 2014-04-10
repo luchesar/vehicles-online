@@ -35,9 +35,7 @@ object FakeVehicleLookupWebService {
 
   private val vehicleDetails = VehicleDetailsDto(registrationNumber = registrationNumberValid,
     vehicleMake = vehicleMakeValid,
-    vehicleModel = vehicleModelValid,
-    keeperName = keeperNameValid,
-    keeperAddress = AddressDto(uprn = Some(keeperUprnValid), address = Seq("line1", "line2", "line2")))
+    vehicleModel = vehicleModelValid)
   val vehicleDetailsResponseSuccess = VehicleDetailsResponse(success = true,
     message = "Fake Web Lookup Service - Good response",
     vehicleDetailsDto = vehicleDetails)

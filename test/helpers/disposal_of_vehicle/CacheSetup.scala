@@ -32,9 +32,7 @@ object CacheSetup {
     val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
     val value = VehicleDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
-      vehicleModel = vehicleModel,
-      keeperName = keeperName,
-      keeperAddress = addressWithoutUprn)
+      vehicleModel = vehicleModel)
     play.api.cache.Cache.set(key, value)
   }
 
