@@ -3,13 +3,14 @@ package controllers.disposal_of_vehicle
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
-import mappings.common.AddressLines._
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle._
-import mappings.common.{Postcode, AddressAndPostcode, AddressLines}
+import mappings.common.Postcode
 import Postcode._
 import helpers.UnitSpec
 import services.fakes.FakeAddressLookupService._
+import mappings.common.AddressAndPostcode._
+import mappings.common.AddressLines._
 
 class EnterAddressManuallyUnitSpec extends UnitSpec {
   "EnterAddressManually - Controller" should {
@@ -31,10 +32,10 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     "return bad request when a valid address is entered without a postcode" in new WithApplication {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> line2Valid,
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3Valid,
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4Valid)
+        s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1Valid,
+        s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> line2Valid,
+        s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> line3Valid,
+        s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> line4Valid)
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
       status(result) should equal(BAD_REQUEST)
     }
@@ -42,7 +43,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     "return bad request a valid postcode is entered without an address" in new WithApplication {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
-          s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
+          s"$addressAndPostcodeId.$postcodeId" -> postcodeValid)
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
       status(result) should equal(BAD_REQUEST)
     }
@@ -56,11 +57,11 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     "redirect to Dispose after a valid submission of all fields" in new WithApplication {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> line2Valid,
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3Valid,
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4Valid,
-        s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
+        s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1Valid,
+        s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> line2Valid,
+        s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> line3Valid,
+        s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> line4Valid,
+        s"$addressAndPostcodeId.$postcodeId" -> postcodeValid)
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
       redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
@@ -68,8 +69,8 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     "redirect to Dispose after a valid submission of mandatory fields only" in new WithApplication {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
-          s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
+          s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1Valid,
+          s"$addressAndPostcodeId.$postcodeId" -> postcodeValid)
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
       redirectLocation(result) should equal(Some(VehicleLookupPage.address))
     }
@@ -77,11 +78,11 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     "submit removes commas and full stops from the end of each address line" in new WithApplication {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> "my house,",
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> "my street.",
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> "my area.",
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> "my town,",
-        s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
+        s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> "my house,",
+        s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> "my street.",
+        s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> "my area.",
+        s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> "my town,",
+        s"$addressAndPostcodeId.$postcodeId" -> postcodeValid)
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
       whenReady(result) {
         r => controllers.disposal_of_vehicle.Helpers.fetchDealerDetailsFromCache match {
@@ -95,11 +96,11 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     "submit removes multiple commas and full stops from the end of each address line" in new WithApplication {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> "my house,.,..,,",
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> "my street...,,.,",
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> "my area.,,..",
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> "my town,,,.,,,.",
-        s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
+        s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> "my house,.,..,,",
+        s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> "my street...,,.,",
+        s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> "my area.,,..",
+        s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> "my town,,,.,,,.",
+        s"$addressAndPostcodeId.$postcodeId" -> postcodeValid)
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
       whenReady(result) {
         r => controllers.disposal_of_vehicle.Helpers.fetchDealerDetailsFromCache match {
@@ -113,11 +114,11 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     "submit does not remove multiple commas and full stops from the middle address line" in new WithApplication {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> "flat 1.1",
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> "long road, off high street",
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> "little village, my town",
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> "my city, my county",
-        s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
+        s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> "flat 1.1",
+        s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> "long road, off high street",
+        s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> "little village, my town",
+        s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> "my city, my county",
+        s"$addressAndPostcodeId.$postcodeId" -> postcodeValid)
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
       whenReady(result) {
         r => controllers.disposal_of_vehicle.Helpers.fetchDealerDetailsFromCache match {
@@ -131,19 +132,19 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     "submit does not accept an address containing only full stops" in new WithApplication {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> "...",
-        s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
+        s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> "...",
+        s"$addressAndPostcodeId.$postcodeId" -> postcodeValid)
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
       status(result) should equal(BAD_REQUEST)
     }
 
     "redirect to SetupTraderDetails page when valid submit with no dealer name cached" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1Valid,
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> line2Valid,
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3Valid,
-        s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4Valid,
-        s"${AddressAndPostcode.id}.$postcodeId" -> postcodeValid)
+        s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1Valid,
+        s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> line2Valid,
+        s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> line3Valid,
+        s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> line4Valid,
+        s"$addressAndPostcodeId.$postcodeId" -> postcodeValid)
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
       redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
     }

@@ -24,12 +24,12 @@ object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
 
   def happyPath(implicit driver: WebDriver) = {
     go to BusinessChooseYourAddressPage
-    BusinessChooseYourAddressPage.chooseAddress.value = traderUprnValid.toString
-    click on BusinessChooseYourAddressPage.select
+    chooseAddress.value = traderUprnValid.toString
+    click on select
   }
 
   def sadPath(implicit driver: WebDriver) = {
     go to BusinessChooseYourAddressPage
-    click on BusinessChooseYourAddressPage.select
+    click on select
   }
 }

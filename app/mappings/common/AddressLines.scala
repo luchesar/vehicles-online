@@ -6,7 +6,7 @@ import play.api.data.validation.Invalid
 import models.domain.common.AddressLinesModel
 
 object AddressLines {
-  val id = "addressLines"
+  val addressLinesId = "addressLines"
   val line1Id = "line1"
   val line2Id = "line2"
   val line3Id = "line3"

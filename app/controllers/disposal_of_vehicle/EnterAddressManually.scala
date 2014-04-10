@@ -12,7 +12,7 @@ import utils.helpers.FormExtensions._
 object EnterAddressManually extends Controller {
   val form = Form(
     mapping(
-      id -> addressAndPostcode
+      addressAndPostcodeId -> addressAndPostcode
     )(EnterAddressManuallyModel.apply)(EnterAddressManuallyModel.unapply)
   )
 

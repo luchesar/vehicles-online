@@ -9,5 +9,6 @@ object UprnNotFoundPage extends Page with WebBrowserDSL {
   override val title: String = "Error confirming postcode"
 
   def setupTradeDetails(implicit driver: WebDriver): Element = find(id("setuptradedetailsbutton")).get
+
   def manualAddress(implicit driver: WebDriver): Element = find(id("manualaddressbutton")).get
 }

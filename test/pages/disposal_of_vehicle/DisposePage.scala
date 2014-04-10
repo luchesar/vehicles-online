@@ -31,22 +31,22 @@ object DisposePage extends Page with WebBrowserDSL {
   def dispose(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
 
   def happyPath(implicit driver: WebDriver) = {
-    go to DisposePage.url
-    DisposePage.mileage enter mileageValid
-    DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
-    DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
-    DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
-    DisposePage.emailAddress enter  emailValid
-    click on DisposePage.consent
-    click on DisposePage.lossOfRegistrationConsent
-    click on DisposePage.dispose
+    go to DisposePage
+    mileage enter mileageValid
+    dateOfDisposalDay select dateOfDisposalDayValid
+    dateOfDisposalMonth select dateOfDisposalMonthValid
+    dateOfDisposalYear select dateOfDisposalYearValid
+    emailAddress enter  emailValid
+    click on consent
+    click on lossOfRegistrationConsent
+    click on dispose
   }
 
   def sadPath(implicit driver: WebDriver) = {
-    go to DisposePage.url
-    DisposePage.dateOfDisposalDay select ""
-    DisposePage.dateOfDisposalMonth select ""
-    DisposePage.dateOfDisposalYear select ""
-    click on DisposePage.dispose
+    go to DisposePage
+    dateOfDisposalDay select ""
+    dateOfDisposalMonth select ""
+    dateOfDisposalYear select ""
+    click on dispose
   }
 }

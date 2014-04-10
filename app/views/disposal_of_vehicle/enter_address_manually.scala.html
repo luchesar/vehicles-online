@@ -1,14 +1,14 @@
 @(enterAddressManuallyForm: Form[models.domain.disposal_of_vehicle.EnterAddressManuallyModel])(implicit lang: Lang)
 
 @import helper._
-@import helper.twitterBootstrap._
+@import mappings.common.AddressAndPostcode.addressAndPostcodeId
 
 @main(Messages("disposal_enteraddressmanually.title")){
 @errorsSummary(enterAddressManuallyForm)
 
     @form(action = controllers.disposal_of_vehicle.routes.EnterAddressManually.submit) {
 
-        @addressAndPostcode(enterAddressManuallyForm(mappings.common.AddressAndPostcode.id))
+        @addressAndPostcode(enterAddressManuallyForm(addressAndPostcodeId))
 
 		@{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
         <div class="form-steps">

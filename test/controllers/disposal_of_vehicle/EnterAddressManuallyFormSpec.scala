@@ -1,11 +1,10 @@
 package controllers.disposal_of_vehicle
 
-import mappings.common.{Postcode, AddressLines, AddressAndPostcode}
-import mappings.common.AddressLines._
-import Postcode._
+import mappings.common.Postcode._
 import helpers.UnitSpec
 import services.fakes.FakeAddressLookupService._
-
+import mappings.common.AddressAndPostcode._
+import mappings.common.AddressLines._
 
 class EnterAddressManuallyFormSpec extends UnitSpec {
 
@@ -17,11 +16,11 @@ class EnterAddressManuallyFormSpec extends UnitSpec {
                               postcode: String = postcodeValid) = {
       EnterAddressManually.form.bind(
         Map(
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line1Id" -> line1,
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line2Id" -> line2,
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line3Id" -> line3,
-          s"${AddressAndPostcode.id}.${AddressLines.id}.$line4Id" -> line4,
-          s"${AddressAndPostcode.id}.$postcodeId" -> postcode
+          s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1,
+          s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> line2,
+          s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> line3,
+          s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> line4,
+          s"$addressAndPostcodeId.$postcodeId" -> postcode
         )
       )
     }
