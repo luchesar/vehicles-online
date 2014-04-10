@@ -50,7 +50,7 @@ class US43_validate_document_reference_entry_format_error_messages extends Featu
         VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
 
         When("the data complies with formatting rules")
-        click on SetupTradeDetailsPage.lookup
+        click on VehicleLookupPage.findVehicleDetails
 
         And("the motor trader progresses to the next step in the transaction")
         page.title should equal("Complete & confirm")
