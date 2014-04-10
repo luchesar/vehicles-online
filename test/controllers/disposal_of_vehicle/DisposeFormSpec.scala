@@ -112,14 +112,11 @@ class DisposeFormSpec extends UnitSpec {
 
     "reject if date is in the future" in {
       val dayToday: Int = dateOfDisposalDayValid.toInt
-      val dateServiceStubbed = dateServiceStub()
-      val disposeControllerWithDateStubbed = dispose(dateService = dateServiceStubbed)
       val dayOfDispose = (dayToday + 1).toString
 
       // Attempting to dispose with a date 1 day into the future.
       val result = formWithValidDefaults(
-        dayOfDispose = dayOfDispose,
-        disposeController = disposeControllerWithDateStubbed)
+        dayOfDispose = dayOfDispose)
 
       result.errors should have length 1
       result.errors(0).key should equal(dateOfDisposalId)
@@ -129,16 +126,13 @@ class DisposeFormSpec extends UnitSpec {
     "reject if date is more than 2 years in the past" in {
       val dayToday: Int = dateOfDisposalDayValid.toInt
       val yearToday: Int = dateOfDisposalYearValid.toInt
-      val dateServiceStubbed = dateServiceStub()
-      val disposeControllerWithDateStubbed = dispose(dateService = dateServiceStubbed)
       val dayOfDispose = (dayToday - 1).toString
       val yearOfDispose = (yearToday - 2).toString
 
       // Attempting to dispose with a date 2 years and 1 day into the past.
       val result = formWithValidDefaults(
         dayOfDispose = dayOfDispose,
-        yearOfDispose = yearOfDispose,
-        disposeController = disposeControllerWithDateStubbed)
+        yearOfDispose = yearOfDispose)
 
       result.errors should have length 1
       result.errors(0).key should equal(dateOfDisposalId)
@@ -157,5 +151,4 @@ class DisposeFormSpec extends UnitSpec {
       formWithValidDefaults(lossOfRegistrationConsent = "").errors should have length 1
     }
   }
-
 }
