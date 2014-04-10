@@ -51,7 +51,9 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     "redirect to SetupTraderDetails page when present with no dealer name cached" in new WithApplication {
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.EnterAddressManually.present(request)
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
     }
 
     "redirect to Dispose after a valid submission of all fields" in new WithApplication {
@@ -63,7 +65,9 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> line4Valid,
         s"$addressAndPostcodeId.$postcodeId" -> postcodeValid)
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-      redirectLocation(result) should equal(Some(VehicleLookupPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+      }
     }
 
     "redirect to Dispose after a valid submission of mandatory fields only" in new WithApplication {
@@ -72,7 +76,9 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
           s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1Valid,
           s"$addressAndPostcodeId.$postcodeId" -> postcodeValid)
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-      redirectLocation(result) should equal(Some(VehicleLookupPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+      }
     }
 
     "submit removes commas and full stops from the end of each address line" in new WithApplication {
@@ -146,13 +152,17 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> line4Valid,
         s"$addressAndPostcodeId.$postcodeId" -> postcodeValid)
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
     }
 
     "redirect to SetupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
     }
   }
 }
