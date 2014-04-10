@@ -9,4 +9,6 @@ object VehicleLookup {
   val consentId = "consent"
   val vehicleLookupDetailsCacheKey = "vehicleDetails"
   val vehicleLookupFormModelCacheKey = "vehicleLookupFormModel"
+  val backId = "back"
+  val submitId = "submit"
 }
