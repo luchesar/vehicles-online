@@ -17,7 +17,7 @@ object DayMonthYear {
 
   def validDate(minYear: Int = minYear, maxYear: Int = maxYear): Constraint[models.DayMonthYear] = {
     def dateValidation(dmy: models.DayMonthYear): ValidationResult = Try(new DateTime(dmy.year, dmy.month, dmy.day, 0, 0)) match {
-      case Success(dt: DateTime) if dt.getYear > minYear || dt.getYear < maxYear => Valid
+      case Success(dt: DateTime) if dt.getYear > minYear && dt.getYear < maxYear => Valid
       case _ => Invalid(ValidationError("error.invalid"))
     }
 

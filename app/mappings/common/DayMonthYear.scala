@@ -12,9 +12,9 @@ object DayMonthYear {
   val minutesId = "minutes"
 
   val dayMonthYear: Mapping[models.DayMonthYear] = mapping(
-    dayId -> number(max = 100).verifying(required),
-    monthId -> number(max = 100).verifying(required),
-    yearId -> number(max = 99999).verifying(required),
-    hourId -> optional(number(max = 100, min = 0)),
-    minutesId -> optional(number(max = 100, min = 0)))(models.DayMonthYear.apply)(models.DayMonthYear.unapply)
+    dayId -> number(max = 31).verifying(required), // TODO magic numbers
+    monthId -> number(max = 12).verifying(required),
+    yearId -> number.verifying(required),
+    hourId -> optional(number(min = 0, max = 24)),
+    minutesId -> optional(number(min = 0, max = 60)))(models.DayMonthYear.apply)(models.DayMonthYear.unapply)
 }

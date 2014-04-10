@@ -137,6 +137,19 @@ class DisposeFormSpec extends UnitSpec {
       result.errors(0).key should equal(dateOfDisposalId)
       result.errors(0).message should equal("error.withinTwoYears")
     }
+
+    "reject if date is too far in the past" in {
+      val yearOfDispose = "1"
+      val dateServiceStubbed = dateServiceStub(yearToday = 1)
+
+      // Attempting to dispose with a date 2 years and 1 day into the past.
+      val result = formWithValidDefaults(yearOfDispose = yearOfDispose,
+        disposeController = dispose(dateServiceStubbed))
+
+      result.errors should have length 1
+      result.errors(0).key should equal(dateOfDisposalId)
+      result.errors(0).message should equal("error.invalid")
+    }
   }
 
   "consent" should {
