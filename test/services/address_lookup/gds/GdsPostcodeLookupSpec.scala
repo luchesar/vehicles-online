@@ -15,7 +15,7 @@ import org.scalatest.time.{Second, Span}
 import services.fakes.FakeWebServiceImpl.gdsAddress
 import services.fakes.FakeWebServiceImpl.traderUprnValid
 import services.fakes.FakeAddressLookupService._
-import play.api.http.Status.OK
+import play.api.http.Status.{OK, NOT_FOUND}
 
 class GdsPostcodeLookupSpec extends UnitSpec {
   /*
@@ -74,7 +74,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
     "return empty seq when micro-service response status is not 200 (OK)" in {
       val input: Seq[Address] = Seq(gdsAddress())
       val inputAsJson = Json.toJson(input)
-      val service = addressServiceMock(response(404, inputAsJson))
+      val service = addressServiceMock(response(NOT_FOUND, inputAsJson))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -182,7 +182,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
     "return None when micro-service response status is not 200 (OK)" in {
       val input: Seq[Address] = Seq(gdsAddress())
       val inputAsJson = Json.toJson(input)
-      val service = addressServiceMock(response(404, inputAsJson))
+      val service = addressServiceMock(response(NOT_FOUND, inputAsJson))
 
       val result = service.fetchAddressForUprn(traderUprnValid.toString)
 
@@ -207,10 +207,9 @@ class GdsPostcodeLookupSpec extends UnitSpec {
       val result = service.fetchAddressForUprn(traderUprnValid.toString)
 
       whenReady(result) {
-        case Some(addressViewModel) => {
+        case Some(addressViewModel) =>
           addressViewModel.uprn should equal(Some(traderUprnValid.toLong))
           addressViewModel.address === expected
-        }
         case _ => fail("Should have returned Some(AddressViewModel)")
       }
     }
@@ -224,10 +223,9 @@ class GdsPostcodeLookupSpec extends UnitSpec {
       val result = service.fetchAddressForUprn(traderUprnValid.toString)
 
       whenReady(result) {
-        case Some(addressViewModel) => {
+        case Some(addressViewModel) =>
           addressViewModel.uprn should equal(Some(traderUprnValid.toLong))
           addressViewModel.address === expected
-        }
         case _ => fail("Should have returned Some(AddressViewModel)")
       }
     }

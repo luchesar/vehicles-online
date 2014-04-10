@@ -4,17 +4,13 @@ import services.fakes.FakeWebServiceImpl
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.address_lookup._
-import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
 import services.address_lookup.ordnance_survey.domain._
 import play.api.libs.json.Json
 import java.net.URI
 import play.api.libs.json.JsValue
 import helpers.UnitSpec
-import play.api.libs.ws.Response
-import scala.Some
 import services.fakes.FakeResponse
-import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.Span
 import org.scalatest.time.Second
 import services.fakes.FakeWebServiceImpl.{osAddressbaseDPA, traderUprnValid}
@@ -88,7 +84,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
     }
 
     "return empty seq when response status is not 200 OK" in {
-      val service = addressServiceMock(response(404), Some(oSAddressbaseResultsValidDPA))
+      val service = addressServiceMock(response(NOT_FOUND), Some(oSAddressbaseResultsValidDPA))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -191,7 +187,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
     }
 
     "return None when response status is not 200 OK" in {
-      val service = addressServiceMock(response(404), Some(oSAddressbaseResultsValidDPA))
+      val service = addressServiceMock(response(NOT_FOUND), Some(oSAddressbaseResultsValidDPA))
 
       val result = service.fetchAddressForUprn(osAddressbaseDPA().UPRN)
 
