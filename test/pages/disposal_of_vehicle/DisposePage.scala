@@ -3,25 +3,27 @@ package pages.disposal_of_vehicle
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
 import services.fakes.FakeDateServiceImpl._
+import mappings.disposal_of_vehicle.Dispose._
+import mappings.common.DayMonthYear._
 
 object DisposePage extends Page with WebBrowserDSL {
   val address = "/disposal-of-vehicle/dispose"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   override val title: String = "Complete & confirm"
 
-  def mileage(implicit driver: WebDriver): TextField = textField(id("mileage"))
+  def mileage(implicit driver: WebDriver): TextField = textField(id(mileageId))
 
-  def dateOfDisposalDay(implicit driver: WebDriver): SingleSel = singleSel(id("dateOfDisposal_day"))
+  def dateOfDisposalDay(implicit driver: WebDriver): SingleSel = singleSel(id(s"${dateOfDisposalId}_$dayId"))
 
-  def dateOfDisposalMonth(implicit driver: WebDriver): SingleSel = singleSel(id("dateOfDisposal_month"))
+  def dateOfDisposalMonth(implicit driver: WebDriver): SingleSel = singleSel(id(s"${dateOfDisposalId}_$monthId"))
 
-  def dateOfDisposalYear(implicit driver: WebDriver): SingleSel = singleSel(id("dateOfDisposal_year"))
+  def dateOfDisposalYear(implicit driver: WebDriver): SingleSel = singleSel(id(s"${dateOfDisposalId}_$yearId"))
 
-  def emailAddress(implicit driver: WebDriver): TextField = textField(id("emailAddress"))
+  def emailAddress(implicit driver: WebDriver): TextField = textField(id(emailAddressId))
 
-  def consent(implicit driver: WebDriver): Checkbox = checkbox(id("consent"))
+  def consent(implicit driver: WebDriver): Checkbox = checkbox(id(consentId))
 
-  def lossOfRegistrationConsent(implicit driver: WebDriver): Checkbox = checkbox(id("lossOfRegistrationConsent"))
+  def lossOfRegistrationConsent(implicit driver: WebDriver): Checkbox = checkbox(id(lossOfRegistrationConsentId))
 
   def back(implicit driver: WebDriver): Element = find(id("backButton")).get
 
