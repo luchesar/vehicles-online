@@ -15,6 +15,8 @@ import ExecutionContext.Implicits.global
 import services.{DateService, DateServiceImpl}
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
+import mappings.common.DayMonthYear._
+import mappings.common.Mileage
 
 class DisposeFormSpec extends UnitSpec {
 
@@ -51,9 +53,9 @@ class DisposeFormSpec extends UnitSpec {
       disposeController.disposeForm.bind(
         Map(
           mileageId -> mileage,
-          s"$dateOfDisposalId.day" -> dayOfDispose,
-          s"$dateOfDisposalId.month" -> monthOfDispose,
-          s"$dateOfDisposalId.year" -> yearOfDispose,
+          s"$dateOfDisposalId.$dayId" -> dayOfDispose,
+          s"$dateOfDisposalId.$monthId" -> monthOfDispose,
+          s"$dateOfDisposalId.$yearId" -> yearOfDispose,
           consentId -> consent,
           lossOfRegistrationConsentId -> lossOfRegistrationConsent
         )
@@ -61,7 +63,7 @@ class DisposeFormSpec extends UnitSpec {
     }
 
     "reject if mileage is more than maximum" in {
-      formWithValidDefaults(mileage = "1000000").errors should have length 1
+      formWithValidDefaults(mileage = (Mileage.max + 1).toString).errors should have length 1
     }
 
     "reject if date day is not selected" in {
@@ -117,7 +119,7 @@ class DisposeFormSpec extends UnitSpec {
         disposeController = disposeController)
 
       result.errors should have length 1
-      result.errors(0).key should equal("dateOfDisposal")
+      result.errors(0).key should equal(dateOfDisposalId)
       result.errors(0).message should equal("error.notInFuture")
     }
 
@@ -136,7 +138,7 @@ class DisposeFormSpec extends UnitSpec {
         disposeController = disposeController)
 
       result.errors should have length 1
-      result.errors(0).key should equal("dateOfDisposal")
+      result.errors(0).key should equal(dateOfDisposalId)
       result.errors(0).message should equal("error.withinTwoYears")
     }
 

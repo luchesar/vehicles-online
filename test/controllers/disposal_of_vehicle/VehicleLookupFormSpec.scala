@@ -55,7 +55,7 @@ class VehicleLookupFormSpec extends UnitSpec {
     "reject if referenceNumber is blank" in {
       val errors = formWithValidDefaults(referenceNumber = "").errors
       errors should have length 3
-      val expectedKey = "referenceNumber" // TODO should come from the mapping.
+      val expectedKey = referenceNumberId
       errors(0).key should equal(expectedKey)
       errors(0).message should equal("error.minLength")
       errors(1).key should equal(expectedKey)
