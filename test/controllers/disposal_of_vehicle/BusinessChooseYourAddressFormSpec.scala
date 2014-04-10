@@ -6,24 +6,26 @@ import helpers.UnitSpec
 import services.fakes.FakeWebServiceImpl._
 
 class BusinessChooseYourAddressFormSpec extends UnitSpec {
-  "addressSelect" should {
-    def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
-      val response = if(uprnFound) responseValidForOrdnanceSurvey else responseValidForOrdnanceSurveyNotFound
-      val fakeWebService = new FakeWebServiceImpl(response, response)
-      val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
-      new BusinessChooseYourAddress(addressLookupService)
-    }
+  private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
+    val response = if(uprnFound) responseValidForOrdnanceSurvey else responseValidForOrdnanceSurveyNotFound
+    val fakeWebService = new FakeWebServiceImpl(response, response)
+    val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
+    new BusinessChooseYourAddress(addressLookupService)
+  }
 
-    def formWithValidDefaults(addressSelected: String = traderUprnValid.toString) = {
-      businessChooseYourAddressWithFakeWebService().form.bind(
-        Map(addressSelectId -> addressSelected)
-      )
-    }
+  private def formWithValidDefaults(addressSelected: String = traderUprnValid.toString) = {
+    businessChooseYourAddressWithFakeWebService().form.bind(
+      Map(addressSelectId -> addressSelected)
+    )
+  }
 
-    "accept if valid" in {
+  "form" should {
+    "accept when all fields contain valid responses" in {
       formWithValidDefaults().get.uprnSelected should equal(traderUprnValid)
     }
+  }
 
+  "addressSelect" should {
     "reject if empty" in {
       val errors = formWithValidDefaults(addressSelected = "").errors
       errors.length should equal(1)

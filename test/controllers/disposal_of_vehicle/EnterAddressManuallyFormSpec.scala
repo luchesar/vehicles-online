@@ -7,24 +7,23 @@ import mappings.common.AddressAndPostcode._
 import mappings.common.AddressLines._
 
 class EnterAddressManuallyFormSpec extends UnitSpec {
-
-  "EnterAddressManually Form" should {
-    def formWithValidDefaults(line1: String = line1Valid,
-                              line2: String = line2Valid,
-                              line3: String = line3Valid,
-                              line4: String = line4Valid,
-                              postcode: String = postcodeValid) = {
-      EnterAddressManually.form.bind(
-        Map(
-          s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1,
-          s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> line2,
-          s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> line3,
-          s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> line4,
-          s"$addressAndPostcodeId.$postcodeId" -> postcode
-        )
+  private def formWithValidDefaults(line1: String = line1Valid,
+                                    line2: String = line2Valid,
+                                    line3: String = line3Valid,
+                                    line4: String = line4Valid,
+                                    postcode: String = postcodeValid) = {
+    EnterAddressManually.form.bind(
+      Map(
+        s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1,
+        s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> line2,
+        s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> line3,
+        s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> line4,
+        s"$addressAndPostcodeId.$postcodeId" -> postcode
       )
-    }
+    )
+  }
 
+  "form" should {
     "accept if form is valid with all fields filled in" in {
       val model = formWithValidDefaults().get.addressAndPostcodeModel
       model.addressLinesModel.line1 should equal(line1Valid)
@@ -39,8 +38,9 @@ class EnterAddressManuallyFormSpec extends UnitSpec {
       model.addressLinesModel.line1 should equal(line1Valid)
       model.postcode should equal(postcodeValid)
     }
+  }
 
-
+  "address lines" should {
     "accept if form address lines contain hyphens" in {
       val model = formWithValidDefaults(
         line1 = "1-1",
@@ -82,22 +82,6 @@ class EnterAddressManuallyFormSpec extends UnitSpec {
       formWithValidDefaults(line2 = "", line3 = "", line4 = "a" * (lineMaxLength + 1)).errors should have length 1
     }
 
-    "reject if postcode is blank" in {
-      formWithValidDefaults(postcode = "").errors should have length 3
-    }
-
-    "reject if postcode is less than min length" in {
-      formWithValidDefaults(postcode = "SA99").errors should have length 2
-    }
-
-    "reject if postcode contains special characters" in {
-      formWithValidDefaults(postcode = "SA99 2L$").errors should have length 1
-    }
-
-    "reject if postcode is more than max length" in {
-      formWithValidDefaults(postcode = "SA99 1DDR").errors should have length 2
-    }
-
     "reject if total length of all address lines is more than maxLengthOfLinesConcatenated" in {
       formWithValidDefaults(line1 = "a" * lineMaxLength,
         line2 = "b" * lineMaxLength,
@@ -106,11 +90,32 @@ class EnterAddressManuallyFormSpec extends UnitSpec {
       ).errors should have length 1
     }
 
-    "reject if html chevrons are in any line" in {
+    "reject if any line contains html chevrons" in {
       formWithValidDefaults(line1 = "A<br>B").errors should have length 1
       formWithValidDefaults(line2 = "A<br>B").errors should have length 1
       formWithValidDefaults(line3 = "A<br>B").errors should have length 1
       formWithValidDefaults(line4 = "A<br>B").errors should have length 1
+    }
+  }
+
+  "postcode" should {
+    "reject if blank" in {
+      formWithValidDefaults(postcode = "").errors should have length 3
+    }
+
+    "reject if less than min length" in {
+      formWithValidDefaults(postcode = "SA99").errors should have length 2
+    }
+
+    "reject if contains special characters" in {
+      formWithValidDefaults(postcode = "SA99 2L$").errors should have length 1
+    }
+
+    "reject if more than max length" in {
+      formWithValidDefaults(postcode = "SA99 1DDR").errors should have length 2
+    }
+
+    "reject if contains html chevrons" in {
       formWithValidDefaults(postcode = "A<br>B").errors should have length 1
     }
   }

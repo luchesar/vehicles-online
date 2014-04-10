@@ -60,7 +60,7 @@ class DisposeFormSpec extends UnitSpec {
     )
   }
 
-  "Dispose Form" should {
+  "form" should {
     "accept when all fields contain valid responses" in {
       val model = formWithValidDefaults(
         mileage = mileageValid,
