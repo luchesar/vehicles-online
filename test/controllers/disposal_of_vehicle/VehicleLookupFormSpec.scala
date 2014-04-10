@@ -31,9 +31,17 @@ class VehicleLookupFormSpec extends UnitSpec {
       Map(
         referenceNumberId -> referenceNumber,
         registrationNumberId -> registrationNumber,
-        consentId -> consent
+        consentId -> consent // TODO the consent is not being saved on the model and there are no tests for it.
       )
     )
+  }
+
+  "form" should {
+    "accept when all fields contain valid responses" in {
+      val result = formWithValidDefaults().get
+      result.referenceNumber should equal(referenceNumberValid)
+      result.registrationNumber should equal(registrationNumberValid)
+    }
   }
 
   "referenceNumber" should {
