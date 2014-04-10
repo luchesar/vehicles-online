@@ -25,33 +25,43 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
       CacheSetup.vehicleLookupFormModel()
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.VehicleLookupFailure.submit(request)
-      redirectLocation(result) should equal (Some(VehicleLookupPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+      }
     }
 
     "redirect to setuptraderdetails when cache is empty" in new WithApplication {
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.VehicleLookupFailure.present(request)
-      redirectLocation(result) should equal (Some(SetupTradeDetailsPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
     }
 
     "redirect to setuptraderdetails on submit when cache is empty" in new WithApplication {
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.VehicleLookupFailure.submit(request)
-      redirectLocation(result) should equal (Some(SetupTradeDetailsPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
     }
 
     "redirect to setuptraderdetails on if only BusinessChooseYourAddress cache is populated" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.VehicleLookupFailure.present(request)
-      redirectLocation(result) should equal (Some(SetupTradeDetailsPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
     }
 
     "redirect to setuptraderdetails on if only VehicleLookupFormModelCache is populated" in new WithApplication {
       CacheSetup.vehicleLookupFormModel()
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.VehicleLookupFailure.present(request)
-      redirectLocation(result) should equal (Some(SetupTradeDetailsPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
     }
   }
 }
