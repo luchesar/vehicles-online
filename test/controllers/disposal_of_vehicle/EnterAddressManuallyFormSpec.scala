@@ -28,7 +28,6 @@ class EnterAddressManuallyFormSpec extends UnitSpec {
 
     "accept if form is valid with all fields filled in" in {
       val model = formWithValidDefaults().get.addressAndPostcodeModel
-
       model.addressLinesModel.line1 should equal(line1Valid)
       model.addressLinesModel.line2 should equal(Some(line2Valid))
       model.addressLinesModel.line3 should equal(Some(line3Valid))
@@ -38,7 +37,6 @@ class EnterAddressManuallyFormSpec extends UnitSpec {
 
     "accept if form is valid with only mandatory filled in" in {
       val model = formWithValidDefaults(line2 = "", line3 = "").get.addressAndPostcodeModel
-
       model.addressLinesModel.line1 should equal(line1Valid)
       model.postcode should equal(postcodeValid)
     }

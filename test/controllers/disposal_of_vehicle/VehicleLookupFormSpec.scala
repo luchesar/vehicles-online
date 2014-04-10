@@ -23,9 +23,7 @@ class VehicleLookupFormSpec extends UnitSpec {
         val responseAsJson = Json.toJson(vehicleDetailsResponseSuccess)
         new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
       })
-
       val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
-
       new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
     }
 

@@ -129,7 +129,6 @@ class DisposeUnitSpec extends UnitSpec {
       CacheSetup.vehicleDetailsModel()
       CacheSetup.vehicleLookupFormModel()
 
-      val request = buildCorrectlyPopulatedRequest
       val disposeResponseThrows = mock[DisposeResponse]
       when(disposeResponseThrows.success).thenThrow(new RuntimeException("expected by DisposeUnitSpec"))
       val mockWebServiceThrows = mock[DisposeService]
@@ -137,6 +136,7 @@ class DisposeUnitSpec extends UnitSpec {
         disposeResponseThrows
       })
       val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateServiceStubbed())
+      val request = buildCorrectlyPopulatedRequest
       val result = dispose.submit(request)
       status(result) should equal(BAD_REQUEST)
     }

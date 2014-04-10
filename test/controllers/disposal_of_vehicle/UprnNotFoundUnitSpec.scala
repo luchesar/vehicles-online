@@ -11,9 +11,7 @@ class UprnNotFoundUnitSpec extends UnitSpec {
 
     "present" in new WithApplication {
       val request = FakeRequest().withSession()
-
       val result = disposal_of_vehicle.UprnNotFound.present(request)
-
       status(result) should equal(OK)
     }
   }
