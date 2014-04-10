@@ -18,9 +18,9 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
 
   "form" should {
     "accept if form is valid with all fields filled in" in {
-      val result = formWithValidDefaults(traderBusinessName = traderBusinessNameValid, traderPostcode = postcodeValid).get
-      result.traderBusinessName should equal(traderBusinessNameValid)
-      result.traderPostcode should equal(postcodeValid)
+      val model = formWithValidDefaults(traderBusinessName = traderBusinessNameValid, traderPostcode = postcodeValid).get
+      model.traderBusinessName should equal(traderBusinessNameValid)
+      model.traderPostcode should equal(postcodeValid)
     }
   }
 

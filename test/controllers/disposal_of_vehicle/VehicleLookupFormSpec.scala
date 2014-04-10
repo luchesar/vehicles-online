@@ -30,10 +30,17 @@ class VehicleLookupFormSpec extends UnitSpec {
     vehicleLookup.vehicleLookupForm.bind(
       Map(
         referenceNumberId -> referenceNumber,
-        registrationNumberId -> registrationNumber,
-        consentId -> consent
+        registrationNumberId -> registrationNumber
       )
     )
+  }
+
+  "form" should {
+    "accept when all fields contain valid responses" in {
+      val model = formWithValidDefaults().get
+      model.referenceNumber should equal(referenceNumberValid)
+      model.registrationNumber should equal(registrationNumberValid)
+    }
   }
 
   "referenceNumber" should {

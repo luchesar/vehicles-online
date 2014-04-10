@@ -62,11 +62,7 @@ class DisposeFormSpec extends UnitSpec {
 
   "form" should {
     "accept when all fields contain valid responses" in {
-      val model = formWithValidDefaults(
-        mileage = mileageValid,
-        dayOfDispose = dateOfDisposalDayValid,
-        monthOfDispose = dateOfDisposalMonthValid,
-        yearOfDispose = dateOfDisposalYearValid).get
+      val model = formWithValidDefaults().get
 
       model.mileage.get should equal(mileageValid.toInt)
       model.dateOfDisposal should equal(DayMonthYear(
@@ -74,6 +70,8 @@ class DisposeFormSpec extends UnitSpec {
         dateOfDisposalMonthValid.toInt,
         dateOfDisposalYearValid.toInt)
       )
+      model.consent should equal(consentValid)
+      model.lossOfRegistrationConsent should equal(consentValid)
     }
 
     "accept when all mandatory fields contain valid responses" in {
