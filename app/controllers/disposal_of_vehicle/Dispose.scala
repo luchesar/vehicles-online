@@ -28,7 +28,6 @@ import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.DealerDetailsModel
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.DisposeViewModel
-import scala.annotation.tailrec
 import mappings.disposal_of_vehicle.Dispose.dateOfDisposalYearsIntoThePast
 import scala.language.postfixOps
 
@@ -36,7 +35,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
   val disposeForm = Form(
     mapping(
       mileageId -> mileage(),
-      dateOfDisposalId -> dayMonthYear.verifying(validDate,
+      dateOfDisposalId -> dayMonthYear.verifying(validDate(),
         after(earliest = dateService.today - dateOfDisposalYearsIntoThePast years),
         notInFuture(dateService)),
       consentId -> consent,
