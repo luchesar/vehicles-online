@@ -42,16 +42,20 @@ class EnterAddressManuallyFormSpec extends UnitSpec {
 
   "address lines" should {
     "accept if form address lines contain hyphens" in {
+      val line1Hypthens = "1-1"
+      val line2Hypthens = "address line - 2"
+      val line3Hypthens = "address line - 3"
+      val line4Hypthens = "address line - 4"
       val model = formWithValidDefaults(
-        line1 = "1-1",
-        line2 = "address line - 2",
-        line3 = "address line - 3",
-        line4 = "address line - 4").get.addressAndPostcodeModel
+        line1 = line1Hypthens,
+        line2 = line2Hypthens,
+        line3 = line3Hypthens,
+        line4 = line4Hypthens).get.addressAndPostcodeModel
 
-      model.addressLinesModel.line1 should equal("1-1")
-      model.addressLinesModel.line2 should equal(Some("address line - 2"))
-      model.addressLinesModel.line3 should equal(Some("address line - 3"))
-      model.addressLinesModel.line4 should equal(Some("address line - 4"))
+      model.addressLinesModel.line1 should equal(line1Hypthens)
+      model.addressLinesModel.line2 should equal(Some(line2Hypthens))
+      model.addressLinesModel.line3 should equal(Some(line3Hypthens))
+      model.addressLinesModel.line4 should equal(Some(line4Hypthens))
     }
 
     "reject if line1 is blank" in {

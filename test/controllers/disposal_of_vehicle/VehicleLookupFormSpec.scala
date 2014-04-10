@@ -37,9 +37,9 @@ class VehicleLookupFormSpec extends UnitSpec {
 
   "form" should {
     "accept when all fields contain valid responses" in {
-      val result = formWithValidDefaults().get
-      result.referenceNumber should equal(referenceNumberValid)
-      result.registrationNumber should equal(registrationNumberValid)
+      val model = formWithValidDefaults().get
+      model.referenceNumber should equal(referenceNumberValid)
+      model.registrationNumber should equal(registrationNumberValid)
     }
   }
 
