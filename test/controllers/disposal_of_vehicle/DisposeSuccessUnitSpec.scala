@@ -22,7 +22,9 @@ class DisposeSuccessUnitSpec extends UnitSpec {
       cacheSetup
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
-      status(result) should equal(OK)
+      whenReady(result) {
+        r => r.header.status should equal(OK)
+      }
     }
 
     "redirect to next page after the new disposal button is clicked" in new WithApplication {

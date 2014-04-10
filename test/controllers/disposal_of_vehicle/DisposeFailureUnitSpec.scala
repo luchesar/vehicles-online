@@ -20,7 +20,9 @@ class DisposeFailureUnitSpec extends UnitSpec {
       cacheSetup
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.DisposeFailure.present(request)
-      status(result) should equal(OK)
+      whenReady(result) {
+        r => r.header.status should equal(OK)
+      }
     }
 
     "redirect to vehicle lookup page when button clicked" in new WithApplication {

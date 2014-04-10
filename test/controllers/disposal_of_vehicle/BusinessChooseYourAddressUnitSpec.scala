@@ -29,7 +29,9 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
       val result = businessChooseYourAddressWithUprnFound.present(request)
-      status(result) should equal(OK)
+      whenReady(result) {
+        r => r.header.status should equal(OK)
+      }
     }
 
     "redirect to VehicleLookup page after a valid submit" in new WithApplication {
@@ -45,7 +47,9 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       CacheSetup.setupTradeDetails()
       val request = buildCorrectlyPopulatedRequest(traderUprn = "")
       val result = businessChooseYourAddressWithUprnFound.submit(request)
-      status(result) should equal(BAD_REQUEST)
+      whenReady(result) {
+        r => r.header.status should equal(BAD_REQUEST)
+      }
     }
 
     "redirect to setupTradeDetails page when present with no dealer name cached" in new WithApplication {

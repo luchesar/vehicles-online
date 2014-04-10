@@ -55,7 +55,9 @@ class DisposeUnitSpec extends UnitSpec {
       CacheSetup.vehicleDetailsModel()
       val request = FakeRequest().withSession()
       val result = disposeSuccess.present(request)
-      status(result) should equal(OK)
+      whenReady(result) {
+        r => r.header.status should equal(OK)
+      }
     }
 
     "redirect to dispose success when a success message is returned by the fake microservice" in new WithApplication {
@@ -122,7 +124,9 @@ class DisposeUnitSpec extends UnitSpec {
       CacheSetup.vehicleDetailsModel()
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
       val result = disposeSuccess.submit(request)
-      status(result) should equal(BAD_REQUEST)
+      whenReady(result) {
+        r => r.header.status should equal(BAD_REQUEST)
+      }
     }
 
     "redirect to setupTradeDetails page when form submitted with errors and previous pages have not been visited" in new WithApplication {
@@ -147,7 +151,9 @@ class DisposeUnitSpec extends UnitSpec {
       val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateServiceStubbed())
       val request = buildCorrectlyPopulatedRequest
       val result = dispose.submit(request)
-      status(result) should equal(BAD_REQUEST)
+      whenReady(result) {
+        r => r.header.status should equal(BAD_REQUEST)
+      }
     }
 
   }
