@@ -39,7 +39,6 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       dateOfDisposalId -> dayMonthYear.verifying(validDate,
         after(earliest = dateService.today - dateOfDisposalYearsIntoThePast years),
         notInFuture(dateService)),
-      emailAddressId -> optional(text),
       consentId -> consent,
       lossOfRegistrationConsentId -> consent
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)

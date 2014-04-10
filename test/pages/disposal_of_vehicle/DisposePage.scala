@@ -20,8 +20,6 @@ object DisposePage extends Page with WebBrowserDSL {
 
   def dateOfDisposalYear(implicit driver: WebDriver): SingleSel = singleSel(id(s"${dateOfDisposalId}_$yearId"))
 
-  def emailAddress(implicit driver: WebDriver): TextField = textField(id(emailAddressId))
-
   def consent(implicit driver: WebDriver): Checkbox = checkbox(id(consentId))
 
   def lossOfRegistrationConsent(implicit driver: WebDriver): Checkbox = checkbox(id(lossOfRegistrationConsentId))
@@ -36,7 +34,6 @@ object DisposePage extends Page with WebBrowserDSL {
     dateOfDisposalDay select dateOfDisposalDayValid
     dateOfDisposalMonth select dateOfDisposalMonthValid
     dateOfDisposalYear select dateOfDisposalYearValid
-    emailAddress enter  emailValid
     click on consent
     click on lossOfRegistrationConsent
     click on dispose

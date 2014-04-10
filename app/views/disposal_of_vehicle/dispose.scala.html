@@ -57,23 +57,13 @@
             </div>
             */
             }
-
         </div>
 
         <div class="second-col disposal-form">
-        
             <h2>@Messages("disposal_dispose.disposevehicleto")</h2>
             
             <p>@data.dealerName<br />
             @for(addr <- data.dealerAddress.address) {@addr<br/>}</p>
-
-
-            <p>@Messages("disposal_dispose.exkeeperlettertext")</p>
-
-            @valtechInputTextWithButton(disposeForm(emailAddressId),
-            args = Map('_label -> Messages("disposal_dispose.emaillabel"),
-            '_showConstraints -> false))
-            
 
             <div class="form-declaration">
                 @valtechDeclareCheck(disposeForm(consentId), args = Map('id -> "consent", '_showConstraints -> false, '_label -> Messages("disposal_dispose.consent")))
@@ -90,7 +80,6 @@
             <div class="form-steps">
             	<button id="submit" type="submit" name="action" class="button">@Messages("disposal_dispose.submitbutton")</button>
                 <a id="backButton" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present" class="button-secondary">@Messages("disposal_dispose.backbutton")</a>
-                
 
                 <div class="two-col-spacer">
                     @{ /*
@@ -98,10 +87,7 @@
                     */ }
                 </div>
             </div>
-
 		</div>
-
     </div>
-    
     }
 }

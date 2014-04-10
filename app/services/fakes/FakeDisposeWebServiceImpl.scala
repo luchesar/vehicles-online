@@ -40,5 +40,4 @@ object FakeDisposeWebServiceImpl {
 
   val consentValid = "true"
   val mileageValid = "20000"
-  val emailValid = "viv.richards@emailprovider.co.uk"
 }

@@ -49,7 +49,6 @@ object CacheSetup {
     val key = mappings.disposal_of_vehicle.Dispose.disposeFormModelCacheKey
     val value = DisposeFormModel(mileage = None,
       dateOfDisposal = DayMonthYear.today,
-      emailAddress = None,
       consent = FakeDisposeWebServiceImpl.consentValid,
       lossOfRegistrationConsent = FakeDisposeWebServiceImpl.consentValid)
     play.api.cache.Cache.set(key, value)
