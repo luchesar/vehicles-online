@@ -19,14 +19,18 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.EnterAddressManually.present(request)
-      status(result) should equal(OK)
+      whenReady(result) {
+        r => r.header.status should equal(OK)
+      }
     }
 
     "return bad request when no data is entered" in new WithApplication {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
       val result =  disposal_of_vehicle.EnterAddressManually.submit(request)
-      status(result) should equal(BAD_REQUEST)
+      whenReady(result) {
+        r => r.header.status should equal(BAD_REQUEST)
+      }
     }
 
     "return bad request when a valid address is entered without a postcode" in new WithApplication {
@@ -37,7 +41,9 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> line3Valid,
         s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> line4Valid)
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-      status(result) should equal(BAD_REQUEST)
+      whenReady(result) {
+        r => r.header.status should equal(BAD_REQUEST)
+      }
     }
 
     "return bad request a valid postcode is entered without an address" in new WithApplication {
@@ -45,7 +51,9 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
           s"$addressAndPostcodeId.$postcodeId" -> postcodeValid)
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-      status(result) should equal(BAD_REQUEST)
+      whenReady(result) {
+        r => r.header.status should equal(BAD_REQUEST)
+      }
     }
 
     "redirect to SetupTraderDetails page when present with no dealer name cached" in new WithApplication {
@@ -141,7 +149,9 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> "...",
         s"$addressAndPostcodeId.$postcodeId" -> postcodeValid)
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
-      status(result) should equal(BAD_REQUEST)
+      whenReady(result) {
+        r => r.header.status should equal(BAD_REQUEST)
+      }
     }
 
     "redirect to SetupTraderDetails page when valid submit with no dealer name cached" in new WithApplication {

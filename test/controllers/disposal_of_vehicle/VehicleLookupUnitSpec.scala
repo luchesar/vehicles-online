@@ -46,7 +46,9 @@ class VehicleLookupUnitSpec extends UnitSpec {
       CacheSetup.businessChooseYourAddress()
       val request = FakeRequest().withSession()
       val result = vehicleLookupSuccess.present(request)
-      status(result) should equal(OK)
+      whenReady(result) {
+        r => r.header.status should equal(OK)
+      }
     }
 
     "redirect to Dispose after a valid submit and true message returned from the fake microservice" in new WithApplication {
@@ -102,7 +104,9 @@ class VehicleLookupUnitSpec extends UnitSpec {
       CacheSetup.businessChooseYourAddress()
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "", registrationNumber = "", consent = "")
       val result = vehicleLookupSuccess.submit(request)
-      status(result) should equal(BAD_REQUEST)
+      whenReady(result) {
+        r => r.header.status should equal(BAD_REQUEST)
+      }
     }
 
     "replace max length error message for document reference number with standard error message (US43)" in new WithApplication {

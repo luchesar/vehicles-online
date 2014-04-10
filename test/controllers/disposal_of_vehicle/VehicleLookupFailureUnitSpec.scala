@@ -17,7 +17,9 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
       CacheSetup.vehicleLookupFormModel()
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.VehicleLookupFailure.present(request)
-      status(result) should equal(OK)
+      whenReady(result) {
+        r => r.header.status should equal(OK)
+      }
     }
 
     "redirect to vehiclelookup on submit" in new WithApplication {
