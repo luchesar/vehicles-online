@@ -6,7 +6,7 @@ import helpers.UnitSpec
 import services.fakes.FakeWebServiceImpl._
 
 class BusinessChooseYourAddressFormSpec extends UnitSpec {
-  "BusinesssChooseYourAddress Form" should {
+  "addressSelect" should {
     def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
       val response = if(uprnFound) responseValidForOrdnanceSurvey else responseValidForOrdnanceSurveyNotFound
       val fakeWebService = new FakeWebServiceImpl(response, response)
@@ -20,11 +20,11 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
       )
     }
 
-    "accept if form is valid" in {
+    "accept if valid" in {
       formWithValidDefaults().get.uprnSelected should equal(traderUprnValid)
     }
 
-    "reject if addressSelect is empty" in {
+    "reject if empty" in {
       val errors = formWithValidDefaults(addressSelected = "").errors
       errors.length should equal(1)
       errors(0).key should equal(addressSelectId)
