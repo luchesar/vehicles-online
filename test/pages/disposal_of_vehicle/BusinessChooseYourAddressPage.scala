@@ -10,7 +10,7 @@ object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   override val title = "Select your trade address"
 
-  def chooseAddress(implicit driver: WebDriver): SingleSel = singleSel(id("disposal_businessChooseYourAddress_addressSelect"))
+  def chooseAddress(implicit driver: WebDriver): SingleSel = singleSel(id(addressSelectId))
 
   def back(implicit driver: WebDriver): Element = find(id("backButton")).get
 

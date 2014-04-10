@@ -4,7 +4,6 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import mappings.disposal_of_vehicle.Dispose._
-import helpers.disposal_of_vehicle.Helper._
 import models.domain.disposal_of_vehicle.{DisposeRequest, DisposeResponse}
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
