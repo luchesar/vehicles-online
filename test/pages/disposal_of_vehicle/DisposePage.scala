@@ -19,8 +19,6 @@ object DisposePage extends Page with WebBrowserDSL {
 
   def dateOfDisposalYear(implicit driver: WebDriver): SingleSel = singleSel(id(s"${dateOfDisposalId}_$yearId"))
 
-  def emailAddress(implicit driver: WebDriver): TextField = textField(id(emailAddressId))
-
   def consent(implicit driver: WebDriver): Checkbox = checkbox(id(consentId))
 
   def lossOfRegistrationConsent(implicit driver: WebDriver): Checkbox = checkbox(id(lossOfRegistrationConsentId))
@@ -35,7 +33,6 @@ object DisposePage extends Page with WebBrowserDSL {
     DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
     DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
     DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
-    DisposePage.emailAddress enter  "test@testemail.com" // TODO don't use magic number, use a constant!
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
     click on DisposePage.dispose
