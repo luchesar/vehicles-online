@@ -30,8 +30,7 @@ class VehicleLookupFormSpec extends UnitSpec {
     vehicleLookup.vehicleLookupForm.bind(
       Map(
         referenceNumberId -> referenceNumber,
-        registrationNumberId -> registrationNumber,
-        consentId -> consent // TODO the consent is not being saved on the model and there are no tests for it.
+        registrationNumberId -> registrationNumber
       )
     )
   }
