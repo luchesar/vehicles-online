@@ -64,6 +64,9 @@ class DisposeUnitSpec extends UnitSpec {
       CacheSetup.vehicleLookupFormModel()
       val result = disposeSuccess.submit(buildCorrectlyPopulatedRequest)
       redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(DisposeSuccessPage.address))
+      }
     }
 
     "redirect to dispose error when a fail message is returned by the fake microservice" in new WithApplication {
@@ -83,14 +86,16 @@ class DisposeUnitSpec extends UnitSpec {
       CacheSetup.disposeModel()
 
       val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
-      redirectLocation(result) should equal(Some(DisposeFailurePage.address))
 
       // Verify that the transaction id is now stored in the cache
       whenReady(result) {
-        r => controllers.disposal_of_vehicle.Helpers.fetchDisposeTransactionIdFromCache match {
-          case Some(txId) =>
-            txId should equal(FakeDisposeWebServiceImpl.transactionIdValid)
-          case _ => fail("Should have found transaction id in the cache")
+        r => {
+          r.header.headers.get(LOCATION) should equal(Some(DisposeFailurePage.address))
+          controllers.disposal_of_vehicle.Helpers.fetchDisposeTransactionIdFromCache match {
+            case Some(txId) =>
+              txId should equal(FakeDisposeWebServiceImpl.transactionIdValid)
+            case _ => fail("Should have found transaction id in the cache")
+          }
         }
       }
     }
@@ -99,13 +104,17 @@ class DisposeUnitSpec extends UnitSpec {
       CacheSetup.setupTradeDetails()
       val request = buildCorrectlyPopulatedRequest
       val result = disposeSuccess.submit(request)
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
     }
 
     "redirect to setupTradeDetails page when present and previous pages have not been visited" in new WithApplication {
       val request = FakeRequest().withSession()
       val result = disposeSuccess.present(request)
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
     }
 
     "return a bad request when no details are entered" in new WithApplication {
@@ -119,7 +128,9 @@ class DisposeUnitSpec extends UnitSpec {
     "redirect to setupTradeDetails page when form submitted with errors and previous pages have not been visited" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
       val result = disposeSuccess.submit(request)
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
     }
 
     "return a bad request when calling webservice throws exception" in new WithApplication {
