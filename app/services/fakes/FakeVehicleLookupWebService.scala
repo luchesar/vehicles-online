@@ -29,6 +29,7 @@ object FakeVehicleLookupWebService {
   val vehicleModelValid = "Alfasud ti"
   val keeperNameValid = "Keeper Name"
   val keeperUprnValid = 10123456789L
+  val consentValid = "true"
 
   private val vehicleDetails = VehicleDetailsDto(registrationNumber = registrationNumberValid,
     vehicleMake = vehicleMakeValid,

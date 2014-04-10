@@ -10,10 +10,6 @@ object Helper {
 
   val vehicleLookupKey = referenceNumberValid + "." + registrationNumberValid
 
-  val consentValid = "true"
-  val mileageValid = "20000"
-  val emailValid = "viv.richards@emailprovider.co.uk"
-
   def countSubstring(str1:String, str2:String):Int={
     @tailrec def count(pos:Int, c:Int):Int={
       val idx=str1 indexOf(str2, pos)

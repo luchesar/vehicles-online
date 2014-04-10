@@ -37,4 +37,8 @@ object FakeDisposeWebServiceImpl {
       transactionId = transactionIdValid, // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
       registrationNumber = "",
       auditId = "")
+
+  val consentValid = "true"
+  val mileageValid = "20000"
+  val emailValid = "viv.richards@emailprovider.co.uk"
 }

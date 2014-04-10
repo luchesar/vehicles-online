@@ -5,6 +5,7 @@ import helpers.webbrowser._
 import services.fakes.FakeDateServiceImpl._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.common.DayMonthYear._
+import services.fakes.FakeDisposeWebServiceImpl._
 
 object DisposePage extends Page with WebBrowserDSL {
   val address = "/disposal-of-vehicle/dispose"
@@ -31,11 +32,11 @@ object DisposePage extends Page with WebBrowserDSL {
 
   def happyPath(implicit driver: WebDriver) = {
     go to DisposePage.url
-    DisposePage.mileage enter "50000" // TODO don't use magic number, use a constant!
+    DisposePage.mileage enter mileageValid
     DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
     DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
     DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
-    DisposePage.emailAddress enter  "test@testemail.com" // TODO don't use magic number, use a constant!
+    DisposePage.emailAddress enter  emailValid
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
     click on DisposePage.dispose
