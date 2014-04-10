@@ -137,7 +137,7 @@ class DisposeUnitSpec extends UnitSpec {
       }
     }
 
-    "return a bad request when calling webservice throws exception" in new WithApplication {
+    "redirect to micro service error page when calling webservice throws exception" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
       CacheSetup.vehicleLookupFormModel()
@@ -152,7 +152,7 @@ class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest
       val result = dispose.submit(request)
       whenReady(result) {
-        r => r.header.status should equal(BAD_REQUEST)
+        r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
 
