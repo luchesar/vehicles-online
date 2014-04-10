@@ -11,6 +11,7 @@ object SetupTradeDetails {
 
   val dealerPostcodeId = "dealerPostcode"
   val SetupTradeDetailsCacheKey = "setupTradeDetails"
+  val submitId = "submit"
 
   def traderBusinessName (minLength: Int = dealerNameMinLength, maxLength: Int = dealerNameMaxLength): Mapping[String] = {
     nonEmptyText(minLength, maxLength) verifying TraderBusinessName.validTraderBusinessName

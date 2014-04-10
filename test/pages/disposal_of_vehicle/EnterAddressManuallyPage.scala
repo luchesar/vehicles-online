@@ -6,6 +6,7 @@ import services.fakes.FakeAddressLookupService._
 import mappings.common.AddressLines._
 import mappings.common.Postcode._
 import mappings.common.AddressAndPostcode._
+import mappings.disposal_of_vehicle.EnterAddressManually._
 
 object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 
@@ -23,9 +24,9 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 
   def postcode(implicit driver: WebDriver): TextField = textField(id(s"${addressAndPostcodeId}_$postcodeId"))
 
-  def back(implicit driver: WebDriver): Element = find(id("next")).get
+  def next(implicit driver: WebDriver): Element = find(id(nextId)).get
 
-  def next(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
+  def back(implicit driver: WebDriver): Element = find(id(backId)).get
 
   def happyPath(line1: String = line1Valid, line2: String = line2Valid, line3: String = line3Valid, line4:String = line4Valid, postcode:String = postcodeValid)(implicit driver: WebDriver) ={
     go to EnterAddressManuallyPage

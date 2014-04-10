@@ -24,9 +24,9 @@ object DisposePage extends Page with WebBrowserDSL {
 
   def lossOfRegistrationConsent(implicit driver: WebDriver): Checkbox = checkbox(id(lossOfRegistrationConsentId))
 
-  def back(implicit driver: WebDriver): Element = find(id("backButton")).get
+  def back(implicit driver: WebDriver): Element = find(id(backId)).get
 
-  def dispose(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
+  def dispose(implicit driver: WebDriver): Element = find(id(submitId)).get
 
   def happyPath(implicit driver: WebDriver) = {
     go to DisposePage

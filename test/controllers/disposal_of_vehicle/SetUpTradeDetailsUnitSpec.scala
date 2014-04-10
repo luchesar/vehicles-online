@@ -20,19 +20,25 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
     "present" in new WithApplication {
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.SetUpTradeDetails.present(request)
-      status(result) should equal(OK)
+      whenReady(result) {
+        r => r.header.status should equal(OK)
+      }
     }
 
     "redirect to next page when the form is completed successfully" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
-      redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
+      }
     }
 
     "return a bad request if no details are entered" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "", dealerPostcode = "")
       val result = disposal_of_vehicle.SetUpTradeDetails.submit(request)
-      status(result) should equal(BAD_REQUEST)
+      whenReady(result) {
+        r => r.header.status should equal(BAD_REQUEST)
+      }
     }
 
     "replace max length error message for traderBusinessName with standard error message (US158)" in new WithApplication {

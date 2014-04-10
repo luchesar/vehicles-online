@@ -29,39 +29,51 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()
       val result = businessChooseYourAddressWithUprnFound.present(request)
-      status(result) should equal(OK)
+      whenReady(result) {
+        r => r.header.status should equal(OK)
+      }
     }
 
     "redirect to VehicleLookup page after a valid submit" in new WithApplication {
       CacheSetup.setupTradeDetails()
       val request = buildCorrectlyPopulatedRequest()
       val result = businessChooseYourAddressWithUprnFound.submit(request)
-      redirectLocation(result) should equal(Some(VehicleLookupPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+      }
     }
 
     "return a bad request if not address selected" in new WithApplication {
       CacheSetup.setupTradeDetails()
       val request = buildCorrectlyPopulatedRequest(traderUprn = "")
       val result = businessChooseYourAddressWithUprnFound.submit(request)
-      status(result) should equal(BAD_REQUEST)
+      whenReady(result) {
+        r => r.header.status should equal(BAD_REQUEST)
+      }
     }
 
     "redirect to setupTradeDetails page when present with no dealer name cached" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = businessChooseYourAddressWithUprnFound.present(request)
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
     }
 
     "redirect to setupTradeDetails page when valid submit with no dealer name cached" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = businessChooseYourAddressWithUprnFound.submit(request)
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
     }
 
     "redirect to setupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(traderUprn = "")
       val result = businessChooseYourAddressWithUprnFound.submit(request)
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
     }
 
     "redirect to UprnNotFound page when submit with but uprn not found by the webservice" in new WithApplication {
@@ -69,7 +81,9 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val businessChooseYourAddressWithUprnNotFound = businessChooseYourAddressWithFakeWebService(uprnFound = false)
       val request = buildCorrectlyPopulatedRequest()
       val result = businessChooseYourAddressWithUprnNotFound.submit(request)
-      redirectLocation(result) should equal(Some(UprnNotFoundPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(UprnNotFoundPage.address))
+      }
     }
   }
 }

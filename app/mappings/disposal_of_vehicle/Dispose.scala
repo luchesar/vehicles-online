@@ -10,4 +10,6 @@ object Dispose {
   val consentId = "consent"
   val lossOfRegistrationConsentId = "lossOfRegistrationConsent"
   val dateOfDisposalYearsIntoThePast = 2
+  val backId = "back"
+  val submitId = "submit"
 }
