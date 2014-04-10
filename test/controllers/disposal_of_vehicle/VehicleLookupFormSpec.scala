@@ -24,7 +24,7 @@ class VehicleLookupFormSpec extends UnitSpec {
     new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
   }
 
-  def formWithValidDefaults(referenceNumber: String = referenceNumberValid,
+  private def formWithValidDefaults(referenceNumber: String = referenceNumberValid,
                             registrationNumber: String = registrationNumberValid,
                             consent: String = consentValid) = {
     vehicleLookup.vehicleLookupForm.bind(

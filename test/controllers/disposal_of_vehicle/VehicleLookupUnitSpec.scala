@@ -20,27 +20,27 @@ import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeAddressLookupService._
 
 class VehicleLookupUnitSpec extends UnitSpec {
+  private val vehicleLookupSuccess = {
+    val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
+    when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
+      val responseAsJson = Json.toJson(vehicleDetailsResponseSuccess)
+      new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+    })
+
+    val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
+    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
+  }
+
+  private def buildCorrectlyPopulatedRequest(referenceNumber: String = referenceNumberValid,
+                                     registrationNumber: String = registrationNumberValid,
+                                     consent: String = consentValid) = {
+    FakeRequest().withSession().withFormUrlEncodedBody(
+      referenceNumberId -> referenceNumber,
+      registrationNumberId -> registrationNumber,
+      consentId -> consent)
+  }
+
   "VehicleLookup - Controller" should {
-    val vehicleLookupSuccess = {
-      val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
-      when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
-        val responseAsJson = Json.toJson(vehicleDetailsResponseSuccess)
-        new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
-      })
-
-      val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
-      new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
-    }
-
-    def buildCorrectlyPopulatedRequest(referenceNumber: String = referenceNumberValid,
-                                       registrationNumber: String = registrationNumberValid,
-                                       consent: String = consentValid) = {
-      FakeRequest().withSession().withFormUrlEncodedBody(
-        referenceNumberId -> referenceNumber,
-        registrationNumberId -> registrationNumber,
-        consentId -> consent)
-    }
-
     "present" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
       val request = FakeRequest().withSession()
