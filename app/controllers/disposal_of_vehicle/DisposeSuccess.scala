@@ -25,8 +25,6 @@ object DisposeSuccess extends Controller {
   private def fetchData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel, transactionId: Option[String], registrationNumber: String): DisposeViewModel = {
     DisposeViewModel(vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
-      keeperName = vehicleDetails.keeperName,
-      keeperAddress = vehicleDetails.keeperAddress,
       dealerName = dealerDetails.dealerName,
       dealerAddress = dealerDetails.dealerAddress,
       transactionId = transactionId,

@@ -97,8 +97,6 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       registrationNumber = vehicleDetails.registrationNumber,
       vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
-      keeperName = vehicleDetails.keeperName,
-      keeperAddress = vehicleDetails.keeperAddress,
       dealerName = dealerDetails.dealerName,
       dealerAddress = dealerDetails.dealerAddress)
     Logger.debug(s"Dispose page read the following data from cache: $model")
