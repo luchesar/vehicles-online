@@ -10,21 +10,21 @@ import helpers.UnitSpec
 import services.fakes.FakeWebServiceImpl._
 
 class BusinessChooseYourAddressUnitSpec extends UnitSpec {
+  private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
+    val response = if(uprnFound) responseValidForOrdnanceSurvey else responseValidForOrdnanceSurveyNotFound
+    val fakeWebService = new FakeWebServiceImpl(response, response)
+    val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
+    new BusinessChooseYourAddress(addressLookupService)
+  }
+
+  private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {
+    FakeRequest().withSession().withFormUrlEncodedBody(
+      addressSelectId -> traderUprn)
+  }
+
+  private val businessChooseYourAddressWithUprnFound = businessChooseYourAddressWithFakeWebService()
+
   "BusinessChooseYourAddress - Controller" should {
-    def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
-      val response = if(uprnFound) responseValidForOrdnanceSurvey else responseValidForOrdnanceSurveyNotFound
-      val fakeWebService = new FakeWebServiceImpl(response, response)
-      val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
-      new BusinessChooseYourAddress(addressLookupService)
-    }
-
-    def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {
-      FakeRequest().withSession().withFormUrlEncodedBody(
-        addressSelectId -> traderUprn)
-    }
-
-    val businessChooseYourAddressWithUprnFound = businessChooseYourAddressWithFakeWebService()
-
     "present" in new WithApplication {
       CacheSetup.setupTradeDetails()
       val request = FakeRequest().withSession()

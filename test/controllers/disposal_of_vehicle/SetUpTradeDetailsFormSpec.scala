@@ -6,17 +6,25 @@ import helpers.UnitSpec
 import services.fakes.FakeAddressLookupService._
 
 class SetUpTradeDetailsFormSpec extends UnitSpec {
-  "SetUpTradeDetails form" should {
-    def formWithValidDefaults(traderBusinessName: String = traderBusinessNameValid,
-                              traderPostcode: String = postcodeValid) = {
-     SetUpTradeDetails.traderLookupForm.bind(
-        Map(
-          dealerNameId -> traderBusinessName,
-          dealerPostcodeId -> traderPostcode
-        )
+  private def formWithValidDefaults(traderBusinessName: String = traderBusinessNameValid,
+                            traderPostcode: String = postcodeValid) = {
+    SetUpTradeDetails.traderLookupForm.bind(
+      Map(
+        dealerNameId -> traderBusinessName,
+        dealerPostcodeId -> traderPostcode
       )
-    }
+    )
+  }
 
+  "form" should {
+    "accept if form is valid with all fields filled in" in {
+      val result = formWithValidDefaults(traderBusinessName = traderBusinessNameValid, traderPostcode = postcodeValid).get
+      result.traderBusinessName should equal(traderBusinessNameValid)
+      result.traderPostcode should equal(postcodeValid)
+    }
+  }
+
+  "dealerName" should {
     "reject if trader business name is blank" in {
       // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderBusinessName = "").errors
@@ -41,7 +49,9 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
       formWithValidDefaults(traderBusinessName = traderBusinessNameValid, traderPostcode = postcodeValid).
         get.traderBusinessName should equal(traderBusinessNameValid)
     }
+  }
 
+  "postcode" should {
     "reject if trader postcode is empty" in {
       // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderPostcode = "").errors
@@ -68,11 +78,6 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
 
     "reject if trader postcode contains an incorrect format" in {
       formWithValidDefaults(traderPostcode = "SAR99").errors should have length 1
-    }
-
-    "accept if trader postcode is valid" in {
-      formWithValidDefaults(traderBusinessName = traderBusinessNameValid, traderPostcode = postcodeValid).
-        get.traderPostcode should equal(postcodeValid)
     }
   }
 }

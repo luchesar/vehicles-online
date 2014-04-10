@@ -20,37 +20,36 @@ import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 
 class DisposeUnitSpec extends UnitSpec {
+  private def dateServiceStubbed(day: Int = dateOfDisposalDayValid.toInt, month: Int = dateOfDisposalMonthValid.toInt, year: Int = dateOfDisposalYearValid.toInt) = {
+    val dateService = mock[DateServiceImpl]
+    when(dateService.today).thenReturn(new models.DayMonthYear(day = day,
+      month = month,
+      year = year))
+    dateService
+  }
+
+  private def buildCorrectlyPopulatedRequest = {
+    import mappings.common.DayMonthYear._
+    FakeRequest().withSession().withFormUrlEncodedBody(
+      mileageId -> mileageValid,
+      s"$dateOfDisposalId.$dayId" -> dateOfDisposalDayValid,
+      s"$dateOfDisposalId.$monthId" -> dateOfDisposalMonthValid,
+      s"$dateOfDisposalId.$yearId" -> dateOfDisposalYearValid,
+      consentId -> consentValid,
+      lossOfRegistrationConsentId -> consentValid)
+  }
+
+  private val disposeSuccess = {
+    val ws = mock[DisposeWebService]
+    when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
+      val responseAsJson = Json.toJson(disposeResponseSuccess)
+      new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+    })
+    val disposeServiceImpl = new DisposeServiceImpl(ws)
+    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
+  }
 
   "Dispose - Controller" should {
-    def dateServiceStubbed(day: Int = dateOfDisposalDayValid.toInt, month: Int = dateOfDisposalMonthValid.toInt, year: Int = dateOfDisposalYearValid.toInt) = {
-      val dateService = mock[DateServiceImpl]
-      when(dateService.today).thenReturn(new models.DayMonthYear(day = day,
-        month = month,
-        year = year))
-      dateService
-    }
-
-    def buildCorrectlyPopulatedRequest = {
-      import mappings.common.DayMonthYear._
-      FakeRequest().withSession().withFormUrlEncodedBody(
-        mileageId -> mileageValid,
-        s"$dateOfDisposalId.$dayId" -> dateOfDisposalDayValid,
-        s"$dateOfDisposalId.$monthId" -> dateOfDisposalMonthValid,
-        s"$dateOfDisposalId.$yearId" -> dateOfDisposalYearValid,
-        consentId -> consentValid,
-        lossOfRegistrationConsentId -> consentValid)
-    }
-
-    val disposeSuccess = {
-      val ws = mock[DisposeWebService]
-      when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
-        val responseAsJson = Json.toJson(disposeResponseSuccess)
-        new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
-      })
-      val disposeServiceImpl = new DisposeServiceImpl(ws)
-      new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
-    }
-
     "present" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
