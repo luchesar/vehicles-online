@@ -1,7 +1,7 @@
 package models.domain.disposal_of_vehicle
 
 
-case class DisposeResponse (success: Boolean, message: String, transactionId: String, registrationNumber: String, auditId: String)
+case class DisposeResponse (success: Boolean, message: String, transactionId: String, registrationNumber: String, auditId: String, responseCode: Option[String] = None)
 
 object DisposeResponse{
   import play.api.libs.json.Json

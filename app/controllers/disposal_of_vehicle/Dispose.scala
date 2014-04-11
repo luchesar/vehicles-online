@@ -109,23 +109,35 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
           dateOfDisposal = f.dateOfDisposal, mileage = f.mileage)
         storeDisposeModelInCache(disposeModel)
         webService.invoke(buildDisposeMicroServiceRequest(disposeModel)).map {
-          resp => Logger.debug(s"Dispose Web service call successful - response = $resp")
+          resp => Logger.debug(s"Dispose micro service call successful - response = $resp")
           storeDisposeTransactionIdInCache(resp.transactionId)
           if (resp.success) {
             storeDisposeRegistrationNumberInCache(resp.registrationNumber)
             Redirect(routes.DisposeSuccess.present)
           }
-          else
-            Redirect(routes.DisposeFailure.present)
+          else {
+            handleMicroServiceFailure(resp)
+          }
         }.recover {
           case e: Throwable =>
-            Logger.debug(s"Dispose Web service call failed. Exception: $e")
+            Logger.warn(s"Dispose micro service call failed. Exception: $e")
             Redirect(routes.MicroServiceError.present)
         }
       case _ => Future {
-        Logger.debug("could not find dealer details in cache on Dispose submit")
+        Logger.error("could not find dealer details in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present)
       }
+    }
+  }
+
+  private def handleMicroServiceFailure(resp: DisposeResponse) = {
+    val disposeEndpointDown = "ms.dispose.response.endpointdown"
+    resp.responseCode match {
+      case Some(responseCode) if responseCode == disposeEndpointDown =>
+        Logger.warn("Dispose soap endpoint down redirecting to error page...")
+        Redirect(routes.MicroServiceError.present)
+      case Some(responseCode) => ??? // TODO define what we do in this situation
+      case None => Redirect(routes.DisposeFailure.present)
     }
   }
 
