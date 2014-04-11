@@ -53,7 +53,7 @@ class US51_disposal_to_trade_validate_vrm_format_entry extends FeatureSpec with 
         click on VehicleLookupPage.findVehicleDetails
 
         Then("a single appropriate message is displayed")
-        page.text should include("Please enter a valid vehicle registration number")
+        page.text should include("Vehicle registration mark - Must be valid format")
 
         And("the motor trader remains on the current step")
         page.title should equal("Find vehicle details")

@@ -130,7 +130,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       CacheSetup.businessChooseYourAddress()
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "PJ05YYYX")
       val result = vehicleLookupSuccess.submit(request)
-      val count = countSubstring(contentAsString(result), "Please enter a valid vehicle registration number")
+      val count = countSubstring(contentAsString(result), "Must be valid format")
       count should equal(2)
     }
 
@@ -138,7 +138,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       CacheSetup.businessChooseYourAddress()
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "")
       val result = vehicleLookupSuccess.submit(request)
-      val count = countSubstring(contentAsString(result), "Please enter a valid vehicle registration number")
+      val count = countSubstring(contentAsString(result), "Must be valid format")
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
       // the page and once above the field.
     }

@@ -25,7 +25,7 @@ class US161_disposal_to_trade_postcode_lookup_error_message extends FeatureSpec 
         click on SetupTradeDetailsPage.lookup
 
         Then("a single appropriate message is displayed")
-        page.text should include("Must be between 5 and 8 characters and in a valid format eg. PR2 8AE")
+        page.text should include("Postcode - Must be between 5 and 8 characters and in a valid format, eg. PR2 8AE or PR28AE")
 
         And("the motor trader remains on the current step in the")
         page.title should equal("Provide your trader details")
