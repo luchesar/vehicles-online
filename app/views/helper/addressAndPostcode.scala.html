@@ -7,7 +7,7 @@
 @import utils.helpers.BaseTemplate._
 @import mappings.common.AddressLines.addressLinesId
 @import mappings.common.Postcode.postcodeId
-@import mappings.common.AddressAndPostcode.postcodeMaxLength
+@import mappings.common.Postcode
 
 <fieldset>
 @input(field,args.toSeq: _*){(id, name, value, htmlArgs) =>
@@ -19,7 +19,7 @@
             'placeholder -> Messages("address.postcode.label.prompt"),
             '_label -> Messages("address.postcode.label"),
             '_showConstraints -> false,
-            'maxLength -> postcodeMaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+            'maxLength -> Postcode.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
             'title -> Messages("address.postcode.validation")
         )
     )
