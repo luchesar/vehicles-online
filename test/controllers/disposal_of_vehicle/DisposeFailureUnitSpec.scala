@@ -8,43 +8,39 @@ import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UnitSpec
 
 class DisposeFailureUnitSpec extends UnitSpec {
+  private def cacheSetup() = {
+    CacheSetup.businessChooseYourAddress()
+    CacheSetup.vehicleDetailsModel()
+    CacheSetup.disposeFormModel()
+    CacheSetup.disposeTransactionId()
+  }
 
   "DisposalFailure - Controller" should {
-
     "present" in new WithApplication {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
-      CacheSetup.disposeFormModel()
-      CacheSetup.disposeTransactionId()
-      CacheSetup.vehicleRegistrationNumber()
-
+      cacheSetup
       val request = FakeRequest().withSession()
-
       val result = disposal_of_vehicle.DisposeFailure.present(request)
-
-      status(result) should equal(OK)
+      whenReady(result) {
+        r => r.header.status should equal(OK)
+      }
     }
 
     "redirect to vehicle lookup page when button clicked" in new WithApplication {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
-      CacheSetup.disposeFormModel()
-      CacheSetup.disposeTransactionId()
-      CacheSetup.vehicleRegistrationNumber()
-
+      cacheSetup
       val request = FakeRequest().withSession()
-
       val result = disposal_of_vehicle.DisposeFailure.submit(request)
-
-      redirectLocation(result) should equal(Some(VehicleLookupPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+      }
     }
 
     "redirect to setuptraderdetails when no details are in cache and submit is selected" in new WithApplication() {
       val request = FakeRequest().withSession()
-
       val result = disposal_of_vehicle.DisposeFailure.submit(request)
-
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
     }
   }
 }
+

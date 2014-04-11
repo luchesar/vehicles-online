@@ -7,7 +7,7 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
 import org.mockito.Matchers._
-import models.domain.disposal_of_vehicle.{AddressDto, VehicleDetailsDto, VehicleDetailsResponse, VehicleDetailsRequest}
+import models.domain.disposal_of_vehicle.VehicleDetailsRequest
 import services.fakes.FakeResponse
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
@@ -16,190 +16,158 @@ import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebServic
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
+import services.fakes.FakeVehicleLookupWebService._
+import services.fakes.FakeAddressLookupService._
+import play.api.http.Status.OK
 
 class VehicleLookupUnitSpec extends UnitSpec {
+  private val vehicleLookupSuccess = {
+    val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
+    when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
+      val responseAsJson = Json.toJson(vehicleDetailsResponseSuccess)
+      new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+    })
+
+    val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
+    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
+  }
+
+  private def buildCorrectlyPopulatedRequest(referenceNumber: String = referenceNumberValid,
+                                     registrationNumber: String = registrationNumberValid,
+                                     consent: String = consentValid) = {
+    FakeRequest().withSession().withFormUrlEncodedBody(
+      referenceNumberId -> referenceNumber,
+      registrationNumberId -> registrationNumber,
+      consentId -> consent)
+  }
 
   "VehicleLookup - Controller" should {
-    val vehicleLookupSuccess = {
-      val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
-      when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
-        val vehicleDetailsResponse =
-          VehicleDetailsResponse(true,
-            message = "Fake Web Lookup Service - Good response",
-            vehicleDetailsDto = VehicleDetailsDto(registrationNumber = "PJ056YY",
-              vehicleMake = "Alfa Romeo",
-              vehicleModel = "Alfasud ti",
-              keeperName = "Keeper Name",
-              keeperAddress = AddressDto(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
-        val responseAsJson = Json.toJson(vehicleDetailsResponse)
-
-        new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
-      })
-
-      val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
-
-      new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
-    }
-
     "present" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
-
       val request = FakeRequest().withSession()
-
       val result = vehicleLookupSuccess.present(request)
-
-      status(result) should equal(OK)
+      whenReady(result) {
+        r => r.header.status should equal(OK)
+      }
     }
 
     "redirect to Dispose after a valid submit and true message returned from the fake microservice" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
-
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        referenceNumberId -> referenceNumberValid,
-        registrationNumberId -> registrationNumberValid,
-        consentId -> consentValid)
-
+      val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupSuccess.submit(request)
-
-      redirectLocation(result) should equal (Some(DisposePage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(DisposePage.address))
+      }
      }
 
     "submit removes spaces from registrationNumber" in new WithApplication { // DE7 Spaces should be stripped
       CacheSetup.businessChooseYourAddress()
-
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        referenceNumberId -> referenceNumberValid,
-        registrationNumberId -> "9999 AAA",
-        consentId -> consentValid)
-
+      val request = buildCorrectlyPopulatedRequest(registrationNumber = registrationNumberWithSpaceValid)
       val result = vehicleLookupSuccess.submit(request)
-
       whenReady(result) {
         r => controllers.disposal_of_vehicle.Helpers.fetchVehicleLookupDetailsFromCache match {
-          case Some(f) => f.registrationNumber should equal("9999AAA")
-          case _ => fail("Should have found model in the cache")
+          case Some(f) => f.registrationNumber should equal(registrationNumberValid)
+          case _ => fail("Should have found registration number in the cache")
         }
       }
     }
-
 
     "redirect to VehicleLookupFailure after a submit and false message returned from the fake microservice" in new WithApplication {
       val vehicleLookupFailure = {
         val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
         when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
-          val vehicleDetailsResponse =
-            VehicleDetailsResponse(false,
-              message = "Fake Web Dispose Service - Bad response",
-              vehicleDetailsDto = VehicleDetailsDto(registrationNumber = "PJ056YY",
-                vehicleMake = "Alfa Romeo",
-                vehicleModel = "Alfasud ti",
-                keeperName = "Keeper Name",
-                keeperAddress = AddressDto(uprn = Some(10123456789L), address = Seq("line1", "line2", "line2"))))
-          val responseAsJson = Json.toJson(vehicleDetailsResponse)
-
-          new FakeResponse(status = 200, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+          val responseAsJson = Json.toJson(vehicleDetailsResponseFailure)
+          new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
         })
 
         val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
-
         new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
       }
 
       CacheSetup.businessChooseYourAddress()
-
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        referenceNumberId -> referenceNumberValid,
-        registrationNumberId -> registrationNumberValid,
-        consentId -> consentValid)
-
+      val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupFailure.submit(request)
-
-      redirectLocation(result) should equal (Some(VehicleLookupFailurePage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      }
     }
 
     "redirect to setupTradeDetails page when user has not set up a trader for disposal" in new WithApplication {
-      val request = FakeRequest().withSession()
-
+      val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupSuccess.present(request)
-
-      redirectLocation(result) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
     }
 
     "return a bad request if no details are entered" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
-
-      val request = FakeRequest().withSession().withFormUrlEncodedBody()
-
+      val request = buildCorrectlyPopulatedRequest(referenceNumber = "", registrationNumber = "", consent = "")
       val result = vehicleLookupSuccess.submit(request)
-
-      status(result) should equal(BAD_REQUEST)
+      whenReady(result) {
+        r => r.header.status should equal(BAD_REQUEST)
+      }
     }
 
-    "return a bad request if empty strings are entered" in new WithApplication {
+    "replace max length error message for document reference number with standard error message (US43)" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
-
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        referenceNumberId -> "",
-        registrationNumberId -> "")
-
+      val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (referenceNumberLength + 1))
       val result = vehicleLookupSuccess.submit(request)
-
-      status(result) should equal(BAD_REQUEST)
+      val count = countSubstring(contentAsString(result), "Must be an 11-digit number")
+      count should equal(2)
     }
 
-    "return a bad request if only ReferenceNumber is entered" in new WithApplication {
+    "replace required and min length error messages for document reference number with standard error message (US43)" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
-
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        referenceNumberId -> referenceNumberValid)
-
+      val request = buildCorrectlyPopulatedRequest(referenceNumber = "")
       val result = vehicleLookupSuccess.submit(request)
-
-      status(result) should equal(BAD_REQUEST)
+      val count = countSubstring(contentAsString(result), "Must be an 11-digit number")
+      count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
+      // the page and once above the field.
     }
 
-    "return a bad request if only RegistrationNumber is entered" in new WithApplication {
+    "replace max length error message for vehicle registration mark with standard error message (US43)" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
-
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        registrationNumberId -> registrationNumberValid)
-
+      val request = buildCorrectlyPopulatedRequest(registrationNumber = "PJ05YYYX")
       val result = vehicleLookupSuccess.submit(request)
+      val count = countSubstring(contentAsString(result), "Must be valid format")
+      count should equal(2)
+    }
 
-      status(result) should equal(BAD_REQUEST)
+    "replace required and min length error messages for vehicle registration mark with standard error message (US43)" in new WithApplication {
+      CacheSetup.businessChooseYourAddress()
+      val request = buildCorrectlyPopulatedRequest(registrationNumber = "")
+      val result = vehicleLookupSuccess.submit(request)
+      val count = countSubstring(contentAsString(result), "Must be valid format")
+      count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
+      // the page and once above the field.
     }
 
     "redirect to EnterAddressManually when back button is pressed and there is no uprn" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
-
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
-
       val result = vehicleLookupSuccess.back(request)
-
-      redirectLocation(result) should equal (Some(EnterAddressManuallyPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(EnterAddressManuallyPage.address))
+      }
     }
 
     "redirect to BusinessChooseYourAddress when back button is pressed and there is a uprn" in new WithApplication {
       CacheSetup.businessChooseYourAddress(addressWithUprn)
-
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
-
       val result = vehicleLookupSuccess.back(request)
-
-      redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
+      }
     }
 
-    "redirect to SetUpTradeDetails when back button and the user has completed the vehicle lookup form " in new WithApplication {
+    "redirect to SetUpTradeDetails when back button and the user has completed the vehicle lookup form" in new WithApplication {
       CacheSetup.businessChooseYourAddress(addressWithUprn)
-
-      val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        referenceNumberId -> referenceNumberValid,
-        registrationNumberId -> registrationNumberValid,
-        consentId -> consentValid)
-
+      val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupSuccess.back(request)
-
-      redirectLocation(result) should equal (Some(BusinessChooseYourAddressPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
+      }
     }
   }
 }

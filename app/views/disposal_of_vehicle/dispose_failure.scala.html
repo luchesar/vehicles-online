@@ -1,17 +1,22 @@
 @(data: models.domain.disposal_of_vehicle.DisposeViewModel, formModel: models.domain.disposal_of_vehicle.DisposeFormModel)(implicit lang: Lang)
 
 @import helper._
-@import helper.twitterBootstrap._
+@import mappings.disposal_of_vehicle.DisposeFailure._
 
 @main(Messages("disposal_disposefailure.title")){
 
-<p>@Messages("disposal_disposefailure.p1")</p><br>
+<p>@Messages("disposal_disposefailure.p1")</p>
+
+<div class="alert-error">
+    <h2>Disposal failure</h2>
+    <p>Your transaction ID is<br /><span class="emphasized">@Messages("disposal_disposefailure.transactionid", data.transactionId.getOrElse(""))</span></p>
+</div>
 
 
 <div class="form-steps">
     @{ /* Note the reverse routing syntax for the hyperlink */ }
-    <a class="button" id="vehiclelookup" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present">@Messages("disposal_disposefailure.button")</a>
-    <a class="button" id="setuptradedetails" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.present">@Messages("disposal_disposefailure.button2")</a>
+    <a class="button" id="@vehiclelookupId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present">@Messages("disposal_disposefailure.button")</a>
+    <a class="button" id="@setuptradedetailsId" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.present">@Messages("disposal_disposefailure.button2")</a>
 </div>
 
 }

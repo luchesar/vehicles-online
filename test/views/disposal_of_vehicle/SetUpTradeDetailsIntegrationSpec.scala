@@ -6,7 +6,6 @@ import pages.common.ErrorPanel
 import pages.common.Accessibility
 import helpers.disposal_of_vehicle.Helper._
 import helpers.UiSpec
-import org.openqa.selenium.By
 
 class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
 
@@ -18,220 +17,218 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
     }
 
     "go to the next page when correct data is entered" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath
+      SetupTradeDetailsPage.happyPath()
 
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
-    "display six validation error messages when no details are entered" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath( webDriver,"","")
+    "display two summary validation error messages when no details are entered" in new WebBrowser {
+      SetupTradeDetailsPage.happyPath(traderBusinessName = "", traderPostcode = "")
 
-      assert(ErrorPanel.numberOfErrors equals 4)
-
+      assert(ErrorPanel.numberOfErrors equals 2)
     }
 
     "display three validation error messages when a valid postcode is entered with no business name" in new WebBrowser  {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = "")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = "")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a valid postcode is entered with a business name less than min length" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = "m")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = "m")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-    "display three validation error messages when a valid business name is entered with no postcode" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderPostcode = "")
+    "display one validation error message when a valid business name is entered with no postcode" in new WebBrowser {
+      SetupTradeDetailsPage.happyPath(traderPostcode = "")
 
-      assert(ErrorPanel.numberOfErrors equals 3)
+      assert(ErrorPanel.numberOfErrors equals 1)
     }
 
-    "display two validation error messages when a valid business name is entered with a postcode less than min length" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderPostcode = "a")
+    "display one validation error message when a valid business name is entered with a postcode less than min length" in new WebBrowser {
+      SetupTradeDetailsPage.happyPath(traderPostcode = "a")
 
-      assert(ErrorPanel.numberOfErrors equals 2)
+      assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a valid business name is entered with a postcode containing an incorrect format" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderPostcode = "SAR99")
+      SetupTradeDetailsPage.happyPath(traderPostcode = "SAR99")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a trader name is entered containing <" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + ">")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + ">")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a trader name is entered containing >" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + ">")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + ">")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a trader name is entered containing !" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "!")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "!")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a trader name is entered containing =" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "=")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "=")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a trader name is entered containing $" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "$")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "$")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a trader name is entered containing /" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "/")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "/")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a trader name is entered containing ?" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "?")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "?")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a trader name is entered containing #" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "#")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "#")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a trader name is entered containing \"" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "\"")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "\"")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a trader name is entered containing [" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "]")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "]")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a trader name is entered containing £" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "£")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "£")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a trader name is entered containing %" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "%")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "%")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a trader name is entered containing ^" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "^")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "^")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a trader name is entered containing _" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "_")
-
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "_")
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display no error messages when a trader name is entered containing a number" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "1")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "1")
 
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
     "display no error messages when a trader name is entered containing a captial letter" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "W")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "W")
 
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
     "display no error messages when a trader name is entered containing '" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "'")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "'")
 
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
     "display no error messages when a trader name is entered containing +" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "+")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "+")
 
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
     "display no error messages when a trader name is entered containing -" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "-")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "-")
 
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
     "display no error messages when a trader name is entered containing (" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "(")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "(")
 
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
     "display no error messages when a trader name is entered containing )" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + ")")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + ")")
 
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
     "display no error messages when a trader name is entered containing ." in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + ".")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + ".")
 
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
     "display no error messages when a trader name is entered containing &" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "&")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "&")
 
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
     "display no error messages when a trader name is entered containing ," in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + ",")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + ",")
 
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
     "display no error messages when a trader name is entered containing @" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver, traderBusinessName = traderBusinessNameValid + "@")
+      SetupTradeDetailsPage.happyPath(traderBusinessName = traderBusinessNameValid + "@")
 
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
-    "add aria required attribute to trader name field when required field not input" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver,traderBusinessName = "" )
+    "add saria required attribute to trader name field when required field not input" in new WebBrowser {
+      SetupTradeDetailsPage.happyPath(traderBusinessName = "" )
 
-      assert(Accessibility.ariaRequiredPresent(webDriver,"dealerName") equals true)
+      assert(Accessibility.ariaRequiredPresent("dealerName") equals true)
     }
 
     "add aria invalid attribute to trader name field when invalid characters input on field" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver,traderBusinessName = "$£%&" )
+      SetupTradeDetailsPage.happyPath(traderBusinessName = "$£%&" )
 
-      assert(Accessibility.ariaInvalidPresent(webDriver,"dealerName") equals true)
+      assert(Accessibility.ariaInvalidPresent("dealerName") equals true)
     }
 
     "add aria required attribute to trader postcode field when required field not input" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver,traderPostcode = "" )
+      SetupTradeDetailsPage.happyPath(traderPostcode = "" )
 
-      assert(Accessibility.ariaRequiredPresent(webDriver,"dealerPostcode") equals true)
+      assert(Accessibility.ariaRequiredPresent("dealerPostcode") equals true)
     }
 
     "add aria invalid attribute to trader postcode field when invalid characters input on field" in new WebBrowser {
-      SetupTradeDetailsPage.happyPath(webDriver,traderPostcode = "$£%&" )
+      SetupTradeDetailsPage.happyPath(traderPostcode = "$£%&" )
 
-      assert(Accessibility.ariaInvalidPresent(webDriver,"dealerPostcode") equals true)
+      assert(Accessibility.ariaInvalidPresent("dealerPostcode") equals true)
     }
   }
 }

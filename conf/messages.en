@@ -127,7 +127,7 @@ v5csearch.p1 = {0} is signed in to the ''Change of keeper address'' service.
 v5csearch.button = Look-up
 v5csearch.button2 = Cancel
 v5csearch.v5cinputlabel = V5C Document reference number
-v5csearch.vrninputlabel = Vehicle registration number
+v5csearch.vrninputlabel = Vehicle registration mark
 v5csearch.v5cinputlabel.refNumIncorrect = You must enter a number with a length of 11 digits
 v5csearch.postcode.label = Post code
 v5csearch.postcode.validation = You must enter a valid postcode
@@ -152,11 +152,12 @@ widget.optional = (optional)
 
 #customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
-error.restricted.validVRNOnly = Please enter a valid vehicle registration number
-error.restricted.validPostcode = A post code must be in the format PR2 8AE
+error.restricted.validVRNOnly = Must be valid format
+error.restricted.validPostcode = Must be between 5 and 8 characters and in a valid format, eg. PR2 8AE or PR28AE
 
 datePlaceholder.day=Day
 datePlaceholder.month=Month
+datePlaceholder.year=Year
 datePlaceholder.January=January
 datePlaceholder.February=February
 datePlaceholder.March=March
@@ -171,9 +172,6 @@ datePlaceholder.November=November
 datePlaceholder.December=December
 
 select_default = Please select
-
-
-
 error.invalid = Invalid value
 
 ##
@@ -204,11 +202,10 @@ disposal_setuptradedetails.name = Dispose a vehicle into the motor trade
 disposal_setuptradedetails.p1 = Set-up trade details
 disposal_setuptradedetails.tradernamelabel = Trader name
 disposal_setuptradedetails.traderpostcodelabel = Postcode
-disposal_setuptradedetails.traderpostcodelabel.validation = Please enter a valid business postcode
+disposal_setuptradedetails.traderpostcodelabel.validation = Must be between 5 and 8 characters and in a valid format, eg. PR2 8AE or PR28AE
 disposal_setuptradedetails.button = Find address
 dealerName = Trader name
 dealerPostcode = Postcode
-
 
 #page 3
 disposal_businessChooseYourAddress_title = Select your trade address
@@ -244,7 +241,6 @@ disposal_uprnnotfound.p1 = An error has occurred validating your postcode. Pleas
 disposal_uprnnotfound.manualaddressbutton = Set-up trade details
 disposal_uprnnotfound.setuptradedetailsbutton = Manually enter address
 
-
 #page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Find vehicle details
 disposal_vehiclelookup.name = Dispose a vehicle into the motor trade
@@ -254,21 +250,22 @@ disposal_vehiclelookup.warning.p1 = Do not dispose of a vehicle with a personal 
 disposal_vehiclelookup.warning.p2 = Retain or transfer personal registrations before disposing to the trade.
 disposal_vehiclelookup.refnumlabel = Latest doc reference number
 disposal_vehiclelookup.refnumlabel.refNumIncorrect = You must enter a number with a length of 11 digits
-disposal_vehiclelookup.vrninputlabel = Vehicle registration number
-disposal_vehiclelookup.consent = I have the consent of the current keeper to dispose of this vehicle
-disposal_vehiclelookup.consentnotgiven = Please indicate you have the current keeper''s consent
+disposal_vehiclelookup.vrninputlabel = Vehicle registration mark
 disposal_vehiclelookup.backbutton = Back
 disposal_vehiclelookup.button = Next
 disposal_vehiclelookup.button2 = Edit
 disposal_vehiclelookup.tradernamelabel = Trader name
 disposal_vehiclelookup.traderaddresslabel = Trader address
+registrationNumber = Vehicle registration mark
+referenceNumber = Document reference number
+error.validDocumentReferenceNumber = Must be an 11-digit number
 
 #page 5 - confirm disposal
 disposal_dispose.title = Complete & confirm
 disposal_dispose.warning=If the details above do not match the vehicle to be sold, please
 disposal_dispose.warning.link=contact the DVLA.
 disposal_dispose.vehicledetails = Vehicle being sold
-disposal_dispose.vehiclereg = Registration number
+disposal_dispose.vehiclereg = Registration
 disposal_dispose.vehiclemake = Make
 disposal_dispose.vehiclemodel = Model
 disposal_dispose.vehiclekeeper = Keeper
@@ -279,15 +276,20 @@ dateOfDisposal = Date of disposal
 disposal_dispose.dateofdisposal.label = Date of disposal
 disposal_dispose.backbutton = Back
 disposal_dispose.submitbutton = Confirm sale
-disposal_dispose.exkeeperlettertext = If you would prefer to receive an immediate email acknowledgement, please provide an email address
-disposal_dispose.emaillabel = Customer email address
+disposal_dispose.consent = I have the consent of the current keeper to dispose of this vehicle
+disposal_dispose.consent.notgiven = You must have the consent of the registered keeper to notify the sale of this vehicle
 dateOfDisposal_day = Day of disposal
 dateOfDisposal_month = Month of disposal
 dateOfDisposal_year = Year of disposal
 dateOfDisposal.day = Day of disposal
 dateOfDisposal.month = Month of disposal
 dateOfDisposal.year = Year of disposal
-error.date.invalidYear = You must enter a valid year
+error.dateOfDisposal = Must be between today and two years ago
+disposal_dispose.consent.mandatory = You must have the consent of the registered keeper to notify the sale of this vehicle
+consent = Consent
+disposal_dispose.loss_of_registration.consent = Please confirm that the current keeper is aware that the registration will be disposed of with the vehicle
+disposal_dispose.loss_of_registration.consent.notgiven = You must confirm that you have made the keeper aware that they will lose the registration mark associated with this vehicle
+lossOfRegistrationConsent = Loss of registration consent
 
 #page 6 - summary
 disposal_disposeconfirmation.title = Dispose a vehicle into the motor trade: summary
@@ -296,8 +298,7 @@ disposal_disposeconfirmation.vehiclemake = Make
 disposal_disposeconfirmation.vehiclemodel = Model
 disposal_disposeconfirmation.vehiclekeeper = Keeper
 disposal_disposeconfirmation.disposedto = Disposed to
-disposal_disposeconfirmation.exkeeper = For the ex-keeper
-disposal_disposeconfirmation.exkeeperlettersend = A letter will be sent to
+disposal_disposeconfirmation.exkeeper = A letter confirming the disposal will be sent to the previous keeper within 4 weeks. If he/she does not receive a letter in this time they must contact DVLA Customer Enquiries on 0300 790 6802 as the previous keeper could still be liable for this vehicle.
 disposal_disposeconfirmation.sendbutton = Send
 disposal_disposeconfirmation.transactionid = {0}
 disposal_disposeconfirmation.transactionid_label = Transaction id
@@ -318,6 +319,7 @@ disposal_disposefailure.name = Failure
 disposal_disposefailure.p1 = It has not been possible to complete your transaction. Please call 0300 790 6802
 disposal_disposefailure.button = Vehicle Lookup
 disposal_disposefailure.button2 = Setup New Trader Details
+disposal_disposefailure.transactionid = {0}
 
 #page 8 - vehicle lookup failure
 disposal_vehiclelookupfailure.title = Dispose a vehicle into the motor trade: vehicle lookup failure
@@ -333,3 +335,9 @@ error.address.characterinvalid = Invalid characters are not allowed
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
 error.validTraderBusinessName = Must be between two and 30 characters and not contain invalid characters
+
+#micro service error page
+micro_service_error.title=We are sorry
+micro_service_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
+micro_service_error.back.button=Back
+micro_service_error.exit.button=Exit

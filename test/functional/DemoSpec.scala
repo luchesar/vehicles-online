@@ -3,7 +3,12 @@ package functional
 import org.scalatest.{BeforeAndAfterAll, Matchers, GivenWhenThen, FeatureSpec}
 import pages.disposal_of_vehicle._
 import helpers.webbrowser._
-import services.fakes.FakeWebServiceImpl.uprnValid
+import services.fakes.FakeWebServiceImpl.traderUprnValid
+import helpers.disposal_of_vehicle.Helper._
+import services.fakes.FakeDateServiceImpl._
+import services.fakes.FakeVehicleLookupWebService._
+import services.fakes.FakeAddressLookupService._
+import services.fakes.FakeDisposeWebServiceImpl._
 
 class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
@@ -25,46 +30,46 @@ class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeA
           click on BeforeYouStartPage.startNow
 
           And("I enter \"Car Giant\" in the business name field")
-          SetupTradeDetailsPage.dealerName enter "Car Giant"
+          SetupTradeDetailsPage.dealerName enter traderBusinessNameValid
 
           And("I enter \"CM8 1QJ\" in the business postcode field")
-          SetupTradeDetailsPage.dealerPostcode enter "CM8 1QJ"
+          SetupTradeDetailsPage.dealerPostcode enter postcodeValidWithSpace
 
           And("I click the Look-up button")
           click on SetupTradeDetailsPage.lookup
 
           And("I select \"1, OLIVERS DRIVE, WITHAM, CM8 1QJ\"")
-          BusinessChooseYourAddressPage.chooseAddress.value = uprnValid.toString
+          BusinessChooseYourAddressPage.chooseAddress.value = traderUprnValid.toString
 
           And("I click the Select button")
           click on BusinessChooseYourAddressPage.select
 
           And("I enter \"A1\" in the vehicle registration number field")
-          VehicleLookupPage.vehicleRegistrationNumber enter "A1"
+          VehicleLookupPage.vehicleRegistrationNumber enter registrationNumberValid
 
           And("I enter \"12345678910\" in the V5C document reference number field")
-          VehicleLookupPage.documentReferenceNumber enter "12345678910"
-
-          And("I select \"I have the consent of the current keeper to dispose of this vehicle\" from the date of disposal month dropdown")
-          click on VehicleLookupPage.consent
+          VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
 
           And("I click the find vehicle details button")
           click on VehicleLookupPage.findVehicleDetails
 
           And("I enter \"10000\" in the vehicle mileage field")
-          DisposePage.mileage enter "10000"
+          DisposePage.mileage enter mileageValid
 
           And("I select \"01\" from the date of disposal day dropdown")
-          DisposePage.dateOfDisposalDay select "1"
+          DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
 
           And("I select \"March\" from the date of disposal month dropdown")
-          DisposePage.dateOfDisposalMonth select "3"
+          DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
 
           And("I enter \"2014\" in the date of disposal year field")
-          DisposePage.dateOfDisposalYear enter "2014"
+          DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
 
-          And("I enter \"viv.richards@emailprovider.co.uk\" in the email address field")
-          DisposePage.emailAddress enter "viv.richards@emailprovider.co.uk"
+          And("I select \"I have the consent of the current keeper to dispose of this vehicle\"")
+          click on DisposePage.consent
+
+          And("I select \"I have the confirmation that the current keeper is aware that the registration will be disposed of with the vehicle\"")
+          click on DisposePage.lossOfRegistrationConsent
 
           When("I click the dispose button")
           click on DisposePage.dispose

@@ -1,4 +1,4 @@
-@(data: models.domain.disposal_of_vehicle.DisposeViewModel, disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel])(implicit lang: Lang)
+@(data: models.domain.disposal_of_vehicle.DisposeViewModel, disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel], years: Seq[(String, String)])(implicit lang: Lang)
 
 @import helper._
 @import views.html.helper.base._
@@ -38,11 +38,8 @@
                     @for(addr <- data.keeperAddress.address) {@addr<br/>}
                 </dd>
                 */}
-                
             </dl>
-            
-            
-            
+
             @valtechInputText(disposeForm(mileageId), args =
             Map('_label -> Messages("disposal_dispose.mileage.label"),
             '_showConstraints -> false,
@@ -60,32 +57,29 @@
             </div>
             */
             }
-
         </div>
 
         <div class="second-col disposal-form">
-        
             <h2>@Messages("disposal_dispose.disposevehicleto")</h2>
             
             <p>@data.dealerName<br />
             @for(addr <- data.dealerAddress.address) {@addr<br/>}</p>
 
-
-            <p>@Messages("disposal_dispose.exkeeperlettertext")</p>
-
-            @valtechInputTextWithButton(disposeForm(emailAddressId),
-            args = Map('_label -> Messages("disposal_dispose.emaillabel"),
-            '_showConstraints -> false))
-            
-            <div id=@mappings.disposal_of_vehicle.Dispose.dateOfDisposalId class="disposal-date">
-            @inputDayMonthYear(disposeForm(dateOfDisposalId), args = Map('_label -> Messages("disposal_dispose.dateofdisposal.label")))
+            <div class="form-declaration">
+                @valtechDeclareCheck(disposeForm(consentId), args = Map('id -> "consent", '_showConstraints -> false, '_label -> Messages("disposal_dispose.consent")))
             </div>
-                    
+            <div class="form-declaration">
+                @valtechDeclareCheck(disposeForm(lossOfRegistrationConsentId), args = Map('id -> "lossOfRegistrationConsent", '_showConstraints -> false, '_label -> Messages("disposal_dispose.loss_of_registration.consent")))
+            </div>
+
+            <div id=@mappings.disposal_of_vehicle.Dispose.dateOfDisposalId class="disposal-date">
+                @inputDayMonthYear(disposeForm(dateOfDisposalId), years, args = Map('_label -> Messages("disposal_dispose.dateofdisposal.label")))
+            </div>
+
             @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
             <div class="form-steps">
-            	<button id="submit" type="submit" name="action" class="button">@Messages("disposal_dispose.submitbutton")</button>
-                <a id="backButton" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present" class="button-secondary">@Messages("disposal_dispose.backbutton")</a>
-                
+            	<button id="@submitId" type="submit" name="action" class="button">@Messages("disposal_dispose.submitbutton")</button>
+                <a id="@backId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present" class="button-secondary">@Messages("disposal_dispose.backbutton")</a>
 
                 <div class="two-col-spacer">
                     @{ /*
@@ -93,10 +87,7 @@
                     */ }
                 </div>
             </div>
-
 		</div>
-
     </div>
-    
     }
 }

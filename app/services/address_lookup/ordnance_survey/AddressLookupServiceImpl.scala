@@ -40,7 +40,7 @@ class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends Ad
     ws.callPostcodeWebService(postcode).map { resp =>
       Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${ resp.status }")
       if (resp.status == play.api.http.Status.OK) toDropDown(resp)
-      else Seq.empty // The service returned http code other than 200
+      else Seq.empty // The service returned http code other than 200 OK
     }.recover {
       case e: Throwable =>
         Logger.error(s"Ordnance Survey postcode lookup service error: $e")

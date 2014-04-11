@@ -1,19 +1,20 @@
 @(enterAddressManuallyForm: Form[models.domain.disposal_of_vehicle.EnterAddressManuallyModel])(implicit lang: Lang)
 
 @import helper._
-@import helper.twitterBootstrap._
+@import mappings.common.AddressAndPostcode.addressAndPostcodeId
+@import mappings.disposal_of_vehicle.EnterAddressManually._
 
 @main(Messages("disposal_enteraddressmanually.title")){
-@errorsSummary(enterAddressManuallyForm)
+    @errorsSummary(enterAddressManuallyForm)
 
     @form(action = controllers.disposal_of_vehicle.routes.EnterAddressManually.submit) {
 
-        @addressAndPostcode(enterAddressManuallyForm(mappings.common.AddressAndPostcode.id))
+        @addressAndPostcode(enterAddressManuallyForm(addressAndPostcodeId))
 
 		@{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
         <div class="form-steps">
-        	<button type="submit" name="action" class="button">@Messages("disposal_enteraddressmanually.submitbutton")</button>
-            <a class="button-secondary" id="next" href="@controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit">@Messages("disposal_enteraddressmanually.backbutton")</a> 
+        	<button id="@nextId" type="submit" name="action" class="button">@Messages("disposal_enteraddressmanually.submitbutton")</button>
+            <a id="@backId" class="button-secondary" href="@controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit">@Messages("disposal_enteraddressmanually.backbutton")</a>
         </div>
     }
 }

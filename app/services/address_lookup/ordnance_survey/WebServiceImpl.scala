@@ -29,7 +29,7 @@ class WebServiceImpl extends AddressLookupWebService {
     Logger.debug(s"Calling Ordnance Survey uprn lookup service on $endPoint...")
     WS.url(endPoint).
       withAuth(username = username, password = password, scheme = AuthScheme.BASIC).
-      withRequestTimeout(30000). // Timeout is in milliseconds
+      withRequestTimeout(requestTimeout). // Timeout is in milliseconds
       get()
   }
 }

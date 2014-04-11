@@ -1,7 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import play.api.mvc._
-import play.api.data.Form
+import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import play.api.Logger
 import mappings.common.{ReferenceNumber, RegistrationNumber, Consent}
@@ -16,14 +16,14 @@ import com.google.inject.Inject
 import controllers.disposal_of_vehicle.Helpers._
 import controllers.disposal_of_vehicle.Helpers.{storeVehicleDetailsInCache, storeVehicleLookupFormModelInCache}
 import services.vehicle_lookup.VehicleLookupService
+import utils.helpers.FormExtensions._
 
 class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controller {
 
   val vehicleLookupForm = Form(
     mapping(
       referenceNumberId -> referenceNumber,
-      registrationNumberId -> registrationNumber,
-      consentId -> consent
+      registrationNumberId -> registrationNumber
     )(VehicleLookupFormModel.apply)(VehicleLookupFormModel.unapply)
   )
 
@@ -39,7 +39,12 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
       formWithErrors =>
         Future {
           fetchDealerDetailsFromCache match {
-            case Some(dealerDetails) => BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithErrors))
+            case Some(dealerDetails) =>
+              val formWithReplacedErrors = formWithErrors.
+                replaceError(registrationNumberId, FormError(key = registrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
+                replaceError(referenceNumberId, FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
+                distinctErrors
+              BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithReplacedErrors))
             case None => Redirect(routes.SetUpTradeDetails.present)
           }
         },
@@ -61,7 +66,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
 
   private def lookupVehicle(webService: VehicleLookupService, model: VehicleLookupFormModel): Future[SimpleResult] = {
     webService.invoke(buildMicroServiceRequest(model)).map { resp =>
-      Logger.debug(s"VehicleLookup Web service call successful - response = ${resp}")
+      Logger.debug(s"VehicleLookup Web service call successful - response = $resp")
       // TODO Don't save these two models, instead we need a combined model that has what the user entered into the form plus the micro-service response.
       storeVehicleLookupFormModelInCache(model)
       if (resp.success) {
@@ -71,8 +76,8 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
       else Redirect(routes.VehicleLookupFailure.present)
     }.recover {
       case e: Throwable => {
-        Logger.debug(s"Web service call failed. Exception: ${e}")
-        BadRequest("The remote server didn't like the request.")
+        Logger.debug(s"Web service call failed. Exception: $e")
+        BadRequest("The remote server didn't like the request.") // TODO check the user story for going to an error message page when micro-service kaput (not the same as a system failure).
       }
     }
   }

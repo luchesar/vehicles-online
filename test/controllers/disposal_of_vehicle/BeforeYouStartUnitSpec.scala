@@ -12,18 +12,16 @@ class BeforeYouStartUnitSpec extends UnitSpec {
 
     "present" in new WithApplication {
       val request = FakeRequest().withSession()
-
       val result = disposal_of_vehicle.BeforeYouStart.present(request)
-
       status(result) should equal(OK)
     }
 
     "redirect to next page after the button is clicked" in new WithApplication {
       val request = FakeRequest().withSession()
-
       val result = disposal_of_vehicle.BeforeYouStart.submit(request)
-
-      redirectLocation(result) should equal (Some(SetupTradeDetailsPage.address))
-     }
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
+    }
   }
 }

@@ -2,41 +2,48 @@ package pages.disposal_of_vehicle
 
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
+import services.fakes.FakeDateServiceImpl._
+import mappings.disposal_of_vehicle.Dispose._
+import mappings.common.DayMonthYear._
+import services.fakes.FakeDisposeWebServiceImpl._
 
 object DisposePage extends Page with WebBrowserDSL {
   val address = "/disposal-of-vehicle/dispose"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   override val title: String = "Complete & confirm"
 
-  def mileage(implicit driver: WebDriver): TextField = textField(id("mileage"))
+  def mileage(implicit driver: WebDriver): TextField = textField(id(mileageId))
 
-  def dateOfDisposalDay(implicit driver: WebDriver): SingleSel = singleSel(id("dateOfDisposal_day"))
+  def dateOfDisposalDay(implicit driver: WebDriver): SingleSel = singleSel(id(s"${dateOfDisposalId}_$dayId"))
 
-  def dateOfDisposalMonth(implicit driver: WebDriver): SingleSel = singleSel(id("dateOfDisposal_month"))
+  def dateOfDisposalMonth(implicit driver: WebDriver): SingleSel = singleSel(id(s"${dateOfDisposalId}_$monthId"))
 
-  def dateOfDisposalYear(implicit driver: WebDriver): TelField = telField(id("dateOfDisposal_year"))
+  def dateOfDisposalYear(implicit driver: WebDriver): SingleSel = singleSel(id(s"${dateOfDisposalId}_$yearId"))
 
-  def emailAddress(implicit driver: WebDriver): TextField = textField(id("emailAddress"))
+  def consent(implicit driver: WebDriver): Checkbox = checkbox(id(consentId))
 
-  def back(implicit driver: WebDriver): Element = find(id("backButton")).get
+  def lossOfRegistrationConsent(implicit driver: WebDriver): Checkbox = checkbox(id(lossOfRegistrationConsentId))
 
-  def dispose(implicit driver: WebDriver): Element = find(xpath("//button[@type='submit' and @name=\"action\"]")).get
+  def back(implicit driver: WebDriver): Element = find(id(backId)).get
+
+  def dispose(implicit driver: WebDriver): Element = find(id(submitId)).get
 
   def happyPath(implicit driver: WebDriver) = {
-    go to DisposePage.url
-    DisposePage.mileage enter "50000"
-    DisposePage.dateOfDisposalDay select "31"
-    DisposePage.dateOfDisposalMonth select "12"
-    DisposePage.dateOfDisposalYear enter "2013"
-    DisposePage.emailAddress enter  "test@testemail.com"
-    click on DisposePage.dispose
+    go to DisposePage
+    mileage enter mileageValid
+    dateOfDisposalDay select dateOfDisposalDayValid
+    dateOfDisposalMonth select dateOfDisposalMonthValid
+    dateOfDisposalYear select dateOfDisposalYearValid
+    click on consent
+    click on lossOfRegistrationConsent
+    click on dispose
   }
 
   def sadPath(implicit driver: WebDriver) = {
-    go to DisposePage.url
-    DisposePage.dateOfDisposalDay select ""
-    DisposePage.dateOfDisposalMonth select ""
-    DisposePage.dateOfDisposalYear enter ""
-    click on DisposePage.dispose
+    go to DisposePage
+    dateOfDisposalDay select ""
+    dateOfDisposalMonth select ""
+    dateOfDisposalYear select ""
+    click on dispose
   }
 }

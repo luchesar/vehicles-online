@@ -3,28 +3,37 @@ package controllers.disposal_of_vehicle
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import helpers.disposal_of_vehicle.Helper._
 import helpers.UnitSpec
+import services.fakes.FakeAddressLookupService._
 
 class SetUpTradeDetailsFormSpec extends UnitSpec {
-  "SetUpTradeDetails form" should {
-    def formWithValidDefaults(traderBusinessName: String = traderBusinessNameValid,
-                              traderPostcode: String = postcodeValid) = {
-     SetUpTradeDetails.traderLookupForm.bind(
-        Map(
-          dealerNameId -> traderBusinessName,
-          dealerPostcodeId -> traderPostcode
-        )
+  private def formWithValidDefaults(traderBusinessName: String = traderBusinessNameValid,
+                            traderPostcode: String = postcodeValid) = {
+    SetUpTradeDetails.traderLookupForm.bind(
+      Map(
+        dealerNameId -> traderBusinessName,
+        dealerPostcodeId -> traderPostcode
       )
-    }
+    )
+  }
 
+  "form" should {
+    "accept if form is valid with all fields filled in" in {
+      val model = formWithValidDefaults(traderBusinessName = traderBusinessNameValid, traderPostcode = postcodeValid).get
+      model.traderBusinessName should equal(traderBusinessNameValid)
+      model.traderPostcode should equal(postcodeValid)
+    }
+  }
+
+  "dealerName" should {
     "reject if trader business name is blank" in {
       // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderBusinessName = "").errors
       errors should have length 3
-      errors(0).key should equal("dealerName")
+      errors(0).key should equal(dealerNameId)
       errors(0).message should equal("error.minLength")
-      errors(1).key should equal("dealerName")
+      errors(1).key should equal(dealerNameId)
       errors(1).message should equal("error.required")
-      errors(2).key should equal("dealerName")
+      errors(2).key should equal(dealerNameId)
       errors(2).message should equal("error.validTraderBusinessName")
     }
 
@@ -33,16 +42,26 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
     }
 
     "reject if trader business name is more than the maximum length" in {
-      formWithValidDefaults(traderBusinessName = ("A" * 101)).errors should have length 1
+      formWithValidDefaults(traderBusinessName = "A" * 101).errors should have length 1
     }
 
     "accept if trader business name is valid" in {
       formWithValidDefaults(traderBusinessName = traderBusinessNameValid, traderPostcode = postcodeValid).
         get.traderBusinessName should equal(traderBusinessNameValid)
     }
+  }
 
+  "postcode" should {
     "reject if trader postcode is empty" in {
-      formWithValidDefaults(traderPostcode = "").errors should have length 3
+      // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
+      val errors = formWithValidDefaults(traderPostcode = "").errors
+      errors should have length 3
+      errors(0).key should equal(dealerPostcodeId)
+      errors(0).message should equal("error.minLength")
+      errors(1).key should equal(dealerPostcodeId)
+      errors(1).message should equal("error.required")
+      errors(2).key should equal(dealerPostcodeId)
+      errors(2).message should equal("error.restricted.validPostcode")
     }
 
     "reject if trader postcode is less than the minimum length" in {
@@ -59,11 +78,6 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
 
     "reject if trader postcode contains an incorrect format" in {
       formWithValidDefaults(traderPostcode = "SAR99").errors should have length 1
-    }
-
-    "accept if trader postcode is valid" in {
-      formWithValidDefaults(traderBusinessName = traderBusinessNameValid, traderPostcode = postcodeValid).
-        get.traderPostcode should equal(postcodeValid)
     }
   }
 }

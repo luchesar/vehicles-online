@@ -3,34 +3,23 @@ package services.fakes
 import models.domain.disposal_of_vehicle.AddressViewModel
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-import play.api.libs.ws.Response
 import javax.inject.Inject
-import services.address_lookup.ordnance_survey.domain.OSAddressbaseResult
-import play.api.Logger
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
-
-/**
- * Fake implementation of the FakeAddressLookupService trait
- */
-class FakeAddressLookupService @Inject()(ws: AddressLookupWebService) extends AddressLookupService { // TODO I think this class should no longer exist and we should have the real service call the fake webservice.
-  override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = Future {
-    if (postcode == FakeAddressLookupService.postcodeInvalid) Seq.empty
-    else FakeAddressLookupService.fetchedAddresses
-  }
-
-  override def fetchAddressForUprn(uprn: String): Future[Option[AddressViewModel]] = Future {
-    if (uprn == FakeAddressLookupService.uprnInvalid.toString) None
-    else Some(FakeAddressLookupService.address1)
-  }
-}
+import FakeWebServiceImpl.{traderUprnValid, traderUprnValid2}
 
 object FakeAddressLookupService {
-  val uprnInvalid = 9999L
   val postcodeInvalid = "xx99xx"
-  val address1 = AddressViewModel(uprn = Some(1234L), address = Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
-  val address2 = AddressViewModel(uprn = Some(4567L), address = Seq("Penarth Road", "Cardiff", "CF11 8TT"))
+  val addressWithoutUprn = AddressViewModel(address= Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
+  val addressWithUprn = AddressViewModel(uprn = Some(traderUprnValid), address = Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
+  val line1Valid = "123"
+  val line2Valid = "line2 stub"
+  val line3Valid = "line3 stub"
+  val line4Valid = "line4 stub"
+  val postcodeValid = "CM81QJ"
+  val postcodeValidWithSpace = "CM8 1QJ"
+  val postcodeNoResults = "SA99 1DD"
   val fetchedAddresses = Seq(
-    address1.uprn.getOrElse(1234L).toString -> address1.address.mkString(", "),
-    address2.uprn.getOrElse(4567L).toString -> address2.address.mkString(", ")
+    traderUprnValid.toString -> addressWithUprn.address.mkString(", "),
+    traderUprnValid2.toString -> addressWithUprn.address.mkString(", ")
   )
 }

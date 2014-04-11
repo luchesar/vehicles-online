@@ -4,7 +4,6 @@ import services.fakes.{FakeResponse, FakeWebServiceImpl}
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.address_lookup.{AddressLookupService, gds}
-import helpers.disposal_of_vehicle.Helper._
 import org.mockito.Mockito._
 import play.api.libs.ws.Response
 import services.address_lookup.gds.domain.Address
@@ -14,7 +13,9 @@ import helpers.UnitSpec
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Second, Span}
 import services.fakes.FakeWebServiceImpl.gdsAddress
-import services.fakes.FakeWebServiceImpl.uprnValid
+import services.fakes.FakeWebServiceImpl.traderUprnValid
+import services.fakes.FakeAddressLookupService._
+import play.api.http.Status.{OK, NOT_FOUND}
 
 class GdsPostcodeLookupSpec extends UnitSpec {
   /*
@@ -63,7 +64,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
     "return empty seq when micro-service returns invalid JSON" in {
       val inputAsJson = Json.toJson("INVALID")
-      val service = addressServiceMock(response(200, inputAsJson))
+      val service = addressServiceMock(response(OK, inputAsJson))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -73,7 +74,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
     "return empty seq when micro-service response status is not 200 (OK)" in {
       val input: Seq[Address] = Seq(gdsAddress())
       val inputAsJson = Json.toJson(input)
-      val service = addressServiceMock(response(404, inputAsJson))
+      val service = addressServiceMock(response(NOT_FOUND, inputAsJson))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -84,7 +85,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
     "return empty seq when micro-service returns empty seq (meaning no addresses found)" in {
       val expectedResults: Seq[Address] = Seq.empty
       val inputAsJson = Json.toJson(expectedResults)
-      val service = addressServiceMock(response(200, inputAsJson))
+      val service = addressServiceMock(response(OK, inputAsJson))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -92,10 +93,10 @@ class GdsPostcodeLookupSpec extends UnitSpec {
     }
 
     "return seq of (uprn, address) when micro-service returns a single address" in {
-      val expected = (uprnValid.toString, "property stub, 123, town stub, area stub, postcode stub")
+      val expected = (traderUprnValid.toString, "property stub, 123, town stub, area stub, postcode stub")
       val input: Seq[Address] = Seq(gdsAddress())
       val inputAsJson = Json.toJson(input)
-      val service = addressServiceMock(response(200, inputAsJson))
+      val service = addressServiceMock(response(OK, inputAsJson))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -103,10 +104,10 @@ class GdsPostcodeLookupSpec extends UnitSpec {
     }
 
     "return seq of (uprn, address) when micro-service returns many addresses" in {
-      val expected = (uprnValid.toString, "property stub, 123, town stub, area stub, postcode stub")
+      val expected = (traderUprnValid.toString, "property stub, 123, town stub, area stub, postcode stub")
       val input = Seq(gdsAddress(), gdsAddress(), gdsAddress())
       val inputAsJson = Json.toJson(input)
-      val service = addressServiceMock(response(200, inputAsJson))
+      val service = addressServiceMock(response(OK, inputAsJson))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -115,9 +116,9 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
     "not throw when an address contains a building number that contains letters" in {
       val expected = Seq(
-        (uprnValid.toString, "property stub, 789C, town stub, area stub, postcode stub"),
-        (uprnValid.toString, "presentationProperty BBB, 123B, town stub, area stub, postcode stub"),
-        (uprnValid.toString, "presentationProperty AAA, 123A, town stub, area stub, postcode stub")
+        (traderUprnValid.toString, "property stub, 789C, town stub, area stub, postcode stub"),
+        (traderUprnValid.toString, "presentationProperty BBB, 123B, town stub, area stub, postcode stub"),
+        (traderUprnValid.toString, "presentationProperty AAA, 123A, town stub, area stub, postcode stub")
       )
       val input = Seq(
         gdsAddress(presentationStreet = "789C"),
@@ -125,7 +126,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
         gdsAddress(presentationProperty = "presentationProperty AAA", presentationStreet = "123A")
       )
       val inputAsJson = Json.toJson(input)
-      val service = addressServiceMock(response(200, inputAsJson))
+      val service = addressServiceMock(response(OK, inputAsJson))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -134,9 +135,9 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
     "return seq of (uprn, address) sorted by building number then building name" in {
       val expected = Seq(
-        (uprnValid.toString, "property stub, 789, town stub, area stub, postcode stub"),
-        (uprnValid.toString, "presentationProperty BBB, 123, town stub, area stub, postcode stub"),
-        (uprnValid.toString, "presentationProperty AAA, 123, town stub, area stub, postcode stub")
+        (traderUprnValid.toString, "property stub, 789, town stub, area stub, postcode stub"),
+        (traderUprnValid.toString, "presentationProperty BBB, 123, town stub, area stub, postcode stub"),
+        (traderUprnValid.toString, "presentationProperty AAA, 123, town stub, area stub, postcode stub")
       )
       val input = Seq(
         gdsAddress(presentationStreet = "789"),
@@ -144,7 +145,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
         gdsAddress(presentationProperty = "presentationProperty AAA", presentationStreet = "123")
       )
       val inputAsJson = Json.toJson(input)
-      val service = addressServiceMock(response(200, inputAsJson))
+      val service = addressServiceMock(response(OK, inputAsJson))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -156,7 +157,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
     "return None when cannot connect to micro-service" in {
       val service = addressServiceMock(responseTimeout)
 
-      val result = service.fetchAddressForUprn(uprnValid.toString)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)
 
       whenReady(result) { _ shouldBe None }
     }
@@ -164,16 +165,16 @@ class GdsPostcodeLookupSpec extends UnitSpec {
     "return None when response throws" in {
       val service = addressServiceMock(responseThrows)
 
-      val result = service.fetchAddressForUprn(uprnValid.toString)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)
 
       whenReady(result) { _ shouldBe None }
     }
 
     "return None when micro-service returns invalid JSON" in {
       val inputAsJson = Json.toJson("INVALID")
-      val service = addressServiceMock(response(200, inputAsJson))
+      val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressForUprn(uprnValid.toString)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)
 
       whenReady(result) { _ shouldBe None }
     }
@@ -181,18 +182,18 @@ class GdsPostcodeLookupSpec extends UnitSpec {
     "return None when micro-service response status is not 200 (OK)" in {
       val input: Seq[Address] = Seq(gdsAddress())
       val inputAsJson = Json.toJson(input)
-      val service = addressServiceMock(response(404, inputAsJson))
+      val service = addressServiceMock(response(NOT_FOUND, inputAsJson))
 
-      val result = service.fetchAddressForUprn(uprnValid.toString)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)
 
       whenReady(result) { _ shouldBe None }
     }
 
     "return None when micro-service returns empty seq (meaning no addresses found)" in {
       val inputAsJson = Json.toJson(Seq.empty)
-      val service = addressServiceMock(response(200, inputAsJson))
+      val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressForUprn(uprnValid.toString)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)
 
       whenReady(result) { _ shouldBe None }
     }
@@ -201,15 +202,14 @@ class GdsPostcodeLookupSpec extends UnitSpec {
       val expected = Seq("presentationProperty stub, 123, property stub, street stub, town stub, area stub, postcode stub")
       val input: Seq[Address] = Seq(gdsAddress())
       val inputAsJson = Json.toJson(input)
-      val service = addressServiceMock(response(200, inputAsJson))
+      val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressForUprn(uprnValid.toString)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)
 
       whenReady(result) {
-        case Some(addressViewModel) => {
-          addressViewModel.uprn should equal(Some(uprnValid.toLong))
+        case Some(addressViewModel) =>
+          addressViewModel.uprn should equal(Some(traderUprnValid.toLong))
           addressViewModel.address === expected
-        }
         case _ => fail("Should have returned Some(AddressViewModel)")
       }
     }
@@ -218,15 +218,14 @@ class GdsPostcodeLookupSpec extends UnitSpec {
       val expected = Seq("presentationProperty stub, 123, property stub, street stub, town stub, area stub, postcode stub")
       val input: Seq[Address] = Seq(gdsAddress(), gdsAddress(), gdsAddress())
       val inputAsJson = Json.toJson(input)
-      val service = addressServiceMock(response(200, inputAsJson))
+      val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressForUprn(uprnValid.toString)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)
 
       whenReady(result) {
-        case Some(addressViewModel) => {
-          addressViewModel.uprn should equal(Some(uprnValid.toLong))
+        case Some(addressViewModel) =>
+          addressViewModel.uprn should equal(Some(traderUprnValid.toLong))
           addressViewModel.address === expected
-        }
         case _ => fail("Should have returned Some(AddressViewModel)")
       }
     }

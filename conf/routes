@@ -18,7 +18,7 @@ GET         /assets/*file                   controllers.Assets.at(path="/public"
 #page 1 - Before You Start (GET request not POST on submission because we are not posting any data)
 GET         /                                                   controllers.Application.index
 GET         /disposal-of-vehicle/before-you-start               controllers.disposal_of_vehicle.BeforeYouStart.present
-POST         /disposal-of-vehicle/before-you-start               controllers.disposal_of_vehicle.BeforeYouStart.submit
+POST        /disposal-of-vehicle/before-you-start               controllers.disposal_of_vehicle.BeforeYouStart.submit
 
 #page 2 - setup-trade-details
 GET         /disposal-of-vehicle/setup-trade-details            controllers.disposal_of_vehicle.SetUpTradeDetails.present
@@ -36,7 +36,6 @@ GET         /disposal-of-vehicle/vehicle-lookup                 @controllers.dis
 POST        /disposal-of-vehicle/vehicle-lookup                 @controllers.disposal_of_vehicle.VehicleLookup.submit
 GET         /disposal-of-vehicle/vehicle-lookup-back            @controllers.disposal_of_vehicle.VehicleLookup.back
 
-
 GET         /disposal-of-vehicle/dispose                        @controllers.disposal_of_vehicle.Dispose.present
 POST        /disposal-of-vehicle/dispose                        @controllers.disposal_of_vehicle.Dispose.submit
 
@@ -51,3 +50,4 @@ POST        /disposal-of-vehicle/vehicle-lookup-failure         controllers.disp
 
 GET         /disposal-of-vehicle/uprn-not-found                 controllers.disposal_of_vehicle.UprnNotFound.present
 
+GET         /disposal-of-vehicle/micro-service-error            controllers.disposal_of_vehicle.MicroServiceError.present

@@ -1,7 +1,7 @@
 package services.address_lookup.ordnance_survey
 
 import helpers.UnitSpec
-import helpers.disposal_of_vehicle.Helper._
+import services.fakes.FakeAddressLookupService._
 
 class WebServiceImplSpec extends UnitSpec {
   "postcodeWithNoSpaces" should {

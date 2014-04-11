@@ -201,11 +201,12 @@ disposal_setuptradedetails.name = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_setuptradedetails.p1 = Cerbyd yn cael ei werthu
 disposal_setuptradedetails.tradernamelabel = Enw masnachwr
 disposal_setuptradedetails.traderpostcodelabel = Cod post
-disposal_setuptradedetails.traderpostcodelabel.validation = Teipiwch eich côd post busnes dilys
+disposal_setuptradedetails.traderpostcodelabel.validation = Rhaid bod rhwng 5 ac 8 cymeriadau ac mewn fformat dilys, ee. PR2 8AE neu PR28AE
 disposal_setuptradedetails.button = Nesaf
 dealerName = Enw masnachwr
 dealerPostcode = Cod post
 
+#page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Dod o hyd i fanylion y cerbyd
 disposal_vehiclelookup.name = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_vehiclelookup.p1 = Dod o hyd i gerbyd
@@ -215,14 +216,16 @@ disposal_vehiclelookup.warning.p2 = Cadw neu drosglwyddo cofrestriadau personol 
 disposal_vehiclelookup.refnumlabel = V5C Rhif cyfeirnod y ddogfen
 disposal_vehiclelookup.refnumlabel.refNumIncorrect = Mae'n rhaid i chi fynd i mewn i nifer sydd â hyd o 11 digid
 disposal_vehiclelookup.vrninputlabel = Rhif cofrestru cerbyd
-disposal_vehiclelookup.consent = gennyf ganiatâd y ceidwad presennol i gael gwared ar y cerbyd hwn
-disposal_vehiclelookup.consentnotgiven = Nodwch fod gennych ganiatâd y ceidwad presennol'' s
 disposal_vehiclelookup.backbutton = Holau
 disposal_vehiclelookup.button = Dod o hyd i
 disposal_vehiclelookup.button2 = Golygu
 disposal_vehiclelookup.tradernamelabel = Enw masnachwr
 disposal_vehiclelookup.traderaddresslabel = Gyfeiriad masnachwr
+registrationNumber = Rhif cofrestru cerbyd
+referenceNumber = Rhif cyfeirnod Dogfen
+error.validDocumentReferenceNumber = Rhaid fod yn rhif 11-digid
 
+#page 5 - confirm disposal
 disposal_dispose.title = Cwblhau & gadarnhau
 disposal_dispose.warning = Os yw''r manylion uchod yn cyd-fynd â''r cerbyd i gael ei werthu, os gwelwch yn dda
 disposal_dispose.warning.link = cysylltu â''r DVLA.
@@ -234,28 +237,34 @@ disposal_dispose.vehiclekeeper = Ceidwad
 disposal_dispose.disposevehicleto = Am y gwerthiant
 disposal_dispose.mileage.label = Milltiroedd cerbydau
 disposal_dispose.mileage.validation = Mae''n rhaid i chi fynd i mewn milltiroedd dilys rhwng 0 a 999,999
-dateOfDisposal = Date of disposal
+dateOfDisposal = Dyddiad gwaredu
 disposal_dispose.dateofdisposal.label = Dyddiad y gwaredu
 disposal_dispose.backbutton = Holau
 disposal_dispose.submitbutton = Cadarnhau gwerthu
-disposal_dispose.exkeeperlettertext = Bydd y llythyr yn cadarnhau y gwarediad. Os byddai''n well gennych dderbyn e-bost cydnabyddiaeth ar unwaith, rhowch gyfeiriad e-bost
-disposal_dispose.emaillabel = Cyfeiriad e-bost i Gwsmeriaid
+disposal_dispose.consent = gennyf ganiatâd y ceidwad presennol i gael gwared ar y cerbyd hwn
+disposal_dispose.consent.notgiven = Nodwch fod gennych ganiatâd y ceidwad presennol'' s
 dateOfDisposal_day = Diwrnod gwaredu
 dateOfDisposal_month = Mis gwaredu
 dateOfDisposal_year = Flwyddyn waredu
 dateOfDisposal.day = Diwrnod gwaredu
 dateOfDisposal.month = Mis gwaredu
 dateOfDisposal.year = Flwyddyn waredu
-error.date.invalidYear = WELSH You must enter a valid year
+error.dateOfDisposal = Rhaid i ddyddiad gwared fod o fewn dwy flynedd
+disposal_dispose.consent.mandatory = Rhaid i chi gael cydsyniad y ceidwad cofrestredig i hysbysu gwerthu cerbyd hwn
+consent = Caniatâd
+disposal_dispose.loss_of_registration.consent = Os gwelwch yn dda cadarnhau bod y ceidwad presennol yn ymwybodol y bydd y cofrestriad yn cael ei waredu gyda''r cerbyd
+disposal_dispose.loss_of_registration.consent.notgiven = Mae''n rhaid i chi gadarnhau eich bod wedi gwneud y ceidwad yn ymwybodol y byddant yn colli y marc cofrestru sy''n gysylltiedig â''r cerbyd hwn
+lossOfRegistrationConsent = Colli caniatâd gofrestru
 
+
+#page 6 - summary
 disposal_disposeconfirmation.title = Gwaredu cerbyd i mewn i''r fasnach foduron manylion
 disposal_disposeconfirmation.disposaldetails = Gwaredu
 disposal_disposeconfirmation.vehiclemake = Gwneud
 disposal_disposeconfirmation.vehiclemodel = Model
 disposal_disposeconfirmation.vehiclekeeper = Ceidwad
 disposal_disposeconfirmation.disposedto = Werthwyd i
-disposal_disposeconfirmation.exkeeper = Ar gyfer y cyn-geidwad
-disposal_disposeconfirmation.exkeeperlettersend = Bydd llythyr yn cael ei anfon at
+disposal_disposeconfirmation.exkeeper = Bydd llythyr yn cadarnhau''r gwaredu yn cael ei anfon at y ceidwad blaenorol o fewn 4 wythnos. Os nad yw ef / hi yn derbyn llythyr yn yr amser hwn rhaid iddynt gysylltu Ymholiadau Cwsmeriaid DVLA ar 0300 790 6802 gan y gallai''r ceidwad blaenorol yn dal i fod yn atebol am y cerbyd hwn.
 disposal_disposeconfirmation.sendbutton = Anfon
 disposal_disposeconfirmation.transactionid = {0}
 disposal_disposeconfirmation.transactionid_label = Trafodiad yn
@@ -270,11 +279,18 @@ disposal_disposeconfirmation.noMileageEntered = Naddo milltiroedd gofnodi
 disposal_disposeconfirmation.exitbutton = Gadael
 disposal_disposeconfirmation.survey = Arolwg
 
-disposal_vehiclelookupfailure.title = Cael gwared cerbyd i mewn i'r fasnach foduron: methiant Gwrthdro-edrych gerbyd
+disposal_vehiclelookupfailure.title = Cael gwared cerbyd i mewn i''r fasnach foduron: methiant Gwrthdro-edrych gerbyd
 disposal_vehiclelookupfailure.name = Methiant
 disposal_vehiclelookupfailure.p1 = Nid yw wedi bod yn bosibl i ddod o hyd cerbyd hwn. Os gwelwch yn dda ceisiwch eto
 disposal_vehiclelookupfailure.button = Am-edrych gerbyd
 disposal_disposefailure.button2 = Setup Newydd Manylion Masnachwr
+disposal_disposefailure.transactionid = {0}
+
+#micro service error page
+micro_service_error.title=Mae''n ddrwg gennym
+micro_service_error.text=Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
+micro_service_error.back.button=Yn ôl
+micro_service_error.exit.button=Gadael
 
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda
@@ -283,11 +299,12 @@ widget.optional = (dewisol)
 
 #customer validation messages
 error.restricted.validNumberOnly = Mae''r maes hwn yn derbyn rhifau yn unig 
-error.restricted.validVRNOnly = Rhowch rhif cofrestru cerbyd dilys
-error.restricted.validPostcode = Rhaid i cod post fod yn y fformat PR2 8AE
+error.restricted.validVRNOnly = Rhaid bod fformat dilys
+error.restricted.validPostcode = Rhaid bod rhwng 5 ac 8 cymeriadau ac mewn fformat dilys, ee. PR2 8AE neu PR28AE
 
 datePlaceholder.day = Dydd
 datePlaceholder.month = Mis
+datePlaceholder.year=Blwyddyn
 datePlaceholder.January = Ionawr
 datePlaceholder.February = Chwefror
 datePlaceholder.March = Mawrth
@@ -308,8 +325,6 @@ error.maxLength = Uchafswm hyd yn {0}
 
 select_default = Dewiswch
 
-
-
 error.invalid = Gwerth annilys
 
 error.address.line1Required = Mae angen o leiaf y llinell gyntaf lenwi gyfeiriad
@@ -319,3 +334,4 @@ error.address.characterinvalid = Nid yw nodau annilys chaniateir
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post
 error.validTraderBusinessName = Rhaid iddo fod rhwng dwy a 30 cymeriadau a ydynt yn cynnwys nodau annilys
+

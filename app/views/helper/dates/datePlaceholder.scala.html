@@ -1,4 +1,4 @@
-@(field: play.api.data.Field, id: String, args: Map[Symbol, Any])(implicit lang: Lang)
+@(field: play.api.data.Field, id: String, years: Seq[(String, String)], args: Map[Symbol, Any])(implicit lang: Lang)
 
 @import helper._
 @import utils.helpers.EmptyTemplate._
@@ -9,7 +9,6 @@
 @import views.html.helper.dateConstraintRequired
 
 <fieldset>
-
     @dateConstraintRequired(field, args) <!-- datePlaceholder -->
 
     <div class="form-inline form-date">
@@ -42,8 +41,13 @@
         </div>
 
         <div class="form-item">
-            @valtechInputDigits(field("year"), args = Map('placeholder -> "YYYY", 'maxLength -> 4)) @* TODO maxLength value should be a constant, not a magic number *@
+            @* Year field. Overriding the default select message with "Year". *@
+            @valtechSelect(field("year"),
+                defaultOptionMessage = "datePlaceholder.year",
+                options = years
+            )
         </div>
+
     </div>
 
 </fieldset>

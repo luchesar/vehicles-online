@@ -9,9 +9,4 @@ object AddressViewModel{
   def from(address: AddressAndPostcodeModel): AddressViewModel = {
     AddressViewModel(address = address.toViewFormat)
   }
-
-  def fromDto(address: AddressDto): AddressViewModel = {
-    // Note We are not using the uprn
-    AddressViewModel(address = address.address)
-  }
 }
