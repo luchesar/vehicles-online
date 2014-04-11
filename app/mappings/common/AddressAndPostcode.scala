@@ -11,7 +11,6 @@ import models.domain.common.AddressAndPostcodeModel
 
 object AddressAndPostcode {
   val addressAndPostcodeId = "addressAndPostcode"
-  val postcodeMaxLength = "9"
 
   val addressAndPostcode: Mapping[AddressAndPostcodeModel] = mapping(
     uprnId -> uprn,

@@ -153,7 +153,7 @@ widget.optional = (optional)
 #customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
 error.restricted.validVRNOnly = Please enter a valid vehicle registration number
-error.restricted.validPostcode = Must be between 5 and 8 characters and in a valid format eg. PR2 8AE
+error.restricted.validPostcode = Must be between 5 and 8 characters and in a valid format, eg. PR2 8AE or PR28AE
 
 datePlaceholder.day=Day
 datePlaceholder.month=Month
@@ -202,7 +202,7 @@ disposal_setuptradedetails.name = Dispose a vehicle into the motor trade
 disposal_setuptradedetails.p1 = Set-up trade details
 disposal_setuptradedetails.tradernamelabel = Trader name
 disposal_setuptradedetails.traderpostcodelabel = Postcode
-disposal_setuptradedetails.traderpostcodelabel.validation = Please enter a valid business postcode
+disposal_setuptradedetails.traderpostcodelabel.validation = Must be between 5 and 8 characters and in a valid format, eg. PR2 8AE or PR28AE
 disposal_setuptradedetails.button = Find address
 dealerName = Trader name
 dealerPostcode = Postcode

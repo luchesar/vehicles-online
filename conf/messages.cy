@@ -201,7 +201,7 @@ disposal_setuptradedetails.name = Gwaredu cerbyd i mewn i'r fasnach foduron
 disposal_setuptradedetails.p1 = Cerbyd yn cael ei werthu
 disposal_setuptradedetails.tradernamelabel = Enw masnachwr
 disposal_setuptradedetails.traderpostcodelabel = Cod post
-disposal_setuptradedetails.traderpostcodelabel.validation = Teipiwch eich côd post busnes dilys
+disposal_setuptradedetails.traderpostcodelabel.validation = Rhaid bod rhwng 5 ac 8 cymeriadau ac mewn fformat dilys, ee. PR2 8AE neu PR28AE
 disposal_setuptradedetails.button = Nesaf
 dealerName = Enw masnachwr
 dealerPostcode = Cod post
@@ -300,7 +300,7 @@ widget.optional = (dewisol)
 #customer validation messages
 error.restricted.validNumberOnly = Mae''r maes hwn yn derbyn rhifau yn unig 
 error.restricted.validVRNOnly = Rhowch rhif cofrestru cerbyd dilys
-error.restricted.validPostcode = Rhaid i cod post fod yn y fformat PR2 8AE
+error.restricted.validPostcode = Rhaid bod rhwng 5 ac 8 cymeriadau ac mewn fformat dilys, ee. PR2 8AE neu PR28AE
 
 datePlaceholder.day = Dydd
 datePlaceholder.month = Mis
