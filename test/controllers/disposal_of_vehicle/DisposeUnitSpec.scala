@@ -78,7 +78,7 @@ class DisposeUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to dispose error when a fail message is returned by the fake microservice" in new WithApplication {
+    "redirect to micro-service error page when unsuccessful and response code is returned" in new WithApplication {
       val disposeFailure = {
         val ws = mock[DisposeWebService]
         when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
@@ -96,7 +96,7 @@ class DisposeUnitSpec extends UnitSpec {
       // Verify that the transaction id is now stored in the cache
       whenReady(result) {
         r => {
-          r.header.headers.get(LOCATION) should equal(Some(DisposeFailurePage.address))
+          r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
           controllers.disposal_of_vehicle.Helpers.fetchDisposeTransactionIdFromCache match {
             case Some(txId) =>
               txId should equal(FakeDisposeWebServiceImpl.transactionIdValid)
@@ -194,7 +194,7 @@ class DisposeUnitSpec extends UnitSpec {
 
       val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceError.address))
+        r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
 
