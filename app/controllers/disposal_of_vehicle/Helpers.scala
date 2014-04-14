@@ -64,6 +64,12 @@ object Helpers {
     Logger.debug(s"Dispose - stored dispose transaction id in cache: key = $key, value = $value")
   }
 
+  def storeDisposeTransactionTimestampInCache(value: String) = {
+    val key = disposeFormTimestampIdCacheKey
+    Cache.set(key, value)
+    Logger.debug(s"Dispose - stored dispose transaction timestamp in cache: key = $key, value = $value")
+  }
+
   def storeDisposeRegistrationNumberInCache(value: String) = {
     val key = disposeFormRegistrationNumberCacheKey
     Cache.set(key, value)
@@ -117,6 +123,11 @@ object Helpers {
     val key = disposeFormTransactionIdCacheKey
     Cache.getAs[String](key)
   }
+
+  def fetchDisposeTransactionTimestampInCache: Option[String] = {
+    val key = disposeFormTimestampIdCacheKey
+    Cache.getAs[String](key)
+  } // TODO make this a one-liner.
 
   def fetchDisposeRegistrationNumberFromCache: Option[String] = {
     val key = disposeFormRegistrationNumberCacheKey

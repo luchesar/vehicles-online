@@ -108,6 +108,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       webService.invoke(disposeRequest).map {
         resp => Logger.debug(s"Dispose micro-service call successful - response = $resp")
           storeDisposeTransactionIdInCache(resp.transactionId)
+          transactionTimestamp()
           if (resp.success) {
             storeDisposeRegistrationNumberInCache(resp.registrationNumber)
             Redirect(routes.DisposeSuccess.present)
@@ -117,6 +118,16 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
         case e: Throwable =>
           Logger.warn(s"Dispose micro-service call failed. Exception: $e")
           Redirect(routes.MicroServiceError.present)
+      }
+    }
+
+    def transactionTimestamp() = {
+      dateService.today.toDateTime match {
+        case Some(transactionTimestamp) =>
+          val formatter = ISODateTimeFormat.dateTime()
+          val isoDateTimeString = formatter.print(transactionTimestamp)
+          storeDisposeTransactionTimestampInCache(isoDateTimeString)
+        case _ => Logger.error("Dispose could not generate timestamp")
       }
     }
 

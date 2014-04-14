@@ -1,7 +1,7 @@
 package constraints.common
 
 import play.api.data.validation._
-import scala.util.{Failure, Success, Try}
+import scala.util.{Success, Try}
 import org.joda.time.DateTime
 import play.api.data.validation.ValidationError
 import services.DateService
