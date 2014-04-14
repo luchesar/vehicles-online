@@ -5,6 +5,7 @@ import helpers.webbrowser._
 import helpers.disposal_of_vehicle.CacheSetup
 import pages.disposal_of_vehicle.VehicleLookupPage
 import services.fakes.FakeVehicleLookupWebService._
+import VehicleLookupPage._
 
 class US51_disposal_to_trade_validate_vrm_format_entry extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
@@ -26,11 +27,11 @@ class US51_disposal_to_trade_validate_vrm_format_entry extends FeatureSpec with 
         go to VehicleLookupPage
 
         // Note: leave the vehicle registration number field blank to cause errors.
-        VehicleLookupPage.vehicleRegistrationNumber enter registrationNumberValid
-        VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
+        vehicleRegistrationNumber enter registrationNumberValid
+        documentReferenceNumber enter referenceNumberValid
 
         When("they attempt to submit the information")
-        click on VehicleLookupPage.findVehicleDetails
+        click on findVehicleDetails
 
         Then("the VRM is retained")
         page.text should include(registrationNumberValid)
@@ -47,10 +48,10 @@ class US51_disposal_to_trade_validate_vrm_format_entry extends FeatureSpec with 
         go to VehicleLookupPage
 
         // Note: leave the vehicle registration number field blank to cause errors.
-        VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
+        documentReferenceNumber enter referenceNumberValid
 
         When("they attempt to submit the information")
-        click on VehicleLookupPage.findVehicleDetails
+        click on findVehicleDetails
 
         Then("a single appropriate message is displayed")
         page.text should include("Vehicle registration mark - Must be valid format")

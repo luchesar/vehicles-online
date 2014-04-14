@@ -5,6 +5,7 @@ import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
 import pages.common.ErrorPanel
 import helpers.UiSpec
+import BusinessChooseYourAddressPage.{sadPath, happyPath, manualAddress, back}
 
 class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   private def cacheSetup() = {
@@ -14,45 +15,45 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "Business choose your address - Integration" should {
     "be presented" in new WebBrowser {
       cacheSetup()
-      go to BusinessChooseYourAddressPage.url
+      go to BusinessChooseYourAddressPage
 
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
     "go to the next page when correct data is entered" in new WebBrowser {
       cacheSetup()
-      BusinessChooseYourAddressPage.happyPath
+      happyPath
 
       assert(page.title equals VehicleLookupPage.title)
     }
 
     "go to the manual address entry page when manualAddressButton is clicked" in new WebBrowser {
       cacheSetup()
-      go to BusinessChooseYourAddressPage.url
+      go to BusinessChooseYourAddressPage
 
-      click on BusinessChooseYourAddressPage.manualAddress
+      click on manualAddress
 
       assert(page.title equals EnterAddressManuallyPage.title)
     }
 
     "display previous page when back link is clicked" in new WebBrowser {
       cacheSetup()
-      go to BusinessChooseYourAddressPage.url
+      go to BusinessChooseYourAddressPage
 
-      click on BusinessChooseYourAddressPage.back
+      click on back
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
     "redirect when no traderBusinessName is cached" in new WebBrowser {
-      go to BusinessChooseYourAddressPage.url
+      go to BusinessChooseYourAddressPage
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
     "display validation error messages when addressSelected is not in the list" in new WebBrowser {
       cacheSetup()
-      BusinessChooseYourAddressPage.sadPath
+      sadPath
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }

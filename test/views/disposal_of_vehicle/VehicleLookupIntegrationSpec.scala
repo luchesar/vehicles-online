@@ -6,6 +6,7 @@ import helpers.disposal_of_vehicle.CacheSetup
 import pages.common.ErrorPanel
 import helpers.UiSpec
 import services.fakes.FakeAddressLookupService._
+import VehicleLookupPage.{happyPath, back}
 
 class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
   private def cacheSetup() = {
@@ -29,55 +30,56 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
     "go to the next page when correct data is entered" in new WebBrowser {
       cacheSetup()
-      VehicleLookupPage.happyPath()
+      happyPath()
 
       assert(page.title equals DisposePage.title)
     }
 
     "display one validation error message when no referenceNumber is entered" in new WebBrowser {
       cacheSetup()
-      VehicleLookupPage.happyPath(referenceNumber = "")
+      happyPath(referenceNumber = "")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when no registrationNumber is entered" in new WebBrowser {
       cacheSetup()
-      VehicleLookupPage.happyPath(vehicleRegistrationNumber = "")
+      happyPath(vehicleRegistrationNumber = "")
+
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a registrationNumber is entered containing one character" in new WebBrowser {
       cacheSetup()
-      VehicleLookupPage.happyPath(vehicleRegistrationNumber = "a")
+      happyPath(vehicleRegistrationNumber = "a")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when a registrationNumber is entered containing special characters" in new WebBrowser {
       cacheSetup()
-      VehicleLookupPage.happyPath(vehicleRegistrationNumber = "$^")
+      happyPath(vehicleRegistrationNumber = "$^")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display two validation error messages when no vehicle details are entered but consent is given" in new WebBrowser {
       cacheSetup()
-      VehicleLookupPage.happyPath(referenceNumber = "", vehicleRegistrationNumber = "")
+      happyPath(referenceNumber = "", vehicleRegistrationNumber = "")
 
       assert(ErrorPanel.numberOfErrors equals 2)
     }
 
     "display one validation error message when only a valid referenceNumber is entered and consent is given" in new WebBrowser {
       cacheSetup()
-      VehicleLookupPage.happyPath(vehicleRegistrationNumber = "")
+      happyPath(vehicleRegistrationNumber = "")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
 
     "display one validation error message when only a valid registrationNumber is entered and consent is given" in new WebBrowser {
       cacheSetup()
-      VehicleLookupPage.happyPath(referenceNumber = "")
+      happyPath(referenceNumber = "")
 
       assert(ErrorPanel.numberOfErrors equals 1)
     }
@@ -92,7 +94,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       CacheSetup.businessChooseYourAddress(addressWithUprn)
       go to VehicleLookupPage
-      click on VehicleLookupPage.back
+      click on back
 
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
@@ -100,7 +102,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "display previous page when back link is clicked with no uprn present" in new WebBrowser {
       cacheSetup()
       go to VehicleLookupPage
-      click on VehicleLookupPage.back
+      click on back
 
       assert(page.title equals EnterAddressManuallyPage.title)
     }

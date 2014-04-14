@@ -5,6 +5,7 @@ import pages.disposal_of_vehicle._
 import helpers.webbrowser._
 import helpers.disposal_of_vehicle.CacheSetup
 import services.fakes.FakeDateServiceImpl._
+import DisposePage._
 
 class US125_date_of_disposal_business_rules extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
@@ -27,14 +28,14 @@ class US125_date_of_disposal_business_rules extends FeatureSpec with GivenWhenTh
         And("the date conforms to the business rules")
         cacheSetup()
         go to DisposePage
-        DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
-        DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
-        DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
-        click on DisposePage.consent
-        click on DisposePage.lossOfRegistrationConsent
+        dateOfDisposalDay select dateOfDisposalDayValid
+        dateOfDisposalMonth select dateOfDisposalMonthValid
+        dateOfDisposalYear select dateOfDisposalYearValid
+        click on consent
+        click on lossOfRegistrationConsent
 
         When("they submit the details")
-        click on DisposePage.dispose
+        click on dispose
 
         Then("they are taken to the next step in the transaction")
         page.title should equal("Dispose a vehicle into the motor trade: summary")

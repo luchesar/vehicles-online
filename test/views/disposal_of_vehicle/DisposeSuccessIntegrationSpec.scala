@@ -18,34 +18,34 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "be presented" in new WebBrowser {
       cacheSetup()
-      go to DisposeSuccessPage.url
+      go to DisposeSuccessPage
 
       assert(page.title equals DisposeSuccessPage.title)
     }
 
     "redirect when no details are cached" in new WebBrowser {
-      go to DisposeSuccessPage.url
+      go to DisposeSuccessPage
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
     "redirect when only DealerDetails are cached" in new WebBrowser {
       CacheSetup.businessChooseYourAddress()
-      go to DisposeSuccessPage.url
+      go to DisposeSuccessPage
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
     "redirect when only VehicleDetails are cached" in new WebBrowser {
       CacheSetup.vehicleDetailsModel()
-      go to DisposeSuccessPage.url
+      go to DisposeSuccessPage
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
     "redirect when only DisposeDetails are cached" in new WebBrowser {
       CacheSetup.disposeFormModel()
-      go to DisposeSuccessPage.url
+      go to DisposeSuccessPage
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
@@ -53,7 +53,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
     "redirect when only DealerDetails and VehicleDetails are cached" in new WebBrowser {
       CacheSetup.businessChooseYourAddress()
       CacheSetup.vehicleDetailsModel()
-      go to DisposeSuccessPage.url
+      go to DisposeSuccessPage
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
@@ -61,7 +61,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
     "redirect when only DisposeDetails and VehicleDetails are cached" in new WebBrowser {
       CacheSetup.disposeFormModel()
       CacheSetup.vehicleDetailsModel()
-      go to DisposeSuccessPage.url
+      go to DisposeSuccessPage
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
@@ -69,7 +69,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
     "redirect when only DisposeDetails and DealerDetails are cached" in new WebBrowser {
       CacheSetup.disposeFormModel()
       CacheSetup.businessChooseYourAddress()
-      go to DisposeSuccessPage.url
+      go to DisposeSuccessPage
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }

@@ -5,6 +5,7 @@ import pages.disposal_of_vehicle._
 import helpers.webbrowser._
 import helpers.disposal_of_vehicle.CacheSetup
 import services.fakes.FakeVehicleLookupWebService._
+import VehicleLookupPage._
 
 class US43_validate_document_reference_entry_format_error_messages extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
@@ -26,10 +27,10 @@ class US43_validate_document_reference_entry_format_error_messages extends Featu
         go to VehicleLookupPage
 
         // Note: leave the document reference number field blank to cause errors.
-        VehicleLookupPage.vehicleRegistrationNumber enter registrationNumberValid
+        vehicleRegistrationNumber enter registrationNumberValid
 
         When("they attempt to submit the information")
-        click on VehicleLookupPage.findVehicleDetails
+        click on findVehicleDetails
 
         Then("a single appropriate message is displayed")
         page.text should include("Must be an 11-digit number")
@@ -46,11 +47,11 @@ class US43_validate_document_reference_entry_format_error_messages extends Featu
         go to VehicleLookupPage
 
         // Populate everything correctly
-        VehicleLookupPage.vehicleRegistrationNumber enter registrationNumberValid
-        VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
+        vehicleRegistrationNumber enter registrationNumberValid
+        documentReferenceNumber enter referenceNumberValid
 
         When("the data complies with formatting rules")
-        click on VehicleLookupPage.findVehicleDetails
+        click on findVehicleDetails
 
         And("the motor trader progresses to the next step in the transaction")
         page.title should equal("Complete & confirm")

@@ -5,6 +5,7 @@ import pages.disposal_of_vehicle._
 import helpers.webbrowser._
 import helpers.disposal_of_vehicle.Helper._
 import services.fakes.FakeAddressLookupService._
+import SetupTradeDetailsPage._
 
 class US158_disposal_to_trade_business_name_error_messages extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
@@ -17,13 +18,12 @@ class US158_disposal_to_trade_business_name_error_messages extends FeatureSpec w
     scenario("No business name entered") {
       new WebBrowser {
         Given("the motor trader has entered no Business Name")
-        go to BeforeYouStartPage
-        click on BeforeYouStartPage.startNow
+        go to SetupTradeDetailsPage
         // Note: leave the dealerName field blank to cause errors.
-        SetupTradeDetailsPage.dealerPostcode enter postcodeValid
+        dealerPostcode enter postcodeValid
 
         When("the Business Name does not comply with formatting rules")
-        click on SetupTradeDetailsPage.lookup
+        click on lookup
 
         Then("a single appropriate message is displayed")
         page.text should include("Must be between two and 30 characters and not contain invalid characters")

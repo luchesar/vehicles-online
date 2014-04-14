@@ -4,6 +4,7 @@ import pages.disposal_of_vehicle._
 import helpers.webbrowser.TestHarness
 import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UiSpec
+import UprnNotFoundPage._
 
 class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
 
@@ -17,7 +18,7 @@ class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
     "go to setuptradedetails page after the Setup Trade Details button is clicked" in new WebBrowser {
       go to UprnNotFoundPage
 
-      click on UprnNotFoundPage.setupTradeDetails
+      click on setupTradeDetails
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
@@ -26,7 +27,7 @@ class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
       CacheSetup.setupTradeDetails()
       go to UprnNotFoundPage
 
-      click on UprnNotFoundPage.manualAddress
+      click on manualAddress
 
       assert(page.title equals EnterAddressManuallyPage.title)
 
@@ -35,7 +36,7 @@ class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
     "go to setuptradedetails page after the Manual Address button is clicked and trade details have not been set up in cache" in new WebBrowser {
       go to UprnNotFoundPage
 
-      click on UprnNotFoundPage.manualAddress
+      click on manualAddress
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }

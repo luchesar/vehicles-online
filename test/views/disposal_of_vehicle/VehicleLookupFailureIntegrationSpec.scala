@@ -4,6 +4,7 @@ import pages.disposal_of_vehicle._
 import helpers.webbrowser.TestHarness
 import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UiSpec
+import VehicleLookupFailurePage._
 
 class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
   private def cacheSetup() = {
@@ -43,7 +44,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
       cacheSetup()
       go to VehicleLookupFailurePage
 
-      click on VehicleLookupFailurePage.vehicleLookup
+      click on vehicleLookup
 
       assert(page.title equals VehicleLookupPage.title)
     }
@@ -52,7 +53,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
       cacheSetup()
       go to VehicleLookupFailurePage
 
-      click on VehicleLookupFailurePage.setupTradeDetails
+      click on setupTradeDetails
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }

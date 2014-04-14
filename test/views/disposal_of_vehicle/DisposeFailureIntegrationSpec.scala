@@ -4,6 +4,7 @@ import helpers.webbrowser.TestHarness
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UiSpec
+import DisposeFailurePage._
 
 class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
   private def cacheSetup() = {
@@ -18,31 +19,31 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
 
     "be presented" in new WebBrowser {
       cacheSetup()
-      go to DisposeFailurePage.url
+      go to DisposeFailurePage
 
       assert(page.title equals DisposeFailurePage.title)
     }
 
     "redirect to setuptrade details if cache is empty on page load" in new WebBrowser {
-      go to DisposeFailurePage.url
+      go to DisposeFailurePage
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
     "redirect to vehiclelookup when button clicked" in new WebBrowser {
       cacheSetup()
-      go to DisposeFailurePage.url
+      go to DisposeFailurePage
 
-      click on DisposeFailurePage.vehiclelookup
+      click on vehiclelookup
 
       assert(page.title equals VehicleLookupPage.title)
     }
 
     "redirect to setuptradedetails when button clicked" in new WebBrowser {
       cacheSetup()
-      go to DisposeFailurePage.url
+      go to DisposeFailurePage
 
-      click on DisposeFailurePage.setuptradedetails
+      click on setuptradedetails
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }

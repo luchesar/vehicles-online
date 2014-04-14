@@ -3,6 +3,7 @@ package views.disposal_of_vehicle
 import pages.disposal_of_vehicle._
 import helpers.webbrowser.TestHarness
 import helpers.UiSpec
+import BeforeYouStartPage.startNow
 
 class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness  {
 
@@ -16,7 +17,7 @@ class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness  {
     "go to next page after the button is clicked" in new WebBrowser {
       go to BeforeYouStartPage
 
-      click on BeforeYouStartPage.startNow
+      click on startNow
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
