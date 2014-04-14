@@ -6,10 +6,14 @@ import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UiSpec
 
 class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
+  private def cacheSetup() = {
+    CacheSetup.businessChooseYourAddress().
+      vehicleLookupFormModel()
+  }
+
   "VehicleLookupFailureIntegration" should {
     "be presented" in new WebBrowser {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleLookupFormModel()
+      cacheSetup()
       go to VehicleLookupFailurePage
 
       assert(page.title equals VehicleLookupFailurePage.title)
@@ -36,8 +40,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
     }
 
     "redirect to vehiclelookup when button clicked" in new WebBrowser {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleLookupFormModel()
+      cacheSetup()
       go to VehicleLookupFailurePage
 
       click on VehicleLookupFailurePage.vehicleLookup
@@ -46,8 +49,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
     }
 
     "redirect to setuptradedetails when button clicked" in new WebBrowser {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleLookupFormModel()
+      cacheSetup()
       go to VehicleLookupFailurePage
 
       click on VehicleLookupFailurePage.setupTradeDetails

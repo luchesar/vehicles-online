@@ -7,24 +7,27 @@ import pages.common.ErrorPanel
 import helpers.UiSpec
 
 class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
+  private def cacheSetup() = {
+    CacheSetup.setupTradeDetails()
+  }
+
   "Business choose your address - Integration" should {
     "be presented" in new WebBrowser {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       go to BusinessChooseYourAddressPage.url
 
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
     "go to the next page when correct data is entered" in new WebBrowser {
-      CacheSetup.setupTradeDetails()
-
+      cacheSetup()
       BusinessChooseYourAddressPage.happyPath
 
       assert(page.title equals VehicleLookupPage.title)
     }
 
     "go to the manual address entry page when manualAddressButton is clicked" in new WebBrowser {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       go to BusinessChooseYourAddressPage.url
 
       click on BusinessChooseYourAddressPage.manualAddress
@@ -33,7 +36,7 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display previous page when back link is clicked" in new WebBrowser {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       go to BusinessChooseYourAddressPage.url
 
       click on BusinessChooseYourAddressPage.back
@@ -48,7 +51,7 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display validation error messages when addressSelected is not in the list" in new WebBrowser {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       BusinessChooseYourAddressPage.sadPath
 
       assert(ErrorPanel.numberOfErrors equals 1)

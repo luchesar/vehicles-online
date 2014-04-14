@@ -8,7 +8,6 @@ import helpers.UiSpec
 import services.fakes.FakeAddressLookupService._
 
 class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
-
   "VehicleLookupIntegrationSpec Integration" should {
 
     "be presented" in new WebBrowser {
