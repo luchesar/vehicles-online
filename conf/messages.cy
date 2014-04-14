@@ -286,7 +286,7 @@ disposal_vehiclelookupfailure.button = Am-edrych gerbyd
 disposal_disposefailure.button2 = Setup Newydd Manylion Masnachwr
 disposal_disposefailure.transactionid = {0}
 
-#micro service error page
+#micro-service error page
 micro_service_error.title=Mae''n ddrwg gennym
 micro_service_error.text=Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
 micro_service_error.back.button=Yn ôl

@@ -4,7 +4,7 @@ import app.ConfigProperties._
 import scala.concurrent.duration._
 
 object Config {
-  // Micro service config
+  // Micro-service config
   val microServiceBaseUrl = getProperty("microServiceUrlBase", "http://localhost:8080")
 
   // Ordnance survey config

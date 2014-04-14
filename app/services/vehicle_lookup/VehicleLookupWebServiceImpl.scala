@@ -12,7 +12,7 @@ class VehicleLookupWebServiceImpl extends VehicleLookupWebService {
   val endPoint = s"${Config.microServiceBaseUrl}/vehicles/lookup/v1"
 
   override def callVehicleLookupService(request: VehicleDetailsRequest): Future[Response] = {
-    Logger.debug(s"Calling vehicle lookup micro service on ${endPoint} with request object: $request...")
+    Logger.debug(s"Calling vehicle lookup micro-service on ${endPoint} with request object: $request...")
     WS.url(endPoint).post(Json.toJson(request))
   }
 }

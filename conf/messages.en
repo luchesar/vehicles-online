@@ -91,7 +91,7 @@ loginpage.button.login = Sign In
 loginpage.button.login.arialabel = Sign In button
 loginpage.forgottenPassword = Forgotten your password?
 loginpage.cancel = Cancel and return to transaction
-loginpage.disclaimer = This is not a page from the real website, it has been created so that we can demonstrate the user journey. It is calling a micro service we have created that returns details that are used on the following pages.
+loginpage.disclaimer = This is not a page from the real website, it has been created so that we can demonstrate the user journey. It is calling a micro-service we have created that returns details that are used on the following pages.
 
 #page 7
 loginconfirmation.title = Login confirmation
@@ -107,7 +107,7 @@ loginconfirmation.button.refuse = I refuse
 loginconfirmation.button.refuse.arialabel = I refuse button
 loginconfirmation.button.agree = I agree
 loginconfirmation.button.agree.arialabel = I agree button
-loginconfirmation.disclaimer = This is not a page from the real website, it has been created so that we can demonstrate the user journey. It has received data from a micro service we have created.
+loginconfirmation.disclaimer = This is not a page from the real website, it has been created so that we can demonstrate the user journey. It has received data from a micro-service we have created.
 
 #page 8
 authentication.title = Change of keeper address8
@@ -336,7 +336,7 @@ addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
 error.validTraderBusinessName = Must be between two and 30 characters and not contain invalid characters
 
-#micro service error page
+#micro-service error page
 micro_service_error.title=We are sorry
 micro_service_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
 micro_service_error.back.button=Back

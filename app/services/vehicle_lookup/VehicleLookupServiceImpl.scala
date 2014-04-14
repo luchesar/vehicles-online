@@ -13,7 +13,7 @@ class VehicleLookupServiceImpl @Inject()(ws: VehicleLookupWebService) extends Ve
   override def invoke(cmd: VehicleDetailsRequest): Future[VehicleDetailsResponse] = {
     ws.callVehicleLookupService(cmd).map {
       resp =>
-        Logger.debug(s"Http response code from vehicle lookup micro service was: ${resp.status}")
+        Logger.debug(s"Http response code from vehicle lookup micro-service was: ${resp.status}")
         resp.json.as[VehicleDetailsResponse]
     }
   }

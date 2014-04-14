@@ -106,7 +106,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
     def callMicroService(disposeModel: DisposeModel) = {
       val disposeRequest = buildDisposeMicroServiceRequest(disposeModel)
       webService.invoke(disposeRequest).map {
-        resp => Logger.debug(s"Dispose micro service call successful - response = $resp")
+        resp => Logger.debug(s"Dispose micro-service call successful - response = $resp")
           storeDisposeTransactionIdInCache(resp.transactionId)
           if (resp.success) {
             storeDisposeRegistrationNumberInCache(resp.registrationNumber)
@@ -115,7 +115,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
           else handleDisposeNotSuccessful(resp)
       }.recover {
         case e: Throwable =>
-          Logger.warn(s"Dispose micro service call failed. Exception: $e")
+          Logger.warn(s"Dispose micro-service call failed. Exception: $e")
           Redirect(routes.MicroServiceError.present)
       }
     }

@@ -5,7 +5,7 @@ import play.api.Logger
 
 object SoapEndpointError extends Controller {
   def present = Action { implicit request =>
-    Logger.debug(s"SoapEndpointError - displaying the micro service error page")
+    Logger.debug(s"SoapEndpointError - displaying the micro-service error page")
     Ok(views.html.disposal_of_vehicle.micro_service_error())
   }
 }
