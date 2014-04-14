@@ -175,7 +175,7 @@ class DisposeUnitSpec extends UnitSpec {
 
       val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+        r => r.header.headers.get(LOCATION) should equal(Some(SoapEndpointErrorPage.address))
       }
     }
 
