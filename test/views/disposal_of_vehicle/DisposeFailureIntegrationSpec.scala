@@ -6,14 +6,18 @@ import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UiSpec
 
 class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
+  private def cacheSetup() = {
+    CacheSetup.businessChooseYourAddress().
+      vehicleDetailsModel().
+      disposeFormModel().
+      disposeTransactionId().
+      vehicleRegistrationNumber()
+  }
+
   "DisposeFailureIntegration" should {
 
     "be presented" in new WebBrowser {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
-      CacheSetup.disposeFormModel()
-      CacheSetup.disposeTransactionId()
-      CacheSetup.vehicleRegistrationNumber()
+      cacheSetup()
       go to DisposeFailurePage.url
 
       assert(page.title equals DisposeFailurePage.title)
@@ -26,11 +30,7 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect to vehiclelookup when button clicked" in new WebBrowser {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
-      CacheSetup.disposeFormModel()
-      CacheSetup.disposeTransactionId()
-      CacheSetup.vehicleRegistrationNumber()
+      cacheSetup()
       go to DisposeFailurePage.url
 
       click on DisposeFailurePage.vehiclelookup
@@ -39,11 +39,7 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect to setuptradedetails when button clicked" in new WebBrowser {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
-      CacheSetup.disposeFormModel()
-      CacheSetup.disposeTransactionId()
-      CacheSetup.vehicleRegistrationNumber()
+      cacheSetup()
       go to DisposeFailurePage.url
 
       click on DisposeFailurePage.setuptradedetails
