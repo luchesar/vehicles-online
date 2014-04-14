@@ -5,27 +5,27 @@ import helpers.webbrowser._
 import pages.disposal_of_vehicle.DisposePage
 import pages.disposal_of_vehicle.DisposePage._
 import services.fakes.FakeDateServiceImpl._
-import services.fakes.FakeDisposeWebServiceImpl.simulateSoapEndpointFailure
+import services.fakes.FakeDisposeWebServiceImpl.simulateMicroServiceUnavailable
 
-class US174_disposal_to_trade_disposal_submission_ms_to_vss_failure extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
-  private def cacheSetupStubsNoVssResponse() = {
+class US177_disposal_to_trade_disposal_submission_web_to_ms_failure extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
+  private def cacheSetupStubNoMicroService() = {
     import helpers.disposal_of_vehicle.CacheSetup
     CacheSetup.setupTradeDetails().
       businessChooseYourAddress().
       vehicleDetailsModel().
-      vehicleLookupFormModel(referenceNumber = simulateSoapEndpointFailure)
+      vehicleLookupFormModel(referenceNumber = simulateMicroServiceUnavailable)
   }
 
-  feature("US174: Disposal to Trade - Disposal Submission - MS-to-VSS failure") {
+  feature("US177: Disposal to Trade - Disposal Submission - Web-To-MS failure") {
     info("As a Motor Trader")
     info("I want to be told when an error occurs submitting a disposal")
     info("So that I can choose whether to take other action")
     info("")
 
-    scenario("VSS is unavailable") {
+    scenario("Dispose micro-service is unavailable") {
       new WebBrowser {
-        Given("VSS is unavailable")
-        cacheSetupStubsNoVssResponse()
+        Given("the micro-service is unavailable")
+        cacheSetupStubNoMicroService()
         go to DisposePage
         dateOfDisposalDay select dateOfDisposalDayValid
         dateOfDisposalMonth select dateOfDisposalMonthValid

@@ -17,9 +17,13 @@ import scala.Some
 
 class FakeDisposeWebServiceImpl extends DisposeWebService {
   override def callDisposeService(request: DisposeRequest): Future[Response] = Future {
-    val disposeResponse: DisposeResponse =
-      if(request.referenceNumber == "9" * 11) disposeResponseSoapEndpointFailure
-      else disposeResponseSuccess
+    val disposeResponse: DisposeResponse = {
+      request.referenceNumber match {
+        case `simulateMicroServiceUnavailable` => throw new RuntimeException("simulateMicroServiceUnavailable")
+        case `simulateSoapEndpointFailure` => disposeResponseSoapEndpointFailure
+        case _ => disposeResponseSuccess
+      }
+    }
     val responseAsJson = Json.toJson(disposeResponse)
     Logger.debug(s"FakeVehicleLookupWebService callVehicleLookupService with: $responseAsJson")
     new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
@@ -29,6 +33,8 @@ class FakeDisposeWebServiceImpl extends DisposeWebService {
 object FakeDisposeWebServiceImpl {
   val transactionIdValid = "1234"
   val auditIdValid = "7575"
+  val simulateMicroServiceUnavailable = "8" * 11
+  val simulateSoapEndpointFailure = "9" * 11
 
   val disposeResponseSuccess =
     DisposeResponse(success = true,
