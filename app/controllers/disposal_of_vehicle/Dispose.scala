@@ -103,52 +103,56 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
   }
 
   private def disposeAction(webService: DisposeService, f: DisposeFormModel): Future[SimpleResult] = {
-    fetchVehicleLookupDetailsFromCache match {
-      case Some(vehicleLookupFormModel) =>
-        val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,registrationNumber = vehicleLookupFormModel.registrationNumber, 
-          dateOfDisposal = f.dateOfDisposal, mileage = f.mileage)
-        storeDisposeModelInCache(disposeModel)
-        webService.invoke(buildDisposeMicroServiceRequest(disposeModel)).map {
-          resp => Logger.debug(s"Dispose micro service call successful - response = $resp")
+    def callMicroService(disposeModel: DisposeModel) = {
+      val disposeRequest = buildDisposeMicroServiceRequest(disposeModel)
+      webService.invoke(disposeRequest).map {
+        resp => Logger.debug(s"Dispose micro service call successful - response = $resp")
           storeDisposeTransactionIdInCache(resp.transactionId)
           if (resp.success) {
             storeDisposeRegistrationNumberInCache(resp.registrationNumber)
             Redirect(routes.DisposeSuccess.present)
           }
-          else {
-            handleMicroServiceFailure(resp)
-          }
-        }.recover {
-          case e: Throwable =>
-            Logger.warn(s"Dispose micro service call failed. Exception: $e")
-            Redirect(routes.MicroServiceError.present)
-        }
+          else handleMicroServiceFailure(resp)
+      }.recover {
+        case e: Throwable =>
+          Logger.warn(s"Dispose micro service call failed. Exception: $e")
+          Redirect(routes.MicroServiceError.present)
+      }
+    }
+
+    def buildDisposeMicroServiceRequest(disposeModel: DisposeModel):DisposeRequest = {
+      val dateTime = disposeModel.dateOfDisposal.toDateTime.get
+      val formatter = ISODateTimeFormat.dateTime()
+      val isoDateTimeString = formatter.print(dateTime)
+      DisposeRequest(referenceNumber = disposeModel.referenceNumber, registrationNumber = disposeModel.registrationNumber, dateOfDisposal = isoDateTimeString, mileage = disposeModel.mileage)
+    }
+
+    def handleMicroServiceFailure(resp: DisposeResponse) = {
+      val disposeEndpointDown = "ms.dispose.response.endpointdown"
+      resp.responseCode match {
+        case Some(responseCode) if responseCode == disposeEndpointDown =>
+          Logger.warn("Dispose soap endpoint down redirecting to error page...")
+          Redirect(routes.MicroServiceError.present)
+        case Some(responseCode) =>
+          Logger.warn(s"Dispose micro-service failed: $responseCode, redirecting to error page...")
+          Redirect(routes.MicroServiceError.present)
+        case None =>
+          Logger.error("Dispose micro-service failed and did not give response code, redirecting to failure page...")
+          Redirect(routes.DisposeFailure.present)
+      }
+    }
+
+    fetchVehicleLookupDetailsFromCache match {
+      case Some(vehicleLookupFormModel) =>
+        val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,
+          registrationNumber = vehicleLookupFormModel.registrationNumber,
+          dateOfDisposal = f.dateOfDisposal, mileage = f.mileage)
+        storeDisposeModelInCache(disposeModel)
+        callMicroService(disposeModel)
       case _ => Future {
         Logger.error("could not find dealer details in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present)
       }
     }
-  }
-
-  private def handleMicroServiceFailure(resp: DisposeResponse) = {
-    val disposeEndpointDown = "ms.dispose.response.endpointdown"
-    resp.responseCode match {
-      case Some(responseCode) if responseCode == disposeEndpointDown =>
-        Logger.warn("Dispose soap endpoint down redirecting to error page...")
-        Redirect(routes.MicroServiceError.present)
-      case Some(responseCode) =>
-        Logger.warn(s"Dispose micro-service failed: $responseCode, redirecting to error page...")
-        Redirect(routes.MicroServiceError.present)
-      case None =>
-        Logger.error("Dispose micro-service failed and did not give response code, redirecting to failure page...")
-        Redirect(routes.DisposeFailure.present)
-    }
-  }
-
-  private def buildDisposeMicroServiceRequest(disposeModel: DisposeModel):DisposeRequest = {
-    val dateTime = disposeModel.dateOfDisposal.toDateTime.get
-    val formatter = ISODateTimeFormat.dateTime()
-    val isoDateTimeString = formatter.print(dateTime)
-    DisposeRequest(referenceNumber = disposeModel.referenceNumber, registrationNumber = disposeModel.registrationNumber, dateOfDisposal = isoDateTimeString, mileage = disposeModel.mileage)
   }
 }

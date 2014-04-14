@@ -38,11 +38,11 @@ class US158_disposal_to_trade_business_name_error_messages extends FeatureSpec w
         Given("the motor trader has entered data")
         go to BeforeYouStartPage
         click on BeforeYouStartPage.startNow
-        SetupTradeDetailsPage.dealerName enter traderBusinessNameValid
-        SetupTradeDetailsPage.dealerPostcode enter postcodeValid
+        dealerName enter traderBusinessNameValid
+        dealerPostcode enter postcodeValid
 
         When("the data complies with formatting rules")
-        click on SetupTradeDetailsPage.lookup
+        click on lookup
 
         Then("the Business Name is retained")
         page.text should include(traderBusinessNameValid)
