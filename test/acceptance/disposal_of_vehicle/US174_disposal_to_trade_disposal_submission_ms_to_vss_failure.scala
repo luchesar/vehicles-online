@@ -5,11 +5,11 @@ import helpers.webbrowser._
 import pages.disposal_of_vehicle.DisposePage
 import pages.disposal_of_vehicle.DisposePage._
 import services.fakes.FakeDateServiceImpl._
-import services.fakes.FakeDisposeWebServiceImpl.simulateSoapEndpointFailure
 
 class US174_disposal_to_trade_disposal_submission_ms_to_vss_failure extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
   private def cacheSetupStubsNoVssResponse() = {
     import helpers.disposal_of_vehicle.CacheSetup
+    import services.fakes.FakeDisposeWebServiceImpl.simulateSoapEndpointFailure
     CacheSetup.setupTradeDetails().
       businessChooseYourAddress().
       vehicleDetailsModel().

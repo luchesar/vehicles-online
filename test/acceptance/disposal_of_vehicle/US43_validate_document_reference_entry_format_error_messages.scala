@@ -3,13 +3,13 @@ package acceptance.disposal_of_vehicle
 import org.scalatest.{BeforeAndAfterAll, Matchers, GivenWhenThen, FeatureSpec}
 import pages.disposal_of_vehicle._
 import helpers.webbrowser._
-import helpers.disposal_of_vehicle.CacheSetup
 import services.fakes.FakeVehicleLookupWebService._
 import VehicleLookupPage._
 
 class US43_validate_document_reference_entry_format_error_messages extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
   private def cacheSetup() = {
+    import helpers.disposal_of_vehicle.CacheSetup
     CacheSetup.setupTradeDetails().
       businessChooseYourAddress()
   }

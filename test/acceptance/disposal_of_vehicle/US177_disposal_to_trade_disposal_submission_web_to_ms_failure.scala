@@ -5,11 +5,11 @@ import helpers.webbrowser._
 import pages.disposal_of_vehicle.DisposePage
 import pages.disposal_of_vehicle.DisposePage._
 import services.fakes.FakeDateServiceImpl._
-import services.fakes.FakeDisposeWebServiceImpl.simulateMicroServiceUnavailable
 
 class US177_disposal_to_trade_disposal_submission_web_to_ms_failure extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
   private def cacheSetupStubNoMicroService() = {
     import helpers.disposal_of_vehicle.CacheSetup
+    import services.fakes.FakeDisposeWebServiceImpl.simulateMicroServiceUnavailable
     CacheSetup.setupTradeDetails().
       businessChooseYourAddress().
       vehicleDetailsModel().
