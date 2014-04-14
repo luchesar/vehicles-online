@@ -156,5 +156,49 @@ class DisposeUnitSpec extends UnitSpec {
       }
     }
 
+    "redirect to micro service error page when soap endpoint is down" in new WithApplication {
+      val disposeFailure = {
+        val ws = mock[DisposeWebService]
+        when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
+          val responseAsJson = Json.toJson(disposeResponseSoapEndpointFailure)
+          new FakeResponse(status = OK, fakeJson = Some(responseAsJson))
+        })
+        val disposeServiceImpl = new DisposeServiceImpl(ws)
+        new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
+      }
+
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleLookupFormModel()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.disposeModel()
+
+      val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
+    }
+
+    "redirect to dispose failure page when no response code" in new WithApplication {
+      val disposeFailure = {
+        val ws = mock[DisposeWebService]
+        when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
+          val responseAsJson = Json.toJson(disposeResponseNoResponseCode)
+          new FakeResponse(status = OK, fakeJson = Some(responseAsJson))
+        })
+        val disposeServiceImpl = new DisposeServiceImpl(ws)
+        new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
+      }
+
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleLookupFormModel()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.disposeModel()
+
+      val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(DisposeFailurePage.address))
+      }
+    }
+
   }
 }

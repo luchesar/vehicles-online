@@ -41,6 +41,22 @@ object FakeDisposeWebServiceImpl {
       registrationNumber = "",
       auditId = "")
 
+  val disposeResponseSoapEndpointFailure =
+    DisposeResponse(success = false,
+      message = "Fake Web Dispose Service - Bad response - Soap endpoint down",
+      transactionId = "", // No transactionId because the soap endpoint is down
+      registrationNumber = "",
+      auditId = "",
+      responseCode = Some("ms.dispose.response.endpointdown"))
+
+  val disposeResponseNoResponseCode =
+    DisposeResponse(success = false,
+      message = "Fake Web Dispose Service - Bad response - No response code",
+      transactionId = "",
+      registrationNumber = "",
+      auditId = "",
+      responseCode = None)
+
   val consentValid = "true"
   val mileageValid = "20000"
 }

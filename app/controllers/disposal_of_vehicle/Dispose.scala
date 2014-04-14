@@ -137,7 +137,9 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
         Logger.warn("Dispose soap endpoint down redirecting to error page...")
         Redirect(routes.MicroServiceError.present)
       case Some(responseCode) => ??? // TODO define what we do in this situation
-      case None => Redirect(routes.DisposeFailure.present)
+      case None =>
+        Logger.error("Dispose micro-service failed and did not give response code, redirecting to failure page...")
+        Redirect(routes.DisposeFailure.present)
     }
   }
 
