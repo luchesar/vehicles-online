@@ -18,6 +18,7 @@ object ApplicationBuild extends Build {
     "info.cukes" % "cucumber-scala_2.10" % "1.1.5" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-java" % "1.1.5" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-junit" % "1.1.5" % "test" withSources() withJavadoc(),
+    "info.cukes" % "cucumber-picocontainer" % "1.1.5" % "test" withSources() withJavadoc(),
     "org.specs2" %% "specs2" % "2.3.10" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
     "org.scalatest" % "scalatest_2.10" % "2.1.1" % "test" withSources() withJavadoc(),

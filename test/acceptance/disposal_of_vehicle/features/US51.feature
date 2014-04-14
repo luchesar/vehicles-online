@@ -5,9 +5,9 @@ Feature: US51: Disposal to Trade: Validate VRM format entry
 
   Scenario Outline: Valid format vehicle registration mark entered
     Given a motor trader has <entered> a VRM in a valid format
-    When they attempt to submit the information
+    When they attempt to submit the VRM in addition to other required information
     Then the VRM is retained
-    And they move to the next step in the transaction
+    And they are taken to the "Complete & confirm" page
 
   Examples:
     | entered |
@@ -45,9 +45,9 @@ Feature: US51: Disposal to Trade: Validate VRM format entry
 
   Scenario Outline: Invalid format vehicle registration mark entered
     Given a motor trader has <entered> a VRM in an invalid format
-    When they attempt to submit the information
+    When they attempt to submit the VRM in addition to other required information
     Then a single error message is displayed "Vehicle registration mark - Must be valid format"
-    And they remain at the current stage in the transaction
+    And they remain on the "Find vehicle details" page
 
   Examples:
     | entered |

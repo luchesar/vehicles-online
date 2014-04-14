@@ -5,15 +5,15 @@ Feature: US43: Validate document reference entry format - Error Messages
 
   Scenario: Valid format document reference number entered
     Given a motor trader has entered a doc ref number in a valid format
-    When they attempt to submit the information
+    When they attempt to submit the doc ref number in addition to other required information
     Then the doc ref number is retained
-    And they move to the next step in the transaction
+    And they are taken to the "Complete & confirm" page
 
   Scenario Outline: Invalid format document reference number entered
     Given a motor trader has <entered> a doc ref number in an invalid format
-    When they attempt to submit the information
+    When they attempt to submit the doc ref number in addition to other required information
     Then a single error message is displayed "Document reference number - Must be an 11-digit number"
-    And they remain at the current stage in the transaction
+    And they remain on the "Find vehicle details" page
 
   Examples:
     | entered      |
