@@ -286,12 +286,6 @@ disposal_vehiclelookupfailure.button = Am-edrych gerbyd
 disposal_disposefailure.button2 = Setup Newydd Manylion Masnachwr
 disposal_disposefailure.transactionid = {0}
 
-#micro-service error page
-micro_service_error.title=Mae''n ddrwg gennym
-micro_service_error.text=Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
-micro_service_error.back.button=Yn ôl
-micro_service_error.exit.button=Gadael
-
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda
 errorsummary.p1 = Trwsiwch y canlynol:
@@ -335,3 +329,14 @@ addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post
 error.validTraderBusinessName = Rhaid iddo fod rhwng dwy a 30 cymeriadau a ydynt yn cynnwys nodau annilys
 
+#micro-service error page
+micro_service_error.title=Mae''n ddrwg gennym
+micro_service_error.text=Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
+micro_service_error.back.button=Yn ôl
+micro_service_error.exit.button=Gadael
+
+#soap endpoint error page
+soap_endpoint_error.title=Mae''n ddrwg gennym
+soap_endpoint_error.text=Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
+soap_endpoint_error.back.button=Yn ôl
+soap_endpoint_error.exit.button=Gadael
