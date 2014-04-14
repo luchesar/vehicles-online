@@ -22,11 +22,15 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       addressSelectId -> traderUprn)
   }
 
+  private def cacheSetup() = {
+    CacheSetup.setupTradeDetails()
+  }
+
   private val businessChooseYourAddressWithUprnFound = businessChooseYourAddressWithFakeWebService()
 
   "BusinessChooseYourAddress - Controller" should {
     "present" in new WithApplication {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       val request = FakeRequest().withSession()
       val result = businessChooseYourAddressWithUprnFound.present(request)
       whenReady(result) {
@@ -35,7 +39,7 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "redirect to VehicleLookup page after a valid submit" in new WithApplication {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       val request = buildCorrectlyPopulatedRequest()
       val result = businessChooseYourAddressWithUprnFound.submit(request)
       whenReady(result) {
@@ -44,7 +48,7 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "return a bad request if not address selected" in new WithApplication {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       val request = buildCorrectlyPopulatedRequest(traderUprn = "")
       val result = businessChooseYourAddressWithUprnFound.submit(request)
       whenReady(result) {
@@ -77,7 +81,7 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "redirect to UprnNotFound page when submit with but uprn not found by the webservice" in new WithApplication {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       val businessChooseYourAddressWithUprnNotFound = businessChooseYourAddressWithFakeWebService(uprnFound = false)
       val request = buildCorrectlyPopulatedRequest()
       val result = businessChooseYourAddressWithUprnNotFound.submit(request)

@@ -49,10 +49,17 @@ class DisposeUnitSpec extends UnitSpec {
     new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
   }
 
+  private def cacheSetup() = {
+    CacheSetup.businessChooseYourAddress().
+      vehicleLookupFormModel().
+      vehicleDetailsModel().
+      disposeModel()
+  }
+
   "Dispose - Controller" should {
     "present" in new WithApplication {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
+      CacheSetup.businessChooseYourAddress().
+        vehicleDetailsModel()
       val request = FakeRequest().withSession()
       val result = disposeSuccess.present(request)
       whenReady(result) {
@@ -61,9 +68,9 @@ class DisposeUnitSpec extends UnitSpec {
     }
 
     "redirect to dispose success when a success message is returned by the fake microservice" in new WithApplication {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
-      CacheSetup.vehicleLookupFormModel()
+      CacheSetup.businessChooseYourAddress().
+        vehicleDetailsModel().
+        vehicleLookupFormModel()
       val result = disposeSuccess.submit(buildCorrectlyPopulatedRequest)
       redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
       whenReady(result) {
@@ -82,10 +89,7 @@ class DisposeUnitSpec extends UnitSpec {
         new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
       }
 
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleLookupFormModel()
-      CacheSetup.vehicleDetailsModel()
-      CacheSetup.disposeModel()
+      cacheSetup()
 
       val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
 
@@ -120,8 +124,8 @@ class DisposeUnitSpec extends UnitSpec {
     }
 
     "return a bad request when no details are entered" in new WithApplication {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
+      CacheSetup.businessChooseYourAddress().
+        vehicleDetailsModel()
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
       val result = disposeSuccess.submit(request)
       whenReady(result) {
@@ -138,9 +142,9 @@ class DisposeUnitSpec extends UnitSpec {
     }
 
     "redirect to micro service error page when calling webservice throws exception" in new WithApplication {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
-      CacheSetup.vehicleLookupFormModel()
+      CacheSetup.businessChooseYourAddress().
+        vehicleDetailsModel().
+        vehicleLookupFormModel()
 
       val disposeResponseThrows = mock[DisposeResponse]
       when(disposeResponseThrows.success).thenThrow(new RuntimeException("expected by DisposeUnitSpec"))
@@ -167,10 +171,7 @@ class DisposeUnitSpec extends UnitSpec {
         new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
       }
 
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleLookupFormModel()
-      CacheSetup.vehicleDetailsModel()
-      CacheSetup.disposeModel()
+      cacheSetup()
 
       val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
       whenReady(result) {
@@ -189,10 +190,7 @@ class DisposeUnitSpec extends UnitSpec {
         new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
       }
 
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleLookupFormModel()
-      CacheSetup.vehicleDetailsModel()
-      CacheSetup.disposeModel()
+      cacheSetup()
 
       val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
       whenReady(result) {
@@ -211,16 +209,12 @@ class DisposeUnitSpec extends UnitSpec {
         new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
       }
 
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleLookupFormModel()
-      CacheSetup.vehicleDetailsModel()
-      CacheSetup.disposeModel()
+      cacheSetup()
 
       val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
-
   }
 }

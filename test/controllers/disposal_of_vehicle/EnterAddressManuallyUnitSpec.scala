@@ -13,10 +13,14 @@ import mappings.common.AddressAndPostcode._
 import mappings.common.AddressLines._
 
 class EnterAddressManuallyUnitSpec extends UnitSpec {
+  private def cacheSetup() = {
+    CacheSetup.setupTradeDetails()
+  }
+
   "EnterAddressManually - Controller" should {
 
     "present" in new WithApplication {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.EnterAddressManually.present(request)
       whenReady(result) {
@@ -25,7 +29,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "return bad request when no data is entered" in new WithApplication {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
       val result =  disposal_of_vehicle.EnterAddressManually.submit(request)
       whenReady(result) {
@@ -34,7 +38,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "return bad request when a valid address is entered without a postcode" in new WithApplication {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1Valid,
         s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> line2Valid,
@@ -47,7 +51,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "return bad request a valid postcode is entered without an address" in new WithApplication {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
           s"$addressAndPostcodeId.$postcodeId" -> postcodeValid)
       val result = disposal_of_vehicle.EnterAddressManually.submit(request)
@@ -65,7 +69,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "redirect to Dispose after a valid submission of all fields" in new WithApplication {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1Valid,
         s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> line2Valid,
@@ -79,7 +83,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "redirect to Dispose after a valid submission of mandatory fields only" in new WithApplication {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
           s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1Valid,
           s"$addressAndPostcodeId.$postcodeId" -> postcodeValid)
@@ -90,7 +94,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "submit removes commas and full stops from the end of each address line" in new WithApplication {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> "my house,",
         s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> "my street.",
@@ -108,7 +112,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "submit removes multiple commas and full stops from the end of each address line" in new WithApplication {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> "my house,.,..,,",
         s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> "my street...,,.,",
@@ -126,7 +130,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "submit does not remove multiple commas and full stops from the middle address line" in new WithApplication {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> "flat 1.1",
         s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> "long road, off high street",
@@ -144,7 +148,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "submit does not accept an address containing only full stops" in new WithApplication {
-      CacheSetup.setupTradeDetails()
+      cacheSetup()
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> "...",
         s"$addressAndPostcodeId.$postcodeId" -> postcodeValid)

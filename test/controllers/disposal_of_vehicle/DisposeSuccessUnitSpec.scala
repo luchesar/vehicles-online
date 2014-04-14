@@ -9,17 +9,17 @@ import helpers.UnitSpec
 
 class DisposeSuccessUnitSpec extends UnitSpec {
   private def cacheSetup() = {
-    CacheSetup.setupTradeDetails()
-    CacheSetup.businessChooseYourAddress()
-    CacheSetup.vehicleDetailsModel()
-    CacheSetup.disposeFormModel()
-    CacheSetup.disposeTransactionId()
-    CacheSetup.vehicleRegistrationNumber()
+    CacheSetup.setupTradeDetails().
+      businessChooseYourAddress().
+      vehicleDetailsModel().
+      disposeFormModel().
+      disposeTransactionId().
+      vehicleRegistrationNumber()
   }
 
   "Disposal success controller" should {
     "present" in new WithApplication {
-      cacheSetup
+      cacheSetup()
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
       whenReady(result) {
@@ -28,7 +28,7 @@ class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "redirect to next page after the new disposal button is clicked" in new WithApplication {
-      cacheSetup
+      cacheSetup()
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
       whenReady(result) {
@@ -72,8 +72,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "redirect to SetUpTradeDetails on present when only VehicleDetails and DisposeDetails are cached" in new WithApplication {
-      CacheSetup.vehicleDetailsModel()
-      CacheSetup.disposeFormModel()
+      CacheSetup.vehicleDetailsModel().
+        disposeFormModel()
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
       whenReady(result) {
@@ -82,8 +82,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "redirect to SetUpTradeDetails on present when only VehicleDetails and DealerDetails are cached" in new WithApplication {
-      CacheSetup.vehicleDetailsModel()
-      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel().
+        businessChooseYourAddress()
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
       whenReady(result) {
@@ -92,8 +92,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "redirect to SetUpTradeDetails on present when only DisposeDetails and DealerDetails are cached" in new WithApplication {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.disposeModel()
+      CacheSetup.businessChooseYourAddress().
+        disposeModel()
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.DisposeSuccess.present(request)
       whenReady(result) {
@@ -137,8 +137,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "redirect to SetUpTradeDetails on submit when only VehicleDetails and DisposeDetails are cached" in new WithApplication {
-      CacheSetup.vehicleDetailsModel()
-      CacheSetup.disposeFormModel()
+      CacheSetup.vehicleDetailsModel().
+        disposeFormModel()
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
       whenReady(result) {
@@ -147,8 +147,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "redirect to SetUpTradeDetails on submit when only VehicleDetails and DealerDetails are cached" in new WithApplication {
-      CacheSetup.vehicleDetailsModel()
-      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleDetailsModel().
+       businessChooseYourAddress()
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
       whenReady(result) {
@@ -157,8 +157,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "redirect to SetUpTradeDetails on submit when only DisposeDetails and DealerDetails are cached" in new WithApplication {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.disposeModel()
+      CacheSetup.businessChooseYourAddress().
+        disposeModel()
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.DisposeSuccess.submit(request)
       whenReady(result) {
