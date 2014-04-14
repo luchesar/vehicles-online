@@ -1,6 +1,7 @@
 package utils.helpers
 
 import app.ConfigProperties._
+import scala.concurrent.duration._
 
 object Config {
   // Micro service config
@@ -13,7 +14,10 @@ object Config {
   val ordnanceSurveyRequestTimeout = getProperty("ordnancesurvey.requesttimeout", "30000")
 
   // GDS address lookup config
-  val gdsAddressLookupBaseUrl = getProperty("gdsaddresslookup.baseurl", "http://localhost:8081") // TODO change the default to match the micro-service.
+  val gdsAddressLookupBaseUrl = getProperty("gdsaddresslookup.baseurl", "http://localhost:8081")
   val gdsAddressLookupAuthorisation = getProperty("gdsaddresslookup.authorisation", "")
   val gdsAddressLookupRequestTimeout = getProperty("gdsaddresslookup.requesttimeout", "30000")
+
+  // Dispose
+  val disposeMsRequestTimeout = getProperty("dispose.ms.requesttimeout", (30 seconds).toMillis)
 }
