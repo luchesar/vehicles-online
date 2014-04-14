@@ -49,6 +49,14 @@ object FakeDisposeWebServiceImpl {
       auditId = "",
       responseCode = Some("ms.dispose.response.endpointdown"))
 
+  val disposeResponseWithResponseCode =
+    DisposeResponse(success = false,
+      message = "Fake Web Dispose Service - Bad response",
+      transactionId = transactionIdValid, // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
+      registrationNumber = "",
+      auditId = "",
+      responseCode = Some("test response code"))
+
   val disposeResponseNoResponseCode =
     DisposeResponse(success = false,
       message = "Fake Web Dispose Service - Bad response - No response code",

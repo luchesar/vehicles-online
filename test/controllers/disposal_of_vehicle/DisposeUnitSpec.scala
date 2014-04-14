@@ -156,7 +156,7 @@ class DisposeUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to micro service error page when soap endpoint is down" in new WithApplication {
+    "redirect to micro service error page when unsuccessful and response code says soap endpoint is down" in new WithApplication {
       val disposeFailure = {
         val ws = mock[DisposeWebService]
         when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
@@ -178,7 +178,7 @@ class DisposeUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to dispose failure page when no response code" in new WithApplication {
+    "redirect to dispose failure page when unsuccessful and no response code" in new WithApplication {
       val disposeFailure = {
         val ws = mock[DisposeWebService]
         when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
@@ -197,6 +197,28 @@ class DisposeUnitSpec extends UnitSpec {
       val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(DisposeFailurePage.address))
+      }
+    }
+
+    "redirect to micro service error page when unsuccessful and any response code that is not soap endpoint down" in new WithApplication {
+      val disposeFailure = {
+        val ws = mock[DisposeWebService]
+        when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
+          val responseAsJson = Json.toJson(disposeResponseWithResponseCode)
+          new FakeResponse(status = OK, fakeJson = Some(responseAsJson))
+        })
+        val disposeServiceImpl = new DisposeServiceImpl(ws)
+        new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
+      }
+
+      CacheSetup.businessChooseYourAddress()
+      CacheSetup.vehicleLookupFormModel()
+      CacheSetup.vehicleDetailsModel()
+      CacheSetup.disposeModel()
+
+      val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
 
