@@ -9,8 +9,8 @@ import services.fakes.FakeVehicleLookupWebService._
 class US51_disposal_to_trade_validate_vrm_format_entry extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
   private def cacheSetup() = {
-    CacheSetup.setupTradeDetails()
-    CacheSetup.businessChooseYourAddress()
+    CacheSetup.setupTradeDetails().
+      businessChooseYourAddress()
   }
 
   feature("US51: Validate vehicle registration number format - Error Messages") {

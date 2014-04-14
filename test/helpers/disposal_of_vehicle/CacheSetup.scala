@@ -19,6 +19,7 @@ object CacheSetup {
     val value = SetupTradeDetailsModel(traderBusinessName = traderBusinessNameValid,
       traderPostcode = traderPostcode)
     play.api.cache.Cache.set(key, value)
+    this
   }
 
   def businessChooseYourAddress(address: AddressViewModel = addressWithoutUprn) = {
@@ -26,6 +27,7 @@ object CacheSetup {
     val value = DealerDetailsModel(dealerName = "", // TODO [SKW] why are we caching an empty string?
       dealerAddress = address)
     play.api.cache.Cache.set(key, value)
+    this
   }
 
   def vehicleDetailsModel(registrationNumber: String = registrationNumberValid, vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid, vehicleModel:String = vehicleModelValid, keeperName:String = keeperNameValid) = {
@@ -34,6 +36,7 @@ object CacheSetup {
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel)
     play.api.cache.Cache.set(key, value)
+    this
   }
 
   def vehicleLookupFormModel (referenceNumber: String = referenceNumberValid, registrationNumber: String = registrationNumberValid) = {
@@ -41,6 +44,7 @@ object CacheSetup {
     val value = VehicleLookupFormModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber)
     play.api.cache.Cache.set(key, value)
+    this
   }
 
   def disposeFormModel() = {
@@ -50,6 +54,7 @@ object CacheSetup {
       consent = FakeDisposeWebServiceImpl.consentValid,
       lossOfRegistrationConsent = FakeDisposeWebServiceImpl.consentValid)
     play.api.cache.Cache.set(key, value)
+    this
   }
 
   def disposeModel(referenceNumber:String = referenceNumberValid, registrationNumber:String = registrationNumberValid, dateOfDisposal:DayMonthYear = DayMonthYear.today, mileage:Option[Int] = None) = {
@@ -59,17 +64,20 @@ object CacheSetup {
       dateOfDisposal = dateOfDisposal,
       mileage = mileage)
     play.api.cache.Cache.set(key, value)
+    this
   }
 
   def disposeTransactionId() = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeFormTransactionIdCacheKey
     val value = transactionIdValid
     play.api.cache.Cache.set(key, value)
+    this
   }
 
   def vehicleRegistrationNumber() = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeFormRegistrationNumberCacheKey
     val value = registrationNumberValid
     play.api.cache.Cache.set(key, value)
+    this
   }
 }

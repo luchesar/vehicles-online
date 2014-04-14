@@ -9,8 +9,8 @@ import services.fakes.FakeVehicleLookupWebService._
 class US43_validate_document_reference_entry_format_error_messages extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
   private def cacheSetup() = {
-    CacheSetup.setupTradeDetails()
-    CacheSetup.businessChooseYourAddress()
+    CacheSetup.setupTradeDetails().
+      businessChooseYourAddress()
   }
 
   feature("US43: Validate document reference entry format - Error Messages") {

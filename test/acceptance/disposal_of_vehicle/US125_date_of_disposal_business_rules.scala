@@ -9,10 +9,10 @@ import services.fakes.FakeDateServiceImpl._
 class US125_date_of_disposal_business_rules extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
   private def cacheSetup() = {
-    CacheSetup.setupTradeDetails()
-    CacheSetup.businessChooseYourAddress()
-    CacheSetup.vehicleDetailsModel()
-    CacheSetup.vehicleLookupFormModel()
+    CacheSetup.setupTradeDetails().
+      businessChooseYourAddress().
+      vehicleDetailsModel().
+      vehicleLookupFormModel()
   }
 
   feature("US125: Date of Disposal - Business Rules") {

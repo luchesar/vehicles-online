@@ -2,17 +2,17 @@ package acceptance.disposal_of_vehicle
 
 import org.scalatest.{BeforeAndAfterAll, Matchers, GivenWhenThen, FeatureSpec}
 import helpers.webbrowser._
-import helpers.disposal_of_vehicle.CacheSetup
 import pages.disposal_of_vehicle.DisposePage
 import pages.disposal_of_vehicle.DisposePage._
 import services.fakes.FakeDateServiceImpl._
 
 class US174_disposal_to_trade_disposal_submission_ms_to_vss_failure extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
   private def cacheSetupFakesNoVssResponse() = {
-    CacheSetup.setupTradeDetails()
-    CacheSetup.businessChooseYourAddress()
-    CacheSetup.vehicleDetailsModel()
-    CacheSetup.vehicleLookupFormModel(referenceNumber = "9" * 11)
+    import helpers.disposal_of_vehicle.CacheSetup
+    CacheSetup.setupTradeDetails().
+      businessChooseYourAddress().
+      vehicleDetailsModel().
+      vehicleLookupFormModel(referenceNumber = "9" * 11)
   }
 
   feature("US174: Disposal to Trade - Disposal Submission - MS-to-VSS failure") {
@@ -23,8 +23,7 @@ class US174_disposal_to_trade_disposal_submission_ms_to_vss_failure extends Feat
 
     scenario("VSS is unavailable") {
       new WebBrowser {
-        Given("the motor trader has tried to submit the disposal")
-        And("VSS is unavailable")
+        Given("VSS is unavailable")
         cacheSetupFakesNoVssResponse()
         go to DisposePage
         dateOfDisposalDay select dateOfDisposalDayValid
@@ -33,7 +32,7 @@ class US174_disposal_to_trade_disposal_submission_ms_to_vss_failure extends Feat
         click on consent
         click on lossOfRegistrationConsent
 
-        When("the Business Name does not comply with formatting rules")
+        When("the motor trader has tried to submit the disposal")
         click on dispose
 
         Then("an error message is displayed")
