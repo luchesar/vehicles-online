@@ -132,13 +132,13 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       resp.responseCode match {
         case Some(responseCode) if responseCode == disposeEndpointDown =>
           Logger.warn("Dispose soap endpoint down redirecting to error page...")
-          Redirect(routes.SoapEndpointError.present) // TODO need to redirect to a diff page for analytics, call it SoapEndpointError
+          Redirect(routes.SoapEndpointError.present)
         case Some(responseCode) =>
           Logger.warn(s"Dispose micro-service failed: $responseCode, redirecting to error page...")
           Redirect(routes.MicroServiceError.present)
         case None =>
           Logger.error("Dispose micro-service failed and did not give response code, redirecting to failure page...")
-          Redirect(routes.DisposeFailure.present)
+          Redirect(routes.MicroServiceError.present)
       }
     }
 

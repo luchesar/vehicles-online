@@ -141,7 +141,7 @@ class DisposeUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to micro service error page when calling webservice throws exception" in new WithApplication {
+    "redirect to micro-service error page when calling webservice throws exception" in new WithApplication {
       CacheSetup.businessChooseYourAddress().
         vehicleDetailsModel().
         vehicleLookupFormModel()
@@ -160,7 +160,7 @@ class DisposeUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to micro service error page when unsuccessful and response code says soap endpoint is down" in new WithApplication {
+    "redirect to soap endpoint error page when unsuccessful and response code says soap endpoint is down" in new WithApplication {
       val disposeFailure = {
         val ws = mock[DisposeWebService]
         when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
@@ -179,7 +179,7 @@ class DisposeUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to dispose failure page when unsuccessful and no response code" in new WithApplication {
+    "redirect to micro-service error page when unsuccessful and no response code" in new WithApplication {
       val disposeFailure = {
         val ws = mock[DisposeWebService]
         when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
@@ -194,11 +194,11 @@ class DisposeUnitSpec extends UnitSpec {
 
       val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(DisposeFailurePage.address))
+        r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceError.address))
       }
     }
 
-    "redirect to micro service error page when unsuccessful and any response code that is not soap endpoint down" in new WithApplication {
+    "redirect to micro-service error page when unsuccessful and any response code that is not soap endpoint down" in new WithApplication {
       val disposeFailure = {
         val ws = mock[DisposeWebService]
         when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
