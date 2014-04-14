@@ -6,14 +6,18 @@ import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UiSpec
 
 class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
+  private def cacheSetup() = {
+    CacheSetup.businessChooseYourAddress().
+      vehicleDetailsModel().
+      disposeFormModel().
+      disposeTransactionId().
+      vehicleRegistrationNumber()
+  }
+
   "Dispose confirmation integration" should {
 
     "be presented" in new WebBrowser {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
-      CacheSetup.disposeFormModel()
-      CacheSetup.disposeTransactionId()
-      CacheSetup.vehicleRegistrationNumber()
+      cacheSetup()
       go to DisposeSuccessPage.url
 
       assert(page.title equals DisposeSuccessPage.title)
@@ -71,11 +75,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display vehicle lookup page when new disposal link is clicked" in new WebBrowser  {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
-      CacheSetup.disposeFormModel()
-      CacheSetup.disposeTransactionId()
-      CacheSetup.vehicleRegistrationNumber()
+      cacheSetup()
       DisposeSuccessPage.happyPath
 
       assert(page.title equals VehicleLookupPage.title)
