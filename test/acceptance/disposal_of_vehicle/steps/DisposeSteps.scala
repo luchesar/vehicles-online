@@ -12,7 +12,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 
-  @Given("""^the motor trader has entered a valid calendar date which conforms to the business rules$""")
+  @Given("""^the motor trader has entered a valid calendar date which conforms to business rules$""")
   def the_motor_trader_has_entered_a_valid_calendar_date() = {
     CacheSetup.setupTradeDetails()
     CacheSetup.businessChooseYourAddress()
@@ -27,7 +27,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     click on DisposePage.lossOfRegistrationConsent
   }
 
-  @Given("""^the motor trader has entered a valid calendar date which does not conform to the business rules$""")
+  @Given("""^the motor trader has entered a valid calendar date which does not conform to business rules$""")
   def the_motor_trader_has_entered_a_valid_calendar_date_which_does_not_conform_to_the_business_rules() = {
     CacheSetup.setupTradeDetails()
     CacheSetup.businessChooseYourAddress()

@@ -64,11 +64,11 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
 
   @Then("""^the doc ref number is retained$""")
   def the_doc_ref_number_is_retained() = {
-    // nothing can be done here to check for this
+    // nothing can be done here to check for this as doc ref no is not displayed
   }
 
   @Then("""^the VRM is retained$""")
   def the_vrm_is_retained() = {
-    // nothing can be done here to check for this
+    page.text should include(registrationNumberValid)
   }
 }
