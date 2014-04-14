@@ -8,27 +8,27 @@ import helpers.UiSpec
 import services.fakes.FakeDateServiceImpl._
 
 class DisposeIntegrationSpec extends UiSpec with TestHarness {
+  private def cacheSetup() = {
+    CacheSetup.businessChooseYourAddress().
+      vehicleDetailsModel()
+  }
 
   "Dispose Integration" should {
-
     "be presented" in new WebBrowser {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
+      cacheSetup()
       go to DisposePage.url
       assert(page.title equals DisposePage.title)
     }
 
     "display DisposeSuccess page on correct submission" in new WebBrowser {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
+      cacheSetup()
       CacheSetup.vehicleLookupFormModel()
       DisposePage.happyPath
       assert(page.title equals DisposeSuccessPage.title)
     }
 
     "display validation errors when no data is entered" in new WebBrowser {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
+      cacheSetup()
       DisposePage.sadPath
       assert(ErrorPanel.numberOfErrors equals 3)
     }
@@ -51,8 +51,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display validation errors when month and year are input but no day" in new WebBrowser {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
+      cacheSetup()
       go to DisposePage.url
       DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
       DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
@@ -63,8 +62,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display validation errors when day and year are input but no month" in new WebBrowser {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
+      cacheSetup()
       go to DisposePage.url
       DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
       DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
@@ -75,8 +73,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display validation errors when day and month are input but no year" in new WebBrowser {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
+      cacheSetup()
       go to DisposePage.url
       DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
       DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
@@ -87,8 +84,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display previous page when back link is clicked" in new WebBrowser {
-      CacheSetup.businessChooseYourAddress()
-      CacheSetup.vehicleDetailsModel()
+      cacheSetup()
       go to DisposePage.url
       click on DisposePage.back
       assert(page.title equals VehicleLookupPage.title)
