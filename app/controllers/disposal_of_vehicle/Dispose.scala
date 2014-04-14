@@ -122,13 +122,10 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
     }
 
     def transactionTimestamp() = {
-      dateService.today.toDateTime match {
-        case Some(transactionTimestamp) =>
-          val formatter = ISODateTimeFormat.dateTime()
-          val isoDateTimeString = formatter.print(transactionTimestamp)
-          storeDisposeTransactionTimestampInCache(isoDateTimeString)
-        case _ => Logger.error("Dispose could not generate timestamp")
-      }
+      val transactionTimestamp = dateService.today.toDateTime.get
+      val formatter = ISODateTimeFormat.dateTime()
+      val isoDateTimeString = formatter.print(transactionTimestamp)
+      storeDisposeTransactionTimestampInCache(isoDateTimeString)
     }
 
     def buildDisposeMicroServiceRequest(disposeModel: DisposeModel):DisposeRequest = {

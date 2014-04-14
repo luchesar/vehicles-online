@@ -18,6 +18,8 @@ import ExecutionContext.Implicits.global
 import services.DateServiceImpl
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
+import controllers.disposal_of_vehicle.Helpers._
+import scala.Some
 
 class DisposeUnitSpec extends UnitSpec {
   private def dateServiceStubbed(day: Int = dateOfDisposalDayValid.toInt, month: Int = dateOfDisposalMonthValid.toInt, year: Int = dateOfDisposalYearValid.toInt) = {
@@ -73,8 +75,12 @@ class DisposeUnitSpec extends UnitSpec {
         vehicleLookupFormModel()
       val result = disposeSuccess.submit(buildCorrectlyPopulatedRequest)
       redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(DisposeSuccessPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(DisposeSuccessPage.address))
+        fetchDisposeTransactionTimestampInCache match {
+          case Some(transactionTimestamp) => transactionTimestamp should include(s"$dateOfDisposalYearValid-$dateOfDisposalMonthValid-$dateOfDisposalDayValid")
+          case _ => fail("Should have found transaction timestamp in cache")
+        }
       }
     }
 
