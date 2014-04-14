@@ -8,7 +8,7 @@ import org.scalatest.Matchers
 import services.fakes.FakeVehicleLookupWebService._
 import helpers.disposal_of_vehicle.CacheSetup
 
-class DocumentReferenceNumberSteps extends WebBrowser with Matchers {
+class VehicleLookupSteps extends WebBrowser with Matchers {
 
   @Given("""^a motor trader has entered a doc ref number in a valid format$""")
   def a_motor_trader_has_entered_a_doc_ref_number_in_a_valid_format() = {
@@ -17,6 +17,16 @@ class DocumentReferenceNumberSteps extends WebBrowser with Matchers {
 
     go to VehicleLookupPage
     VehicleLookupPage.vehicleRegistrationNumber enter registrationNumberValid
+    VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
+  }
+
+  @Given("""^a motor trader has (.*) a VRM in a valid format$""")
+  def a_motor_trader_has_entered_a_vrm_in_a_valid_format(vrm:String) = {
+    CacheSetup.setupTradeDetails()
+    CacheSetup.businessChooseYourAddress()
+
+    go to VehicleLookupPage
+    VehicleLookupPage.vehicleRegistrationNumber enter vrm
     VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
   }
 
@@ -30,12 +40,17 @@ class DocumentReferenceNumberSteps extends WebBrowser with Matchers {
     // nothing can be done here
   }
 
+  @Then("""^the VRM is retained$""")
+  def the_vrm_is_retained() = {
+    // nothing can be done here
+  }
+
   @Then("""^they move to the next step in the transaction$""")
   def they_move_to_the_next_step_in_the_transaction() = {
     page.title should not include(VehicleLookupPage.title)
   }
 
-  @Given("""^a motor trader has entered a doc ref number in an invalid format: (.*)$""")
+  @Given("""^a motor trader has (.*) a doc ref number in an invalid format$""")
   def a_motor_trader_has_entered_a_doc_ref_number_in_an_invalid_format(invalidDocRef:String) = {
     CacheSetup.setupTradeDetails()
     CacheSetup.businessChooseYourAddress()
@@ -45,9 +60,19 @@ class DocumentReferenceNumberSteps extends WebBrowser with Matchers {
     VehicleLookupPage.documentReferenceNumber enter invalidDocRef
   }
 
-  @Then("""^a single error message is displayed$""")
-  def a_single_error_message_is_displayed() = {
-    ErrorPanel.text should include("Document reference number - Must be an 11-digit number")
+  @Given("""^a motor trader has (.*) a VRM in an invalid format$""")
+  def a_motor_trader_has_entered_a_vrm_in_an_invalid_format(vrm:String) = {
+    CacheSetup.setupTradeDetails()
+    CacheSetup.businessChooseYourAddress()
+
+    go to VehicleLookupPage
+    VehicleLookupPage.vehicleRegistrationNumber enter vrm
+    VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
+  }
+
+  @Then("""^a single error message is displayed "(.*)"$""")
+  def a_single_error_message_is_displayed(message:String) = {
+    ErrorPanel.text should include(message)
   }
 
   @Then("""^they remain at the current stage in the transaction$""")
