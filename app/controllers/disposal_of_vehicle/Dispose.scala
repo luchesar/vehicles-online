@@ -112,7 +112,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
             storeDisposeRegistrationNumberInCache(resp.registrationNumber)
             Redirect(routes.DisposeSuccess.present)
           }
-          else handleMicroServiceFailure(resp)
+          else handleDisposeNotSuccessful(resp)
       }.recover {
         case e: Throwable =>
           Logger.warn(s"Dispose micro service call failed. Exception: $e")
@@ -127,7 +127,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       DisposeRequest(referenceNumber = disposeModel.referenceNumber, registrationNumber = disposeModel.registrationNumber, dateOfDisposal = isoDateTimeString, mileage = disposeModel.mileage)
     }
 
-    def handleMicroServiceFailure(resp: DisposeResponse) = {
+    def handleDisposeNotSuccessful(resp: DisposeResponse) = {
       val disposeEndpointDown = "ms.dispose.response.endpointdown"
       resp.responseCode match {
         case Some(responseCode) if responseCode == disposeEndpointDown =>
