@@ -14,6 +14,7 @@ import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeWebServiceImpl.traderUprnValid
 import java.util.Calendar
 import org.joda.time.MutableDateTime
+import controllers.disposal_of_vehicle.Helpers.fetchDisposeTransactionTimestampInCache
 
 class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
@@ -84,5 +85,13 @@ class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL wi
     DisposePage.dateOfDisposalDay.isDisplayed should equal(true)
     DisposePage.dateOfDisposalMonth.isDisplayed should equal(true)
     DisposePage.dateOfDisposalYear.isDisplayed should equal(true)
+  }
+
+  @Then("""^a timestamp representing the current date and time is generated and retained$""")
+  def a_timestamp_representing_the_current_date_and_time_is_generated_and_retained() = {
+    fetchDisposeTransactionTimestampInCache match {
+      case Some(transactionTimestamp) => transactionTimestamp should include(s"$dateOfDisposalYearValid-$dateOfDisposalMonthValid-$dateOfDisposalDayValid")
+      case _ => fail("Should have found transaction timestamp in cache")
+    }
   }
 }
