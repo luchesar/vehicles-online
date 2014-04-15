@@ -329,6 +329,10 @@ addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post
 error.validTraderBusinessName = Rhaid iddo fod rhwng dwy a 30 cymeriadau a ydynt yn cynnwys nodau annilys
 
+# micro-service response codes
+ms.vehiclesService.response.applicationBeingProcessed = WELSH Your application is being processed and you should receive acknowledgement within 4 weeks.
+ms.vehiclesService.response.unableToProcessApplication = WELSH We are not able to process your application as the information you have given does not match our records, you will need to send the V5C/3 to the following address; DVLA, Longview Road, Morriston, Swansea, SA6 7JL
+
 #micro-service error page
 micro_service_error.title=Mae''n ddrwg gennym
 micro_service_error.text=Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
