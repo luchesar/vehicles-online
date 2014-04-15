@@ -1,4 +1,4 @@
-package acceptance.disposal_of_vehicle.steps
+package helpers.steps
 
 import cucumber.api.java.en.{Given, When, Then}
 import pages.common.ErrorPanel

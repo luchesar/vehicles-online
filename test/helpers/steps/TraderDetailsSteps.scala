@@ -1,4 +1,4 @@
-package acceptance.disposal_of_vehicle.steps
+package helpers.steps
 
 import pages.disposal_of_vehicle._
 import cucumber.api.java.en.{Then, When, Given}

@@ -9,7 +9,7 @@ import cucumber.api.CucumberOptions
   format = Array("pretty", "html:target/cucumber-acceptance-html-report-US74"),
   strict = true,
   features = Array("test/acceptance/disposal_of_vehicle/features/US74.feature"),
-  glue = Array("classpath:helpers.hooks", "classpath:acceptance.disposal_of_vehicle.steps")
+  glue = Array("classpath:helpers.hooks", "classpath:helpers.steps")
 )
 class US74 {
 }
