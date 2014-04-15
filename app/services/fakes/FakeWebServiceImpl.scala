@@ -15,11 +15,12 @@ import scala.Some
 import services.address_lookup.gds.domain.Details
 import services.address_lookup.gds.domain.Presentation
 import services.address_lookup.gds.domain.Address
+import services.fakes.FakeAddressLookupService.{postcodeValid, postcodeInvalid}
 
 class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                          responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
   override def callPostcodeWebService(postcode: String): Future[Response] =
-    if (postcode == FakeAddressLookupService.postcodeInvalid) Future {
+    if (postcode == postcodeInvalid) Future {
       FakeResponse(status = OK, fakeJson = None)
     }
     else responseOfPostcodeWebService
@@ -33,7 +34,7 @@ object FakeWebServiceImpl {
 
   def osAddressbaseDPA(uprn: String = traderUprnValid.toString, houseName: String = "presentationProperty stub", houseNumber: String = "123") = OSAddressbaseDPA(
     UPRN = uprn,
-    address = s"$houseName, $houseNumber, property stub, street stub, town stub, area stub, postcode stub",
+    address = s"$houseName, $houseNumber, property stub, street stub, town stub, area stub, $postcodeValid",
     buildingName = Some(houseName),
     buildingNumber = Some(houseNumber),
     postTown = "b",
@@ -85,14 +86,14 @@ object FakeWebServiceImpl {
     Address(
       gssCode = "gssCode stub",
       countryCode = "countryCode stub",
-      postcode = "postcode stub",
+      postcode = postcodeValid,
       houseName = Some("presentationProperty stub"),
       houseNumber = Some("123"),
       presentation = Presentation(property = Some(presentationProperty),
         street = Some(presentationStreet),
         town = Some("town stub"),
         area = Some("area stub"),
-        postcode = "postcode stub",
+        postcode = postcodeValid,
         uprn = traderUprnValid.toString),
       details = Details(
         usrn = "usrn stub",
