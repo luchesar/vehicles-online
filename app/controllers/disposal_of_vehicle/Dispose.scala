@@ -136,10 +136,14 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
     }
 
     def handleDisposeNotSuccessful(resp: DisposeResponse) = {
-      val disposeEndpointDown = "ms.dispose.response.endpointdown"
+      val endpointDown = "ms.dispose.response.endpointdown"
+      val endpointTimeout = "ms.dispose.response.endpointtimeout"
       resp.responseCode match {
-        case Some(responseCode) if responseCode == disposeEndpointDown =>
+        case Some(responseCode) if responseCode == endpointDown =>
           Logger.warn("Dispose soap endpoint down redirecting to error page...")
+          Redirect(routes.SoapEndpointError.present)
+        case Some(responseCode) if responseCode == endpointTimeout =>
+          Logger.warn("Dispose soap endpoint timeout redirecting to error page...")
           Redirect(routes.SoapEndpointError.present)
         case Some(responseCode) =>
           Logger.warn(s"Dispose micro-service failed: $responseCode, redirecting to error page...")
