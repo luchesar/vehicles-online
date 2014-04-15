@@ -153,7 +153,6 @@ class DisposeUnitSpec extends UnitSpec {
         vehicleLookupFormModel()
 
       val disposeResponseThrows = mock[DisposeResponse]
-      when(disposeResponseThrows.success).thenThrow(new RuntimeException("expected by DisposeUnitSpec"))
       val mockWebServiceThrows = mock[DisposeService]
       when(mockWebServiceThrows.invoke(any[DisposeRequest])).thenReturn(Future {
         disposeResponseThrows
@@ -182,25 +181,6 @@ class DisposeUnitSpec extends UnitSpec {
       val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SoapEndpointErrorPage.address))
-      }
-    }
-
-    "redirect to micro-service error page when unsuccessful and no response code" in new WithApplication {
-      val disposeFailure = {
-        val ws = mock[DisposeWebService]
-        when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
-          val responseAsJson = Json.toJson(disposeResponseNoResponseCode)
-          new FakeResponse(status = OK, fakeJson = Some(responseAsJson))
-        })
-        val disposeServiceImpl = new DisposeServiceImpl(ws)
-        new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
-      }
-
-      cacheSetup()
-
-      val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
 

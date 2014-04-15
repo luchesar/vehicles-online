@@ -37,38 +37,34 @@ object FakeDisposeWebServiceImpl {
   val simulateSoapEndpointFailure = "9" * 11
 
   val disposeResponseSuccess =
-    DisposeResponse(success = true,
-      message = "Fake Web Dispose Service - Good response",
+    DisposeResponse(message = "Fake Web Dispose Service - Good response",
       transactionId = transactionIdValid,
       registrationNumber = registrationNumberValid,
       auditId = auditIdValid)
 
   val disposeResponseFailure =
-    DisposeResponse(success = false,
-      message = "Fake Web Dispose Service - Bad response",
+    DisposeResponse(message = "Fake Web Dispose Service - Bad response",
       transactionId = transactionIdValid, // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
       registrationNumber = "",
-      auditId = "")
+      auditId = "",
+      responseCode = Some("broken"))
 
   val disposeResponseSoapEndpointFailure =
-    DisposeResponse(success = false,
-      message = "Fake Web Dispose Service - Bad response - Soap endpoint down",
+    DisposeResponse(message = "Fake Web Dispose Service - Bad response - Soap endpoint down",
       transactionId = "", // No transactionId because the soap endpoint is down
       registrationNumber = "",
       auditId = "",
       responseCode = Some("ms.dispose.response.endpointdown"))
 
   val disposeResponseWithResponseCode =
-    DisposeResponse(success = false,
-      message = "Fake Web Dispose Service - Bad response",
+    DisposeResponse(message = "Fake Web Dispose Service - Bad response",
       transactionId = transactionIdValid, // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
       registrationNumber = "",
       auditId = "",
       responseCode = Some("test response code"))
 
   val disposeResponseNoResponseCode =
-    DisposeResponse(success = false,
-      message = "Fake Web Dispose Service - Bad response - No response code",
+    DisposeResponse(message = "Fake Web Dispose Service - Bad response - No response code",
       transactionId = "",
       registrationNumber = "",
       auditId = "",
