@@ -8,7 +8,7 @@ import cucumber.api.CucumberOptions
 @CucumberOptions(
   format = Array("pretty", "html:target/cucumber-acceptance-html-report-US125"),
   strict = true,
-  features = Array("test/acceptance/disposal_of_vehicle/features/US125.feature"),
+  features = Array("test/acceptance/disposal_of_vehicle/US125.feature"),
   glue = Array("classpath:helpers.hooks", "classpath:helpers.steps")
 )
 class US125 {
