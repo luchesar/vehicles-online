@@ -12,6 +12,35 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 
+  @Given("""^the motor trader has confirmed the consent of the current keeper$""")
+  def the_motor_trader_has_confirmed_the_consent_of_the_current_keeper() = {
+    CacheSetup.setupTradeDetails()
+    CacheSetup.businessChooseYourAddress()
+    CacheSetup.vehicleDetailsModel()
+    CacheSetup.vehicleLookupFormModel()
+
+    go to DisposePage
+    DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
+    DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
+    DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
+    click on DisposePage.consent
+    click on DisposePage.lossOfRegistrationConsent
+  }
+
+  @Given("""^the motor trader has not confirmed the consent of the current keeper$""")
+  def the_motor_trader_has_not_confirmed_the_consent_of_the_current_keeper() = {
+    CacheSetup.setupTradeDetails()
+    CacheSetup.businessChooseYourAddress()
+    CacheSetup.vehicleDetailsModel()
+    CacheSetup.vehicleLookupFormModel()
+
+    go to DisposePage
+    DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
+    DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
+    DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
+    click on DisposePage.lossOfRegistrationConsent
+  }
+
   @Given("""^the motor trader has confirmed the acknowledgement of the current keeper$""")
   def the_motor_trader_has_confirmed_the_acknowledgement_of_the_current_keeper() = {
     CacheSetup.setupTradeDetails()
@@ -71,6 +100,11 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
     DisposeSuccessPage
+  }
+
+  @When("""^they attempt to submit the consent in addition to other required information$""")
+  def they_attempt_to_submit_the_consent_in_addition_to_other_required_information() = {
+    click on DisposePage.dispose
   }
 
   @When("""^they attempt to submit the acknowledgement in addition to other required information$""")
