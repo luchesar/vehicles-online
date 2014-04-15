@@ -93,7 +93,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
     }
 
     "return seq of (uprn, address) when micro-service returns a single address" in {
-      val expected = (traderUprnValid.toString, "property stub, 123, town stub, area stub, postcode stub")
+      val expected = (traderUprnValid.toString, s"property stub, 123, town stub, area stub, $postcodeValid")
       val input: Seq[Address] = Seq(gdsAddress())
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(OK, inputAsJson))
@@ -104,7 +104,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
     }
 
     "return seq of (uprn, address) when micro-service returns many addresses" in {
-      val expected = (traderUprnValid.toString, "property stub, 123, town stub, area stub, postcode stub")
+      val expected = (traderUprnValid.toString, s"property stub, 123, town stub, area stub, $postcodeValid")
       val input = Seq(gdsAddress(), gdsAddress(), gdsAddress())
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(OK, inputAsJson))
@@ -116,9 +116,9 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
     "not throw when an address contains a building number that contains letters" in {
       val expected = Seq(
-        (traderUprnValid.toString, "property stub, 789C, town stub, area stub, postcode stub"),
-        (traderUprnValid.toString, "presentationProperty BBB, 123B, town stub, area stub, postcode stub"),
-        (traderUprnValid.toString, "presentationProperty AAA, 123A, town stub, area stub, postcode stub")
+        (traderUprnValid.toString, s"property stub, 789C, town stub, area stub, $postcodeValid"),
+        (traderUprnValid.toString, s"presentationProperty BBB, 123B, town stub, area stub, $postcodeValid"),
+        (traderUprnValid.toString, s"presentationProperty AAA, 123A, town stub, area stub, $postcodeValid")
       )
       val input = Seq(
         gdsAddress(presentationStreet = "789C"),
@@ -135,9 +135,9 @@ class GdsPostcodeLookupSpec extends UnitSpec {
 
     "return seq of (uprn, address) sorted by building number then building name" in {
       val expected = Seq(
-        (traderUprnValid.toString, "property stub, 789, town stub, area stub, postcode stub"),
-        (traderUprnValid.toString, "presentationProperty BBB, 123, town stub, area stub, postcode stub"),
-        (traderUprnValid.toString, "presentationProperty AAA, 123, town stub, area stub, postcode stub")
+        (traderUprnValid.toString, s"property stub, 789, town stub, area stub, $postcodeValid"),
+        (traderUprnValid.toString, s"presentationProperty BBB, 123, town stub, area stub, $postcodeValid"),
+        (traderUprnValid.toString, s"presentationProperty AAA, 123, town stub, area stub, $postcodeValid")
       )
       val input = Seq(
         gdsAddress(presentationStreet = "789"),
@@ -199,7 +199,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
     }
 
     "return AddressViewModel when micro-service returns a single address" in {
-      val expected = Seq("presentationProperty stub, 123, property stub, street stub, town stub, area stub, postcode stub")
+      val expected = Seq(s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $postcodeValid")
       val input: Seq[Address] = Seq(gdsAddress())
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(OK, inputAsJson))
@@ -215,7 +215,7 @@ class GdsPostcodeLookupSpec extends UnitSpec {
     }
 
     "return AddressViewModel of the first in the seq when micro-service returns many addresses" in {
-      val expected = Seq("presentationProperty stub, 123, property stub, street stub, town stub, area stub, postcode stub")
+      val expected = Seq(s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $postcodeValid")
       val input: Seq[Address] = Seq(gdsAddress(), gdsAddress(), gdsAddress())
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(OK, inputAsJson))

@@ -6,6 +6,7 @@ import helpers.disposal_of_vehicle.CacheSetup
 import pages.common.ErrorPanel
 import helpers.UiSpec
 import BusinessChooseYourAddressPage.{sadPath, happyPath, manualAddress, back}
+import services.fakes.FakeAddressLookupService.postcodeValid
 
 class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   private def cacheSetup() = {
@@ -72,9 +73,9 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
       val result = page.source
 
       assert(BusinessChooseYourAddressPage.getListCount equals 4) // The first option is the "Please select..." and the other options are the addresses.
-      assert(result.contains("presentationProperty stub, 123, property stub, street stub, town stub, area stub, postcode stub"))
-      assert(result.contains("presentationProperty stub, 456, property stub, street stub, town stub, area stub, postcode stub"))
-      assert(result.contains("presentationProperty stub, 789, property stub, street stub, town stub, area stub, postcode stub"))
+      assert(result.contains(s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $postcodeValid"))
+      assert(result.contains(s"presentationProperty stub, 456, property stub, street stub, town stub, area stub, $postcodeValid"))
+      assert(result.contains(s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $postcodeValid"))
     }
 
     "display 'No addresses found' message when address service returns no addresses" in new WebBrowser {
