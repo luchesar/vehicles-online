@@ -6,7 +6,6 @@ import org.scalatest.Matchers
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 import services.fakes.FakeAddressLookupService._
-import helpers.disposal_of_vehicle.Helper._
 
 class TraderDetailsSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
