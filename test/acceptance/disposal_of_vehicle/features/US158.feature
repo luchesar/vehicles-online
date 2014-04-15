@@ -1,4 +1,4 @@
-Feature: Disposal to Trade: Business Name - Error Messages
+Feature: US158: Disposal to Trade: Business Name - Error Messages
   As a Motor Trader
   I want to receive an appropriate error message when I enter a disallowed Business Name
   so that I can move to the next step in the transaction
