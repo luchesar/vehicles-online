@@ -10,7 +10,7 @@ import mappings.common.Uprn.uprnId
 import play.api.libs.json.Json
 
 class WebServiceImpl extends AddressLookupWebService {
-  val baseUrl = s"${ Config.ordnanceSurveyBaseUrl }"
+  val baseUrl = s"${ Config.ordnanceSurveyMicroServiceUrl }"
   val requestTimeout = Config.ordnanceSurveyRequestTimeout.toInt
 
   def postcodeWithNoSpaces(postcode: String): String = postcode.filter(_ != ' ')

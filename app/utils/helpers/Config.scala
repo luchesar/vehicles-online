@@ -9,13 +9,11 @@ object Config {
   val microServiceBaseUrl = getProperty("microServiceUrlBase", "http://localhost:8080")
 
   // Ordnance survey config
-  val ordnanceSurveyUsername = getProperty("ordnancesurvey.username", "")
-  val ordnanceSurveyPassword = getProperty("ordnancesurvey.password", "")
-  val ordnanceSurveyBaseUrl = getProperty("ordnancesurvey.baseurl", "")
+  val ordnanceSurveyMicroServiceUrl = getProperty("ordnancesurvey.ms.url", "")
   val ordnanceSurveyRequestTimeout = getProperty("ordnancesurvey.requesttimeout", "30000")
 
   // GDS address lookup config
-  val gdsAddressLookupBaseUrl = getProperty("gdsaddresslookup.baseurl", "http://localhost:8081")
+  val gdsAddressLookupBaseUrl = getProperty("gdsaddresslookup.baseurl", "")
   val gdsAddressLookupAuthorisation = getProperty("gdsaddresslookup.authorisation", "")
   val gdsAddressLookupRequestTimeout = getProperty("gdsaddresslookup.requesttimeout", "30000")
 
