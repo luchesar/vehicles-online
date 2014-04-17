@@ -4,7 +4,6 @@ import services.fakes.FakeWebServiceImpl
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.address_lookup._
-import org.mockito.Mockito._
 import play.api.libs.json.Json
 import play.api.libs.json.JsValue
 import helpers.UnitSpec
@@ -41,10 +40,8 @@ class OSAddressLookupServiceSpec extends UnitSpec {
     response(statusCode, inputAsJson)
   }
 
-  def responseThrows = Future {
-    val response = mock[Response]
-    when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
-    response
+  val responseThrows: Future[Response] = Future {
+    throw new RuntimeException("This error is generated deliberately by a test")
   }
 
   "fetchAddressesForPostcode" should {
@@ -79,16 +76,16 @@ class OSAddressLookupServiceSpec extends UnitSpec {
         _ shouldBe empty
       }
     }
-    /*
-        "return empty seq when response throws" in {
-          val addressLookupService = addressServiceMock(responseThrows)
 
-          val result = addressLookupService.fetchAddressesForPostcode(postcodeValid)
+    "return empty seq when response throws" in {
+      val addressLookupService = addressServiceMock(responseThrows)
 
-          whenReady(result) {
-            _ shouldBe empty
-          }
-        }*/
+      val result = addressLookupService.fetchAddressesForPostcode(postcodeValid)
+
+      whenReady(result, timeout) {
+        _ shouldBe empty
+      }
+    }
 
     "return empty seq given invalid json" in {
       val inputAsJson = Json.obj("addresses" -> "INVALID")
@@ -136,7 +133,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
       }
     }
 
-    /*"return none when web service throws an exception" in {
+    "return none when web service throws an exception" in {
       val addressLookupService = addressServiceMock(responseThrows)
 
       val result = addressLookupService.fetchAddressForUprn(traderUprnValid.toString)
@@ -144,7 +141,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
       whenReady(result) {
         _ should equal(None)
       }
-    }*/
+    }
 
     "return empty seq given invalid json" in {
       val inputAsJson = Json.obj("addressViewModel" -> "INVALID")
