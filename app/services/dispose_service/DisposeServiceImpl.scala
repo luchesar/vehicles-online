@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class DisposeServiceImpl @Inject()(ws: DisposeWebService) extends DisposeService {
   override def invoke(cmd: DisposeRequest): Future[DisposeResponse] = {
-    val endPoint = s"${Config.microServiceBaseUrl}/vehicles/dispose/v1"
+    val endPoint = s"${Config.disposeVehicleMicroServiceBaseUrl}/vehicles/dispose/v1"
     Logger.debug(s"Calling dispose vehicle micro-service on $endPoint with request object: $cmd...")
 
     ws.callDisposeService(cmd).map {

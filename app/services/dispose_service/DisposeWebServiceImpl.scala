@@ -8,7 +8,7 @@ import utils.helpers.Config
 import play.api.Logger
 
 class DisposeWebServiceImpl extends DisposeWebService {
-  val endPoint = s"${Config.microServiceBaseUrl}/vehicles/dispose/v1"
+  val endPoint = s"${Config.disposeVehicleMicroServiceBaseUrl}/vehicles/dispose/v1"
   val requestTimeout = Config.disposeMsRequestTimeout.toInt
 
   override def callDisposeService(request: DisposeRequest): Future[Response] = {
