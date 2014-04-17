@@ -11,8 +11,9 @@ import services.fakes.FakeWebServiceImpl._
 
 class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
-    val response = if(uprnFound) responseValidForOrdnanceSurvey else responseValidForOrdnanceSurveyNotFound
-    val fakeWebService = new FakeWebServiceImpl(response, response)
+    val responsePostcode = if(uprnFound) responseValidForPostcodeToAddress else responseValidForPostcodeToAddressNotFound
+    val responseUprn = if(uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
+    val fakeWebService = new FakeWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
     new BusinessChooseYourAddress(addressLookupService)
   }

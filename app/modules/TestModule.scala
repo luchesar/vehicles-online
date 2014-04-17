@@ -29,9 +29,10 @@ object TestModule extends ScalaModule {
 
   private def ordnanceSurveyAddressLookup() = {
     bind[AddressLookupService].to[services.address_lookup.ordnance_survey.AddressLookupServiceImpl]
+
     val fakeWebServiceImpl = new FakeWebServiceImpl(
-      responseOfPostcodeWebService = FakeWebServiceImpl.responseValidForOrdnanceSurvey,
-      responseOfUprnWebService = FakeWebServiceImpl.responseValidForOrdnanceSurvey
+      responseOfPostcodeWebService = FakeWebServiceImpl.responseValidForPostcodeToAddress,
+      responseOfUprnWebService = FakeWebServiceImpl.responseValidForUprnToAddress
     )
     bind[AddressLookupWebService].toInstance(fakeWebServiceImpl)
   }

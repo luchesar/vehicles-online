@@ -1,12 +1,8 @@
 package services.fakes
 
-import services.address_lookup.ordnance_survey.domain.{OSAddressbaseHeader, OSAddressbaseSearchResponse, OSAddressbaseResult}
 import play.api.libs.json.Json
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-import services.address_lookup.gds.domain.Address
-import services.address_lookup.AddressLookupWebService
-import java.net.URI
 import play.api.http.Status._
 import play.api.libs.ws.Response
 import services.address_lookup.gds.domain.Location
@@ -14,8 +10,9 @@ import scala.Some
 import services.address_lookup.gds.domain.Details
 import services.address_lookup.gds.domain.Presentation
 import services.address_lookup.gds.domain.Address
-import services.fakes.FakeAddressLookupService.{postcodeValid, postcodeInvalid}
-import models.domain.disposal_of_vehicle.{UprnAddressPair, PostcodeToAddressResponse}
+import services.fakes.FakeAddressLookupService.postcodeInvalid
+import models.domain.disposal_of_vehicle.{AddressViewModel, UprnToAddressResponse, UprnAddressPair, PostcodeToAddressResponse}
+import services.address_lookup.AddressLookupWebService
 
 class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                          responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
@@ -31,17 +28,14 @@ class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
 object FakeWebServiceImpl {
   val traderUprnValid = 12345L
   val traderUprnValid2 = 4567L
+  val postcodeValid = "CM81QJ"
+
+  private def addressSeq(uprn: String = traderUprnValid.toString, houseName: String = "presentationProperty stub", houseNumber: String = "123"): Seq[String] = {
+    Seq(houseName, houseNumber, "property stub", "street stub", "town stub", "area stub", postcodeValid)
+  }
 
   def uprnAddressPairWithDefaults(uprn: String = traderUprnValid.toString, houseName: String = "presentationProperty stub", houseNumber: String = "123") =
-    UprnAddressPair(uprn, address = s"$houseName, $houseNumber, property stub, street stub, town stub, area stub, $postcodeValid")
-
-  private val header = OSAddressbaseHeader(uri = new URI(""),
-    query = "",
-    offset = 0,
-    totalresults = 2,
-    format = "",
-    dataset = "",
-    maxresults = 2)
+    UprnAddressPair(uprn, address = addressSeq(uprn, houseName, houseNumber).mkString(", "))
 
   def postcodeToAddressResponseValid: PostcodeToAddressResponse = {
     val results = Seq(
@@ -53,7 +47,7 @@ object FakeWebServiceImpl {
     PostcodeToAddressResponse(addresses = results)
   }
 
-  def responseValidForOrdnanceSurvey: Future[Response] = {
+  def responseValidForPostcodeToAddress: Future[Response] = {
     val inputAsJson = Json.toJson(postcodeToAddressResponseValid)
 
     Future {
@@ -61,10 +55,29 @@ object FakeWebServiceImpl {
     }
   }
 
-  def responseValidForOrdnanceSurveyNotFound: Future[Response] = {
-    val response = OSAddressbaseSearchResponse(header = header,
-      results = None)
-    val inputAsJson = Json.toJson(response)
+  def responseValidForPostcodeToAddressNotFound: Future[Response] = {
+    val inputAsJson = Json.toJson(PostcodeToAddressResponse(addresses = Seq.empty))
+
+    Future {
+      FakeResponse(status = OK, fakeJson = Some(inputAsJson))
+    }
+  }
+
+  val uprnToAddressResponseValid = {
+    val uprnAddressPair = uprnAddressPairWithDefaults()
+    UprnToAddressResponse(addressViewModel = Some(AddressViewModel(uprn = Some(uprnAddressPair.uprn.toLong), address = uprnAddressPair.address.split(","))))
+  }
+
+  def responseValidForUprnToAddress: Future[Response] = {
+    val inputAsJson = Json.toJson(uprnToAddressResponseValid)
+
+    Future {
+      FakeResponse(status = OK, fakeJson = Some(inputAsJson))
+    }
+  }
+
+  def responseValidForUprnToAddressNotFound: Future[Response] = {
+    val inputAsJson = Json.toJson(UprnToAddressResponse(addressViewModel = None))
 
     Future {
       FakeResponse(status = OK, fakeJson = Some(inputAsJson))

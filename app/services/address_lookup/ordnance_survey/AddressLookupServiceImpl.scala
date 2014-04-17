@@ -1,10 +1,7 @@
 package services.address_lookup.ordnance_survey
 
-import models.domain.disposal_of_vehicle.{UprnToAddressResponse, UprnAddressPair, PostcodeToAddressResponse, AddressViewModel}
-import utils.helpers.Config
+import models.domain.disposal_of_vehicle.{UprnToAddressResponse, PostcodeToAddressResponse, AddressViewModel}
 import play.api.Logger
-import com.ning.http.client.Realm.AuthScheme
-import services.address_lookup.ordnance_survey.domain.{OSAddressbaseDPA, OSAddressbaseResult, OSAddressbaseSearchResponse}
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 import javax.inject.Inject
@@ -16,21 +13,24 @@ class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends Ad
     def extractFromJson(resp: Response): Option[PostcodeToAddressResponse] = {
       resp.json.asOpt[PostcodeToAddressResponse]
     }
-    
+
     def toDropDown(resp: Response): Seq[(String, String)] =
       extractFromJson(resp) match {
         case Some(results) =>
-          results.addresses map { address => (address.uprn, address.address) } // Sort before translating to drop down format.
+          results.addresses map {
+            address => (address.uprn, address.address)
+          } // Sort before translating to drop down format.
         case None =>
           // Handle no results
           Logger.debug(s"No results returned for postcode: $postcode")
           Seq.empty
       }
 
-    ws.callPostcodeWebService(postcode).map { resp =>
-      Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${ resp.status }")
-      if (resp.status == play.api.http.Status.OK) toDropDown(resp)
-      else Seq.empty // The service returned http code other than 200 OK
+    ws.callPostcodeWebService(postcode).map {
+      resp =>
+        Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}")
+        if (resp.status == play.api.http.Status.OK) toDropDown(resp)
+        else Seq.empty // The service returned http code other than 200 OK
     }.recover {
       case e: Throwable =>
         Logger.error(s"Ordnance Survey postcode lookup service error: $e")
@@ -54,7 +54,7 @@ class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends Ad
 
     ws.callUprnWebService(uprn).map {
       resp =>
-        Logger.debug(s"Http response code from Ordnance Survey uprn lookup service was: ${ resp.status }")
+        Logger.debug(s"Http response code from Ordnance Survey uprn lookup service was: ${resp.status}")
         if (resp.status == play.api.http.Status.OK) toViewModel(resp)
         else None
     }.recover {

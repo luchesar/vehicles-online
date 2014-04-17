@@ -5,24 +5,17 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.address_lookup._
 import org.mockito.Mockito._
-import services.address_lookup.ordnance_survey.domain._
 import play.api.libs.json.Json
-import java.net.URI
 import play.api.libs.json.JsValue
 import helpers.UnitSpec
 import services.fakes.FakeResponse
 import org.scalatest.time.Span
 import org.scalatest.time.Second
 import services.fakes.FakeWebServiceImpl._
-import services.fakes.FakeAddressLookupService._
 import play.api.http.Status._
 import play.api.libs.ws.Response
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
-import scala.Some
-import play.api.libs.ws.Response
-import org.scalatest.concurrent.PatienceConfiguration.Timeout
-import scala.Some
-import models.domain.disposal_of_vehicle.{PostcodeToAddressResponse, AddressViewModel}
+import models.domain.disposal_of_vehicle.{UprnToAddressResponse, PostcodeToAddressResponse}
 
 class OSAddressLookupServiceSpec extends UnitSpec {
 
@@ -36,15 +29,27 @@ class OSAddressLookupServiceSpec extends UnitSpec {
     FakeResponse(status = statusCode, fakeJson = Some(inputAsJson))
   }
 
-  def response(statusCode: Int,
-               input: PostcodeToAddressResponse = postcodeToAddressResponseValid): Future[Response] = {
+  def responsePostcode(statusCode: Int,
+                       input: PostcodeToAddressResponse = postcodeToAddressResponseValid): Future[Response] = {
     val inputAsJson = Json.toJson(input)
     response(statusCode, inputAsJson)
   }
 
+  def responseUprn(statusCode: Int,
+                   input: UprnToAddressResponse = uprnToAddressResponseValid): Future[Response] = {
+    val inputAsJson = Json.toJson(input)
+    response(statusCode, inputAsJson)
+  }
+
+  def responseThrows = Future {
+    val response = mock[Response]
+    when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
+    response
+  }
+
   "fetchAddressesForPostcode" should {
     "return seq when response status is 200 OK and returns results" in {
-      val service = addressServiceMock(responseValidForOrdnanceSurvey)
+      val service = addressServiceMock(responseValidForPostcodeToAddress)
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
 
@@ -56,9 +61,96 @@ class OSAddressLookupServiceSpec extends UnitSpec {
     }
 
     "return empty seq when response status is Ok but results is empty" in {
-      val service = addressServiceMock(response(OK, PostcodeToAddressResponse(addresses = Seq.empty)))
+      val service = addressServiceMock(responsePostcode(OK, PostcodeToAddressResponse(addresses = Seq.empty)))
 
       val result = service.fetchAddressesForPostcode(postcodeValid)
+
+      whenReady(result) {
+        _ shouldBe empty
+      }
+    }
+
+    "return empty seq when response status is not 200 OK" in {
+      val service = addressServiceMock(responsePostcode(NOT_FOUND))
+
+      val result = service.fetchAddressesForPostcode(postcodeValid)
+
+      whenReady(result) {
+        _ shouldBe empty
+      }
+    }
+    /*
+        "return empty seq when response throws" in {
+          val addressLookupService = addressServiceMock(responseThrows)
+
+          val result = addressLookupService.fetchAddressesForPostcode(postcodeValid)
+
+          whenReady(result) {
+            _ shouldBe empty
+          }
+        }*/
+
+    "return empty seq given invalid json" in {
+      val inputAsJson = Json.toJson("INVALID")
+      val service = addressServiceMock(response(OK, inputAsJson))
+
+      val result = service.fetchAddressesForPostcode(postcodeValid)
+
+      whenReady(result) {
+        _ shouldBe empty
+      }
+    }
+  }
+
+  "fetchAddressForUprn" should {
+    "return AddressViewModel when response status is 200 OK" in {
+      val service = addressServiceMock(responseValidForUprnToAddress)
+
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)
+
+      whenReady(result) {
+        case Some(addressViewModel) =>
+          addressViewModel.uprn.map(_.toString) should equal(Some(traderUprnValid.toString))
+          addressViewModel.address === uprnToAddressResponseValid.addressViewModel.get.address
+        case _ => fail("Should have returned Some(AddressViewModel)")
+      }
+    }
+
+    "return None when response status is not 200 OK" in {
+      val service = addressServiceMock(responseUprn(NOT_FOUND, UprnToAddressResponse(addressViewModel = None)))
+
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)
+
+      whenReady(result) {
+        _ should equal(None)
+      }
+    }
+
+    "return none when response status is 200 OK but results is empty" in {
+      val service = addressServiceMock(responseUprn(OK, UprnToAddressResponse(addressViewModel = None)))
+
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)
+
+      whenReady(result) {
+        _ should equal(None)
+      }
+    }
+
+    /*"return none when web service throws an exception" in {
+      val addressLookupService = addressServiceMock(responseThrows)
+
+      val result = addressLookupService.fetchAddressForUprn(traderUprnValid.toString)
+
+      whenReady(result) {
+        _ should equal(None)
+      }
+    }*/
+
+    "return empty seq given invalid json" in {
+      val inputAsJson = Json.toJson("INVALID")
+      val service = addressServiceMock(response(OK, inputAsJson))
+
+      val result = service.fetchAddressForUprn(postcodeValid)
 
       whenReady(result) {
         _ shouldBe empty
