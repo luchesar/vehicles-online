@@ -87,5 +87,3 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
   }
 
 }
-
-
