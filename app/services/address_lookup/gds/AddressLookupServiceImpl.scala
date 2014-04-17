@@ -1,6 +1,6 @@
 package services.address_lookup.gds
 
-import models.domain.disposal_of_vehicle.AddressViewModel
+import models.domain.disposal_of_vehicle.{PostcodeToAddressResponse, AddressViewModel}
 import utils.helpers.Config
 import play.api.Logger
 import scala.concurrent.{Future, ExecutionContext}

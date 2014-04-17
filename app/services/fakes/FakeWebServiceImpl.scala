@@ -1,11 +1,10 @@
 package services.fakes
 
-import play.api.libs.ws.Response
-import services.address_lookup.ordnance_survey.domain.{OSAddressbaseHeader, OSAddressbaseSearchResponse, OSAddressbaseResult, OSAddressbaseDPA}
+import services.address_lookup.ordnance_survey.domain.{OSAddressbaseHeader, OSAddressbaseSearchResponse, OSAddressbaseResult}
 import play.api.libs.json.Json
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-import services.address_lookup.gds.domain.{Location, Details, Presentation, Address}
+import services.address_lookup.gds.domain.Address
 import services.address_lookup.AddressLookupWebService
 import java.net.URI
 import play.api.http.Status._
@@ -16,6 +15,7 @@ import services.address_lookup.gds.domain.Details
 import services.address_lookup.gds.domain.Presentation
 import services.address_lookup.gds.domain.Address
 import services.fakes.FakeAddressLookupService.{postcodeValid, postcodeInvalid}
+import models.domain.disposal_of_vehicle.{UprnAddressPair, PostcodeToAddressResponse}
 
 class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                          responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
@@ -32,39 +32,25 @@ object FakeWebServiceImpl {
   val traderUprnValid = 12345L
   val traderUprnValid2 = 4567L
 
-  def osAddressbaseDPA(uprn: String = traderUprnValid.toString, houseName: String = "presentationProperty stub", houseNumber: String = "123") = OSAddressbaseDPA(
-    UPRN = uprn,
-    address = s"$houseName, $houseNumber, property stub, street stub, town stub, area stub, $postcodeValid",
-    buildingName = Some(houseName),
-    buildingNumber = Some(houseNumber),
-    postTown = "b",
-    postCode = "c",
-    RPC = "d",
-    xCoordinate = 1f,
-    yCoordinate = 2f,
-    status = "e",
-    matchScore = 3f,
-    matchDescription = "f"
-  )
+  def uprnAddressPairWithDefaults(uprn: String = traderUprnValid.toString, houseName: String = "presentationProperty stub", houseNumber: String = "123") =
+    UprnAddressPair(uprn, address = s"$houseName, $houseNumber, property stub, street stub, town stub, area stub, $postcodeValid")
 
   private val header = OSAddressbaseHeader(uri = new URI(""),
-    query="",
-    offset=0,
-    totalresults=2,
-    format="",
-    dataset="",
-    maxresults=2)
+    query = "",
+    offset = 0,
+    totalresults = 2,
+    format = "",
+    dataset = "",
+    maxresults = 2)
 
   def responseValidForOrdnanceSurvey: Future[Response] = {
-    val results = {
-      val result1 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA()), LPI = None)
-      val result2 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(uprn = "67890", houseNumber = "456")), LPI = None)
-      val result3 = OSAddressbaseResult(DPA = Some(osAddressbaseDPA(uprn = "111213", houseNumber = "789")), LPI = None)
+    val results = Seq(
+      uprnAddressPairWithDefaults(),
+      uprnAddressPairWithDefaults(uprn = "67890", houseNumber = "456"),
+      uprnAddressPairWithDefaults(uprn = "111213", houseNumber = "789")
+    )
 
-      Seq(result1, result2, result3)
-    }
-    val response = OSAddressbaseSearchResponse(header = header,
-      results = Some(results))
+    val response = PostcodeToAddressResponse(addresses = results)
     val inputAsJson = Json.toJson(response)
 
     Future {

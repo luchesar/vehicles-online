@@ -1,6 +1,6 @@
 package services.address_lookup.ordnance_survey
 
-import models.domain.disposal_of_vehicle.AddressViewModel
+import models.domain.disposal_of_vehicle.{UprnAddressPair, PostcodeToAddressResponse, AddressViewModel}
 import utils.helpers.Config
 import play.api.Logger
 import com.ning.http.client.Realm.AuthScheme
@@ -12,25 +12,15 @@ import play.api.libs.ws.Response
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 
 class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends AddressLookupService {
-  private def extractFromJson(resp: Response): Option[Seq[OSAddressbaseResult]] = {
-    val response = resp.json.asOpt[OSAddressbaseSearchResponse]
-    response.flatMap(_.results)
+  private def extractFromJson(resp: Response): Option[PostcodeToAddressResponse] = {
+    resp.json.asOpt[PostcodeToAddressResponse]
   }
 
   override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = {
-    def sort(addresses: Seq[OSAddressbaseDPA]) = {
-      addresses.sortBy(addressDpa => {
-        val buildingNumber = addressDpa.buildingNumber.getOrElse("0")
-        val buildingNumberSanitised = buildingNumber.replaceAll("[^0-9]", "") // Sanitise building number as it could contain letters which would cause toInt to throw e.g. 107a.
-        (buildingNumberSanitised, addressDpa.buildingName) // TODO check with BAs how they would want to sort the list
-      })
-    }
-
     def toDropDown(resp: Response): Seq[(String, String)] =
       extractFromJson(resp) match {
         case Some(results) =>
-          val addresses = results.flatMap { _.DPA }
-          sort(addresses) map { address => (address.UPRN, address.address) } // Sort before translating to drop down format.
+          results.addresses map { address => (address.uprn, address.address) } // Sort before translating to drop down format.
         case None =>
           // Handle no results
           Logger.debug(s"No results returned for postcode: $postcode")
@@ -53,9 +43,8 @@ class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends Ad
     def toViewModel(resp: Response) =
       extractFromJson(resp) match {
         case Some(results) =>
-          val addresses = results.flatMap { _.DPA }
-          require(addresses.length >= 1, s"Should be at least one address for the UPRN: $uprn")
-          Some(AddressViewModel(uprn = Some(addresses.head.UPRN.toLong), address = addresses.head.address.split(", "))) // Translate to view model.
+          require(results.addresses.length >= 1, s"Should be at least one address for the UPRN: $uprn")
+          Some(AddressViewModel(uprn = Some(results.addresses.head.uprn.toLong), address = results.addresses.head.address.split(", "))) // Translate to view model.
         case None =>
           Logger.error(s"No results returned by web service for submitted UPRN: $uprn")
           None
