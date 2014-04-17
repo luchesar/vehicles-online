@@ -4,31 +4,27 @@ import play.api.libs.ws.{Response, WS}
 import utils.helpers.Config
 import scala.concurrent.Future
 import play.api.Logger
-import com.ning.http.client.Realm.AuthScheme
 import services.address_lookup.AddressLookupWebService
+import mappings.common.Postcode.postcodeId
 
 class WebServiceImpl extends AddressLookupWebService {
-  val username = s"${ Config.ordnanceSurveyUsername }"
-  val password = s"${ Config.ordnanceSurveyPassword }"
   val baseUrl = s"${ Config.ordnanceSurveyBaseUrl }"
   val requestTimeout = Config.ordnanceSurveyRequestTimeout.toInt
 
   def postcodeWithNoSpaces(postcode: String): String = postcode.filter(_ != ' ')
 
   override def callPostcodeWebService(postcode: String): Future[Response] = {
-    val endPoint = s"$baseUrl/postcode?postcode=${ postcodeWithNoSpaces(postcode) }&dataset=dpa" // TODO add lpi to URL, but need to set organisation as Option on the type.
-    Logger.debug(s"Calling Ordnance Survey postcode lookup service on $endPoint...")
+    val endPoint = s"$baseUrl/postcode-to-address"
+    Logger.debug(s"Calling Ordnance Survey postcode lookup micro-service on $endPoint...")
     WS.url(endPoint).
-      withAuth(username = username, password = password, scheme = AuthScheme.BASIC).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
-      get()
+      post(Map(postcodeId -> Seq(postcodeWithNoSpaces(postcode))))
   }
 
   override def callUprnWebService(uprn: String): Future[Response] = {
-    val endPoint = s"$baseUrl/uprn?uprn=$uprn&dataset=dpa" // TODO add lpi to URL, but need to set orgnaisation as Option on the type.
-    Logger.debug(s"Calling Ordnance Survey uprn lookup service on $endPoint...")
+    val endPoint = s"$baseUrl/uprn?uprn=$uprn" // TODO change URL
+    Logger.debug(s"Calling Ordnance Survey uprn lookup micro-service on $endPoint...")
     WS.url(endPoint).
-      withAuth(username = username, password = password, scheme = AuthScheme.BASIC).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
       get()
   }
