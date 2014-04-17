@@ -11,7 +11,7 @@ import org.mockito.Mockito._
 import org.mockito.Matchers._
 import helpers.UnitSpec
 import services.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeService}
-import services.fakes.{FakeDisposeWebServiceImpl, FakeResponse}
+import services.fakes.{FakeVehicleLookupWebService, FakeDisposeWebServiceImpl, FakeResponse}
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
@@ -19,7 +19,7 @@ import services.DateServiceImpl
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import controllers.disposal_of_vehicle.Helpers._
-import scala.Some
+import FakeVehicleLookupWebService.registrationNumberValid
 
 class DisposeUnitSpec extends UnitSpec {
   private def dateServiceStubbed(day: Int = dateOfDisposalDayValid.toInt, month: Int = dateOfDisposalMonthValid.toInt, year: Int = dateOfDisposalYearValid.toInt) = {
@@ -75,12 +75,13 @@ class DisposeUnitSpec extends UnitSpec {
         vehicleLookupFormModel()
       val result = disposeSuccess.submit(buildCorrectlyPopulatedRequest)
       redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
-      whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(DisposeSuccessPage.address))
-        fetchDisposeTransactionTimestampInCache match {
-          case Some(transactionTimestamp) => transactionTimestamp should include(s"$dateOfDisposalYearValid-$dateOfDisposalMonthValid-$dateOfDisposalDayValid")
-          case _ => fail("Should have found transaction timestamp in cache")
-        }
+      whenReady(result) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(DisposeSuccessPage.address))
+          fetchDisposeTransactionTimestampInCache match {
+            case Some(transactionTimestamp) => transactionTimestamp should include(s"$dateOfDisposalYearValid-$dateOfDisposalMonthValid-$dateOfDisposalDayValid")
+            case _ => fail("Should have found transaction timestamp in cache")
+          }
       }
     }
 
@@ -200,6 +201,83 @@ class DisposeUnitSpec extends UnitSpec {
       val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
+    }
+
+    "redirect to Soap endpoint error page when endpoint timeout" in new WithApplication {
+      val disposeFailure = {
+        val ws = mock[DisposeWebService]
+        when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
+          val responseAsJson = Json.toJson(disposeResponseSoapEndpointTimeout)
+          new FakeResponse(status = OK, fakeJson = Some(responseAsJson))
+        })
+        val disposeServiceImpl = new DisposeServiceImpl(ws)
+        new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
+      }
+
+      cacheSetup()
+
+      val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
+
+      // Verify that the transaction id is now stored in the cache
+      whenReady(result) {
+        r => {
+          r.header.headers.get(LOCATION) should equal(Some(SoapEndpointErrorPage.address))
+        }
+      }
+    }
+
+    "redirect to dispose success when applicationBeingProcessed" in new WithApplication {
+      CacheSetup.businessChooseYourAddress().
+        vehicleDetailsModel().
+        vehicleLookupFormModel()
+
+      val disposeSuccess = {
+        val ws = mock[DisposeWebService]
+        when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
+          val responseAsJson = Json.toJson(disposeResponseApplicationBeingProcessed)
+          new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+        })
+        val disposeServiceImpl = new DisposeServiceImpl(ws)
+        new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
+      }
+
+      val result = disposeSuccess.submit(buildCorrectlyPopulatedRequest)
+      redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
+      whenReady(result) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(DisposeSuccessPage.address))
+          fetchDisposeTransactionTimestampInCache match {
+            case Some(transactionTimestamp) => transactionTimestamp should include(s"$dateOfDisposalYearValid-$dateOfDisposalMonthValid-$dateOfDisposalDayValid")
+            case _ => fail("Should have found transaction timestamp in cache")
+          }
+          fetchDisposeRegistrationNumberFromCache match {
+            case Some(disposeRegistrationNumber) => disposeRegistrationNumber should equal(registrationNumberValid)
+            case _ => fail("Should have found DisposeRegistrationNumber in cache")
+          }
+      }
+    }
+
+    "redirect to Soap endpoint error page when unableToProcessApplication" in new WithApplication {
+      val disposeFailure = {
+        val ws = mock[DisposeWebService]
+        when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
+          val responseAsJson = Json.toJson(disposeResponseUnableToProcessApplication)
+          new FakeResponse(status = OK, fakeJson = Some(responseAsJson))
+        })
+        val disposeServiceImpl = new DisposeServiceImpl(ws)
+        new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
+      }
+
+      cacheSetup()
+
+      val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
+
+      // Verify that the transaction id is now stored in the cache
+      whenReady(result) {
+        r => {
+          r.header.headers.get(LOCATION) should equal(Some(DisposeFailurePage.address))
+        }
       }
     }
   }

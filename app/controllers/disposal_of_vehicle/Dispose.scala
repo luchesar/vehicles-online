@@ -111,7 +111,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
           transactionTimestamp()
 
         resp.responseCode match {
-          case Some(rc) => handleResponseCode(resp)
+          case Some(responseCode) => handleResponseCode(responseCode, resp.registrationNumber)
           case None => {
             storeDisposeRegistrationNumberInCache(resp.registrationNumber)
             Redirect(routes.DisposeSuccess.present)
@@ -139,31 +139,28 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       DisposeRequest(referenceNumber = disposeModel.referenceNumber, registrationNumber = disposeModel.registrationNumber, dateOfDisposal = isoDateTimeString, mileage = disposeModel.mileage)
     }
 
-    def handleResponseCode(resp: DisposeResponse) = {
+    def handleResponseCode(disposeResponseCode: String, registrationNumber: String) = {
       val endpointDown = "ms.dispose.response.endpointdown"
       val endpointTimeout = "ms.dispose.response.endpointtimeout"
       val applicationBeingProcessed = "ms.vehiclesService.response.applicationBeingProcessed"
       val unableToProcessApplication = "ms.vehiclesService.response.unableToProcessApplication"
 
-      resp.responseCode match {
-        case Some(responseCode) if responseCode == endpointDown =>
+      disposeResponseCode match {
+        case responseCode if responseCode == endpointDown =>
           Logger.warn("Dispose soap endpoint down redirecting to error page...")
           Redirect(routes.SoapEndpointError.present)
-        case Some(responseCode) if responseCode == endpointTimeout =>
+        case responseCode if responseCode == endpointTimeout =>
           Logger.warn("Dispose soap endpoint timeout redirecting to error page...")
           Redirect(routes.SoapEndpointError.present)
-        case Some(responseCode) if responseCode == applicationBeingProcessed =>
+        case responseCode if responseCode == applicationBeingProcessed =>
           Logger.warn("Dispose soap endpoint redirecting to dispose success page...")
-          storeDisposeRegistrationNumberInCache(resp.registrationNumber)
+          storeDisposeRegistrationNumberInCache(registrationNumber)
           Redirect(routes.DisposeSuccess.present)
-        case Some(responseCode) if responseCode == unableToProcessApplication =>
+        case responseCode if responseCode == unableToProcessApplication =>
           Logger.warn("Dispose soap endpoint redirecting to dispose failure page...")
           Redirect(routes.DisposeFailure.present)
-        case Some(responseCode) =>
+        case responseCode =>
           Logger.warn(s"Dispose micro-service failed: $responseCode, redirecting to error page...")
-          Redirect(routes.MicroServiceError.present)
-        case None =>
-          Logger.error("Dispose micro-service failed and did not give response code, redirecting to failure page...")
           Redirect(routes.MicroServiceError.present)
       }
     }
