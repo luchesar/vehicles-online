@@ -249,7 +249,6 @@ disposal_vehiclelookup.p2 = Vehicle will be sold to
 disposal_vehiclelookup.warning.p1 = Do not dispose of a vehicle with a personal registration unless the current keeper understands that the registration will be disposed of along with the vehicle.
 disposal_vehiclelookup.warning.p2 = Retain or transfer personal registrations before disposing to the trade.
 disposal_vehiclelookup.refnumlabel = Latest doc reference number
-disposal_vehiclelookup.refnumlabel.refNumIncorrect = You must enter a number with a length of 11 digits
 disposal_vehiclelookup.vrninputlabel = Vehicle registration mark
 disposal_vehiclelookup.backbutton = Back
 disposal_vehiclelookup.button = Next

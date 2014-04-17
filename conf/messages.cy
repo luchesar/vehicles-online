@@ -214,7 +214,6 @@ disposal_vehiclelookup.p2 = Bydd cerbyd yn cael ei werthu i
 disposal_vehiclelookup.warning.p1 = Peidiwch â gwaredu cerbyd gyda chofrestru personol oni bai bod y ceidwad ar hyn o bryd yn deall y bydd y cofrestriad yn cael eu gwaredu ynghyd â'r cerbyd.
 disposal_vehiclelookup.warning.p2 = Cadw neu drosglwyddo cofrestriadau personol cyn cael gwared i'r fasnach.
 disposal_vehiclelookup.refnumlabel = V5C Rhif cyfeirnod y ddogfen
-disposal_vehiclelookup.refnumlabel.refNumIncorrect = Mae'n rhaid i chi fynd i mewn i nifer sydd â hyd o 11 digid
 disposal_vehiclelookup.vrninputlabel = Rhif cofrestru cerbyd
 disposal_vehiclelookup.backbutton = Holau
 disposal_vehiclelookup.button = Dod o hyd i
