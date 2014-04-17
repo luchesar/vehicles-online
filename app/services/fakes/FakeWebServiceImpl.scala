@@ -43,15 +43,18 @@ object FakeWebServiceImpl {
     dataset = "",
     maxresults = 2)
 
-  def responseValidForOrdnanceSurvey: Future[Response] = {
+  def postcodeToAddressResponseValid: PostcodeToAddressResponse = {
     val results = Seq(
       uprnAddressPairWithDefaults(),
       uprnAddressPairWithDefaults(uprn = "67890", houseNumber = "456"),
       uprnAddressPairWithDefaults(uprn = "111213", houseNumber = "789")
     )
 
-    val response = PostcodeToAddressResponse(addresses = results)
-    val inputAsJson = Json.toJson(response)
+    PostcodeToAddressResponse(addresses = results)
+  }
+
+  def responseValidForOrdnanceSurvey: Future[Response] = {
+    val inputAsJson = Json.toJson(postcodeToAddressResponseValid)
 
     Future {
       FakeResponse(status = OK, fakeJson = Some(inputAsJson))
