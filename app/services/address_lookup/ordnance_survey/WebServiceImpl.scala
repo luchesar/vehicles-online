@@ -6,6 +6,7 @@ import scala.concurrent.Future
 import play.api.Logger
 import services.address_lookup.AddressLookupWebService
 import mappings.common.Postcode.postcodeId
+import play.api.libs.json.Json
 
 class WebServiceImpl extends AddressLookupWebService {
   val baseUrl = s"${ Config.ordnanceSurveyBaseUrl }"
@@ -15,15 +16,17 @@ class WebServiceImpl extends AddressLookupWebService {
 
   override def callPostcodeWebService(postcode: String): Future[Response] = {
     val endPoint = s"$baseUrl/postcode-to-address"
-    Logger.debug(s"Calling Ordnance Survey postcode lookup micro-service on $endPoint...")
+    Logger.debug(s"Calling ordnance-survey postcode lookup micro-service on $endPoint...")
+    val dataAsJson = Json.obj(postcodeId -> postcode)
     WS.url(endPoint).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
-      post(Map(postcodeId -> Seq(postcodeWithNoSpaces(postcode))))
+      post(dataAsJson)
+
   }
 
   override def callUprnWebService(uprn: String): Future[Response] = {
-    val endPoint = s"$baseUrl/uprn?uprn=$uprn" // TODO change URL
-    Logger.debug(s"Calling Ordnance Survey uprn lookup micro-service on $endPoint...")
+    val endPoint = s"$baseUrl/uprn-to-address"
+    Logger.debug(s"Calling ordnance-survey uprn lookup micro-service on $endPoint...")
     WS.url(endPoint).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
       get()
