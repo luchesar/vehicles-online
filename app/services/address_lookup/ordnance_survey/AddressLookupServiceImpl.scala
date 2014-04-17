@@ -1,6 +1,6 @@
 package services.address_lookup.ordnance_survey
 
-import models.domain.disposal_of_vehicle.{UprnAddressPair, PostcodeToAddressResponse, AddressViewModel}
+import models.domain.disposal_of_vehicle.{UprnToAddressResponse, UprnAddressPair, PostcodeToAddressResponse, AddressViewModel}
 import utils.helpers.Config
 import play.api.Logger
 import com.ning.http.client.Realm.AuthScheme
@@ -12,11 +12,11 @@ import play.api.libs.ws.Response
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 
 class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends AddressLookupService {
-  private def extractFromJson(resp: Response): Option[PostcodeToAddressResponse] = {
-    resp.json.asOpt[PostcodeToAddressResponse]
-  }
-
   override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = {
+    def extractFromJson(resp: Response): Option[PostcodeToAddressResponse] = {
+      resp.json.asOpt[PostcodeToAddressResponse]
+    }
+    
     def toDropDown(resp: Response): Seq[(String, String)] =
       extractFromJson(resp) match {
         case Some(results) =>
@@ -40,13 +40,15 @@ class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends Ad
 
   override def fetchAddressForUprn(uprn: String): Future[Option[AddressViewModel]] = {
     // Extract result from response and return as a view model.
+    def extractFromJson(resp: Response): Option[UprnToAddressResponse] = {
+      resp.json.asOpt[UprnToAddressResponse]
+    }
+
     def toViewModel(resp: Response) =
       extractFromJson(resp) match {
-        case Some(results) =>
-          require(results.addresses.length >= 1, s"Should be at least one address for the UPRN: $uprn")
-          Some(AddressViewModel(uprn = Some(results.addresses.head.uprn.toLong), address = results.addresses.head.address.split(", "))) // Translate to view model.
+        case Some(deserialized) => deserialized.addressViewModel
         case None =>
-          Logger.error(s"No results returned by web service for submitted UPRN: $uprn")
+          Logger.error(s"Could not deserialize response of web service for submitted UPRN: $uprn")
           None
       }
 
