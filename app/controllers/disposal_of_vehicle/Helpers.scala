@@ -14,72 +14,61 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 
 object Helpers {
 
+  def storeDealerDetailsInCache(model: EnterAddressManuallyModel, dealerName: String) = {
+    val dealerAddress = AddressViewModel.from(model.addressAndPostcodeModel)
+    val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = dealerAddress)
+    Cache.set(dealerDetailsCacheKey, value)
+    Logger.debug(s"EnterAddressManually stored data in cache: key = $dealerDetailsCacheKey, value = ${value}")
+  }
+
   def storeTradeDetailsInCache(f: SetupTradeDetailsModel) = {
-    val key = SetupTradeDetailsCacheKey
-    Cache.set(key, f)
-    Logger.debug(s"SetUpTradeDetails stored data in cache: key = $key, value = ${f}")
+    Cache.set(SetupTradeDetailsCacheKey, f)
+    Logger.debug(s"SetUpTradeDetails stored data in cache: key = $SetupTradeDetailsCacheKey, value = ${f}")
   }
 
   def storeBusinessChooseYourAddressModelInCache(value: BusinessChooseYourAddressModel) = {
-    val key = businessChooseYourAddressCacheKey
-    Cache.set(key, value)
-    Logger.debug(s"BusinessChooseYourAddress stored BusinessChooseYourAddressModel in cache: key = $key, value = ${value}")
-  }
-
-  def storeDealerDetailsInCache(model: EnterAddressManuallyModel, dealerName: String) = {
-    val key = dealerDetailsCacheKey
-    val dealerAddress = AddressViewModel.from(model.addressAndPostcodeModel)
-    val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = dealerAddress)
-    Cache.set(key, value)
-    Logger.debug(s"EnterAddressManually stored data in cache: key = $key, value = ${value}")
+    Cache.set(businessChooseYourAddressCacheKey, value)
+    Logger.debug(s"BusinessChooseYourAddress stored BusinessChooseYourAddressModel in cache: key = $businessChooseYourAddressCacheKey, value = ${value}")
   }
 
   def storeDealerDetailsModelInCache(value: DealerDetailsModel) = {
-    val key = dealerDetailsCacheKey
-    Cache.set(key, value)
-    Logger.debug(s"BusinessChooseYourAddress stored DealerDetailsModel in cache: key = $key, value = ${value}")
+    Cache.set(dealerDetailsCacheKey, value)
+    Logger.debug(s"BusinessChooseYourAddress stored DealerDetailsModel in cache: key = $dealerDetailsCacheKey, value = ${value}")
   }
 
   def storeVehicleDetailsInCache(model: VehicleDetailsModel) = {
-    val key = vehicleLookupDetailsCacheKey
-    Cache.set(key, model)
-    Logger.debug(s"VehicleLookup page - stored vehicle details object in cache: key = $key, value = ${model}")
+    Cache.set(vehicleLookupDetailsCacheKey, model)
+    Logger.debug(s"VehicleLookup page - stored vehicle details object in cache: key = $vehicleLookupDetailsCacheKey, value = ${model}")
   }
 
   def storeVehicleLookupFormModelInCache(model: VehicleLookupFormModel) = {
-    val key = vehicleLookupFormModelCacheKey
-    Cache.set(key, model)
-    Logger.debug(s"VehicleLookup page - stored vehicle lookup form model details object in cache: key = $key, value = ${model}")
+    Cache.set(vehicleLookupFormModelCacheKey, model)
+    Logger.debug(s"VehicleLookup page - stored vehicle lookup form model details object in cache: key = $vehicleLookupFormModelCacheKey, value = ${model}")
   }
 
   def storeDisposeFormModelInCache(value: DisposeFormModel) = {
-    val key = disposeFormModelCacheKey
-    Cache.set(key, value)
-    Logger.debug(s"Dispose - stored disposeFromModel in cache: key = $key, value = $value")
+    Cache.set(disposeFormModelCacheKey, value)
+    Logger.debug(s"Dispose - stored disposeFromModel in cache: key = $disposeFormModelCacheKey, value = $value")
   }
 
   def storeDisposeTransactionIdInCache(value: String) = {
-    val key = disposeFormTransactionIdCacheKey
-    Cache.set(key, value)
-    Logger.debug(s"Dispose - stored dispose transaction id in cache: key = $key, value = $value")
+    Cache.set(disposeFormTransactionIdCacheKey, value)
+    Logger.debug(s"Dispose - stored dispose transaction id in cache: key = $disposeFormTransactionIdCacheKey, value = $value")
   }
 
   def storeDisposeTransactionTimestampInCache(value: String) = {
-    val key = disposeFormTimestampIdCacheKey
-    Cache.set(key, value)
-    Logger.debug(s"Dispose - stored dispose transaction timestamp in cache: key = $key, value = $value")
+    Cache.set(disposeFormTimestampIdCacheKey, value)
+    Logger.debug(s"Dispose - stored dispose transaction timestamp in cache: key = $disposeFormTimestampIdCacheKey, value = $value")
   }
 
   def storeDisposeRegistrationNumberInCache(value: String) = {
-    val key = disposeFormRegistrationNumberCacheKey
-    Cache.set(key, value)
-    Logger.debug(s"Dispose - stored dispose registration number in cache: key = $key, value = $value")
+    Cache.set(disposeFormRegistrationNumberCacheKey, value)
+    Logger.debug(s"Dispose - stored dispose registration number in cache: key = $disposeFormRegistrationNumberCacheKey, value = $value")
   }
 
   def storeDisposeModelInCache(value: DisposeModel) = {
-    val key = disposeModelCacheKey
-    Cache.set(key, value)
-    Logger.debug(s"Dispose - stored formModel in cache: key = $key, value = $value")
+    Cache.set(disposeModelCacheKey, value)
+    Logger.debug(s"Dispose - stored formModel in cache: key = $disposeModelCacheKey, value = $value")
   }
 
   def fetchDealerNameFromCache: Option[String] = {
@@ -89,48 +78,21 @@ object Helpers {
     }
   }
 
-  def fetchDealerDetailsFromCache: Option[DealerDetailsModel] = {
-    val key = dealerDetailsCacheKey
-    Cache.getAs[DealerDetailsModel](key)
-  }
+  def fetchDealerDetailsFromCache: Option[DealerDetailsModel] = Cache.getAs[DealerDetailsModel](dealerDetailsCacheKey)
 
-  def fetchDisposeFormModelFromCache: Option[DisposeFormModel] = {
-    val key = disposeFormModelCacheKey
-    Cache.getAs[DisposeFormModel](key)
-  }
+  def fetchDisposeFormModelFromCache: Option[DisposeFormModel] = Cache.getAs[DisposeFormModel](disposeFormModelCacheKey)
 
-  def fetchVehicleDetailsFromCache: Option[VehicleDetailsModel] = {
-    val key = vehicleLookupDetailsCacheKey
-    Cache.getAs[VehicleDetailsModel](key)
-  }
+  def fetchVehicleDetailsFromCache: Option[VehicleDetailsModel] = Cache.getAs[VehicleDetailsModel](vehicleLookupDetailsCacheKey)
 
-  def fetchTraderDetailsFromCache: Option[SetupTradeDetailsModel] = {
-    val key = SetupTradeDetailsCacheKey
-    Cache.getAs[SetupTradeDetailsModel](key)
-  }
+  def fetchTraderDetailsFromCache: Option[SetupTradeDetailsModel] = Cache.getAs[SetupTradeDetailsModel](SetupTradeDetailsCacheKey)
 
-  def fetchVehicleLookupDetailsFromCache: Option[VehicleLookupFormModel] = {
-    val key = vehicleLookupFormModelCacheKey
-    Cache.getAs[VehicleLookupFormModel](key)
-  }
+  def fetchVehicleLookupDetailsFromCache: Option[VehicleLookupFormModel] = Cache.getAs[VehicleLookupFormModel](vehicleLookupFormModelCacheKey)
 
-  def fetchBusinessChooseYourAddressModelFromCache: Option[BusinessChooseYourAddressModel] = {
-    val key = businessChooseYourAddressCacheKey
-    Cache.getAs[BusinessChooseYourAddressModel](key)
-  }
+  def fetchBusinessChooseYourAddressModelFromCache: Option[BusinessChooseYourAddressModel] = Cache.getAs[BusinessChooseYourAddressModel](businessChooseYourAddressCacheKey)
 
-  def fetchDisposeTransactionIdFromCache: Option[String] = {
-    val key = disposeFormTransactionIdCacheKey
-    Cache.getAs[String](key)
-  }
+  def fetchDisposeTransactionIdFromCache: Option[String] = Cache.getAs[String](disposeFormTransactionIdCacheKey)
 
-  def fetchDisposeTransactionTimestampInCache: Option[String] = {
-    val key = disposeFormTimestampIdCacheKey
-    Cache.getAs[String](key)
-  } // TODO make this a one-liner.
+  def fetchDisposeTransactionTimestampInCache: Option[String] = Cache.getAs[String](disposeFormTimestampIdCacheKey)
 
-  def fetchDisposeRegistrationNumberFromCache: Option[String] = {
-    val key = disposeFormRegistrationNumberCacheKey
-    Cache.getAs[String](key)
-  }
+  def fetchDisposeRegistrationNumberFromCache: Option[String] = Cache.getAs[String](disposeFormRegistrationNumberCacheKey)
 }
