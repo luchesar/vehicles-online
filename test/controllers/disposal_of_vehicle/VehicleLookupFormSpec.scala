@@ -19,24 +19,24 @@ class VehicleLookupFormSpec extends UnitSpec {
 
   "form" should {
     "accept when all fields contain valid responses" in {
-      validVehicleLookupForm().get.referenceNumber should equal(referenceNumberValid)
-      validVehicleLookupForm().get.registrationNumber should equal(registrationNumberValid)
+      formWithValidDefaults().get.referenceNumber should equal(referenceNumberValid)
+      formWithValidDefaults().get.registrationNumber should equal(registrationNumberValid)
     }
   }
 
   "referenceNumber" should {
     allInvalidVrmFormats.map(vrm => "reject invalid vehicle registration mark : " + vrm in {
-      validVehicleLookupForm(registrationNumber = vrm).errors should have length 1
+      formWithValidDefaults(registrationNumber = vrm).errors should have length 1
     })
 
     allValidVrmFormats.map(vrm => "accept valid vehicle registration mark : " + vrm in {
-      validVehicleLookupForm(registrationNumber = vrm).get.registrationNumber should equal(vrm)
+      formWithValidDefaults(registrationNumber = vrm).get.registrationNumber should equal(vrm)
     })
 
     "reject if blank" in {
-      val vehicleLookupFormError = validVehicleLookupForm(referenceNumber = "").errors
+      val vehicleLookupFormError = formWithValidDefaults(referenceNumber = "").errors
       val expectedKey = referenceNumberId
-
+      
       vehicleLookupFormError should have length 3
       vehicleLookupFormError(0).key should equal(expectedKey)
       vehicleLookupFormError(0).message should equal("error.minLength")
@@ -47,45 +47,45 @@ class VehicleLookupFormSpec extends UnitSpec {
     }
 
     "reject if less than min length" in {
-      validVehicleLookupForm(referenceNumber = "1234567891").errors should have length 1
+      formWithValidDefaults(referenceNumber = "1234567891").errors should have length 1
     }
 
     "reject if greater than max length" in {
-      validVehicleLookupForm(referenceNumber = "123456789101").errors should have length 1
+      formWithValidDefaults(referenceNumber = "123456789101").errors should have length 1
     }
 
     "reject if contains letters" in {
-      validVehicleLookupForm(referenceNumber = "qwertyuiopl").errors should have length 1
+      formWithValidDefaults(referenceNumber = "qwertyuiopl").errors should have length 1
     }
 
     "reject if contains special characters" in {
-      validVehicleLookupForm(referenceNumber = "£££££££££££").errors should have length 1
+      formWithValidDefaults(referenceNumber = "£££££££££££").errors should have length 1
     }
 
     "accept if valid" in {
-      validVehicleLookupForm(registrationNumber = registrationNumberValid).get.referenceNumber should equal(referenceNumberValid)
+      formWithValidDefaults(registrationNumber = registrationNumberValid).get.referenceNumber should equal(referenceNumberValid)
     }
   }
 
   "registrationNumber" should {
     "reject if empty" in {
-      validVehicleLookupForm(registrationNumber = "").errors should have length 3
+      formWithValidDefaults(registrationNumber = "").errors should have length 3
     }
 
     "reject if less than min length" in {
-      validVehicleLookupForm(registrationNumber = "a").errors should have length 2
+      formWithValidDefaults(registrationNumber = "a").errors should have length 2
     }
 
     "reject if more than max length" in {
-      validVehicleLookupForm(registrationNumber = "AB53WERT").errors should have length 1
+      formWithValidDefaults(registrationNumber = "AB53WERT").errors should have length 1
     }
 
     "reject if more than max length 2" in {
-      validVehicleLookupForm(registrationNumber = "PJ056YYY").errors should have length 1
+      formWithValidDefaults(registrationNumber = "PJ056YYY").errors should have length 1
     }
 
     "reject if contains special characters" in {
-      validVehicleLookupForm(registrationNumber = "ab53ab%").errors should have length 1
+      formWithValidDefaults(registrationNumber = "ab53ab%").errors should have length 1
     }
   }
 
@@ -100,7 +100,7 @@ class VehicleLookupFormSpec extends UnitSpec {
     new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
   }
 
-  private def validVehicleLookupForm(referenceNumber: String = referenceNumberValid,
+  private def formWithValidDefaults(referenceNumber: String = referenceNumberValid,
                                     registrationNumber: String = registrationNumberValid,
                                     consent: String = consentValid) = {
     vehicleLookup.vehicleLookupForm.bind(

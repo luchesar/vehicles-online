@@ -19,47 +19,6 @@ import mappings.common.DayMonthYear._
 import mappings.common.Mileage
 
 class DisposeFormSpec extends UnitSpec {
-  private def dateServiceStub(dayToday: Int = dateOfDisposalDayValid.toInt,
-                      monthToday: Int = dateOfDisposalMonthValid.toInt,
-                      yearToday: Int = dateOfDisposalYearValid.toInt) = {
-    val dayMonthYearStub = new models.DayMonthYear(day = dayToday,
-      month = monthToday,
-      year = yearToday)
-    val dateService = mock[DateServiceImpl]
-    when(dateService.today).thenReturn(dayMonthYearStub)
-    dateService
-  }
-
-  private def dispose(dateService: DateService = dateServiceStub()) = {
-    val ws = mock[DisposeWebService]
-    when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
-      val responseAsJson = Json.toJson(disposeResponseSuccess)
-      import play.api.http.Status.OK
-      new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
-    })
-    val disposeServiceImpl = new DisposeServiceImpl(ws)
-    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService)
-  }
-
-  private def formWithValidDefaults(mileage: String = mileageValid,
-                            dayOfDispose: String = dateOfDisposalDayValid,
-                            monthOfDispose: String = dateOfDisposalMonthValid,
-                            yearOfDispose: String = dateOfDisposalYearValid,
-                            consent: String = consentValid,
-                            lossOfRegistrationConsent: String = consentValid,
-                            disposeController: Dispose = dispose()) = {
-
-    disposeController.disposeForm.bind(
-      Map(
-        mileageId -> mileage,
-        s"$dateOfDisposalId.$dayId" -> dayOfDispose,
-        s"$dateOfDisposalId.$monthId" -> monthOfDispose,
-        s"$dateOfDisposalId.$yearId" -> yearOfDispose,
-        consentId -> consent,
-        lossOfRegistrationConsentId -> lossOfRegistrationConsent
-      )
-    )
-  }
 
   "form" should {
     "accept when all fields contain valid responses" in {
@@ -162,5 +121,47 @@ class DisposeFormSpec extends UnitSpec {
     "reject if loss of registration consent is not ticked" in {
       formWithValidDefaults(lossOfRegistrationConsent = "").errors should have length 1
     }
+  }
+
+  private def dateServiceStub(dayToday: Int = dateOfDisposalDayValid.toInt,
+                              monthToday: Int = dateOfDisposalMonthValid.toInt,
+                              yearToday: Int = dateOfDisposalYearValid.toInt) = {
+    val dayMonthYearStub = new models.DayMonthYear(day = dayToday,
+      month = monthToday,
+      year = yearToday)
+    val dateService = mock[DateServiceImpl]
+    when(dateService.today).thenReturn(dayMonthYearStub)
+    dateService
+  }
+
+  private def dispose(dateService: DateService = dateServiceStub()) = {
+    val ws = mock[DisposeWebService]
+    when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
+      val responseAsJson = Json.toJson(disposeResponseSuccess)
+      import play.api.http.Status.OK
+      new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+    })
+    val disposeServiceImpl = new DisposeServiceImpl(ws)
+    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService)
+  }
+
+  private def formWithValidDefaults(mileage: String = mileageValid,
+                                    dayOfDispose: String = dateOfDisposalDayValid,
+                                    monthOfDispose: String = dateOfDisposalMonthValid,
+                                    yearOfDispose: String = dateOfDisposalYearValid,
+                                    consent: String = consentValid,
+                                    lossOfRegistrationConsent: String = consentValid,
+                                    disposeController: Dispose = dispose()) = {
+
+    disposeController.disposeForm.bind(
+      Map(
+        mileageId -> mileage,
+        s"$dateOfDisposalId.$dayId" -> dayOfDispose,
+        s"$dateOfDisposalId.$monthId" -> monthOfDispose,
+        s"$dateOfDisposalId.$yearId" -> yearOfDispose,
+        consentId -> consent,
+        lossOfRegistrationConsentId -> lossOfRegistrationConsent
+      )
+    )
   }
 }

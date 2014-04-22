@@ -8,12 +8,6 @@ import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UnitSpec
 
 class DisposeFailureUnitSpec extends UnitSpec {
-  private def cacheSetup() = {
-    CacheSetup.businessChooseYourAddress()
-    CacheSetup.vehicleDetailsModel()
-    CacheSetup.disposeFormModel()
-    CacheSetup.disposeTransactionId()
-  }
 
   "DisposalFailure - Controller" should {
     "present" in new WithApplication {
@@ -42,5 +36,13 @@ class DisposeFailureUnitSpec extends UnitSpec {
       }
     }
   }
+
+  private def cacheSetup() = {
+    CacheSetup.businessChooseYourAddress()
+    CacheSetup.vehicleDetailsModel()
+    CacheSetup.disposeFormModel()
+    CacheSetup.disposeTransactionId()
+  }
+
 }
 
