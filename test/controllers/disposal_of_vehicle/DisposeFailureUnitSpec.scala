@@ -12,8 +12,7 @@ class DisposeFailureUnitSpec extends UnitSpec {
   "DisposalFailure - Controller" should {
     "present" in new WithApplication {
       cacheSetup
-      val request = FakeRequest().withSession()
-      val result = disposal_of_vehicle.DisposeFailure.present(request)
+      val result = disposal_of_vehicle.DisposeFailure.present(newFakeRequest)
       whenReady(result) {
         r => r.header.status should equal(OK)
       }
@@ -21,16 +20,14 @@ class DisposeFailureUnitSpec extends UnitSpec {
 
     "redirect to vehicle lookup page when button clicked" in new WithApplication {
       cacheSetup
-      val request = FakeRequest().withSession()
-      val result = disposal_of_vehicle.DisposeFailure.submit(request)
+      val result = disposal_of_vehicle.DisposeFailure.submit(newFakeRequest)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
 
     "redirect to setuptraderdetails when no details are in cache and submit is selected" in new WithApplication() {
-      val request = FakeRequest().withSession()
-      val result = disposal_of_vehicle.DisposeFailure.submit(request)
+      val result = disposal_of_vehicle.DisposeFailure.submit(newFakeRequest)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
@@ -44,5 +41,8 @@ class DisposeFailureUnitSpec extends UnitSpec {
     CacheSetup.disposeTransactionId()
   }
 
+  def newFakeRequest = {
+    FakeRequest().withSession()
+  }
 }
 
