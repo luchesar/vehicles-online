@@ -94,17 +94,20 @@ class VehicleLookupUnitSpec extends UnitSpec {
       CacheSetup.businessChooseYourAddress()
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (referenceNumberLength + 1))
       val result = vehicleLookupSuccess.submit(request)
-      val count = countSubstring(contentAsString(result), "Must be an 11-digit number")
-      count should equal(2)
+      // check the validation summary text
+      countSubstring(contentAsString(result), "Document reference number - Must be an 11-digit number") should equal(1)
+      // check the form item validation
+      countSubstring(contentAsString(result), "\"error\">Must be an 11-digit number") should equal(1)
     }
 
     "replace required and min length error messages for document reference number with standard error message (US43)" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "")
       val result = vehicleLookupSuccess.submit(request)
-      val count = countSubstring(contentAsString(result), "Must be an 11-digit number")
-      count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
-      // the page and once above the field.
+      // check the validation summary text
+      countSubstring(contentAsString(result), "Document reference number - Must be an 11-digit number") should equal(1)
+      // check the form item validation
+      countSubstring(contentAsString(result), "\"error\">Must be an 11-digit number") should equal(1)
     }
 
     "replace max length error message for vehicle registration mark with standard error message (US43)" in new WithApplication {
