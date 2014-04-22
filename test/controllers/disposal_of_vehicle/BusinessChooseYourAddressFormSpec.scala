@@ -8,20 +8,6 @@ import scala.concurrent.Future
 import play.api.libs.ws.Response
 
 class BusinessChooseYourAddressFormSpec extends UnitSpec {
-  private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
-    val responsePostcode = if(uprnFound) responseValidForPostcodeToAddress else responseValidForPostcodeToAddressNotFound
-    val responseUprn = if(uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
-    val fakeWebService = new FakeWebServiceImpl(responsePostcode, responseUprn)
-    val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
-    new BusinessChooseYourAddress(addressLookupService)
-  }
-
-  private def formWithValidDefaults(addressSelected: String = traderUprnValid.toString) = {
-    businessChooseYourAddressWithFakeWebService().form.bind(
-      Map(addressSelectId -> addressSelected)
-    )
-  }
-
   "form" should {
     "accept when all fields contain valid responses" in {
       formWithValidDefaults().get.uprnSelected should equal(traderUprnValid)
@@ -35,5 +21,19 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
       errors(0).key should equal(addressSelectId)
       errors(0).message should equal("error.number")
     }
+  }
+
+  private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
+    val responsePostcode = if(uprnFound) responseValidForPostcodeToAddress else responseValidForPostcodeToAddressNotFound
+    val responseUprn = if(uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
+    val fakeWebService = new FakeWebServiceImpl(responsePostcode, responseUprn)
+    val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
+    new BusinessChooseYourAddress(addressLookupService)
+  }
+
+  private def formWithValidDefaults(addressSelected: String = traderUprnValid.toString) = {
+    businessChooseYourAddressWithFakeWebService().form.bind(
+      Map(addressSelectId -> addressSelected)
+    )
   }
 }

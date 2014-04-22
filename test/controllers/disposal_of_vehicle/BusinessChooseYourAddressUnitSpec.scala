@@ -10,24 +10,6 @@ import helpers.UnitSpec
 import services.fakes.FakeWebServiceImpl._
 
 class BusinessChooseYourAddressUnitSpec extends UnitSpec {
-  private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
-    val responsePostcode = if(uprnFound) responseValidForPostcodeToAddress else responseValidForPostcodeToAddressNotFound
-    val responseUprn = if(uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
-    val fakeWebService = new FakeWebServiceImpl(responsePostcode, responseUprn)
-    val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
-    new BusinessChooseYourAddress(addressLookupService)
-  }
-
-  private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {
-    FakeRequest().withSession().withFormUrlEncodedBody(
-      addressSelectId -> traderUprn)
-  }
-
-  private def cacheSetup() = {
-    CacheSetup.setupTradeDetails()
-  }
-
-  private val businessChooseYourAddressWithUprnFound = businessChooseYourAddressWithFakeWebService()
 
   "BusinessChooseYourAddress - Controller" should {
     "present" in new WithApplication {
@@ -91,4 +73,23 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       }
     }
   }
+
+  private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
+    val responsePostcode = if(uprnFound) responseValidForPostcodeToAddress else responseValidForPostcodeToAddressNotFound
+    val responseUprn = if(uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
+    val fakeWebService = new FakeWebServiceImpl(responsePostcode, responseUprn)
+    val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
+    new BusinessChooseYourAddress(addressLookupService)
+  }
+
+  private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {
+    FakeRequest().withSession().withFormUrlEncodedBody(
+      addressSelectId -> traderUprn)
+  }
+
+  private def cacheSetup() = {
+    CacheSetup.setupTradeDetails()
+  }
+
+  private val businessChooseYourAddressWithUprnFound = businessChooseYourAddressWithFakeWebService()
 }
