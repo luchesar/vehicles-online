@@ -337,16 +337,16 @@ error.validTraderBusinessName = Must be between two and 30 characters and not co
 
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = Your application is being processed and you should receive acknowledgement within 4 weeks.
-ms.vehiclesService.response.unableToProcessApplication = We are not able to process your application as the information you have given does not match our records, you will need to send the V5C/3 to the following address; DVLA Swansea SA99 1BD
+ms.vehiclesService.response.unableToProcessApplication = We are not able to process your application as the information you have given does not match our records, you will need to send the V5C/3 to the following address; DVLA, Swansea SA99 1BD
 
 #micro-service error page
 micro_service_error.title=We are sorry
-micro_service_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA Swansea SA99 1BD
+micro_service_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
 micro_service_error.back.button=Back
 micro_service_error.exit.button=Exit
 
 #soap endpoint error page
 soap_endpoint_error.title=We are sorry
-soap_endpoint_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA Swansea SA99 1BD
+soap_endpoint_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
 soap_endpoint_error.back.button=Back
 soap_endpoint_error.exit.button=Exit
