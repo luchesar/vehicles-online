@@ -83,7 +83,8 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup() = {
-    CacheSetup.businessChooseYourAddress().
+    CacheSetup.
+      businessChooseYourAddress().
       vehicleDetailsModel().
       disposeFormModel().
       disposeTransactionId().

@@ -9,11 +9,9 @@ import BusinessChooseYourAddressPage.{sadPath, happyPath, manualAddress, back}
 import services.fakes.FakeAddressLookupService.postcodeValid
 
 class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
-  private def cacheSetup() = {
-    CacheSetup.setupTradeDetails()
-  }
 
   "Business choose your address - Integration" should {
+
     "be presented" in new WebBrowser {
       cacheSetup()
       go to BusinessChooseYourAddressPage
@@ -79,5 +77,9 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 
       assert(page.source.contains("No addresses found for that postcode") equals true) // Does not contain message
     }
+  }
+
+  private def cacheSetup() = {
+    CacheSetup.setupTradeDetails()
   }
 }

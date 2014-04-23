@@ -60,7 +60,8 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
   }
 
   private def cacheSetup() = {
-    CacheSetup.businessChooseYourAddress().
+    CacheSetup.
+      businessChooseYourAddress().
       vehicleLookupFormModel()
   }
 }

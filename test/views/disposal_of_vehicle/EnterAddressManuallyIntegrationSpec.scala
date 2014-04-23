@@ -9,7 +9,6 @@ import services.fakes.FakeAddressLookupService._
 import EnterAddressManuallyPage._
 
 class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
-  private def cacheSetup() = CacheSetup.setupTradeDetails()
 
   "EnterAddressManually integration" should {
 
@@ -456,4 +455,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
       assert(page.title equals VehicleLookupPage.title)
     }
   }
+
+  private def cacheSetup() = CacheSetup.setupTradeDetails()
 }
