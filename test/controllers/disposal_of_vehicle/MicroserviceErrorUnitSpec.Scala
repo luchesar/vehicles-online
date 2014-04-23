@@ -19,7 +19,7 @@ import services.DateServiceImpl
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 
-class MicroServiceErrorUnitSpec extends UnitSpec {
+class MicroserviceErrorUnitSpec extends UnitSpec {
   "Micro-service error - Controller" should {
     "present" in new WithApplication {
       val request = FakeRequest().withSession()
