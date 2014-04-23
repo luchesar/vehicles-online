@@ -222,7 +222,7 @@ disposal_vehiclelookup.tradernamelabel = Enw masnachwr
 disposal_vehiclelookup.traderaddresslabel = Gyfeiriad masnachwr
 registrationNumber = Rhif cofrestru cerbyd
 referenceNumber = Rhif cyfeirnod Dogfen
-error.validDocumentReferenceNumber = Rhaid fod yn rhif 11-digid
+error.validDocumentReferenceNumber = WELSH Document reference number must be an 11-digit number
 
 #page 5 - confirm disposal
 disposal_dispose.title = Cwblhau & gadarnhau
