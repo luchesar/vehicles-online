@@ -23,6 +23,7 @@ import play.api.http.Status.OK
 class VehicleLookupUnitSpec extends UnitSpec {
 
   "VehicleLookup - Controller" should {
+
     "present" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
       val request = FakeRequest().withSession()
