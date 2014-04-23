@@ -7,14 +7,12 @@ import helpers.UiSpec
 import VehicleLookupFailurePage._
 
 class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
-  private def cacheSetup() = {
-    CacheSetup.businessChooseYourAddress().
-      vehicleLookupFormModel()
-  }
 
   "VehicleLookupFailureIntegration" should {
+
     "be presented" in new WebBrowser {
       cacheSetup()
+
       go to VehicleLookupFailurePage
 
       assert(page.title equals VehicleLookupFailurePage.title)
@@ -28,6 +26,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
 
     "redirect to setuptrade details if only VehicleLookupFormModelCache is populated" in new WebBrowser {
       CacheSetup.vehicleLookupFormModel()
+
       go to VehicleLookupFailurePage
 
       assert(page.title equals SetupTradeDetailsPage.title)
@@ -35,6 +34,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
 
     "redirect to setuptrade details if only BusinessChooseYourAddress cache is populated" in new WebBrowser {
       CacheSetup.businessChooseYourAddress()
+
       go to VehicleLookupFailurePage
 
       assert(page.title equals SetupTradeDetailsPage.title)
@@ -57,5 +57,11 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
+  }
+
+  private def cacheSetup() = {
+    CacheSetup.
+      businessChooseYourAddress().
+      vehicleLookupFormModel()
   }
 }

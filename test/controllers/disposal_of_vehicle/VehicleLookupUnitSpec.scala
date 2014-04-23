@@ -27,6 +27,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       CacheSetup.businessChooseYourAddress()
       val request = FakeRequest().withSession()
       val result = vehicleLookupSuccess.present(request)
+
       whenReady(result) {
         r => r.header.status should equal(OK)
       }
@@ -36,6 +37,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       CacheSetup.businessChooseYourAddress()
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupSuccess.submit(request)
+
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(DisposePage.address))
       }
@@ -45,6 +47,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       CacheSetup.businessChooseYourAddress()
       val request = buildCorrectlyPopulatedRequest(registrationNumber = registrationNumberWithSpaceValid)
       val result = vehicleLookupSuccess.submit(request)
+
       whenReady(result) {
         r => controllers.disposal_of_vehicle.Helpers.fetchVehicleLookupDetailsFromCache match {
           case Some(f) => f.registrationNumber should equal(registrationNumberValid)
@@ -54,20 +57,10 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to VehicleLookupFailure after a submit and false message returned from the fake microservice" in new WithApplication {
-      val vehicleLookupFailure = {
-        val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
-        when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
-          val responseAsJson = Json.toJson(vehicleDetailsResponseFailure)
-          new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
-        })
-
-        val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
-        new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
-      }
-
       CacheSetup.businessChooseYourAddress()
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupFailure.submit(request)
+
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
       }
@@ -76,6 +69,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "redirect to setupTradeDetails page when user has not set up a trader for disposal" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupSuccess.present(request)
+
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
@@ -85,6 +79,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       CacheSetup.businessChooseYourAddress()
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "", registrationNumber = "", consent = "")
       val result = vehicleLookupSuccess.submit(request)
+
       whenReady(result) {
         r => r.header.status should equal(BAD_REQUEST)
       }
@@ -115,6 +110,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "PJ05YYYX")
       val result = vehicleLookupSuccess.submit(request)
       val count = countSubstring(contentAsString(result), "Must be valid format")
+
       count should equal(2)
     }
 
@@ -123,14 +119,15 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "")
       val result = vehicleLookupSuccess.submit(request)
       val count = countSubstring(contentAsString(result), "Must be valid format")
-      count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
-      // the page and once above the field.
+
+      count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of the page and once above the field.
     }
 
     "redirect to EnterAddressManually when back button is pressed and there is no uprn" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
       val result = vehicleLookupSuccess.back(request)
+
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(EnterAddressManuallyPage.address))
       }
@@ -140,6 +137,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       CacheSetup.businessChooseYourAddress(addressWithUprn)
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
       val result = vehicleLookupSuccess.back(request)
+
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
       }
@@ -149,8 +147,19 @@ class VehicleLookupUnitSpec extends UnitSpec {
       CacheSetup.businessChooseYourAddress(addressWithUprn)
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupSuccess.back(request)
+
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
+      }
+    }
+
+    "redirect to MicroserviceError when microservice throws" in new WithApplication {
+      CacheSetup.businessChooseYourAddress()
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupError.submit(request)
+
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
   }
@@ -161,7 +170,25 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val responseAsJson = Json.toJson(vehicleDetailsResponseSuccess)
       new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
     })
+    val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
+    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
+  }
 
+  private val vehicleLookupFailure = {
+    val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
+    when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
+      val responseAsJson = Json.toJson(vehicleDetailsResponseFailure)
+      new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+    })
+    val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
+    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
+  }
+
+  val vehicleLookupError = {
+    val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
+    when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
+      throw new IllegalArgumentException
+    })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
     new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
   }

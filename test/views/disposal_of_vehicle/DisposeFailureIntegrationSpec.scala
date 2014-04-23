@@ -7,13 +7,6 @@ import helpers.UiSpec
 import DisposeFailurePage._
 
 class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
-  private def cacheSetup() = {
-    CacheSetup.businessChooseYourAddress().
-      vehicleDetailsModel().
-      disposeFormModel().
-      disposeTransactionId().
-      vehicleRegistrationNumber()
-  }
 
   "DisposeFailureIntegration" should {
 
@@ -47,5 +40,14 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
+  }
+
+  private def cacheSetup() = {
+    CacheSetup.
+      businessChooseYourAddress().
+      vehicleDetailsModel().
+      disposeFormModel().
+      disposeTransactionId().
+      vehicleRegistrationNumber()
   }
 }

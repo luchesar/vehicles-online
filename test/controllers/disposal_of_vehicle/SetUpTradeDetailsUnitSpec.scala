@@ -10,13 +10,9 @@ import helpers.UnitSpec
 import services.fakes.FakeAddressLookupService._
 
 class SetUpTradeDetailsUnitSpec extends UnitSpec {
-  private def buildCorrectlyPopulatedRequest(dealerName: String = traderBusinessNameValid.toString, dealerPostcode: String = postcodeValid) = {
-    FakeRequest().withSession().withFormUrlEncodedBody(
-      dealerNameId -> dealerName,
-      dealerPostcodeId -> dealerPostcode)
-  }
 
   "BeforeYouStart - Controller" should {
+
     "present" in new WithApplication {
       val request = FakeRequest().withSession()
       val result = disposal_of_vehicle.SetUpTradeDetails.present(request)
@@ -56,4 +52,11 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
       // the page and once above the field.
     }
   }
+
+  private def buildCorrectlyPopulatedRequest(dealerName: String = traderBusinessNameValid.toString, dealerPostcode: String = postcodeValid) = {
+    FakeRequest().withSession().withFormUrlEncodedBody(
+      dealerNameId -> dealerName,
+      dealerPostcodeId -> dealerPostcode)
+  }
+
 }

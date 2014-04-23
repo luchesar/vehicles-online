@@ -7,21 +7,6 @@ import mappings.common.AddressAndPostcode._
 import mappings.common.AddressLines._
 
 class EnterAddressManuallyFormSpec extends UnitSpec {
-  private def formWithValidDefaults(line1: String = line1Valid,
-                                    line2: String = line2Valid,
-                                    line3: String = line3Valid,
-                                    line4: String = line4Valid,
-                                    postcode: String = postcodeValid) = {
-    EnterAddressManually.form.bind(
-      Map(
-        s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1,
-        s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> line2,
-        s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> line3,
-        s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> line4,
-        s"$addressAndPostcodeId.$postcodeId" -> postcode
-      )
-    )
-  }
 
   "form" should {
     "accept if form is valid with all fields filled in" in {
@@ -122,5 +107,21 @@ class EnterAddressManuallyFormSpec extends UnitSpec {
     "reject if contains html chevrons" in {
       formWithValidDefaults(postcode = "A<br>B").errors should have length 1
     }
+  }
+
+  private def formWithValidDefaults(line1: String = line1Valid,
+                                    line2: String = line2Valid,
+                                    line3: String = line3Valid,
+                                    line4: String = line4Valid,
+                                    postcode: String = postcodeValid) = {
+    EnterAddressManually.form.bind(
+      Map(
+        s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1,
+        s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> line2,
+        s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> line3,
+        s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> line4,
+        s"$addressAndPostcodeId.$postcodeId" -> postcode
+      )
+    )
   }
 }

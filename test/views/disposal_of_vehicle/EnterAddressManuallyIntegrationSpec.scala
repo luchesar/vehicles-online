@@ -9,11 +9,12 @@ import services.fakes.FakeAddressLookupService._
 import EnterAddressManuallyPage._
 
 class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
-  private def cacheSetup() = CacheSetup.setupTradeDetails()
 
   "EnterAddressManually integration" should {
+
     "be presented" in new WebBrowser {
       cacheSetup()
+
       go to EnterAddressManuallyPage
 
       assert(page.title equals EnterAddressManuallyPage.title)
@@ -21,6 +22,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when all fields are input with valid entry" in new WebBrowser {
       cacheSetup()
+
       happyPath()
 
       assert(page.title equals VehicleLookupPage.title)
@@ -28,6 +30,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept when only mandatory fields only are input" in new WebBrowser {
       cacheSetup()
+
       happyPathMandatoryFieldsOnly()
 
       assert(page.title equals VehicleLookupPage.title)
@@ -35,6 +38,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display validation error messages when no details are entered" in new WebBrowser {
       cacheSetup()
+
       sadPath
 
       assert(ErrorPanel.numberOfErrors equals 5)
@@ -42,6 +46,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display validation error messages when a blank line1 is entered" in new WebBrowser {
       cacheSetup()
+
       happyPath(line1 = "")
 
       assert(ErrorPanel.numberOfErrors equals 2)
@@ -50,6 +55,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display validation error messages when line1 is entered which is greater than max length" in new WebBrowser {
       cacheSetup()
+
       happyPath(line1 = ("a" * 76))
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -57,6 +63,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display validation error messages when a blank postcode is entered" in new WebBrowser {
       cacheSetup()
+
       happyPath(postcode = "")
 
       assert(ErrorPanel.numberOfErrors equals 3)
@@ -64,6 +71,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display validation error messages when a postcode is entered containing special characters" in new WebBrowser {
       cacheSetup()
+
       happyPath(postcode = "SA99 1D!")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -71,6 +79,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display validation error messages when a postcode is entered containing letters only" in new WebBrowser {
       cacheSetup()
+
       happyPath(postcode = "SQWER")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -78,6 +87,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display validation error messages when a postcode is entered containing numbers only" in new WebBrowser {
       cacheSetup()
+
       happyPath(postcode = "12345")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -85,6 +95,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display validation error messages when a postcode is entered in an incorrect format" in new WebBrowser {
       cacheSetup()
+
       happyPath(postcode = "SA99 1B1")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -92,6 +103,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display validation error messages when a postcode is entered less than min length" in new WebBrowser {
       cacheSetup()
+
       happyPath(postcode = "SA")
 
       assert(ErrorPanel.numberOfErrors equals 2)
@@ -99,6 +111,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 1 !" in new WebBrowser {
       cacheSetup()
+
       happyPath(line1 = line1Valid + "?")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -106,6 +119,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 1 %" in new WebBrowser {
       cacheSetup()
+
       happyPath(line1 = line1Valid + "%")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -113,6 +127,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 1 +" in new WebBrowser {
       cacheSetup()
+
       happyPath(line1 = line1Valid + "+")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -120,6 +135,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 1 £" in new WebBrowser {
       cacheSetup()
+
       happyPath(line1 = line1Valid + "£")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -127,6 +143,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 1 ^" in new WebBrowser {
       cacheSetup()
+
       happyPath(line1 = line1Valid + "^")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -134,6 +151,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 1 (" in new WebBrowser {
       cacheSetup()
+
       happyPath(line1 = line1Valid + "(")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -141,6 +159,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when line1 contains ," in new WebBrowser {
       cacheSetup()
+
       happyPath(line1 = line1Valid + ",")
 
       assert(page.title equals VehicleLookupPage.title)
@@ -148,6 +167,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when line1 contains ." in new WebBrowser {
       cacheSetup()
+
       happyPath(line1 = line1Valid + ".")
 
       assert(page.title equals VehicleLookupPage.title)
@@ -155,6 +175,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when line1 contains /" in new WebBrowser {
       cacheSetup()
+
       happyPath(line1 = line1Valid + "/")
 
       assert(page.title equals VehicleLookupPage.title)
@@ -162,6 +183,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when line1 contains \\" in new WebBrowser {
       cacheSetup()
+
       happyPath(line1 = line1Valid + "\\")
 
       assert(page.title equals VehicleLookupPage.title)
@@ -170,6 +192,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 2 !" in new WebBrowser {
       cacheSetup()
+
       happyPath(line2 = line2Valid + "?")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -177,6 +200,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 2 %" in new WebBrowser {
       cacheSetup()
+
       happyPath(line2 = line2Valid + "%")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -184,6 +208,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 2 #" in new WebBrowser {
       cacheSetup()
+
       happyPath(line2 = line2Valid + "#")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -191,6 +216,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 2 +" in new WebBrowser {
       cacheSetup()
+
       happyPath(line2 = line2Valid + "+")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -198,6 +224,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 2 £" in new WebBrowser {
       cacheSetup()
+
       happyPath(line2 = line2Valid + "£")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -205,6 +232,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 2 ^" in new WebBrowser {
       cacheSetup()
+
       happyPath(line2 = line2Valid + "^")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -212,6 +240,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 2 (" in new WebBrowser {
       cacheSetup()
+
       happyPath(line2 = line2Valid + "(")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -219,6 +248,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when line2 contains ," in new WebBrowser {
       cacheSetup()
+
       happyPath(line2 = line2Valid + ",")
 
       assert(page.title equals VehicleLookupPage.title)
@@ -226,6 +256,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when line2 contains ." in new WebBrowser {
       cacheSetup()
+
       happyPath(line2 = line2Valid + ".")
 
       assert(page.title equals VehicleLookupPage.title)
@@ -233,6 +264,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when line2 contains /" in new WebBrowser {
       cacheSetup()
+
       happyPath(line2 = line2Valid + "/")
 
       assert(page.title equals VehicleLookupPage.title)
@@ -240,6 +272,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when line2 contains \\" in new WebBrowser {
       cacheSetup()
+
       happyPath(line2 = line2Valid + "\\")
 
       assert(page.title equals VehicleLookupPage.title)
@@ -247,6 +280,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 3 !" in new WebBrowser {
       cacheSetup()
+
       happyPath(line3 = line3Valid + "?")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -254,6 +288,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 3 %" in new WebBrowser {
       cacheSetup()
+
       happyPath(line3 = line3Valid + "%")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -261,6 +296,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 3 #" in new WebBrowser {
       cacheSetup()
+
       happyPath(line3 = line3Valid + "#")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -268,6 +304,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 3 +" in new WebBrowser {
       cacheSetup()
+
       happyPath(line3 = line3Valid + "+")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -275,6 +312,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 3 £" in new WebBrowser {
       cacheSetup()
+
       happyPath(line3 = line3Valid + "£")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -282,6 +320,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 3 ^" in new WebBrowser {
       cacheSetup()
+
       happyPath(line3 = line3Valid + "^")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -289,6 +328,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 3 (" in new WebBrowser {
       cacheSetup()
+
       happyPath(line3 = line3Valid + "(")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -296,6 +336,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when line3 contains ," in new WebBrowser {
       cacheSetup()
+
       happyPath(line3 = line3Valid + ",")
 
       assert(page.title equals VehicleLookupPage.title)
@@ -303,6 +344,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when line3 contains ." in new WebBrowser {
       cacheSetup()
+
       happyPath(line3 = line3Valid + ".")
 
       assert(page.title equals VehicleLookupPage.title)
@@ -310,6 +352,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when line3 contains /" in new WebBrowser {
       cacheSetup()
+
       happyPath(line3 = line3Valid + "/")
 
       assert(page.title equals VehicleLookupPage.title)
@@ -317,6 +360,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when line3 contains \\" in new WebBrowser {
       cacheSetup()
+
       happyPath(line3 = line3Valid + "\\")
 
       assert(page.title equals VehicleLookupPage.title)
@@ -324,6 +368,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 4 !" in new WebBrowser {
       cacheSetup()
+
       happyPath(line4 = line4Valid + "?")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -332,6 +377,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 4 %" in new WebBrowser {
       cacheSetup()
+
       happyPath(line4 = line4Valid + "%")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -339,6 +385,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 4 #" in new WebBrowser {
       cacheSetup()
+
       happyPath(line4 = line4Valid + "#")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -346,6 +393,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 4 +" in new WebBrowser {
       cacheSetup()
+
       happyPath(line4 = line4Valid + "+")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -353,6 +401,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 4 £" in new WebBrowser {
       cacheSetup()
+
       happyPath(line4 = line4Valid + "£")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -360,6 +409,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 4 ^" in new WebBrowser {
       cacheSetup()
+
       happyPath(line4 = line4Valid + "^")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -367,6 +417,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validaton error message when an invalid character is entered into address line 4 (" in new WebBrowser {
       cacheSetup()
+
       happyPath(line4 = line4Valid + "(")
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -374,6 +425,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when line4 contains ," in new WebBrowser {
       cacheSetup()
+
       happyPath(line4 = line4Valid + ",")
 
       assert(page.title equals VehicleLookupPage.title)
@@ -381,6 +433,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when line4 contains ." in new WebBrowser {
       cacheSetup()
+
       happyPath(line4 = line4Valid + ".")
 
       assert(page.title equals VehicleLookupPage.title)
@@ -388,6 +441,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when line4 contains /" in new WebBrowser {
       cacheSetup()
+
       happyPath(line4 = line4Valid + "/")
 
       assert(page.title equals VehicleLookupPage.title)
@@ -395,10 +449,12 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when line4 contains \\" in new WebBrowser {
       cacheSetup()
+
       happyPath(line4 = line4Valid + "\\")
 
       assert(page.title equals VehicleLookupPage.title)
     }
-
   }
+
+  private def cacheSetup() = CacheSetup.setupTradeDetails()
 }

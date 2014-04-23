@@ -8,6 +8,7 @@ import BeforeYouStartPage.startNow
 class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness  {
 
   "BeforeYouStart Integration" should {
+
     "be presented" in new WebBrowser {
       go to BeforeYouStartPage
 

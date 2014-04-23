@@ -77,7 +77,8 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
     }.recover {
       case e: Throwable => {
         Logger.debug(s"Web service call failed. Exception: $e")
-        BadRequest("The remote server didn't like the request.") // TODO check the user story for going to an error message page when micro-service kaput (not the same as a system failure).
+        BadRequest("The remote server didn't like the request.")
+        Redirect(routes.MicroServiceError.present)
       }
     }
   }
@@ -85,5 +86,4 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
   private def buildMicroServiceRequest(formModel: VehicleLookupFormModel):VehicleDetailsRequest = {
     VehicleDetailsRequest(referenceNumber = formModel.referenceNumber, registrationNumber = formModel.registrationNumber)
   }
-
 }

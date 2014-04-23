@@ -13,9 +13,6 @@ import mappings.common.AddressAndPostcode._
 import mappings.common.AddressLines._
 
 class EnterAddressManuallyUnitSpec extends UnitSpec {
-  private def cacheSetup() = {
-    CacheSetup.setupTradeDetails()
-  }
 
   "EnterAddressManually - Controller" should {
 
@@ -178,5 +175,9 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
+  }
+
+  private def cacheSetup() = {
+    CacheSetup.setupTradeDetails()
   }
 }

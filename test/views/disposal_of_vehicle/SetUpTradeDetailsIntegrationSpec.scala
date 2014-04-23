@@ -11,6 +11,7 @@ import SetupTradeDetailsPage.happyPath
 class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
 
   "SetUpTradeDetails Integration" should {
+
     "be presented" in new WebBrowser {
       go to SetupTradeDetailsPage
 

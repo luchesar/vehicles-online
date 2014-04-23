@@ -6,17 +6,8 @@ import helpers.UnitSpec
 import services.fakes.FakeAddressLookupService._
 
 class SetUpTradeDetailsFormSpec extends UnitSpec {
-  private def formWithValidDefaults(traderBusinessName: String = traderBusinessNameValid,
-                            traderPostcode: String = postcodeValid) = {
-    SetUpTradeDetails.traderLookupForm.bind(
-      Map(
-        dealerNameId -> traderBusinessName,
-        dealerPostcodeId -> traderPostcode
-      )
-    )
-  }
 
-  "form" should {
+  "SetupTradeDetails form" should {
     "accept if form is valid with all fields filled in" in {
       val model = formWithValidDefaults(traderBusinessName = traderBusinessNameValid, traderPostcode = postcodeValid).get
       model.traderBusinessName should equal(traderBusinessNameValid)
@@ -79,5 +70,15 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
     "reject if trader postcode contains an incorrect format" in {
       formWithValidDefaults(traderPostcode = "SAR99").errors should have length 1
     }
+  }
+
+  private def formWithValidDefaults(traderBusinessName: String = traderBusinessNameValid,
+                                    traderPostcode: String = postcodeValid) = {
+    SetUpTradeDetails.traderLookupForm.bind(
+      Map(
+        dealerNameId -> traderBusinessName,
+        dealerPostcodeId -> traderPostcode
+      )
+    )
   }
 }
