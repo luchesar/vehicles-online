@@ -62,28 +62,22 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
     "not display 'No addresses found' message when address service returns addresses" in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
 
-      val result = page.source
-
-      assert(result.contains("No addresses found for that postcode") equals false) // Does not contain message
+      assert(page.source.contains("No addresses found for that postcode") equals false) // Does not contain message
     }
 
     "display expected addresses in dropdown when address service returns addresses" in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
 
-      val result = page.source
-
       assert(BusinessChooseYourAddressPage.getListCount equals 4) // The first option is the "Please select..." and the other options are the addresses.
-      assert(result.contains(s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $postcodeValid"))
-      assert(result.contains(s"presentationProperty stub, 456, property stub, street stub, town stub, area stub, $postcodeValid"))
-      assert(result.contains(s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $postcodeValid"))
+      assert(page.source.contains(s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $postcodeValid"))
+      assert(page.source.contains(s"presentationProperty stub, 456, property stub, street stub, town stub, area stub, $postcodeValid"))
+      assert(page.source.contains(s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $postcodeValid"))
     }
 
     "display 'No addresses found' message when address service returns no addresses" in new WebBrowser {
       SetupTradeDetailsPage.submitInvalidPostcode
 
-      val result = page.source
-
-      assert(result.contains("No addresses found for that postcode") equals true) // Does not contain message
+      assert(page.source.contains("No addresses found for that postcode") equals true) // Does not contain message
     }
   }
 }

@@ -9,6 +9,7 @@ import UprnNotFoundPage._
 class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
 
   "UprnNotFound Integration" should {
+
     "be presented" in new WebBrowser {
       go to UprnNotFoundPage
 
