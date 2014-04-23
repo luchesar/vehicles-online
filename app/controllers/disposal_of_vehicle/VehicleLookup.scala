@@ -69,7 +69,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
       Logger.debug(s"VehicleLookup Web service call successful - response = $response")
       // TODO Don't save these two models, instead we need a combined model that has what the user entered into the form plus the micro-service response.
       storeVehicleLookupFormModelInCache(model)
-      if (response.responseCode == "success") {
+      if (response.responseCode == None) {
         storeVehicleDetailsInCache(VehicleDetailsModel.fromDto(response.vehicleDetailsDto.get))
         Redirect(routes.Dispose.present)
       }
