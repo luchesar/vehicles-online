@@ -17,7 +17,7 @@ import helpers.disposal_of_vehicle.ValidVRMFormat._
 
 class VehicleLookupFormSpec extends UnitSpec {
 
-  "form" should {
+  "VehicleLookup form" should {
     "accept when all fields contain valid responses" in {
       formWithValidDefaults().get.referenceNumber should equal(referenceNumberValid)
       formWithValidDefaults().get.registrationNumber should equal(registrationNumberValid)

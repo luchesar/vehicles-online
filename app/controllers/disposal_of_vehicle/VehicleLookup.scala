@@ -85,5 +85,4 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
   private def buildMicroServiceRequest(formModel: VehicleLookupFormModel):VehicleDetailsRequest = {
     VehicleDetailsRequest(referenceNumber = formModel.referenceNumber, registrationNumber = formModel.registrationNumber)
   }
-
 }

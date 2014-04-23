@@ -8,16 +8,9 @@ import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UnitSpec
 
 class DisposeSuccessUnitSpec extends UnitSpec {
-  private def cacheSetup() = {
-    CacheSetup.setupTradeDetails().
-      businessChooseYourAddress().
-      vehicleDetailsModel().
-      disposeFormModel().
-      disposeTransactionId().
-      vehicleRegistrationNumber()
-  }
 
   "Disposal success controller" should {
+
     "present" in new WithApplication {
       cacheSetup()
       val request = FakeRequest().withSession()
@@ -165,5 +158,14 @@ class DisposeSuccessUnitSpec extends UnitSpec {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
+  }
+
+  private def cacheSetup() = {
+    CacheSetup.setupTradeDetails().
+      businessChooseYourAddress().
+      vehicleDetailsModel().
+      disposeFormModel().
+      disposeTransactionId().
+      vehicleRegistrationNumber()
   }
 }
