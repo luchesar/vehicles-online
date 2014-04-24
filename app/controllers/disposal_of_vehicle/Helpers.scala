@@ -41,6 +41,11 @@ object Helpers {
     Logger.debug(s"VehicleLookup page - stored vehicle details object in cache: key = $vehicleLookupDetailsCacheKey, value = ${model}")
   }
 
+  def storeVehicleLookupResponseCodeInCache(responseCode: String) = {
+    Cache.set(vehicleLookupResponseCodeCacheKey, responseCode)
+    Logger.debug(s"VehicleLookup page - stored vehicle lookup response code in cache: key = $vehicleLookupResponseCodeCacheKey, value = ${responseCode}")
+  }
+
   def storeVehicleLookupFormModelInCache(model: VehicleLookupFormModel) = {
     Cache.set(vehicleLookupFormModelCacheKey, model)
     Logger.debug(s"VehicleLookup page - stored vehicle lookup form model details object in cache: key = $vehicleLookupFormModelCacheKey, value = ${model}")
@@ -87,6 +92,8 @@ object Helpers {
   def fetchTraderDetailsFromCache: Option[SetupTradeDetailsModel] = Cache.getAs[SetupTradeDetailsModel](SetupTradeDetailsCacheKey)
 
   def fetchVehicleLookupDetailsFromCache: Option[VehicleLookupFormModel] = Cache.getAs[VehicleLookupFormModel](vehicleLookupFormModelCacheKey)
+
+  def fetchVehicleLookupResponseCodeFromCache: Option[String] = Cache.getAs[String](vehicleLookupResponseCodeCacheKey)
 
   def fetchBusinessChooseYourAddressModelFromCache: Option[BusinessChooseYourAddressModel] = Cache.getAs[BusinessChooseYourAddressModel](businessChooseYourAddressCacheKey)
 

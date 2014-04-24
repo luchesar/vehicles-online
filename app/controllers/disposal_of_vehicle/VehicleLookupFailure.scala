@@ -10,7 +10,13 @@ object VehicleLookupFailure extends Controller {
     (fetchDealerDetailsFromCache, fetchVehicleLookupDetailsFromCache) match {
       case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) => {
         Logger.debug("found dealer and vehicle details")
-        Ok(views.html.disposal_of_vehicle.vehicle_lookup_failure(vehicleLookUpFormModelDetails))
+        val responseCodeErrorMessage: String  = {
+          fetchVehicleLookupResponseCodeFromCache match {
+            case Some(responseCode) => responseCode
+            case _ => "disposal_vehiclelookupfailure.p1"
+          }
+        }
+        Ok(views.html.disposal_of_vehicle.vehicle_lookup_failure(vehicleLookUpFormModelDetails, responseCodeErrorMessage))
       }
       case _ => Redirect(routes.SetUpTradeDetails.present)
     }
@@ -22,7 +28,7 @@ object VehicleLookupFailure extends Controller {
         Logger.debug("found dealer and vehicle details")
         Redirect(routes.VehicleLookup.present)
       }
-      case _ => Redirect(routes.SetUpTradeDetails.present)
+      case _ => Redirect(routes.BeforeYouStart.present)
     }
   }
 }

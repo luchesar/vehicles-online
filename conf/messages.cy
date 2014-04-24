@@ -284,6 +284,8 @@ disposal_vehiclelookupfailure.p1 = Nid yw wedi bod yn bosibl i ddod o hyd cerbyd
 disposal_vehiclelookupfailure.button = Am-edrych gerbyd
 disposal_disposefailure.button2 = Setup Newydd Manylion Masnachwr
 disposal_disposefailure.transactionid = {0}
+vehicle_lookup_vrm_not_found = WELSH There is no record for this Vehicle Registration Mark. Please try again, or send a completed V5C to DVLA
+vehicle_lookup_document_reference_mismatch = WELSH This is not the latest Document Reference Number for the vehicle. Please try again, or send a completed V5C/3 to DVLA
 
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda
