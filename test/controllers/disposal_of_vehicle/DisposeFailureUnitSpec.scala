@@ -1,7 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import play.api.test.{FakeRequest, WithApplication}
-import controllers.{disposal_of_vehicle}
+import controllers.disposal_of_vehicle
 import play.api.test.Helpers._
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
@@ -11,7 +11,7 @@ class DisposeFailureUnitSpec extends UnitSpec {
 
   "DisposalFailure - Controller" should {
     "present" in new WithApplication {
-      cacheSetup
+      cacheSetup()
       val result = disposal_of_vehicle.DisposeFailure.present(newFakeRequest)
       whenReady(result) {
         r => r.header.status should equal(OK)
@@ -19,7 +19,7 @@ class DisposeFailureUnitSpec extends UnitSpec {
     }
 
     "redirect to vehicle lookup page when button clicked" in new WithApplication {
-      cacheSetup
+      cacheSetup()
       val result = disposal_of_vehicle.DisposeFailure.submit(newFakeRequest)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
@@ -30,6 +30,15 @@ class DisposeFailureUnitSpec extends UnitSpec {
       val result = disposal_of_vehicle.DisposeFailure.submit(newFakeRequest)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
+    }
+
+
+    "present2" in new WithApplication {
+      val request = FakeRequest().withSession()
+      val result = controllers.disposal_of_vehicle.MicroServiceError.present(request)
+      whenReady(result) {
+        r => r.header.status should equal(OK)
       }
     }
   }
