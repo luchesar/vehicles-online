@@ -36,11 +36,8 @@ object FakeVehicleLookupWebService {
   private val vehicleDetails = VehicleDetailsDto(registrationNumber = registrationNumberValid,
     vehicleMake = vehicleMakeValid,
     vehicleModel = vehicleModelValid)
-  val vehicleDetailsResponseSuccess = VehicleDetailsResponse(success = true,
-    message = "Fake Web Lookup Service - Good response",
-    vehicleDetailsDto = vehicleDetails)
-  val vehicleDetailsResponseFailure = VehicleDetailsResponse(success = false,
-    message = "Fake Web Dispose Service - Bad response",
-    vehicleDetailsDto = vehicleDetails)
-
+  val vehicleDetailsResponseSuccess = VehicleDetailsResponse(responseCode = None,
+    vehicleDetailsDto = Some(vehicleDetails))
+  val vehicleDetailsResponseFailure = VehicleDetailsResponse(responseCode = Some("fail"),
+    vehicleDetailsDto = None)
 }

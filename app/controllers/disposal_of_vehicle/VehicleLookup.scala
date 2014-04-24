@@ -9,7 +9,7 @@ import ReferenceNumber._
 import RegistrationNumber._
 import mappings.disposal_of_vehicle.VehicleLookup._
 import Consent._
-import models.domain.disposal_of_vehicle.{VehicleDetailsRequest, VehicleDetailsModel, VehicleLookupFormModel}
+import models.domain.disposal_of_vehicle.{VehicleDetailsDto, VehicleDetailsRequest, VehicleDetailsModel, VehicleLookupFormModel}
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import com.google.inject.Inject
@@ -65,15 +65,18 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
   }
 
   private def lookupVehicle(webService: VehicleLookupService, model: VehicleLookupFormModel): Future[SimpleResult] = {
-    webService.invoke(buildMicroServiceRequest(model)).map { resp =>
-      Logger.debug(s"VehicleLookup Web service call successful - response = $resp")
+    webService.invoke(buildMicroServiceRequest(model)).map { response =>
+      Logger.debug(s"VehicleLookup Web service call successful - response = $response")
       // TODO Don't save these two models, instead we need a combined model that has what the user entered into the form plus the micro-service response.
       storeVehicleLookupFormModelInCache(model)
-      if (resp.success) {
-        storeVehicleDetailsInCache(VehicleDetailsModel.fromDto(resp.vehicleDetailsDto))
+      if (response.responseCode == None) {
+        storeVehicleDetailsInCache(VehicleDetailsModel.fromDto(response.vehicleDetailsDto.get))
         Redirect(routes.Dispose.present)
       }
-      else Redirect(routes.VehicleLookupFailure.present)
+      else {
+        //storeVehicleDetailsInCache(VehicleDetailsModel.fromDto(response.vehicleDetailsDto.get))
+        Redirect(routes.VehicleLookupFailure.present)
+      }
     }.recover {
       case e: Throwable => {
         Logger.debug(s"Web service call failed. Exception: $e")
