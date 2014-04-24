@@ -13,9 +13,14 @@ import scala.Some
 
 class FakeVehicleLookupWebService extends VehicleLookupWebService {
   override def callVehicleLookupService(request: VehicleDetailsRequest) = Future {
-    val vehicleDetailsResponse =
-      if (request.referenceNumber == "9" * 11) vehicleDetailsResponseFailure
-      else vehicleDetailsResponseSuccess
+    val vehicleDetailsResponse = {
+      request.referenceNumber match {
+        case "99999999991" => vehicleDetailsResponseVRMNotFound
+        case "99999999992" => vehicleDetailsResponseDocRefNumberNotLatest
+        case "99999999999" => vehicleDetailsResponseNotFoundResponseCode
+        case _ => vehicleDetailsResponseSuccess
+      }
+    }
 
     val responseAsJson = Json.toJson(vehicleDetailsResponse)
     Logger.debug(s"FakeVehicleLookupWebService callVehicleLookupService with: $responseAsJson")
@@ -36,8 +41,18 @@ object FakeVehicleLookupWebService {
   private val vehicleDetails = VehicleDetailsDto(registrationNumber = registrationNumberValid,
     vehicleMake = vehicleMakeValid,
     vehicleModel = vehicleModelValid)
+
   val vehicleDetailsResponseSuccess = VehicleDetailsResponse(responseCode = None,
     vehicleDetailsDto = Some(vehicleDetails))
-  val vehicleDetailsResponseFailure = VehicleDetailsResponse(responseCode = Some("fail"),
+
+  val vehicleDetailsResponseVRMNotFound = VehicleDetailsResponse(responseCode = Some("vehicle_lookup_vrm_not_found"),
     vehicleDetailsDto = None)
+
+  val vehicleDetailsResponseDocRefNumberNotLatest =
+    VehicleDetailsResponse(responseCode = Some("vehicle_lookup_document_record_mismatch"),
+      vehicleDetailsDto = None)
+
+  val vehicleDetailsResponseNotFoundResponseCode =
+    VehicleDetailsResponse(responseCode = None, vehicleDetailsDto = None)
+
 }
