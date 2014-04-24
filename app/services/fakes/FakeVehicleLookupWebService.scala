@@ -11,19 +11,19 @@ import FakeVehicleLookupWebService._
 import play.api.http.Status._
 import scala.Some
 
+
 class FakeVehicleLookupWebService extends VehicleLookupWebService {
   override def callVehicleLookupService(request: VehicleDetailsRequest) = Future {
     val vehicleDetailsResponse = {
       request.referenceNumber match {
-        case "99999999991" => vehicleDetailsResponseVRMNotFound
-        case "99999999992" => vehicleDetailsResponseDocRefNumberNotLatest
-        case "99999999999" => vehicleDetailsResponseNotFoundResponseCode
-        case _ => vehicleDetailsResponseSuccess
+        case "99999999991" => vehicleDetailsResponseVRMNotFound._2
+        case "99999999992" => vehicleDetailsResponseDocRefNumberNotLatest._2
+        case "99999999999" => vehicleDetailsResponseNotFoundResponseCode._2
+        case _ => vehicleDetailsResponseSuccess._2
       }
     }
-
     val responseAsJson = Json.toJson(vehicleDetailsResponse)
-    Logger.debug(s"FakeVehicleLookupWebService callVehicleLookupService with: $responseAsJson")
+    //Logger.debug(s"FakeVehicleLookupWebService callVehicleLookupService with: $responseAsJson")
     new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
   }
 }
@@ -42,17 +42,23 @@ object FakeVehicleLookupWebService {
     vehicleMake = vehicleMakeValid,
     vehicleModel = vehicleModelValid)
 
-  val vehicleDetailsResponseSuccess = VehicleDetailsResponse(responseCode = None,
-    vehicleDetailsDto = Some(vehicleDetails))
+  val vehicleDetailsResponseSuccess : (Int, VehicleDetailsResponse) = {
+    (OK,
+     VehicleDetailsResponse(responseCode = None, vehicleDetailsDto = Some(vehicleDetails)))
+  }
 
-  val vehicleDetailsResponseVRMNotFound = VehicleDetailsResponse(responseCode = Some("vehicle_lookup_vrm_not_found"),
-    vehicleDetailsDto = None)
+  val vehicleDetailsResponseVRMNotFound : (Int, VehicleDetailsResponse) = {
+    (OK,
+    VehicleDetailsResponse(responseCode = Some("vehicle_lookup_vrm_not_found"),vehicleDetailsDto = None))
+  }
 
-  val vehicleDetailsResponseDocRefNumberNotLatest =
-    VehicleDetailsResponse(responseCode = Some("vehicle_lookup_document_record_mismatch"),
-      vehicleDetailsDto = None)
+  val vehicleDetailsResponseDocRefNumberNotLatest : (Int, VehicleDetailsResponse) = {
+    (OK,
+    VehicleDetailsResponse(responseCode = Some("vehicle_lookup_document_record_mismatch"), vehicleDetailsDto = None))
+  }
 
-  val vehicleDetailsResponseNotFoundResponseCode =
-    VehicleDetailsResponse(responseCode = None, vehicleDetailsDto = None)
-
+  val vehicleDetailsResponseNotFoundResponseCode : (Int, VehicleDetailsResponse) = {
+    (OK,
+    VehicleDetailsResponse(responseCode = None, vehicleDetailsDto = None))
+  }
 }

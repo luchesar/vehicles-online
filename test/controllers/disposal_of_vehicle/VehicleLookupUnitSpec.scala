@@ -163,11 +163,13 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
   }
 
-  private def vehicleLookupResponseGenerator(vehicleDetailsResponse : VehicleDetailsResponse) = {
+
+
+  private def vehicleLookupResponseGenerator(fullResponse:(Int, VehicleDetailsResponse)) = {
   val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
     when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
-      val responseAsJson = Json.toJson(vehicleDetailsResponse)
-      new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+      val responseAsJson = Json.toJson(fullResponse._2)
+      new FakeResponse(status = fullResponse._1, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
     new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)

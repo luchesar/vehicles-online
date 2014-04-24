@@ -89,12 +89,11 @@ class VehicleLookupFormSpec extends UnitSpec {
     }
   }
 
-  private val vehicleLookup = {
+  private def vehicleLookupResponseGenerator(fullResponse:(Int, VehicleDetailsResponse)) = {
     val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
     when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
-      val responseAsJson = Json.toJson(vehicleDetailsResponseSuccess)
-      import play.api.http.Status.OK
-      new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+      val responseAsJson = Json.toJson(fullResponse._2)
+      new FakeResponse(status = fullResponse._1, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
     new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
@@ -103,7 +102,7 @@ class VehicleLookupFormSpec extends UnitSpec {
   private def formWithValidDefaults(referenceNumber: String = referenceNumberValid,
                                     registrationNumber: String = registrationNumberValid,
                                     consent: String = consentValid) = {
-    vehicleLookup.vehicleLookupForm.bind(
+    vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).vehicleLookupForm.bind(
       Map(
         referenceNumberId -> referenceNumber,
         registrationNumberId -> registrationNumber
