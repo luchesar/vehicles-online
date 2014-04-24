@@ -84,12 +84,19 @@ class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
     }
 
-    "return a bad request if no details are entered" in new WithApplication {
+    "return a bad request if dealer details are in cache and no details are entered" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "", registrationNumber = "", consent = "")
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
 
       result.futureValue.header.status should equal(BAD_REQUEST)
+    }
+
+    "return a bad request if dealer details are not in cache and no details are entered" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(referenceNumber = "", registrationNumber = "", consent = "")
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
+
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "replace max length error message for document reference number with standard error message (US43)" in new WithApplication {
@@ -161,6 +168,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
       result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
     }
+
   }
 
 
