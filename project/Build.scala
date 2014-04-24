@@ -10,8 +10,6 @@ object ApplicationBuild extends Build {
   val appVersion      = "1.0-SNAPSHOT"
 
   val appDependencies = Seq(
-    // Add your project dependencies here,
-    jdbc,
     cache,
     "org.seleniumhq.selenium" % "selenium-java" % "2.40.0" % "test" withSources() withJavadoc(),
     "com.github.detro.ghostdriver" % "phantomjsdriver" % "1.1.0" % "test" withSources() withJavadoc(),

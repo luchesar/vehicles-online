@@ -8,7 +8,6 @@ resolvers += "Sonatype OSS Releases" at "https://oss.sonatype.org/content/reposi
 
 resolvers += "Maven 2" at "http://repo2.maven.org/maven2"
 
-// Use the Play sbt plugin for Play projects
 addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.2.2")
 
 addSbtPlugin("net.litola" % "play-sass" % "0.3.0")
