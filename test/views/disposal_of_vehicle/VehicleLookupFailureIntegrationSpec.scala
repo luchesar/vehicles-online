@@ -49,13 +49,13 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
       assert(page.title equals VehicleLookupPage.title)
     }
 
-    "redirect to setuptradedetails when button clicked" in new WebBrowser {
+    "redirect to beforeyoustart when button clicked" in new WebBrowser {
       cacheSetup()
       go to VehicleLookupFailurePage
 
-      click on setupTradeDetails
+      click on beforeYouStart
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      assert(page.title equals BeforeYouStartPage.title)
     }
   }
 
