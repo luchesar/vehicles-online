@@ -1,7 +1,6 @@
 package helpers.steps
 
 import cucumber.api.java.en.{Given, When, Then}
-import pages.common.ErrorPanel
 import pages.disposal_of_vehicle._
 import org.scalatest.Matchers
 import org.openqa.selenium.WebDriver
@@ -10,15 +9,16 @@ import helpers.disposal_of_vehicle.Helper._
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeAddressLookupService._
-import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeWebServiceImpl.traderUprnValid
-import java.util.Calendar
-import org.joda.time.MutableDateTime
-import controllers.disposal_of_vehicle.Helpers.fetchDisposeTransactionTimestampInCache
+import services.session.PlaySessionState
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
 
 class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
+
+  val sessionState = new DisposalOfVehicleSessionState(new PlaySessionState())
+  import sessionState._
 
   @Given("""^that the user has entered all required information$""")
   def that_the_user_has_entered_all_required_information() = {

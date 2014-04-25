@@ -1,20 +1,22 @@
 package controllers.disposal_of_vehicle
 
 import play.api.mvc._
-import play.api.data.{FormError, Form}
+import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
 import models.domain.disposal_of_vehicle.{SetupTradeDetailsModel, DealerDetailsModel, BusinessChooseYourAddressModel}
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import mappings.common.DropDown
 import DropDown._
-import controllers.disposal_of_vehicle.Helpers._
 import javax.inject.Inject
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 import services.address_lookup.AddressLookupService
 
-class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService) extends Controller {
+class BusinessChooseYourAddress @Inject()(val sessionState: DisposalOfVehicleSessionState, addressLookupService: AddressLookupService) extends Controller {
+
+  import sessionState._
+
   private def fetchAddresses(setupTradeDetailsModel: SetupTradeDetailsModel) = {
     val postcode = setupTradeDetailsModel.traderPostcode
     addressLookupService.fetchAddressesForPostcode(postcode)

@@ -5,11 +5,11 @@ Feature: US140: Disposal to Trade - Consent for Disposal with Personalised Regis
 
   Scenario:
     Given the motor trader has confirmed the acknowledgement of the current keeper
-    When they attempt to submit the acknowledgement in addition to other required information
+    When they attempt to dispose of the vehicle
     Then they are taken to the "Dispose a vehicle into the motor trade: summary" page
 
   Scenario:
     Given the motor trader has not confirmed the acknowledgement of the current keeper
-    When they attempt to submit the acknowledgement in addition to other required information
+    When they attempt to dispose of the vehicle
     Then a single error message is displayed "Loss of registration consent - You must confirm that you have made the keeper aware that they will lose the registration mark associated with this vehicle"
     And they remain on the "Complete & confirm" page

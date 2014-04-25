@@ -8,7 +8,8 @@ class SoapEndpointErrorUnitSpec extends UnitSpec {
   "Soap endpoint error - Controller" should {
     "present" in new WithApplication {
       val request = FakeRequest().withSession()
-      val result = controllers.disposal_of_vehicle.SoapEndpointError.present(request)
+      val result = new controllers.disposal_of_vehicle.SoapEndpointError().present(request)
+
       whenReady(result) {
         r => r.header.status should equal(OK)
       }

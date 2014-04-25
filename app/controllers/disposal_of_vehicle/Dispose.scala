@@ -1,6 +1,6 @@
 package controllers.disposal_of_vehicle
 
-import play.api.data.{Form}
+import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
 import play.api.mvc._
@@ -10,15 +10,13 @@ import mappings.common.DayMonthYear.dayMonthYear
 import mappings.common.Consent._
 import constraints.common
 import common.DayMonthYear._
-import controllers.disposal_of_vehicle.Helpers._
 import models.domain.disposal_of_vehicle._
 import com.google.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.FormExtensions._
-import models.domain.disposal_of_vehicle.DisposeFormModel
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
-import org.joda.time.format.{ISODateTimeFormat}
+import org.joda.time.format.ISODateTimeFormat
 import services.dispose_service.DisposeService
 import services.DateService
 import models.domain.disposal_of_vehicle.DisposeFormModel
@@ -31,7 +29,10 @@ import models.domain.disposal_of_vehicle.DisposeViewModel
 import mappings.disposal_of_vehicle.Dispose.dateOfDisposalYearsIntoThePast
 import scala.language.postfixOps
 
-class Dispose @Inject()(webService: DisposeService, dateService: DateService) extends Controller {
+class Dispose @Inject()(sessionState: DisposalOfVehicleSessionState, webService: DisposeService, dateService: DateService) extends Controller {
+
+  import sessionState._
+
   val disposeForm = Form(
     mapping(
       mileageId -> mileage(),
@@ -107,22 +108,30 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       val disposeRequest = buildDisposeMicroServiceRequest(disposeModel)
       webService.invoke(disposeRequest).map {
         resp => Logger.debug(s"Dispose micro-service call successful - response = $resp")
-          storeDisposeTransactionIdInCache(resp.transactionId)
-          transactionTimestamp()
-
-        resp.responseCode match {
-          case Some(responseCode) => handleResponseCode(responseCode, resp.registrationNumber)
-          case None => {
-            storeDisposeRegistrationNumberInCache(resp.registrationNumber)
-            Redirect(routes.DisposeSuccess.present)
-          }
-        }
-
+        storeResponseInCache(resp._2)
+        Redirect(Seq(handleResponseCode(responseCode(resp._2)), handleHttpStatusCode(Option(resp._1)), Some(routes.MicroServiceError.present)).flatten.head)
       }.recover {
         case e: Throwable =>
           Logger.warn(s"Dispose micro-service call failed. Exception: $e")
           Redirect(routes.MicroServiceError.present)
       }
+    }
+
+    def responseCode (response :Option[DisposeResponse]) = {
+      response match {
+        case Some(o) => o.responseCode
+        case _ => None
+      }
+    } 
+    
+    def storeResponseInCache (response :Option[DisposeResponse]) = {
+      response match {
+        case Some(o) => 
+          if (o.transactionId != "") storeDisposeTransactionIdInCache(o.transactionId)
+          if (o.registrationNumber != "") storeDisposeRegistrationNumberInCache(o.registrationNumber)
+        case _ => 
+      }
+      transactionTimestamp()
     }
 
     def transactionTimestamp() = {
@@ -131,7 +140,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       val isoDateTimeString = formatter.print(transactionTimestamp)
       storeDisposeTransactionTimestampInCache(isoDateTimeString)
     }
-
+    
     def buildDisposeMicroServiceRequest(disposeModel: DisposeModel):DisposeRequest = {
       val dateTime = disposeModel.dateOfDisposal.toDateTime.get
       val formatter = ISODateTimeFormat.dateTime()
@@ -139,29 +148,25 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       DisposeRequest(referenceNumber = disposeModel.referenceNumber, registrationNumber = disposeModel.registrationNumber, dateOfDisposal = isoDateTimeString, mileage = disposeModel.mileage)
     }
 
-    def handleResponseCode(disposeResponseCode: String, registrationNumber: String) = {
-      val endpointDown = "ms.dispose.response.endpointdown"
-      val endpointTimeout = "ms.dispose.response.endpointtimeout"
-      val applicationBeingProcessed = "ms.vehiclesService.response.applicationBeingProcessed"
+    def handleResponseCode(disposeResponseCode: Option[String]) = {
       val unableToProcessApplication = "ms.vehiclesService.response.unableToProcessApplication"
 
       disposeResponseCode match {
-        case responseCode if responseCode == endpointDown =>
-          Logger.warn("Dispose soap endpoint down redirecting to error page...")
-          Redirect(routes.SoapEndpointError.present)
-        case responseCode if responseCode == endpointTimeout =>
-          Logger.warn("Dispose soap endpoint timeout redirecting to error page...")
-          Redirect(routes.SoapEndpointError.present)
-        case responseCode if responseCode == applicationBeingProcessed =>
-          Logger.warn("Dispose soap endpoint redirecting to dispose success page...")
-          storeDisposeRegistrationNumberInCache(registrationNumber)
-          Redirect(routes.DisposeSuccess.present)
-        case responseCode if responseCode == unableToProcessApplication =>
+        case Some(responseCode) if responseCode == unableToProcessApplication =>
           Logger.warn("Dispose soap endpoint redirecting to dispose failure page...")
-          Redirect(routes.DisposeFailure.present)
-        case responseCode =>
+          Some(routes.DisposeFailure.present)
+        case Some(responseCode) =>
           Logger.warn(s"Dispose micro-service failed: $responseCode, redirecting to error page...")
-          Redirect(routes.MicroServiceError.present)
+          Some(routes.MicroServiceError.present)
+        case None => None
+      }
+    }
+
+    def handleHttpStatusCode(StatusCode: Option[Int]) = {
+      StatusCode match {
+        case Some(OK) => Some(routes.DisposeSuccess.present)
+        case Some(SERVICE_UNAVAILABLE) => Some(routes.SoapEndpointError.present)
+        case _ => Some(routes.MicroServiceError.present)
       }
     }
 

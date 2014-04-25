@@ -323,12 +323,12 @@ disposal_disposefailure.transactionid = {0}
 #page 8 - vehicle lookup failure
 disposal_vehiclelookupfailure.title = Dispose a vehicle into the motor trade: vehicle lookup failure
 disposal_vehiclelookupfailure.name = Failure
-disposal_vehiclelookupfailure.p1 = It has not been possible to locate this vehicle. Please try again
+disposal_vehiclelookupfailure.p1 = The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
 #disposal_vehiclelookupfailure.button = Vehicle Lookup
 disposal_vehiclelookupfailure.button = Try again
 #disposal_vehiclelookupfailure.button2 = Setup New Trader Details
 disposal_vehiclelookupfailure.button2 = Exit
-vehicle_lookup_vrm_not_found = There is no record for this Vehicle Registration Mark. Please try again, or send a completed V5C to DVLA
+vehicle_lookup_vrm_not_found = There is no record for this Vehicle Registration Mark. Please try again, or send a completed V5C/3 to DVLA
 vehicle_lookup_document_reference_mismatch = This is not the latest Document Reference Number for the vehicle. Please try again, or send a completed V5C/3 to DVLA
 
 error.address.line1Required = Address needs at least the house number / house name filled in
@@ -340,8 +340,8 @@ addressAndPostcode.postcode = Postcode
 error.validTraderBusinessName = Must be between two and 30 characters and not contain invalid characters
 
 # micro-service response codes
-ms.vehiclesService.response.applicationBeingProcessed = Your application is being processed and you should receive acknowledgement within 4 weeks.
-ms.vehiclesService.response.unableToProcessApplication = We are not able to process your application as the information you have given does not match our records, you will need to send the V5C/3 to the following address; DVLA, Swansea SA99 1BD
+ms.vehiclesService.response.applicationBeingProcessed = Your application is being processed and you should receive confirmation letter within four weeks.
+ms.vehiclesService.response.unableToProcessApplication = We are not able to process your application at this time. Please send the V5C/3 to the following address; DVLA, Longview Road, Morriston, Swansea, SA6 7JL
 
 #micro-service error page
 micro_service_error.title=We are sorry
