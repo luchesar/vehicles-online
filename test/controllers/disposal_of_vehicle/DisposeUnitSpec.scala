@@ -119,7 +119,7 @@ class DisposeUnitSpec extends UnitSpec {
         vehicleDetailsModel().
         vehicleLookupFormModel()
 
-      val disposeResponseThrows = mock[DisposeResponse]
+      val disposeResponseThrows = mock[(Int, Option[DisposeResponse])]
       val mockWebServiceThrows = mock[DisposeService]
       when(mockWebServiceThrows.invoke(any[DisposeRequest])).thenReturn(Future {
         disposeResponseThrows
@@ -137,7 +137,7 @@ class DisposeUnitSpec extends UnitSpec {
         val ws = mock[DisposeWebService]
         when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
           val responseAsJson = Json.toJson(disposeResponseSoapEndpointFailure)
-          new FakeResponse(status = OK, fakeJson = Some(responseAsJson))
+          new FakeResponse(status = SERVICE_UNAVAILABLE, fakeJson = Some(responseAsJson))
         })
         val disposeServiceImpl = new DisposeServiceImpl(ws)
         new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
