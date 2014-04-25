@@ -153,6 +153,13 @@ class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
     }
 
+    "redirect to SetupTradeDetails page when back button is pressed and dealer details is not in cache" in new WithApplication {
+      val request = FakeRequest().withSession().withFormUrlEncodedBody()
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).back(request)
+
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+    }
+
     "redirect to SetUpTradeDetails when back button and the user has completed the vehicle lookup form" in new WithApplication {
       CacheSetup.businessChooseYourAddress(addressWithUprn)
       val request = buildCorrectlyPopulatedRequest()
