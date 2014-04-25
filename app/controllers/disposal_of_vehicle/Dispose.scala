@@ -107,19 +107,21 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       val disposeRequest = buildDisposeMicroServiceRequest(disposeModel)
       webService.invoke(disposeRequest).map {
         resp => Logger.debug(s"Dispose micro-service call successful - response = $resp")
-          storeDisposeTransactionIdInCache(resp.transactionId)
-          transactionTimestamp()
 
-
-
-        resp.responseCode match {
-          case Some(responseCode) => handleResponseCode(responseCode, resp.registrationNumber)
-          case None => {
-            storeDisposeRegistrationNumberInCache(resp.registrationNumber)
-            Redirect(routes.DisposeSuccess.present)
+        val httpStatusCode = resp._1
+        val disposeResponse = resp._2.getOrElse(new DisposeResponse("","","","",None))
+ 
+        httpStatusCode match {
+          case OK => storeDisposeTransactionIdInCache(disposeResponse.transactionId)
+        		  	  transactionTimestamp()
+        		  	  disposeResponse.responseCode match {
+          	case Some(responseCode) => handleResponseCode(responseCode, disposeResponse.registrationNumber)
+          	case None => storeDisposeRegistrationNumberInCache(disposeResponse.registrationNumber)
+          		         Redirect(routes.DisposeSuccess.present)
           }
+          case _ => Logger.warn("Dispose soap endpoint timeout redirecting to error page...")
+          			Redirect(routes.SoapEndpointError.present)
         }
-
       }.recover {
         case e: Throwable =>
           Logger.warn(s"Dispose micro-service call failed. Exception: $e")

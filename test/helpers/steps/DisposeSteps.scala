@@ -99,21 +99,42 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     //DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
-    DisposeSuccessPage
   }
 
-  @When("""^they attempt to submit the consent in addition to other required information$""")
-  def they_attempt_to_submit_the_consent_in_addition_to_other_required_information() = {
-    click on DisposePage.dispose
+  @Given("""^that entered details correspond to a valid clean record that has no markers or error codes$""")
+  def that_entered_details_correspond_to_a_valid_clean_record_that_has_no_markers_or_error_codes() = {
+    CacheSetup.setupTradeDetails()
+    CacheSetup.businessChooseYourAddress()
+
+    go to VehicleLookupPage
+    VehicleLookupPage.vehicleRegistrationNumber enter "AB12AWR"
+    VehicleLookupPage.documentReferenceNumber enter "11111111112"
+    click on VehicleLookupPage.findVehicleDetails
+    DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
+    DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
+    DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
+    click on DisposePage.consent
+    click on DisposePage.lossOfRegistrationConsent
   }
 
-  @When("""^they attempt to submit the acknowledgement in addition to other required information$""")
-  def they_attempt_to_submit_the_acknowledgement_in_addition_to_other_required_information() = {
-    click on DisposePage.dispose
+  @Given("""^that entered details correspond to a valid record which has markers or error codes$""")
+  def that_entered_details_correspond_to_a_valid_record_which_has_markers_or_error_codes() = {
+    CacheSetup.setupTradeDetails()
+    CacheSetup.businessChooseYourAddress()
+
+    go to VehicleLookupPage
+    VehicleLookupPage.vehicleRegistrationNumber enter "AB12AWR"
+    VehicleLookupPage.documentReferenceNumber enter "11111111113"
+    click on VehicleLookupPage.findVehicleDetails
+    DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
+    DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
+    DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
+    click on DisposePage.consent
+    click on DisposePage.lossOfRegistrationConsent
   }
 
-  @When("""^they attempt to submit the date in addition to other required information$""")
-  def they_attempt_to_submit_the_date_in_addition_to_other_required_information() = {
+  @When("""^they attempt to dispose of the vehicle$""")
+  def they_attempt_to_dispose_of_the_vehicle() = {
     click on DisposePage.dispose
   }
 }

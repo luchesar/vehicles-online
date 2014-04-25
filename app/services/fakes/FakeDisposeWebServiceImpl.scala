@@ -54,7 +54,7 @@ object FakeDisposeWebServiceImpl {
       transactionId = "", // No transactionId because the soap endpoint is down
       registrationNumber = "",
       auditId = "",
-      responseCode = Some("ms.dispose.response.endpointdown"))
+      responseCode = None)
 
   val disposeResponseWithResponseCode =
     DisposeResponse(message = "Fake Web Dispose Service - Bad response",

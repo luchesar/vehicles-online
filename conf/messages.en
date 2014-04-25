@@ -340,8 +340,8 @@ addressAndPostcode.postcode = Postcode
 error.validTraderBusinessName = Must be between two and 30 characters and not contain invalid characters
 
 # micro-service response codes
-ms.vehiclesService.response.applicationBeingProcessed = Your application is being processed and you should receive acknowledgement within 4 weeks.
-ms.vehiclesService.response.unableToProcessApplication = We are not able to process your application as the information you have given does not match our records, you will need to send the V5C/3 to the following address; DVLA, Swansea SA99 1BD
+ms.vehiclesService.response.applicationBeingProcessed = Your application is being processed and you should receive confirmation letter within four weeks.
+ms.vehiclesService.response.unableToProcessApplication = We are not able to process your application at this time. Please send the V5C/3 to the following address; DVLA, Longview Road, Morriston, Swansea, SA6 7JL
 
 #micro-service error page
 micro_service_error.title=We are sorry
