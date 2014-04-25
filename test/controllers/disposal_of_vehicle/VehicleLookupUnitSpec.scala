@@ -92,7 +92,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.status should equal(BAD_REQUEST)
     }
 
-    "return a bad request if dealer details are not in cache and no details are entered" in new WithApplication {
+    "redirect to setupTradeDetails page if dealer details are not in cache and no details are entered" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "", registrationNumber = "", consent = "")
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
 
