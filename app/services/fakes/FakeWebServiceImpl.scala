@@ -30,12 +30,12 @@ object FakeWebServiceImpl {
   val traderUprnValid2 = 4567L
   val postcodeValid = "CM81QJ"
 
-  private def addressSeq(uprn: String = traderUprnValid.toString, houseName: String, houseNumber: String = "123"): Seq[String] = {
+  private def addressSeq(houseName: String, houseNumber: String): Seq[String] = {
     Seq(houseName, houseNumber, "property stub", "street stub", "town stub", "area stub", postcodeValid)
   }
 
   def uprnAddressPairWithDefaults(uprn: String = traderUprnValid.toString, houseName: String = "presentationProperty stub", houseNumber: String = "123") =
-    UprnAddressPair(uprn, address = addressSeq(uprn, houseName, houseNumber).mkString(", "))
+    UprnAddressPair(uprn, address = addressSeq(houseName, houseNumber).mkString(", "))
 
   def postcodeToAddressResponseValid: PostcodeToAddressResponse = {
     val results = Seq(
