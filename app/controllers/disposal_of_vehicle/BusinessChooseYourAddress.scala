@@ -4,7 +4,7 @@ import play.api.mvc._
 import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import play.api.Logger
-import models.domain.disposal_of_vehicle.{DealerDetailsModel, BusinessChooseYourAddressModel}
+import models.domain.disposal_of_vehicle.{SetupTradeDetailsModel, DealerDetailsModel, BusinessChooseYourAddressModel}
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import mappings.common.DropDown
 import DropDown._
@@ -15,12 +15,8 @@ import ExecutionContext.Implicits.global
 import services.address_lookup.AddressLookupService
 
 class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService) extends Controller {
-  private lazy val fetchAddresses = {
-    /* Needs to be a lazy val otherwise when the page is IoC'd the form will execute it, so if you were jumping to the page with nothing in the cache it will blow up in the constructor before it gets to the code to redirect to another page. */
-    val postcode = fetchTraderDetailsFromCache match {
-      case Some(setupTradeDetailsModel) => setupTradeDetailsModel.traderPostcode
-      case None => ??? //"TEST"
-    }
+  private def fetchAddresses(setupTradeDetailsModel: SetupTradeDetailsModel) = {
+    val postcode = setupTradeDetailsModel.traderPostcode
     addressLookupService.fetchAddressesForPostcode(postcode)
   }
 
@@ -34,7 +30,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
 
   def present = Action.async { implicit request =>
     fetchTraderDetailsFromCache match {
-      case Some(dealerDetails) => fetchAddresses.map { addresses =>
+      case Some(dealerDetails) => fetchAddresses(dealerDetails).map { addresses =>
         val f = fetchBusinessChooseYourAddressModelFromCache match {
           case Some(cached) => form.fill(cached)
           case None => form // Blank form.
@@ -50,8 +46,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
   def submit = Action.async { implicit request =>
     form.bindFromRequest.fold(
       formWithErrors =>
-        fetchTraderDetailsFromCache match {
-          case Some(dealerDetails) => fetchAddresses.map { addresses =>
+        fetchTraderDetailsFromCache match { case Some(dealerDetails) => fetchAddresses(dealerDetails).map { addresses =>
             BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, dealerDetails.traderBusinessName, addresses))
           }
           case None => Future {
