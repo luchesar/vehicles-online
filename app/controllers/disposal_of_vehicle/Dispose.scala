@@ -110,6 +110,8 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
           storeDisposeTransactionIdInCache(resp.transactionId)
           transactionTimestamp()
 
+
+
         resp.responseCode match {
           case Some(responseCode) => handleResponseCode(responseCode, resp.registrationNumber)
           case None => {
