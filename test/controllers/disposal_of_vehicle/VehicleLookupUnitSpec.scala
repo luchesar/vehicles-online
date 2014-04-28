@@ -162,6 +162,14 @@ class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
     }
 
+    "redirect to SetUpTradeDetails when back button clicked and there are no trader details stored in cache" in new WithApplication {
+      // No cache setup with dealer details
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).back(request)
+
+      result.futureValue.header.headers.get(LOCATION) should equal(Some("/disposal-of-vehicle/setup-trade-details"))
+    }
+
     "redirect to MicroserviceError when microservice throws" in new WithApplication {
       CacheSetup.businessChooseYourAddress()
       val request = buildCorrectlyPopulatedRequest()
@@ -169,6 +177,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
       result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
     }
+
   }
 
   private def vehicleLookupResponseGenerator(fullResponse:(Int, Option[VehicleDetailsResponse])) = {
