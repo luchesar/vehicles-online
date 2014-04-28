@@ -5,6 +5,8 @@ import helpers.webbrowser.TestHarness
 import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UiSpec
 import UprnNotFoundPage._
+import services.session.PlaySessionState
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
 
 class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
 
@@ -25,7 +27,7 @@ class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "go to manualaddress page after the Manual Address button is clicked and trade details have been set up in cache" in new WebBrowser {
-      CacheSetup.setupTradeDetails()
+      new CacheSetup(newSessionState.inner).setupTradeDetails()
       go to UprnNotFoundPage
 
       click on manualAddress
@@ -41,5 +43,10 @@ class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
+  }
+
+  private def newSessionState = {
+    val sessionState = new PlaySessionState()
+    new DisposalOfVehicleSessionState(sessionState)
   }
 }

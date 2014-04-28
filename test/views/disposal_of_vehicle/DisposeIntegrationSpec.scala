@@ -7,13 +7,15 @@ import pages.common.ErrorPanel
 import helpers.UiSpec
 import services.fakes.FakeDateServiceImpl._
 import DisposePage._
+import services.session.{SessionState, PlaySessionState}
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
 
 class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
   "Dispose Integration" should {
 
     "be presented" in new WebBrowser {
-      cacheSetup()
+      cacheSetup(newSessionState.inner)
 
       go to DisposePage
 
@@ -21,7 +23,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display DisposeSuccess page on correct submission" in new WebBrowser {
-      cacheSetup().vehicleLookupFormModel()
+      cacheSetup(newSessionState.inner).vehicleLookupFormModel()
 
       happyPath
 
@@ -29,7 +31,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display validation errors when no data is entered" in new WebBrowser {
-      cacheSetup()
+      cacheSetup(newSessionState.inner)
 
       sadPath
 
@@ -37,7 +39,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect when no vehicleDetailsModel is cached" in new WebBrowser {
-      CacheSetup.businessChooseYourAddress()
+      new CacheSetup(newSessionState.inner).businessChooseYourAddress()
 
       go to DisposePage
 
@@ -45,7 +47,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect when no businessChooseYourAddress is cached" in new WebBrowser {
-      CacheSetup.vehicleDetailsModel()
+      new CacheSetup(newSessionState.inner).vehicleDetailsModel()
 
       go to DisposePage
 
@@ -59,7 +61,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display validation errors when month and year are input but no day" in new WebBrowser {
-      cacheSetup()
+      cacheSetup(newSessionState.inner)
       go to DisposePage
       dateOfDisposalMonth select dateOfDisposalMonthValid
       dateOfDisposalYear select dateOfDisposalYearValid
@@ -72,7 +74,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display validation errors when day and year are input but no month" in new WebBrowser {
-      cacheSetup()
+      cacheSetup(newSessionState.inner)
       go to DisposePage
       dateOfDisposalDay select dateOfDisposalDayValid
       dateOfDisposalYear select dateOfDisposalYearValid
@@ -85,7 +87,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display validation errors when day and month are input but no year" in new WebBrowser {
-      cacheSetup()
+      cacheSetup(newSessionState.inner)
       go to DisposePage
       dateOfDisposalDay select dateOfDisposalDayValid
       dateOfDisposalMonth select dateOfDisposalMonthValid
@@ -98,7 +100,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display previous page when back link is clicked" in new WebBrowser {
-      cacheSetup()
+      cacheSetup(newSessionState.inner)
       go to DisposePage
 
       click on back
@@ -107,9 +109,14 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  private def cacheSetup() = {
-    CacheSetup.
+  private def cacheSetup(sessionState: SessionState) = {
+    new CacheSetup(sessionState).
       businessChooseYourAddress().
       vehicleDetailsModel()
+  }
+
+  private def newSessionState = {
+    val sessionState = new PlaySessionState()
+    new DisposalOfVehicleSessionState(sessionState)
   }
 }

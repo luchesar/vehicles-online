@@ -3,7 +3,7 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import play.api.Logger
 
-object BeforeYouStart extends Controller {
+class BeforeYouStart extends Controller {
 
   def present = Action { implicit request =>
     val uniqueId = java.util.UUID.randomUUID.toString

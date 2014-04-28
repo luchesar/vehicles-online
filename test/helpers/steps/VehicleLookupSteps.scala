@@ -7,15 +7,20 @@ import services.fakes.FakeVehicleLookupWebService._
 import helpers.disposal_of_vehicle.CacheSetup
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
+import services.session.PlaySessionState
 
 class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 
+  val sessionState = new DisposalOfVehicleSessionState(new PlaySessionState())
+
   @Given("""^a motor trader has entered a doc ref number in a valid format$""")
   def a_motor_trader_has_entered_a_doc_ref_number_in_a_valid_format() = {
-    CacheSetup.setupTradeDetails()
-    CacheSetup.businessChooseYourAddress()
+    new CacheSetup(sessionState.inner)
+      .setupTradeDetails()
+      .businessChooseYourAddress()
 
     go to VehicleLookupPage
     VehicleLookupPage.vehicleRegistrationNumber enter registrationNumberValid
@@ -24,8 +29,9 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
 
   @Given("""^a motor trader has (.*) a VRM in a valid format$""")
   def a_motor_trader_has_entered_a_vrm_in_a_valid_format(vrm:String) = {
-    CacheSetup.setupTradeDetails()
-    CacheSetup.businessChooseYourAddress()
+    new CacheSetup(sessionState.inner)
+      .setupTradeDetails()
+      .businessChooseYourAddress()
 
     go to VehicleLookupPage
     VehicleLookupPage.vehicleRegistrationNumber enter vrm
@@ -34,8 +40,9 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
 
   @Given("""^a motor trader has (.*) a VRM in an invalid format$""")
   def a_motor_trader_has_entered_a_vrm_in_an_invalid_format(vrm:String) = {
-    CacheSetup.setupTradeDetails()
-    CacheSetup.businessChooseYourAddress()
+    new CacheSetup(sessionState.inner)
+      .setupTradeDetails()
+      .businessChooseYourAddress()
 
     go to VehicleLookupPage
     VehicleLookupPage.vehicleRegistrationNumber enter vrm
@@ -44,8 +51,9 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
 
   @Given("""^a motor trader has (.*) a doc ref number in an invalid format$""")
   def a_motor_trader_has_entered_a_doc_ref_number_in_an_invalid_format(invalidDocRef:String) = {
-    CacheSetup.setupTradeDetails()
-    CacheSetup.businessChooseYourAddress()
+    new CacheSetup(sessionState.inner)
+      .setupTradeDetails()
+      .businessChooseYourAddress()
 
     go to VehicleLookupPage
     VehicleLookupPage.vehicleRegistrationNumber enter registrationNumberValid

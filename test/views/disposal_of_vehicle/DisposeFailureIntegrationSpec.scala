@@ -5,13 +5,15 @@ import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UiSpec
 import DisposeFailurePage._
+import services.session.{SessionState, PlaySessionState}
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
 
 class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
 
   "DisposeFailureIntegration" should {
 
     "be presented" in new WebBrowser {
-      cacheSetup()
+      cacheSetup(newSessionState.inner)
       go to DisposeFailurePage
 
       assert(page.title equals DisposeFailurePage.title)
@@ -24,7 +26,7 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect to vehiclelookup when button clicked" in new WebBrowser {
-      cacheSetup()
+      cacheSetup(newSessionState.inner)
       go to DisposeFailurePage
 
       click on vehiclelookup
@@ -33,7 +35,7 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect to setuptradedetails when button clicked" in new WebBrowser {
-      cacheSetup()
+      cacheSetup(newSessionState.inner)
       go to DisposeFailurePage
 
       click on setuptradedetails
@@ -42,12 +44,16 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  private def cacheSetup() = {
-    CacheSetup.
+  private def cacheSetup(sessionState: SessionState) =
+    new CacheSetup(sessionState).
       businessChooseYourAddress().
       vehicleDetailsModel().
       disposeFormModel().
       disposeTransactionId().
       vehicleRegistrationNumber()
+
+  private def newSessionState = {
+    val sessionState = new PlaySessionState()
+    new DisposalOfVehicleSessionState(sessionState)
   }
 }

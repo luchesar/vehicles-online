@@ -14,6 +14,7 @@ import ExecutionContext.Implicits.global
 import services.fakes.FakeVehicleLookupWebService._
 import helpers.disposal_of_vehicle.InvalidVRMFormat._
 import helpers.disposal_of_vehicle.ValidVRMFormat._
+import services.session.PlaySessionState
 
 class VehicleLookupFormSpec extends UnitSpec {
 
@@ -97,7 +98,7 @@ class VehicleLookupFormSpec extends UnitSpec {
       new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
-    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
+    new disposal_of_vehicle.VehicleLookup(newSessionState, vehicleLookupServiceImpl)
   }
 
   private def formWithValidDefaults(referenceNumber: String = referenceNumberValid,
@@ -111,5 +112,8 @@ class VehicleLookupFormSpec extends UnitSpec {
     )
   }
 
-
+  private def newSessionState = {
+    val sessionState = new PlaySessionState()
+    new DisposalOfVehicleSessionState(sessionState)
+  }
 }

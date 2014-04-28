@@ -6,10 +6,12 @@ import play.api.data.Forms._
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import mappings.common.Postcode._
-import controllers.disposal_of_vehicle.Helpers.storeTradeDetailsInCache
 import utils.helpers.FormExtensions._
+import com.google.inject.Inject
 
-object SetUpTradeDetails extends Controller {
+class SetUpTradeDetails @Inject()(sessionState: DisposalOfVehicleSessionState) extends Controller {
+
+  import sessionState._
 
   val traderLookupForm = Form(
     mapping(

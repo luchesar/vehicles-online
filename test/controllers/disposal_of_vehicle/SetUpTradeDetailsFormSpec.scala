@@ -4,6 +4,7 @@ import mappings.disposal_of_vehicle.SetupTradeDetails._
 import helpers.disposal_of_vehicle.Helper._
 import helpers.UnitSpec
 import services.fakes.FakeAddressLookupService._
+import services.session.PlaySessionState
 
 class SetUpTradeDetailsFormSpec extends UnitSpec {
 
@@ -74,11 +75,16 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
 
   private def formWithValidDefaults(traderBusinessName: String = traderBusinessNameValid,
                                     traderPostcode: String = postcodeValid) = {
-    SetUpTradeDetails.traderLookupForm.bind(
+    new SetUpTradeDetails(newSessionState).traderLookupForm.bind(
       Map(
         dealerNameId -> traderBusinessName,
         dealerPostcodeId -> traderPostcode
       )
     )
+  }
+
+  private def newSessionState = {
+    val sessionState = new PlaySessionState()
+    new DisposalOfVehicleSessionState(sessionState)
   }
 }
