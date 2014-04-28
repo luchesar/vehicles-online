@@ -41,6 +41,11 @@ class DisposalOfVehicleSessionState @Inject()(val inner: SessionState) {
     Logger.debug(s"VehicleLookup page - stored vehicle details object in cache: key = $vehicleLookupDetailsCacheKey, value = ${model}")
   }
 
+  def storeVehicleLookupResponseCodeInCache(responseCode: String) = {
+    inner.set(vehicleLookupResponseCodeCacheKey, Some(responseCode))
+    Logger.debug(s"VehicleLookup page - stored vehicle lookup response code in cache: key = $vehicleLookupResponseCodeCacheKey, value = ${responseCode}")
+  }
+
   def storeVehicleLookupFormModelInCache(model: VehicleLookupFormModel) = {
     inner.set(vehicleLookupFormModelCacheKey, Some(model))
     Logger.debug(s"VehicleLookup page - stored vehicle lookup form model details object in cache: key = $vehicleLookupFormModelCacheKey, value = ${model}")
@@ -88,6 +93,8 @@ class DisposalOfVehicleSessionState @Inject()(val inner: SessionState) {
 
   def fetchVehicleLookupDetailsFromCache: Option[VehicleLookupFormModel] = inner.get[VehicleLookupFormModel](vehicleLookupFormModelCacheKey)
 
+  def fetchVehicleLookupResponseCodeFromCache: Option[String] = inner.get[String](vehicleLookupResponseCodeCacheKey)
+
   def fetchBusinessChooseYourAddressModelFromCache: Option[BusinessChooseYourAddressModel] = inner.get[BusinessChooseYourAddressModel](businessChooseYourAddressCacheKey)
 
   def fetchDisposeTransactionIdFromCache: Option[String] = inner.get[String](disposeFormTransactionIdCacheKey)
@@ -95,4 +102,6 @@ class DisposalOfVehicleSessionState @Inject()(val inner: SessionState) {
   def fetchDisposeTransactionTimestampInCache: Option[String] = inner.get[String](disposeFormTimestampIdCacheKey)
 
   def fetchDisposeRegistrationNumberFromCache: Option[String] = inner.get[String](disposeFormRegistrationNumberCacheKey)
+
+  def clearVehicleLookupResponseCodeFromCache() = inner.set(vehicleLookupResponseCodeCacheKey, None)
 }

@@ -1,15 +1,15 @@
-@(data: models.domain.disposal_of_vehicle.VehicleLookupFormModel)(implicit lang: Lang)
+@(data: models.domain.disposal_of_vehicle.VehicleLookupFormModel, responseCodeErrorMessage: String)(implicit lang: Lang)
 
 @import helper._
 @import mappings.disposal_of_vehicle.VehicleLookupFailure._
 
 @main(Messages("disposal_vehiclelookupfailure.title")){
-    <p>@Messages("disposal_vehiclelookupfailure.p1")</p><br>
+<p>@Messages(responseCodeErrorMessage)</p><br>
 
     @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
     <div class="form-steps">
         @{ /* Note the reverse routing syntax for the hyperlink */ }
         <a class="button" id="@vehiclelookupId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present">@Messages("disposal_vehiclelookupfailure.button")</a>
-        <a class="button" id="@setuptradedetailsId" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.present">@Messages("disposal_vehiclelookupfailure.button2")</a>
+        <a class="button" id="@beforeyoustartId" href="@controllers.disposal_of_vehicle.routes.BeforeYouStart.present">@Messages("disposal_vehiclelookupfailure.button2")</a>
     </div>
 }

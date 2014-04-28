@@ -280,10 +280,12 @@ disposal_disposeconfirmation.survey = Arolwg
 
 disposal_vehiclelookupfailure.title = Cael gwared cerbyd i mewn i''r fasnach foduron: methiant Gwrthdro-edrych gerbyd
 disposal_vehiclelookupfailure.name = Methiant
-disposal_vehiclelookupfailure.p1 = Nid yw wedi bod yn bosibl i ddod o hyd cerbyd hwn. Os gwelwch yn dda ceisiwch eto
+disposal_vehiclelookupfailure.p1 = WELSH The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
 disposal_vehiclelookupfailure.button = Am-edrych gerbyd
 disposal_disposefailure.button2 = Setup Newydd Manylion Masnachwr
 disposal_disposefailure.transactionid = {0}
+vehicle_lookup_vrm_not_found = WELSH There is no record for this Vehicle Registration Mark. Please try again, or send a completed V5C/3 to DVLA
+vehicle_lookup_document_reference_mismatch = WELSH This is not the latest Document Reference Number for the vehicle. Please try again, or send a completed V5C/3 to DVLA
 
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda
@@ -329,13 +331,13 @@ addressAndPostcode.postcode = Cod post
 error.validTraderBusinessName = Rhaid iddo fod rhwng dwy a 30 cymeriadau a ydynt yn cynnwys nodau annilys
 
 # micro-service response codes
-ms.vehiclesService.response.applicationBeingProcessed = WELSH Your application is being processed and you should receive acknowledgement within 4 weeks.
-ms.vehiclesService.response.unableToProcessApplication = WELSH We are not able to process your application as the information you have given does not match our records, you will need to send the V5C/3 to the following address; DVLA, Longview Road, Morriston, Swansea, SA6 7JL
+ms.vehiclesService.response.applicationBeingProcessed = WELSH Your application is being processed and you should receive confirmation letter within four weeks.
+ms.vehiclesService.response.unableToProcessApplication = WELSH We are not able to process your application at this time. Please send the V5C/3 to the following address; DVLA, Longview Road, Morriston, Swansea, SA6 7JL
 
 #micro-service error page
 micro_service_error.title=Mae''n ddrwg gennym
 micro_service_error.text=Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
-micro_service_error.back.button=Yn ôl
+micro_service_error.back.button=WELSH Try again
 micro_service_error.exit.button=Gadael
 
 #soap endpoint error page

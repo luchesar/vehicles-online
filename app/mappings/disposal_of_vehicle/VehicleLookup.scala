@@ -8,6 +8,7 @@ object VehicleLookup {
   val registrationNumberId = "registrationNumber"
   val consentId = "consent"
   val vehicleLookupDetailsCacheKey = "vehicleDetails"
+  val vehicleLookupResponseCodeCacheKey = "vehicleLookupResponseCode"
   val vehicleLookupFormModelCacheKey = "vehicleLookupFormModel"
   val backId = "back"
   val submitId = "submit"

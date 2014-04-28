@@ -32,4 +32,9 @@ class CommonSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with 
   def they_remain_at_the_current_stage_in_the_transaction(title:String) = {
     page.title should equal(title)
   }
+
+  @Then("""^a message is displayed "(.*)"$""")
+  def a_message_is_displayed(message:String) = {
+    page.source should include(message)
+  }
 }

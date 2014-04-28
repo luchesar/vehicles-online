@@ -48,7 +48,7 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
       val request = FakeRequest().withSession()
       val result = vehicleLookupFailure(newSessionState).submit(request)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+        r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
       }
     }
 
