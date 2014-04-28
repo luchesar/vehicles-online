@@ -167,7 +167,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).back(request)
 
-      result.futureValue.header.headers.get(LOCATION) should equal(Some("/disposal-of-vehicle/setup-trade-details"))
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
     }
 
     "redirect to MicroserviceError when microservice throws" in new WithApplication {
