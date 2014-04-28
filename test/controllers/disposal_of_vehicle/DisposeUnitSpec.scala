@@ -122,6 +122,22 @@ class DisposeUnitSpec extends UnitSpec {
       }
     }
 
+    ">>> redirect to micro-service error page when calling webservice throws exception" in new WithApplication {
+      CacheSetup.businessChooseYourAddress().
+        vehicleDetailsModel().
+        vehicleLookupFormModel()
+
+      val disposeResponseThrows = mock[(Int, Option[DisposeResponse])]
+      val mockWebServiceThrows = mock[DisposeService]
+      when(mockWebServiceThrows.invoke(any[DisposeRequest])).thenReturn(Future.failed(new RuntimeException))
+      val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateServiceStubbed())
+      val request = buildCorrectlyPopulatedRequest
+      val result = dispose.submit(request)
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
+    }
+
     "redirect to soap endpoint error page when service is unavailable" in new WithApplication {
       val disposeFailure = {
         val ws = mock[DisposeWebService]
@@ -195,6 +211,26 @@ class DisposeUnitSpec extends UnitSpec {
     }
   }
 
+    "redirect to error page when undefined error is returned" in new WithApplication {
+      val disposeFailure = {
+        val ws = mock[DisposeWebService]
+        when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
+          val responseAsJson = Json.toJson(disposeResponseUndefinedError)
+          new FakeResponse(status = OK, fakeJson = Some(responseAsJson))
+        })
+        val disposeServiceImpl = new DisposeServiceImpl(ws)
+        new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
+      }
+
+      cacheSetup()
+
+      val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
+
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
+    }
+
   private def dateServiceStubbed(day: Int = dateOfDisposalDayValid.toInt, month: Int = dateOfDisposalMonthValid.toInt, year: Int = dateOfDisposalYearValid.toInt) = {
     val dateService = mock[DateServiceImpl]
     when(dateService.today).thenReturn(new models.DayMonthYear(day = day,
@@ -230,4 +266,5 @@ class DisposeUnitSpec extends UnitSpec {
       vehicleDetailsModel().
       disposeModel()
   }
+
 }
