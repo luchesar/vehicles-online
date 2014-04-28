@@ -16,6 +16,7 @@ object VehicleLookupFailure extends Controller {
             case _ => "disposal_vehiclelookupfailure.p1"
           }
         }
+        clearVehicleLookupResponseCodeFromCache
         Ok(views.html.disposal_of_vehicle.vehicle_lookup_failure(vehicleLookUpFormModelDetails, responseCodeErrorMessage))
       }
       case _ => Redirect(routes.SetUpTradeDetails.present)

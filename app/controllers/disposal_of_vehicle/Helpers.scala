@@ -102,4 +102,6 @@ object Helpers {
   def fetchDisposeTransactionTimestampInCache: Option[String] = Cache.getAs[String](disposeFormTimestampIdCacheKey)
 
   def fetchDisposeRegistrationNumberFromCache: Option[String] = Cache.getAs[String](disposeFormRegistrationNumberCacheKey)
+
+  def clearVehicleLookupResponseCodeFromCache() = Cache.remove(vehicleLookupResponseCodeCacheKey)
 }

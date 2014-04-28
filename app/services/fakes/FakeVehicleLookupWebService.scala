@@ -42,23 +42,23 @@ object FakeVehicleLookupWebService {
     vehicleMake = vehicleMakeValid,
     vehicleModel = vehicleModelValid)
 
-  val vehicleDetailsResponseSuccess : (Int, VehicleDetailsResponse) = {
-    (OK,
-     VehicleDetailsResponse(responseCode = None, vehicleDetailsDto = Some(vehicleDetails)))
+  val vehicleDetailsResponseSuccess : (Int, Option[VehicleDetailsResponse]) = {
+    (OK, Some(VehicleDetailsResponse(responseCode = None, vehicleDetailsDto = Some(vehicleDetails))))
   }
 
-  val vehicleDetailsResponseVRMNotFound : (Int, VehicleDetailsResponse) = {
-    (OK,
-    VehicleDetailsResponse(responseCode = Some("vehicle_lookup_vrm_not_found"),vehicleDetailsDto = None))
+  val vehicleDetailsResponseVRMNotFound : (Int, Option[VehicleDetailsResponse]) = {
+    (OK, Some(VehicleDetailsResponse(responseCode = Some("vehicle_lookup_vrm_not_found"),vehicleDetailsDto = None)))
   }
 
-  val vehicleDetailsResponseDocRefNumberNotLatest : (Int, VehicleDetailsResponse) = {
-    (OK,
-    VehicleDetailsResponse(responseCode = Some("vehicle_lookup_document_record_mismatch"), vehicleDetailsDto = None))
+  val vehicleDetailsResponseDocRefNumberNotLatest : (Int, Option[VehicleDetailsResponse]) = {
+    (OK, Some(VehicleDetailsResponse(responseCode = Some("vehicle_lookup_document_record_mismatch"), vehicleDetailsDto = None)))
   }
 
-  val vehicleDetailsResponseNotFoundResponseCode : (Int, VehicleDetailsResponse) = {
-    (OK,
-    VehicleDetailsResponse(responseCode = None, vehicleDetailsDto = None))
+  val vehicleDetailsResponseNotFoundResponseCode : (Int, Option[VehicleDetailsResponse]) = {
+    (OK,Some(VehicleDetailsResponse(responseCode = None, vehicleDetailsDto = None)))
+  }
+
+  val vehicleDetailsServerDown : (Int, Option[VehicleDetailsResponse]) = {
+    (SERVICE_UNAVAILABLE, None)
   }
 }

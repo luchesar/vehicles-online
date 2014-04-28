@@ -280,11 +280,11 @@ disposal_disposeconfirmation.survey = Arolwg
 
 disposal_vehiclelookupfailure.title = Cael gwared cerbyd i mewn i''r fasnach foduron: methiant Gwrthdro-edrych gerbyd
 disposal_vehiclelookupfailure.name = Methiant
-disposal_vehiclelookupfailure.p1 = Nid yw wedi bod yn bosibl i ddod o hyd cerbyd hwn. Os gwelwch yn dda ceisiwch eto
+disposal_vehiclelookupfailure.p1 = WELSH The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
 disposal_vehiclelookupfailure.button = Am-edrych gerbyd
 disposal_disposefailure.button2 = Setup Newydd Manylion Masnachwr
 disposal_disposefailure.transactionid = {0}
-vehicle_lookup_vrm_not_found = WELSH There is no record for this Vehicle Registration Mark. Please try again, or send a completed V5C to DVLA
+vehicle_lookup_vrm_not_found = WELSH There is no record for this Vehicle Registration Mark. Please try again, or send a completed V5C/3 to DVLA
 vehicle_lookup_document_reference_mismatch = WELSH This is not the latest Document Reference Number for the vehicle. Please try again, or send a completed V5C/3 to DVLA
 
 #widget messages

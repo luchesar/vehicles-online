@@ -65,18 +65,36 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
   }
 
   private def lookupVehicle(webService: VehicleLookupService, model: VehicleLookupFormModel): Future[SimpleResult] = {
+
     webService.invoke(buildMicroServiceRequest(model)).map { response =>
       Logger.debug(s"VehicleLookup Web service call successful - response = $response")
       // TODO Don't save these two models, instead we need a combined model that has what the user entered into the form plus the micro-service response.
       storeVehicleLookupFormModelInCache(model)
-      if ((response.responseCode == None) && (response.vehicleDetailsDto.isDefined)) {
-        storeVehicleDetailsInCache(VehicleDetailsModel.fromDto(response.vehicleDetailsDto.get))
-        Redirect(routes.Dispose.present)
+
+    response._1 match {
+      case OK => response._2 match {
+        case Some(r) => r.responseCode match {
+          case Some(rc) => {
+            storeVehicleLookupResponseCodeInCache(rc)
+            Redirect (routes.VehicleLookupFailure.present)
+          }
+          case None => r.vehicleDetailsDto match {
+            case Some(dto) => {
+              storeVehicleDetailsInCache(VehicleDetailsModel.fromDto(dto))
+              Redirect (routes.Dispose.present)
+            }
+            case None => {
+              Redirect(routes.MicroServiceError.present)
+            }
+          }
+        }
+        case _ => { //ToDo revisit case _, may not be required however warnings are produced if removed
+          Redirect(routes.MicroServiceError.present)
+        }
       }
-      else {
-        if (response.responseCode.isDefined) storeVehicleLookupResponseCodeInCache(response.responseCode.get)
-        Redirect(routes.VehicleLookupFailure.present)
-      }
+      case _ => Redirect(routes.VehicleLookupFailure.present)
+    }
+
     }.recover {
       case e: Throwable => {
         Logger.debug(s"Web service call failed. Exception: $e")
