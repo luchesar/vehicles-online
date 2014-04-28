@@ -42,13 +42,6 @@ object FakeDisposeWebServiceImpl {
       registrationNumber = registrationNumberValid,
       auditId = auditIdValid)
 
-  val disposeResponseFailure =
-    DisposeResponse(message = "Fake Web Dispose Service - Bad response",
-      transactionId = transactionIdValid, // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
-      registrationNumber = "",
-      auditId = "",
-      responseCode = Some("broken"))
-
   val disposeResponseSoapEndpointFailure =
     DisposeResponse(message = "Fake Web Dispose Service - Bad response - Soap endpoint down",
       transactionId = "", // No transactionId because the soap endpoint is down
@@ -56,26 +49,26 @@ object FakeDisposeWebServiceImpl {
       auditId = "",
       responseCode = None)
 
-  val disposeResponseWithResponseCode =
+  val disposeResponseFailureWithResponseCode =
     DisposeResponse(message = "Fake Web Dispose Service - Bad response",
       transactionId = transactionIdValid, // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
       registrationNumber = "",
       auditId = "",
-      responseCode = Some("test response code"))
+      responseCode = Some("ms.vehiclesService.response.unableToProcessApplication"))
 
   val disposeResponseSoapEndpointTimeout =
     DisposeResponse(message = "Fake Web Dispose Service - Bad response - Soap endpoint timeout",
       transactionId = "", // No transactionId because the soap endpoint is down
       registrationNumber = "",
       auditId = "",
-      responseCode = Some("ms.dispose.response.endpointtimeout"))
+      responseCode = None)
 
   val disposeResponseApplicationBeingProcessed =
     DisposeResponse(message = "Fake Web Dispose Service - Good response",
       transactionId = transactionIdValid,
       registrationNumber = registrationNumberValid,
       auditId = auditIdValid,
-      responseCode = Some("ms.vehiclesService.response.applicationBeingProcessed"))
+      responseCode = None)
 
   val disposeResponseUnableToProcessApplication =
     DisposeResponse(message = "Fake Web Dispose Service - Bad response - Soap endpoint timeout",

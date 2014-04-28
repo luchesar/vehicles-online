@@ -51,12 +51,11 @@ class DisposeUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to micro-service error page when unsuccessful and response code is returned" in new WithApplication {
+    "redirect to micro-service error page when an unexpected error occurs" in new WithApplication {
       val disposeFailure = {
         val ws = mock[DisposeWebService]
         when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
-          val responseAsJson = Json.toJson(disposeResponseFailure)
-          new FakeResponse(status = OK, fakeJson = Some(responseAsJson))
+          new FakeResponse(status = INTERNAL_SERVER_ERROR)
         })
         val disposeServiceImpl = new DisposeServiceImpl(ws)
         new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
@@ -65,17 +64,8 @@ class DisposeUnitSpec extends UnitSpec {
       cacheSetup()
 
       val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
-
-      // Verify that the transaction id is now stored in the cache
       whenReady(result) {
-        r => {
-          r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-          controllers.disposal_of_vehicle.Helpers.fetchDisposeTransactionIdFromCache match {
-            case Some(txId) =>
-              txId should equal(FakeDisposeWebServiceImpl.transactionIdValid)
-            case _ => fail("Should have found transaction id in the cache")
-          }
-        }
+        r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
 
@@ -132,12 +122,11 @@ class DisposeUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to soap endpoint error page when unsuccessful and response code says soap endpoint is down" in new WithApplication {
+    "redirect to soap endpoint error page when service is unavailable" in new WithApplication {
       val disposeFailure = {
         val ws = mock[DisposeWebService]
         when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
-          val responseAsJson = Json.toJson(disposeResponseSoapEndpointFailure)
-          new FakeResponse(status = SERVICE_UNAVAILABLE, fakeJson = Some(responseAsJson))
+          new FakeResponse(status = SERVICE_UNAVAILABLE)
         })
         val disposeServiceImpl = new DisposeServiceImpl(ws)
         new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
@@ -148,48 +137,6 @@ class DisposeUnitSpec extends UnitSpec {
       val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SoapEndpointErrorPage.address))
-      }
-    }
-
-    "redirect to micro-service error page when unsuccessful and any response code that is not soap endpoint down" in new WithApplication {
-      val disposeFailure = {
-        val ws = mock[DisposeWebService]
-        when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
-          val responseAsJson = Json.toJson(disposeResponseWithResponseCode)
-          new FakeResponse(status = OK, fakeJson = Some(responseAsJson))
-        })
-        val disposeServiceImpl = new DisposeServiceImpl(ws)
-        new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
-      }
-
-      cacheSetup()
-
-      val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-      }
-    }
-
-    "redirect to Soap endpoint error page when endpoint timeout" in new WithApplication {
-      val disposeFailure = {
-        val ws = mock[DisposeWebService]
-        when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
-          val responseAsJson = Json.toJson(disposeResponseSoapEndpointTimeout)
-          new FakeResponse(status = OK, fakeJson = Some(responseAsJson))
-        })
-        val disposeServiceImpl = new DisposeServiceImpl(ws)
-        new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
-      }
-
-      cacheSetup()
-
-      val result = disposeFailure.submit(buildCorrectlyPopulatedRequest)
-
-      // Verify that the transaction id is now stored in the cache
-      whenReady(result) {
-        r => {
-          r.header.headers.get(LOCATION) should equal(Some(SoapEndpointErrorPage.address))
-        }
       }
     }
 
@@ -224,7 +171,7 @@ class DisposeUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to Soap endpoint error page when unableToProcessApplication" in new WithApplication {
+    "redirect to dispose failure page when unableToProcessApplication" in new WithApplication {
       val disposeFailure = {
         val ws = mock[DisposeWebService]
         when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {

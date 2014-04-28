@@ -1,6 +1,7 @@
 package services.dispose_service
 
 import play.api.Logger
+import play.api.http.Status._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.Config
@@ -16,7 +17,12 @@ class DisposeServiceImpl @Inject()(ws: DisposeWebService) extends DisposeService
     ws.callDisposeService(cmd).map {
       resp =>
         Logger.debug(s"Http response code from dispose vehicle micro-service was: ${resp.status}")
-        (resp.status, Option(resp.json.as[DisposeResponse]))
+
+        if (resp.status == OK){
+          (resp.status, Option(resp.json.as[DisposeResponse])) 
+        } else {
+           (resp.status, None)
+        }
     }
   }
 }
