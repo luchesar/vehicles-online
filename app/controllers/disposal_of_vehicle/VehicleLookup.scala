@@ -4,21 +4,20 @@ import play.api.mvc._
 import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import play.api.Logger
-import mappings.common.{ReferenceNumber, RegistrationNumber, Consent}
+import mappings.common.{ReferenceNumber, RegistrationNumber}
 import ReferenceNumber._
 import RegistrationNumber._
 import mappings.disposal_of_vehicle.VehicleLookup._
-import Consent._
-import models.domain.disposal_of_vehicle.{VehicleDetailsDto, VehicleDetailsRequest, VehicleDetailsModel, VehicleLookupFormModel}
+import models.domain.disposal_of_vehicle.{VehicleDetailsRequest, VehicleDetailsModel, VehicleLookupFormModel}
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import com.google.inject.Inject
-import controllers.disposal_of_vehicle.Helpers._
-import controllers.disposal_of_vehicle.Helpers.{storeVehicleDetailsInCache, storeVehicleLookupFormModelInCache}
 import services.vehicle_lookup.VehicleLookupService
 import utils.helpers.FormExtensions._
 
-class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controller {
+class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webService: VehicleLookupService) extends Controller {
+
+  import sessionState._
 
   val vehicleLookupForm = Form(
     mapping(

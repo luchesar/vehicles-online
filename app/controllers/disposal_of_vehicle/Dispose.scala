@@ -1,6 +1,6 @@
 package controllers.disposal_of_vehicle
 
-import play.api.data.{Form}
+import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
 import play.api.mvc._
@@ -10,15 +10,13 @@ import mappings.common.DayMonthYear.dayMonthYear
 import mappings.common.Consent._
 import constraints.common
 import common.DayMonthYear._
-import controllers.disposal_of_vehicle.Helpers._
 import models.domain.disposal_of_vehicle._
 import com.google.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.FormExtensions._
-import models.domain.disposal_of_vehicle.DisposeFormModel
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
-import org.joda.time.format.{ISODateTimeFormat}
+import org.joda.time.format.ISODateTimeFormat
 import services.dispose_service.DisposeService
 import services.DateService
 import models.domain.disposal_of_vehicle.DisposeFormModel
@@ -31,7 +29,10 @@ import models.domain.disposal_of_vehicle.DisposeViewModel
 import mappings.disposal_of_vehicle.Dispose.dateOfDisposalYearsIntoThePast
 import scala.language.postfixOps
 
-class Dispose @Inject()(webService: DisposeService, dateService: DateService) extends Controller {
+class Dispose @Inject()(sessionState: DisposalOfVehicleSessionState, webService: DisposeService, dateService: DateService) extends Controller {
+
+  import sessionState._
+
   val disposeForm = Form(
     mapping(
       mileageId -> mileage(),

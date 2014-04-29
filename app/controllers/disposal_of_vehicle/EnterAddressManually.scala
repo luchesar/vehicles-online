@@ -5,11 +5,14 @@ import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import play.api.Logger
 import mappings.common.AddressAndPostcode._
-import controllers.disposal_of_vehicle.Helpers._
 import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
 import utils.helpers.FormExtensions._
+import com.google.inject.Inject
 
-object EnterAddressManually extends Controller {
+class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState) extends Controller {
+
+  import sessionState._
+
   val form = Form(
     mapping(
       addressAndPostcodeId -> addressAndPostcode
