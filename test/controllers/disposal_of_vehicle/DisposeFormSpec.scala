@@ -17,6 +17,7 @@ import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import mappings.common.DayMonthYear._
 import mappings.common.Mileage
+import services.session.PlaySessionState
 
 class DisposeFormSpec extends UnitSpec {
 
@@ -142,7 +143,7 @@ class DisposeFormSpec extends UnitSpec {
       new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
     })
     val disposeServiceImpl = new DisposeServiceImpl(ws)
-    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService)
+    new disposal_of_vehicle.Dispose(newSessionState, disposeServiceImpl, dateService)
   }
 
   private def formWithValidDefaults(mileage: String = mileageValid,
@@ -163,5 +164,10 @@ class DisposeFormSpec extends UnitSpec {
         lossOfRegistrationConsentId -> lossOfRegistrationConsent
       )
     )
+  }
+
+  private def newSessionState = {
+    val sessionState = new PlaySessionState()
+    new DisposalOfVehicleSessionState(sessionState)
   }
 }

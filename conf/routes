@@ -17,20 +17,20 @@ GET         /assets/*file                   controllers.Assets.at(path="/public"
 
 #page 1 - Before You Start (GET request not POST on submission because we are not posting any data)
 GET         /                                                   controllers.Application.index
-GET         /disposal-of-vehicle/before-you-start               controllers.disposal_of_vehicle.BeforeYouStart.present
-POST        /disposal-of-vehicle/before-you-start               controllers.disposal_of_vehicle.BeforeYouStart.submit
+GET         /disposal-of-vehicle/before-you-start               @controllers.disposal_of_vehicle.BeforeYouStart.present
+POST        /disposal-of-vehicle/before-you-start               @controllers.disposal_of_vehicle.BeforeYouStart.submit
 
 #page 2 - setup-trade-details
-GET         /disposal-of-vehicle/setup-trade-details            controllers.disposal_of_vehicle.SetUpTradeDetails.present
-POST        /disposal-of-vehicle/setup-trade-details            controllers.disposal_of_vehicle.SetUpTradeDetails.submit
+GET         /disposal-of-vehicle/setup-trade-details            @controllers.disposal_of_vehicle.SetUpTradeDetails.present
+POST        /disposal-of-vehicle/setup-trade-details            @controllers.disposal_of_vehicle.SetUpTradeDetails.submit
 
 #page 3 - business choose your address
 GET         /disposal-of-vehicle/business-choose-your-address   @controllers.disposal_of_vehicle.BusinessChooseYourAddress.present
 POST        /disposal-of-vehicle/business-choose-your-address   @controllers.disposal_of_vehicle.BusinessChooseYourAddress.submit
 
 #page 4 [optional] - enter address manually
-GET         /disposal-of-vehicle/enter-address-manually         controllers.disposal_of_vehicle.EnterAddressManually.present
-POST        /disposal-of-vehicle/enter-address-manually         controllers.disposal_of_vehicle.EnterAddressManually.submit
+GET         /disposal-of-vehicle/enter-address-manually         @controllers.disposal_of_vehicle.EnterAddressManually.present
+POST        /disposal-of-vehicle/enter-address-manually         @controllers.disposal_of_vehicle.EnterAddressManually.submit
 
 GET         /disposal-of-vehicle/vehicle-lookup                 @controllers.disposal_of_vehicle.VehicleLookup.present
 POST        /disposal-of-vehicle/vehicle-lookup                 @controllers.disposal_of_vehicle.VehicleLookup.submit
@@ -39,16 +39,16 @@ GET         /disposal-of-vehicle/vehicle-lookup-back            @controllers.dis
 GET         /disposal-of-vehicle/dispose                        @controllers.disposal_of_vehicle.Dispose.present
 POST        /disposal-of-vehicle/dispose                        @controllers.disposal_of_vehicle.Dispose.submit
 
-GET         /disposal-of-vehicle/dispose-success                controllers.disposal_of_vehicle.DisposeSuccess.present
-POST        /disposal-of-vehicle/dispose-success                controllers.disposal_of_vehicle.DisposeSuccess.submit
+GET         /disposal-of-vehicle/dispose-success                @controllers.disposal_of_vehicle.DisposeSuccess.present
+POST        /disposal-of-vehicle/dispose-success                @controllers.disposal_of_vehicle.DisposeSuccess.submit
 
-GET         /disposal-of-vehicle/dispose-failure                controllers.disposal_of_vehicle.DisposeFailure.present
-POST        /disposal-of-vehicle/dispose-failure                controllers.disposal_of_vehicle.DisposeFailure.submit
+GET         /disposal-of-vehicle/dispose-failure                @controllers.disposal_of_vehicle.DisposeFailure.present
+POST        /disposal-of-vehicle/dispose-failure                @controllers.disposal_of_vehicle.DisposeFailure.submit
 
-GET         /disposal-of-vehicle/vehicle-lookup-failure         controllers.disposal_of_vehicle.VehicleLookupFailure.present
-POST        /disposal-of-vehicle/vehicle-lookup-failure         controllers.disposal_of_vehicle.VehicleLookupFailure.submit
+GET         /disposal-of-vehicle/vehicle-lookup-failure         @controllers.disposal_of_vehicle.VehicleLookupFailure.present
+POST        /disposal-of-vehicle/vehicle-lookup-failure         @controllers.disposal_of_vehicle.VehicleLookupFailure.submit
 
-GET         /disposal-of-vehicle/uprn-not-found                 controllers.disposal_of_vehicle.UprnNotFound.present
+GET         /disposal-of-vehicle/uprn-not-found                 @controllers.disposal_of_vehicle.UprnNotFound.present
 
-GET         /disposal-of-vehicle/micro-service-error            controllers.disposal_of_vehicle.MicroServiceError.present
-GET         /disposal-of-vehicle/soap-endpoint-error            controllers.disposal_of_vehicle.SoapEndpointError.present
+GET         /disposal-of-vehicle/micro-service-error            @controllers.disposal_of_vehicle.MicroServiceError.present
+GET         /disposal-of-vehicle/soap-endpoint-error            @controllers.disposal_of_vehicle.SoapEndpointError.present

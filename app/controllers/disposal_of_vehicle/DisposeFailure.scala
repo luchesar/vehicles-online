@@ -1,12 +1,14 @@
 package controllers.disposal_of_vehicle
 
 import play.api.mvc._
-import controllers.disposal_of_vehicle.Helpers._
 import models.domain.disposal_of_vehicle.{DealerDetailsModel, DisposeViewModel, VehicleDetailsModel}
 import scala.Some
 import play.api.Logger
+import com.google.inject.Inject
 
-object DisposeFailure extends Controller {
+class DisposeFailure @Inject()(sessionState: DisposalOfVehicleSessionState) extends Controller {
+
+  import sessionState._
 
   def present = Action { implicit request =>
     (fetchDealerDetailsFromCache, fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache, fetchDisposeTransactionIdFromCache) match {

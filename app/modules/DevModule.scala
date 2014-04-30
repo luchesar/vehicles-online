@@ -7,6 +7,7 @@ import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebServiceImpl, VehicleLookupWebService}
 import services.dispose_service.{DisposeWebServiceImpl, DisposeWebService, DisposeServiceImpl, DisposeService}
 import services.{DateServiceImpl, DateService}
+import services.session.{PlaySessionState, SessionState}
 
 /**
  * Provides real implementations of traits
@@ -31,6 +32,7 @@ object DevModule extends ScalaModule {
     bind[DisposeWebService].to[DisposeWebServiceImpl].asEagerSingleton()
     bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton()
     bind[DateService].to[DateServiceImpl].asEagerSingleton()
+    bind[SessionState].to[PlaySessionState].asEagerSingleton()
   }
 
   private def ordnanceSurveyAddressLookup() = {

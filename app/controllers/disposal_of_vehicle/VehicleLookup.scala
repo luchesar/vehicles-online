@@ -4,21 +4,20 @@ import play.api.mvc._
 import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import play.api.Logger
-import mappings.common.{ReferenceNumber, RegistrationNumber, Consent}
+import mappings.common.{ReferenceNumber, RegistrationNumber}
 import ReferenceNumber._
 import RegistrationNumber._
 import mappings.disposal_of_vehicle.VehicleLookup._
-import Consent._
 import models.domain.disposal_of_vehicle.{VehicleDetailsDto, VehicleDetailsRequest, VehicleDetailsModel, VehicleLookupFormModel}
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import com.google.inject.Inject
-import controllers.disposal_of_vehicle.Helpers._
-import controllers.disposal_of_vehicle.Helpers.{storeVehicleDetailsInCache, storeVehicleLookupFormModelInCache}
 import services.vehicle_lookup.VehicleLookupService
 import utils.helpers.FormExtensions._
 
-class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controller {
+class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webService: VehicleLookupService) extends Controller {
+
+  import sessionState._
 
   val vehicleLookupForm = Form(
     mapping(
@@ -93,7 +92,6 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
   private def buildMicroServiceRequest(formModel: VehicleLookupFormModel): VehicleDetailsRequest = {
     VehicleDetailsRequest(referenceNumber = formModel.referenceNumber, registrationNumber = formModel.registrationNumber)
   }
-
   private def throwToMicroServiceError(exception: Throwable) = {
     Logger.debug(s"Web service call failed. Exception: $exception")
     BadRequest("The remote server didn't like the request.")
@@ -110,3 +108,4 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
     Redirect(routes.Dispose.present)
   }
 }
+
