@@ -6,7 +6,7 @@ import play.api.data.Forms._
 object Mileage {
   val minLength = 1
   val maxLength = 6
-  val max = 999999
+  val max = 999999 // confirmed as max size by BAs
   val pattern = s"\\d{$minLength,$maxLength}" // Digits only with specified size.
   val key = "Mileage"
 

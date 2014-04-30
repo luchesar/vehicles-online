@@ -15,6 +15,5 @@ class SoapEndpointErrorUnitSpec extends UnitSpec {
         r => r.header.status should equal(OK)
       }
     }
-
   }
 }
