@@ -8,12 +8,16 @@ import mappings.common.{ReferenceNumber, RegistrationNumber}
 import ReferenceNumber._
 import RegistrationNumber._
 import mappings.disposal_of_vehicle.VehicleLookup._
-import models.domain.disposal_of_vehicle.{VehicleDetailsDto, VehicleDetailsRequest, VehicleDetailsModel, VehicleLookupFormModel}
+import models.domain.disposal_of_vehicle._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import com.google.inject.Inject
 import services.vehicle_lookup.VehicleLookupService
 import utils.helpers.FormExtensions._
+import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import play.api.data.FormError
+import scala.Some
+import play.api.mvc.SimpleResult
 
 class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webService: VehicleLookupService) extends Controller {
 
@@ -67,12 +71,12 @@ class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webSe
 
   private def lookupVehicle(webService: VehicleLookupService, model: VehicleLookupFormModel): Future[SimpleResult] = {
     webService.invoke(buildMicroServiceRequest(model)).map {
-      response =>
+      case (responseStatus: Int, response: Option[VehicleDetailsResponse]) =>
         Logger.debug(s"VehicleLookup Web service call successful - response = $response")
         storeVehicleLookupFormModelInCache(model) // TODO Don't save these two models, instead we need a combined model that has what the user entered into the form plus the micro-service response.
 
-        response._1 match {
-          case OK => response._2 match {
+        responseStatus match {
+          case OK => response match {
             case Some(response) => response.responseCode match {
               case Some(responseCode) => vehicleLookupFailurePageWithResponseCode(responseCode)
               case None => response.vehicleDetailsDto match {
