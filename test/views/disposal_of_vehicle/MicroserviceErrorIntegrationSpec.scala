@@ -18,7 +18,7 @@ class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
       assert(page.title equals MicroServiceErrorPage.title)
     }
 
-    "go to vehiclelookup when try again is clicked" in new WebBrowser {
+    "redirect to vehiclelookup when try again is clicked" in new WebBrowser {
       cacheSetup(newSessionState.inner)
       go to MicroServiceErrorPage
 
@@ -27,7 +27,15 @@ class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
       assert(page.title equals VehicleLookupPage.title)
     }
 
-    "go to beforeyoustart when exit is clicked" in new WebBrowser {
+    "redirect to setuptradedetails when no details are cachd and try again is click" in new WebBrowser {
+      go to MicroServiceErrorPage
+
+      click on tryAgain
+
+      assert(page.title equals SetupTradeDetailsPage.title)
+    }
+
+    "redirect to beforeyoustart when exit is clicked" in new WebBrowser {
       cacheSetup(newSessionState.inner)
       go to MicroServiceErrorPage
 
