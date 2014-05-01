@@ -61,4 +61,8 @@ object FakeVehicleLookupWebService {
   val vehicleDetailsServerDown : (Int, Option[VehicleDetailsResponse]) = {
     (SERVICE_UNAVAILABLE, None)
   }
+
+  val vehicleDetailsNoResponse : (Int, Option[VehicleDetailsResponse]) = {
+    (OK, None)
+  }
 }
