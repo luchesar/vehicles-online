@@ -215,6 +215,15 @@ class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
     }
 
+    "redirect to MicroServiceError after a submit if response status is Ok and no response payload" in new WithApplication {
+      val sessionState = newSessionState
+      new CacheSetup(sessionState.inner).businessChooseYourAddress()
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupResponseGenerator(sessionState, vehicleDetailsNoResponse).submit(request)
+
+      // TODO This test passes for the wrong reason, it is throwing when VehicleLookupServiceImpl tries to access resp.json, whereas we want VehicleLookupServiceImpl to return None as a response payload.
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+    }
   }
 
   private def vehicleLookupResponseGenerator(sessionState: DisposalOfVehicleSessionState, fullResponse:(Int, Option[VehicleDetailsResponse])) = {

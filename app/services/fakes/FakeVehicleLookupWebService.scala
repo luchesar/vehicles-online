@@ -14,17 +14,17 @@ import scala.Some
 
 class FakeVehicleLookupWebService extends VehicleLookupWebService {
   override def callVehicleLookupService(request: VehicleDetailsRequest) = Future {
-    val vehicleDetailsResponse = {
+    val (responseStatus, response) = {
       request.referenceNumber match {
-        case "99999999991" => vehicleDetailsResponseVRMNotFound._2
-        case "99999999992" => vehicleDetailsResponseDocRefNumberNotLatest._2
-        case "99999999999" => vehicleDetailsResponseNotFoundResponseCode._2
-        case _ => vehicleDetailsResponseSuccess._2
+        case "99999999991" => vehicleDetailsResponseVRMNotFound
+        case "99999999992" => vehicleDetailsResponseDocRefNumberNotLatest
+        case "99999999999" => vehicleDetailsResponseNotFoundResponseCode
+        case _ => vehicleDetailsResponseSuccess
       }
     }
-    val responseAsJson = Json.toJson(vehicleDetailsResponse)
+    val responseAsJson = Json.toJson(response)
     //Logger.debug(s"FakeVehicleLookupWebService callVehicleLookupService with: $responseAsJson")
-    new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+    new FakeResponse(status = responseStatus, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
   }
 }
 
@@ -60,5 +60,9 @@ object FakeVehicleLookupWebService {
 
   val vehicleDetailsServerDown : (Int, Option[VehicleDetailsResponse]) = {
     (SERVICE_UNAVAILABLE, None)
+  }
+
+  val vehicleDetailsNoResponse : (Int, Option[VehicleDetailsResponse]) = {
+    (OK, None)
   }
 }
