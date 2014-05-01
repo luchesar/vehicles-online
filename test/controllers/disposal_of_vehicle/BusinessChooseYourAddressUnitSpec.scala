@@ -11,9 +11,8 @@ import services.fakes.FakeWebServiceImpl._
 import services.session.{SessionState, PlaySessionState}
 
 class BusinessChooseYourAddressUnitSpec extends UnitSpec {
-
-  "BusinessChooseYourAddress - Controller" should {
-    "present" in new WithApplication {
+  "present" should {
+    "present if dealer details cached" in new WithApplication {
       val sessionState = newSessionState
       cacheSetup(sessionState.inner)
       val request = FakeRequest().withSession()
@@ -23,6 +22,16 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       }
     }
 
+    "redirect to setupTradeDetails page when present with no dealer name cached" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = businessChooseYourAddressWithUprnFound(newSessionState).present(request)
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
+    }
+  }
+
+  "submit" should {
     "redirect to VehicleLookup page after a valid submit" in new WithApplication {
       val sessionState = newSessionState
       cacheSetup(sessionState.inner)
@@ -40,14 +49,6 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val result = businessChooseYourAddressWithUprnFound(sessionState).submit(request)
       whenReady(result) {
         r => r.header.status should equal(BAD_REQUEST)
-      }
-    }
-
-    "redirect to setupTradeDetails page when present with no dealer name cached" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest()
-      val result = businessChooseYourAddressWithUprnFound(newSessionState).present(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
 
@@ -80,8 +81,8 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   }
 
   private def businessChooseYourAddressWithFakeWebService(sessionState: DisposalOfVehicleSessionState, uprnFound: Boolean = true) = {
-    val responsePostcode = if(uprnFound) responseValidForPostcodeToAddress else responseValidForPostcodeToAddressNotFound
-    val responseUprn = if(uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
+    val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress else responseValidForPostcodeToAddressNotFound
+    val responseUprn = if (uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
     new BusinessChooseYourAddress(sessionState, addressLookupService)
