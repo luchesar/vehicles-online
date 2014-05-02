@@ -76,14 +76,18 @@ class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webSe
         storeVehicleLookupFormModelInCache(model) // TODO Don't save these two models, instead we need a combined model that has what the user entered into the form plus the micro-service response.
 
         responseStatus match {
-          case OK => response match {
-            case Some(response) => responsePresent(response)
-            case _ => Redirect(routes.MicroServiceError.present)
-          }
+          case OK => okResponse(response)
           case _ => Redirect(routes.VehicleLookupFailure.present)
         }
     }.recover {
       case exception: Throwable => throwToMicroServiceError(exception)
+    }
+  }
+
+  private def okResponse (response: Option[VehicleDetailsResponse]) = {
+    response match {
+      case Some(response) => responsePresent(response)
+      case _ => Redirect(routes.MicroServiceError.present)
     }
   }
   
