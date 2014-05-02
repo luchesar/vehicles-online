@@ -74,54 +74,53 @@ class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webSe
       case (responseStatus: Int, response: Option[VehicleDetailsResponse]) =>
         Logger.debug(s"VehicleLookup Web service call successful - response = $response")
         storeVehicleLookupFormModelInCache(model) // TODO Don't save these two models, instead we need a combined model that has what the user entered into the form plus the micro-service response.
-
-        responseStatus match {
-          case OK => okResponse(response)
-          case _ => Redirect(routes.VehicleLookupFailure.present)
-        }
+        checkResponseConstruction(responseStatus, response)
     }.recover {
       case exception: Throwable => throwToMicroServiceError(exception)
     }
   }
 
-  private def okResponse (response: Option[VehicleDetailsResponse]) = {
+  private def checkResponseConstruction(responseStatus: Int, response: Option[VehicleDetailsResponse]) = {
+    responseStatus match {
+      case OK => okResponseConstruction(response)
+      case _ => Redirect(routes.VehicleLookupFailure.present)
+    }
+  }
+
+  private def okResponseConstruction (response: Option[VehicleDetailsResponse]) = {
     response match {
-      case Some(response) => responsePresent(response)
+      case Some(response) => responseCodePresent(response)
       case _ => Redirect(routes.MicroServiceError.present)
     }
   }
   
-  private def responsePresent(response: VehicleDetailsResponse) = {
+  private def responseCodePresent(response: VehicleDetailsResponse) = {
     response.responseCode match {
-      case Some(responseCode) => vehicleLookupFailurePageWithResponseCode(responseCode)
+      case Some(responseCode) => {
+        storeVehicleLookupResponseCodeInCache(responseCode)
+        Redirect(routes.VehicleLookupFailure.present)
+      }
       case None => noResponseCodePresent(response.vehicleDetailsDto)
     }
   }
 
   private def noResponseCodePresent(vehicleDetailsDto: Option[VehicleDetailsDto]) = {
     vehicleDetailsDto match {
-      case Some(dto) => disposePageWithVehicleDetailsDto(dto)
+      case Some(dto) => {
+        storeVehicleDetailsInCache(VehicleDetailsModel.fromDto(dto))
+        Redirect(routes.Dispose.present)
+      }
       case None => Redirect(routes.MicroServiceError.present)
     }
-  }
-
-  private def vehicleLookupFailurePageWithResponseCode(responseCode: String) = {
-    storeVehicleLookupResponseCodeInCache(responseCode)
-    Redirect(routes.VehicleLookupFailure.present)
-  }
-
-  private def disposePageWithVehicleDetailsDto(dto: VehicleDetailsDto) = {
-    storeVehicleDetailsInCache(VehicleDetailsModel.fromDto(dto))
-    Redirect(routes.Dispose.present)
   }
 
   private def buildMicroServiceRequest(formModel: VehicleLookupFormModel): VehicleDetailsRequest = {
     VehicleDetailsRequest(referenceNumber = formModel.referenceNumber, registrationNumber = formModel.registrationNumber)
   }
+
   private def throwToMicroServiceError(exception: Throwable) = {
     Logger.debug(s"Web service call failed. Exception: $exception")
     BadRequest("The remote server didn't like the request.")
     Redirect(routes.MicroServiceError.present)
   }
 }
-
