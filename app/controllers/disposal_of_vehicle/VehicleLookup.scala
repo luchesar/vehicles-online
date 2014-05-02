@@ -90,20 +90,15 @@ class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webSe
   private def responsePresent(response: VehicleDetailsResponse) = {
     response.responseCode match {
       case Some(responseCode) => vehicleLookupFailurePageWithResponseCode(responseCode)
-      case None => response.vehicleDetailsDto match {
-        case Some(dto) => disposePageWithVehicleDetailsDto(dto)
-        case None => Redirect(routes.MicroServiceError.present)
-      }
+      case None => noResponseCodePresent(response.vehicleDetailsDto)
     }
   }
 
-  private def buildMicroServiceRequest(formModel: VehicleLookupFormModel): VehicleDetailsRequest = {
-    VehicleDetailsRequest(referenceNumber = formModel.referenceNumber, registrationNumber = formModel.registrationNumber)
-  }
-  private def throwToMicroServiceError(exception: Throwable) = {
-    Logger.debug(s"Web service call failed. Exception: $exception")
-    BadRequest("The remote server didn't like the request.")
-    Redirect(routes.MicroServiceError.present)
+  private def noResponseCodePresent(vehicleDetailsDto: Option[VehicleDetailsDto]) = {
+    vehicleDetailsDto match {
+      case Some(dto) => disposePageWithVehicleDetailsDto(dto)
+      case None => Redirect(routes.MicroServiceError.present)
+    }
   }
 
   private def vehicleLookupFailurePageWithResponseCode(responseCode: String) = {
@@ -114,6 +109,15 @@ class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webSe
   private def disposePageWithVehicleDetailsDto(dto: VehicleDetailsDto) = {
     storeVehicleDetailsInCache(VehicleDetailsModel.fromDto(dto))
     Redirect(routes.Dispose.present)
+  }
+
+  private def buildMicroServiceRequest(formModel: VehicleLookupFormModel): VehicleDetailsRequest = {
+    VehicleDetailsRequest(referenceNumber = formModel.referenceNumber, registrationNumber = formModel.registrationNumber)
+  }
+  private def throwToMicroServiceError(exception: Throwable) = {
+    Logger.debug(s"Web service call failed. Exception: $exception")
+    BadRequest("The remote server didn't like the request.")
+    Redirect(routes.MicroServiceError.present)
   }
 }
 
