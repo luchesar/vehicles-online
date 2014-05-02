@@ -77,19 +77,23 @@ class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webSe
 
         responseStatus match {
           case OK => response match {
-            case Some(response) => response.responseCode match {
-              case Some(responseCode) => vehicleLookupFailurePageWithResponseCode(responseCode)
-              case None => response.vehicleDetailsDto match {
-                case Some(dto) => disposePageWithVehicleDetailsDto(dto)
-                case None => Redirect(routes.MicroServiceError.present)
-              }
-            }
+            case Some(response) => responsePresent(response)
             case _ => Redirect(routes.MicroServiceError.present)
           }
           case _ => Redirect(routes.VehicleLookupFailure.present)
         }
     }.recover {
       case exception: Throwable => throwToMicroServiceError(exception)
+    }
+  }
+  
+  private def responsePresent(response: VehicleDetailsResponse) = {
+    response.responseCode match {
+      case Some(responseCode) => vehicleLookupFailurePageWithResponseCode(responseCode)
+      case None => response.vehicleDetailsDto match {
+        case Some(dto) => disposePageWithVehicleDetailsDto(dto)
+        case None => Redirect(routes.MicroServiceError.present)
+      }
     }
   }
 
