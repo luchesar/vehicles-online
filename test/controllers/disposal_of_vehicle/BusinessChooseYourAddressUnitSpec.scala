@@ -4,18 +4,17 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.CacheSetup
+import helpers.disposal_of_vehicle.CookieFactory
 import services.fakes.FakeWebServiceImpl
 import helpers.UnitSpec
 import services.fakes.FakeWebServiceImpl._
-import services.session.{SessionState, PlaySessionState}
+import services.session.PlaySessionState
 
 class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
     "present if dealer details cached" in new WithApplication {
       val sessionState = newSessionState
-      cacheSetup(sessionState.inner)
-      val request = FakeRequest().withSession()
+      val request = FakeRequest().withSession().withCookies(CookieFactory.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnFound(sessionState).present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
@@ -34,8 +33,7 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "submit" should {
     "redirect to VehicleLookup page after a valid submit" in new WithApplication {
       val sessionState = newSessionState
-      cacheSetup(sessionState.inner)
-      val request = buildCorrectlyPopulatedRequest()
+      val request = buildCorrectlyPopulatedRequest().withCookies(CookieFactory.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnFound(sessionState).submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
@@ -44,8 +42,7 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
     "return a bad request if not address selected" in new WithApplication {
       val sessionState = newSessionState
-      cacheSetup(sessionState.inner)
-      val request = buildCorrectlyPopulatedRequest(traderUprn = "")
+      val request = buildCorrectlyPopulatedRequest(traderUprn = "").withCookies(CookieFactory.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnFound(sessionState).submit(request)
       whenReady(result) {
         r => r.header.status should equal(BAD_REQUEST)
@@ -70,9 +67,8 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
     "redirect to UprnNotFound page when submit with but uprn not found by the webservice" in new WithApplication {
       val sessionState = newSessionState
-      cacheSetup(sessionState.inner)
       val businessChooseYourAddressWithUprnNotFound = businessChooseYourAddressWithFakeWebService(sessionState, uprnFound = false)
-      val request = buildCorrectlyPopulatedRequest()
+      val request = buildCorrectlyPopulatedRequest().withCookies(CookieFactory.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnNotFound.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(UprnNotFoundPage.address))
@@ -91,10 +87,6 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {
     FakeRequest().withSession().withFormUrlEncodedBody(
       addressSelectId -> traderUprn)
-  }
-
-  private def cacheSetup(sessionState: SessionState) = {
-    new CacheSetup(sessionState).setupTradeDetails()
   }
 
   private def businessChooseYourAddressWithUprnFound(sessionState: DisposalOfVehicleSessionState) =

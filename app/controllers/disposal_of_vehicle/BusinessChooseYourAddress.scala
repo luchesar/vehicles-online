@@ -12,6 +12,7 @@ import javax.inject.Inject
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 import services.address_lookup.AddressLookupService
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAdapter
 
 class BusinessChooseYourAddress @Inject()(val sessionState: DisposalOfVehicleSessionState, addressLookupService: AddressLookupService) extends Controller {
 
@@ -30,44 +31,47 @@ class BusinessChooseYourAddress @Inject()(val sessionState: DisposalOfVehicleSes
     )(BusinessChooseYourAddressModel.apply)(BusinessChooseYourAddressModel.unapply)
   )
 
-  def present = Action.async { implicit request =>
-    fetchTraderDetailsFromCache match {
-      case Some(dealerDetails) => fetchAddresses(dealerDetails).map { addresses =>
-        val f = fetchBusinessChooseYourAddressModelFromCache match {
-          case Some(cached) => form.fill(cached)
-          case None => form // Blank form.
+  def present = Action.async {
+    implicit request =>
+      request.fetchDealerDetailsFromCache match {
+        case Some(dealerDetails) =>
+          fetchAddresses(dealerDetails).map {
+            addresses =>
+              val f = fetchBusinessChooseYourAddressModelFromCache match {
+                case Some(cached) => form.fill(cached)
+                case None => form // Blank form.
+              }
+              Ok(views.html.disposal_of_vehicle.business_choose_your_address(f, dealerDetails.traderBusinessName, addresses))
+          }
+        case None => Future {
+          Redirect(routes.SetUpTradeDetails.present)
         }
-        Ok(views.html.disposal_of_vehicle.business_choose_your_address(f, dealerDetails.traderBusinessName, addresses))
       }
-      case None => Future {
-        Redirect(routes.SetUpTradeDetails.present)
-      }
-    }
   }
 
   def submit = Action.async { implicit request =>
-    form.bindFromRequest.fold(
-      formWithErrors =>
-        fetchTraderDetailsFromCache match { case Some(dealerDetails) => fetchAddresses(dealerDetails).map { addresses =>
-            BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, dealerDetails.traderBusinessName, addresses))
+      form.bindFromRequest.fold(
+        formWithErrors =>
+          request.fetchDealerDetailsFromCache match {
+            case Some(dealerDetails) => fetchAddresses(dealerDetails).map {
+              addresses => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, dealerDetails.traderBusinessName, addresses))
+            }
+            case None => Future {
+              Logger.error("Failed to find dealer details in cache for submit formWithErrors, redirecting...")
+              Redirect(routes.SetUpTradeDetails.present)
+            }
+          },
+        f =>
+          request.fetchDealerDetailsFromCache match {
+            case Some(dealerDetails) =>
+              storeBusinessChooseYourAddressModelInCache(f)
+              storeDealerDetailsInCache(f, dealerDetails.traderBusinessName) // TODO is this redundant??? Delete and test.
+            case None => Future {
+              Logger.error("Failed to find dealer details in cache on submit valid form, redirecting...")
+              Redirect(routes.SetUpTradeDetails.present)
+            }
           }
-          case None => Future {
-            Logger.debug("failed to find dealer name in cache for formWithErrors, redirecting...")
-            Redirect(routes.SetUpTradeDetails.present)
-          }
-        },
-      f =>
-        fetchTraderDetailsFromCache match {
-          case Some(dealerDetails) => {
-            storeBusinessChooseYourAddressModelInCache(f)
-            storeDealerDetailsInCache(f, dealerDetails.traderBusinessName) // TODO is this redundant??? Delete and test.
-          }
-          case None => Future {
-            Logger.debug("failed to find dealer name in cache on submit, redirecting...")
-            Redirect(routes.SetUpTradeDetails.present)
-          }
-        }
-    )
+      )
   }
 
   def storeDealerDetailsInCache(model: BusinessChooseYourAddressModel, dealerName: String) = {

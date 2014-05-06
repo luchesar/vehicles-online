@@ -8,6 +8,7 @@ import mappings.common.AddressAndPostcode._
 import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
 import utils.helpers.FormExtensions._
 import com.google.inject.Inject
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAdapter
 
 class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState) extends Controller {
 
@@ -21,7 +22,7 @@ class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState
 
   def present = Action {
     implicit request =>
-      fetchDealerNameFromCache match {
+      request.fetchDealerNameFromCache match {
         case Some(name) => Ok(views.html.disposal_of_vehicle.enter_address_manually(form))
         case None => Redirect(routes.SetUpTradeDetails.present)
       }
@@ -31,7 +32,7 @@ class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState
     implicit request => {
       form.bindFromRequest.fold(
         formWithErrors =>
-          fetchDealerNameFromCache match {
+          request.fetchDealerNameFromCache match {
             case Some(name) => {
               val updatedFormWithErrors = formWithErrors.replaceError("addressAndPostcode.addressLines.line1", "error.required", FormError("addressAndPostcode.addressLines", "error.address.line1Required"))
               BadRequest(views.html.disposal_of_vehicle.enter_address_manually(updatedFormWithErrors))}
@@ -41,7 +42,7 @@ class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState
             }
           },
         f =>
-          fetchDealerNameFromCache match {
+          request.fetchDealerNameFromCache match {
           case Some(name) => {
             storeDealerDetailsInCache(f.stripCharsNotAccepted, name)
             Redirect(routes.VehicleLookup.present)

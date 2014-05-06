@@ -9,6 +9,7 @@ import services.fakes.FakeAddressLookupService._
 import VehicleLookupPage.{happyPath, back}
 import services.session.{SessionState, PlaySessionState}
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
+import org.openqa.selenium.WebDriver
 
 class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
@@ -99,8 +100,9 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display previous page when back link is clicked with uprn present" in new WebBrowser {
+      go to BeforeYouStartPage
       new CacheSetup(newSessionState.inner)
-        .setupTradeDetails()
+        .setupTradeDetailsIntegration()
         .businessChooseYourAddress(addressWithUprn)
       go to VehicleLookupPage
 
@@ -110,6 +112,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display previous page when back link is clicked with no uprn present" in new WebBrowser {
+      go to BeforeYouStartPage
       cacheSetup(newSessionState.inner)
       go to VehicleLookupPage
 
@@ -119,9 +122,9 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  private def cacheSetup(sessionState: SessionState) = 
+  private def cacheSetup(sessionState: SessionState)(implicit webDriver: WebDriver) =
     new CacheSetup(sessionState).
-      setupTradeDetails().
+      setupTradeDetailsIntegration().
       businessChooseYourAddress()
 
   private def newSessionState = {
