@@ -11,14 +11,19 @@ import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.{FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
 import services.fakes.FakeAddressLookupService._
 import services.session.SessionState
+import org.openqa.selenium.{WebDriver, Cookie}
+import play.api.libs.json.Json
 
-class CacheSetup(sessionState: SessionState) {
+class CacheSetup(sessionState: SessionState) { // TODO setup cookies for Integration specs here.
 
-  def setupTradeDetails(traderPostcode: String = postcodeValid) = {
+  def setupTradeDetailsIntegration(traderPostcode: String = postcodeValid)(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
     val value = SetupTradeDetailsModel(traderBusinessName = traderBusinessNameValid,
       traderPostcode = traderPostcode)
-    sessionState.set(key, Some(value))
+    val valueAsString = Json.toJson(value).toString()
+    val manage = webDriver.manage()
+    val cookie = new Cookie(key, valueAsString)
+    manage.addCookie(cookie)
     this
   }
 
@@ -30,7 +35,7 @@ class CacheSetup(sessionState: SessionState) {
     this
   }
 
-  def vehicleDetailsModel(registrationNumber: String = registrationNumberValid, vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid, vehicleModel:String = vehicleModelValid, keeperName:String = keeperNameValid) = {
+  def vehicleDetailsModel(registrationNumber: String = registrationNumberValid, vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid, vehicleModel: String = vehicleModelValid, keeperName: String = keeperNameValid) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
     val value = VehicleDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
@@ -39,7 +44,7 @@ class CacheSetup(sessionState: SessionState) {
     this
   }
 
-  def vehicleLookupFormModel (referenceNumber: String = referenceNumberValid, registrationNumber: String = registrationNumberValid) = {
+  def vehicleLookupFormModel(referenceNumber: String = referenceNumberValid, registrationNumber: String = registrationNumberValid) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupFormModelCacheKey
     val value = VehicleLookupFormModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber)
@@ -57,7 +62,7 @@ class CacheSetup(sessionState: SessionState) {
     this
   }
 
-  def disposeModel(referenceNumber:String = referenceNumberValid, registrationNumber:String = registrationNumberValid, dateOfDisposal:DayMonthYear = DayMonthYear.today, mileage:Option[Int] = None) = {
+  def disposeModel(referenceNumber: String = referenceNumberValid, registrationNumber: String = registrationNumberValid, dateOfDisposal: DayMonthYear = DayMonthYear.today, mileage: Option[Int] = None) = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeModelCacheKey
     val value = DisposeModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,

@@ -7,6 +7,7 @@ import MicroServiceErrorPage.{tryAgain, exit}
 import services.session.{PlaySessionState, SessionState}
 import helpers.disposal_of_vehicle.CacheSetup
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
+import org.openqa.selenium.WebDriver
 
 class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
 
@@ -45,9 +46,9 @@ class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  private def cacheSetup(sessionState: SessionState) =
+  private def cacheSetup(sessionState: SessionState)(implicit webDriver: WebDriver) =
     new CacheSetup(sessionState).
-      setupTradeDetails().
+      setupTradeDetailsIntegration().
       businessChooseYourAddress()
 
   private def newSessionState = {

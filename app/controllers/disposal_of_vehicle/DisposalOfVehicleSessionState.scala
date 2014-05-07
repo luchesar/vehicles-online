@@ -9,6 +9,48 @@ import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import mappings.disposal_of_vehicle.DealerDetails._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.VehicleLookup._
+import play.api.mvc.{Request, Cookie, SimpleResult}
+import play.api.libs.json.{JsPath, Json}
+import play.api.data.validation.ValidationError
+import models.domain.disposal_of_vehicle.SetupTradeDetailsModel.setupTradeDetailsModelFormat
+import play.api.libs.Crypto
+import utils.helpers.CryptoHelper
+
+case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) extends Exception
+
+object DisposalOfVehicleSessionState2 { // TODO: This is the new way of doing caching. Remove old version piece by piece into the new style then rename this.
+
+  implicit class RequestAdapter[A](val request: Request[A]) extends AnyVal {
+    def fetchDealerDetailsFromCache: Option[SetupTradeDetailsModel] = request.cookies.get(CryptoHelper.encryptCookieName(SetupTradeDetailsCacheKey)) match {
+      case Some(cookie) =>
+        val decrypted = CryptoHelper.decryptCookie(cookie.value)
+        val parsed = Json.parse(decrypted)
+        val fromJson = Json.fromJson[SetupTradeDetailsModel](parsed)
+        fromJson.asEither match {
+          case Left(errors) => throw JsonValidationException(errors)
+          case Right(model) => Some(model)
+        }
+      case None => None
+    }
+
+    def fetchDealerNameFromCache: Option[String] = {
+      fetchDealerDetailsFromCache match {
+        case Some(model) => Some(model.traderBusinessName)
+        case None => None
+      }
+    }
+  }
+
+  implicit class SimpleResultAdapter(val result: SimpleResult) extends AnyVal {
+    def withTradeDetailsInCache(model: SetupTradeDetailsModel): SimpleResult = {
+      val stateAsJson = Json.toJson(model)
+      val encryptedStateAsJson = CryptoHelper.encryptCookie(stateAsJson.toString)
+      val cookie = Cookie(CryptoHelper.encryptCookieName(SetupTradeDetailsCacheKey), encryptedStateAsJson)
+      result.withCookies(cookie)
+    }
+  }
+}
+
 import services.session.SessionState
 import com.google.inject.Inject
 
@@ -76,12 +118,7 @@ class DisposalOfVehicleSessionState @Inject()(val inner: SessionState) {
     Logger.debug(s"Dispose - stored formModel in cache: key = $disposeModelCacheKey, value = $value")
   }
 
-  def fetchDealerNameFromCache: Option[String] = {
-    fetchTraderDetailsFromCache match {
-      case Some(model) => Some(model.traderBusinessName)
-      case None => None
-    }
-  }
+
 
   def fetchDealerDetailsFromCache: Option[DealerDetailsModel] = inner.get[DealerDetailsModel](dealerDetailsCacheKey)
 

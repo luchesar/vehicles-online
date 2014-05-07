@@ -1,19 +1,49 @@
 package utils.helpers
 
 import app.ConfigProperties._
-import play.api.libs.Crypto
+import play.api.libs.{Codecs, Crypto}
 import java.util.UUID
+import javax.crypto.Cipher
+import javax.crypto.spec.SecretKeySpec
+import org.apache.commons.codec.binary.Base64
+import java.nio.charset.StandardCharsets
 
 object CryptoHelper {
-  val encrypt = getProperty("encryptFields", default = true)
+  private val encryptFields = getProperty("encryptFields", default = true)
+  
+  private val encryptCookies = getProperty("encryptCookies", default = true)
 
-  val staticSecret = getProperty("staticSecret", default = false)
+  private val staticSecret = getProperty("staticSecret", default = false)
 
-  val secretKey = if (staticSecret) "1234567890123456" else generateKey
+  private val secretKey = if (staticSecret) "1234567890123456" else generateKey
 
-  def decryptAES(v: String): String = if (encrypt) Crypto.decryptAES(v, secretKey) else v
+  private def generateKey: String = UUID.randomUUID().toString.substring(0, 16)
 
-  def encryptAES(v: String) = if (encrypt) Crypto.encryptAES(v, secretKey) else v
+  private lazy val secretKeySpec = {
+    val raw = secretKey.getBytes("utf-8")
+    new SecretKeySpec(raw, "AES")
+  }
 
-  def generateKey: String = UUID.randomUUID().toString.substring(0, 16)
+  def decryptAES(cipherText: String): String = if (encryptFields) Crypto.decryptAES(cipherText, secretKey) else cipherText
+  def decryptCookie(cipherText: String): String = if (encryptCookies) decryptAESAsBase64(cipherText) else cipherText
+
+  def encryptAES(clearText: String) = if (encryptFields) Crypto.encryptAES(clearText, secretKey) else clearText
+  def encryptCookie(clearText: String) = if (encryptCookies) encryptAESAsBase64(clearText) else clearText
+  def encryptCookieName(clearText: String) = if (encryptCookies) sha1Hash(clearText) else clearText
+
+  private def sha1Hash(clearText: String): String = Codecs.sha1(clearText)
+
+  private def encryptAESAsBase64(clearText: String): String = {
+    val cipher = Cipher.getInstance("AES")
+    cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec)
+    val cipherText = cipher.doFinal(clearText.getBytes(StandardCharsets.UTF_8))
+    Base64.encodeBase64String(cipherText)
+  }
+
+  private def decryptAESAsBase64(cipherText: String): String = {
+    val cipher = Cipher.getInstance("AES")
+    cipher.init(Cipher.DECRYPT_MODE, secretKeySpec)
+    val clearTextBytes = cipher.doFinal(Base64.decodeBase64(cipherText))
+    new String(clearTextBytes, StandardCharsets.UTF_8)
+  }
 }

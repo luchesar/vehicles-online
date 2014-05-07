@@ -6,7 +6,7 @@ import controllers.disposal_of_vehicle
 import mappings.disposal_of_vehicle.Dispose._
 import models.domain.disposal_of_vehicle.{DisposeRequest, DisposeResponse}
 import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.CacheSetup
+import helpers.disposal_of_vehicle.{CookieFactory, CacheSetup}
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import helpers.UnitSpec
@@ -74,8 +74,7 @@ class DisposeUnitSpec extends UnitSpec {
 
     "redirect to setupTradeDetails page after the dispose button is clicked and no vehicleLookupFormModel is cached" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner).setupTradeDetails()
-      val request = buildCorrectlyPopulatedRequest
+      val request = buildCorrectlyPopulatedRequest.withCookies(CookieFactory.setupTradeDetails())
       val result = disposeSuccess(newSessionState).submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))

@@ -27,7 +27,8 @@ class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "go to manualaddress page after the Manual Address button is clicked and trade details have been set up in cache" in new WebBrowser {
-      new CacheSetup(newSessionState.inner).setupTradeDetails()
+      go to BeforeYouStartPage
+      new CacheSetup(newSessionState.inner).setupTradeDetailsIntegration()
       go to UprnNotFoundPage
 
       click on manualAddress
