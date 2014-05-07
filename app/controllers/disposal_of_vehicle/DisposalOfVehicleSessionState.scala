@@ -85,11 +85,6 @@ class DisposalOfVehicleSessionState @Inject()(val inner: SessionState) {
     Logger.debug(s"SetUpTradeDetails stored data in cache: key = $SetupTradeDetailsCacheKey, value = ${f}")
   }
 
-  def storeVehicleDetailsInCache(model: VehicleDetailsModel) = {
-    inner.set(vehicleLookupDetailsCacheKey, Some(model))
-    Logger.debug(s"VehicleLookup page - stored vehicle details object in cache: key = $vehicleLookupDetailsCacheKey, value = ${model}")
-  }
-
   def storeDisposeFormModelInCache(value: DisposeFormModel) = {
     inner.set(disposeFormModelCacheKey, Some(value))
     Logger.debug(s"Dispose - stored disposeFromModel in cache: key = $disposeFormModelCacheKey, value = $value")

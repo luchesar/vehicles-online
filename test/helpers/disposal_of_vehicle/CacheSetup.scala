@@ -48,16 +48,19 @@ class CacheSetup(sessionState: SessionState) { // TODO setup cookies for Integra
     manage.addCookie(cookie)
     this
   }
-  
-  
-  
 
-  def vehicleDetailsModel(registrationNumber: String = registrationNumberValid, vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid, vehicleModel: String = vehicleModelValid, keeperName: String = keeperNameValid) = {
+  def vehicleDetailsModelIntegration(registrationNumber: String = registrationNumberValid,
+                                     vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid,
+                                     vehicleModel: String = vehicleModelValid,
+                                     keeperName: String = keeperNameValid)(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
     val value = VehicleDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel)
-    sessionState.set(key, Some(value))
+    val valueAsString = Json.toJson(value).toString()
+    val manage = webDriver.manage()
+    val cookie = new Cookie(key, valueAsString)
+    manage.addCookie(cookie)
     this
   }
 

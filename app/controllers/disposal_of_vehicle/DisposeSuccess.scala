@@ -11,7 +11,7 @@ class DisposeSuccess @Inject()(sessionState: DisposalOfVehicleSessionState) exte
   import sessionState._
 
   def present = Action { implicit request =>
-    (request.fetch[DealerDetailsModel], fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache, fetchDisposeTransactionIdFromCache, fetchDisposeRegistrationNumberFromCache) match {
+    (request.fetch[DealerDetailsModel], fetchDisposeFormModelFromCache, request.fetch[VehicleDetailsModel], fetchDisposeTransactionIdFromCache, fetchDisposeRegistrationNumberFromCache) match {
       case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId), Some(registrationNumber)) =>
         val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId), registrationNumber)
         Ok(views.html.disposal_of_vehicle.dispose_success(disposeModel, disposeFormModel))
@@ -20,7 +20,7 @@ class DisposeSuccess @Inject()(sessionState: DisposalOfVehicleSessionState) exte
   }
 
   def submit = Action { implicit request =>
-    (request.fetch[DealerDetailsModel], fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache) match {
+    (request.fetch[DealerDetailsModel], fetchDisposeFormModelFromCache, request.fetch[VehicleDetailsModel]) match {
       case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present)
       case _ => Redirect(routes.SetUpTradeDetails.present)
     }

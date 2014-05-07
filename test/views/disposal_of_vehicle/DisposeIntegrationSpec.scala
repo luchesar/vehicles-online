@@ -56,7 +56,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     "redirect when no businessChooseYourAddress is cached" in new WebBrowser {
       go to BeforeYouStartPage
       new CacheSetup(newSessionState.inner).
-        vehicleDetailsModel()
+        vehicleDetailsModelIntegration()
 
       go to DisposePage
 
@@ -125,7 +125,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
   private def cacheSetup(sessionState: SessionState)(implicit webDriver: WebDriver) = {
     new CacheSetup(sessionState).
       dealerDetailsIntegration().
-      vehicleDetailsModel()
+      vehicleDetailsModelIntegration()
   }
 
   private def newSessionState = {

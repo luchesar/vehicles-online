@@ -51,7 +51,7 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
   private def cacheSetup(sessionState: SessionState)(implicit webDriver: WebDriver) =
     new CacheSetup(sessionState).
       dealerDetailsIntegration().
-      vehicleDetailsModel().
+      vehicleDetailsModelIntegration().
       disposeFormModel().
       disposeTransactionId().
       vehicleRegistrationNumber()

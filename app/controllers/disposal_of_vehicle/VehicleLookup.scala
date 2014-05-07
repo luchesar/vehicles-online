@@ -107,10 +107,9 @@ class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webSe
 
   private def noResponseCodePresent(vehicleDetailsDto: Option[VehicleDetailsDto]) = {
     vehicleDetailsDto match {
-      case Some(dto) => {
-        storeVehicleDetailsInCache(VehicleDetailsModel.fromDto(dto))
-        Redirect(routes.Dispose.present)
-      }
+      case Some(dto) =>
+        Redirect(routes.Dispose.present).
+          withCookie(VehicleDetailsModel.fromDto(dto))
       case None => Redirect(routes.MicroServiceError.present)
     }
   }

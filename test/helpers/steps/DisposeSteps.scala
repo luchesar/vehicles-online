@@ -22,7 +22,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
-      .vehicleDetailsModel()
+      .vehicleDetailsModelIntegration()
       .vehicleLookupFormModelIntegration()
 
     go to DisposePage
@@ -39,7 +39,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
-      .vehicleDetailsModel()
+      .vehicleDetailsModelIntegration()
       .vehicleLookupFormModelIntegration()
 
     go to DisposePage
@@ -55,7 +55,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
-      .vehicleDetailsModel()
+      .vehicleDetailsModelIntegration()
       .vehicleLookupFormModelIntegration()
 
     go to DisposePage
@@ -72,7 +72,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
-      .vehicleDetailsModel()
+      .vehicleDetailsModelIntegration()
       .vehicleLookupFormModelIntegration()
 
     go to DisposePage
@@ -88,7 +88,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
-      .vehicleDetailsModel()
+      .vehicleDetailsModelIntegration()
       .vehicleLookupFormModelIntegration()
 
     go to DisposePage
@@ -105,7 +105,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
-      .vehicleDetailsModel()
+      .vehicleDetailsModelIntegration()
       .vehicleLookupFormModelIntegration()
 
     go to DisposePage

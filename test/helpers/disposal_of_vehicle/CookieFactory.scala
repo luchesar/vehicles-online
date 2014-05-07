@@ -1,10 +1,11 @@
 package helpers.disposal_of_vehicle
 
 import services.fakes.FakeAddressLookupService._
-import models.domain.disposal_of_vehicle.{VehicleLookupFormModel, AddressViewModel, DealerDetailsModel, SetupTradeDetailsModel}
+import models.domain.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.Helper._
 import play.api.libs.json.Json
 import services.fakes.FakeVehicleLookupWebService._
+import services.fakes.FakeVehicleLookupWebService
 
 object CookieFactory { // TODO setup the cookies for the Unit Specs here, removing them from CacheSetup
   def setupTradeDetails(traderPostcode: String = postcodeValid) = {
@@ -27,6 +28,18 @@ object CookieFactory { // TODO setup the cookies for the Unit Specs here, removi
                              registrationNumber: String = registrationNumberValid) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupFormModelCacheKey
     val value = VehicleLookupFormModel(referenceNumber = referenceNumber, registrationNumber = registrationNumber)
+    val valueAsString = Json.toJson(value).toString()
+    play.api.mvc.Cookie(key, valueAsString)
+  }
+
+  def vehicleDetailsModel(registrationNumber: String = registrationNumberValid,
+                          vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid,
+                          vehicleModel: String = vehicleModelValid,
+                          keeperName: String = keeperNameValid) = {
+    val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
+    val value = VehicleDetailsModel(registrationNumber = registrationNumber,
+      vehicleMake = vehicleMake,
+      vehicleModel = vehicleModel)
     val valueAsString = Json.toJson(value).toString()
     play.api.mvc.Cookie(key, valueAsString)
   }
