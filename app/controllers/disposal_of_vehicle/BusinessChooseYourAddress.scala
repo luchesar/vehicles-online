@@ -13,6 +13,7 @@ import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 import services.address_lookup.AddressLookupService
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResultAdapter
 
 class BusinessChooseYourAddress @Inject()(val sessionState: DisposalOfVehicleSessionState, addressLookupService: AddressLookupService) extends Controller {
 
@@ -37,7 +38,7 @@ class BusinessChooseYourAddress @Inject()(val sessionState: DisposalOfVehicleSes
         case Some(dealerDetails) =>
           fetchAddresses(dealerDetails).map {
             addresses =>
-              val f = fetchBusinessChooseYourAddressModelFromCache match {
+              val f = request.fetch[BusinessChooseYourAddressModel] match {
                 case Some(cached) => form.fill(cached)
                 case None => form // Blank form.
               }
@@ -64,8 +65,7 @@ class BusinessChooseYourAddress @Inject()(val sessionState: DisposalOfVehicleSes
         f =>
           request.fetch[SetupTradeDetailsModel] match {
             case Some(dealerDetails) =>
-              storeBusinessChooseYourAddressModelInCache(f)
-              storeDealerDetailsInCache(f, dealerDetails.traderBusinessName) // TODO is this redundant??? Delete and test.
+              lookupUprn(f, dealerDetails.traderBusinessName)
             case None => Future {
               Logger.error("Failed to find dealer details in cache on submit valid form, redirecting...")
               Redirect(routes.SetUpTradeDetails.present)
@@ -74,17 +74,16 @@ class BusinessChooseYourAddress @Inject()(val sessionState: DisposalOfVehicleSes
       )
   }
 
-  def storeDealerDetailsInCache(model: BusinessChooseYourAddressModel, dealerName: String) = {
+  private def lookupUprn(model: BusinessChooseYourAddressModel, dealerName: String) = {
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString)
     lookedUpAddress.map {
       case Some(addr) => {
-        val dealerDetailsModel = DealerDetailsModel(dealerName = dealerName, dealerAddress = addr)
-        storeDealerDetailsModelInCache(dealerDetailsModel)
+        val dealerDetailsModel = DealerDetailsModel(dealerName = dealerName, dealerAddress = addr) // TODO is this redundant??? Delete and test.
         /* The redirect is done as the final step within the map so that:
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache.
          */
-        Redirect(routes.VehicleLookup.present)
+        Redirect(routes.VehicleLookup.present).withCookie(model).withCookie(dealerDetailsModel)
       }
       case None => Redirect(routes.UprnNotFound.present)
     }

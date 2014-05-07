@@ -65,16 +65,6 @@ class DisposalOfVehicleSessionState @Inject()(val inner: SessionState) {
     Logger.debug(s"SetUpTradeDetails stored data in cache: key = $SetupTradeDetailsCacheKey, value = ${f}")
   }
 
-  def storeBusinessChooseYourAddressModelInCache(value: BusinessChooseYourAddressModel) = {
-    inner.set(businessChooseYourAddressCacheKey, Some(value))
-    Logger.debug(s"BusinessChooseYourAddress stored BusinessChooseYourAddressModel in cache: key = $businessChooseYourAddressCacheKey, value = ${value}")
-  }
-
-  def storeDealerDetailsModelInCache(value: DealerDetailsModel) = {
-    inner.set(dealerDetailsCacheKey, Some(value))
-    Logger.debug(s"BusinessChooseYourAddress stored DealerDetailsModel in cache: key = $dealerDetailsCacheKey, value = ${value}")
-  }
-
   def storeVehicleDetailsInCache(model: VehicleDetailsModel) = {
     inner.set(vehicleLookupDetailsCacheKey, Some(model))
     Logger.debug(s"VehicleLookup page - stored vehicle details object in cache: key = $vehicleLookupDetailsCacheKey, value = ${model}")
@@ -115,10 +105,6 @@ class DisposalOfVehicleSessionState @Inject()(val inner: SessionState) {
     Logger.debug(s"Dispose - stored formModel in cache: key = $disposeModelCacheKey, value = $value")
   }
 
-
-
-  def fetchDealerDetailsFromCache: Option[DealerDetailsModel] = inner.get[DealerDetailsModel](dealerDetailsCacheKey)
-
   def fetchDisposeFormModelFromCache: Option[DisposeFormModel] = inner.get[DisposeFormModel](disposeFormModelCacheKey)
 
   def fetchVehicleDetailsFromCache: Option[VehicleDetailsModel] = inner.get[VehicleDetailsModel](vehicleLookupDetailsCacheKey)
@@ -128,8 +114,6 @@ class DisposalOfVehicleSessionState @Inject()(val inner: SessionState) {
   def fetchVehicleLookupDetailsFromCache: Option[VehicleLookupFormModel] = inner.get[VehicleLookupFormModel](vehicleLookupFormModelCacheKey)
 
   def fetchVehicleLookupResponseCodeFromCache: Option[String] = inner.get[String](vehicleLookupResponseCodeCacheKey)
-
-  def fetchBusinessChooseYourAddressModelFromCache: Option[BusinessChooseYourAddressModel] = inner.get[BusinessChooseYourAddressModel](businessChooseYourAddressCacheKey)
 
   def fetchDisposeTransactionIdFromCache: Option[String] = inner.get[String](disposeFormTransactionIdCacheKey)
 

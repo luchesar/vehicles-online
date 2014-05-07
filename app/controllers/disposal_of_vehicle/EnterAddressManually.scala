@@ -5,10 +5,11 @@ import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import play.api.Logger
 import mappings.common.AddressAndPostcode._
-import models.domain.disposal_of_vehicle.{SetupTradeDetailsModel, EnterAddressManuallyModel}
+import models.domain.disposal_of_vehicle.{DealerDetailsModel, AddressViewModel, SetupTradeDetailsModel, EnterAddressManuallyModel}
 import utils.helpers.FormExtensions._
 import com.google.inject.Inject
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResultAdapter
 
 class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState) extends Controller {
 
@@ -44,8 +45,10 @@ class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState
         f =>
           request.fetch[SetupTradeDetailsModel].map(_.traderBusinessName) match {
           case Some(name) =>
-            storeDealerDetailsInCache(f.stripCharsNotAccepted, name)
-            Redirect(routes.VehicleLookup.present)
+            val dealerAddress = AddressViewModel.from(f.stripCharsNotAccepted.addressAndPostcodeModel)
+            val dealerDetailsModel = DealerDetailsModel(dealerName = name, dealerAddress = dealerAddress)
+
+            Redirect(routes.VehicleLookup.present).withCookie(dealerDetailsModel)
           case None =>
             Logger.debug("failed to find dealer name in cache on submit, redirecting...")
             Redirect(routes.SetUpTradeDetails.present)

@@ -28,6 +28,8 @@ import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import mappings.disposal_of_vehicle.Dispose.dateOfDisposalYearsIntoThePast
 import scala.language.postfixOps
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResultAdapter
 
 class Dispose @Inject()(sessionState: DisposalOfVehicleSessionState, webService: DisposeService, dateService: DateService) extends Controller {
 
@@ -47,7 +49,7 @@ class Dispose @Inject()(sessionState: DisposalOfVehicleSessionState, webService:
   private val yearsDropdown: Seq[(String, String)] = dateService.today.yearRangeToDropdown(yearsIntoThePast = dateOfDisposalYearsIntoThePast)
 
   def present = Action { implicit request => {
-      fetchDealerDetailsFromCache match {
+      request.fetch[DealerDetailsModel] match {
         case (Some(dealerDetails)) =>
           Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
@@ -65,7 +67,7 @@ class Dispose @Inject()(sessionState: DisposalOfVehicleSessionState, webService:
     disposeForm.bindFromRequest.fold(
       formWithErrors =>
         Future {
-          (fetchDealerDetailsFromCache, fetchVehicleDetailsFromCache) match {
+          (request.fetch[DealerDetailsModel], fetchVehicleDetailsFromCache) match {
             case (Some(dealerDetails), Some(vehicleDetails)) =>
               val disposeViewModel = populateModelFromCachedData(dealerDetails, vehicleDetails)
               // When the user doesn't select a value from the drop-down then the mapping will fail to match on an Int before

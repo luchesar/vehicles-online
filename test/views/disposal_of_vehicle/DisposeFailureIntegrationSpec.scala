@@ -7,12 +7,14 @@ import helpers.UiSpec
 import DisposeFailurePage._
 import services.session.{SessionState, PlaySessionState}
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
+import org.openqa.selenium.WebDriver
 
 class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
 
   "DisposeFailureIntegration" should {
 
     "be presented" in new WebBrowser {
+      go to BeforeYouStartPage
       cacheSetup(newSessionState.inner)
       go to DisposeFailurePage
 
@@ -26,6 +28,7 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect to vehiclelookup when button clicked" in new WebBrowser {
+      go to BeforeYouStartPage
       cacheSetup(newSessionState.inner)
       go to DisposeFailurePage
 
@@ -35,6 +38,7 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect to setuptradedetails when button clicked" in new WebBrowser {
+      go to BeforeYouStartPage
       cacheSetup(newSessionState.inner)
       go to DisposeFailurePage
 
@@ -44,9 +48,9 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  private def cacheSetup(sessionState: SessionState) =
+  private def cacheSetup(sessionState: SessionState)(implicit webDriver: WebDriver) =
     new CacheSetup(sessionState).
-      businessChooseYourAddress().
+      dealerDetailsIntegration().
       vehicleDetailsModel().
       disposeFormModel().
       disposeTransactionId().

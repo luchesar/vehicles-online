@@ -15,13 +15,13 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 
   val sessionState = new DisposalOfVehicleSessionState(new PlaySessionState())
-
+  // TODO [SKW] code re-use please - there is a LOT of duplication in this class.
   @Given("""^the motor trader has confirmed the consent of the current keeper$""")
   def the_motor_trader_has_confirmed_the_consent_of_the_current_keeper() = {
     go to BeforeYouStartPage
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
-      .businessChooseYourAddress()
+      .dealerDetailsIntegration()
       .vehicleDetailsModel()
       .vehicleLookupFormModel()
 
@@ -38,7 +38,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     go to BeforeYouStartPage
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
-      .businessChooseYourAddress()
+      .dealerDetailsIntegration()
       .vehicleDetailsModel()
       .vehicleLookupFormModel()
 
@@ -54,7 +54,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     go to BeforeYouStartPage
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
-      .businessChooseYourAddress()
+      .dealerDetailsIntegration()
       .vehicleDetailsModel()
       .vehicleLookupFormModel()
 
@@ -71,7 +71,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     go to BeforeYouStartPage
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
-      .businessChooseYourAddress()
+      .dealerDetailsIntegration()
       .vehicleDetailsModel()
       .vehicleLookupFormModel()
 
@@ -87,7 +87,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     go to BeforeYouStartPage
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
-      .businessChooseYourAddress()
+      .dealerDetailsIntegration()
       .vehicleDetailsModel()
       .vehicleLookupFormModel()
 
@@ -104,7 +104,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     go to BeforeYouStartPage
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
-      .businessChooseYourAddress()
+      .dealerDetailsIntegration()
       .vehicleDetailsModel()
       .vehicleLookupFormModel()
 
@@ -122,7 +122,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     go to BeforeYouStartPage
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
-      .businessChooseYourAddress()
+      .dealerDetailsIntegration()
 
     go to VehicleLookupPage
     VehicleLookupPage.vehicleRegistrationNumber enter "AB12AWR"
@@ -140,7 +140,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     go to BeforeYouStartPage
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
-      .businessChooseYourAddress()
+      .dealerDetailsIntegration()
 
     go to VehicleLookupPage
     VehicleLookupPage.vehicleRegistrationNumber enter "AB12AWR"

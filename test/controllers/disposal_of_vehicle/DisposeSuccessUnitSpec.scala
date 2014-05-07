@@ -14,7 +14,9 @@ class DisposeSuccessUnitSpec extends UnitSpec {
     "present" in new WithApplication {
       val sessionState = newSessionState
       cacheSetup(sessionState.inner)
-      val request = FakeRequest().withSession().withCookies(CookieFactory.setupTradeDetails())
+      val request = FakeRequest().withSession().
+        withCookies(CookieFactory.setupTradeDetails()).
+        withCookies(CookieFactory.dealerDetails())
       val result = disposeSuccess(sessionState).present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
@@ -24,7 +26,9 @@ class DisposeSuccessUnitSpec extends UnitSpec {
     "redirect to next page after the new disposal button is clicked" in new WithApplication {
       val sessionState = newSessionState
       cacheSetup(sessionState.inner)
-      val request = FakeRequest().withSession().withCookies(CookieFactory.setupTradeDetails())
+      val request = FakeRequest().withSession().
+        withCookies(CookieFactory.setupTradeDetails()).
+        withCookies(CookieFactory.dealerDetails())
       val result = disposeSuccess(sessionState).submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
@@ -41,8 +45,9 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on present when only DealerDetails are cached" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner).businessChooseYourAddress()
-      val request = FakeRequest().withSession().withCookies(CookieFactory.setupTradeDetails())
+      val request = FakeRequest().withSession().
+        withCookies(CookieFactory.setupTradeDetails()).
+        withCookies(CookieFactory.dealerDetails())
       val result = disposeSuccess(sessionState).present(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -51,7 +56,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on present when only VehicleDetails are cached" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner).vehicleDetailsModel()
+      new CacheSetup(sessionState.inner).
+        vehicleDetailsModel()
       val request = FakeRequest().withSession().withCookies(CookieFactory.setupTradeDetails())
       val result = disposeSuccess(sessionState).present(request)
       whenReady(result) {
@@ -61,7 +67,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on present when only DisposeDetails are cached" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner).disposeModel()
+      new CacheSetup(sessionState.inner).
+        disposeModel()
       val request = FakeRequest().withSession().withCookies(CookieFactory.setupTradeDetails())
       val result = disposeSuccess(sessionState).present(request)
       whenReady(result) {
@@ -84,8 +91,7 @@ class DisposeSuccessUnitSpec extends UnitSpec {
     "redirect to SetUpTradeDetails on present when only VehicleDetails and DealerDetails are cached" in new WithApplication {
       val sessionState = newSessionState
       new CacheSetup(sessionState.inner).
-        vehicleDetailsModel().
-        businessChooseYourAddress()
+        vehicleDetailsModel()
       val request = FakeRequest().withSession()
       val result = disposeSuccess(sessionState).present(request)
       whenReady(result) {
@@ -95,9 +101,10 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on present when only DisposeDetails and DealerDetails are cached" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner).businessChooseYourAddress().
+      new CacheSetup(sessionState.inner).
         disposeModel()
-      val request = FakeRequest().withSession()
+      val request = FakeRequest().withSession().
+        withCookies(CookieFactory.dealerDetails())
       val result = disposeSuccess(sessionState).present(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -114,8 +121,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on submit when only DealerDetails are cached" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner).businessChooseYourAddress()
-      val request = FakeRequest().withSession()
+      val request = FakeRequest().withSession().
+        withCookies(CookieFactory.dealerDetails())
       val result = disposeSuccess(sessionState).submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -124,7 +131,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on submit when only VehicleDetails are cached" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner).vehicleDetailsModel()
+      new CacheSetup(sessionState.inner).
+        vehicleDetailsModel()
       val request = FakeRequest().withSession()
       val result = disposeSuccess(sessionState).submit(request)
       whenReady(result) {
@@ -134,7 +142,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on submit when only DisposeDetails are cached" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner).disposeModel()
+      new CacheSetup(sessionState.inner).
+        disposeModel()
       val request = FakeRequest().withSession()
       val result = disposeSuccess(sessionState).submit(request)
       whenReady(result) {
@@ -144,7 +153,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on submit when only VehicleDetails and DisposeDetails are cached" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner).vehicleDetailsModel().
+      new CacheSetup(sessionState.inner).
+        vehicleDetailsModel().
         disposeFormModel()
       val request = FakeRequest().withSession()
       val result = disposeSuccess(sessionState).submit(request)
@@ -155,8 +165,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on submit when only VehicleDetails and DealerDetails are cached" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner).vehicleDetailsModel().
-       businessChooseYourAddress()
+      new CacheSetup(sessionState.inner).
+        vehicleDetailsModel()
       val request = FakeRequest().withSession()
       val result = disposeSuccess(sessionState).submit(request)
       whenReady(result) {
@@ -166,9 +176,11 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on submit when only DisposeDetails and DealerDetails are cached" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner).businessChooseYourAddress().
+      new CacheSetup(sessionState.inner).
         disposeModel()
-      val request = FakeRequest().withSession().withCookies(CookieFactory.setupTradeDetails())
+      val request = FakeRequest().withSession().
+        withCookies(CookieFactory.setupTradeDetails()).
+        withCookies(CookieFactory.dealerDetails())
       val result = disposeSuccess(sessionState).submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -178,7 +190,6 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
   private def cacheSetup(sessionState: SessionState) = {
     new CacheSetup(sessionState).
-      businessChooseYourAddress().
       vehicleDetailsModel().
       disposeFormModel().
       disposeTransactionId().

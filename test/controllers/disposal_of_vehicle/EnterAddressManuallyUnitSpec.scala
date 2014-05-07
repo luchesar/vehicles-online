@@ -11,6 +11,9 @@ import services.fakes.FakeAddressLookupService._
 import mappings.common.AddressAndPostcode._
 import mappings.common.AddressLines._
 import services.session.PlaySessionState
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResultAdapter
+import play.api.mvc.Cookies
 
 class EnterAddressManuallyUnitSpec extends UnitSpec {
 
@@ -100,11 +103,10 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactory.setupTradeDetails())
       val result = enterAddressManually(sessionState).submit(request)
       whenReady(result) {
-        r => sessionState.fetchDealerDetailsFromCache match {
-          case Some(f) =>
-            f.dealerAddress.address should equal (List("my house", "my street", "my area", "my town", "CM81QJ"))
-          case _ => fail("Should have found model in the cache")
-        }
+        r =>
+          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val foundMatch = cookies.exists(cookie => cookie.equals(CookieFactory.dealerDetails()))
+          foundMatch should equal(true)
       }
     }
 
@@ -118,29 +120,27 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactory.setupTradeDetails())
       val result = enterAddressManually(sessionState).submit(request)
       whenReady(result) {
-        r => sessionState.fetchDealerDetailsFromCache match {
-          case Some(f) =>
-            f.dealerAddress.address should equal (List("my house", "my street", "my area", "my town", "CM81QJ"))
-          case _ => fail("Should have found model in the cache")
-        }
+        r =>
+          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val foundMatch =  cookies.exists(cookie => cookie.equals(CookieFactory.dealerDetails()))
+          foundMatch should equal(true)
       }
     }
 
     "submit does not remove multiple commas and full stops from the middle address line" in new WithApplication {
       val sessionState = newSessionState
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
-        s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> "flat 1.1",
-        s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> "long road, off high street",
-        s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> "little village, my town",
-        s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> "my city, my county",
+        s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> "my house 1.1,",
+        s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> "my street.",
+        s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> "my area.",
+        s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> "my town,",
         s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactory.setupTradeDetails())
       val result = enterAddressManually(sessionState).submit(request)
       whenReady(result) {
-        r => sessionState.fetchDealerDetailsFromCache match {
-          case Some(f) =>
-            f.dealerAddress.address should equal (List("flat 1.1", "long road, off high street", "little village, my town", "my city, my county", "CM81QJ"))
-          case _ => fail("Should have found model in the cache")
-        }
+        r =>
+          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val foundMatch =  cookies.exists(cookie => cookie.equals(CookieFactory.dealerDetails(line1 = "my house 1.1")))
+          foundMatch should equal(true)
       }
     }
 

@@ -28,6 +28,7 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup(newSessionState.inner)
       happyPath
+
       assert(page.title equals VehicleLookupPage.title)
     }
 

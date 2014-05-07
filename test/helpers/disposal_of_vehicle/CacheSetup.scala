@@ -27,11 +27,14 @@ class CacheSetup(sessionState: SessionState) { // TODO setup cookies for Integra
     this
   }
 
-  def businessChooseYourAddress(address: AddressViewModel = addressWithoutUprn) = {
+  def dealerDetailsIntegration(address: AddressViewModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.DealerDetails.dealerDetailsCacheKey
     val value = DealerDetailsModel(dealerName = "", // TODO [SKW] why are we caching an empty string?
       dealerAddress = address)
-    sessionState.set(key, Some(value))
+    val valueAsString = Json.toJson(value).toString()
+    val manage = webDriver.manage()
+    val cookie = new Cookie(key, valueAsString)
+    manage.addCookie(cookie)
     this
   }
 

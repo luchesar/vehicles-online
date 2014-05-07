@@ -4,14 +4,16 @@ import play.api.Logger
 import play.api.mvc._
 import scala.Some
 import com.google.inject.Inject
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import models.domain.disposal_of_vehicle.{DealerDetailsModel, VehicleLookupFormModel}
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResultAdapter
 
 class VehicleLookupFailure @Inject()(sessionState: DisposalOfVehicleSessionState) extends Controller {
 
   import sessionState._
 
   def present = Action { implicit request =>
-    (fetchDealerDetailsFromCache, fetchVehicleLookupDetailsFromCache) match {
+    (request.fetch[DealerDetailsModel], fetchVehicleLookupDetailsFromCache) match {
       case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) => {
         Logger.debug("found dealer and vehicle details")
         displayVehicleLookupFailure(vehicleLookUpFormModelDetails)
@@ -21,7 +23,7 @@ class VehicleLookupFailure @Inject()(sessionState: DisposalOfVehicleSessionState
   }
 
   def submit = Action { implicit request =>
-    (fetchDealerDetailsFromCache, fetchVehicleLookupDetailsFromCache) match {
+    (request.fetch[DealerDetailsModel], fetchVehicleLookupDetailsFromCache) match {
       case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) => {
         Logger.debug("found dealer and vehicle details")
         Redirect(routes.VehicleLookup.present)
