@@ -29,8 +29,9 @@ object CryptoHelper {
 
   def encryptAES(clearText: String) = if (encryptFields) Crypto.encryptAES(clearText, secretKey) else clearText
   def encryptCookie(clearText: String) = if (encryptCookies) encryptAESAsBase64(clearText) else clearText
+  def encryptCookieName(clearText: String) = if (encryptCookies) sha1Hash(clearText) else clearText
 
-  def sha1Hash(v: String): String = Codecs.sha1(v)
+  private def sha1Hash(clearText: String): String = Codecs.sha1(clearText)
 
   private def encryptAESAsBase64(clearText: String): String = {
     val cipher = Cipher.getInstance("AES")
