@@ -52,7 +52,7 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
     new CacheSetup(sessionState).
       dealerDetailsIntegration().
       vehicleDetailsModelIntegration().
-      disposeFormModel().
+      disposeFormModelIntegration().
       disposeTransactionId().
       vehicleRegistrationNumber()
 

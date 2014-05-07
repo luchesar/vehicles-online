@@ -15,7 +15,8 @@ class DisposeFailureUnitSpec extends UnitSpec {
       cacheSetup(sessionState.inner)
       val request = FakeRequest().withSession().
         withCookies(CookieFactory.dealerDetails()).
-        withCookies(CookieFactory.vehicleDetailsModel())
+        withCookies(CookieFactory.vehicleDetailsModel()).
+        withCookies(CookieFactory.disposeFormModel())
       val result = disposeFailure(sessionState).present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
@@ -27,7 +28,8 @@ class DisposeFailureUnitSpec extends UnitSpec {
       cacheSetup(sessionState.inner)
       val request = FakeRequest().withSession().
         withCookies(CookieFactory.dealerDetails()).
-        withCookies(CookieFactory.vehicleDetailsModel())
+        withCookies(CookieFactory.vehicleDetailsModel()).
+        withCookies(CookieFactory.disposeFormModel())
       val result = disposeFailure(sessionState).submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
@@ -45,7 +47,6 @@ class DisposeFailureUnitSpec extends UnitSpec {
 
   private def cacheSetup(sessionState: SessionState) = {
     new CacheSetup(sessionState).
-      disposeFormModel().
       disposeTransactionId()
   }
 

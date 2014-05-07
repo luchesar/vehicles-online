@@ -16,7 +16,6 @@ import services.vehicle_lookup.VehicleLookupService
 import utils.helpers.FormExtensions._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import play.api.data.FormError
-import scala.Some
 import play.api.mvc.SimpleResult
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAdapter
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResultAdapter

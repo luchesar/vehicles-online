@@ -87,7 +87,6 @@ class Dispose @Inject()(sessionState: DisposalOfVehicleSessionState, webService:
           }
         },
       f => {
-        storeDisposeFormModelInCache(f)
         Logger.debug(s"Dispose form submitted - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
         disposeAction(webService, f)
       }
@@ -105,13 +104,15 @@ class Dispose @Inject()(sessionState: DisposalOfVehicleSessionState, webService:
     model
   }
 
-  private def disposeAction(webService: DisposeService, f: DisposeFormModel)(implicit request: Request[AnyContent]): Future[SimpleResult] = {
+  private def disposeAction(webService: DisposeService, disposeFormModel: DisposeFormModel)(implicit request: Request[AnyContent]): Future[SimpleResult] = {
     def callMicroService(disposeModel: DisposeModel) = {
       val disposeRequest = buildDisposeMicroServiceRequest(disposeModel)
       webService.invoke(disposeRequest).map {
         resp => Logger.debug(s"Dispose micro-service call successful - response = $resp")
-        storeResponseInCache(resp._2)
-        Redirect(Seq(handleResponseCode(responseCode(resp._2)), handleHttpStatusCode(Option(resp._1)), Some(routes.MicroServiceError.present)).flatten.head)
+          storeResponseInCache(resp._2)
+          val nextPage = Seq(handleResponseCode(responseCode(resp._2)), handleHttpStatusCode(Option(resp._1)), Some(routes.MicroServiceError.present)).flatten.head
+          Redirect(nextPage).
+            withCookie(disposeFormModel)
       }.recover {
         case e: Throwable =>
           Logger.warn(s"Dispose micro-service call failed. Exception: $e")
@@ -176,7 +177,7 @@ class Dispose @Inject()(sessionState: DisposalOfVehicleSessionState, webService:
       case Some(vehicleLookupFormModel) =>
         val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,
           registrationNumber = vehicleLookupFormModel.registrationNumber,
-          dateOfDisposal = f.dateOfDisposal, mileage = f.mileage)
+          dateOfDisposal = disposeFormModel.dateOfDisposal, mileage = disposeFormModel.mileage)
         storeDisposeModelInCache(disposeModel)
         callMicroService(disposeModel)
       case _ => Future {

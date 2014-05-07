@@ -5,7 +5,8 @@ import models.domain.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.Helper._
 import play.api.libs.json.Json
 import services.fakes.FakeVehicleLookupWebService._
-import services.fakes.FakeVehicleLookupWebService
+import services.fakes.{FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
+import models.DayMonthYear
 
 object CookieFactory { // TODO setup the cookies for the Unit Specs here, removing them from CacheSetup
   def setupTradeDetails(traderPostcode: String = postcodeValid) = {
@@ -40,6 +41,16 @@ object CookieFactory { // TODO setup the cookies for the Unit Specs here, removi
     val value = VehicleDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel)
+    val valueAsString = Json.toJson(value).toString()
+    play.api.mvc.Cookie(key, valueAsString)
+  }
+
+  def disposeFormModel() = {
+    val key = mappings.disposal_of_vehicle.Dispose.disposeFormModelCacheKey
+    val value = DisposeFormModel(mileage = None,
+      dateOfDisposal = DayMonthYear.today,
+      consent = FakeDisposeWebServiceImpl.consentValid,
+      lossOfRegistrationConsent = FakeDisposeWebServiceImpl.consentValid)
     val valueAsString = Json.toJson(value).toString()
     play.api.mvc.Cookie(key, valueAsString)
   }

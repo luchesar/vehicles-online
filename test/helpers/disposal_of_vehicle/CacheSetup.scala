@@ -64,13 +64,16 @@ class CacheSetup(sessionState: SessionState) { // TODO setup cookies for Integra
     this
   }
 
-  def disposeFormModel() = {
+  def disposeFormModelIntegration()(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeFormModelCacheKey
     val value = DisposeFormModel(mileage = None,
       dateOfDisposal = DayMonthYear.today,
       consent = FakeDisposeWebServiceImpl.consentValid,
       lossOfRegistrationConsent = FakeDisposeWebServiceImpl.consentValid)
-    sessionState.set(key, Some(value))
+    val valueAsString = Json.toJson(value).toString()
+    val manage = webDriver.manage()
+    val cookie = new Cookie(key, valueAsString)
+    manage.addCookie(cookie)
     this
   }
 
