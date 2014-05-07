@@ -48,7 +48,7 @@ Development environment
 
 2.  JDK 1.7 must be installed
 
-4.  Install SASS. The [current documentation][install-sass] suggests:
+3.  Install SASS. The [current documentation][install-sass] suggests:
 
         sudo gem install sass
 
