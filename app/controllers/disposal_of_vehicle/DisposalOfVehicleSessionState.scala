@@ -15,6 +15,7 @@ import play.api.data.validation.ValidationError
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel.setupTradeDetailsModelFormat
 import play.api.libs.Crypto
 import utils.helpers.CryptoHelper
+import models.domain.common.CacheKey
 
 case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) extends Exception
 
@@ -22,8 +23,8 @@ object DisposalOfVehicleSessionState2 {
 
   // TODO: This is the new way of doing caching. Remove old version piece by piece into the new style then rename this.
   implicit class RequestAdapter[A](val request: Request[A]) extends AnyVal {
-    private def fetch[B](key: String)(implicit fjs: Reads[B]): Option[B] =
-      request.cookies.get(CryptoHelper.encryptCookieName(key)) match {
+    def fetch[B](implicit fjs: Reads[B], cacheKey: CacheKey[B]): Option[B] =
+      request.cookies.get(CryptoHelper.encryptCookieName(cacheKey.value)) match {
         case Some(cookie) =>
           val decrypted = CryptoHelper.decryptCookie(cookie.value)
           val parsed = Json.parse(decrypted)
@@ -34,21 +35,15 @@ object DisposalOfVehicleSessionState2 {
           }
         case None => None
       }
-
-    def fetchTraderDetails: Option[SetupTradeDetailsModel] =
-      fetch(SetupTradeDetailsCacheKey)
   }
 
   implicit class SimpleResultAdapter(val result: SimpleResult) extends AnyVal {
-    private def withCookie[A](key: String, model: A)(implicit tjs: Writes[A]): SimpleResult = {
+    def withCookie[A](model: A)(implicit tjs: Writes[A], cacheKey: CacheKey[A]): SimpleResult = {
       val stateAsJson = Json.toJson(model)
       val encryptedStateAsJson = CryptoHelper.encryptCookie(stateAsJson.toString())
-      val cookie = Cookie(CryptoHelper.encryptCookieName(key), encryptedStateAsJson)
+      val cookie = Cookie(CryptoHelper.encryptCookieName(cacheKey.value), encryptedStateAsJson)
       result.withCookies(cookie)
     }
-
-    def withTraderDetails(model: SetupTradeDetailsModel): SimpleResult =
-      withCookie(SetupTradeDetailsCacheKey, model)
   }
 
 }

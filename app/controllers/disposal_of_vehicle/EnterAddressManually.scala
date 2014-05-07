@@ -5,7 +5,7 @@ import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import play.api.Logger
 import mappings.common.AddressAndPostcode._
-import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
+import models.domain.disposal_of_vehicle.{SetupTradeDetailsModel, EnterAddressManuallyModel}
 import utils.helpers.FormExtensions._
 import com.google.inject.Inject
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAdapter
@@ -22,7 +22,7 @@ class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState
 
   def present = Action {
     implicit request =>
-      request.fetchTraderDetails match {
+      request.fetch[SetupTradeDetailsModel] match {
         case Some(_) => Ok(views.html.disposal_of_vehicle.enter_address_manually(form))
         case None => Redirect(routes.SetUpTradeDetails.present)
       }
@@ -32,7 +32,7 @@ class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState
     implicit request => {
       form.bindFromRequest.fold(
         formWithErrors =>
-          request.fetchTraderDetails match {
+          request.fetch[SetupTradeDetailsModel] match {
             case Some(_) => {
               val updatedFormWithErrors = formWithErrors.replaceError("addressAndPostcode.addressLines.line1", "error.required", FormError("addressAndPostcode.addressLines", "error.address.line1Required"))
               BadRequest(views.html.disposal_of_vehicle.enter_address_manually(updatedFormWithErrors))}
@@ -42,7 +42,7 @@ class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState
             }
           },
         f =>
-          request.fetchTraderDetails.map(_.traderBusinessName) match {
+          request.fetch[SetupTradeDetailsModel].map(_.traderBusinessName) match {
           case Some(name) =>
             storeDealerDetailsInCache(f.stripCharsNotAccepted, name)
             Redirect(routes.VehicleLookup.present)
