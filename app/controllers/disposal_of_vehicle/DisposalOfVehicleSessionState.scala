@@ -2,18 +2,15 @@ package controllers.disposal_of_vehicle
 
 import play.api.Logger
 import models.domain.disposal_of_vehicle._
-import models.domain.disposal_of_vehicle.{DealerDetailsModel, DisposeFormModel, VehicleLookupFormModel, SetupTradeDetailsModel, VehicleDetailsModel}
+import models.domain.disposal_of_vehicle.{DealerDetailsModel, DisposeFormModel, SetupTradeDetailsModel, VehicleDetailsModel}
 import scala.Some
 import mappings.disposal_of_vehicle.SetupTradeDetails._
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import mappings.disposal_of_vehicle.DealerDetails._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.VehicleLookup._
 import play.api.mvc.{Request, Cookie, SimpleResult}
 import play.api.libs.json.{Writes, Reads, JsPath, Json}
 import play.api.data.validation.ValidationError
-import models.domain.disposal_of_vehicle.SetupTradeDetailsModel.setupTradeDetailsModelFormat
-import play.api.libs.Crypto
 import utils.helpers.CryptoHelper
 import models.domain.common.CacheKey
 

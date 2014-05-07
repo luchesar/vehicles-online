@@ -17,8 +17,6 @@ import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResu
 
 class BusinessChooseYourAddress @Inject()(val sessionState: DisposalOfVehicleSessionState, addressLookupService: AddressLookupService) extends Controller {
 
-  import sessionState._
-
   private def fetchAddresses(setupTradeDetailsModel: SetupTradeDetailsModel) = {
     val postcode = setupTradeDetailsModel.traderPostcode
     addressLookupService.fetchAddressesForPostcode(postcode)

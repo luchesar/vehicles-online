@@ -13,8 +13,6 @@ import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResu
 
 class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState) extends Controller {
 
-  import sessionState._
-
   val form = Form(
     mapping(
       addressAndPostcodeId -> addressAndPostcode

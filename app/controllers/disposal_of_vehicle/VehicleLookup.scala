@@ -1,7 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import play.api.mvc._
-import play.api.data.{FormError, Form}
+import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
 import mappings.common.{ReferenceNumber, RegistrationNumber}
@@ -21,8 +21,6 @@ import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAda
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResultAdapter
 
 class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webService: VehicleLookupService) extends Controller {
-
-  import sessionState._
 
   val vehicleLookupForm = Form(
     mapping(
