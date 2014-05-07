@@ -16,21 +16,19 @@ class WebServiceImpl extends AddressLookupWebService {
   def postcodeWithNoSpaces(postcode: String): String = postcode.filter(_ != ' ')
 
   override def callPostcodeWebService(postcode: String): Future[Response] = {
-    val endPoint = s"$baseUrl/postcode-to-address"
+    val endPoint = s"$baseUrl/postcode-to-address?postcode=${postcodeWithNoSpaces(postcode)}"
     Logger.debug(s"Calling ordnance-survey postcode lookup micro-service on $endPoint...")
-    val dataAsJson = Json.obj(postcodeId -> postcode)
     WS.url(endPoint).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
-      post(dataAsJson)
-
+      get()
   }
 
   override def callUprnWebService(uprn: String): Future[Response] = {
-    val endPoint = s"$baseUrl/uprn-to-address"
+    val endPoint = s"$baseUrl/uprn-to-address?uprn=${uprn}"
     Logger.debug(s"Calling ordnance-survey uprn lookup micro-service on $endPoint...")
-    val dataAsJson = Json.obj(uprnId -> Some(uprn.toLong))
     WS.url(endPoint).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
-      post(dataAsJson)
+      get()
   }
+
 }
