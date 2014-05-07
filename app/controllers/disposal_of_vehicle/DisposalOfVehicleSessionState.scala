@@ -10,7 +10,7 @@ import mappings.disposal_of_vehicle.DealerDetails._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.VehicleLookup._
 import play.api.mvc.{Request, Cookie, SimpleResult}
-import play.api.libs.json.{JsPath, Json}
+import play.api.libs.json.{Writes, Reads, JsPath, Json}
 import play.api.data.validation.ValidationError
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel.setupTradeDetailsModelFormat
 import play.api.libs.Crypto
@@ -18,37 +18,39 @@ import utils.helpers.CryptoHelper
 
 case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) extends Exception
 
-object DisposalOfVehicleSessionState2 { // TODO: This is the new way of doing caching. Remove old version piece by piece into the new style then rename this.
+object DisposalOfVehicleSessionState2 {
 
+  // TODO: This is the new way of doing caching. Remove old version piece by piece into the new style then rename this.
   implicit class RequestAdapter[A](val request: Request[A]) extends AnyVal {
-    def fetchDealerDetailsFromCache: Option[SetupTradeDetailsModel] = request.cookies.get(CryptoHelper.encryptCookieName(SetupTradeDetailsCacheKey)) match {
-      case Some(cookie) =>
-        val decrypted = CryptoHelper.decryptCookie(cookie.value)
-        val parsed = Json.parse(decrypted)
-        val fromJson = Json.fromJson[SetupTradeDetailsModel](parsed)
-        fromJson.asEither match {
-          case Left(errors) => throw JsonValidationException(errors)
-          case Right(model) => Some(model)
-        }
-      case None => None
-    }
-
-    def fetchDealerNameFromCache: Option[String] = {
-      fetchDealerDetailsFromCache match {
-        case Some(model) => Some(model.traderBusinessName)
+    private def fetch[B](key: String)(implicit fjs: Reads[B]): Option[B] =
+      request.cookies.get(CryptoHelper.encryptCookieName(key)) match {
+        case Some(cookie) =>
+          val decrypted = CryptoHelper.decryptCookie(cookie.value)
+          val parsed = Json.parse(decrypted)
+          val fromJson = Json.fromJson[B](parsed)
+          fromJson.asEither match {
+            case Left(errors) => throw JsonValidationException(errors)
+            case Right(model) => Some(model)
+          }
         case None => None
       }
-    }
+
+    def fetchTraderDetails: Option[SetupTradeDetailsModel] =
+      fetch(SetupTradeDetailsCacheKey)
   }
 
   implicit class SimpleResultAdapter(val result: SimpleResult) extends AnyVal {
-    def withTradeDetailsInCache(model: SetupTradeDetailsModel): SimpleResult = {
+    private def withCookie[A](key: String, model: A)(implicit tjs: Writes[A]): SimpleResult = {
       val stateAsJson = Json.toJson(model)
-      val encryptedStateAsJson = CryptoHelper.encryptCookie(stateAsJson.toString)
-      val cookie = Cookie(CryptoHelper.encryptCookieName(SetupTradeDetailsCacheKey), encryptedStateAsJson)
+      val encryptedStateAsJson = CryptoHelper.encryptCookie(stateAsJson.toString())
+      val cookie = Cookie(CryptoHelper.encryptCookieName(key), encryptedStateAsJson)
       result.withCookies(cookie)
     }
+
+    def withTraderDetails(model: SetupTradeDetailsModel): SimpleResult =
+      withCookie(SetupTradeDetailsCacheKey, model)
   }
+
 }
 
 import services.session.SessionState

@@ -22,8 +22,8 @@ class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState
 
   def present = Action {
     implicit request =>
-      request.fetchDealerNameFromCache match {
-        case Some(name) => Ok(views.html.disposal_of_vehicle.enter_address_manually(form))
+      request.fetchTraderDetails match {
+        case Some(_) => Ok(views.html.disposal_of_vehicle.enter_address_manually(form))
         case None => Redirect(routes.SetUpTradeDetails.present)
       }
   }
@@ -32,8 +32,8 @@ class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState
     implicit request => {
       form.bindFromRequest.fold(
         formWithErrors =>
-          request.fetchDealerNameFromCache match {
-            case Some(name) => {
+          request.fetchTraderDetails match {
+            case Some(_) => {
               val updatedFormWithErrors = formWithErrors.replaceError("addressAndPostcode.addressLines.line1", "error.required", FormError("addressAndPostcode.addressLines", "error.address.line1Required"))
               BadRequest(views.html.disposal_of_vehicle.enter_address_manually(updatedFormWithErrors))}
             case None => {
@@ -42,16 +42,14 @@ class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState
             }
           },
         f =>
-          request.fetchDealerNameFromCache match {
-          case Some(name) => {
+          request.fetchTraderDetails.map(_.traderBusinessName) match {
+          case Some(name) =>
             storeDealerDetailsInCache(f.stripCharsNotAccepted, name)
             Redirect(routes.VehicleLookup.present)
-          }
-          case None => {
+          case None =>
             Logger.debug("failed to find dealer name in cache on submit, redirecting...")
             Redirect(routes.SetUpTradeDetails.present)
           }
-        }
       )
     }
   }

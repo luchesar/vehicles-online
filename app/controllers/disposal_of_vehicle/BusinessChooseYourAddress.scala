@@ -33,7 +33,7 @@ class BusinessChooseYourAddress @Inject()(val sessionState: DisposalOfVehicleSes
 
   def present = Action.async {
     implicit request =>
-      request.fetchDealerDetailsFromCache match {
+      request.fetchTraderDetails match {
         case Some(dealerDetails) =>
           fetchAddresses(dealerDetails).map {
             addresses =>
@@ -52,7 +52,7 @@ class BusinessChooseYourAddress @Inject()(val sessionState: DisposalOfVehicleSes
   def submit = Action.async { implicit request =>
       form.bindFromRequest.fold(
         formWithErrors =>
-          request.fetchDealerDetailsFromCache match {
+          request.fetchTraderDetails match {
             case Some(dealerDetails) => fetchAddresses(dealerDetails).map {
               addresses => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, dealerDetails.traderBusinessName, addresses))
             }
@@ -62,7 +62,7 @@ class BusinessChooseYourAddress @Inject()(val sessionState: DisposalOfVehicleSes
             }
           },
         f =>
-          request.fetchDealerDetailsFromCache match {
+          request.fetchTraderDetails match {
             case Some(dealerDetails) =>
               storeBusinessChooseYourAddressModelInCache(f)
               storeDealerDetailsInCache(f, dealerDetails.traderBusinessName) // TODO is this redundant??? Delete and test.

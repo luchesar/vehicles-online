@@ -34,7 +34,7 @@ class SetUpTradeDetails @Inject()(sessionState: DisposalOfVehicleSessionState) e
             distinctErrors
           BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors))
         },
-        f => Redirect(routes.BusinessChooseYourAddress.present).withTradeDetailsInCache(f)
+        f => Redirect(routes.BusinessChooseYourAddress.present).withTraderDetails(f)
       )
   }
 }
