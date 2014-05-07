@@ -27,7 +27,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     "display DisposeSuccess page on correct submission" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup(newSessionState.inner).
-        vehicleLookupFormModel()
+        vehicleLookupFormModelIntegration()
 
       happyPath
 

@@ -30,7 +30,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect to setuptrade details if only VehicleLookupFormModelCache is populated" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup(newSessionState.inner).vehicleLookupFormModel()
+      new CacheSetup(newSessionState.inner).vehicleLookupFormModelIntegration()
 
       go to VehicleLookupFailurePage
 
@@ -71,7 +71,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
   private def cacheSetup(sessionState: SessionState)(implicit webDriver: WebDriver) =
     new CacheSetup(sessionState).
       dealerDetailsIntegration().
-      vehicleLookupFormModel()
+      vehicleLookupFormModelIntegration()
 
   private def newSessionState = {
     val sessionState = new PlaySessionState()

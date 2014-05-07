@@ -21,7 +21,7 @@ import services.fakes.FakeAddressLookupService._
 import play.api.http.Status.OK
 import services.session.PlaySessionState
 import services.fakes.FakeWebServiceImpl._
-import scala.Some
+import play.api.mvc.Cookies
 
 class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -29,7 +29,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "present" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
       val request = FakeRequest().withSession().
         withCookies(CookieFactory.dealerDetails())
       val result = vehicleLookupResponseGenerator(sessionState, vehicleDetailsResponseSuccess).present(request)
@@ -39,7 +38,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to Dispose after a valid submit and true message returned from the fake microservice" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupResponseGenerator(sessionState, vehicleDetailsResponseSuccess).submit(request)
 
@@ -49,21 +47,19 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "submit removes spaces from registrationNumber" in new WithApplication {
       // DE7 Spaces should be stripped
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
       val request = buildCorrectlyPopulatedRequest(registrationNumber = registrationNumberWithSpaceValid)
       val result = vehicleLookupResponseGenerator(sessionState, vehicleDetailsResponseSuccess).submit(request)
 
       whenReady(result) {
-        r => sessionState.fetchVehicleLookupDetailsFromCache match {
-          case Some(f) => f.registrationNumber should equal(registrationNumberValid)
-          case _ => fail("Should have found registration number in the cache")
-        }
+        r =>
+          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val foundMatch =  cookies.exists(cookie => cookie.equals(CookieFactory.vehicleLookupFormModel(registrationNumber = registrationNumberValid)))
+          foundMatch should equal(true)
       }
     }
 
     "redirect to VehicleLookupFailure after a submit and no response code and no vehicledetailsdto returned from the fake microservice" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupResponseGenerator(sessionState, vehicleDetailsResponseNotFoundResponseCode).submit(request)
 
@@ -72,7 +68,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to VehicleLookupFailure after a submit and vrm not found by the fake microservice" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupResponseGenerator(sessionState, vehicleDetailsResponseVRMNotFound).submit(request)
 
@@ -81,7 +76,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to VehicleLookupFailure after a submit and document reference number mismatch returned by the fake microservice" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupResponseGenerator(sessionState, vehicleDetailsResponseDocRefNumberNotLatest).submit(request)
 
@@ -90,7 +84,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to VehicleLookupFailure after a submit and vss error returned by the fake microservice" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupResponseGenerator(sessionState, vehicleDetailsServerDown).submit(request)
 
@@ -106,7 +99,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "return a bad request if dealer details are in cache and no details are entered" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
 
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "", registrationNumber = "", consent = "").
         withCookies(CookieFactory.dealerDetails())
@@ -117,7 +109,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to setupTradeDetails page if dealer details are not in cache and no details are entered" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
 
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "", registrationNumber = "", consent = "")
       val result = vehicleLookupResponseGenerator(sessionState, vehicleDetailsResponseSuccess).submit(request)
@@ -127,7 +118,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "replace max length error message for document reference number with standard error message (US43)" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (referenceNumberLength + 1)).
         withCookies(CookieFactory.dealerDetails())
       val result = vehicleLookupResponseGenerator(sessionState, vehicleDetailsResponseSuccess).submit(request)
@@ -139,7 +129,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "replace required and min length error messages for document reference number with standard error message (US43)" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "").
         withCookies(CookieFactory.dealerDetails())
       val result = vehicleLookupResponseGenerator(sessionState, vehicleDetailsResponseSuccess).submit(request)
@@ -151,7 +140,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "replace max length error message for vehicle registration mark with standard error message (US43)" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "PJ05YYYX").
         withCookies(CookieFactory.dealerDetails())
       val result = vehicleLookupResponseGenerator(sessionState, vehicleDetailsResponseSuccess).submit(request)
@@ -162,7 +150,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "replace required and min length error messages for vehicle registration mark with standard error message (US43)" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "").
         withCookies(CookieFactory.dealerDetails())
       val result = vehicleLookupResponseGenerator(sessionState, vehicleDetailsResponseSuccess).submit(request)
@@ -173,7 +160,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to EnterAddressManually when back button is pressed and there is no uprn" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
       val request = FakeRequest().withSession().withFormUrlEncodedBody().
         withCookies(CookieFactory.dealerDetails())
       val result = vehicleLookupResponseGenerator(sessionState, vehicleDetailsResponseSuccess).back(request)
@@ -183,7 +169,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to BusinessChooseYourAddress when back button is pressed and there is a uprn" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
       val request = FakeRequest().withSession().withFormUrlEncodedBody().
         withCookies(CookieFactory.dealerDetails(uprn = Some(traderUprnValid)))
       val result = vehicleLookupResponseGenerator(sessionState, vehicleDetailsResponseSuccess).back(request)
@@ -201,7 +186,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails when back button and the user has completed the vehicle lookup form" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactory.dealerDetails(uprn = Some(traderUprnValid)))
       val result = vehicleLookupResponseGenerator(sessionState, vehicleDetailsResponseSuccess).back(request)
@@ -219,7 +203,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to MicroserviceError when microservice throws" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupError(sessionState).submit(request)
 
@@ -228,7 +211,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to MicroServiceError after a submit if response status is Ok and no response payload" in new WithApplication {
       val sessionState = newSessionState
-      new CacheSetup(sessionState.inner)
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupResponseGenerator(sessionState, vehicleDetailsNoResponse).submit(request)
 

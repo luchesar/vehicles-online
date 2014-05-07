@@ -23,7 +23,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
       .vehicleDetailsModel()
-      .vehicleLookupFormModel()
+      .vehicleLookupFormModelIntegration()
 
     go to DisposePage
     DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
@@ -40,7 +40,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
       .vehicleDetailsModel()
-      .vehicleLookupFormModel()
+      .vehicleLookupFormModelIntegration()
 
     go to DisposePage
     DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
@@ -56,7 +56,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
       .vehicleDetailsModel()
-      .vehicleLookupFormModel()
+      .vehicleLookupFormModelIntegration()
 
     go to DisposePage
     DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
@@ -73,7 +73,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
       .vehicleDetailsModel()
-      .vehicleLookupFormModel()
+      .vehicleLookupFormModelIntegration()
 
     go to DisposePage
     DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
@@ -89,7 +89,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
       .vehicleDetailsModel()
-      .vehicleLookupFormModel()
+      .vehicleLookupFormModelIntegration()
 
     go to DisposePage
     DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
@@ -106,7 +106,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
       .vehicleDetailsModel()
-      .vehicleLookupFormModel()
+      .vehicleLookupFormModelIntegration()
 
     go to DisposePage
     // Leave not filled in for npw - need way to convert select elements to text fields ala Web Developer toolbar, via proxy perhaps?

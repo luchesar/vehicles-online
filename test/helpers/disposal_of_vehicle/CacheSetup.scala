@@ -38,19 +38,25 @@ class CacheSetup(sessionState: SessionState) { // TODO setup cookies for Integra
     this
   }
 
+  def vehicleLookupFormModelIntegration(referenceNumber: String = referenceNumberValid, registrationNumber: String = registrationNumberValid)(implicit webDriver: WebDriver) = {
+    val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupFormModelCacheKey
+    val value = VehicleLookupFormModel(referenceNumber = referenceNumber,
+      registrationNumber = registrationNumber)
+    val valueAsString = Json.toJson(value).toString()
+    val manage = webDriver.manage()
+    val cookie = new Cookie(key, valueAsString)
+    manage.addCookie(cookie)
+    this
+  }
+  
+  
+  
+
   def vehicleDetailsModel(registrationNumber: String = registrationNumberValid, vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid, vehicleModel: String = vehicleModelValid, keeperName: String = keeperNameValid) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
     val value = VehicleDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel)
-    sessionState.set(key, Some(value))
-    this
-  }
-
-  def vehicleLookupFormModel(referenceNumber: String = referenceNumberValid, registrationNumber: String = registrationNumberValid) = {
-    val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupFormModelCacheKey
-    val value = VehicleLookupFormModel(referenceNumber = referenceNumber,
-      registrationNumber = registrationNumber)
     sessionState.set(key, Some(value))
     this
   }

@@ -75,8 +75,8 @@ class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webSe
     webService.invoke(buildMicroServiceRequest(model)).map {
       case (responseStatus: Int, response: Option[VehicleDetailsResponse]) =>
         Logger.debug(s"VehicleLookup Web service call successful - response = $response")
-        storeVehicleLookupFormModelInCache(model) // TODO Don't save these two models, instead we need a combined model that has what the user entered into the form plus the micro-service response.
-        checkResponseConstruction(responseStatus, response)
+        checkResponseConstruction(responseStatus, response).
+          withCookie(model)
     }.recover {
       case exception: Throwable => throwToMicroServiceError(exception)
     }

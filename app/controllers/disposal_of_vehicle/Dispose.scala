@@ -105,7 +105,7 @@ class Dispose @Inject()(sessionState: DisposalOfVehicleSessionState, webService:
     model
   }
 
-  private def disposeAction(webService: DisposeService, f: DisposeFormModel): Future[SimpleResult] = {
+  private def disposeAction(webService: DisposeService, f: DisposeFormModel)(implicit request: Request[AnyContent]): Future[SimpleResult] = {
     def callMicroService(disposeModel: DisposeModel) = {
       val disposeRequest = buildDisposeMicroServiceRequest(disposeModel)
       webService.invoke(disposeRequest).map {
@@ -172,7 +172,7 @@ class Dispose @Inject()(sessionState: DisposalOfVehicleSessionState, webService:
       }
     }
 
-    fetchVehicleLookupDetailsFromCache match {
+    request.fetch[VehicleLookupFormModel] match {
       case Some(vehicleLookupFormModel) =>
         val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,
           registrationNumber = vehicleLookupFormModel.registrationNumber,

@@ -13,7 +13,7 @@ class VehicleLookupFailure @Inject()(sessionState: DisposalOfVehicleSessionState
   import sessionState._
 
   def present = Action { implicit request =>
-    (request.fetch[DealerDetailsModel], fetchVehicleLookupDetailsFromCache) match {
+    (request.fetch[DealerDetailsModel], request.fetch[VehicleLookupFormModel]) match {
       case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) => {
         Logger.debug("found dealer and vehicle details")
         displayVehicleLookupFailure(vehicleLookUpFormModelDetails)
@@ -23,7 +23,7 @@ class VehicleLookupFailure @Inject()(sessionState: DisposalOfVehicleSessionState
   }
 
   def submit = Action { implicit request =>
-    (request.fetch[DealerDetailsModel], fetchVehicleLookupDetailsFromCache) match {
+    (request.fetch[DealerDetailsModel], request.fetch[VehicleLookupFormModel]) match {
       case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) => {
         Logger.debug("found dealer and vehicle details")
         Redirect(routes.VehicleLookup.present)
