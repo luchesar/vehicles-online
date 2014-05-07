@@ -13,15 +13,18 @@ import play.api.mvc.{Request, Cookie, SimpleResult}
 import play.api.libs.json.{JsPath, Json}
 import play.api.data.validation.ValidationError
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel.setupTradeDetailsModelFormat
+import play.api.libs.Crypto
+import utils.helpers.CryptoHelper
 
 case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) extends Exception
 
 object DisposalOfVehicleSessionState2 { // TODO: This is the new way of doing caching. Remove old version piece by piece into the new style then rename this.
 
   implicit class RequestAdapter[A](val request: Request[A]) extends AnyVal {
-    def fetchDealerDetailsFromCache: Option[SetupTradeDetailsModel] = request.cookies.get(SetupTradeDetailsCacheKey) match {
+    def fetchDealerDetailsFromCache: Option[SetupTradeDetailsModel] = request.cookies.get(CryptoHelper.encryptCookieAES(SetupTradeDetailsCacheKey)) match {
       case Some(cookie) =>
-        val parsed = Json.parse(cookie.value)
+        val decrypted = CryptoHelper.decryptCookieAES(cookie.value)
+        val parsed = Json.parse(decrypted)
         val fromJson = Json.fromJson[SetupTradeDetailsModel](parsed)
         fromJson.asEither match {
           case Left(errors) => throw JsonValidationException(errors)
@@ -41,7 +44,9 @@ object DisposalOfVehicleSessionState2 { // TODO: This is the new way of doing ca
   implicit class SimpleResultAdapter(val result: SimpleResult) extends AnyVal {
     def withTradeDetailsInCache(model: SetupTradeDetailsModel): SimpleResult = {
       val stateAsJson = Json.toJson(model)
-      val cookie = Cookie(SetupTradeDetailsCacheKey, stateAsJson.toString())
+      val encryptedStateAsJson = CryptoHelper.encryptCookieAES(stateAsJson.toString())
+//      val cookie = Cookie(SetupTradeDetailsCacheKey, stateAsJson.toString())
+      val cookie = Cookie(CryptoHelper.encryptCookieAES(SetupTradeDetailsCacheKey), encryptedStateAsJson)
       result.withCookies(cookie)
     }
   }
