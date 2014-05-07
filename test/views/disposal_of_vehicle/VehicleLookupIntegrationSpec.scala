@@ -16,6 +16,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
   "VehicleLookupIntegrationSpec Integration" should {
 
     "be presented" in new WebBrowser {
+      go to BeforeYouStartPage
       cacheSetup(newSessionState.inner)
 
       go to VehicleLookupPage
@@ -30,6 +31,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "go to the next page when correct data is entered" in new WebBrowser {
+      go to BeforeYouStartPage
       cacheSetup(newSessionState.inner)
 
       happyPath()
@@ -38,6 +40,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display one validation error message when no referenceNumber is entered" in new WebBrowser {
+      go to BeforeYouStartPage
       cacheSetup(newSessionState.inner)
 
       happyPath(referenceNumber = "")
@@ -46,6 +49,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display one validation error message when no registrationNumber is entered" in new WebBrowser {
+      go to BeforeYouStartPage
       cacheSetup(newSessionState.inner)
 
       happyPath(registrationNumber = "")
@@ -54,6 +58,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display one validation error message when a registrationNumber is entered containing one character" in new WebBrowser {
+      go to BeforeYouStartPage
       cacheSetup(newSessionState.inner)
 
       happyPath(registrationNumber = "a")
@@ -62,6 +67,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display one validation error message when a registrationNumber is entered containing special characters" in new WebBrowser {
+      go to BeforeYouStartPage
       cacheSetup(newSessionState.inner)
 
       happyPath(registrationNumber = "$^")
@@ -70,6 +76,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display two validation error messages when no vehicle details are entered but consent is given" in new WebBrowser {
+      go to BeforeYouStartPage
       cacheSetup(newSessionState.inner)
 
       happyPath(referenceNumber = "", registrationNumber = "")
@@ -78,6 +85,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display one validation error message when only a valid referenceNumber is entered and consent is given" in new WebBrowser {
+      go to BeforeYouStartPage
       cacheSetup(newSessionState.inner)
 
       happyPath(registrationNumber = "")
@@ -86,6 +94,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display one validation error message when only a valid registrationNumber is entered and consent is given" in new WebBrowser {
+      go to BeforeYouStartPage
       cacheSetup(newSessionState.inner)
 
       happyPath(referenceNumber = "")
@@ -103,7 +112,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       new CacheSetup(newSessionState.inner)
         .setupTradeDetailsIntegration()
-        .businessChooseYourAddress(addressWithUprn)
+        .dealerDetailsIntegration(addressWithUprn)
       go to VehicleLookupPage
 
       click on back
@@ -125,7 +134,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
   private def cacheSetup(sessionState: SessionState)(implicit webDriver: WebDriver) =
     new CacheSetup(sessionState).
       setupTradeDetailsIntegration().
-      businessChooseYourAddress()
+      dealerDetailsIntegration()
 
   private def newSessionState = {
     val sessionState = new PlaySessionState()

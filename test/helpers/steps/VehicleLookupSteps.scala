@@ -21,7 +21,7 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
     go to BeforeYouStartPage
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
-      .businessChooseYourAddress()
+      .dealerDetailsIntegration()
 
     go to VehicleLookupPage
     VehicleLookupPage.vehicleRegistrationNumber enter registrationNumberValid
@@ -33,7 +33,7 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
     go to BeforeYouStartPage
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
-      .businessChooseYourAddress()
+      .dealerDetailsIntegration()
 
     go to VehicleLookupPage
     VehicleLookupPage.vehicleRegistrationNumber enter vrm
@@ -45,7 +45,7 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
     go to BeforeYouStartPage
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
-      .businessChooseYourAddress()
+      .dealerDetailsIntegration()
 
     go to VehicleLookupPage
     VehicleLookupPage.vehicleRegistrationNumber enter vrm
@@ -57,7 +57,7 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
     go to BeforeYouStartPage
     new CacheSetup(sessionState.inner)
       .setupTradeDetailsIntegration()
-      .businessChooseYourAddress()
+      .dealerDetailsIntegration()
 
     go to VehicleLookupPage
     VehicleLookupPage.vehicleRegistrationNumber enter registrationNumberValid

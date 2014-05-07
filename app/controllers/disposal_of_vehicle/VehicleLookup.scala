@@ -18,6 +18,8 @@ import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import play.api.data.FormError
 import scala.Some
 import play.api.mvc.SimpleResult
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResultAdapter
 
 class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webService: VehicleLookupService) extends Controller {
 
@@ -32,7 +34,7 @@ class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webSe
 
   def present = Action {
     implicit request =>
-      fetchDealerDetailsFromCache match {
+       request.fetch[DealerDetailsModel] match {
         case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm))
         case None => Redirect(routes.SetUpTradeDetails.present)
       }
@@ -43,7 +45,7 @@ class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webSe
       vehicleLookupForm.bindFromRequest.fold(
         formWithErrors =>
           Future {
-            fetchDealerDetailsFromCache match {
+            request.fetch[DealerDetailsModel] match {
               case Some(dealerDetails) => val formWithReplacedErrors = formWithErrors.
                   replaceError(registrationNumberId, FormError(key = registrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
                   replaceError(referenceNumberId, FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
@@ -61,7 +63,7 @@ class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webSe
 
   def back = Action {
     implicit request =>
-      fetchDealerDetailsFromCache match {
+      request.fetch[DealerDetailsModel] match {
         case Some(dealerDetails) =>
           if (dealerDetails.dealerAddress.uprn.isDefined) Redirect(routes.BusinessChooseYourAddress.present)
           else Redirect(routes.EnterAddressManually.present)
@@ -73,8 +75,8 @@ class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webSe
     webService.invoke(buildMicroServiceRequest(model)).map {
       case (responseStatus: Int, response: Option[VehicleDetailsResponse]) =>
         Logger.debug(s"VehicleLookup Web service call successful - response = $response")
-        storeVehicleLookupFormModelInCache(model) // TODO Don't save these two models, instead we need a combined model that has what the user entered into the form plus the micro-service response.
-        checkResponseConstruction(responseStatus, response)
+        checkResponseConstruction(responseStatus, response).
+          withCookie(model)
     }.recover {
       case exception: Throwable => throwToMicroServiceError(exception)
     }
@@ -96,10 +98,9 @@ class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webSe
   
   private def responseCodePresent(response: VehicleDetailsResponse) = {
     response.responseCode match {
-      case Some(responseCode) => {
-        storeVehicleLookupResponseCodeInCache(responseCode)
-        Redirect(routes.VehicleLookupFailure.present)
-      }
+      case Some(responseCode) =>
+        Redirect(routes.VehicleLookupFailure.present).
+          withCookie(key = vehicleLookupResponseCodeCacheKey, value = responseCode) // TODO [SKW] I don't see a controller spec for testing that the correct value was written to the cache. Write one.
       case None => noResponseCodePresent(response.vehicleDetailsDto)
     }
   }

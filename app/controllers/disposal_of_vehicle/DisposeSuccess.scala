@@ -3,13 +3,15 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import models.domain.disposal_of_vehicle.{VehicleDetailsModel, DealerDetailsModel, DisposeViewModel}
 import com.google.inject.Inject
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResultAdapter
 
 class DisposeSuccess @Inject()(sessionState: DisposalOfVehicleSessionState) extends Controller {
 
   import sessionState._
 
   def present = Action { implicit request =>
-    (fetchDealerDetailsFromCache, fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache, fetchDisposeTransactionIdFromCache, fetchDisposeRegistrationNumberFromCache) match {
+    (request.fetch[DealerDetailsModel], fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache, fetchDisposeTransactionIdFromCache, fetchDisposeRegistrationNumberFromCache) match {
       case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId), Some(registrationNumber)) =>
         val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId), registrationNumber)
         Ok(views.html.disposal_of_vehicle.dispose_success(disposeModel, disposeFormModel))
@@ -18,7 +20,7 @@ class DisposeSuccess @Inject()(sessionState: DisposalOfVehicleSessionState) exte
   }
 
   def submit = Action { implicit request =>
-    (fetchDealerDetailsFromCache, fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache) match {
+    (request.fetch[DealerDetailsModel], fetchDisposeFormModelFromCache, fetchVehicleDetailsFromCache) match {
       case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present)
       case _ => Redirect(routes.SetUpTradeDetails.present)
     }
