@@ -98,10 +98,9 @@ class VehicleLookup @Inject()(sessionState: DisposalOfVehicleSessionState, webSe
   
   private def responseCodePresent(response: VehicleDetailsResponse) = {
     response.responseCode match {
-      case Some(responseCode) => {
-        storeVehicleLookupResponseCodeInCache(responseCode)
-        Redirect(routes.VehicleLookupFailure.present)
-      }
+      case Some(responseCode) =>
+        Redirect(routes.VehicleLookupFailure.present).
+          withCookie(key = vehicleLookupResponseCodeCacheKey, value = responseCode) // TODO [SKW] I don't see a controller spec for testing that the correct value was written to the cache. Write one.
       case None => noResponseCodePresent(response.vehicleDetailsDto)
     }
   }

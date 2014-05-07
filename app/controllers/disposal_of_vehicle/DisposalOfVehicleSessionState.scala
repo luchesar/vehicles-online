@@ -35,6 +35,19 @@ object DisposalOfVehicleSessionState2 {
           }
         case None => None
       }
+
+    def fetch(key: String): Option[String] =
+      request.cookies.get(CryptoHelper.encryptCookieName(key)) match {
+        case Some(cookie) =>
+          val decrypted = CryptoHelper.decryptCookie(cookie.value)
+          val parsed = Json.parse(decrypted)
+          val fromJson = Json.fromJson[String](parsed)
+          fromJson.asEither match {
+            case Left(errors) => throw JsonValidationException(errors)
+            case Right(value) => Some(value)
+          }
+        case None => None
+      }
   }
 
   implicit class SimpleResultAdapter(val result: SimpleResult) extends AnyVal {
@@ -42,6 +55,13 @@ object DisposalOfVehicleSessionState2 {
       val stateAsJson = Json.toJson(model)
       val encryptedStateAsJson = CryptoHelper.encryptCookie(stateAsJson.toString())
       val cookie = Cookie(CryptoHelper.encryptCookieName(cacheKey.value), encryptedStateAsJson)
+      result.withCookies(cookie)
+    }
+
+    def withCookie(key: String, value: String): SimpleResult = {
+      val stateAsJson = Json.toJson(value)
+      val encryptedStateAsJson = CryptoHelper.encryptCookie(stateAsJson.toString())
+      val cookie = Cookie(CryptoHelper.encryptCookieName(key), encryptedStateAsJson)
       result.withCookies(cookie)
     }
   }
@@ -68,11 +88,6 @@ class DisposalOfVehicleSessionState @Inject()(val inner: SessionState) {
   def storeVehicleDetailsInCache(model: VehicleDetailsModel) = {
     inner.set(vehicleLookupDetailsCacheKey, Some(model))
     Logger.debug(s"VehicleLookup page - stored vehicle details object in cache: key = $vehicleLookupDetailsCacheKey, value = ${model}")
-  }
-
-  def storeVehicleLookupResponseCodeInCache(responseCode: String) = {
-    inner.set(vehicleLookupResponseCodeCacheKey, Some(responseCode))
-    Logger.debug(s"VehicleLookup page - stored vehicle lookup response code in cache: key = $vehicleLookupResponseCodeCacheKey, value = ${responseCode}")
   }
 
   def storeDisposeFormModelInCache(value: DisposeFormModel) = {
@@ -106,13 +121,9 @@ class DisposalOfVehicleSessionState @Inject()(val inner: SessionState) {
 
   def fetchTraderDetailsFromCache: Option[SetupTradeDetailsModel] = inner.get[SetupTradeDetailsModel](SetupTradeDetailsCacheKey)
 
-  def fetchVehicleLookupResponseCodeFromCache: Option[String] = inner.get[String](vehicleLookupResponseCodeCacheKey)
-
   def fetchDisposeTransactionIdFromCache: Option[String] = inner.get[String](disposeFormTransactionIdCacheKey)
 
   def fetchDisposeTransactionTimestampInCache: Option[String] = inner.get[String](disposeFormTimestampIdCacheKey)
 
   def fetchDisposeRegistrationNumberFromCache: Option[String] = inner.get[String](disposeFormRegistrationNumberCacheKey)
-
-  def clearVehicleLookupResponseCodeFromCache() = inner.set(vehicleLookupResponseCodeCacheKey, None)
 }

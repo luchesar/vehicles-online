@@ -5,6 +5,7 @@ import play.api.mvc._
 import scala.Some
 import com.google.inject.Inject
 import models.domain.disposal_of_vehicle.{DealerDetailsModel, VehicleLookupFormModel}
+import mappings.disposal_of_vehicle.VehicleLookup._
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAdapter
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResultAdapter
 
@@ -32,16 +33,15 @@ class VehicleLookupFailure @Inject()(sessionState: DisposalOfVehicleSessionState
     }
   }
 
-  private def displayVehicleLookupFailure(vehicleLookUpFormModelDetails: VehicleLookupFormModel) = {
+  private def displayVehicleLookupFailure(vehicleLookUpFormModelDetails: VehicleLookupFormModel)(implicit request: Request[AnyContent]) = {
     val responseCodeErrorMessage = encodeResponseCodeErrorMessage
-    clearVehicleLookupResponseCodeFromCache
-    Ok(views.html.disposal_of_vehicle.vehicle_lookup_failure(vehicleLookUpFormModelDetails, responseCodeErrorMessage))
+    Ok(views.html.disposal_of_vehicle.vehicle_lookup_failure(vehicleLookUpFormModelDetails, responseCodeErrorMessage)).
+      discardingCookies(DiscardingCookie(name = vehicleLookupResponseCodeCacheKey)) // TODO [SKW] please someone write a test for this and make sure it only removes this cookie and no other cookies.
   }
 
-  private def encodeResponseCodeErrorMessage: String = {
-      fetchVehicleLookupResponseCodeFromCache match {
-        case Some(responseCode) => responseCode
-        case _ => "disposal_vehiclelookupfailure.p1"
-      }
+  private def encodeResponseCodeErrorMessage(implicit request: Request[AnyContent]): String =
+    request.fetch(vehicleLookupResponseCodeCacheKey) match {
+      case Some(responseCode) => responseCode
+      case _ => "disposal_vehiclelookupfailure.p1"
     }
 }
