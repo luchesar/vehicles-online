@@ -21,9 +21,9 @@ case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) 
 object DisposalOfVehicleSessionState2 { // TODO: This is the new way of doing caching. Remove old version piece by piece into the new style then rename this.
 
   implicit class RequestAdapter[A](val request: Request[A]) extends AnyVal {
-    def fetchDealerDetailsFromCache: Option[SetupTradeDetailsModel] = request.cookies.get(CryptoHelper.encryptCookieAES(SetupTradeDetailsCacheKey)) match {
+    def fetchDealerDetailsFromCache: Option[SetupTradeDetailsModel] = request.cookies.get(CryptoHelper.sha1Hash(SetupTradeDetailsCacheKey)) match {
       case Some(cookie) =>
-        val decrypted = CryptoHelper.decryptCookieAES(cookie.value)
+        val decrypted = CryptoHelper.decryptCookie(cookie.value)
         val parsed = Json.parse(decrypted)
         val fromJson = Json.fromJson[SetupTradeDetailsModel](parsed)
         fromJson.asEither match {
@@ -44,9 +44,8 @@ object DisposalOfVehicleSessionState2 { // TODO: This is the new way of doing ca
   implicit class SimpleResultAdapter(val result: SimpleResult) extends AnyVal {
     def withTradeDetailsInCache(model: SetupTradeDetailsModel): SimpleResult = {
       val stateAsJson = Json.toJson(model)
-      val encryptedStateAsJson = CryptoHelper.encryptCookieAES(stateAsJson.toString())
-//      val cookie = Cookie(SetupTradeDetailsCacheKey, stateAsJson.toString())
-      val cookie = Cookie(CryptoHelper.encryptCookieAES(SetupTradeDetailsCacheKey), encryptedStateAsJson)
+      val encryptedStateAsJson = CryptoHelper.encryptCookie(stateAsJson.toString)
+      val cookie = Cookie(CryptoHelper.sha1Hash(SetupTradeDetailsCacheKey), encryptedStateAsJson)
       result.withCookies(cookie)
     }
   }
