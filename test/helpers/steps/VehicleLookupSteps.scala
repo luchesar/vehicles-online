@@ -75,6 +75,7 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
   @Then("""^the doc ref number is retained$""")
   def the_doc_ref_number_is_retained() = {
     // nothing can be done here to check for this as doc ref no is not displayed
+    // TODO NO!!! CHECK if it is in the cache
   }
 
   @Then("""^the VRM is retained$""")

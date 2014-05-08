@@ -8,6 +8,23 @@ import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResul
 import mappings.disposal_of_vehicle.Dispose._
 import scala.Some
 import models.domain.disposal_of_vehicle.DisposeViewModel
+import utils.helpers.CryptoHelper
+import mappings.disposal_of_vehicle.SetupTradeDetails._
+import play.api.mvc.DiscardingCookie
+import scala.Some
+import models.domain.disposal_of_vehicle.DisposeViewModel
+import mappings.disposal_of_vehicle.DealerDetails._
+import play.api.mvc.DiscardingCookie
+import scala.Some
+import models.domain.disposal_of_vehicle.DisposeViewModel
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
+import play.api.mvc.DiscardingCookie
+import scala.Some
+import models.domain.disposal_of_vehicle.DisposeViewModel
+import mappings.disposal_of_vehicle.VehicleLookup._
+import play.api.mvc.DiscardingCookie
+import scala.Some
+import models.domain.disposal_of_vehicle.DisposeViewModel
 
 class DisposeSuccess @Inject()() extends Controller {
 
@@ -20,9 +37,19 @@ class DisposeSuccess @Inject()() extends Controller {
     }
   }
 
-  def submit = Action { implicit request =>
+  def newDisposal = Action { implicit request =>
     (request.fetch[DealerDetailsModel], request.fetch[DisposeFormModel], request.fetch[VehicleDetailsModel]) match {
-      case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present)
+      case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present).
+        discardingCookies(
+          DiscardingCookie(name = CryptoHelper.encryptCookieName(vehicleLookupDetailsCacheKey)),
+          DiscardingCookie(name = CryptoHelper.encryptCookieName(vehicleLookupResponseCodeCacheKey)),
+          DiscardingCookie(name = CryptoHelper.encryptCookieName(vehicleLookupFormModelCacheKey)),
+          DiscardingCookie(name = CryptoHelper.encryptCookieName(disposeFormModelCacheKey)),
+          DiscardingCookie(name = CryptoHelper.encryptCookieName(disposeFormTransactionIdCacheKey)),
+          DiscardingCookie(name = CryptoHelper.encryptCookieName(disposeFormTimestampIdCacheKey)),
+          DiscardingCookie(name = CryptoHelper.encryptCookieName(disposeFormRegistrationNumberCacheKey)),
+          DiscardingCookie(name = CryptoHelper.encryptCookieName(disposeModelCacheKey))
+        )
       case _ => Redirect(routes.SetUpTradeDetails.present)
     }
   }

@@ -13,11 +13,15 @@ import services.fakes.FakeAddressLookupService._
 import services.session.SessionState
 import org.openqa.selenium.{WebDriver, Cookie}
 import play.api.libs.json.Json
+import services.fakes.FakeWebServiceImpl._
+import services.fakes.FakeAddressLookupService.postcodeValid
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.businessChooseYourAddressCacheKey
+import mappings.disposal_of_vehicle.DealerDetails.dealerDetailsCacheKey
+import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
 
-class CacheSetup() { // TODO change to an object.
-
+class CacheSetup() { // TODO change from class to an object.
   def setupTradeDetailsIntegration(traderPostcode: String = postcodeValid)(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
+    val key = SetupTradeDetailsCacheKey
     val value = SetupTradeDetailsModel(traderBusinessName = traderBusinessNameValid,
       traderPostcode = traderPostcode)
     val valueAsString = Json.toJson(value).toString()
@@ -27,8 +31,18 @@ class CacheSetup() { // TODO change to an object.
     this
   }
 
+  def businessChooseYourAddressIntegration(uprn: Long = traderUprnValid)(implicit webDriver: WebDriver) = {
+    val key = businessChooseYourAddressCacheKey
+    val value = BusinessChooseYourAddressModel(uprnSelected = uprn)
+    val valueAsString = Json.toJson(value).toString()
+    val manage = webDriver.manage()
+    val cookie = new Cookie(key, valueAsString)
+    manage.addCookie(cookie)
+    this
+  }
+
   def dealerDetailsIntegration(address: AddressViewModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.DealerDetails.dealerDetailsCacheKey
+    val key = dealerDetailsCacheKey
     val value = DealerDetailsModel(dealerName = "", // TODO [SKW] why are we caching an empty string?
       dealerAddress = address)
     val valueAsString = Json.toJson(value).toString()

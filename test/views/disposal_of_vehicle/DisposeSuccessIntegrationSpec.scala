@@ -7,6 +7,12 @@ import helpers.UiSpec
 import services.session.{PlaySessionState, SessionState}
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
 import org.openqa.selenium.WebDriver
+import mappings.disposal_of_vehicle.Dispose._
+import mappings.disposal_of_vehicle.VehicleLookup._
+import mappings.disposal_of_vehicle.SetupTradeDetails._
+import mappings.disposal_of_vehicle.DealerDetails._
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
+import pages.disposal_of_vehicle.DisposeSuccessPage._
 
 class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
@@ -96,10 +102,36 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       assert(page.title equals VehicleLookupPage.title)
     }
+
+    "remove redundant cookies when new disposal link is clicked" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to DisposeSuccessPage
+println("*** before: " + webDriver.manage().getCookies)
+
+      click on newDisposal
+println("*** after: " + webDriver.manage().getCookies)
+      // Expected to be removed
+      assert(webDriver.manage().getCookieNamed(vehicleLookupDetailsCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(vehicleLookupResponseCodeCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(vehicleLookupFormModelCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeFormModelCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeFormTransactionIdCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeFormTimestampIdCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeFormRegistrationNumberCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeModelCacheKey) == null)
+
+      // Expected to be present
+      assert(webDriver.manage().getCookieNamed(SetupTradeDetailsCacheKey) != null)
+      assert(webDriver.manage().getCookieNamed(businessChooseYourAddressCacheKey) != null)
+      assert(webDriver.manage().getCookieNamed(dealerDetailsCacheKey) != null)
+    }
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     new CacheSetup().
+      setupTradeDetailsIntegration().
+      businessChooseYourAddressIntegration().
       dealerDetailsIntegration().
       vehicleDetailsModelIntegration().
       disposeFormModelIntegration().
