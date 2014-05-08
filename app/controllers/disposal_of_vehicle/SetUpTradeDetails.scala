@@ -14,8 +14,8 @@ class SetUpTradeDetails @Inject()() extends Controller {
 
   val traderLookupForm = Form(
     mapping(
-      dealerNameId -> traderBusinessName(),
-      dealerPostcodeId -> postcode
+      traderNameId -> traderBusinessName(),
+      traderPostcodeId -> postcode
     )(SetupTradeDetailsModel.apply)(SetupTradeDetailsModel.unapply)
   )
 
@@ -29,8 +29,8 @@ class SetUpTradeDetails @Inject()() extends Controller {
       traderLookupForm.bindFromRequest.fold(
         formWithErrors => {
           val formWithReplacedErrors = formWithErrors.
-            replaceError(dealerNameId, FormError(key = dealerNameId, message = "error.validTraderBusinessName", args = Seq.empty)).
-            replaceError(dealerPostcodeId, FormError(key = dealerPostcodeId, message = "error.restricted.validPostcode", args = Seq.empty)).
+            replaceError(traderNameId, FormError(key = traderNameId, message = "error.validTraderBusinessName", args = Seq.empty)).
+            replaceError(traderPostcodeId, FormError(key = traderPostcodeId, message = "error.restricted.validPostcode", args = Seq.empty)).
             distinctErrors
           BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors))
         },
