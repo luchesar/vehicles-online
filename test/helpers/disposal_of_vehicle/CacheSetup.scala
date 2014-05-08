@@ -3,7 +3,7 @@ package helpers.disposal_of_vehicle
 import helpers.disposal_of_vehicle.Helper._
 import models.domain.disposal_of_vehicle._
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
-import models.domain.disposal_of_vehicle.DealerDetailsModel
+import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import models.DayMonthYear
 import services.fakes.FakeVehicleLookupWebService._
@@ -28,9 +28,9 @@ class CacheSetup() { // TODO change to an object.
   }
 
   def dealerDetailsIntegration(address: AddressViewModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.DealerDetails.dealerDetailsCacheKey
-    val value = DealerDetailsModel(dealerName = "", // TODO [SKW] why are we caching an empty string?
-      dealerAddress = address)
+    val key = mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
+    val value = TraderDetailsModel(traderName = "", // TODO [SKW] why are we caching an empty string?
+      traderAddress = address)
     val valueAsString = Json.toJson(value).toString()
     val manage = webDriver.manage()
     val cookie = new Cookie(key, valueAsString)

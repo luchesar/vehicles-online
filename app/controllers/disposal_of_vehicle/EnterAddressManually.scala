@@ -5,7 +5,7 @@ import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import play.api.Logger
 import mappings.common.AddressAndPostcode._
-import models.domain.disposal_of_vehicle.{DealerDetailsModel, AddressViewModel, SetupTradeDetailsModel, EnterAddressManuallyModel}
+import models.domain.disposal_of_vehicle.{TraderDetailsModel, AddressViewModel, SetupTradeDetailsModel, EnterAddressManuallyModel}
 import utils.helpers.FormExtensions._
 import com.google.inject.Inject
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
@@ -44,7 +44,7 @@ class EnterAddressManually @Inject()() extends Controller {
           request.fetch[SetupTradeDetailsModel].map(_.traderBusinessName) match {
           case Some(name) =>
             val dealerAddress = AddressViewModel.from(f.stripCharsNotAccepted.addressAndPostcodeModel)
-            val dealerDetailsModel = DealerDetailsModel(dealerName = name, dealerAddress = dealerAddress)
+            val dealerDetailsModel = TraderDetailsModel(traderName = name, traderAddress = dealerAddress)
 
             Redirect(routes.VehicleLookup.present).withCookie(dealerDetailsModel)
           case None =>

@@ -31,7 +31,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
 
   def present = Action {
     implicit request =>
-       request.fetch[DealerDetailsModel] match {
+       request.fetch[TraderDetailsModel] match {
         case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm))
         case None => Redirect(routes.SetUpTradeDetails.present)
       }
@@ -42,7 +42,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
       vehicleLookupForm.bindFromRequest.fold(
         formWithErrors =>
           Future {
-            request.fetch[DealerDetailsModel] match {
+            request.fetch[TraderDetailsModel] match {
               case Some(dealerDetails) => val formWithReplacedErrors = formWithErrors.
                   replaceError(registrationNumberId, FormError(key = registrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
                   replaceError(referenceNumberId, FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
@@ -60,9 +60,9 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
 
   def back = Action {
     implicit request =>
-      request.fetch[DealerDetailsModel] match {
+      request.fetch[TraderDetailsModel] match {
         case Some(dealerDetails) =>
-          if (dealerDetails.dealerAddress.uprn.isDefined) Redirect(routes.BusinessChooseYourAddress.present)
+          if (dealerDetails.traderAddress.uprn.isDefined) Redirect(routes.BusinessChooseYourAddress.present)
           else Redirect(routes.EnterAddressManually.present)
         case None => Redirect(routes.SetUpTradeDetails.present)
       }

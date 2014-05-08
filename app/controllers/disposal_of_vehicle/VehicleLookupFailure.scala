@@ -4,7 +4,7 @@ import play.api.Logger
 import play.api.mvc._
 import scala.Some
 import com.google.inject.Inject
-import models.domain.disposal_of_vehicle.{DealerDetailsModel, VehicleLookupFormModel}
+import models.domain.disposal_of_vehicle.{TraderDetailsModel, VehicleLookupFormModel}
 import mappings.disposal_of_vehicle.VehicleLookup._
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
@@ -13,7 +13,7 @@ class VehicleLookupFailure @Inject()() extends Controller {
 
 
   def present = Action { implicit request =>
-    (request.fetch[DealerDetailsModel], request.fetch[VehicleLookupFormModel]) match {
+    (request.fetch[TraderDetailsModel], request.fetch[VehicleLookupFormModel]) match {
       case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) => {
         Logger.debug("found dealer and vehicle details")
         displayVehicleLookupFailure(vehicleLookUpFormModelDetails)
@@ -23,7 +23,7 @@ class VehicleLookupFailure @Inject()() extends Controller {
   }
 
   def submit = Action { implicit request =>
-    (request.fetch[DealerDetailsModel], request.fetch[VehicleLookupFormModel]) match {
+    (request.fetch[TraderDetailsModel], request.fetch[VehicleLookupFormModel]) match {
       case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) => {
         Logger.debug("found dealer and vehicle details")
         Redirect(routes.VehicleLookup.present)
