@@ -103,14 +103,13 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       assert(page.title equals VehicleLookupPage.title)
     }
 
-    "remove redundant cookies when new disposal link is clicked" in new WebBrowser {
+    "remove redundant cookies when 'new disposal' button is clicked" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeSuccessPage
-println("*** before: " + webDriver.manage().getCookies)
 
       click on newDisposal
-println("*** after: " + webDriver.manage().getCookies)
+
       // Expected to be removed
       assert(webDriver.manage().getCookieNamed(vehicleLookupDetailsCacheKey) == null)
       assert(webDriver.manage().getCookieNamed(vehicleLookupResponseCodeCacheKey) == null)
@@ -125,6 +124,28 @@ println("*** after: " + webDriver.manage().getCookies)
       assert(webDriver.manage().getCookieNamed(SetupTradeDetailsCacheKey) != null)
       assert(webDriver.manage().getCookieNamed(businessChooseYourAddressCacheKey) != null)
       assert(webDriver.manage().getCookieNamed(dealerDetailsCacheKey) != null)
+    }
+
+    "remove redundant cookies when 'exit' button is clicked" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to DisposeSuccessPage
+
+      click on exitDisposal
+
+      // Expected to be removed
+      assert(webDriver.manage().getCookieNamed(SetupTradeDetailsCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(businessChooseYourAddressCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(dealerDetailsCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(vehicleLookupDetailsCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(vehicleLookupResponseCodeCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(vehicleLookupFormModelCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeFormModelCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeFormTransactionIdCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeFormTimestampIdCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeFormRegistrationNumberCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeModelCacheKey) == null)
+
     }
   }
 
