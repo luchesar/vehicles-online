@@ -14,7 +14,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "be presented" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
 
       go to DisposeSuccessPage
 
@@ -29,7 +29,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DealerDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup(newSessionState.inner).dealerDetailsIntegration()
+      new CacheSetup().dealerDetailsIntegration()
 
       go to DisposeSuccessPage
 
@@ -38,7 +38,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only VehicleDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup(newSessionState.inner).
+      new CacheSetup().
         vehicleDetailsModelIntegration()
 
       go to DisposeSuccessPage
@@ -48,7 +48,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DisposeDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup(newSessionState.inner).
+      new CacheSetup().
         disposeFormModelIntegration()
 
       go to DisposeSuccessPage
@@ -58,7 +58,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DealerDetails and VehicleDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup(newSessionState.inner).
+      new CacheSetup().
         dealerDetailsIntegration().
         vehicleDetailsModelIntegration()
 
@@ -69,7 +69,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DisposeDetails and VehicleDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup(newSessionState.inner).
+      new CacheSetup().
         disposeFormModelIntegration().
         vehicleDetailsModelIntegration()
 
@@ -80,7 +80,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DisposeDetails and DealerDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup(newSessionState.inner).
+      new CacheSetup().
         dealerDetailsIntegration().
         disposeFormModelIntegration()
 
@@ -91,23 +91,18 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "display vehicle lookup page when new disposal link is clicked" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
       DisposeSuccessPage.happyPath
 
       assert(page.title equals VehicleLookupPage.title)
     }
   }
 
-  private def cacheSetup(sessionState: SessionState)(implicit webDriver: WebDriver) =
-    new CacheSetup(sessionState).
+  private def cacheSetup()(implicit webDriver: WebDriver) =
+    new CacheSetup().
       dealerDetailsIntegration().
       vehicleDetailsModelIntegration().
       disposeFormModelIntegration().
-      disposeTransactionId().
-      vehicleRegistrationNumber()
-
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
+      disposeTransactionIdIntegration().
+      vehicleRegistrationNumberIntegration()
 }

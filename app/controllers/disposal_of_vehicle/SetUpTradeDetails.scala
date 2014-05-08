@@ -5,12 +5,12 @@ import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import mappings.disposal_of_vehicle.SetupTradeDetails._
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResultAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
 import mappings.common.Postcode._
 import utils.helpers.FormExtensions._
 import com.google.inject.Inject
 
-class SetUpTradeDetails @Inject()(sessionState: DisposalOfVehicleSessionState) extends Controller {
+class SetUpTradeDetails @Inject()() extends Controller {
 
   val traderLookupForm = Form(
     mapping(

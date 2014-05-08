@@ -8,10 +8,10 @@ import mappings.common.AddressAndPostcode._
 import models.domain.disposal_of_vehicle.{DealerDetailsModel, AddressViewModel, SetupTradeDetailsModel, EnterAddressManuallyModel}
 import utils.helpers.FormExtensions._
 import com.google.inject.Inject
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAdapter
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResultAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
 
-class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState) extends Controller {
+class EnterAddressManually @Inject()() extends Controller {
 
   val form = Form(
     mapping(

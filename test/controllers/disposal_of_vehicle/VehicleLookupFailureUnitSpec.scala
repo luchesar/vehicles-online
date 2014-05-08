@@ -13,22 +13,20 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
   "VehicleLookupFailurePage - Controller" should {
 
     "present" in new WithApplication {
-      val sessionState = newSessionState
       val request = FakeRequest().withSession().
         withCookies(CookieFactory.dealerDetails()).
         withCookies(CookieFactory.vehicleLookupFormModel())
-      val result = vehicleLookupFailure(sessionState).present(request)
+      val result = vehicleLookupFailure().present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
       }
     }
 
     "redirect to vehiclelookup on submit" in new WithApplication {
-      val sessionState = newSessionState
       val request = FakeRequest().withSession().
         withCookies(CookieFactory.dealerDetails()).
         withCookies(CookieFactory.vehicleLookupFormModel())
-      val result = vehicleLookupFailure(sessionState).submit(request)
+      val result = vehicleLookupFailure().submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
@@ -36,7 +34,7 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
 
     "redirect to setuptraderdetails when cache is empty" in new WithApplication {
       val request = FakeRequest().withSession()
-      val result = vehicleLookupFailure(newSessionState).present(request)
+      val result = vehicleLookupFailure().present(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
@@ -44,37 +42,32 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
 
     "redirect to setuptraderdetails on submit when cache is empty" in new WithApplication {
       val request = FakeRequest().withSession()
-      val result = vehicleLookupFailure(newSessionState).submit(request)
+      val result = vehicleLookupFailure().submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
       }
     }
 
     "redirect to setuptraderdetails on if only BusinessChooseYourAddress cache is populated" in new WithApplication {
-      val sessionState = newSessionState
       val request = FakeRequest().withSession()
-      val result = vehicleLookupFailure(sessionState).present(request)
+      val result = vehicleLookupFailure().present(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
 
     "redirect to setuptraderdetails on if only VehicleLookupFormModelCache is populated" in new WithApplication {
-      val sessionState = newSessionState
       val request = FakeRequest().withSession().
         withCookies(CookieFactory.vehicleLookupFormModel())
-      val result = vehicleLookupFailure(newSessionState).present(request)
+      val result = vehicleLookupFailure().present(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
   }
   
-  private def vehicleLookupFailure(sessionState: DisposalOfVehicleSessionState) =
-    new VehicleLookupFailure(sessionState)
+  private def vehicleLookupFailure() =
+    new VehicleLookupFailure()
 
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
+
 }

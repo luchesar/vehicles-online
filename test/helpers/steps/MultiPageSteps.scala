@@ -12,13 +12,12 @@ import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeWebServiceImpl.traderUprnValid
 import services.session.PlaySessionState
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
+import mappings.disposal_of_vehicle.Dispose._
+import scala.Some
 
 class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
-
-  val sessionState = new DisposalOfVehicleSessionState(new PlaySessionState())
-  import sessionState._
 
   @Given("""^that the user has entered all required information$""")
   def that_the_user_has_entered_all_required_information() = {
@@ -89,9 +88,10 @@ class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL wi
 
   @Then("""^a timestamp representing the current date and time is generated and retained$""")
   def a_timestamp_representing_the_current_date_and_time_is_generated_and_retained() = {
-    fetchDisposeTransactionTimestampInCache match {
-      case Some(transactionTimestamp) => transactionTimestamp should include(s"$dateOfDisposalYearValid-$dateOfDisposalMonthValid-$dateOfDisposalDayValid")
-      case _ => fail("Should have found transaction timestamp in cache")
-    }
+    val timestamp = webDriver.manage().
+      getCookieNamed(disposeFormTimestampIdCacheKey).
+      getValue
+
+    timestamp should equal(s"""\"$dateOfDisposalYearValid-$dateOfDisposalMonthValid-${dateOfDisposalDayValid}T00:00:00.000+01:00\"""")
   }
 }

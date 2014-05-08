@@ -5,15 +5,17 @@ import models.domain.disposal_of_vehicle.{DisposeFormModel, DealerDetailsModel, 
 import scala.Some
 import play.api.Logger
 import com.google.inject.Inject
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAdapter
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResultAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
+import mappings.disposal_of_vehicle.Dispose._
+import scala.Some
+import models.domain.disposal_of_vehicle.DisposeViewModel
 
-class DisposeFailure @Inject()(sessionState: DisposalOfVehicleSessionState) extends Controller {
+class DisposeFailure @Inject()() extends Controller {
 
-  import sessionState._
 
   def present = Action { implicit request =>
-    (request.fetch[DealerDetailsModel], request.fetch[DisposeFormModel], request.fetch[VehicleDetailsModel], fetchDisposeTransactionIdFromCache) match {
+    (request.fetch[DealerDetailsModel], request.fetch[DisposeFormModel], request.fetch[VehicleDetailsModel], request.fetch(disposeFormTransactionIdCacheKey)) match {
       case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId)) => {
         val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId))
         Ok(views.html.disposal_of_vehicle.dispose_failure(disposeModel, disposeFormModel))

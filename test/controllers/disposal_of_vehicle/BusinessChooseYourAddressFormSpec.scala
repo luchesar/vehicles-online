@@ -27,9 +27,7 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
     val responseUprn = if(uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
-    val sessionState = new PlaySessionState()
-    val sessionStateFacade = new DisposalOfVehicleSessionState(sessionState)
-    new BusinessChooseYourAddress(sessionStateFacade, addressLookupService)
+    new BusinessChooseYourAddress( addressLookupService)
   }
 
   private def formWithValidDefaults(addressSelected: String = traderUprnValid.toString) = {

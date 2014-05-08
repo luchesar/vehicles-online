@@ -115,7 +115,7 @@ class EnterAddressManuallyFormSpec extends UnitSpec {
                                     line3: String = line3Valid,
                                     line4: String = line4Valid,
                                     postcode: String = postcodeValid) = {
-    new EnterAddressManually(newSessionState).form.bind(
+    new EnterAddressManually().form.bind(
       Map(
         s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1,
         s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> line2,
@@ -124,10 +124,5 @@ class EnterAddressManuallyFormSpec extends UnitSpec {
         s"$addressAndPostcodeId.$postcodeId" -> postcode
       )
     )
-  }
-
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
   }
 }

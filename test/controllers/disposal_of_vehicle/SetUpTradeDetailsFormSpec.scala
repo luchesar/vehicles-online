@@ -75,7 +75,7 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
 
   private def formWithValidDefaults(traderBusinessName: String = traderBusinessNameValid,
                                     traderPostcode: String = postcodeValid) = {
-    new SetUpTradeDetails(newSessionState).traderLookupForm.bind(
+    new SetUpTradeDetails().traderLookupForm.bind(
       Map(
         dealerNameId -> traderBusinessName,
         dealerPostcodeId -> traderPostcode
@@ -83,8 +83,4 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
     )
   }
 
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
 }

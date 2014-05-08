@@ -6,12 +6,11 @@ import scala.Some
 import com.google.inject.Inject
 import models.domain.disposal_of_vehicle.{DealerDetailsModel, VehicleLookupFormModel}
 import mappings.disposal_of_vehicle.VehicleLookup._
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAdapter
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResultAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
 
-class VehicleLookupFailure @Inject()(sessionState: DisposalOfVehicleSessionState) extends Controller {
+class VehicleLookupFailure @Inject()() extends Controller {
 
-  import sessionState._
 
   def present = Action { implicit request =>
     (request.fetch[DealerDetailsModel], request.fetch[VehicleLookupFormModel]) match {

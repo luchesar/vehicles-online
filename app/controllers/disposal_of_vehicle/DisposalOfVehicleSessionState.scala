@@ -16,7 +16,7 @@ import models.domain.common.CacheKey
 
 case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) extends Exception
 
-object DisposalOfVehicleSessionState2 {
+object DisposalOfVehicleSessionState {
 
   // TODO: This is the new way of doing caching. Remove old version piece by piece into the new style then rename this.
   implicit class RequestAdapter[A](val request: Request[A]) extends AnyVal {
@@ -35,14 +35,7 @@ object DisposalOfVehicleSessionState2 {
 
     def fetch(key: String): Option[String] =
       request.cookies.get(CryptoHelper.encryptCookieName(key)) match {
-        case Some(cookie) =>
-          val decrypted = CryptoHelper.decryptCookie(cookie.value)
-          val parsed = Json.parse(decrypted)
-          val fromJson = Json.fromJson[String](parsed)
-          fromJson.asEither match {
-            case Left(errors) => throw JsonValidationException(errors)
-            case Right(value) => Some(value)
-          }
+        case Some(cookie) => Some(CryptoHelper.decryptCookie(cookie.value))
         case None => None
       }
   }
@@ -56,61 +49,9 @@ object DisposalOfVehicleSessionState2 {
     }
 
     def withCookie(key: String, value: String): SimpleResult = {
-      val stateAsJson = Json.toJson(value)
-      val encryptedStateAsJson = CryptoHelper.encryptCookie(stateAsJson.toString())
-      val cookie = Cookie(CryptoHelper.encryptCookieName(key), encryptedStateAsJson)
+      val encrypted = CryptoHelper.encryptCookie(value)
+      val cookie = Cookie(CryptoHelper.encryptCookieName(key), encrypted)
       result.withCookies(cookie)
     }
   }
-
-}
-
-import services.session.SessionState
-import com.google.inject.Inject
-
-class DisposalOfVehicleSessionState @Inject()(val inner: SessionState) {
-
-  def storeDealerDetailsInCache(model: EnterAddressManuallyModel, dealerName: String) = {
-    val dealerAddress = AddressViewModel.from(model.addressAndPostcodeModel)
-    val value = DealerDetailsModel(dealerName = dealerName, dealerAddress = dealerAddress)
-    inner.set(dealerDetailsCacheKey, Some(value))
-    Logger.debug(s"EnterAddressManually stored data in cache: key = $dealerDetailsCacheKey, value = ${value}")
-  }
-
-  def storeTradeDetailsInCache(f: SetupTradeDetailsModel) = {
-    inner.set(SetupTradeDetailsCacheKey, Some(f))
-    Logger.debug(s"SetUpTradeDetails stored data in cache: key = $SetupTradeDetailsCacheKey, value = ${f}")
-  }
-
-  def storeDisposeTransactionIdInCache(value: String) = {
-    inner.set(disposeFormTransactionIdCacheKey, Some(value))
-    Logger.debug(s"Dispose - stored dispose transaction id in cache: key = $disposeFormTransactionIdCacheKey, value = $value")
-  }
-
-  def storeDisposeTransactionTimestampInCache(value: String) = {
-    inner.set(disposeFormTimestampIdCacheKey, Some(value))
-    Logger.debug(s"Dispose - stored dispose transaction timestamp in cache: key = $disposeFormTimestampIdCacheKey, value = $value")
-  }
-
-  def storeDisposeRegistrationNumberInCache(value: String) = {
-    inner.set(disposeFormRegistrationNumberCacheKey, Some(value))
-    Logger.debug(s"Dispose - stored dispose registration number in cache: key = $disposeFormRegistrationNumberCacheKey, value = $value")
-  }
-
-  def storeDisposeModelInCache(value: DisposeModel) = {
-    inner.set(disposeModelCacheKey, Some(value))
-    Logger.debug(s"Dispose - stored formModel in cache: key = $disposeModelCacheKey, value = $value")
-  }
-
-  def fetchDisposeFormModelFromCache: Option[DisposeFormModel] = inner.get[DisposeFormModel](disposeFormModelCacheKey)
-
-  def fetchVehicleDetailsFromCache: Option[VehicleDetailsModel] = inner.get[VehicleDetailsModel](vehicleLookupDetailsCacheKey)
-
-  def fetchTraderDetailsFromCache: Option[SetupTradeDetailsModel] = inner.get[SetupTradeDetailsModel](SetupTradeDetailsCacheKey)
-
-  def fetchDisposeTransactionIdFromCache: Option[String] = inner.get[String](disposeFormTransactionIdCacheKey)
-
-  def fetchDisposeTransactionTimestampInCache: Option[String] = inner.get[String](disposeFormTimestampIdCacheKey)
-
-  def fetchDisposeRegistrationNumberFromCache: Option[String] = inner.get[String](disposeFormRegistrationNumberCacheKey)
 }

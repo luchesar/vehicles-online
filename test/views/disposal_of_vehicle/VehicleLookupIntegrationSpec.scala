@@ -17,7 +17,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
     "be presented" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
 
       go to VehicleLookupPage
 
@@ -32,7 +32,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
     "go to the next page when correct data is entered" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
 
       happyPath()
 
@@ -41,7 +41,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validation error message when no referenceNumber is entered" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
 
       happyPath(referenceNumber = "")
 
@@ -50,7 +50,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validation error message when no registrationNumber is entered" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
 
       happyPath(registrationNumber = "")
 
@@ -59,7 +59,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validation error message when a registrationNumber is entered containing one character" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
 
       happyPath(registrationNumber = "a")
 
@@ -68,7 +68,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validation error message when a registrationNumber is entered containing special characters" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
 
       happyPath(registrationNumber = "$^")
 
@@ -77,7 +77,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
     "display two validation error messages when no vehicle details are entered but consent is given" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
 
       happyPath(referenceNumber = "", registrationNumber = "")
 
@@ -86,7 +86,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validation error message when only a valid referenceNumber is entered and consent is given" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
 
       happyPath(registrationNumber = "")
 
@@ -95,7 +95,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
     "display one validation error message when only a valid registrationNumber is entered and consent is given" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
 
       happyPath(referenceNumber = "")
 
@@ -110,7 +110,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
     "display previous page when back link is clicked with uprn present" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup(newSessionState.inner)
+      new CacheSetup()
         .setupTradeDetailsIntegration()
         .dealerDetailsIntegration(addressWithUprn)
       go to VehicleLookupPage
@@ -122,7 +122,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
     "display previous page when back link is clicked with no uprn present" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
       go to VehicleLookupPage
 
       click on back
@@ -131,13 +131,8 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  private def cacheSetup(sessionState: SessionState)(implicit webDriver: WebDriver) =
-    new CacheSetup(sessionState).
+  private def cacheSetup()(implicit webDriver: WebDriver) =
+    new CacheSetup().
       setupTradeDetailsIntegration().
       dealerDetailsIntegration()
-
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
 }

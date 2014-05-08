@@ -11,26 +11,24 @@ class DisposeFailureUnitSpec extends UnitSpec {
 
   "DisposalFailure - Controller" should {
     "present" in new WithApplication {
-      val sessionState = newSessionState
-      cacheSetup(sessionState.inner)
       val request = FakeRequest().withSession().
         withCookies(CookieFactory.dealerDetails()).
         withCookies(CookieFactory.vehicleDetailsModel()).
-        withCookies(CookieFactory.disposeFormModel())
-      val result = disposeFailure(sessionState).present(request)
+        withCookies(CookieFactory.disposeFormModel()).
+        withCookies(CookieFactory.disposeTransactionId())
+      val result = disposeFailure().present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
       }
     }
 
     "redirect to vehicle lookup page when button clicked" in new WithApplication {
-      val sessionState = newSessionState
-      cacheSetup(sessionState.inner)
       val request = FakeRequest().withSession().
         withCookies(CookieFactory.dealerDetails()).
         withCookies(CookieFactory.vehicleDetailsModel()).
-        withCookies(CookieFactory.disposeFormModel())
-      val result = disposeFailure(sessionState).submit(request)
+        withCookies(CookieFactory.disposeFormModel()).
+        withCookies(CookieFactory.disposeTransactionId())
+      val result = disposeFailure().submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
@@ -38,24 +36,14 @@ class DisposeFailureUnitSpec extends UnitSpec {
 
     "redirect to setuptraderdetails when no details are in cache and submit is selected" in new WithApplication() {
       val request = FakeRequest().withSession()
-      val result = disposeFailure(newSessionState).submit(request)
+      val result = disposeFailure().submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
   }
 
-  private def cacheSetup(sessionState: SessionState) = {
-    new CacheSetup(sessionState).
-      disposeTransactionId()
-  }
-
-  private def disposeFailure(sessionState: DisposalOfVehicleSessionState) =
-    new DisposeFailure(sessionState)
-
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
+  private def disposeFailure() =
+    new DisposeFailure()
 }
 
