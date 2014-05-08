@@ -23,7 +23,7 @@ import models.domain.disposal_of_vehicle.DisposeFormModel
 import play.api.data.FormError
 import scala.Some
 import play.api.mvc.SimpleResult
-import models.domain.disposal_of_vehicle.DealerDetailsModel
+import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import mappings.disposal_of_vehicle.Dispose.dateOfDisposalYearsIntoThePast
@@ -49,7 +49,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
 
   def present = Action {
     implicit request => {
-      request.fetch[DealerDetailsModel] match {
+      request.fetch[TraderDetailsModel] match {
         case (Some(dealerDetails)) =>
           Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
@@ -68,7 +68,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       disposeForm.bindFromRequest.fold(
         formWithErrors =>
           Future {
-            (request.fetch[DealerDetailsModel], request.fetch[VehicleDetailsModel]) match {
+            (request.fetch[TraderDetailsModel], request.fetch[VehicleDetailsModel]) match {
               case (Some(dealerDetails), Some(vehicleDetails)) =>
                 val disposeViewModel = populateModelFromCachedData(dealerDetails, vehicleDetails)
                 // When the user doesn't select a value from the drop-down then the mapping will fail to match on an Int before
@@ -94,13 +94,13 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       )
   }
 
-  private def populateModelFromCachedData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {
+  private def populateModelFromCachedData(dealerDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {
     val model = DisposeViewModel(
       registrationNumber = vehicleDetails.registrationNumber,
       vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
-      dealerName = dealerDetails.dealerName,
-      dealerAddress = dealerDetails.dealerAddress)
+      dealerName = dealerDetails.traderName,
+      dealerAddress = dealerDetails.traderAddress)
     Logger.debug(s"Dispose page read the following data from cache: $model")
     model
   }

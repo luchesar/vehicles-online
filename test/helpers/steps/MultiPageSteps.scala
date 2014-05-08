@@ -23,8 +23,8 @@ class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL wi
   def that_the_user_has_entered_all_required_information() = {
     go to BeforeYouStartPage
     click on BeforeYouStartPage.startNow
-    SetupTradeDetailsPage.dealerName enter traderBusinessNameValid
-    SetupTradeDetailsPage.dealerPostcode enter postcodeValid
+    SetupTradeDetailsPage.traderName enter traderBusinessNameValid
+    SetupTradeDetailsPage.traderPostcode enter postcodeValid
     click on SetupTradeDetailsPage.lookup
     BusinessChooseYourAddressPage.chooseAddress.value = traderUprnValid.toString
     click on BusinessChooseYourAddressPage.select

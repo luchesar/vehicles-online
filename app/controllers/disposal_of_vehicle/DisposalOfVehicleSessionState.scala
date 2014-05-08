@@ -2,10 +2,10 @@ package controllers.disposal_of_vehicle
 
 import play.api.Logger
 import models.domain.disposal_of_vehicle._
-import models.domain.disposal_of_vehicle.{DealerDetailsModel, DisposeFormModel, SetupTradeDetailsModel, VehicleDetailsModel}
+import models.domain.disposal_of_vehicle.{TraderDetailsModel, DisposeFormModel, SetupTradeDetailsModel, VehicleDetailsModel}
 import scala.Some
 import mappings.disposal_of_vehicle.SetupTradeDetails._
-import mappings.disposal_of_vehicle.DealerDetails._
+import mappings.disposal_of_vehicle.TraderDetails._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.VehicleLookup._
 import play.api.mvc.{Request, Cookie, SimpleResult}

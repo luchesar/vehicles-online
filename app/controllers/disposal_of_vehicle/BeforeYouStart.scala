@@ -5,7 +5,7 @@ import play.api.Logger
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.disposal_of_vehicle.SetupTradeDetails._
-import mappings.disposal_of_vehicle.DealerDetails._
+import mappings.disposal_of_vehicle.TraderDetails._
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import utils.helpers.CryptoHelper
 
@@ -16,7 +16,7 @@ class BeforeYouStart extends Controller {
     Ok(views.html.disposal_of_vehicle.before_you_start()).withNewSession.
       discardingCookies(
         DiscardingCookie(name = CryptoHelper.encryptCookieName(SetupTradeDetailsCacheKey)),
-        DiscardingCookie(name = CryptoHelper.encryptCookieName(dealerDetailsCacheKey)),
+        DiscardingCookie(name = CryptoHelper.encryptCookieName(traderDetailsCacheKey)),
         DiscardingCookie(name = CryptoHelper.encryptCookieName(businessChooseYourAddressCacheKey)),
         DiscardingCookie(name = CryptoHelper.encryptCookieName(vehicleLookupDetailsCacheKey)),
         DiscardingCookie(name = CryptoHelper.encryptCookieName(vehicleLookupResponseCodeCacheKey)),

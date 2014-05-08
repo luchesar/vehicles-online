@@ -203,8 +203,8 @@ disposal_setuptradedetails.tradernamelabel = Enw masnachwr
 disposal_setuptradedetails.traderpostcodelabel = Cod post
 disposal_setuptradedetails.traderpostcodelabel.validation = Rhaid bod rhwng 5 ac 8 cymeriadau ac mewn fformat dilys, ee. PR2 8AE neu PR28AE
 disposal_setuptradedetails.button = Nesaf
-dealerName = Enw masnachwr
-dealerPostcode = Cod post
+traderName = Enw masnachwr
+traderPostcode = Cod post
 
 #page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Dod o hyd i fanylion y cerbyd

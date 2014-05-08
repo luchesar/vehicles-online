@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriver
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.disposal_of_vehicle.SetupTradeDetails._
-import mappings.disposal_of_vehicle.DealerDetails._
+import mappings.disposal_of_vehicle.TraderDetails._
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import pages.disposal_of_vehicle.DisposeSuccessPage._
 
@@ -123,7 +123,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       // Expected to be present
       assert(webDriver.manage().getCookieNamed(SetupTradeDetailsCacheKey) != null)
       assert(webDriver.manage().getCookieNamed(businessChooseYourAddressCacheKey) != null)
-      assert(webDriver.manage().getCookieNamed(dealerDetailsCacheKey) != null)
+      assert(webDriver.manage().getCookieNamed(traderDetailsCacheKey) != null)
     }
 
     "remove redundant cookies when 'exit' button is clicked" in new WebBrowser {
@@ -136,7 +136,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       // Expected to be removed
       assert(webDriver.manage().getCookieNamed(SetupTradeDetailsCacheKey) == null)
       assert(webDriver.manage().getCookieNamed(businessChooseYourAddressCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(dealerDetailsCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(traderDetailsCacheKey) == null)
       assert(webDriver.manage().getCookieNamed(vehicleLookupDetailsCacheKey) == null)
       assert(webDriver.manage().getCookieNamed(vehicleLookupResponseCodeCacheKey) == null)
       assert(webDriver.manage().getCookieNamed(vehicleLookupFormModelCacheKey) == null)
