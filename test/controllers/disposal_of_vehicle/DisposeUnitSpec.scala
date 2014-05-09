@@ -110,14 +110,7 @@ class DisposeUnitSpec extends UnitSpec {
     }
 
     "redirect to soap endpoint error page when service is unavailable" in new WithApplication {
-      val disposeFailure = {
-        val ws = mock[DisposeWebService]
-        when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
-          new FakeResponse(status = SERVICE_UNAVAILABLE)
-        })
-        val disposeServiceImpl = new DisposeServiceImpl(ws)
-        new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
-      }
+      val disposeFailure = disposeController(disposeServiceStatus = SERVICE_UNAVAILABLE, disposeServiceResponse = None)
 
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
@@ -237,7 +230,7 @@ class DisposeUnitSpec extends UnitSpec {
     val ws = mock[DisposeWebService]
     when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
       val fakeJson = disposeServiceResponse map (Json.toJson(_))
-      new FakeResponse(status = OK, fakeJson = fakeJson) // Any call to a webservice will always return this successful response.
+      new FakeResponse(status = disposeServiceStatus, fakeJson = fakeJson) // Any call to a webservice will always return this successful response.
     })
     val disposeServiceImpl = new DisposeServiceImpl(ws)
     new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
