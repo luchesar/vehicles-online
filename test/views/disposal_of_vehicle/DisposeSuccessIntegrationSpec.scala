@@ -143,7 +143,6 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       assert(webDriver.manage().getCookieNamed(disposeFormTimestampIdCacheKey) == null)
       assert(webDriver.manage().getCookieNamed(disposeFormRegistrationNumberCacheKey) == null)
       assert(webDriver.manage().getCookieNamed(disposeModelCacheKey) == null)
-
     }
   }
 

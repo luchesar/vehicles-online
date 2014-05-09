@@ -6,6 +6,7 @@ import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.VehicleLookupFailurePage._
 import pages.disposal_of_vehicle._
+import mappings.disposal_of_vehicle.VehicleLookup._
 
 class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
@@ -63,6 +64,15 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
       click on beforeYouStart
 
       assert(page.title equals BeforeYouStartPage.title)
+    }
+
+    "remove redundant cookies when displayed" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      go to VehicleLookupFailurePage
+
+      assert(webDriver.manage().getCookieNamed(vehicleLookupResponseCodeCacheKey) == null)
     }
   }
 

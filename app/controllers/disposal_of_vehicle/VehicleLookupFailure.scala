@@ -12,10 +12,8 @@ class VehicleLookupFailure @Inject()() extends Controller {
 
   def present = Action { implicit request =>
     (request.fetch[TraderDetailsModel], request.fetch[VehicleLookupFormModel]) match {
-      case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) => {
-        Logger.debug("found dealer and vehicle details")
+      case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) =>
         displayVehicleLookupFailure(vehicleLookUpFormModelDetails)
-      }
       case _ => Redirect(routes.SetUpTradeDetails.present)
     }
   }
