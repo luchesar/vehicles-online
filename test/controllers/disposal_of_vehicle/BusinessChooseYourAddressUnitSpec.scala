@@ -8,6 +8,7 @@ import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeWebServiceImpl
 import services.fakes.FakeWebServiceImpl._
+import play.api.mvc.Cookies
 
 class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
@@ -62,12 +63,32 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "redirect to UprnNotFound page when submit with but uprn not found by the webservice" in new WithApplication {
-      
-      val businessChooseYourAddressWithUprnNotFound = businessChooseYourAddressWithFakeWebService( uprnFound = false)
       val request = buildCorrectlyPopulatedRequest().withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnNotFound.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(UprnNotFoundPage.address))
+      }
+    }
+
+    "write cookie when the form is completed successfully" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest().withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+      val result = businessChooseYourAddressWithUprnFound().submit(request)
+      whenReady(result) {
+        r =>
+          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val found = cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.businessChooseYourAddress()))
+          found should equal(true)
+      }
+    }
+
+    "does not write cookie when uprn not found" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest().withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+      val result = businessChooseYourAddressWithUprnNotFound.submit(request)
+      whenReady(result) {
+        r =>
+          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val found = cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.businessChooseYourAddress()))
+          found should equal(false)
       }
     }
   }
@@ -87,5 +108,7 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
   private def businessChooseYourAddressWithUprnFound() =
     businessChooseYourAddressWithFakeWebService()
+
+  private val businessChooseYourAddressWithUprnNotFound = businessChooseYourAddressWithFakeWebService(uprnFound = false)
 
 }

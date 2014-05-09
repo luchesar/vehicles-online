@@ -8,6 +8,7 @@ import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
 import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupFormModelCacheKey
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.businessChooseYourAddressCacheKey
 import models.DayMonthYear
 import models.domain.disposal_of_vehicle._
 import play.api.libs.json.{Writes, Json}
@@ -17,6 +18,9 @@ import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.{FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
+import services.fakes.FakeWebServiceImpl._
+import services.fakes.FakeAddressLookupService.postcodeValid
+import play.api.mvc.Cookie
 
 object CookieFactoryForUnitSpecs {
   private def createCookie[A](key: String, value: A)(implicit tjs: Writes[A]): Cookie = {
@@ -28,6 +32,12 @@ object CookieFactoryForUnitSpecs {
     val key = SetupTradeDetailsCacheKey
     val value = SetupTradeDetailsModel(traderBusinessName = traderBusinessNameValid,
       traderPostcode = traderPostcode)
+    createCookie(key, value)
+  }
+
+  def businessChooseYourAddress() = {
+    val key = businessChooseYourAddressCacheKey
+    val value = BusinessChooseYourAddressModel(uprnSelected = traderUprnValid)
     createCookie(key, value)
   }
 
