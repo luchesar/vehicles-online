@@ -5,6 +5,7 @@ import play.api.data.validation.ValidationError
 import play.api.libs.json.{Writes, Reads, JsPath, Json}
 import play.api.mvc.{Request, Cookie, SimpleResult}
 import utils.helpers.CryptoHelper
+import play.api.data.Form
 
 case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) extends Exception
 
@@ -46,4 +47,10 @@ object DisposalOfVehicleSessionState {
     }
   }
 
+  implicit class FormAdapter[A](val f: Form[A]) extends AnyVal {
+    def fill(value: Option[A]): Form[A] = value match {
+      case Some(v) => f.fill(v)
+      case _ => f
+    }
+  }
 }
