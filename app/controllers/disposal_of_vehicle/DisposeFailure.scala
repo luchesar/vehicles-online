@@ -23,13 +23,6 @@ class DisposeFailure @Inject()() extends Controller {
     }
   }
 
-  def submit = Action { implicit request =>
-    (request.fetch[TraderDetailsModel], request.fetch[DisposeFormModel], request.fetch[VehicleDetailsModel]) match {
-      case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present)
-      case _ => Redirect(routes.SetUpTradeDetails.present)
-    }
-  }
-
   private def fetchData(dealerDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel, transactionId: Option[String]): DisposeViewModel = {
     DisposeViewModel(
       registrationNumber = vehicleDetails.registrationNumber,
