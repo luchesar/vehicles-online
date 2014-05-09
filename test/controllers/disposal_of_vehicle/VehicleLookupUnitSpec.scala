@@ -13,7 +13,7 @@ import org.mockito.Mockito._
 import pages.disposal_of_vehicle._
 import play.api.http.Status.OK
 import play.api.libs.json.{JsValue, Json}
-import play.api.mvc.Cookies
+import play.api.mvc.{SimpleResult, Cookies}
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeResponse
@@ -22,10 +22,8 @@ import services.fakes.FakeWebServiceImpl._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 
 class VehicleLookupUnitSpec extends UnitSpec {
-
-  "VehicleLookup - Controller" should {
-
-    "present" in new WithApplication {
+  "present" should {
+    "display" in new WithApplication {
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator( vehicleDetailsResponseSuccess).present(request)
@@ -33,6 +31,15 @@ class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.status should equal(OK)
     }
 
+    "redirect to setupTradeDetails page when user has not set up a trader for disposal" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
+
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+    }
+  }
+
+  "submit" should {
     "redirect to Dispose after a valid submit and true message returned from the fake microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupResponseGenerator( vehicleDetailsResponseSuccess).submit(request)
@@ -53,7 +60,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to VehicleLookupFailure after a submit and no response code and no vehicledetailsdto returned from the fake microservice" in new WithApplication {
+    "redirect to MicroServiceError after a submit and no response code and no vehicledetailsdto returned from the fake microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseNotFoundResponseCode).submit(request)
 
@@ -81,15 +88,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
     }
 
-    "redirect to setupTradeDetails page when user has not set up a trader for disposal" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest()
-      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
-
-      result.futureValue.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
-    }
-
     "return a bad request if dealer details are in cache and no details are entered" in new WithApplication {
-
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "", registrationNumber = "", consent = "").
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
@@ -186,7 +185,9 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupError().submit(request)
 
-      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
     }
 
     "redirect to MicroServiceError after a submit if response status is Ok and no response payload" in new WithApplication {
@@ -195,6 +196,52 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
       // TODO This test passes for the wrong reason, it is throwing when VehicleLookupServiceImpl tries to access resp.json, whereas we want VehicleLookupServiceImpl to return None as a response payload.
       result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+    }
+
+    "write cookie when vss error returned by the microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupResponseGenerator(vehicleDetailsServerDown).submit(request)
+
+      whenReady(result) {
+        r =>
+          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          cookies.map(_.name) should contain (vehicleLookupFormModelCacheKey)
+      }
+    }
+
+    "write cookie when document reference number mismatch returned by microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupResponseGenerator(fullResponse = vehicleDetailsResponseDocRefNumberNotLatest).submit(request)
+      whenReady(result) {
+        r =>
+          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          cookies.map(_.name) should contain allOf (vehicleLookupResponseCodeCacheKey, vehicleLookupFormModelCacheKey)
+      }
+    }
+
+    "write cookie when vrm not found by the fake microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupResponseGenerator(fullResponse = vehicleDetailsResponseVRMNotFound).submit(request)
+      whenReady(result) {
+        r =>
+          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val cookieNames = cookies.map(_.name)
+          println("cookies: " + cookies)
+          println("cookies names: " + cookieNames)
+          cookieNames should contain allOf (vehicleLookupResponseCodeCacheKey, vehicleLookupFormModelCacheKey)
+      }
+    }
+
+    "does not write cookie when microservice throws" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupError().submit(request)
+
+      whenReady(result) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          cookies shouldBe empty
+      }
     }
   }
 
