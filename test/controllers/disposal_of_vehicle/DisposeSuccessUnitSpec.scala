@@ -3,9 +3,8 @@ package controllers.disposal_of_vehicle
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.{CookieFactoryForUnitSpecs, CookieFactoryForUISpecs}
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
-import services.session.{SessionState, PlaySessionState}
 
 class DisposeSuccessUnitSpec extends UnitSpec {
 

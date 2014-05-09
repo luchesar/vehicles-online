@@ -1,12 +1,11 @@
 package controllers.disposal_of_vehicle
 
-import play.api.test.{FakeRequest, WithApplication}
-import play.api.test.Helpers._
-import scala.Some
-import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.{CookieFactoryForUnitSpecs, CookieFactoryForUISpecs}
 import helpers.UnitSpec
-import services.session.PlaySessionState
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import pages.disposal_of_vehicle._
+import play.api.test.Helpers._
+import play.api.test.{FakeRequest, WithApplication}
+import scala.Some
 
 class VehicleLookupFailureUnitSpec extends UnitSpec {
 

@@ -1,13 +1,12 @@
 package controllers.disposal_of_vehicle
 
-import play.api.test.{FakeRequest, WithApplication}
-import play.api.test.Helpers._
+import helpers.UnitSpec
+import helpers.disposal_of_vehicle.Helper._
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.Helper._
-import helpers.UnitSpec
+import play.api.test.Helpers._
+import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeAddressLookupService._
-import services.session.PlaySessionState
 
 class SetUpTradeDetailsUnitSpec extends UnitSpec {
 

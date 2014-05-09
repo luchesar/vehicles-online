@@ -1,27 +1,25 @@
 package controllers.disposal_of_vehicle
 
-import play.api.test.{FakeRequest, WithApplication}
-import play.api.test.Helpers._
-import controllers.disposal_of_vehicle
-import mappings.disposal_of_vehicle.VehicleLookup._
-import helpers.disposal_of_vehicle.Helper._
-import org.mockito.Mockito._
-import org.mockito.Matchers._
-import models.domain.disposal_of_vehicle.{VehicleDetailsResponse, VehicleDetailsRequest}
-import services.fakes.FakeResponse
-import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.{CookieFactoryForUnitSpecs, CookieFactoryForUISpecs}
-import helpers.UnitSpec
-import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import scala.concurrent.{ExecutionContext, Future}
-import play.api.libs.json.{JsValue, Json}
 import ExecutionContext.Implicits.global
-import services.fakes.FakeVehicleLookupWebService._
-import services.fakes.FakeAddressLookupService._
+import controllers.disposal_of_vehicle
+import helpers.UnitSpec
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import helpers.disposal_of_vehicle.Helper._
+import mappings.disposal_of_vehicle.VehicleLookup._
+import models.domain.disposal_of_vehicle.{VehicleDetailsResponse, VehicleDetailsRequest}
+import org.mockito.Matchers._
+import org.mockito.Mockito._
+import pages.disposal_of_vehicle._
 import play.api.http.Status.OK
-import services.session.PlaySessionState
-import services.fakes.FakeWebServiceImpl._
+import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Cookies
+import play.api.test.Helpers._
+import play.api.test.{FakeRequest, WithApplication}
+import services.fakes.FakeResponse
+import services.fakes.FakeVehicleLookupWebService._
+import services.fakes.FakeWebServiceImpl._
+import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 
 class VehicleLookupUnitSpec extends UnitSpec {
 

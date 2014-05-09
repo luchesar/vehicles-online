@@ -1,19 +1,15 @@
 package controllers.disposal_of_vehicle
 
-import play.api.test.{FakeRequest, WithApplication}
-import play.api.test.Helpers._
-import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle._
-import mappings.common.Postcode
-import Postcode._
+import mappings.common.Postcode._
 import helpers.UnitSpec
-import services.fakes.FakeAddressLookupService._
+import helpers.disposal_of_vehicle._
 import mappings.common.AddressAndPostcode._
 import mappings.common.AddressLines._
-import services.session.PlaySessionState
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
+import pages.disposal_of_vehicle._
 import play.api.mvc.Cookies
+import play.api.test.Helpers._
+import play.api.test.{FakeRequest, WithApplication}
+import services.fakes.FakeAddressLookupService._
 
 class EnterAddressManuallyUnitSpec extends UnitSpec {
 

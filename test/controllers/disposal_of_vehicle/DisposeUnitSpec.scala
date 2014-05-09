@@ -6,7 +6,7 @@ import controllers.disposal_of_vehicle
 import mappings.disposal_of_vehicle.Dispose._
 import models.domain.disposal_of_vehicle.{DisposeRequest, DisposeResponse}
 import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.{CookieFactoryForUnitSpecs, CookieFactoryForUISpecs}
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import helpers.UnitSpec
@@ -18,8 +18,7 @@ import ExecutionContext.Implicits.global
 import services.DateServiceImpl
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
-import FakeVehicleLookupWebService.registrationNumberValid
-import services.session.{SessionState, PlaySessionState}
+import services.session.SessionState
 import play.api.mvc.Cookies
 
 class DisposeUnitSpec extends UnitSpec {

@@ -1,11 +1,10 @@
 package controllers.disposal_of_vehicle
 
-import mappings.common.Postcode._
 import helpers.UnitSpec
-import services.fakes.FakeAddressLookupService._
 import mappings.common.AddressAndPostcode._
 import mappings.common.AddressLines._
-import services.session.PlaySessionState
+import mappings.common.Postcode._
+import services.fakes.FakeAddressLookupService._
 
 class EnterAddressManuallyFormSpec extends UnitSpec {
 

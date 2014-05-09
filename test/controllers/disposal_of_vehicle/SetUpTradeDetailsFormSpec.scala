@@ -1,10 +1,9 @@
 package controllers.disposal_of_vehicle
 
-import mappings.disposal_of_vehicle.SetupTradeDetails._
-import helpers.disposal_of_vehicle.Helper._
 import helpers.UnitSpec
+import helpers.disposal_of_vehicle.Helper._
+import mappings.disposal_of_vehicle.SetupTradeDetails._
 import services.fakes.FakeAddressLookupService._
-import services.session.PlaySessionState
 
 class SetUpTradeDetailsFormSpec extends UnitSpec {
 

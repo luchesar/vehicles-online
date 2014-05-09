@@ -1,8 +1,8 @@
 package controllers.disposal_of_vehicle
 
-import play.api.test.{FakeRequest, WithApplication}
-import play.api.test.Helpers._
 import helpers.UnitSpec
+import play.api.test.Helpers._
+import play.api.test.{FakeRequest, WithApplication}
 
 class MicroserviceErrorUnitSpec extends UnitSpec {
 

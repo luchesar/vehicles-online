@@ -1,12 +1,12 @@
 package controllers.disposal_of_vehicle
 
-import play.api.test.{FakeRequest, WithApplication}
-import play.api.test.Helpers._
+import helpers.UnitSpec
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import play.api.test.Helpers._
+import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeWebServiceImpl
-import helpers.UnitSpec
 import services.fakes.FakeWebServiceImpl._
 
 class BusinessChooseYourAddressUnitSpec extends UnitSpec {
