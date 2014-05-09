@@ -14,17 +14,16 @@ class VehicleLookupFailure @Inject()() extends Controller {
     (request.getCookie[TraderDetailsModel], request.getCookie[VehicleLookupFormModel]) match {
       case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) =>
         displayVehicleLookupFailure(vehicleLookUpFormModelDetails)
-      case _ => Redirect(routes.SetUpTradeDetails.present)
+      case _ => Redirect(routes.SetUpTradeDetails.present())
     }
   }
 
   def submit = Action { implicit request =>
     (request.getCookie[TraderDetailsModel], request.getCookie[VehicleLookupFormModel]) match {
-      case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) => {
+      case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) =>
         Logger.debug("found dealer and vehicle details")
-        Redirect(routes.VehicleLookup.present)
-      }
-      case _ => Redirect(routes.BeforeYouStart.present)
+        Redirect(routes.VehicleLookup.present())
+      case _ => Redirect(routes.BeforeYouStart.present())
     }
   }
 

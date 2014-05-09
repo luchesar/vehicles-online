@@ -1,7 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import play.api.mvc._
-import models.domain.disposal_of_vehicle.{DisposeFormModel, TraderDetailsModel, DisposeViewModel, VehicleDetailsModel}
+import models.domain.disposal_of_vehicle.{DisposeFormModel, TraderDetailsModel, VehicleDetailsModel}
 import play.api.Logger
 import com.google.inject.Inject
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
@@ -13,13 +13,12 @@ class DisposeFailure @Inject()() extends Controller {
 
   def present = Action { implicit request =>
     (request.getCookie[TraderDetailsModel], request.getCookie[DisposeFormModel], request.getCookie[VehicleDetailsModel], request.getCookieNamed(disposeFormTransactionIdCacheKey)) match {
-      case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId)) => {
+      case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId)) =>
         val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId))
         Ok(views.html.disposal_of_vehicle.dispose_failure(disposeModel, disposeFormModel))
-      }
       case _ =>
         Logger.debug("could not find all expected data in cache on dispose failure present - now redirecting...")
-        Redirect(routes.SetUpTradeDetails.present)
+        Redirect(routes.SetUpTradeDetails.present())
     }
   }
 
