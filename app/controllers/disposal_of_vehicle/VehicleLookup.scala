@@ -86,8 +86,8 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
     }
   }
 
-  private def okResponseConstruction (response: Option[VehicleDetailsResponse]) = {
-    response match {
+  private def okResponseConstruction (vehicleDetailsResponse: Option[VehicleDetailsResponse]) = {
+    vehicleDetailsResponse match {
       case Some(response) => responseCodePresent(response)
       case _ => Redirect(routes.MicroServiceError.present())
     }
