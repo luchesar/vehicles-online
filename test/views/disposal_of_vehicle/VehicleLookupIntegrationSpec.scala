@@ -1,14 +1,13 @@
 package views.disposal_of_vehicle
 
-import pages.disposal_of_vehicle._
-import helpers.webbrowser.TestHarness
-import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
-import pages.common.ErrorPanel
+import pages.disposal_of_vehicle.VehicleLookupPage.{happyPath, back}
 import helpers.UiSpec
-import services.fakes.FakeAddressLookupService._
-import VehicleLookupPage.{happyPath, back}
-import services.session.{SessionState, PlaySessionState}
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
+import pages.common.ErrorPanel
+import pages.disposal_of_vehicle._
+import services.fakes.FakeAddressLookupService._
 
 class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 

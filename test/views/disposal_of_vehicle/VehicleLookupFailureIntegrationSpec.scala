@@ -1,12 +1,11 @@
 package views.disposal_of_vehicle
 
-import pages.disposal_of_vehicle.VehicleLookupFailurePage._
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
+import pages.disposal_of_vehicle.VehicleLookupFailurePage._
 import pages.disposal_of_vehicle._
-import services.session.{SessionState, PlaySessionState}
 
 class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 

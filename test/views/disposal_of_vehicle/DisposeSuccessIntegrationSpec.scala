@@ -1,17 +1,16 @@
 package views.disposal_of_vehicle
 
-import pages.disposal_of_vehicle._
-import helpers.webbrowser.TestHarness
-import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.UiSpec
-import services.session.{PlaySessionState, SessionState}
-import org.openqa.selenium.WebDriver
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import mappings.disposal_of_vehicle.Dispose._
-import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import mappings.disposal_of_vehicle.TraderDetails._
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
+import mappings.disposal_of_vehicle.VehicleLookup._
+import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.DisposeSuccessPage._
+import pages.disposal_of_vehicle._
 
 class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 

@@ -1,10 +1,10 @@
 package views.disposal_of_vehicle
 
-import pages.disposal_of_vehicle._
-import helpers.webbrowser.TestHarness
-import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.UiSpec
-import UprnNotFoundPage._
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
+import pages.disposal_of_vehicle.UprnNotFoundPage._
+import pages.disposal_of_vehicle._
 
 class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
 
