@@ -2,11 +2,9 @@ package views.disposal_of_vehicle
 
 import pages.disposal_of_vehicle._
 import helpers.webbrowser.TestHarness
-import helpers.disposal_of_vehicle.CacheSetup
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.UiSpec
 import UprnNotFoundPage._
-import services.session.PlaySessionState
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
 
 class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
 
@@ -28,7 +26,7 @@ class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
 
     "go to manualaddress page after the Manual Address button is clicked and trade details have been set up in cache" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup().
+      new CookieFactoryForUISpecs().
         setupTradeDetailsIntegration()
       go to UprnNotFoundPage
 

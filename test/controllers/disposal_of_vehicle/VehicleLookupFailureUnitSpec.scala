@@ -4,7 +4,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import scala.Some
 import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.{CookieFactory, CacheSetup}
+import helpers.disposal_of_vehicle.{CookieFactoryForUnitSpecs, CookieFactoryForUISpecs}
 import helpers.UnitSpec
 import services.session.PlaySessionState
 
@@ -14,8 +14,8 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
 
     "present" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.dealerDetails()).
-        withCookies(CookieFactory.vehicleLookupFormModel())
+        withCookies(CookieFactoryForUnitSpecs.dealerDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
       val result = vehicleLookupFailure().present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
@@ -24,8 +24,8 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
 
     "redirect to vehiclelookup on submit" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.dealerDetails()).
-        withCookies(CookieFactory.vehicleLookupFormModel())
+        withCookies(CookieFactoryForUnitSpecs.dealerDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
       val result = vehicleLookupFailure().submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
@@ -58,7 +58,7 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
 
     "redirect to setuptraderdetails on if only VehicleLookupFormModelCache is populated" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.vehicleLookupFormModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
       val result = vehicleLookupFailure().present(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))

@@ -3,7 +3,7 @@ package controllers.disposal_of_vehicle
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.{CookieFactory, CacheSetup}
+import helpers.disposal_of_vehicle.{CookieFactoryForUnitSpecs, CookieFactoryForUISpecs}
 import helpers.UnitSpec
 import services.session.{SessionState, PlaySessionState}
 
@@ -13,13 +13,13 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "present" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.setupTradeDetails()).
-        withCookies(CookieFactory.dealerDetails()).
-        withCookies(CookieFactory.vehicleDetailsModel()).
-        withCookies(CookieFactory.disposeFormModel()).
-        withCookies(CookieFactory.disposeTransactionId()).
-        withCookies(CookieFactory.vehicleRegistrationNumber()).
-        withCookies(CookieFactory.disposeModel())
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.dealerDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeTransactionId()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
+        withCookies(CookieFactoryForUnitSpecs.disposeModel())
 
       val result = disposeSuccess().present(request)
       whenReady(result) {
@@ -29,13 +29,13 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to next page after the new disposal button is clicked" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.setupTradeDetails()).
-        withCookies(CookieFactory.dealerDetails()).
-        withCookies(CookieFactory.vehicleDetailsModel()).
-        withCookies(CookieFactory.disposeFormModel()).
-        withCookies(CookieFactory.disposeTransactionId()).
-        withCookies(CookieFactory.vehicleRegistrationNumber()).
-        withCookies(CookieFactory.disposeModel())
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.dealerDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeTransactionId()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
+        withCookies(CookieFactoryForUnitSpecs.disposeModel())
       val result = disposeSuccess().newDisposal(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
@@ -52,8 +52,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on present when only DealerDetails are cached" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.setupTradeDetails()).
-        withCookies(CookieFactory.dealerDetails())
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.dealerDetails())
       val result = disposeSuccess().present(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -62,8 +62,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on present when only VehicleDetails are cached" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.setupTradeDetails()).
-        withCookies(CookieFactory.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val result = disposeSuccess().present(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -72,8 +72,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on present when only DisposeDetails are cached" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.setupTradeDetails()).
-        withCookies(CookieFactory.disposeModel())
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.disposeModel())
       val result = disposeSuccess().present(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -82,8 +82,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on present when only VehicleDetails and DisposeDetails are cached" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.vehicleDetailsModel()).
-        withCookies(CookieFactory.disposeFormModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeFormModel())
       val result = disposeSuccess().present(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -92,7 +92,7 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on present when only VehicleDetails and DealerDetails are cached" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val result = disposeSuccess().present(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -101,8 +101,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on present when only DisposeDetails and DealerDetails are cached" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.dealerDetails()).
-        withCookies(CookieFactory.disposeModel())
+        withCookies(CookieFactoryForUnitSpecs.dealerDetails()).
+        withCookies(CookieFactoryForUnitSpecs.disposeModel())
       val result = disposeSuccess().present(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -119,7 +119,7 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on submit when only DealerDetails are cached" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.dealerDetails())
+        withCookies(CookieFactoryForUnitSpecs.dealerDetails())
       val result = disposeSuccess().newDisposal(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -128,7 +128,7 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on submit when only VehicleDetails are cached" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val result = disposeSuccess().newDisposal(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -137,7 +137,7 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on submit when only DisposeDetails are cached" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.disposeModel())
+        withCookies(CookieFactoryForUnitSpecs.disposeModel())
       val result = disposeSuccess().newDisposal(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -146,8 +146,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on submit when only VehicleDetails and DisposeDetails are cached" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.vehicleDetailsModel()).
-        withCookies(CookieFactory.disposeFormModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeFormModel())
       val result = disposeSuccess().newDisposal(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -156,7 +156,7 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on submit when only VehicleDetails and DealerDetails are cached" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val result = disposeSuccess().newDisposal(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -165,9 +165,9 @@ class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on submit when only DisposeDetails and DealerDetails are cached" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.setupTradeDetails()).
-        withCookies(CookieFactory.dealerDetails()).
-        withCookies(CookieFactory.disposeModel())
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.dealerDetails()).
+        withCookies(CookieFactoryForUnitSpecs.disposeModel())
       val result = disposeSuccess().newDisposal(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))

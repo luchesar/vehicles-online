@@ -2,13 +2,12 @@ package views.disposal_of_vehicle
 
 import helpers.webbrowser.TestHarness
 import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.CacheSetup
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import pages.common.ErrorPanel
 import helpers.UiSpec
 import services.fakes.FakeDateServiceImpl._
 import DisposePage._
 import services.session.{SessionState, PlaySessionState}
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
 import org.openqa.selenium.WebDriver
 
 class DisposeIntegrationSpec extends UiSpec with TestHarness {
@@ -45,7 +44,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when no vehicleDetailsModel is cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup().
+      new CookieFactoryForUISpecs().
         dealerDetailsIntegration()
 
       go to DisposePage
@@ -55,7 +54,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when no businessChooseYourAddress is cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup().
+      new CookieFactoryForUISpecs().
         vehicleDetailsModelIntegration()
 
       go to DisposePage
@@ -123,7 +122,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) = {
-    new CacheSetup().
+    new CookieFactoryForUISpecs().
       dealerDetailsIntegration().
       vehicleDetailsModelIntegration()
   }

@@ -1,25 +1,22 @@
 package helpers.disposal_of_vehicle
 
 import helpers.disposal_of_vehicle.Helper._
-import models.domain.disposal_of_vehicle._
-import models.domain.disposal_of_vehicle.VehicleDetailsModel
-import models.domain.disposal_of_vehicle.TraderDetailsModel
-import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.businessChooseYourAddressCacheKey
+import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
+import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
 import models.DayMonthYear
-import services.fakes.FakeVehicleLookupWebService._
-import services.fakes.FakeDisposeWebServiceImpl._
-import services.fakes.{FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
-import services.fakes.FakeAddressLookupService._
-import services.session.SessionState
+import models.domain.disposal_of_vehicle._
 import org.openqa.selenium.{WebDriver, Cookie}
 import play.api.libs.json.{Writes, Json}
-import services.fakes.FakeWebServiceImpl._
+import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeAddressLookupService.postcodeValid
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress.businessChooseYourAddressCacheKey
-import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
-import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
+import services.fakes.FakeDisposeWebServiceImpl._
+import services.fakes.FakeVehicleLookupWebService._
+import services.fakes.FakeWebServiceImpl._
+import services.fakes.{FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
 
-class CacheSetup() { // TODO change from class to an object.
+class CookieFactoryForUISpecs() {
+  // TODO change from class to an object.
   private def addCookie[A](key: String, value: A)(implicit tjs: Writes[A], webDriver: WebDriver): Unit = {
     val valueAsString = Json.toJson(value).toString()
     val manage = webDriver.manage()
