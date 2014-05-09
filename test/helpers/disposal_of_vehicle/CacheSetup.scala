@@ -3,7 +3,7 @@ package helpers.disposal_of_vehicle
 import helpers.disposal_of_vehicle.Helper._
 import models.domain.disposal_of_vehicle._
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
-import models.domain.disposal_of_vehicle.DealerDetailsModel
+import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import models.DayMonthYear
 import services.fakes.FakeVehicleLookupWebService._
@@ -13,11 +13,15 @@ import services.fakes.FakeAddressLookupService._
 import services.session.SessionState
 import org.openqa.selenium.{WebDriver, Cookie}
 import play.api.libs.json.Json
+import services.fakes.FakeWebServiceImpl._
+import services.fakes.FakeAddressLookupService.postcodeValid
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.businessChooseYourAddressCacheKey
+import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
+import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
 
-class CacheSetup(sessionState: SessionState) { // TODO setup cookies for Integration specs here.
-
+class CacheSetup() { // TODO change from class to an object.
   def setupTradeDetailsIntegration(traderPostcode: String = postcodeValid)(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
+    val key = SetupTradeDetailsCacheKey
     val value = SetupTradeDetailsModel(traderBusinessName = traderBusinessNameValid,
       traderPostcode = traderPostcode)
     val valueAsString = Json.toJson(value).toString()
@@ -27,10 +31,20 @@ class CacheSetup(sessionState: SessionState) { // TODO setup cookies for Integra
     this
   }
 
+  def businessChooseYourAddressIntegration(uprn: Long = traderUprnValid)(implicit webDriver: WebDriver) = {
+    val key = businessChooseYourAddressCacheKey
+    val value = BusinessChooseYourAddressModel(uprnSelected = uprn)
+    val valueAsString = Json.toJson(value).toString()
+    val manage = webDriver.manage()
+    val cookie = new Cookie(key, valueAsString)
+    manage.addCookie(cookie)
+    this
+  }
+
   def dealerDetailsIntegration(address: AddressViewModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.DealerDetails.dealerDetailsCacheKey
-    val value = DealerDetailsModel(dealerName = "", // TODO [SKW] why are we caching an empty string?
-      dealerAddress = address)
+    val key = traderDetailsCacheKey
+    val value = TraderDetailsModel(traderName = "", // TODO [SKW] why are we caching an empty string?
+      traderAddress = address)
     val valueAsString = Json.toJson(value).toString()
     val manage = webDriver.manage()
     val cookie = new Cookie(key, valueAsString)
@@ -48,50 +62,67 @@ class CacheSetup(sessionState: SessionState) { // TODO setup cookies for Integra
     manage.addCookie(cookie)
     this
   }
-  
-  
-  
 
-  def vehicleDetailsModel(registrationNumber: String = registrationNumberValid, vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid, vehicleModel: String = vehicleModelValid, keeperName: String = keeperNameValid) = {
+  def vehicleDetailsModelIntegration(registrationNumber: String = registrationNumberValid,
+                                     vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid,
+                                     vehicleModel: String = vehicleModelValid,
+                                     keeperName: String = keeperNameValid)(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
     val value = VehicleDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel)
-    sessionState.set(key, Some(value))
+    val valueAsString = Json.toJson(value).toString()
+    val manage = webDriver.manage()
+    val cookie = new Cookie(key, valueAsString)
+    manage.addCookie(cookie)
     this
   }
 
-  def disposeFormModel() = {
+  def disposeFormModelIntegration()(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeFormModelCacheKey
     val value = DisposeFormModel(mileage = None,
       dateOfDisposal = DayMonthYear.today,
       consent = FakeDisposeWebServiceImpl.consentValid,
       lossOfRegistrationConsent = FakeDisposeWebServiceImpl.consentValid)
-    sessionState.set(key, Some(value))
+    val valueAsString = Json.toJson(value).toString()
+    val manage = webDriver.manage()
+    val cookie = new Cookie(key, valueAsString)
+    manage.addCookie(cookie)
     this
   }
 
-  def disposeModel(referenceNumber: String = referenceNumberValid, registrationNumber: String = registrationNumberValid, dateOfDisposal: DayMonthYear = DayMonthYear.today, mileage: Option[Int] = None) = {
+  def disposeModelIntegration(referenceNumber: String = referenceNumberValid,
+                              registrationNumber: String = registrationNumberValid,
+                              dateOfDisposal: DayMonthYear = DayMonthYear.today,
+                              mileage: Option[Int] = None)(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeModelCacheKey
     val value = DisposeModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,
       dateOfDisposal = dateOfDisposal,
       mileage = mileage)
-    sessionState.set(key, Some(value))
+    val valueAsString = Json.toJson(value).toString()
+    val manage = webDriver.manage()
+    val cookie = new Cookie(key, valueAsString)
+    manage.addCookie(cookie)
     this
   }
 
-  def disposeTransactionId() = {
+  def disposeTransactionIdIntegration(transactionId: String = transactionIdValid)(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeFormTransactionIdCacheKey
-    val value = transactionIdValid
-    sessionState.set(key, Some(value))
+    val value = transactionId
+    val manage = webDriver.manage()
+    val cookie = new Cookie(key, value)
+    manage.addCookie(cookie)
     this
   }
 
-  def vehicleRegistrationNumber() = {
+  def vehicleRegistrationNumberIntegration()(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.Dispose.disposeFormRegistrationNumberCacheKey
     val value = registrationNumberValid
-    sessionState.set(key, Some(value))
+    val valueAsString = Json.toJson(value).toString()
+    val manage = webDriver.manage()
+    val cookie = new Cookie(key, valueAsString)
+    manage.addCookie(cookie)
     this
   }
 }

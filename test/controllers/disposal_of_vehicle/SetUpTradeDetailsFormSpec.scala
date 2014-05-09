@@ -21,11 +21,11 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
       // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderBusinessName = "").errors
       errors should have length 3
-      errors(0).key should equal(dealerNameId)
+      errors(0).key should equal(traderNameId)
       errors(0).message should equal("error.minLength")
-      errors(1).key should equal(dealerNameId)
+      errors(1).key should equal(traderNameId)
       errors(1).message should equal("error.required")
-      errors(2).key should equal(dealerNameId)
+      errors(2).key should equal(traderNameId)
       errors(2).message should equal("error.validTraderBusinessName")
     }
 
@@ -48,11 +48,11 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
       // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderPostcode = "").errors
       errors should have length 3
-      errors(0).key should equal(dealerPostcodeId)
+      errors(0).key should equal(traderPostcodeId)
       errors(0).message should equal("error.minLength")
-      errors(1).key should equal(dealerPostcodeId)
+      errors(1).key should equal(traderPostcodeId)
       errors(1).message should equal("error.required")
-      errors(2).key should equal(dealerPostcodeId)
+      errors(2).key should equal(traderPostcodeId)
       errors(2).message should equal("error.restricted.validPostcode")
     }
 
@@ -75,16 +75,12 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
 
   private def formWithValidDefaults(traderBusinessName: String = traderBusinessNameValid,
                                     traderPostcode: String = postcodeValid) = {
-    new SetUpTradeDetails(newSessionState).traderLookupForm.bind(
+    new SetUpTradeDetails().traderLookupForm.bind(
       Map(
-        dealerNameId -> traderBusinessName,
-        dealerPostcodeId -> traderPostcode
+        traderNameId -> traderBusinessName,
+        traderPostcodeId -> traderPostcode
       )
     )
   }
 
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
 }

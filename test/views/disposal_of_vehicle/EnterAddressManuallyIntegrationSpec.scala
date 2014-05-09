@@ -17,7 +17,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "be presented" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
 
       go to EnterAddressManuallyPage
 
@@ -26,7 +26,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept and redirect when all fields are input with valid entry" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
 
       happyPath()
 
@@ -35,7 +35,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "accept when only mandatory fields only are input" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
 
       happyPathMandatoryFieldsOnly()
 
@@ -44,7 +44,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display validation error messages when no details are entered" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
 
       sadPath
 
@@ -53,7 +53,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
     "display validation error messages when a blank postcode is entered" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
 
       happyPath(postcode = "")
 
@@ -61,11 +61,7 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  private def cacheSetup(sessionState: SessionState)(implicit webDriver: WebDriver) =
-    new CacheSetup(sessionState).setupTradeDetailsIntegration()
-
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
+  private def cacheSetup()(implicit webDriver: WebDriver) =
+    new CacheSetup().
+      setupTradeDetailsIntegration()
 }

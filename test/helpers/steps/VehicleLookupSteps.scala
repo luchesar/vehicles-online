@@ -14,12 +14,10 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 
-  val sessionState = new DisposalOfVehicleSessionState(new PlaySessionState())
-
   @Given("""^a motor trader has entered a doc ref number in a valid format$""")
   def a_motor_trader_has_entered_a_doc_ref_number_in_a_valid_format() = {
     go to BeforeYouStartPage
-    new CacheSetup(sessionState.inner)
+    new CacheSetup()
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
 
@@ -31,7 +29,7 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
   @Given("""^a motor trader has (.*) a VRM in a valid format$""")
   def a_motor_trader_has_entered_a_vrm_in_a_valid_format(vrm:String) = {
     go to BeforeYouStartPage
-    new CacheSetup(sessionState.inner)
+    new CacheSetup()
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
 
@@ -43,7 +41,7 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
   @Given("""^a motor trader has (.*) a VRM in an invalid format$""")
   def a_motor_trader_has_entered_a_vrm_in_an_invalid_format(vrm:String) = {
     go to BeforeYouStartPage
-    new CacheSetup(sessionState.inner)
+    new CacheSetup()
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
 
@@ -55,7 +53,7 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
   @Given("""^a motor trader has (.*) a doc ref number in an invalid format$""")
   def a_motor_trader_has_entered_a_doc_ref_number_in_an_invalid_format(invalidDocRef:String) = {
     go to BeforeYouStartPage
-    new CacheSetup(sessionState.inner)
+    new CacheSetup()
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
 
@@ -77,6 +75,7 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
   @Then("""^the doc ref number is retained$""")
   def the_doc_ref_number_is_retained() = {
     // nothing can be done here to check for this as doc ref no is not displayed
+    // TODO NO!!! CHECK if it is in the cache
   }
 
   @Then("""^the VRM is retained$""")

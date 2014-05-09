@@ -14,15 +14,15 @@ class PostCodeLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserD
   @Given("""^the motor trader has (.*) a postcode which conforms to business rules$""")
   def the_motor_trader_has_entered_a_postcode_which_conforms_to_business_rules(name:String) = {
     go to SetupTradeDetailsPage
-    SetupTradeDetailsPage.dealerName enter traderBusinessNameValid
-    SetupTradeDetailsPage.dealerPostcode enter name
+    SetupTradeDetailsPage.traderName enter traderBusinessNameValid
+    SetupTradeDetailsPage.traderPostcode enter name
   }
 
   @Given("""^the motor trader has (.*) a postcode which does not conform to business rules$""")
   def the_motor_trader_has_entered_a_postcode_which_does_not_conform_to_business_rules(name:String) = {
     go to SetupTradeDetailsPage
-    SetupTradeDetailsPage.dealerName enter traderBusinessNameValid
-    SetupTradeDetailsPage.dealerPostcode enter name
+    SetupTradeDetailsPage.traderName enter traderBusinessNameValid
+    SetupTradeDetailsPage.traderPostcode enter name
   }
 
   @When("""^they attempt to submit the postcode in addition to other required information$""")

@@ -15,7 +15,7 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
 
     "be presented" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
       go to DisposeFailurePage
 
       assert(page.title equals DisposeFailurePage.title)
@@ -29,7 +29,7 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect to vehiclelookup when button clicked" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
       go to DisposeFailurePage
 
       click on vehiclelookup
@@ -39,7 +39,7 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect to setuptradedetails when button clicked" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
       go to DisposeFailurePage
 
       click on setuptradedetails
@@ -48,16 +48,12 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  private def cacheSetup(sessionState: SessionState)(implicit webDriver: WebDriver) =
-    new CacheSetup(sessionState).
+  private def cacheSetup()(implicit webDriver: WebDriver) =
+    new CacheSetup().
       dealerDetailsIntegration().
-      vehicleDetailsModel().
-      disposeFormModel().
-      disposeTransactionId().
-      vehicleRegistrationNumber()
+      vehicleDetailsModelIntegration().
+      disposeFormModelIntegration().
+      disposeTransactionIdIntegration().
+      vehicleRegistrationNumberIntegration()
 
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
 }

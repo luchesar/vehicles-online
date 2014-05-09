@@ -23,17 +23,16 @@ import models.domain.disposal_of_vehicle.DisposeFormModel
 import play.api.data.FormError
 import scala.Some
 import play.api.mvc.SimpleResult
-import models.domain.disposal_of_vehicle.DealerDetailsModel
+import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import mappings.disposal_of_vehicle.Dispose.dateOfDisposalYearsIntoThePast
 import scala.language.postfixOps
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAdapter
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResultAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
 
-class Dispose @Inject()(sessionState: DisposalOfVehicleSessionState, webService: DisposeService, dateService: DateService) extends Controller {
+class Dispose @Inject()(webService: DisposeService, dateService: DateService) extends Controller {
 
-  import sessionState._
 
   val disposeForm = Form(
     mapping(
@@ -48,12 +47,13 @@ class Dispose @Inject()(sessionState: DisposalOfVehicleSessionState, webService:
 
   private val yearsDropdown: Seq[(String, String)] = dateService.today.yearRangeToDropdown(yearsIntoThePast = dateOfDisposalYearsIntoThePast)
 
-  def present = Action { implicit request => {
-      request.fetch[DealerDetailsModel] match {
+  def present = Action {
+    implicit request => {
+      request.fetch[TraderDetailsModel] match {
         case (Some(dealerDetails)) =>
           Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
-          fetchVehicleDetailsFromCache match {
+          request.fetch[VehicleDetailsModel] match {
             case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm, yearsDropdown))
             case _ => Redirect(routes.VehicleLookup.present)
           }
@@ -62,56 +62,69 @@ class Dispose @Inject()(sessionState: DisposalOfVehicleSessionState, webService:
     }
   }
 
-  def submit = Action.async { implicit request =>
-    Logger.debug("Submitted dispose form...")
-    disposeForm.bindFromRequest.fold(
-      formWithErrors =>
-        Future {
-          (request.fetch[DealerDetailsModel], fetchVehicleDetailsFromCache) match {
-            case (Some(dealerDetails), Some(vehicleDetails)) =>
-              val disposeViewModel = populateModelFromCachedData(dealerDetails, vehicleDetails)
-              // When the user doesn't select a value from the drop-down then the mapping will fail to match on an Int before
-              // it gets to the constraints, so we need to replace the error type with one that will give a relevant message.
-              val formWithReplacedErrors = formWithErrors.
-                replaceError("dateOfDisposal.day", FormError("dateOfDisposal", "error.dateOfDisposal")).
-                replaceError("dateOfDisposal.month", FormError("dateOfDisposal", "error.dateOfDisposal")).
-                replaceError("dateOfDisposal.year", FormError("dateOfDisposal", "error.dateOfDisposal")).
-                replaceError("dateOfDisposal", FormError("dateOfDisposal", "error.dateOfDisposal")).
-                replaceError(consentId, "error.required", FormError(key = consentId, message = "disposal_dispose.consent.notgiven", args = Seq.empty)).
-                replaceError(lossOfRegistrationConsentId, "error.required", FormError(key = lossOfRegistrationConsentId, message = "disposal_dispose.loss_of_registration.consent.notgiven", args = Seq.empty)).
-                distinctErrors
-              BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors, yearsDropdown))
-            case _ =>
-              Logger.debug("could not find expected data in cache on dispose submit - now redirecting...")
-              Redirect(routes.SetUpTradeDetails.present)
-          }
-        },
-      f => {
-        storeDisposeFormModelInCache(f)
-        Logger.debug(s"Dispose form submitted - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
-        disposeAction(webService, f)
-      }
-    )
+  def submit = Action.async {
+    implicit request =>
+      Logger.debug("Submitted dispose form...")
+      disposeForm.bindFromRequest.fold(
+        formWithErrors =>
+          Future {
+            (request.fetch[TraderDetailsModel], request.fetch[VehicleDetailsModel]) match {
+              case (Some(dealerDetails), Some(vehicleDetails)) =>
+                val disposeViewModel = populateModelFromCachedData(dealerDetails, vehicleDetails)
+                // When the user doesn't select a value from the drop-down then the mapping will fail to match on an Int before
+                // it gets to the constraints, so we need to replace the error type with one that will give a relevant message.
+                val formWithReplacedErrors = formWithErrors.
+                  replaceError("dateOfDisposal.day", FormError("dateOfDisposal", "error.dateOfDisposal")).
+                  replaceError("dateOfDisposal.month", FormError("dateOfDisposal", "error.dateOfDisposal")).
+                  replaceError("dateOfDisposal.year", FormError("dateOfDisposal", "error.dateOfDisposal")).
+                  replaceError("dateOfDisposal", FormError("dateOfDisposal", "error.dateOfDisposal")).
+                  replaceError(consentId, "error.required", FormError(key = consentId, message = "disposal_dispose.consent.notgiven", args = Seq.empty)).
+                  replaceError(lossOfRegistrationConsentId, "error.required", FormError(key = lossOfRegistrationConsentId, message = "disposal_dispose.loss_of_registration.consent.notgiven", args = Seq.empty)).
+                  distinctErrors
+                BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors, yearsDropdown))
+              case _ =>
+                Logger.debug("could not find expected data in cache on dispose submit - now redirecting...")
+                Redirect(routes.SetUpTradeDetails.present)
+            }
+          },
+        f => {
+          Logger.debug(s"Dispose form submitted - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
+          disposeAction(webService, f)
+        }
+      )
   }
 
-  private def populateModelFromCachedData(dealerDetails: DealerDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {
+  private def populateModelFromCachedData(dealerDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {
     val model = DisposeViewModel(
       registrationNumber = vehicleDetails.registrationNumber,
       vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
-      dealerName = dealerDetails.dealerName,
-      dealerAddress = dealerDetails.dealerAddress)
+      dealerName = dealerDetails.traderName,
+      dealerAddress = dealerDetails.traderAddress)
     Logger.debug(s"Dispose page read the following data from cache: $model")
     model
   }
 
-  private def disposeAction(webService: DisposeService, f: DisposeFormModel)(implicit request: Request[AnyContent]): Future[SimpleResult] = {
+  private def disposeAction(webService: DisposeService, disposeFormModel: DisposeFormModel)(implicit request: Request[AnyContent]): Future[SimpleResult] = {
     def callMicroService(disposeModel: DisposeModel) = {
+      def nextPage(httpResponseCode: Int, response: Option[DisposeResponse]) = {
+        // This makes the choice of which page to go to based on the first one it finds that is not None.
+        response match {
+          case Some(r) if r.responseCode.isDefined => handleResponseCode(r.responseCode.get)
+          case _ => handleHttpStatusCode(httpResponseCode)
+        }
+      }
+
       val disposeRequest = buildDisposeMicroServiceRequest(disposeModel)
       webService.invoke(disposeRequest).map {
-        resp => Logger.debug(s"Dispose micro-service call successful - response = $resp")
-        storeResponseInCache(resp._2)
-        Redirect(Seq(handleResponseCode(responseCode(resp._2)), handleHttpStatusCode(Option(resp._1)), Some(routes.MicroServiceError.present)).flatten.head)
+        case (httpResponseCode, response) => Logger.debug(s"Dispose micro-service call successful - response = $response")
+
+         Some(Redirect(nextPage(httpResponseCode, response))).
+            map(_.withCookie(disposeModel)).
+            map(_.withCookie(disposeFormModel)).
+            map(storeResponseInCache(response, _)).
+            map(transactionTimestamp).
+            get
       }.recover {
         case e: Throwable =>
           Logger.warn(s"Dispose micro-service call failed. Exception: $e")
@@ -119,38 +132,35 @@ class Dispose @Inject()(sessionState: DisposalOfVehicleSessionState, webService:
       }
     }
 
-    def responseCode (response :Option[DisposeResponse]) = {
+    def storeResponseInCache(response: Option[DisposeResponse], nextPage: SimpleResult): SimpleResult = {
       response match {
-        case Some(o) => o.responseCode
-        case _ => None
+        case Some(o) =>
+          val nextPageWithTransactionId = if (o.transactionId != "") nextPage.withCookie(disposeFormTransactionIdCacheKey, o.transactionId)
+            else nextPage
+          if (o.registrationNumber != "") nextPageWithTransactionId.withCookie(disposeFormRegistrationNumberCacheKey, o.registrationNumber)
+            else nextPageWithTransactionId
+        case None => nextPage
       }
-    } 
-    
-    def storeResponseInCache (response :Option[DisposeResponse]) = {
-      response match {
-        case Some(o) => 
-          if (o.transactionId != "") storeDisposeTransactionIdInCache(o.transactionId)
-          if (o.registrationNumber != "") storeDisposeRegistrationNumberInCache(o.registrationNumber)
-        case _ => 
-      }
-      transactionTimestamp()
     }
 
-    def transactionTimestamp() = {
+
+
+    def transactionTimestamp(nextPage: SimpleResult) = {
       val transactionTimestamp = dateService.today.toDateTime.get
       val formatter = ISODateTimeFormat.dateTime()
       val isoDateTimeString = formatter.print(transactionTimestamp)
-      storeDisposeTransactionTimestampInCache(isoDateTimeString)
+      nextPage.withCookie(disposeFormTimestampIdCacheKey, isoDateTimeString)
     }
-    
-    def buildDisposeMicroServiceRequest(disposeModel: DisposeModel):DisposeRequest = {
+
+    def buildDisposeMicroServiceRequest(disposeModel: DisposeModel): DisposeRequest = {
       val dateTime = disposeModel.dateOfDisposal.toDateTime.get
       val formatter = ISODateTimeFormat.dateTime()
       val isoDateTimeString = formatter.print(dateTime)
       DisposeRequest(referenceNumber = disposeModel.referenceNumber, registrationNumber = disposeModel.registrationNumber, dateOfDisposal = isoDateTimeString, mileage = disposeModel.mileage)
     }
 
-    def handleResponseCode(disposeResponseCode: Option[String]) = {
+    // TODO disposeResponseCode should just be a String, detecting it being empty is the responsablility of the calling code.
+    /*def handleResponseCode(disposeResponseCode: Option[String]) = {
       val unableToProcessApplication = "ms.vehiclesService.response.unableToProcessApplication"
 
       disposeResponseCode match {
@@ -162,13 +172,25 @@ class Dispose @Inject()(sessionState: DisposalOfVehicleSessionState, webService:
           Some(routes.MicroServiceError.present)
         case None => None
       }
+    }*/
+    def handleResponseCode(disposeResponseCode: String): Call = {
+      val unableToProcessApplication = "ms.vehiclesService.response.unableToProcessApplication"
+
+      if (disposeResponseCode == unableToProcessApplication){
+        Logger.warn("Dispose soap endpoint redirecting to dispose failure page...")
+        routes.DisposeFailure.present
+      }
+      else {
+        Logger.warn(s"Dispose micro-service failed: $disposeResponseCode, redirecting to error page...")
+        routes.MicroServiceError.present
+      }
     }
 
-    def handleHttpStatusCode(StatusCode: Option[Int]) = {
-      StatusCode match {
-        case Some(OK) => Some(routes.DisposeSuccess.present)
-        case Some(SERVICE_UNAVAILABLE) => Some(routes.SoapEndpointError.present)
-        case _ => Some(routes.MicroServiceError.present)
+    def handleHttpStatusCode(statusCode: Int): Call = {
+      statusCode match {
+        case OK => routes.DisposeSuccess.present
+        case SERVICE_UNAVAILABLE => routes.SoapEndpointError.present
+        case _ => routes.MicroServiceError.present
       }
     }
 
@@ -176,8 +198,7 @@ class Dispose @Inject()(sessionState: DisposalOfVehicleSessionState, webService:
       case Some(vehicleLookupFormModel) =>
         val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,
           registrationNumber = vehicleLookupFormModel.registrationNumber,
-          dateOfDisposal = f.dateOfDisposal, mileage = f.mileage)
-        storeDisposeModelInCache(disposeModel)
+          dateOfDisposal = disposeFormModel.dateOfDisposal, mileage = disposeFormModel.mileage)
         callMicroService(disposeModel)
       case _ => Future {
         Logger.error("could not find dealer details in cache on Dispose submit")

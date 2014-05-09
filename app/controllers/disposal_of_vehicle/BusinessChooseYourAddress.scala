@@ -4,7 +4,7 @@ import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
-import models.domain.disposal_of_vehicle.{SetupTradeDetailsModel, DealerDetailsModel, BusinessChooseYourAddressModel}
+import models.domain.disposal_of_vehicle.{SetupTradeDetailsModel, TraderDetailsModel, BusinessChooseYourAddressModel}
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import mappings.common.DropDown
 import DropDown._
@@ -12,12 +12,10 @@ import javax.inject.Inject
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 import services.address_lookup.AddressLookupService
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.RequestAdapter
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState2.SimpleResultAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
 
-class BusinessChooseYourAddress @Inject()(val sessionState: DisposalOfVehicleSessionState, addressLookupService: AddressLookupService) extends Controller {
-
-  import sessionState._
+class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService) extends Controller {
 
   private def fetchAddresses(setupTradeDetailsModel: SetupTradeDetailsModel) = {
     val postcode = setupTradeDetailsModel.traderPostcode
@@ -78,7 +76,7 @@ class BusinessChooseYourAddress @Inject()(val sessionState: DisposalOfVehicleSes
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString)
     lookedUpAddress.map {
       case Some(addr) => {
-        val dealerDetailsModel = DealerDetailsModel(dealerName = dealerName, dealerAddress = addr) // TODO is this redundant??? Delete and test.
+        val dealerDetailsModel = TraderDetailsModel(traderName = dealerName, traderAddress = addr) // TODO is this redundant??? Delete and test.
         /* The redirect is done as the final step within the map so that:
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache.

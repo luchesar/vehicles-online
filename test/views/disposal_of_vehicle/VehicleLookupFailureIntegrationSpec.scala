@@ -15,7 +15,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
     "be presented" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
 
       go to VehicleLookupFailurePage
 
@@ -30,7 +30,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect to setuptrade details if only VehicleLookupFormModelCache is populated" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup(newSessionState.inner).vehicleLookupFormModelIntegration()
+      new CacheSetup().vehicleLookupFormModelIntegration()
 
       go to VehicleLookupFailurePage
 
@@ -39,7 +39,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect to setuptrade details if only dealerDetails cache is populated" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup(newSessionState.inner).
+      new CacheSetup().
         dealerDetailsIntegration()
 
       go to VehicleLookupFailurePage
@@ -49,7 +49,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect to vehiclelookup when button clicked" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
       go to VehicleLookupFailurePage
 
       click on vehicleLookup
@@ -59,7 +59,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect to beforeyoustart when button clicked" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
       go to VehicleLookupFailurePage
 
       click on beforeYouStart
@@ -68,13 +68,8 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  private def cacheSetup(sessionState: SessionState)(implicit webDriver: WebDriver) =
-    new CacheSetup(sessionState).
+  private def cacheSetup()(implicit webDriver: WebDriver) =
+    new CacheSetup().
       dealerDetailsIntegration().
       vehicleLookupFormModelIntegration()
-
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
 }

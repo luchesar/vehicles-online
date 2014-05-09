@@ -21,7 +21,7 @@ class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect to vehiclelookup when try again is clicked" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
       go to MicroServiceErrorPage
 
       click on tryAgain
@@ -39,7 +39,7 @@ class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect to beforeyoustart when exit is clicked" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
       go to MicroServiceErrorPage
 
       click on exit
@@ -48,13 +48,8 @@ class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  private def cacheSetup(sessionState: SessionState)(implicit webDriver: WebDriver) =
-    new CacheSetup(sessionState).
+  private def cacheSetup()(implicit webDriver: WebDriver) =
+    new CacheSetup().
       setupTradeDetailsIntegration().
       dealerDetailsIntegration()
-
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
 }

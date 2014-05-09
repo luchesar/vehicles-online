@@ -100,7 +100,7 @@ class VehicleLookupFormSpec extends UnitSpec {
       new FakeResponse(status = fullResponse._1, fakeJson = responseAsJson)// Any call to a webservice will always return this successful response.
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
-    new disposal_of_vehicle.VehicleLookup(newSessionState, vehicleLookupServiceImpl)
+    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
   }
 
   private def formWithValidDefaults(referenceNumber: String = referenceNumberValid,
@@ -114,8 +114,4 @@ class VehicleLookupFormSpec extends UnitSpec {
     )
   }
 
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
 }

@@ -7,6 +7,12 @@ import helpers.UiSpec
 import services.session.{PlaySessionState, SessionState}
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
 import org.openqa.selenium.WebDriver
+import mappings.disposal_of_vehicle.Dispose._
+import mappings.disposal_of_vehicle.VehicleLookup._
+import mappings.disposal_of_vehicle.SetupTradeDetails._
+import mappings.disposal_of_vehicle.TraderDetails._
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
+import pages.disposal_of_vehicle.DisposeSuccessPage._
 
 class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
@@ -14,7 +20,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "be presented" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
 
       go to DisposeSuccessPage
 
@@ -29,7 +35,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DealerDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup(newSessionState.inner).dealerDetailsIntegration()
+      new CacheSetup().dealerDetailsIntegration()
 
       go to DisposeSuccessPage
 
@@ -38,7 +44,8 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only VehicleDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup(newSessionState.inner).vehicleDetailsModel()
+      new CacheSetup().
+        vehicleDetailsModelIntegration()
 
       go to DisposeSuccessPage
 
@@ -47,7 +54,8 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DisposeDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup(newSessionState.inner).disposeFormModel()
+      new CacheSetup().
+        disposeFormModelIntegration()
 
       go to DisposeSuccessPage
 
@@ -56,9 +64,9 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DealerDetails and VehicleDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup(newSessionState.inner).
+      new CacheSetup().
         dealerDetailsIntegration().
-        vehicleDetailsModel()
+        vehicleDetailsModelIntegration()
 
       go to DisposeSuccessPage
 
@@ -67,9 +75,9 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DisposeDetails and VehicleDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup(newSessionState.inner).
-        disposeFormModel().
-        vehicleDetailsModel()
+      new CacheSetup().
+        disposeFormModelIntegration().
+        vehicleDetailsModelIntegration()
 
       go to DisposeSuccessPage
 
@@ -78,9 +86,9 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DisposeDetails and DealerDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup(newSessionState.inner).
+      new CacheSetup().
         dealerDetailsIntegration().
-        disposeFormModel()
+        disposeFormModelIntegration()
 
       go to DisposeSuccessPage
 
@@ -89,23 +97,65 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "display vehicle lookup page when new disposal link is clicked" in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup(newSessionState.inner)
+      cacheSetup()
       DisposeSuccessPage.happyPath
 
       assert(page.title equals VehicleLookupPage.title)
     }
+
+    "remove redundant cookies when 'new disposal' button is clicked" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to DisposeSuccessPage
+
+      click on newDisposal
+
+      // Expected to be removed
+      assert(webDriver.manage().getCookieNamed(vehicleLookupDetailsCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(vehicleLookupResponseCodeCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(vehicleLookupFormModelCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeFormModelCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeFormTransactionIdCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeFormTimestampIdCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeFormRegistrationNumberCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeModelCacheKey) == null)
+
+      // Expected to be present
+      assert(webDriver.manage().getCookieNamed(SetupTradeDetailsCacheKey) != null)
+      assert(webDriver.manage().getCookieNamed(businessChooseYourAddressCacheKey) != null)
+      assert(webDriver.manage().getCookieNamed(traderDetailsCacheKey) != null)
+    }
+
+    "remove redundant cookies when 'exit' button is clicked" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to DisposeSuccessPage
+
+      click on exitDisposal
+
+      // Expected to be removed
+      assert(webDriver.manage().getCookieNamed(SetupTradeDetailsCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(businessChooseYourAddressCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(traderDetailsCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(vehicleLookupDetailsCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(vehicleLookupResponseCodeCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(vehicleLookupFormModelCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeFormModelCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeFormTransactionIdCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeFormTimestampIdCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeFormRegistrationNumberCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(disposeModelCacheKey) == null)
+
+    }
   }
 
-  private def cacheSetup(sessionState: SessionState)(implicit webDriver: WebDriver) =
-    new CacheSetup(sessionState).
+  private def cacheSetup()(implicit webDriver: WebDriver) =
+    new CacheSetup().
+      setupTradeDetailsIntegration().
+      businessChooseYourAddressIntegration().
       dealerDetailsIntegration().
-      vehicleDetailsModel().
-      disposeFormModel().
-      disposeTransactionId().
-      vehicleRegistrationNumber()
-
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
+      vehicleDetailsModelIntegration().
+      disposeFormModelIntegration().
+      disposeTransactionIdIntegration().
+      vehicleRegistrationNumberIntegration()
 }

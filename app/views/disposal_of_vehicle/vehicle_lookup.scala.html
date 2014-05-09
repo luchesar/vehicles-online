@@ -1,4 +1,4 @@
-@(data: models.domain.disposal_of_vehicle.DealerDetailsModel, vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang)
+@(data: models.domain.disposal_of_vehicle.TraderDetailsModel, vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang)
 
 @import helper._
 @import utils.helpers.BaseTemplate._
@@ -21,9 +21,9 @@
 
 				<dl class="summary-detail-list">
 					<dt>@Messages("disposal_vehiclelookup.tradernamelabel")</dt>
-					<dd>@data.dealerName</dd>
+					<dd>@data.traderName</dd>
 					<dt>@Messages("disposal_vehiclelookup.traderaddresslabel")</dt>
-					<dd>@for(addr <- data.dealerAddress.address) {@addr<br/>}</dd>
+					<dd>@for(addr <- data.traderAddress.address) {@addr<br/>}</dd>
 				</dl>
                 
                 @{/*
