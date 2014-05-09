@@ -48,9 +48,10 @@ object DisposalOfVehicleSessionState {
   }
 
   implicit class FormAdapter[A](val f: Form[A]) extends AnyVal {
-    def fill(value: Option[A]): Form[A] = value match {
-      case Some(v) => f.fill(v)
-      case _ => f
-    }
+    def fill()(implicit request: Request[_], fjs: Reads[A], cacheKey: CacheKey[A]): Form[A] =
+      request.getCookie[A] match {
+        case Some(v) => f.fill(v) // Found cookie so fill the form with the cached data.
+        case _ => f // No cookie found so return a blank form.
+      }
   }
 }
