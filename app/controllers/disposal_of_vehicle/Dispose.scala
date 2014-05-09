@@ -53,9 +53,9 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
           request.getCookie[VehicleDetailsModel] match {
             case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm, yearsDropdown))
-            case _ => Redirect(routes.VehicleLookup.present)
+            case _ => Redirect(routes.VehicleLookup.present())
           }
-        case _ => Redirect(routes.SetUpTradeDetails.present)
+        case _ => Redirect(routes.SetUpTradeDetails.present())
       }
     }
   }
@@ -82,7 +82,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
                 BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors, yearsDropdown))
               case _ =>
                 Logger.debug("could not find expected data in cache on dispose submit - now redirecting...")
-                Redirect(routes.SetUpTradeDetails.present)
+                Redirect(routes.SetUpTradeDetails.present())
             }
           },
         f => {
@@ -126,7 +126,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       }.recover {
         case e: Throwable =>
           Logger.warn(s"Dispose micro-service call failed. Exception: $e")
-          Redirect(routes.MicroServiceError.present)
+          Redirect(routes.MicroServiceError.present())
       }
     }
 
@@ -174,19 +174,19 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
 
       if (disposeResponseCode == unableToProcessApplication){
         Logger.warn("Dispose soap endpoint redirecting to dispose failure page...")
-        routes.DisposeFailure.present
+        routes.DisposeFailure.present()
       }
       else {
         Logger.warn(s"Dispose micro-service failed: $disposeResponseCode, redirecting to error page...")
-        routes.MicroServiceError.present
+        routes.MicroServiceError.present()
       }
     }
 
     def handleHttpStatusCode(statusCode: Int): Call = {
       statusCode match {
-        case OK => routes.DisposeSuccess.present
-        case SERVICE_UNAVAILABLE => routes.SoapEndpointError.present
-        case _ => routes.MicroServiceError.present
+        case OK => routes.DisposeSuccess.present()
+        case SERVICE_UNAVAILABLE => routes.SoapEndpointError.present()
+        case _ => routes.MicroServiceError.present()
       }
     }
 
@@ -198,7 +198,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
         callMicroService(disposeModel)
       case _ => Future {
         Logger.error("could not find dealer details in cache on Dispose submit")
-        Redirect(routes.SetUpTradeDetails.present)
+        Redirect(routes.SetUpTradeDetails.present())
       }
     }
   }
