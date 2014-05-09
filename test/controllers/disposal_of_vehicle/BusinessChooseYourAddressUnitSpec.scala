@@ -9,6 +9,9 @@ import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeWebServiceImpl
 import services.fakes.FakeWebServiceImpl._
 import play.api.mvc.Cookies
+import mappings.disposal_of_vehicle.TraderDetails._
+import scala.Some
+import scala.Some
 
 class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
@@ -70,14 +73,16 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       }
     }
 
-    "write cookie when the form is completed successfully" in new WithApplication {
+    "write cookie when uprn found" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest().withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnFound().submit(request)
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val found = cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.businessChooseYourAddress()))
-          found should equal(true)
+          val foundBusinessChooseYourAddress = cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.businessChooseYourAddress()))
+          foundBusinessChooseYourAddress should equal(true)
+
+          cookies.map(_.name) should contain allOf (businessChooseYourAddressCacheKey, traderDetailsCacheKey)
       }
     }
 
@@ -87,8 +92,7 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val found = cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.businessChooseYourAddress()))
-          found should equal(false)
+          cookies.map(_.name) should contain noneOf (businessChooseYourAddressCacheKey, traderDetailsCacheKey)
       }
     }
   }

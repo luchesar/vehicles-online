@@ -75,14 +75,13 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
   private def lookupUprn(model: BusinessChooseYourAddressModel, traderName: String) = {
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString)
     lookedUpAddress.map {
-      case Some(addressViewModel) => {
+      case Some(addressViewModel) =>
         val traderDetailsModel = TraderDetailsModel(traderName = traderName, traderAddress = addressViewModel)
         /* The redirect is done as the final step within the map so that:
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache.
          */
         Redirect(routes.VehicleLookup.present).withCookie(model).withCookie(traderDetailsModel)
-      }
       case None => Redirect(routes.UprnNotFound.present)
     }
   }
