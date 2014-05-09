@@ -225,10 +225,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val cookieNames = cookies.map(_.name)
-          println("cookies: " + cookies)
-          println("cookies names: " + cookieNames)
-          cookieNames should contain allOf (vehicleLookupResponseCodeCacheKey, vehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain allOf (vehicleLookupResponseCodeCacheKey, vehicleLookupFormModelCacheKey)
       }
     }
 
