@@ -12,7 +12,7 @@ class DisposeFailure @Inject()() extends Controller {
 
 
   def present = Action { implicit request =>
-    (request.fetch[TraderDetailsModel], request.fetch[DisposeFormModel], request.fetch[VehicleDetailsModel], request.fetch(disposeFormTransactionIdCacheKey)) match {
+    (request.getCookie[TraderDetailsModel], request.getCookie[DisposeFormModel], request.getCookie[VehicleDetailsModel], request.getCookieNamed(disposeFormTransactionIdCacheKey)) match {
       case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId)) => {
         val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId))
         Ok(views.html.disposal_of_vehicle.dispose_failure(disposeModel, disposeFormModel))

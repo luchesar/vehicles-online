@@ -11,7 +11,7 @@ case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) 
 object DisposalOfVehicleSessionState {
 
   implicit class RequestAdapter[A](val request: Request[A]) extends AnyVal {
-    def fetch[B](implicit fjs: Reads[B], cacheKey: CacheKey[B]): Option[B] =
+    def getCookie[B](implicit fjs: Reads[B], cacheKey: CacheKey[B]): Option[B] =
       request.cookies.get(CryptoHelper.encryptCookieName(cacheKey.value)) match {
         case Some(cookie) =>
           val decrypted = CryptoHelper.decryptCookie(cookie.value)
@@ -24,7 +24,7 @@ object DisposalOfVehicleSessionState {
         case None => None
       }
 
-    def fetch(key: String): Option[String] =
+    def getCookieNamed(key: String): Option[String] =
       request.cookies.get(CryptoHelper.encryptCookieName(key)) match {
         case Some(cookie) => Some(CryptoHelper.decryptCookie(cookie.value))
         case None => None

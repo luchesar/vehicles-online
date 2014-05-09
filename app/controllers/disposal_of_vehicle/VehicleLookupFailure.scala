@@ -11,7 +11,7 @@ class VehicleLookupFailure @Inject()() extends Controller {
 
 
   def present = Action { implicit request =>
-    (request.fetch[TraderDetailsModel], request.fetch[VehicleLookupFormModel]) match {
+    (request.getCookie[TraderDetailsModel], request.getCookie[VehicleLookupFormModel]) match {
       case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) =>
         displayVehicleLookupFailure(vehicleLookUpFormModelDetails)
       case _ => Redirect(routes.SetUpTradeDetails.present)
@@ -19,7 +19,7 @@ class VehicleLookupFailure @Inject()() extends Controller {
   }
 
   def submit = Action { implicit request =>
-    (request.fetch[TraderDetailsModel], request.fetch[VehicleLookupFormModel]) match {
+    (request.getCookie[TraderDetailsModel], request.getCookie[VehicleLookupFormModel]) match {
       case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) => {
         Logger.debug("found dealer and vehicle details")
         Redirect(routes.VehicleLookup.present)
@@ -35,7 +35,7 @@ class VehicleLookupFailure @Inject()() extends Controller {
   }
 
   private def encodeResponseCodeErrorMessage(implicit request: Request[AnyContent]): String =
-    request.fetch(vehicleLookupResponseCodeCacheKey) match {
+    request.getCookieNamed(vehicleLookupResponseCodeCacheKey) match {
       case Some(responseCode) => responseCode
       case _ => "disposal_vehiclelookupfailure.p1"
     }

@@ -32,11 +32,11 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
 
   def present = Action.async {
     implicit request =>
-      request.fetch[SetupTradeDetailsModel] match {
+      request.getCookie[SetupTradeDetailsModel] match {
         case Some(setupTradeDetailsModel) =>
           fetchAddresses(setupTradeDetailsModel).map {
             addresses =>
-              val f = request.fetch[BusinessChooseYourAddressModel] match {
+              val f = request.getCookie[BusinessChooseYourAddressModel] match {
                 case Some(cached) => form.fill(cached)
                 case None => form // Blank form.
               }
@@ -51,7 +51,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
   def submit = Action.async { implicit request =>
       form.bindFromRequest.fold(
         formWithErrors =>
-          request.fetch[SetupTradeDetailsModel] match {
+          request.getCookie[SetupTradeDetailsModel] match {
             case Some(setupTradeDetailsModel) => fetchAddresses(setupTradeDetailsModel).map {
               addresses => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, setupTradeDetailsModel.traderBusinessName, addresses))
             }
@@ -61,7 +61,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
             }
           },
         f =>
-          request.fetch[SetupTradeDetailsModel] match {
+          request.getCookie[SetupTradeDetailsModel] match {
             case Some(setupTradeDetailsModel) =>
               lookupUprn(f, setupTradeDetailsModel.traderBusinessName)
             case None => Future {

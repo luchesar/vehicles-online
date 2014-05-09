@@ -47,11 +47,11 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
 
   def present = Action {
     implicit request => {
-      request.fetch[TraderDetailsModel] match {
+      request.getCookie[TraderDetailsModel] match {
         case (Some(dealerDetails)) =>
           Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
-          request.fetch[VehicleDetailsModel] match {
+          request.getCookie[VehicleDetailsModel] match {
             case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm, yearsDropdown))
             case _ => Redirect(routes.VehicleLookup.present)
           }
@@ -66,7 +66,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       disposeForm.bindFromRequest.fold(
         formWithErrors =>
           Future {
-            (request.fetch[TraderDetailsModel], request.fetch[VehicleDetailsModel]) match {
+            (request.getCookie[TraderDetailsModel], request.getCookie[VehicleDetailsModel]) match {
               case (Some(dealerDetails), Some(vehicleDetails)) =>
                 val disposeViewModel = populateModelFromCachedData(dealerDetails, vehicleDetails)
                 // When the user doesn't select a value from the drop-down then the mapping will fail to match on an Int before
@@ -190,7 +190,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       }
     }
 
-    request.fetch[VehicleLookupFormModel] match {
+    request.getCookie[VehicleLookupFormModel] match {
       case Some(vehicleLookupFormModel) =>
         val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,
           registrationNumber = vehicleLookupFormModel.registrationNumber,

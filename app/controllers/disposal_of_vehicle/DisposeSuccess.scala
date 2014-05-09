@@ -13,7 +13,7 @@ class DisposeSuccess @Inject()() extends Controller {
 
   def present = Action {
     implicit request =>
-      (request.fetch[TraderDetailsModel], request.fetch[DisposeFormModel], request.fetch[VehicleDetailsModel], request.fetch(disposeFormTransactionIdCacheKey), request.fetch(disposeFormRegistrationNumberCacheKey)) match {
+      (request.getCookie[TraderDetailsModel], request.getCookie[DisposeFormModel], request.getCookie[VehicleDetailsModel], request.getCookieNamed(disposeFormTransactionIdCacheKey), request.getCookieNamed(disposeFormRegistrationNumberCacheKey)) match {
         case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId), Some(registrationNumber)) =>
           val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId), registrationNumber)
           Ok(views.html.disposal_of_vehicle.dispose_success(disposeModel, disposeFormModel))
@@ -23,7 +23,7 @@ class DisposeSuccess @Inject()() extends Controller {
 
   def newDisposal = Action {
     implicit request =>
-      (request.fetch[TraderDetailsModel], request.fetch[DisposeFormModel], request.fetch[VehicleDetailsModel]) match {
+      (request.getCookie[TraderDetailsModel], request.getCookie[DisposeFormModel], request.getCookie[VehicleDetailsModel]) match {
         case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present).
           discardingCookies(
             DiscardingCookie(name = CryptoHelper.encryptCookieName(vehicleLookupDetailsCacheKey)),

@@ -21,7 +21,7 @@ class EnterAddressManually @Inject()() extends Controller {
 
   def present = Action {
     implicit request =>
-      request.fetch[SetupTradeDetailsModel] match {
+      request.getCookie[SetupTradeDetailsModel] match {
         case Some(_) => Ok(views.html.disposal_of_vehicle.enter_address_manually(form))
         case None => Redirect(routes.SetUpTradeDetails.present)
       }
@@ -31,7 +31,7 @@ class EnterAddressManually @Inject()() extends Controller {
     implicit request => {
       form.bindFromRequest.fold(
         formWithErrors =>
-          request.fetch[SetupTradeDetailsModel] match {
+          request.getCookie[SetupTradeDetailsModel] match {
             case Some(_) => {
               val updatedFormWithErrors = formWithErrors.replaceError("addressAndPostcode.addressLines.line1", "error.required", FormError("addressAndPostcode.addressLines", "error.address.line1Required"))
               BadRequest(views.html.disposal_of_vehicle.enter_address_manually(updatedFormWithErrors))}
@@ -41,7 +41,7 @@ class EnterAddressManually @Inject()() extends Controller {
             }
           },
         f =>
-          request.fetch[SetupTradeDetailsModel].map(_.traderBusinessName) match {
+          request.getCookie[SetupTradeDetailsModel].map(_.traderBusinessName) match {
           case Some(name) =>
             val dealerAddress = AddressViewModel.from(f.stripCharsNotAccepted.addressAndPostcodeModel)
             val dealerDetailsModel = TraderDetailsModel(traderName = name, traderAddress = dealerAddress)
