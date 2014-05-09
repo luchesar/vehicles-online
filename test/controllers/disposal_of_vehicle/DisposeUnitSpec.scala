@@ -58,11 +58,10 @@ class DisposeUnitSpec extends UnitSpec {
     }
 
     "redirect to micro-service error page when an unexpected error occurs" in new WithApplication {
-      val disposeFailure = disposeController(disposeServiceStatus = INTERNAL_SERVER_ERROR, disposeServiceResponse = None)
-
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeModel())
+      val disposeFailure = disposeController(disposeServiceStatus = INTERNAL_SERVER_ERROR, disposeServiceResponse = None)
       val result = disposeFailure.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
@@ -96,13 +95,13 @@ class DisposeUnitSpec extends UnitSpec {
     }
 
     "redirect to micro-service error page when calling webservice throws exception" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest.
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val disposeResponseThrows = mock[(Int, Option[DisposeResponse])]
       val mockWebServiceThrows = mock[DisposeService]
       when(mockWebServiceThrows.invoke(any[DisposeRequest])).thenReturn(Future.failed(new RuntimeException))
       val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateServiceStubbed())
-      val request = buildCorrectlyPopulatedRequest.
-        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val result = dispose.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
@@ -110,11 +109,10 @@ class DisposeUnitSpec extends UnitSpec {
     }
 
     "redirect to soap endpoint error page when service is unavailable" in new WithApplication {
-      val disposeFailure = disposeController(disposeServiceStatus = SERVICE_UNAVAILABLE, disposeServiceResponse = None)
-
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeModel())
+      val disposeFailure = disposeController(disposeServiceStatus = SERVICE_UNAVAILABLE, disposeServiceResponse = None)
       val result = disposeFailure.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SoapEndpointErrorPage.address))
@@ -122,27 +120,20 @@ class DisposeUnitSpec extends UnitSpec {
     }
 
     "redirect to dispose success when applicationBeingProcessed" in new WithApplication {
-      redirectLocation(applicationBeingProcessed) should equal(Some(DisposeSuccessPage.address))
+      val request = buildCorrectlyPopulatedRequest.
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+      val disposeSuccess = disposeController(disposeServiceResponse = Some(disposeResponseApplicationBeingProcessed))
+      val result = disposeSuccess.submit(request)
+      redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
     }
 
     "redirect to dispose failure page when unableToProcessApplication" in new WithApplication {
-      val disposeFailure = {
-        val ws = mock[DisposeWebService]
-        when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
-          val responseAsJson = Json.toJson(disposeResponseUnableToProcessApplication)
-          new FakeResponse(status = OK, fakeJson = Some(responseAsJson))
-        })
-        val disposeServiceImpl = new DisposeServiceImpl(ws)
-        new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
-      }
-
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeModel())
-
+      val disposeFailure = disposeController(disposeServiceResponse = Some(disposeResponseUnableToProcessApplication))
       val result = disposeFailure.submit(request)
-
-      // Verify that the transaction id is now stored in the cache
       whenReady(result) {
         r => {
           r.header.headers.get(LOCATION) should equal(Some(DisposeFailurePage.address))
@@ -151,20 +142,10 @@ class DisposeUnitSpec extends UnitSpec {
     }
 
     "redirect to error page when undefined error is returned" in new WithApplication {
-      val disposeFailure = {
-        val ws = mock[DisposeWebService]
-        when(ws.callDisposeService(any[DisposeRequest])).thenReturn(Future {
-          val responseAsJson = Json.toJson(disposeResponseUndefinedError)
-          new FakeResponse(status = OK, fakeJson = Some(responseAsJson))
-        })
-        val disposeServiceImpl = new DisposeServiceImpl(ws)
-        new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
-      }
-
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeModel())
-
+      val disposeFailure = disposeController(disposeServiceResponse = Some(disposeResponseUndefinedError))
       val result = disposeFailure.submit(request)
 
       whenReady(result) {
@@ -176,9 +157,7 @@ class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
-
       val result = disposeController().submit(request)
-
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
@@ -190,7 +169,12 @@ class DisposeUnitSpec extends UnitSpec {
     }
 
     "write cookies when applicationBeingProcessed" in new WithApplication {
-      whenReady(applicationBeingProcessed) {
+      val request = buildCorrectlyPopulatedRequest.
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+      val disposeSuccess = disposeController(disposeServiceResponse = Some(disposeResponseApplicationBeingProcessed))
+      val result = disposeSuccess.submit(request)
+      whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
           cookies.map(_.name) should contain allOf (disposeModelCacheKey, disposeFormTransactionIdCacheKey, disposeFormRegistrationNumberCacheKey, disposeFormModelCacheKey, disposeFormTimestampIdCacheKey)
@@ -198,15 +182,9 @@ class DisposeUnitSpec extends UnitSpec {
     }
   }
 
-  private def applicationBeingProcessed = {
-    val disposeSuccess = disposeController(disposeServiceResponse = Some(disposeResponseApplicationBeingProcessed))
-    val request = buildCorrectlyPopulatedRequest.
-      withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
-      withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
-    disposeSuccess.submit(request)
-  }
-
-  private def dateServiceStubbed(day: Int = dateOfDisposalDayValid.toInt, month: Int = dateOfDisposalMonthValid.toInt, year: Int = dateOfDisposalYearValid.toInt) = {
+  private def dateServiceStubbed(day: Int = dateOfDisposalDayValid.toInt,
+                                 month: Int = dateOfDisposalMonthValid.toInt,
+                                 year: Int = dateOfDisposalYearValid.toInt) = {
     val dateService = mock[DateServiceImpl]
     when(dateService.today).thenReturn(new models.DayMonthYear(day = day,
       month = month,
@@ -222,7 +200,8 @@ class DisposeUnitSpec extends UnitSpec {
       s"$dateOfDisposalId.$monthId" -> dateOfDisposalMonthValid,
       s"$dateOfDisposalId.$yearId" -> dateOfDisposalYearValid,
       consentId -> consentValid,
-      lossOfRegistrationConsentId -> consentValid)
+      lossOfRegistrationConsentId -> consentValid
+    )
   }
 
   private def disposeController(disposeServiceStatus: Int = OK,
