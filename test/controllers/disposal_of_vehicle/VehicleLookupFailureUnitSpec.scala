@@ -5,7 +5,6 @@ import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
-import scala.Some
 
 class VehicleLookupFailureUnitSpec extends UnitSpec {
 

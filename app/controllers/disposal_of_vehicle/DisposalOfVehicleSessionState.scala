@@ -4,7 +4,6 @@ import models.domain.common.CacheKey
 import play.api.data.validation.ValidationError
 import play.api.libs.json.{Writes, Reads, JsPath, Json}
 import play.api.mvc.{Request, Cookie, SimpleResult}
-import scala.Some
 import utils.helpers.CryptoHelper
 
 case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) extends Exception
