@@ -9,9 +9,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeWebServiceImpl
 import services.fakes.FakeWebServiceImpl._
 import play.api.mvc.Cookies
-import mappings.disposal_of_vehicle.TraderDetails._
-import scala.Some
-import scala.Some
+import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
 
 class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
