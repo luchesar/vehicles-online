@@ -12,7 +12,7 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
 
     "present" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactoryForUnitSpecs.dealerDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
       val result = vehicleLookupFailure().present(request)
       whenReady(result) {
@@ -22,7 +22,7 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
 
     "redirect to vehiclelookup on submit" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactoryForUnitSpecs.dealerDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
       val result = vehicleLookupFailure().submit(request)
       whenReady(result) {

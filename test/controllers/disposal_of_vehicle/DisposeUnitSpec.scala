@@ -29,7 +29,7 @@ class DisposeUnitSpec extends UnitSpec {
       
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
-        withCookies(CookieFactoryForUnitSpecs.dealerDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val result = disposeController().present(request)
       whenReady(result) {
@@ -93,7 +93,7 @@ class DisposeUnitSpec extends UnitSpec {
 
     "return a bad request when no details are entered" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody().
-        withCookies(CookieFactoryForUnitSpecs.dealerDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val result = disposeController().submit(request)
       whenReady(result) {

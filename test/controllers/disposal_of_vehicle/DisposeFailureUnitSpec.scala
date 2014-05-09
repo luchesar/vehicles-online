@@ -11,7 +11,7 @@ class DisposeFailureUnitSpec extends UnitSpec {
   "DisposalFailure - Controller" should {
     "present" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactoryForUnitSpecs.dealerDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeTransactionId())
@@ -23,7 +23,7 @@ class DisposeFailureUnitSpec extends UnitSpec {
 
     "redirect to vehicle lookup page when button clicked" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactoryForUnitSpecs.dealerDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeTransactionId())

@@ -41,7 +41,7 @@ object CookieFactoryForUnitSpecs {
     createCookie(key, value)
   }
 
-  def dealerDetails(uprn: Option[Long] = None, line1: String = "my house", traderPostcode: String = postcodeValid) = {
+  def traderDetailsModel(uprn: Option[Long] = None, line1: String = "my house", traderPostcode: String = postcodeValid) = {
     val key = traderDetailsCacheKey
     val value = TraderDetailsModel(traderName = traderBusinessNameValid,
       traderAddress = AddressViewModel(uprn = uprn, address = Seq(line1, "my street", "my area", "my town", "CM81QJ")))

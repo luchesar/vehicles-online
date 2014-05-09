@@ -94,7 +94,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val foundMatch = cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.dealerDetails()))
+          val foundMatch = cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.traderDetailsModel()))
           foundMatch should equal(true)
       }
     }
@@ -110,7 +110,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val foundMatch =  cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.dealerDetails()))
+          val foundMatch =  cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.traderDetailsModel()))
           foundMatch should equal(true)
       }
     }
@@ -126,7 +126,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val foundMatch =  cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.dealerDetails(line1 = "my house 1.1")))
+          val foundMatch =  cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "my house 1.1")))
           foundMatch should equal(true)
       }
     }
