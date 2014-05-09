@@ -1,10 +1,6 @@
 package services.fakes
 
 import models.domain.disposal_of_vehicle.AddressViewModel
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
-import javax.inject.Inject
-import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 import FakeWebServiceImpl.{traderUprnValid, traderUprnValid2}
 
 object FakeAddressLookupService {

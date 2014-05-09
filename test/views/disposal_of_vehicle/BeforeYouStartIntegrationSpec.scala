@@ -1,9 +1,9 @@
 package views.disposal_of_vehicle
 
-import pages.disposal_of_vehicle._
-import helpers.webbrowser.TestHarness
 import helpers.UiSpec
-import BeforeYouStartPage.startNow
+import helpers.webbrowser.TestHarness
+import pages.disposal_of_vehicle.BeforeYouStartPage.startNow
+import pages.disposal_of_vehicle._
 
 class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness  {
 

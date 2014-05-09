@@ -10,10 +10,7 @@ import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeWebServiceImpl.traderUprnValid
-import services.session.PlaySessionState
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
 import mappings.disposal_of_vehicle.Dispose._
-import scala.Some
 
 class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 

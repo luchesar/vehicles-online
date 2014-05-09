@@ -2,13 +2,10 @@ package controllers.disposal_of_vehicle
 
 import play.api.mvc._
 import models.domain.disposal_of_vehicle.{DisposeFormModel, TraderDetailsModel, DisposeViewModel, VehicleDetailsModel}
-import scala.Some
 import play.api.Logger
 import com.google.inject.Inject
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
 import mappings.disposal_of_vehicle.Dispose._
-import scala.Some
 import models.domain.disposal_of_vehicle.DisposeViewModel
 
 class DisposeFailure @Inject()() extends Controller {

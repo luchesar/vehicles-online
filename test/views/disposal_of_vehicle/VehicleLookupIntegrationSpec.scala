@@ -1,15 +1,13 @@
 package views.disposal_of_vehicle
 
-import pages.disposal_of_vehicle._
-import helpers.webbrowser.TestHarness
-import helpers.disposal_of_vehicle.CacheSetup
-import pages.common.ErrorPanel
+import pages.disposal_of_vehicle.VehicleLookupPage.{happyPath, back}
 import helpers.UiSpec
-import services.fakes.FakeAddressLookupService._
-import VehicleLookupPage.{happyPath, back}
-import services.session.{SessionState, PlaySessionState}
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
+import pages.common.ErrorPanel
+import pages.disposal_of_vehicle._
+import services.fakes.FakeAddressLookupService._
 
 class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
@@ -110,7 +108,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
     "display previous page when back link is clicked with uprn present" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup()
+      new CookieFactoryForUISpecs()
         .setupTradeDetailsIntegration()
         .dealerDetailsIntegration(addressWithUprn)
       go to VehicleLookupPage
@@ -132,7 +130,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    new CacheSetup().
+    new CookieFactoryForUISpecs().
       setupTradeDetailsIntegration().
       dealerDetailsIntegration()
 }

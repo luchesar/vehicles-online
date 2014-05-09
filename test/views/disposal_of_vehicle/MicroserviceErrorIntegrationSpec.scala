@@ -1,13 +1,11 @@
 package views.disposal_of_vehicle
 
-import pages.disposal_of_vehicle._
-import helpers.webbrowser.TestHarness
+import pages.disposal_of_vehicle.MicroServiceErrorPage.{tryAgain, exit}
 import helpers.UiSpec
-import MicroServiceErrorPage.{tryAgain, exit}
-import services.session.{PlaySessionState, SessionState}
-import helpers.disposal_of_vehicle.CacheSetup
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
+import pages.disposal_of_vehicle._
 
 class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
 
@@ -49,7 +47,7 @@ class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    new CacheSetup().
+    new CookieFactoryForUISpecs().
       setupTradeDetailsIntegration().
       dealerDetailsIntegration()
 }

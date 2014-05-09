@@ -1,13 +1,11 @@
 package views.disposal_of_vehicle
 
-import pages.disposal_of_vehicle.VehicleLookupFailurePage._
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
 import helpers.UiSpec
-import helpers.disposal_of_vehicle.CacheSetup
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
+import pages.disposal_of_vehicle.VehicleLookupFailurePage._
 import pages.disposal_of_vehicle._
-import services.session.{SessionState, PlaySessionState}
 
 class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
@@ -30,7 +28,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect to setuptrade details if only VehicleLookupFormModelCache is populated" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup().vehicleLookupFormModelIntegration()
+      new CookieFactoryForUISpecs().vehicleLookupFormModelIntegration()
 
       go to VehicleLookupFailurePage
 
@@ -39,7 +37,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect to setuptrade details if only dealerDetails cache is populated" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup().
+      new CookieFactoryForUISpecs().
         dealerDetailsIntegration()
 
       go to VehicleLookupFailurePage
@@ -69,7 +67,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    new CacheSetup().
+    new CookieFactoryForUISpecs().
       dealerDetailsIntegration().
       vehicleLookupFormModelIntegration()
 }

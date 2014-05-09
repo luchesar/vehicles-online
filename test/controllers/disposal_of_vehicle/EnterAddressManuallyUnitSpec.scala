@@ -1,34 +1,39 @@
 package controllers.disposal_of_vehicle
 
-import play.api.test.{FakeRequest, WithApplication}
-import play.api.test.Helpers._
-import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle._
-import mappings.common.Postcode
-import Postcode._
+import mappings.common.Postcode._
 import helpers.UnitSpec
-import services.fakes.FakeAddressLookupService._
+import helpers.disposal_of_vehicle._
 import mappings.common.AddressAndPostcode._
 import mappings.common.AddressLines._
-import services.session.PlaySessionState
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
+import pages.disposal_of_vehicle._
 import play.api.mvc.Cookies
+import play.api.test.Helpers._
+import play.api.test.{FakeRequest, WithApplication}
+import services.fakes.FakeAddressLookupService._
+import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
 
 class EnterAddressManuallyUnitSpec extends UnitSpec {
-
-  "EnterAddressManually - Controller" should {
-
-    "present" in new WithApplication {
-      val request = FakeRequest().withSession().withCookies(CookieFactory.setupTradeDetails())
+  "present" should {
+    "display the page" in new WithApplication {
+      val request = FakeRequest().withSession().withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually().present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
       }
     }
 
+    "redirect to SetupTraderDetails page when present with no dealer name cached" in new WithApplication {
+      val request = FakeRequest().withSession()
+      val result = enterAddressManually().present(request)
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
+    }
+  }
+
+  "submit" should {
     "return bad request when no data is entered" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody().withCookies(CookieFactory.setupTradeDetails())
+      val request = FakeRequest().withSession().withFormUrlEncodedBody().withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result =  enterAddressManually().submit(request)
       whenReady(result) {
         r => r.header.status should equal(BAD_REQUEST)
@@ -40,7 +45,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1Valid,
         s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> line2Valid,
         s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> line3Valid,
-        s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> line4Valid).withCookies(CookieFactory.setupTradeDetails())
+        s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> line4Valid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r => r.header.status should equal(BAD_REQUEST)
@@ -49,18 +54,10 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "return bad request a valid postcode is entered without an address" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
-          s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactory.setupTradeDetails())
+          s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r => r.header.status should equal(BAD_REQUEST)
-      }
-    }
-
-    "redirect to SetupTraderDetails page when present with no dealer name cached" in new WithApplication {
-      val request = FakeRequest().withSession()
-      val result = enterAddressManually().present(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
 
@@ -70,7 +67,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> line2Valid,
         s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> line3Valid,
         s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> line4Valid,
-        s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactory.setupTradeDetails())
+        s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
@@ -80,7 +77,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     "redirect to Dispose after a valid submission of mandatory fields only" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
           s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1Valid,
-          s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactory.setupTradeDetails())
+          s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
@@ -93,12 +90,12 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> "my street.",
         s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> "my area.",
         s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> "my town,",
-        s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactory.setupTradeDetails())
+        s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val foundMatch = cookies.exists(cookie => cookie.equals(CookieFactory.dealerDetails()))
+          val foundMatch = cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.traderDetailsModel()))
           foundMatch should equal(true)
       }
     }
@@ -109,12 +106,12 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> "my street...,,.,",
         s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> "my area.,,..",
         s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> "my town,,,.,,,.",
-        s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactory.setupTradeDetails())
+        s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val foundMatch =  cookies.exists(cookie => cookie.equals(CookieFactory.dealerDetails()))
+          val foundMatch =  cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.traderDetailsModel()))
           foundMatch should equal(true)
       }
     }
@@ -125,12 +122,12 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> "my street.",
         s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> "my area.",
         s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> "my town,",
-        s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactory.setupTradeDetails())
+        s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val foundMatch =  cookies.exists(cookie => cookie.equals(CookieFactory.dealerDetails(line1 = "my house 1.1")))
+          val foundMatch =  cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "my house 1.1")))
           foundMatch should equal(true)
       }
     }
@@ -138,7 +135,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     "submit does not accept an address containing only full stops" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> "...",
-        s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactory.setupTradeDetails())
+        s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r => r.header.status should equal(BAD_REQUEST)
@@ -163,6 +160,21 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
+    }
+
+    "write cookie after a valid submission of all fields" in new WithApplication {
+      val request = FakeRequest().withSession().withFormUrlEncodedBody(
+        s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1Valid,
+        s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> line2Valid,
+        s"$addressAndPostcodeId.$addressLinesId.$line3Id" -> line3Valid,
+        s"$addressAndPostcodeId.$addressLinesId.$line4Id" -> line4Valid,
+        s"$addressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+      val result = enterAddressManually().submit(request)
+      whenReady(result) {
+        r =>
+          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          cookies.map(_.name) should contain (traderDetailsCacheKey)
       }
     }
   }

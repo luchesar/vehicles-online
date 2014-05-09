@@ -1,18 +1,16 @@
 package views.disposal_of_vehicle
 
-import pages.disposal_of_vehicle._
-import helpers.webbrowser.TestHarness
-import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UiSpec
-import services.session.{PlaySessionState, SessionState}
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
-import org.openqa.selenium.WebDriver
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import mappings.disposal_of_vehicle.Dispose._
-import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import mappings.disposal_of_vehicle.TraderDetails._
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
+import mappings.disposal_of_vehicle.VehicleLookup._
+import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.DisposeSuccessPage._
+import pages.disposal_of_vehicle._
 
 class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
@@ -35,7 +33,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DealerDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup().dealerDetailsIntegration()
+      new CookieFactoryForUISpecs().dealerDetailsIntegration()
 
       go to DisposeSuccessPage
 
@@ -44,7 +42,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only VehicleDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup().
+      new CookieFactoryForUISpecs().
         vehicleDetailsModelIntegration()
 
       go to DisposeSuccessPage
@@ -54,7 +52,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DisposeDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup().
+      new CookieFactoryForUISpecs().
         disposeFormModelIntegration()
 
       go to DisposeSuccessPage
@@ -64,7 +62,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DealerDetails and VehicleDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup().
+      new CookieFactoryForUISpecs().
         dealerDetailsIntegration().
         vehicleDetailsModelIntegration()
 
@@ -75,7 +73,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DisposeDetails and VehicleDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup().
+      new CookieFactoryForUISpecs().
         disposeFormModelIntegration().
         vehicleDetailsModelIntegration()
 
@@ -86,7 +84,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DisposeDetails and DealerDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CacheSetup().
+      new CookieFactoryForUISpecs().
         dealerDetailsIntegration().
         disposeFormModelIntegration()
 
@@ -150,7 +148,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    new CacheSetup().
+    new CookieFactoryForUISpecs().
       setupTradeDetailsIntegration().
       businessChooseYourAddressIntegration().
       dealerDetailsIntegration().

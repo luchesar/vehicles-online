@@ -1,13 +1,11 @@
 package views.disposal_of_vehicle
 
-import helpers.webbrowser.TestHarness
-import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.CacheSetup
+import pages.disposal_of_vehicle.DisposeFailurePage._
 import helpers.UiSpec
-import DisposeFailurePage._
-import services.session.{SessionState, PlaySessionState}
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
+import pages.disposal_of_vehicle._
 
 class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
 
@@ -49,7 +47,7 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    new CacheSetup().
+    new CookieFactoryForUISpecs().
       dealerDetailsIntegration().
       vehicleDetailsModelIntegration().
       disposeFormModelIntegration().

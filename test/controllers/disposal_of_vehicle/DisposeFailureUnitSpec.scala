@@ -3,19 +3,18 @@ package controllers.disposal_of_vehicle
 import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.{CookieFactory, CacheSetup}
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
-import services.session.{SessionState, PlaySessionState}
 
 class DisposeFailureUnitSpec extends UnitSpec {
 
   "DisposalFailure - Controller" should {
     "present" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.dealerDetails()).
-        withCookies(CookieFactory.vehicleDetailsModel()).
-        withCookies(CookieFactory.disposeFormModel()).
-        withCookies(CookieFactory.disposeTransactionId())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeTransactionId())
       val result = disposeFailure().present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
@@ -24,10 +23,10 @@ class DisposeFailureUnitSpec extends UnitSpec {
 
     "redirect to vehicle lookup page when button clicked" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactory.dealerDetails()).
-        withCookies(CookieFactory.vehicleDetailsModel()).
-        withCookies(CookieFactory.disposeFormModel()).
-        withCookies(CookieFactory.disposeTransactionId())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeTransactionId())
       val result = disposeFailure().submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))

@@ -1,15 +1,12 @@
 package views.disposal_of_vehicle
 
-import pages.disposal_of_vehicle._
-import helpers.webbrowser.TestHarness
-import helpers.disposal_of_vehicle.CacheSetup
-import pages.common.ErrorPanel
+import pages.disposal_of_vehicle.EnterAddressManuallyPage._
 import helpers.UiSpec
-import services.fakes.FakeAddressLookupService._
-import EnterAddressManuallyPage._
-import services.session.{PlaySessionState, SessionState}
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
+import pages.common.ErrorPanel
+import pages.disposal_of_vehicle._
 
 class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
@@ -62,6 +59,6 @@ class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    new CacheSetup().
+    new CookieFactoryForUISpecs().
       setupTradeDetailsIntegration()
 }

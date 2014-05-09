@@ -1,13 +1,12 @@
 package views.disposal_of_vehicle
 
-import pages.disposal_of_vehicle._
-import helpers.webbrowser.TestHarness
-import pages.common.ErrorPanel
-import pages.common.Accessibility
-import helpers.disposal_of_vehicle.Helper._
 import helpers.UiSpec
-import SetupTradeDetailsPage.happyPath
+import helpers.webbrowser.TestHarness
 import mappings.disposal_of_vehicle.SetupTradeDetails
+import pages.common.Accessibility
+import pages.common.ErrorPanel
+import pages.disposal_of_vehicle.SetupTradeDetailsPage.happyPath
+import pages.disposal_of_vehicle._
 
 class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
 

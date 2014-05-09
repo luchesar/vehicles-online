@@ -4,11 +4,9 @@ import pages.disposal_of_vehicle._
 import cucumber.api.java.en.{Then, When, Given}
 import org.scalatest.Matchers
 import services.fakes.FakeVehicleLookupWebService._
-import helpers.disposal_of_vehicle.CacheSetup
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
-import services.session.PlaySessionState
 
 class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
@@ -17,7 +15,7 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
   @Given("""^a motor trader has entered a doc ref number in a valid format$""")
   def a_motor_trader_has_entered_a_doc_ref_number_in_a_valid_format() = {
     go to BeforeYouStartPage
-    new CacheSetup()
+    new CookieFactoryForUISpecs()
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
 
@@ -29,7 +27,7 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
   @Given("""^a motor trader has (.*) a VRM in a valid format$""")
   def a_motor_trader_has_entered_a_vrm_in_a_valid_format(vrm:String) = {
     go to BeforeYouStartPage
-    new CacheSetup()
+    new CookieFactoryForUISpecs()
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
 
@@ -41,7 +39,7 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
   @Given("""^a motor trader has (.*) a VRM in an invalid format$""")
   def a_motor_trader_has_entered_a_vrm_in_an_invalid_format(vrm:String) = {
     go to BeforeYouStartPage
-    new CacheSetup()
+    new CookieFactoryForUISpecs()
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
 
@@ -53,7 +51,7 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
   @Given("""^a motor trader has (.*) a doc ref number in an invalid format$""")
   def a_motor_trader_has_entered_a_doc_ref_number_in_an_invalid_format(invalidDocRef:String) = {
     go to BeforeYouStartPage
-    new CacheSetup()
+    new CookieFactoryForUISpecs()
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
 

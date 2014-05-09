@@ -1,17 +1,13 @@
 package views.disposal_of_vehicle
 
-import helpers.webbrowser.TestHarness
-import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.CacheSetup
-import pages.common.ErrorPanel
 import helpers.UiSpec
-import BusinessChooseYourAddressPage.{sadPath, happyPath, manualAddress, back}
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
+import org.openqa.selenium.WebDriver
+import pages.common.ErrorPanel
+import pages.disposal_of_vehicle.BusinessChooseYourAddressPage.{sadPath, happyPath, manualAddress, back}
+import pages.disposal_of_vehicle._
 import services.fakes.FakeAddressLookupService.postcodeValid
-import services.session.{SessionState, PlaySessionState}
-import controllers.disposal_of_vehicle.{DisposalOfVehicleSessionState}
-import org.openqa.selenium.{WebDriver, Cookie}
-import play.api.http.HeaderNames
-import play.api.mvc.Cookies
 
 class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 
@@ -90,6 +86,6 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    new CacheSetup().
+    new CookieFactoryForUISpecs().
       setupTradeDetailsIntegration()
 }

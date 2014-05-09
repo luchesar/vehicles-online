@@ -1,24 +1,15 @@
 package controllers.disposal_of_vehicle
 
-import play.api.Logger
-import models.domain.disposal_of_vehicle._
-import models.domain.disposal_of_vehicle.{TraderDetailsModel, DisposeFormModel, SetupTradeDetailsModel, VehicleDetailsModel}
-import scala.Some
-import mappings.disposal_of_vehicle.SetupTradeDetails._
-import mappings.disposal_of_vehicle.TraderDetails._
-import mappings.disposal_of_vehicle.Dispose._
-import mappings.disposal_of_vehicle.VehicleLookup._
-import play.api.mvc.{Request, Cookie, SimpleResult}
-import play.api.libs.json.{Writes, Reads, JsPath, Json}
-import play.api.data.validation.ValidationError
-import utils.helpers.CryptoHelper
 import models.domain.common.CacheKey
+import play.api.data.validation.ValidationError
+import play.api.libs.json.{Writes, Reads, JsPath, Json}
+import play.api.mvc.{Request, Cookie, SimpleResult}
+import utils.helpers.CryptoHelper
 
 case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) extends Exception
 
 object DisposalOfVehicleSessionState {
 
-  // TODO: This is the new way of doing caching. Remove old version piece by piece into the new style then rename this.
   implicit class RequestAdapter[A](val request: Request[A]) extends AnyVal {
     def fetch[B](implicit fjs: Reads[B], cacheKey: CacheKey[B]): Option[B] =
       request.cookies.get(CryptoHelper.encryptCookieName(cacheKey.value)) match {
@@ -54,4 +45,5 @@ object DisposalOfVehicleSessionState {
       result.withCookies(cookie)
     }
   }
+
 }

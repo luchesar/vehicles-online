@@ -1,18 +1,17 @@
 package services.fakes
 
-import play.api.libs.json.Json
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-import play.api.http.Status._
-import play.api.libs.ws.Response
-import services.address_lookup.gds.domain.Location
-import scala.Some
-import services.address_lookup.gds.domain.Details
-import services.address_lookup.gds.domain.Presentation
-import services.address_lookup.gds.domain.Address
-import services.fakes.FakeAddressLookupService.postcodeInvalid
 import models.domain.disposal_of_vehicle.{AddressViewModel, UprnToAddressResponse, UprnAddressPair, PostcodeToAddressResponse}
+import play.api.http.Status._
+import play.api.libs.json.Json
+import play.api.libs.ws.Response
 import services.address_lookup.AddressLookupWebService
+import services.address_lookup.gds.domain.Address
+import services.address_lookup.gds.domain.Details
+import services.address_lookup.gds.domain.Location
+import services.address_lookup.gds.domain.Presentation
+import services.fakes.FakeAddressLookupService.postcodeInvalid
 
 class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                          responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
@@ -65,7 +64,7 @@ object FakeWebServiceImpl {
 
   val uprnToAddressResponseValid = {
     val uprnAddressPair = uprnAddressPairWithDefaults()
-    UprnToAddressResponse(addressViewModel = Some(AddressViewModel(uprn = Some(uprnAddressPair.uprn.toLong), address = uprnAddressPair.address.split(","))))
+    UprnToAddressResponse(addressViewModel = Some(AddressViewModel(uprn = Some(uprnAddressPair.uprn.toLong), address = uprnAddressPair.address.split(", "))))
   }
 
   def responseValidForUprnToAddress: Future[Response] = {

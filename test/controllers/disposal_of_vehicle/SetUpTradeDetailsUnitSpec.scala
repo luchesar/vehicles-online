@@ -1,17 +1,18 @@
 package controllers.disposal_of_vehicle
 
-import play.api.test.{FakeRequest, WithApplication}
-import play.api.test.Helpers._
+import helpers.UnitSpec
+import helpers.disposal_of_vehicle.Helper._
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.Helper._
-import helpers.UnitSpec
+import play.api.test.Helpers._
+import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeAddressLookupService._
-import services.session.PlaySessionState
+import play.api.mvc.Cookies
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 
 class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
-  "BeforeYouStart - Controller" should {
+  "SetUpTradeDetails - Controller" should {
 
     "present" in new WithApplication {
       val request = FakeRequest().withSession()
@@ -51,9 +52,20 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
       // the page and once above the field.
     }
+
+    "write cookie when the form is completed successfully" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = setUpTradeDetails().submit(request)
+      whenReady(result) {
+        r =>
+          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val found = cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.setupTradeDetails()))
+          found should equal(true)
+      }
+    }
   }
 
-  private def buildCorrectlyPopulatedRequest(dealerName: String = traderBusinessNameValid.toString, dealerPostcode: String = postcodeValid) = {
+  private def buildCorrectlyPopulatedRequest(dealerName: String = traderBusinessNameValid, dealerPostcode: String = postcodeValid) = {
     FakeRequest().withSession().withFormUrlEncodedBody(
       traderNameId -> dealerName,
       traderPostcodeId -> dealerPostcode)

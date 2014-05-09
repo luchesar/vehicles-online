@@ -21,7 +21,6 @@ import services.dispose_service.DisposeService
 import services.DateService
 import models.domain.disposal_of_vehicle.DisposeFormModel
 import play.api.data.FormError
-import scala.Some
 import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.DisposeModel

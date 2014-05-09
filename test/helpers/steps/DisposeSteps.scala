@@ -4,11 +4,9 @@ import pages.disposal_of_vehicle._
 import cucumber.api.java.en.{When, Given}
 import org.scalatest.Matchers
 import services.fakes.FakeDateServiceImpl._
-import helpers.disposal_of_vehicle.CacheSetup
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
-import services.session.PlaySessionState
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
 
 class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
@@ -18,7 +16,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
   @Given("""^the motor trader has confirmed the consent of the current keeper$""")
   def the_motor_trader_has_confirmed_the_consent_of_the_current_keeper() = {
     go to BeforeYouStartPage
-    new CacheSetup()
+    new CookieFactoryForUISpecs()
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
       .vehicleDetailsModelIntegration()
@@ -35,7 +33,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
   @Given("""^the motor trader has not confirmed the consent of the current keeper$""")
   def the_motor_trader_has_not_confirmed_the_consent_of_the_current_keeper() = {
     go to BeforeYouStartPage
-    new CacheSetup()
+    new CookieFactoryForUISpecs()
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
       .vehicleDetailsModelIntegration()
@@ -51,7 +49,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
   @Given("""^the motor trader has confirmed the acknowledgement of the current keeper$""")
   def the_motor_trader_has_confirmed_the_acknowledgement_of_the_current_keeper() = {
     go to BeforeYouStartPage
-    new CacheSetup()
+    new CookieFactoryForUISpecs()
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
       .vehicleDetailsModelIntegration()
@@ -68,7 +66,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
   @Given("""^the motor trader has not confirmed the acknowledgement of the current keeper$""")
   def the_motor_trader_has_not_confirmed_the_acknowledgement_of_the_current_keeper() = {
     go to BeforeYouStartPage
-    new CacheSetup()
+    new CookieFactoryForUISpecs()
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
       .vehicleDetailsModelIntegration()
@@ -84,7 +82,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
   @Given("""^the motor trader has entered a valid calendar date which conforms to business rules$""")
   def the_motor_trader_has_entered_a_valid_calendar_date() = {
     go to BeforeYouStartPage
-    new CacheSetup()
+    new CookieFactoryForUISpecs()
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
       .vehicleDetailsModelIntegration()
@@ -101,7 +99,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
   @Given("""^the motor trader has entered a valid calendar date which does not conform to business rules$""")
   def the_motor_trader_has_entered_a_valid_calendar_date_which_does_not_conform_to_the_business_rules() = {
     go to BeforeYouStartPage
-    new CacheSetup()
+    new CookieFactoryForUISpecs()
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
       .vehicleDetailsModelIntegration()
@@ -119,7 +117,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
   @Given("""^that entered details correspond to a valid clean record that has no markers or error codes$""")
   def that_entered_details_correspond_to_a_valid_clean_record_that_has_no_markers_or_error_codes() = {
     go to BeforeYouStartPage
-    new CacheSetup()
+    new CookieFactoryForUISpecs()
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
 
@@ -137,7 +135,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
   @Given("""^that entered details correspond to a valid record which has markers or error codes$""")
   def that_entered_details_correspond_to_a_valid_record_which_has_markers_or_error_codes() = {
     go to BeforeYouStartPage
-    new CacheSetup()
+    new CookieFactoryForUISpecs()
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
 
