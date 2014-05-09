@@ -13,6 +13,7 @@ import services.fakes.FakeAddressLookupService._
 
 class EnterAddressManuallyUnitSpec extends UnitSpec {
 
+
   "EnterAddressManually - Controller" should {
 
     "present" in new WithApplication {
