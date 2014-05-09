@@ -1,12 +1,11 @@
 package views.disposal_of_vehicle
 
-import pages.disposal_of_vehicle._
-import helpers.webbrowser.TestHarness
+import pages.disposal_of_vehicle.MicroServiceErrorPage.{tryAgain, exit}
 import helpers.UiSpec
-import MicroServiceErrorPage.{tryAgain, exit}
-import services.session.{PlaySessionState, SessionState}
-import helpers.disposal_of_vehicle.CacheSetup
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
+import org.openqa.selenium.WebDriver
+import pages.disposal_of_vehicle._
 
 class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
 
@@ -19,7 +18,8 @@ class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect to vehiclelookup when try again is clicked" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
       go to MicroServiceErrorPage
 
       click on tryAgain
@@ -36,7 +36,8 @@ class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect to beforeyoustart when exit is clicked" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
       go to MicroServiceErrorPage
 
       click on exit
@@ -45,13 +46,8 @@ class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  private def cacheSetup(sessionState: SessionState) =
-    new CacheSetup(sessionState).
-      setupTradeDetails().
-      businessChooseYourAddress()
-
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
+  private def cacheSetup()(implicit webDriver: WebDriver) =
+    new CookieFactoryForUISpecs().
+      setupTradeDetailsIntegration().
+      dealerDetailsIntegration()
 }

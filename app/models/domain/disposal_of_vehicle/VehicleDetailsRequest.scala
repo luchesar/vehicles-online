@@ -4,5 +4,5 @@ case class VehicleDetailsRequest(referenceNumber: String, registrationNumber: St
 
 object VehicleDetailsRequest {
   import play.api.libs.json.Json
-  implicit val vehicleDetailsRequest = Json.writes[VehicleDetailsRequest]
+  implicit val vehicleDetailsRequest = Json.format[VehicleDetailsRequest]
 }

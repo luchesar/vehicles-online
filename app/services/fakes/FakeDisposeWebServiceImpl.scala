@@ -1,19 +1,15 @@
 package services.fakes
 
-import models.domain.disposal_of_vehicle._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-import models.domain.disposal_of_vehicle.DisposeResponse
-import services.dispose_service.DisposeWebService
-import play.api.libs.ws.Response
-import scala.Some
-import play.api.libs.json.Json
-import play.api.Logger
-import FakeVehicleLookupWebService._
 import FakeDisposeWebServiceImpl._
+import FakeVehicleLookupWebService._
+import models.domain.disposal_of_vehicle._
+import play.api.Logger
 import play.api.http.Status._
+import play.api.libs.json.Json
 import play.api.libs.ws.Response
-import scala.Some
+import services.dispose_service.DisposeWebService
 
 class FakeDisposeWebServiceImpl extends DisposeWebService {
   override def callDisposeService(request: DisposeRequest): Future[Response] = Future {

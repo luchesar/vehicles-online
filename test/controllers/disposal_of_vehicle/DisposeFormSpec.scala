@@ -1,23 +1,22 @@
 package controllers.disposal_of_vehicle
 
-import mappings.disposal_of_vehicle.Dispose._
-import org.mockito.Mockito._
-import org.mockito.Matchers._
-import models.domain.disposal_of_vehicle.DisposeRequest
-import controllers.disposal_of_vehicle
-import models.DayMonthYear
-import helpers.UnitSpec
-import services.dispose_service.{DisposeWebService, DisposeServiceImpl}
-import services.fakes.FakeResponse
 import scala.concurrent.{ExecutionContext, Future}
-import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
-import services.{DateService, DateServiceImpl}
-import services.fakes.FakeDateServiceImpl._
-import services.fakes.FakeDisposeWebServiceImpl._
+import controllers.disposal_of_vehicle
+import helpers.UnitSpec
 import mappings.common.DayMonthYear._
 import mappings.common.Mileage
-import services.session.PlaySessionState
+import mappings.disposal_of_vehicle.Dispose._
+import models.DayMonthYear
+import models.domain.disposal_of_vehicle.DisposeRequest
+import org.mockito.Matchers._
+import org.mockito.Mockito._
+import play.api.libs.json.Json
+import services.dispose_service.{DisposeWebService, DisposeServiceImpl}
+import services.fakes.FakeDateServiceImpl._
+import services.fakes.FakeDisposeWebServiceImpl._
+import services.fakes.FakeResponse
+import services.{DateService, DateServiceImpl}
 
 class DisposeFormSpec extends UnitSpec {
 
@@ -143,7 +142,7 @@ class DisposeFormSpec extends UnitSpec {
       new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
     })
     val disposeServiceImpl = new DisposeServiceImpl(ws)
-    new disposal_of_vehicle.Dispose(newSessionState, disposeServiceImpl, dateService)
+    new disposal_of_vehicle.Dispose( disposeServiceImpl, dateService)
   }
 
   private def formWithValidDefaults(mileage: String = mileageValid,
@@ -166,8 +165,4 @@ class DisposeFormSpec extends UnitSpec {
     )
   }
 
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
 }

@@ -1,21 +1,21 @@
 package views.disposal_of_vehicle
 
-import helpers.webbrowser.TestHarness
-import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.CacheSetup
-import pages.common.ErrorPanel
+import pages.disposal_of_vehicle.DisposePage._
 import helpers.UiSpec
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
+import org.openqa.selenium.WebDriver
+import pages.common.ErrorPanel
+import pages.disposal_of_vehicle._
 import services.fakes.FakeDateServiceImpl._
-import DisposePage._
-import services.session.{SessionState, PlaySessionState}
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
 
 class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
   "Dispose Integration" should {
 
     "be presented" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
 
       go to DisposePage
 
@@ -23,7 +23,9 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display DisposeSuccess page on correct submission" in new WebBrowser {
-      cacheSetup(newSessionState.inner).vehicleLookupFormModel()
+      go to BeforeYouStartPage
+      cacheSetup().
+        vehicleLookupFormModelIntegration()
 
       happyPath
 
@@ -31,7 +33,8 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display validation errors when no data is entered" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
 
       sadPath
 
@@ -39,7 +42,9 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect when no vehicleDetailsModel is cached" in new WebBrowser {
-      new CacheSetup(newSessionState.inner).businessChooseYourAddress()
+      go to BeforeYouStartPage
+      new CookieFactoryForUISpecs().
+        dealerDetailsIntegration()
 
       go to DisposePage
 
@@ -47,7 +52,9 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect when no businessChooseYourAddress is cached" in new WebBrowser {
-      new CacheSetup(newSessionState.inner).vehicleDetailsModel()
+      go to BeforeYouStartPage
+      new CookieFactoryForUISpecs().
+        vehicleDetailsModelIntegration()
 
       go to DisposePage
 
@@ -61,7 +68,8 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display validation errors when month and year are input but no day" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
       go to DisposePage
       dateOfDisposalMonth select dateOfDisposalMonthValid
       dateOfDisposalYear select dateOfDisposalYearValid
@@ -74,7 +82,8 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display validation errors when day and year are input but no month" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
       go to DisposePage
       dateOfDisposalDay select dateOfDisposalDayValid
       dateOfDisposalYear select dateOfDisposalYearValid
@@ -87,7 +96,8 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display validation errors when day and month are input but no year" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
       go to DisposePage
       dateOfDisposalDay select dateOfDisposalDayValid
       dateOfDisposalMonth select dateOfDisposalMonthValid
@@ -100,7 +110,8 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display previous page when back link is clicked" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
       go to DisposePage
 
       click on back
@@ -109,14 +120,9 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  private def cacheSetup(sessionState: SessionState) = {
-    new CacheSetup(sessionState).
-      businessChooseYourAddress().
-      vehicleDetailsModel()
-  }
-
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
+  private def cacheSetup()(implicit webDriver: WebDriver) = {
+    new CookieFactoryForUISpecs().
+      dealerDetailsIntegration().
+      vehicleDetailsModelIntegration()
   }
 }

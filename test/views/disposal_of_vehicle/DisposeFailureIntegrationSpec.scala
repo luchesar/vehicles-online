@@ -1,19 +1,19 @@
 package views.disposal_of_vehicle
 
-import helpers.webbrowser.TestHarness
-import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.CacheSetup
+import pages.disposal_of_vehicle.DisposeFailurePage._
 import helpers.UiSpec
-import DisposeFailurePage._
-import services.session.{SessionState, PlaySessionState}
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
+import org.openqa.selenium.WebDriver
+import pages.disposal_of_vehicle._
 
 class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
 
   "DisposeFailureIntegration" should {
 
     "be presented" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
       go to DisposeFailurePage
 
       assert(page.title equals DisposeFailurePage.title)
@@ -26,7 +26,8 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect to vehiclelookup when button clicked" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
       go to DisposeFailurePage
 
       click on vehiclelookup
@@ -35,7 +36,8 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "redirect to setuptradedetails when button clicked" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
       go to DisposeFailurePage
 
       click on setuptradedetails
@@ -44,16 +46,12 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  private def cacheSetup(sessionState: SessionState) =
-    new CacheSetup(sessionState).
-      businessChooseYourAddress().
-      vehicleDetailsModel().
-      disposeFormModel().
-      disposeTransactionId().
-      vehicleRegistrationNumber()
+  private def cacheSetup()(implicit webDriver: WebDriver) =
+    new CookieFactoryForUISpecs().
+      dealerDetailsIntegration().
+      vehicleDetailsModelIntegration().
+      disposeFormModelIntegration().
+      disposeTransactionIdIntegration().
+      vehicleRegistrationNumberIntegration()
 
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
 }

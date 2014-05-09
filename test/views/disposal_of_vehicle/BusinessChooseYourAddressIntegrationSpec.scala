@@ -1,35 +1,36 @@
 package views.disposal_of_vehicle
 
-import helpers.webbrowser.TestHarness
-import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.CacheSetup
-import pages.common.ErrorPanel
 import helpers.UiSpec
-import BusinessChooseYourAddressPage.{sadPath, happyPath, manualAddress, back}
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
+import org.openqa.selenium.WebDriver
+import pages.common.ErrorPanel
+import pages.disposal_of_vehicle.BusinessChooseYourAddressPage.{sadPath, happyPath, manualAddress, back}
+import pages.disposal_of_vehicle._
 import services.fakes.FakeAddressLookupService.postcodeValid
-import services.session.{SessionState, PlaySessionState}
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
 
 class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 
   "Business choose your address - Integration" should {
 
     "be presented" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
       go to BusinessChooseYourAddressPage
-
       assert(page.title equals BusinessChooseYourAddressPage.title)
     }
 
     "go to the next page when correct data is entered" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
       happyPath
 
       assert(page.title equals VehicleLookupPage.title)
     }
 
     "go to the manual address entry page when manualAddressButton is clicked" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
       go to BusinessChooseYourAddressPage
 
       click on manualAddress
@@ -38,7 +39,8 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display previous page when back link is clicked" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
       go to BusinessChooseYourAddressPage
 
       click on back
@@ -53,7 +55,8 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "display validation error messages when addressSelected is not in the list" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
       sadPath
 
       assert(ErrorPanel.numberOfErrors equals 1)
@@ -79,13 +82,10 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 
       assert(page.source.contains("No addresses found for that postcode") equals true) // Does not contain message
     }
+
   }
 
-  private def cacheSetup(sessionState: SessionState) =
-    new CacheSetup(sessionState).setupTradeDetails()
-
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
+  private def cacheSetup()(implicit webDriver: WebDriver) =
+    new CookieFactoryForUISpecs().
+      setupTradeDetailsIntegration()
 }

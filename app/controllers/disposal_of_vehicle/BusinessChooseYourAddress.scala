@@ -4,7 +4,7 @@ import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
-import models.domain.disposal_of_vehicle.{SetupTradeDetailsModel, DealerDetailsModel, BusinessChooseYourAddressModel}
+import models.domain.disposal_of_vehicle.{SetupTradeDetailsModel, TraderDetailsModel, BusinessChooseYourAddressModel}
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import mappings.common.DropDown
 import DropDown._
@@ -12,10 +12,10 @@ import javax.inject.Inject
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 import services.address_lookup.AddressLookupService
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
 
-class BusinessChooseYourAddress @Inject()(val sessionState: DisposalOfVehicleSessionState, addressLookupService: AddressLookupService) extends Controller {
-
-  import sessionState._
+class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService) extends Controller {
 
   private def fetchAddresses(setupTradeDetailsModel: SetupTradeDetailsModel) = {
     val postcode = setupTradeDetailsModel.traderPostcode
@@ -30,58 +30,58 @@ class BusinessChooseYourAddress @Inject()(val sessionState: DisposalOfVehicleSes
     )(BusinessChooseYourAddressModel.apply)(BusinessChooseYourAddressModel.unapply)
   )
 
-  def present = Action.async { implicit request =>
-    fetchTraderDetailsFromCache match {
-      case Some(dealerDetails) => fetchAddresses(dealerDetails).map { addresses =>
-        val f = fetchBusinessChooseYourAddressModelFromCache match {
-          case Some(cached) => form.fill(cached)
-          case None => form // Blank form.
+  def present = Action.async {
+    implicit request =>
+      request.fetch[SetupTradeDetailsModel] match {
+        case Some(setupTradeDetailsModel) =>
+          fetchAddresses(setupTradeDetailsModel).map {
+            addresses =>
+              val f = request.fetch[BusinessChooseYourAddressModel] match {
+                case Some(cached) => form.fill(cached)
+                case None => form // Blank form.
+              }
+              Ok(views.html.disposal_of_vehicle.business_choose_your_address(f, setupTradeDetailsModel.traderBusinessName, addresses))
+          }
+        case None => Future {
+          Redirect(routes.SetUpTradeDetails.present)
         }
-        Ok(views.html.disposal_of_vehicle.business_choose_your_address(f, dealerDetails.traderBusinessName, addresses))
       }
-      case None => Future {
-        Redirect(routes.SetUpTradeDetails.present)
-      }
-    }
   }
 
   def submit = Action.async { implicit request =>
-    form.bindFromRequest.fold(
-      formWithErrors =>
-        fetchTraderDetailsFromCache match { case Some(dealerDetails) => fetchAddresses(dealerDetails).map { addresses =>
-            BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, dealerDetails.traderBusinessName, addresses))
+      form.bindFromRequest.fold(
+        formWithErrors =>
+          request.fetch[SetupTradeDetailsModel] match {
+            case Some(setupTradeDetailsModel) => fetchAddresses(setupTradeDetailsModel).map {
+              addresses => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, setupTradeDetailsModel.traderBusinessName, addresses))
+            }
+            case None => Future {
+              Logger.error("Failed to find dealer details in cache for submit formWithErrors, redirecting...")
+              Redirect(routes.SetUpTradeDetails.present)
+            }
+          },
+        f =>
+          request.fetch[SetupTradeDetailsModel] match {
+            case Some(setupTradeDetailsModel) =>
+              lookupUprn(f, setupTradeDetailsModel.traderBusinessName)
+            case None => Future {
+              Logger.error("Failed to find dealer details in cache on submit valid form, redirecting...")
+              Redirect(routes.SetUpTradeDetails.present)
+            }
           }
-          case None => Future {
-            Logger.debug("failed to find dealer name in cache for formWithErrors, redirecting...")
-            Redirect(routes.SetUpTradeDetails.present)
-          }
-        },
-      f =>
-        fetchTraderDetailsFromCache match {
-          case Some(dealerDetails) => {
-            storeBusinessChooseYourAddressModelInCache(f)
-            storeDealerDetailsInCache(f, dealerDetails.traderBusinessName) // TODO is this redundant??? Delete and test.
-          }
-          case None => Future {
-            Logger.debug("failed to find dealer name in cache on submit, redirecting...")
-            Redirect(routes.SetUpTradeDetails.present)
-          }
-        }
-    )
+      )
   }
 
-  def storeDealerDetailsInCache(model: BusinessChooseYourAddressModel, dealerName: String) = {
+  private def lookupUprn(model: BusinessChooseYourAddressModel, traderName: String) = {
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString)
     lookedUpAddress.map {
-      case Some(addr) => {
-        val dealerDetailsModel = DealerDetailsModel(dealerName = dealerName, dealerAddress = addr)
-        storeDealerDetailsModelInCache(dealerDetailsModel)
+      case Some(addressViewModel) =>
+        val traderDetailsModel = TraderDetailsModel(traderName = traderName, traderAddress = addressViewModel)
         /* The redirect is done as the final step within the map so that:
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache.
          */
-        Redirect(routes.VehicleLookup.present)
-      }
+        Redirect(routes.VehicleLookup.present).withCookie(model).withCookie(traderDetailsModel)
       case None => Redirect(routes.UprnNotFound.present)
     }
   }

@@ -1,16 +1,12 @@
 package services.fakes
 
-import models.domain.disposal_of_vehicle._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-import models.domain.disposal_of_vehicle.VehicleDetailsResponse
-import services.vehicle_lookup.VehicleLookupWebService
-import play.api.libs.json.Json
-import play.api.Logger
 import FakeVehicleLookupWebService._
+import models.domain.disposal_of_vehicle._
 import play.api.http.Status._
-import scala.Some
-
+import play.api.libs.json.Json
+import services.vehicle_lookup.VehicleLookupWebService
 
 class FakeVehicleLookupWebService extends VehicleLookupWebService {
   override def callVehicleLookupService(request: VehicleDetailsRequest) = Future {

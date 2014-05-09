@@ -1,8 +1,8 @@
 package services.fakes
 
-import scala.xml.Elem
 import play.api.libs.json.JsValue
 import play.api.libs.ws.Response
+import scala.xml.Elem
 
 class FakeResponse(
                     override val status: Int,

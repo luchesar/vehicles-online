@@ -1,19 +1,19 @@
 package views.disposal_of_vehicle
 
-import pages.disposal_of_vehicle._
-import helpers.webbrowser.TestHarness
-import helpers.disposal_of_vehicle.CacheSetup
 import helpers.UiSpec
-import VehicleLookupFailurePage._
-import services.session.{SessionState, PlaySessionState}
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
+import org.openqa.selenium.WebDriver
+import pages.disposal_of_vehicle.VehicleLookupFailurePage._
+import pages.disposal_of_vehicle._
 
-class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
+class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
   "VehicleLookupFailureIntegration" should {
 
     "be presented" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
 
       go to VehicleLookupFailurePage
 
@@ -27,15 +27,18 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
     }
 
     "redirect to setuptrade details if only VehicleLookupFormModelCache is populated" in new WebBrowser {
-      new CacheSetup(newSessionState.inner).vehicleLookupFormModel()
+      go to BeforeYouStartPage
+      new CookieFactoryForUISpecs().vehicleLookupFormModelIntegration()
 
       go to VehicleLookupFailurePage
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
-    "redirect to setuptrade details if only BusinessChooseYourAddress cache is populated" in new WebBrowser {
-      new CacheSetup(newSessionState.inner).businessChooseYourAddress()
+    "redirect to setuptrade details if only dealerDetails cache is populated" in new WebBrowser {
+      go to BeforeYouStartPage
+      new CookieFactoryForUISpecs().
+        dealerDetailsIntegration()
 
       go to VehicleLookupFailurePage
 
@@ -43,7 +46,8 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
     }
 
     "redirect to vehiclelookup when button clicked" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+      go to BeforeYouStartPage
+      cacheSetup()
       go to VehicleLookupFailurePage
 
       click on vehicleLookup
@@ -51,8 +55,9 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
       assert(page.title equals VehicleLookupPage.title)
     }
 
-  "redirect to beforeyoustart when button clicked" in new WebBrowser {
-      cacheSetup(newSessionState.inner)
+    "redirect to beforeyoustart when button clicked" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
       go to VehicleLookupFailurePage
 
       click on beforeYouStart
@@ -61,13 +66,8 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness  {
     }
   }
 
-  private def cacheSetup(sessionState: SessionState) = 
-    new CacheSetup(sessionState).
-      businessChooseYourAddress().
-      vehicleLookupFormModel()
-
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
+  private def cacheSetup()(implicit webDriver: WebDriver) =
+    new CookieFactoryForUISpecs().
+      dealerDetailsIntegration().
+      vehicleLookupFormModelIntegration()
 }

@@ -1,9 +1,9 @@
 package controllers.disposal_of_vehicle
 
-import play.api.test.{FakeRequest, WithApplication}
-import play.api.test.Helpers._
-import pages.disposal_of_vehicle._
 import helpers.UnitSpec
+import pages.disposal_of_vehicle._
+import play.api.test.Helpers._
+import play.api.test.{FakeRequest, WithApplication}
 
 class BeforeYouStartUnitSpec extends UnitSpec {
 

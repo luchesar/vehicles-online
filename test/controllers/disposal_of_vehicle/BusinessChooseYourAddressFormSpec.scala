@@ -1,10 +1,9 @@
 package controllers.disposal_of_vehicle
 
+import helpers.UnitSpec
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import services.fakes.FakeWebServiceImpl
-import helpers.UnitSpec
 import services.fakes.FakeWebServiceImpl._
-import services.session.PlaySessionState
 
 class BusinessChooseYourAddressFormSpec extends UnitSpec {
   "form" should {
@@ -27,9 +26,7 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
     val responseUprn = if(uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
-    val sessionState = new PlaySessionState()
-    val sessionStateFacade = new DisposalOfVehicleSessionState(sessionState)
-    new BusinessChooseYourAddress(sessionStateFacade, addressLookupService)
+    new BusinessChooseYourAddress( addressLookupService)
   }
 
   private def formWithValidDefaults(addressSelected: String = traderUprnValid.toString) = {

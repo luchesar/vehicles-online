@@ -5,13 +5,13 @@ import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import play.api.Logger
 import mappings.common.AddressAndPostcode._
-import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
+import models.domain.disposal_of_vehicle.{TraderDetailsModel, AddressViewModel, SetupTradeDetailsModel, EnterAddressManuallyModel}
 import utils.helpers.FormExtensions._
 import com.google.inject.Inject
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
 
-class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState) extends Controller {
-
-  import sessionState._
+class EnterAddressManually @Inject()() extends Controller {
 
   val form = Form(
     mapping(
@@ -21,8 +21,8 @@ class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState
 
   def present = Action {
     implicit request =>
-      fetchDealerNameFromCache match {
-        case Some(name) => Ok(views.html.disposal_of_vehicle.enter_address_manually(form))
+      request.fetch[SetupTradeDetailsModel] match {
+        case Some(_) => Ok(views.html.disposal_of_vehicle.enter_address_manually(form))
         case None => Redirect(routes.SetUpTradeDetails.present)
       }
   }
@@ -31,8 +31,8 @@ class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState
     implicit request => {
       form.bindFromRequest.fold(
         formWithErrors =>
-          fetchDealerNameFromCache match {
-            case Some(name) => {
+          request.fetch[SetupTradeDetailsModel] match {
+            case Some(_) => {
               val updatedFormWithErrors = formWithErrors.replaceError("addressAndPostcode.addressLines.line1", "error.required", FormError("addressAndPostcode.addressLines", "error.address.line1Required"))
               BadRequest(views.html.disposal_of_vehicle.enter_address_manually(updatedFormWithErrors))}
             case None => {
@@ -41,16 +41,16 @@ class EnterAddressManually @Inject()(sessionState: DisposalOfVehicleSessionState
             }
           },
         f =>
-          fetchDealerNameFromCache match {
-          case Some(name) => {
-            storeDealerDetailsInCache(f.stripCharsNotAccepted, name)
-            Redirect(routes.VehicleLookup.present)
-          }
-          case None => {
+          request.fetch[SetupTradeDetailsModel].map(_.traderBusinessName) match {
+          case Some(name) =>
+            val dealerAddress = AddressViewModel.from(f.stripCharsNotAccepted.addressAndPostcodeModel)
+            val dealerDetailsModel = TraderDetailsModel(traderName = name, traderAddress = dealerAddress)
+
+            Redirect(routes.VehicleLookup.present).withCookie(dealerDetailsModel)
+          case None =>
             Logger.debug("failed to find dealer name in cache on submit, redirecting...")
             Redirect(routes.SetUpTradeDetails.present)
           }
-        }
       )
     }
   }

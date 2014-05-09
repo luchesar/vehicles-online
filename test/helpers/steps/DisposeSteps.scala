@@ -4,25 +4,23 @@ import pages.disposal_of_vehicle._
 import cucumber.api.java.en.{When, Given}
 import org.scalatest.Matchers
 import services.fakes.FakeDateServiceImpl._
-import helpers.disposal_of_vehicle.CacheSetup
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
-import services.session.PlaySessionState
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState
 
 class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 
-  val sessionState = new DisposalOfVehicleSessionState(new PlaySessionState())
-
+  // TODO [SKW] code re-use please - there is a LOT of duplication in this class.
   @Given("""^the motor trader has confirmed the consent of the current keeper$""")
   def the_motor_trader_has_confirmed_the_consent_of_the_current_keeper() = {
-    new CacheSetup(sessionState.inner)
-      .setupTradeDetails()
-      .businessChooseYourAddress()
-      .vehicleDetailsModel()
-      .vehicleLookupFormModel()
+    go to BeforeYouStartPage
+    new CookieFactoryForUISpecs()
+      .setupTradeDetailsIntegration()
+      .dealerDetailsIntegration()
+      .vehicleDetailsModelIntegration()
+      .vehicleLookupFormModelIntegration()
 
     go to DisposePage
     DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
@@ -34,11 +32,12 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
 
   @Given("""^the motor trader has not confirmed the consent of the current keeper$""")
   def the_motor_trader_has_not_confirmed_the_consent_of_the_current_keeper() = {
-    new CacheSetup(sessionState.inner)
-      .setupTradeDetails()
-      .businessChooseYourAddress()
-      .vehicleDetailsModel()
-      .vehicleLookupFormModel()
+    go to BeforeYouStartPage
+    new CookieFactoryForUISpecs()
+      .setupTradeDetailsIntegration()
+      .dealerDetailsIntegration()
+      .vehicleDetailsModelIntegration()
+      .vehicleLookupFormModelIntegration()
 
     go to DisposePage
     DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
@@ -49,11 +48,12 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
 
   @Given("""^the motor trader has confirmed the acknowledgement of the current keeper$""")
   def the_motor_trader_has_confirmed_the_acknowledgement_of_the_current_keeper() = {
-    new CacheSetup(sessionState.inner)
-      .setupTradeDetails()
-      .businessChooseYourAddress()
-      .vehicleDetailsModel()
-      .vehicleLookupFormModel()
+    go to BeforeYouStartPage
+    new CookieFactoryForUISpecs()
+      .setupTradeDetailsIntegration()
+      .dealerDetailsIntegration()
+      .vehicleDetailsModelIntegration()
+      .vehicleLookupFormModelIntegration()
 
     go to DisposePage
     DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
@@ -65,11 +65,12 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
 
   @Given("""^the motor trader has not confirmed the acknowledgement of the current keeper$""")
   def the_motor_trader_has_not_confirmed_the_acknowledgement_of_the_current_keeper() = {
-    new CacheSetup(sessionState.inner)
-      .setupTradeDetails()
-      .businessChooseYourAddress()
-      .vehicleDetailsModel()
-      .vehicleLookupFormModel()
+    go to BeforeYouStartPage
+    new CookieFactoryForUISpecs()
+      .setupTradeDetailsIntegration()
+      .dealerDetailsIntegration()
+      .vehicleDetailsModelIntegration()
+      .vehicleLookupFormModelIntegration()
 
     go to DisposePage
     DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
@@ -80,11 +81,12 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
 
   @Given("""^the motor trader has entered a valid calendar date which conforms to business rules$""")
   def the_motor_trader_has_entered_a_valid_calendar_date() = {
-    new CacheSetup(sessionState.inner)
-      .setupTradeDetails()
-      .businessChooseYourAddress()
-      .vehicleDetailsModel()
-      .vehicleLookupFormModel()
+    go to BeforeYouStartPage
+    new CookieFactoryForUISpecs()
+      .setupTradeDetailsIntegration()
+      .dealerDetailsIntegration()
+      .vehicleDetailsModelIntegration()
+      .vehicleLookupFormModelIntegration()
 
     go to DisposePage
     DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
@@ -96,11 +98,12 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
 
   @Given("""^the motor trader has entered a valid calendar date which does not conform to business rules$""")
   def the_motor_trader_has_entered_a_valid_calendar_date_which_does_not_conform_to_the_business_rules() = {
-    new CacheSetup(sessionState.inner)
-      .setupTradeDetails()
-      .businessChooseYourAddress()
-      .vehicleDetailsModel()
-      .vehicleLookupFormModel()
+    go to BeforeYouStartPage
+    new CookieFactoryForUISpecs()
+      .setupTradeDetailsIntegration()
+      .dealerDetailsIntegration()
+      .vehicleDetailsModelIntegration()
+      .vehicleLookupFormModelIntegration()
 
     go to DisposePage
     // Leave not filled in for npw - need way to convert select elements to text fields ala Web Developer toolbar, via proxy perhaps?
@@ -113,9 +116,10 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
 
   @Given("""^that entered details correspond to a valid clean record that has no markers or error codes$""")
   def that_entered_details_correspond_to_a_valid_clean_record_that_has_no_markers_or_error_codes() = {
-    new CacheSetup(sessionState.inner)
-      .setupTradeDetails()
-      .businessChooseYourAddress()
+    go to BeforeYouStartPage
+    new CookieFactoryForUISpecs()
+      .setupTradeDetailsIntegration()
+      .dealerDetailsIntegration()
 
     go to VehicleLookupPage
     VehicleLookupPage.vehicleRegistrationNumber enter "AB12AWR"
@@ -130,9 +134,10 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
 
   @Given("""^that entered details correspond to a valid record which has markers or error codes$""")
   def that_entered_details_correspond_to_a_valid_record_which_has_markers_or_error_codes() = {
-    new CacheSetup(sessionState.inner)
-      .setupTradeDetails()
-      .businessChooseYourAddress()
+    go to BeforeYouStartPage
+    new CookieFactoryForUISpecs()
+      .setupTradeDetailsIntegration()
+      .dealerDetailsIntegration()
 
     go to VehicleLookupPage
     VehicleLookupPage.vehicleRegistrationNumber enter "AB12AWR"

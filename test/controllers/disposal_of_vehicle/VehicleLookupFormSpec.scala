@@ -1,20 +1,19 @@
 package controllers.disposal_of_vehicle
 
-import mappings.disposal_of_vehicle.VehicleLookup._
-import org.mockito.Mockito._
-import org.mockito.Matchers._
-import models.domain.disposal_of_vehicle._
-import services.fakes.FakeResponse
+import scala.concurrent.{ExecutionContext, Future}
+import ExecutionContext.Implicits.global
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
-import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
-import scala.concurrent.{ExecutionContext, Future}
-import play.api.libs.json.{JsValue, Json}
-import ExecutionContext.Implicits.global
-import services.fakes.FakeVehicleLookupWebService._
 import helpers.disposal_of_vehicle.InvalidVRMFormat._
 import helpers.disposal_of_vehicle.ValidVRMFormat._
-import services.session.PlaySessionState
+import mappings.disposal_of_vehicle.VehicleLookup._
+import models.domain.disposal_of_vehicle._
+import org.mockito.Matchers._
+import org.mockito.Mockito._
+import play.api.libs.json.{JsValue, Json}
+import services.fakes.FakeResponse
+import services.fakes.FakeVehicleLookupWebService._
+import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 
 class VehicleLookupFormSpec extends UnitSpec {
 
@@ -100,7 +99,7 @@ class VehicleLookupFormSpec extends UnitSpec {
       new FakeResponse(status = fullResponse._1, fakeJson = responseAsJson)// Any call to a webservice will always return this successful response.
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
-    new disposal_of_vehicle.VehicleLookup(newSessionState, vehicleLookupServiceImpl)
+    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
   }
 
   private def formWithValidDefaults(referenceNumber: String = referenceNumberValid,
@@ -114,8 +113,4 @@ class VehicleLookupFormSpec extends UnitSpec {
     )
   }
 
-  private def newSessionState = {
-    val sessionState = new PlaySessionState()
-    new DisposalOfVehicleSessionState(sessionState)
-  }
 }

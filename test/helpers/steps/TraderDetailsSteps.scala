@@ -14,15 +14,15 @@ class TraderDetailsSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
   @Given("""^the motor trader has (.*) a business name which conforms to business rules$""")
   def the_motor_trader_has_entered_a_business_name_which_conforms_to_business_rules(name:String) = {
     go to SetupTradeDetailsPage
-    SetupTradeDetailsPage.dealerName enter name
-    SetupTradeDetailsPage.dealerPostcode enter postcodeValid
+    SetupTradeDetailsPage.traderName enter name
+    SetupTradeDetailsPage.traderPostcode enter postcodeValid
   }
 
   @Given("""^the motor trader has (.*) a business name which does not conform to business rules$""")
   def the_motor_trader_has_entered_a_business_name_which_does_not_conform_to_business_rules(name:String) = {
     go to SetupTradeDetailsPage
-    SetupTradeDetailsPage.dealerName enter name
-    SetupTradeDetailsPage.dealerPostcode enter postcodeValid
+    SetupTradeDetailsPage.traderName enter name
+    SetupTradeDetailsPage.traderPostcode enter postcodeValid
   }
 
   @When("""^they attempt to submit the business name in addition to other required information$""")
