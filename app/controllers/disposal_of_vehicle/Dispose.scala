@@ -32,7 +32,6 @@ import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResul
 
 class Dispose @Inject()(webService: DisposeService, dateService: DateService) extends Controller {
 
-
   val disposeForm = Form(
     mapping(
       mileageId -> mileage(),
@@ -141,8 +140,6 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
         case None => nextPage
       }
     }
-
-
 
     def transactionTimestamp(nextPage: SimpleResult) = {
       val transactionTimestamp = dateService.today.toDateTime.get
