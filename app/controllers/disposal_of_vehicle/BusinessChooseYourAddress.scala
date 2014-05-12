@@ -72,7 +72,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
       )
   }
 
-  private def lookupUprn(model: BusinessChooseYourAddressModel, traderName: String) = {
+  private def lookupUprn(model: BusinessChooseYourAddressModel, traderName: String)(implicit request: Request[_]) = {
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString)
     lookedUpAddress.map {
       case Some(addressViewModel) =>
