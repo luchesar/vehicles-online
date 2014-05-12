@@ -19,6 +19,7 @@ import play.api.data.FormError
 import play.api.mvc.SimpleResult
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.FormAdapter
 
 class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controller {
 
@@ -32,7 +33,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
   def present = Action {
     implicit request =>
        request.getCookie[TraderDetailsModel] match {
-        case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm))
+        case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm.fill()))
         case None => Redirect(routes.SetUpTradeDetails.present())
       }
   }
