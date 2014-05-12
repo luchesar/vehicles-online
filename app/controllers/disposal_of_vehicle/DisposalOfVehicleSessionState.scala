@@ -96,8 +96,7 @@ object DisposalOfVehicleSessionState {
   }
 
   private def getSalt(request: Request[_]): Option[String] =
-    request.cookies.get(SaltKey) match {
-      case Some(cookie) => Some(CryptoHelper.decryptCookie(cookie.value))
-      case None => None
+    request.cookies.get(SaltKey).map { cookie =>
+      CryptoHelper.decryptCookie(cookie.value)
     }
 }
