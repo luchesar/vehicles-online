@@ -11,10 +11,8 @@ import play.api.mvc.Cookies
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 
 class SetUpTradeDetailsUnitSpec extends UnitSpec {
-
-  "SetUpTradeDetails - Controller" should {
-
-    "present" in new WithApplication {
+  "present" should {
+    "display page" in new WithApplication {
       val request = FakeRequest().withSession()
       val result = setUpTradeDetails().present(request)
       whenReady(result) {
@@ -22,6 +20,25 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
       }
     }
 
+    "display populated fields when cookie exists" in new WithApplication {
+      val request = FakeRequest().withSession().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+      val result = setUpTradeDetails().present(request)
+      val content = contentAsString(result)
+      content should include(traderBusinessNameValid)
+      content should include(postcodeValid)
+    }
+
+    "display empty fields when cookie exists" in new WithApplication {
+      val request = FakeRequest().withSession()
+      val result = setUpTradeDetails().present(request)
+      val content = contentAsString(result)
+      content should not include traderBusinessNameValid
+      content should not include postcodeValid
+    }
+  }
+
+  "SetUpTradeDetails - Controller" should {
     "redirect to next page when the form is completed successfully" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = setUpTradeDetails().submit(request)
