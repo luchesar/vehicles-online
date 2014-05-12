@@ -1,6 +1,5 @@
 package helpers.disposal_of_vehicle
 
-import helpers.disposal_of_vehicle.Helper._
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.businessChooseYourAddressCacheKey
 import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
 import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
@@ -41,8 +40,7 @@ class CookieFactoryForUISpecs() {
 
   def dealerDetailsIntegration(address: AddressViewModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
     val key = traderDetailsCacheKey
-    val value = TraderDetailsModel(traderName = "", // TODO [SKW] why are we caching an empty string?
-      traderAddress = address)
+    val value = TraderDetailsModel(traderName = traderBusinessNameValid, traderAddress = address)
     addCookie(key, value)
     this
   }
