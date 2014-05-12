@@ -57,24 +57,15 @@ class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL wi
   def the_trader_name_and_address_details_are_pre_populated() = {
     page.title should equal(VehicleLookupPage.title)
     page.text should include(traderBusinessNameValid)
-    page.text should include("presentationProperty stub")
-    page.text should include("property stub")
-    page.text should include("street stub")
-    page.text should include("town stub")
-    page.text should include("area stub")
-    page.text should include(postcodeValid)
+    enterValidManualAddress
+
   }
 
   @Then("""^the information entered is presented back to the motor trader$""")
   def the_information_entered_is_presented_back_to_the_motor_trader() = {
     page.text should include(traderBusinessNameValid)
     page.text should include(registrationNumberValid)
-    page.text should include("presentationProperty stub")
-    page.text should include("property stub")
-    page.text should include("street stub")
-    page.text should include("town stub")
-    page.text should include("area stub")
-    page.text should include(postcodeValid)
+    enterValidManualAddress
     DisposePage.consent.isDisplayed should equal(true)
     DisposePage.lossOfRegistrationConsent.isDisplayed should equal(true)
     DisposePage.mileage.isDisplayed should equal(true)
@@ -90,5 +81,14 @@ class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL wi
       getValue
 
     timestamp should equal(s"""\"$dateOfDisposalYearValid-$dateOfDisposalMonthValid-${dateOfDisposalDayValid}T00:00:00.000+01:00\"""")
+  }
+
+  private def enterValidManualAddress() {
+    page.text should include("presentationProperty stub")
+    page.text should include("property stub")
+    page.text should include("street stub")
+    page.text should include("town stub")
+    page.text should include("area stub")
+    page.text should include(postcodeValid)
   }
 }

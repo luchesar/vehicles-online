@@ -17,7 +17,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     buildDisposeSetup
 
     go to DisposePage
-    enterDisposalDateValid
+    enterValidDisposalDate
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
   }
@@ -27,7 +27,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     buildDisposeSetup
 
     go to DisposePage
-    enterDisposalDateValid
+    enterValidDisposalDate
     click on DisposePage.lossOfRegistrationConsent
   }
 
@@ -36,7 +36,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     buildDisposeSetup
 
     go to DisposePage
-    enterDisposalDateValid
+    enterValidDisposalDate
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
   }
@@ -46,7 +46,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     buildDisposeSetup
 
     go to DisposePage
-    enterDisposalDateValid
+    enterValidDisposalDate
     click on DisposePage.consent
   }
 
@@ -55,7 +55,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     buildDisposeSetup
 
     go to DisposePage
-    enterDisposalDateValid
+    enterValidDisposalDate
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
   }
@@ -80,7 +80,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     VehicleLookupPage.vehicleRegistrationNumber enter "AB12AWR"
     VehicleLookupPage.documentReferenceNumber enter "11111111112"
     click on VehicleLookupPage.findVehicleDetails
-    enterDisposalDateValid
+    enterValidDisposalDate
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
   }
@@ -96,7 +96,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     VehicleLookupPage.vehicleRegistrationNumber enter "AB12AWR"
     VehicleLookupPage.documentReferenceNumber enter "11111111113"
     click on VehicleLookupPage.findVehicleDetails
-    enterDisposalDateValid
+    enterValidDisposalDate
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
   }
@@ -106,7 +106,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     click on DisposePage.dispose
   }
 
-  private def enterDisposalDateValid() {
+  private def enterValidDisposalDate() {
     DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
     DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
     DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
