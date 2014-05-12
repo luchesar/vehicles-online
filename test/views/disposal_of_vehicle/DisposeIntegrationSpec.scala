@@ -43,8 +43,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when no vehicleDetailsModel is cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CookieFactoryForUISpecs().
-        dealerDetailsIntegration()
+      CookieFactoryForUISpecs.dealerDetailsIntegration()
 
       go to DisposePage
 
@@ -53,8 +52,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when no businessChooseYourAddress is cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CookieFactoryForUISpecs().
-        vehicleDetailsModelIntegration()
+      CookieFactoryForUISpecs.vehicleDetailsModelIntegration()
 
       go to DisposePage
 
@@ -121,7 +119,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) = {
-    new CookieFactoryForUISpecs().
+    CookieFactoryForUISpecs.
       dealerDetailsIntegration().
       vehicleDetailsModelIntegration()
   }

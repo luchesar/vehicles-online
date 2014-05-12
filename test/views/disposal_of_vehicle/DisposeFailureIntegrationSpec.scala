@@ -47,7 +47,7 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    new CookieFactoryForUISpecs().
+    CookieFactoryForUISpecs.
       dealerDetailsIntegration().
       vehicleDetailsModelIntegration().
       disposeFormModelIntegration().

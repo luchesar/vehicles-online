@@ -14,8 +14,7 @@ import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeWebServiceImpl._
 import services.fakes.{FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
 
-class CookieFactoryForUISpecs() {
-  // TODO change from class to an object.
+object CookieFactoryForUISpecs {
   private def addCookie[A](key: String, value: A)(implicit tjs: Writes[A], webDriver: WebDriver): Unit = {
     val valueAsString = Json.toJson(value).toString()
     val manage = webDriver.manage()
