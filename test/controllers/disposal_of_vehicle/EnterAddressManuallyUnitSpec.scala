@@ -42,6 +42,18 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       content should include(line4Valid)
       content should include(postcodeValid)
     }
+
+    "display empty fields when cookie does not exist" in new WithApplication {
+      val request = FakeRequest().withSession().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+      val result = enterAddressManually().present(request)
+      val content = contentAsString(result)
+      content should not include line1Valid
+      content should not include line2Valid
+      content should not include line3Valid
+      content should not include line4Valid
+      content should not include postcodeValid
+    }
   }
 
   "submit" should {
