@@ -67,7 +67,7 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
   private def buildVehicleLookupSetup() {
     go to BeforeYouStartPage
 
-    new CookieFactoryForUISpecs()
+    CookieFactoryForUISpecs
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()
 

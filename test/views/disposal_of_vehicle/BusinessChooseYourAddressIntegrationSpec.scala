@@ -86,6 +86,5 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    new CookieFactoryForUISpecs().
-      setupTradeDetailsIntegration()
+    CookieFactoryForUISpecs.setupTradeDetailsIntegration()
 }

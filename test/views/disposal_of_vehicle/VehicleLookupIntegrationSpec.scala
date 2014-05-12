@@ -108,9 +108,9 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
     "display previous page when back link is clicked with uprn present" in new WebBrowser {
       go to BeforeYouStartPage
-      new CookieFactoryForUISpecs()
-        .setupTradeDetailsIntegration()
-        .dealerDetailsIntegration(addressWithUprn)
+      CookieFactoryForUISpecs.
+        setupTradeDetailsIntegration().
+        dealerDetailsIntegration(addressWithUprn)
       go to VehicleLookupPage
 
       click on back
@@ -130,7 +130,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    new CookieFactoryForUISpecs().
+    CookieFactoryForUISpecs.
       setupTradeDetailsIntegration().
       dealerDetailsIntegration()
 }

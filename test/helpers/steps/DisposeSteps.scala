@@ -72,9 +72,8 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
   @Given("""^that entered details correspond to a valid clean record that has no markers or error codes$""")
   def that_entered_details_correspond_to_a_valid_clean_record_that_has_no_markers_or_error_codes() = {
     go to BeforeYouStartPage
-    new CookieFactoryForUISpecs()
-      .setupTradeDetailsIntegration()
-      .dealerDetailsIntegration()
+    CookieFactoryForUISpecs.setupTradeDetailsIntegration()
+    CookieFactoryForUISpecs.dealerDetailsIntegration()
 
     go to VehicleLookupPage
     VehicleLookupPage.vehicleRegistrationNumber enter "AB12AWR"
@@ -88,9 +87,8 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
   @Given("""^that entered details correspond to a valid record which has markers or error codes$""")
   def that_entered_details_correspond_to_a_valid_record_which_has_markers_or_error_codes() = {
     go to BeforeYouStartPage
-    new CookieFactoryForUISpecs()
-      .setupTradeDetailsIntegration()
-      .dealerDetailsIntegration()
+    CookieFactoryForUISpecs.setupTradeDetailsIntegration()
+    CookieFactoryForUISpecs.dealerDetailsIntegration()
 
     go to VehicleLookupPage
     VehicleLookupPage.vehicleRegistrationNumber enter "AB12AWR"
@@ -115,10 +113,9 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
   private def buildDisposeSetup(){
     go to BeforeYouStartPage
 
-    new CookieFactoryForUISpecs()
-      .setupTradeDetailsIntegration()
-      .dealerDetailsIntegration()
-      .vehicleDetailsModelIntegration()
-      .vehicleLookupFormModelIntegration()
+    CookieFactoryForUISpecs.setupTradeDetailsIntegration()
+    CookieFactoryForUISpecs.dealerDetailsIntegration()
+    CookieFactoryForUISpecs.vehicleDetailsModelIntegration()
+    CookieFactoryForUISpecs.vehicleLookupFormModelIntegration()
   }
 }

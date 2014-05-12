@@ -1,6 +1,5 @@
 package helpers.disposal_of_vehicle
 
-import helpers.disposal_of_vehicle.Helper._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.Dispose.disposeFormModelCacheKey
 import mappings.disposal_of_vehicle.Dispose.disposeFormRegistrationNumberCacheKey
@@ -13,7 +12,6 @@ import mappings.disposal_of_vehicle.EnterAddressManually.enterAddressManuallyCac
 import models.DayMonthYear
 import models.domain.disposal_of_vehicle._
 import play.api.libs.json.{Writes, Json}
-import play.api.mvc.Cookie
 import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
