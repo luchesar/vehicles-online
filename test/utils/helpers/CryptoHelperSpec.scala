@@ -24,4 +24,17 @@ class CryptoHelperSpec extends WordSpec with Matchers {
       CryptoHelper.encryptCookieName(clearText, encryptCookies = true) should not equal clearText
     }
   }
+
+  "encryptAES" should {
+    "return an encoded string" in new WithApplication {
+      CryptoHelper.encryptAES(clearText, encryptFields = true) should not equal clearText
+    }
+  }
+
+  "decryptAES" should {
+    "return a decrypted string" in new WithApplication {
+      val encrypted = CryptoHelper.encryptCookie(clearText, encryptCookies = true)
+      CryptoHelper.decryptAES(encrypted, decryptFields = true) should equal(clearText)
+    }
+  }
 }
