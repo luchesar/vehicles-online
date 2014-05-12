@@ -29,6 +29,19 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
+
+    "display populated fields when cookie exists" in new WithApplication {
+      val request = FakeRequest().withSession().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.enterAddressManually())
+      val result = enterAddressManually().present(request)
+      val content = contentAsString(result)
+      content should include(line1Valid)
+      content should include(line2Valid)
+      content should include(line3Valid)
+      content should include(line4Valid)
+      content should include(postcodeValid)
+    }
   }
 
   "submit" should {

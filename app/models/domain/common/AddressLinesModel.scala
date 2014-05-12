@@ -1,5 +1,8 @@
 package models.domain.common
 
+import play.api.libs.json.Json
+import mappings.common.AddressLines._
+
 case class AddressLinesModel(line1: String,
                              line2: Option[String] = None,
                              line3: Option[String] = None,
@@ -7,4 +10,9 @@ case class AddressLinesModel(line1: String,
 
   def toViewFormat: Seq[String] = Seq(Some(line1), line2, line3, line4).flatten // TODO test this in isolation in a model test
   def totalCharacters = toViewFormat.map(_.length).sum // TODO test this in isolation in a model test
+}
+
+object AddressLinesModel {
+  implicit val addressLinesModelFormat = Json.format[AddressLinesModel]
+  implicit val cacheKey = CacheKey[AddressLinesModel](addressLinesCacheKey)
 }

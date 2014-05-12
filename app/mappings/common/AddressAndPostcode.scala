@@ -11,11 +11,11 @@ import models.domain.common.AddressAndPostcodeModel
 
 object AddressAndPostcode {
   val addressAndPostcodeId = "addressAndPostcode"
+  val addressAndPostcodeCacheKey = "addressAndPostcodeCacheKey"
 
   val addressAndPostcode: Mapping[AddressAndPostcodeModel] = mapping(
     uprnId -> uprn,
     addressLinesId -> addressLines.verifying(validAddressLines),
     postcodeId -> postcode
   )(AddressAndPostcodeModel.apply)(AddressAndPostcodeModel.unapply)
-
 }
