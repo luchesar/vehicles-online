@@ -3,7 +3,6 @@ package helpers.steps
 import pages.disposal_of_vehicle._
 import cucumber.api.java.en.{Then, When, Given}
 import org.scalatest.Matchers
-import helpers.disposal_of_vehicle.Helper._
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 import services.fakes.FakeAddressLookupService.traderBusinessNameValid
@@ -13,17 +12,13 @@ class PostCodeLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserD
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 
   @Given("""^the motor trader has (.*) a postcode which conforms to business rules$""")
-  def the_motor_trader_has_entered_a_postcode_which_conforms_to_business_rules(name:String) = {
-    go to SetupTradeDetailsPage
-    SetupTradeDetailsPage.traderName enter traderBusinessNameValid
-    SetupTradeDetailsPage.traderPostcode enter name
+  def the_motor_trader_has_entered_a_postcode_which_conforms_to_business_rules(testedPostcode:String) = {
+    checkTraderPostcode(testedPostcode)
   }
 
   @Given("""^the motor trader has (.*) a postcode which does not conform to business rules$""")
-  def the_motor_trader_has_entered_a_postcode_which_does_not_conform_to_business_rules(name:String) = {
-    go to SetupTradeDetailsPage
-    SetupTradeDetailsPage.traderName enter traderBusinessNameValid
-    SetupTradeDetailsPage.traderPostcode enter name
+  def the_motor_trader_has_entered_a_postcode_which_does_not_conform_to_business_rules(testedPostcode:String) = {
+    checkTraderPostcode(testedPostcode)
   }
 
   @When("""^they attempt to submit the postcode in addition to other required information$""")
@@ -34,5 +29,11 @@ class PostCodeLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserD
   @Then("""^the postcode is retained$""")
   def the_postcode_is_retained() = {
     //
+  }
+
+  private def checkTraderPostcode(testedPostcode: String) {
+    go to SetupTradeDetailsPage
+    SetupTradeDetailsPage.traderName enter traderBusinessNameValid
+    SetupTradeDetailsPage.traderPostcode enter testedPostcode
   }
 }
