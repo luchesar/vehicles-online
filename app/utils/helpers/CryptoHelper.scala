@@ -39,11 +39,11 @@ object CryptoHelper {
   private lazy val transformation: String = getConfig("application.crypto.aes.transformation").getOrElse("AES")
 
   def decryptAES(cipherText: String): String = if (encryptFields) decryptAESAsBase64(cipherText) else cipherText
-  def decryptCookie(cipherText: String): String = if (encryptCookies) decryptAESAsBase64(cipherText) else cipherText
+  def decryptCookie(cipherText: String, decryptCookies: Boolean = encryptCookies): String = if (decryptCookies) decryptAESAsBase64(cipherText) else cipherText
 
   def encryptAES(clearText: String) = if (encryptFields) encryptAESAsBase64(clearText) else clearText
-  def encryptCookie(clearText: String) = if (encryptCookies) encryptAESAsBase64(clearText) else clearText
-  def encryptCookieName(clearText: String) = if (encryptCookies) sha1Hash(clearText) else clearText
+  def encryptCookie(clearText: String, encryptCookies: Boolean = encryptCookies) = if (encryptCookies) encryptAESAsBase64(clearText) else clearText
+  def encryptCookieName(clearText: String, encryptCookies: Boolean = encryptCookies) = if (encryptCookies) sha1Hash(clearText) else clearText
 
   private def sha1Hash(clearText: String): String = Codecs.sha1(clearText)
 
