@@ -31,7 +31,7 @@ class DisposeUnitSpec extends UnitSpec {
       whenReady(result) {
         r => r.header.status should equal(OK)
       }
-    }
+    } 
 
     "redirect to setupTradeDetails page when present and previous pages have not been visited" in new WithApplication {
       val request = FakeRequest().withSession()
