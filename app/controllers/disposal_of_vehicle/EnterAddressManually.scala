@@ -10,6 +10,7 @@ import utils.helpers.FormExtensions._
 import com.google.inject.Inject
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.FormAdapter
 
 class EnterAddressManually @Inject()() extends Controller {
 
@@ -22,7 +23,7 @@ class EnterAddressManually @Inject()() extends Controller {
   def present = Action {
     implicit request =>
       request.getCookie[SetupTradeDetailsModel] match {
-        case Some(_) => Ok(views.html.disposal_of_vehicle.enter_address_manually(form))
+        case Some(_) => Ok(views.html.disposal_of_vehicle.enter_address_manually(form.fill()))
         case None => Redirect(routes.SetUpTradeDetails.present())
       }
   }

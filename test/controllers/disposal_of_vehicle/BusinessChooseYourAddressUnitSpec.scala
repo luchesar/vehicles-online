@@ -3,16 +3,14 @@ package controllers.disposal_of_vehicle
 import helpers.UnitSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
+import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
 import pages.disposal_of_vehicle._
+import play.api.mvc.Cookies
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
-import services.fakes.{FakeAddressLookupService, FakeWebServiceImpl}
-import services.fakes.FakeWebServiceImpl._
-import play.api.mvc.Cookies
-import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
-import helpers.disposal_of_vehicle.Helper._
-import services.fakes.FakeAddressLookupService.postcodeValid
 import services.fakes.FakeAddressLookupService.traderBusinessNameValid
+import services.fakes.FakeWebServiceImpl
+import services.fakes.FakeWebServiceImpl._
 
 class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
@@ -31,7 +29,7 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val result = businessChooseYourAddressWithUprnFound().present(request)
       val content = contentAsString(result)
       content should include(traderBusinessNameValid)
-      content should include(s"""<option value="$traderUprnValid" selected>""")
+      content should include( s"""<option value="$traderUprnValid" selected>""")
     }
 
     "display unselected field when cookie does not exist" in new WithApplication {
@@ -102,7 +100,7 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
           val foundBusinessChooseYourAddress = cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.businessChooseYourAddress()))
           foundBusinessChooseYourAddress should equal(true)
 
-          cookies.map(_.name) should contain allOf (businessChooseYourAddressCacheKey, traderDetailsCacheKey)
+          cookies.map(_.name) should contain allOf(businessChooseYourAddressCacheKey, traderDetailsCacheKey)
       }
     }
 
@@ -112,7 +110,7 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          cookies.map(_.name) should contain noneOf (businessChooseYourAddressCacheKey, traderDetailsCacheKey)
+          cookies.map(_.name) should contain noneOf(businessChooseYourAddressCacheKey, traderDetailsCacheKey)
       }
     }
   }
