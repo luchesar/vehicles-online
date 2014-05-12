@@ -5,7 +5,7 @@ import play.api.libs.{Codecs, Crypto}
 import java.util.UUID
 import javax.crypto.Cipher
 import javax.crypto.spec.{IvParameterSpec, SecretKeySpec}
-import org.apache.commons.codec.binary.Base64
+import org.apache.commons.codec.binary.{Hex, Base64}
 import java.nio.charset.StandardCharsets
 import play.api.{PlayException, Play}
 import java.security.SecureRandom
@@ -44,6 +44,7 @@ object CryptoHelper {
   def encryptAES(clearText: String, encryptFields: Boolean = encryptFields) = if (encryptFields) encryptAESAsBase64(clearText) else clearText
   def encryptCookie(clearText: String, encryptCookies: Boolean = encryptCookies) = if (encryptCookies) encryptAESAsBase64(clearText) else clearText
   def encryptCookieName(clearText: String, encryptCookies: Boolean = encryptCookies) = if (encryptCookies) sha1Hash(clearText) else clearText
+  def newCookieNameSalt = if (encryptCookies) Hex.encodeHexString(CryptoHelper.getSecureRandomBytes(16)) else ""
 
   private def sha1Hash(clearText: String): String = Codecs.sha1(clearText)
 

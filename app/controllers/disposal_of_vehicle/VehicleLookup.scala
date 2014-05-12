@@ -69,7 +69,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
       }
   }
 
-  private def lookupVehicle(webService: VehicleLookupService, model: VehicleLookupFormModel): Future[SimpleResult] = {
+  private def lookupVehicle(webService: VehicleLookupService, model: VehicleLookupFormModel)(implicit request: Request[_]): Future[SimpleResult] = {
     webService.invoke(buildMicroServiceRequest(model)).map {
       case (responseStatus: Int, response: Option[VehicleDetailsResponse]) =>
         Logger.debug(s"VehicleLookup Web service call successful - response = $response")
@@ -80,21 +80,21 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
     }
   }
 
-  private def checkResponseConstruction(responseStatus: Int, response: Option[VehicleDetailsResponse]) = {
+  private def checkResponseConstruction(responseStatus: Int, response: Option[VehicleDetailsResponse])(implicit request: Request[_]) = {
     responseStatus match {
       case OK => okResponseConstruction(response)
       case _ => Redirect(routes.VehicleLookupFailure.present())
     }
   }
 
-  private def okResponseConstruction (vehicleDetailsResponse: Option[VehicleDetailsResponse]) = {
+  private def okResponseConstruction (vehicleDetailsResponse: Option[VehicleDetailsResponse])(implicit request: Request[_]) = {
     vehicleDetailsResponse match {
       case Some(response) => responseCodePresent(response)
       case _ => Redirect(routes.MicroServiceError.present())
     }
   }
   
-  private def responseCodePresent(response: VehicleDetailsResponse) = {
+  private def responseCodePresent(response: VehicleDetailsResponse)(implicit request: Request[_]) = {
     response.responseCode match {
       case Some(responseCode) =>
         Redirect(routes.VehicleLookupFailure.present()).
@@ -103,7 +103,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
     }
   }
 
-  private def noResponseCodePresent(vehicleDetailsDto: Option[VehicleDetailsDto]) = {
+  private def noResponseCodePresent(vehicleDetailsDto: Option[VehicleDetailsDto])(implicit request: Request[_]) = {
     vehicleDetailsDto match {
       case Some(dto) =>
         Redirect(routes.Dispose.present()).

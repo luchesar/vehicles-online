@@ -12,7 +12,7 @@ object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
 
   def chooseAddress(implicit driver: WebDriver): SingleSel = singleSel(id(addressSelectId))
 
-  def back(implicit driver: WebDriver): Element = find(id(backId)).get // TODO this is dangerous as it can return None
+  def back(implicit driver: WebDriver): Element = find(id(backId)).get
 
   def manualAddress(implicit driver: WebDriver): Element = find(id(enterAddressManuallyButtonId)).get
 
