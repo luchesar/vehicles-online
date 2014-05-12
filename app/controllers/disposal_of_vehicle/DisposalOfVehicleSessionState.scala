@@ -38,7 +38,7 @@ object DisposalOfVehicleSessionState {
     }
   }
 
-  implicit class SimpleResultAdapter(val result: SimpleResult) extends AnyVal {
+  implicit class SimpleResultAdapter(val inner: SimpleResult) extends AnyVal {
 
     def withCookie[A](model: A)(implicit tjs: Writes[A], cacheKey: CacheKey[A], request: Request[_]): SimpleResult = {
 
@@ -50,7 +50,7 @@ object DisposalOfVehicleSessionState {
         result.withCookies(cookie)
       }
 
-      Some(result)
+      Some(inner)
         .map(withSalt)
         .map(withModel)
         .get
@@ -65,7 +65,7 @@ object DisposalOfVehicleSessionState {
         result.withCookies(cookie)
       }
 
-      Some(result)
+      Some(inner)
         .map(withSalt)
         .map(withKeyValuePair)
         .get
