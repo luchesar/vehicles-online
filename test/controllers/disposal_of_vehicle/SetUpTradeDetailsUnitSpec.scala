@@ -29,7 +29,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
       content should include(postcodeValid)
     }
 
-    "display empty fields when cookie exists" in new WithApplication {
+    "display empty fields when cookie does not exist" in new WithApplication {
       val request = FakeRequest().withSession()
       val result = setUpTradeDetails().present(request)
       val content = contentAsString(result)
@@ -38,7 +38,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
     }
   }
 
-  "SetUpTradeDetails - Controller" should {
+  "submit" should {
     "redirect to next page when the form is completed successfully" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = setUpTradeDetails().submit(request)

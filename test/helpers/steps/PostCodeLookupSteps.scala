@@ -6,6 +6,7 @@ import org.scalatest.Matchers
 import helpers.disposal_of_vehicle.Helper._
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
+import services.fakes.FakeAddressLookupService.traderBusinessNameValid
 
 class PostCodeLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 

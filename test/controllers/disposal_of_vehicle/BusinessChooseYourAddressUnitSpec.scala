@@ -6,19 +6,41 @@ import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
-import services.fakes.FakeWebServiceImpl
+import services.fakes.{FakeAddressLookupService, FakeWebServiceImpl}
 import services.fakes.FakeWebServiceImpl._
 import play.api.mvc.Cookies
 import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
+import helpers.disposal_of_vehicle.Helper._
+import services.fakes.FakeAddressLookupService.postcodeValid
+import services.fakes.FakeAddressLookupService.traderBusinessNameValid
 
 class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
-    "present if dealer details cached" in new WithApplication {
+    "display page if dealer details cached" in new WithApplication {
       val request = FakeRequest().withSession().withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnFound().present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
       }
+    }
+
+    "display selected field when cookie exists" in new WithApplication {
+      val request = FakeRequest().withSession().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress())
+      val result = businessChooseYourAddressWithUprnFound().present(request)
+      val content = contentAsString(result)
+      content should include(traderBusinessNameValid)
+      content should include(s"""<option value="$traderUprnValid" selected>""")
+    }
+
+    "display unselected field when cookie does not exist" in new WithApplication {
+      val request = FakeRequest().withSession().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+      val result = businessChooseYourAddressWithUprnFound().present(request)
+      val content = contentAsString(result)
+      content should include(traderBusinessNameValid)
+      content should not include "selected"
     }
 
     "redirect to setupTradeDetails page when present with no dealer name cached" in new WithApplication {
