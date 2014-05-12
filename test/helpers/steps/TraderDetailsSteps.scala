@@ -12,17 +12,13 @@ class TraderDetailsSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 
   @Given("""^the motor trader has (.*) a business name which conforms to business rules$""")
-  def the_motor_trader_has_entered_a_business_name_which_conforms_to_business_rules(name:String) = {
-    go to SetupTradeDetailsPage
-    SetupTradeDetailsPage.traderName enter name
-    SetupTradeDetailsPage.traderPostcode enter postcodeValid
+  def the_motor_trader_has_entered_a_business_name_which_conforms_to_business_rules(traderName:String) = {
+    checkTraderName(traderName)
   }
 
   @Given("""^the motor trader has (.*) a business name which does not conform to business rules$""")
-  def the_motor_trader_has_entered_a_business_name_which_does_not_conform_to_business_rules(name:String) = {
-    go to SetupTradeDetailsPage
-    SetupTradeDetailsPage.traderName enter name
-    SetupTradeDetailsPage.traderPostcode enter postcodeValid
+  def the_motor_trader_has_entered_a_business_name_which_does_not_conform_to_business_rules(traderName:String) = {
+    checkTraderName(traderName)
   }
 
   @When("""^they attempt to submit the business name in addition to other required information$""")
@@ -32,6 +28,11 @@ class TraderDetailsSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
 
   @Then("""^the business name is retained$""")
   def the_business_name_is_retained() = {
-    //
+  }
+
+  private def checkTraderName(traderName: String) {
+    go to SetupTradeDetailsPage
+    SetupTradeDetailsPage.traderName enter traderName
+    SetupTradeDetailsPage.traderPostcode enter postcodeValid
   }
 }

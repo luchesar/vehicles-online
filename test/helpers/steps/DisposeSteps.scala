@@ -14,60 +14,54 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
 
   @Given("""^the motor trader has confirmed the consent of the current keeper$""")
   def the_motor_trader_has_confirmed_the_consent_of_the_current_keeper() = {
-    go to BeforeYouStartPage
     buildDisposeSetup
 
     go to DisposePage
-    enterDisposalDateValid
+    enterValidDisposalDate
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
   }
 
   @Given("""^the motor trader has not confirmed the consent of the current keeper$""")
   def the_motor_trader_has_not_confirmed_the_consent_of_the_current_keeper() = {
-    go to BeforeYouStartPage
     buildDisposeSetup
 
     go to DisposePage
-    enterDisposalDateValid
+    enterValidDisposalDate
     click on DisposePage.lossOfRegistrationConsent
   }
 
   @Given("""^the motor trader has confirmed the acknowledgement of the current keeper$""")
   def the_motor_trader_has_confirmed_the_acknowledgement_of_the_current_keeper() = {
-    go to BeforeYouStartPage
     buildDisposeSetup
 
     go to DisposePage
-    enterDisposalDateValid
+    enterValidDisposalDate
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
   }
 
   @Given("""^the motor trader has not confirmed the acknowledgement of the current keeper$""")
   def the_motor_trader_has_not_confirmed_the_acknowledgement_of_the_current_keeper() = {
-    go to BeforeYouStartPage
     buildDisposeSetup
 
     go to DisposePage
-    enterDisposalDateValid
+    enterValidDisposalDate
     click on DisposePage.consent
   }
 
   @Given("""^the motor trader has entered a valid calendar date which conforms to business rules$""")
   def the_motor_trader_has_entered_a_valid_calendar_date() = {
-    go to BeforeYouStartPage
     buildDisposeSetup
 
     go to DisposePage
-    enterDisposalDateValid
+    enterValidDisposalDate
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
   }
 
   @Given("""^the motor trader has entered a valid calendar date which does not conform to business rules$""")
   def the_motor_trader_has_entered_a_valid_calendar_date_which_does_not_conform_to_the_business_rules() = {
-    go to BeforeYouStartPage
     buildDisposeSetup
 
     go to DisposePage
@@ -86,7 +80,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     VehicleLookupPage.vehicleRegistrationNumber enter "AB12AWR"
     VehicleLookupPage.documentReferenceNumber enter "11111111112"
     click on VehicleLookupPage.findVehicleDetails
-    enterDisposalDateValid
+    enterValidDisposalDate
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
   }
@@ -102,7 +96,7 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     VehicleLookupPage.vehicleRegistrationNumber enter "AB12AWR"
     VehicleLookupPage.documentReferenceNumber enter "11111111113"
     click on VehicleLookupPage.findVehicleDetails
-    enterDisposalDateValid
+    enterValidDisposalDate
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
   }
@@ -112,13 +106,15 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
     click on DisposePage.dispose
   }
 
-  private def enterDisposalDateValid() {
+  private def enterValidDisposalDate() {
     DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
     DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
     DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
   }
 
   private def buildDisposeSetup(){
+    go to BeforeYouStartPage
+
     new CookieFactoryForUISpecs()
       .setupTradeDetailsIntegration()
       .dealerDetailsIntegration()

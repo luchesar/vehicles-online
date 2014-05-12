@@ -9,6 +9,7 @@ import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupFormModelCacheKey
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.businessChooseYourAddressCacheKey
+import mappings.disposal_of_vehicle.EnterAddressManually.enterAddressManuallyCacheKey
 import models.DayMonthYear
 import models.domain.disposal_of_vehicle._
 import play.api.libs.json.{Writes, Json}
@@ -21,6 +22,7 @@ import services.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehic
 import services.fakes.FakeWebServiceImpl._
 import services.fakes.FakeAddressLookupService.postcodeValid
 import play.api.mvc.Cookie
+import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 
 object CookieFactoryForUnitSpecs {
   private def createCookie[A](key: String, value: A)(implicit tjs: Writes[A]): Cookie = {
@@ -38,6 +40,16 @@ object CookieFactoryForUnitSpecs {
   def businessChooseYourAddress() = {
     val key = businessChooseYourAddressCacheKey
     val value = BusinessChooseYourAddressModel(uprnSelected = traderUprnValid)
+    createCookie(key, value)
+  }
+
+  def enterAddressManually() = {
+    val key = enterAddressManuallyCacheKey
+    val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = line1Valid,
+      line2 = Some(line2Valid),
+      line3 = Some(line3Valid),
+      line4 = Some(line4Valid)),
+      postcode = postcodeValid))
     createCookie(key, value)
   }
 
