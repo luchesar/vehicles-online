@@ -13,30 +13,33 @@ class DisposeSuccess @Inject()() extends Controller {
 
   def present = Action {
     implicit request =>
-      (request.fetch[TraderDetailsModel], request.fetch[DisposeFormModel], request.fetch[VehicleDetailsModel], request.fetch(disposeFormTransactionIdCacheKey), request.fetch(disposeFormRegistrationNumberCacheKey)) match {
+      (request.getCookie[TraderDetailsModel], request.getCookie[DisposeFormModel], request.getCookie[VehicleDetailsModel], request.getCookieNamed(disposeFormTransactionIdCacheKey), request.getCookieNamed(disposeFormRegistrationNumberCacheKey)) match {
         case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId), Some(registrationNumber)) =>
           val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId), registrationNumber)
           Ok(views.html.disposal_of_vehicle.dispose_success(disposeModel, disposeFormModel))
-        case _ => Redirect(routes.SetUpTradeDetails.present)
+        case _ => Redirect(routes.SetUpTradeDetails.present())
       }
   }
 
   def newDisposal = Action {
     implicit request =>
-      (request.fetch[TraderDetailsModel], request.fetch[DisposeFormModel], request.fetch[VehicleDetailsModel]) match {
-        case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present).
-          discardingCookies(
-            DiscardingCookie(name = CryptoHelper.encryptCookieName(vehicleLookupDetailsCacheKey)),
-            DiscardingCookie(name = CryptoHelper.encryptCookieName(vehicleLookupResponseCodeCacheKey)),
-            DiscardingCookie(name = CryptoHelper.encryptCookieName(vehicleLookupFormModelCacheKey)),
-            DiscardingCookie(name = CryptoHelper.encryptCookieName(disposeFormModelCacheKey)),
-            DiscardingCookie(name = CryptoHelper.encryptCookieName(disposeFormTransactionIdCacheKey)),
-            DiscardingCookie(name = CryptoHelper.encryptCookieName(disposeFormTimestampIdCacheKey)),
-            DiscardingCookie(name = CryptoHelper.encryptCookieName(disposeFormRegistrationNumberCacheKey)),
-            DiscardingCookie(name = CryptoHelper.encryptCookieName(disposeModelCacheKey))
-          )
-        case _ => Redirect(routes.SetUpTradeDetails.present)
+      (request.getCookie[TraderDetailsModel], request.getCookie[DisposeFormModel], request.getCookie[VehicleDetailsModel]) match {
+        case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present()).
+          discardingCookies(getCookiesToDiscard: _*)
+        case _ => Redirect(routes.SetUpTradeDetails.present())
       }
+  }
+
+  private def getCookiesToDiscard: Seq[DiscardingCookie] = {
+    val cookieNames = Seq(vehicleLookupDetailsCacheKey,
+      vehicleLookupResponseCodeCacheKey,
+      vehicleLookupFormModelCacheKey,
+      disposeFormModelCacheKey,
+      disposeFormTransactionIdCacheKey,
+      disposeFormTimestampIdCacheKey,
+      disposeFormRegistrationNumberCacheKey,
+      disposeModelCacheKey)
+    cookieNames.map(cookieName => DiscardingCookie(name = CryptoHelper.encryptCookieName(cookieName)))
   }
 
   private def fetchData(dealerDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel, transactionId: Option[String], registrationNumber: String): DisposeViewModel = {

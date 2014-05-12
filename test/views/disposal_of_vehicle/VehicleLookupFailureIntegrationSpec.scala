@@ -6,6 +6,7 @@ import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.VehicleLookupFailurePage._
 import pages.disposal_of_vehicle._
+import mappings.disposal_of_vehicle.VehicleLookup._
 
 class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
@@ -28,7 +29,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect to setuptrade details if only VehicleLookupFormModelCache is populated" in new WebBrowser {
       go to BeforeYouStartPage
-      new CookieFactoryForUISpecs().vehicleLookupFormModelIntegration()
+      CookieFactoryForUISpecs.vehicleLookupFormModelIntegration()
 
       go to VehicleLookupFailurePage
 
@@ -37,8 +38,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect to setuptrade details if only dealerDetails cache is populated" in new WebBrowser {
       go to BeforeYouStartPage
-      new CookieFactoryForUISpecs().
-        dealerDetailsIntegration()
+      CookieFactoryForUISpecs.dealerDetailsIntegration()
 
       go to VehicleLookupFailurePage
 
@@ -64,10 +64,19 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
       assert(page.title equals BeforeYouStartPage.title)
     }
+
+    "remove redundant cookies when displayed" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      go to VehicleLookupFailurePage
+
+      assert(webDriver.manage().getCookieNamed(vehicleLookupResponseCodeCacheKey) == null)
+    }
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    new CookieFactoryForUISpecs().
+    CookieFactoryForUISpecs.
       dealerDetailsIntegration().
       vehicleLookupFormModelIntegration()
 }

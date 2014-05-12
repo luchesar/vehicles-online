@@ -14,24 +14,27 @@ class BeforeYouStart extends Controller {
   def present = Action { implicit request =>
 
     Ok(views.html.disposal_of_vehicle.before_you_start()).withNewSession.
-      discardingCookies(
-        DiscardingCookie(name = CryptoHelper.encryptCookieName(SetupTradeDetailsCacheKey)),
-        DiscardingCookie(name = CryptoHelper.encryptCookieName(traderDetailsCacheKey)),
-        DiscardingCookie(name = CryptoHelper.encryptCookieName(businessChooseYourAddressCacheKey)),
-        DiscardingCookie(name = CryptoHelper.encryptCookieName(vehicleLookupDetailsCacheKey)),
-        DiscardingCookie(name = CryptoHelper.encryptCookieName(vehicleLookupResponseCodeCacheKey)),
-        DiscardingCookie(name = CryptoHelper.encryptCookieName(vehicleLookupFormModelCacheKey)),
-        DiscardingCookie(name = CryptoHelper.encryptCookieName(disposeFormModelCacheKey)),
-        DiscardingCookie(name = CryptoHelper.encryptCookieName(disposeFormTransactionIdCacheKey)),
-        DiscardingCookie(name = CryptoHelper.encryptCookieName(disposeFormTimestampIdCacheKey)),
-        DiscardingCookie(name = CryptoHelper.encryptCookieName(disposeFormRegistrationNumberCacheKey)),
-        DiscardingCookie(name = CryptoHelper.encryptCookieName(disposeModelCacheKey))
-      )
+      discardingCookies(getCookiesToDiscard: _*)
+  }
+
+  private def getCookiesToDiscard: Seq[DiscardingCookie] = {
+    val cookieNames = Seq(SetupTradeDetailsCacheKey,
+      traderDetailsCacheKey,
+      businessChooseYourAddressCacheKey,
+      vehicleLookupDetailsCacheKey,
+      vehicleLookupResponseCodeCacheKey,
+      vehicleLookupFormModelCacheKey,
+      disposeFormModelCacheKey,
+      disposeFormTransactionIdCacheKey,
+      disposeFormTimestampIdCacheKey,
+      disposeFormRegistrationNumberCacheKey,
+      disposeModelCacheKey)
+    cookieNames.map(cookieName => DiscardingCookie(name = CryptoHelper.encryptCookieName(cookieName)))
   }
 
   def submit = Action { implicit request =>
     val modelId = request.session.get("modelId")
     Logger.debug(s"BeforeYouStart - reading modelId from session: $modelId")
-    Redirect(routes.SetUpTradeDetails.present)
+    Redirect(routes.SetUpTradeDetails.present())
   }
 }

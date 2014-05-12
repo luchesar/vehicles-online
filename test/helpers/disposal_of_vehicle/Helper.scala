@@ -3,8 +3,6 @@ package helpers.disposal_of_vehicle
 import scala.annotation.tailrec
 
 object Helper {
-  val traderBusinessNameValid = "example trader name"
-
   def countSubstring(str1:String, str2:String):Int={
     @tailrec def count(pos:Int, c:Int):Int={
       val idx=str1 indexOf(str2, pos)

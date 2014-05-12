@@ -19,6 +19,7 @@ import play.api.data.FormError
 import play.api.mvc.SimpleResult
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.FormAdapter
 
 class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controller {
 
@@ -31,9 +32,9 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
 
   def present = Action {
     implicit request =>
-       request.fetch[TraderDetailsModel] match {
-        case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm))
-        case None => Redirect(routes.SetUpTradeDetails.present)
+       request.getCookie[TraderDetailsModel] match {
+        case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm.fill()))
+        case None => Redirect(routes.SetUpTradeDetails.present())
       }
   }
 
@@ -42,13 +43,13 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
       vehicleLookupForm.bindFromRequest.fold(
         formWithErrors =>
           Future {
-            request.fetch[TraderDetailsModel] match {
+            request.getCookie[TraderDetailsModel] match {
               case Some(dealerDetails) => val formWithReplacedErrors = formWithErrors.
                   replaceError(registrationNumberId, FormError(key = registrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
                   replaceError(referenceNumberId, FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
                   distinctErrors
                 BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithReplacedErrors))
-              case None => Redirect(routes.SetUpTradeDetails.present)
+              case None => Redirect(routes.SetUpTradeDetails.present())
             }
           },
         f => {
@@ -60,11 +61,11 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
 
   def back = Action {
     implicit request =>
-      request.fetch[TraderDetailsModel] match {
+      request.getCookie[TraderDetailsModel] match {
         case Some(dealerDetails) =>
-          if (dealerDetails.traderAddress.uprn.isDefined) Redirect(routes.BusinessChooseYourAddress.present)
-          else Redirect(routes.EnterAddressManually.present)
-        case None => Redirect(routes.SetUpTradeDetails.present)
+          if (dealerDetails.traderAddress.uprn.isDefined) Redirect(routes.BusinessChooseYourAddress.present())
+          else Redirect(routes.EnterAddressManually.present())
+        case None => Redirect(routes.SetUpTradeDetails.present())
       }
   }
 
@@ -82,21 +83,21 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
   private def checkResponseConstruction(responseStatus: Int, response: Option[VehicleDetailsResponse])(implicit request: Request[_]) = {
     responseStatus match {
       case OK => okResponseConstruction(response)
-      case _ => Redirect(routes.VehicleLookupFailure.present)
+      case _ => Redirect(routes.VehicleLookupFailure.present())
     }
   }
 
-  private def okResponseConstruction (response: Option[VehicleDetailsResponse])(implicit request: Request[_]) = {
-    response match {
+  private def okResponseConstruction (vehicleDetailsResponse: Option[VehicleDetailsResponse])(implicit request: Request[_]) = {
+    vehicleDetailsResponse match {
       case Some(response) => responseCodePresent(response)
-      case _ => Redirect(routes.MicroServiceError.present)
+      case _ => Redirect(routes.MicroServiceError.present())
     }
   }
   
   private def responseCodePresent(response: VehicleDetailsResponse)(implicit request: Request[_]) = {
     response.responseCode match {
       case Some(responseCode) =>
-        Redirect(routes.VehicleLookupFailure.present).
+        Redirect(routes.VehicleLookupFailure.present()).
           withCookie(key = vehicleLookupResponseCodeCacheKey, value = responseCode) // TODO [SKW] I don't see a controller spec for testing that the correct value was written to the cache. Write one.
       case None => noResponseCodePresent(response.vehicleDetailsDto)
     }
@@ -105,9 +106,9 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
   private def noResponseCodePresent(vehicleDetailsDto: Option[VehicleDetailsDto])(implicit request: Request[_]) = {
     vehicleDetailsDto match {
       case Some(dto) =>
-        Redirect(routes.Dispose.present).
+        Redirect(routes.Dispose.present()).
           withCookie(VehicleDetailsModel.fromDto(dto))
-      case None => Redirect(routes.MicroServiceError.present)
+      case None => Redirect(routes.MicroServiceError.present())
     }
   }
 
@@ -118,6 +119,6 @@ class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controll
   private def throwToMicroServiceError(exception: Throwable) = {
     Logger.debug(s"Web service call failed. Exception: $exception")
     BadRequest("The remote server didn't like the request.")
-    Redirect(routes.MicroServiceError.present)
+    Redirect(routes.MicroServiceError.present())
   }
 }

@@ -8,6 +8,7 @@ import play.api.mvc.Cookie
 import scala.Some
 import play.api.data.validation.ValidationError
 import play.api.mvc.SimpleResult
+import play.api.data.Form
 
 case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) extends Exception
 
@@ -16,7 +17,7 @@ object DisposalOfVehicleSessionState {
   final lazy val SaltKey = CryptoHelper.encryptCookieName("FE291934-66BD-4500-B27F-517C7D77F26B")
 
   implicit class RequestAdapter[A](val request: Request[A]) extends AnyVal {
-    def fetch[B](implicit fjs: Reads[B], cacheKey: CacheKey[B]): Option[B] = {
+    def getCookie[B](implicit fjs: Reads[B], cacheKey: CacheKey[B]): Option[B] = {
       val salt = getSalt(request).getOrElse("")
       request.cookies.get(CryptoHelper.encryptCookieName(salt + cacheKey.value)).map { cookie =>
         val decrypted = CryptoHelper.decryptCookie(cookie.value)
@@ -29,7 +30,7 @@ object DisposalOfVehicleSessionState {
       }
     }
 
-    def fetch(key: String): Option[String] = {
+    def getCookieNamed(key: String): Option[String] = {
       val salt = getSalt(request).getOrElse("")
       request.cookies.get(CryptoHelper.encryptCookieName(salt + key)).map { cookie =>
         CryptoHelper.decryptCookie(cookie.value)
@@ -83,6 +84,14 @@ object DisposalOfVehicleSessionState {
             val resultWithSalt = result.withCookies(newSaltCookie)
             (resultWithSalt, newSalt)
           }
+      }
+  }
+
+  implicit class FormAdapter[A](val f: Form[A]) extends AnyVal {
+    def fill()(implicit request: Request[_], fjs: Reads[A], cacheKey: CacheKey[A]): Form[A] =
+      request.getCookie[A] match {
+        case Some(v) => f.fill(v) // Found cookie so fill the form with the cached data.
+        case _ => f // No cookie found so return a blank form.
       }
   }
 

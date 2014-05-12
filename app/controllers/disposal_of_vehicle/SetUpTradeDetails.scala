@@ -9,6 +9,7 @@ import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResul
 import mappings.common.Postcode._
 import utils.helpers.FormExtensions._
 import com.google.inject.Inject
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.FormAdapter
 
 class SetUpTradeDetails @Inject()() extends Controller {
 
@@ -21,7 +22,7 @@ class SetUpTradeDetails @Inject()() extends Controller {
 
   def present = Action {
     implicit request =>
-      Ok(views.html.disposal_of_vehicle.setup_trade_details(traderLookupForm))
+      Ok(views.html.disposal_of_vehicle.setup_trade_details(traderLookupForm.fill()))
   }
 
   def submit = Action {
@@ -34,7 +35,7 @@ class SetUpTradeDetails @Inject()() extends Controller {
             distinctErrors
           BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors))
         },
-        f => Redirect(routes.BusinessChooseYourAddress.present).withCookie(f)
+        f => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(f)
       )
   }
 }

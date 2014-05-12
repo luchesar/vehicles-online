@@ -1,3 +1,5 @@
+# monit/vehicles-online
+#
 check process vehicles-online
   matching vehicles-online
   start program = "/sbin/start vehicles-online"

@@ -29,9 +29,9 @@ import mappings.disposal_of_vehicle.Dispose.dateOfDisposalYearsIntoThePast
 import scala.language.postfixOps
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.FormAdapter
 
 class Dispose @Inject()(webService: DisposeService, dateService: DateService) extends Controller {
-
 
   val disposeForm = Form(
     mapping(
@@ -48,15 +48,15 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
 
   def present = Action {
     implicit request => {
-      request.fetch[TraderDetailsModel] match {
+      request.getCookie[TraderDetailsModel] match {
         case (Some(dealerDetails)) =>
           Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
-          request.fetch[VehicleDetailsModel] match {
-            case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm, yearsDropdown))
-            case _ => Redirect(routes.VehicleLookup.present)
+          request.getCookie[VehicleDetailsModel] match {
+            case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm.fill(), yearsDropdown))
+            case _ => Redirect(routes.VehicleLookup.present())
           }
-        case _ => Redirect(routes.SetUpTradeDetails.present)
+        case _ => Redirect(routes.SetUpTradeDetails.present())
       }
     }
   }
@@ -67,7 +67,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       disposeForm.bindFromRequest.fold(
         formWithErrors =>
           Future {
-            (request.fetch[TraderDetailsModel], request.fetch[VehicleDetailsModel]) match {
+            (request.getCookie[TraderDetailsModel], request.getCookie[VehicleDetailsModel]) match {
               case (Some(dealerDetails), Some(vehicleDetails)) =>
                 val disposeViewModel = populateModelFromCachedData(dealerDetails, vehicleDetails)
                 // When the user doesn't select a value from the drop-down then the mapping will fail to match on an Int before
@@ -83,7 +83,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
                 BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors, yearsDropdown))
               case _ =>
                 Logger.debug("could not find expected data in cache on dispose submit - now redirecting...")
-                Redirect(routes.SetUpTradeDetails.present)
+                Redirect(routes.SetUpTradeDetails.present())
             }
           },
         f => {
@@ -127,7 +127,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
       }.recover {
         case e: Throwable =>
           Logger.warn(s"Dispose micro-service call failed. Exception: $e")
-          Redirect(routes.MicroServiceError.present)
+          Redirect(routes.MicroServiceError.present())
       }
     }
 
@@ -141,8 +141,6 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
         case None => nextPage
       }
     }
-
-
 
     def transactionTimestamp(nextPage: SimpleResult) = {
       val transactionTimestamp = dateService.today.toDateTime.get
@@ -177,23 +175,23 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
 
       if (disposeResponseCode == unableToProcessApplication){
         Logger.warn("Dispose soap endpoint redirecting to dispose failure page...")
-        routes.DisposeFailure.present
+        routes.DisposeFailure.present()
       }
       else {
         Logger.warn(s"Dispose micro-service failed: $disposeResponseCode, redirecting to error page...")
-        routes.MicroServiceError.present
+        routes.MicroServiceError.present()
       }
     }
 
     def handleHttpStatusCode(statusCode: Int): Call = {
       statusCode match {
-        case OK => routes.DisposeSuccess.present
-        case SERVICE_UNAVAILABLE => routes.SoapEndpointError.present
-        case _ => routes.MicroServiceError.present
+        case OK => routes.DisposeSuccess.present()
+        case SERVICE_UNAVAILABLE => routes.SoapEndpointError.present()
+        case _ => routes.MicroServiceError.present()
       }
     }
 
-    request.fetch[VehicleLookupFormModel] match {
+    request.getCookie[VehicleLookupFormModel] match {
       case Some(vehicleLookupFormModel) =>
         val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,
           registrationNumber = vehicleLookupFormModel.registrationNumber,
@@ -201,7 +199,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService) ex
         callMicroService(disposeModel)
       case _ => Future {
         Logger.error("could not find dealer details in cache on Dispose submit")
-        Redirect(routes.SetUpTradeDetails.present)
+        Redirect(routes.SetUpTradeDetails.present())
       }
     }
   }

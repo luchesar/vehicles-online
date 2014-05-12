@@ -10,6 +10,7 @@ import utils.helpers.FormExtensions._
 import com.google.inject.Inject
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.FormAdapter
 
 class EnterAddressManually @Inject()() extends Controller {
 
@@ -21,9 +22,9 @@ class EnterAddressManually @Inject()() extends Controller {
 
   def present = Action {
     implicit request =>
-      request.fetch[SetupTradeDetailsModel] match {
-        case Some(_) => Ok(views.html.disposal_of_vehicle.enter_address_manually(form))
-        case None => Redirect(routes.SetUpTradeDetails.present)
+      request.getCookie[SetupTradeDetailsModel] match {
+        case Some(_) => Ok(views.html.disposal_of_vehicle.enter_address_manually(form.fill()))
+        case None => Redirect(routes.SetUpTradeDetails.present())
       }
   }
 
@@ -31,25 +32,24 @@ class EnterAddressManually @Inject()() extends Controller {
     implicit request => {
       form.bindFromRequest.fold(
         formWithErrors =>
-          request.fetch[SetupTradeDetailsModel] match {
-            case Some(_) => {
+          request.getCookie[SetupTradeDetailsModel] match {
+            case Some(_) =>
               val updatedFormWithErrors = formWithErrors.replaceError("addressAndPostcode.addressLines.line1", "error.required", FormError("addressAndPostcode.addressLines", "error.address.line1Required"))
-              BadRequest(views.html.disposal_of_vehicle.enter_address_manually(updatedFormWithErrors))}
-            case None => {
+              BadRequest(views.html.disposal_of_vehicle.enter_address_manually(updatedFormWithErrors))
+            case None =>
               Logger.debug("failed to find dealer name in cache for formWithErrors, redirecting...")
-              Redirect(routes.SetUpTradeDetails.present)
-            }
+              Redirect(routes.SetUpTradeDetails.present())
           },
         f =>
-          request.fetch[SetupTradeDetailsModel].map(_.traderBusinessName) match {
+          request.getCookie[SetupTradeDetailsModel].map(_.traderBusinessName) match {
           case Some(name) =>
             val dealerAddress = AddressViewModel.from(f.stripCharsNotAccepted.addressAndPostcodeModel)
             val dealerDetailsModel = TraderDetailsModel(traderName = name, traderAddress = dealerAddress)
 
-            Redirect(routes.VehicleLookup.present).withCookie(dealerDetailsModel)
+            Redirect(routes.VehicleLookup.present()).withCookie(dealerDetailsModel)
           case None =>
             Logger.debug("failed to find dealer name in cache on submit, redirecting...")
-            Redirect(routes.SetUpTradeDetails.present)
+            Redirect(routes.SetUpTradeDetails.present())
           }
       )
     }

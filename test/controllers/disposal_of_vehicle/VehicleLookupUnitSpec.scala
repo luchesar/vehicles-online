@@ -20,13 +20,15 @@ import services.fakes.FakeResponse
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeWebServiceImpl._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
+import services.fakes.FakeAddressLookupService._
 
 class VehicleLookupUnitSpec extends UnitSpec {
+
   "present" should {
     "display" in new WithApplication {
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
-      val result = vehicleLookupResponseGenerator( vehicleDetailsResponseSuccess).present(request)
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
 
       result.futureValue.header.status should equal(OK)
     }
@@ -36,6 +38,39 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
 
       result.futureValue.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+    }
+
+    "display populated fields when cookie exists" in new WithApplication {
+      val request = FakeRequest().withSession().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
+      val content = contentAsString(result)
+      content should include(referenceNumberValid)
+      content should include(registrationNumberValid)
+    }
+
+    "display data captured in previous pages" in new WithApplication {
+      val request = FakeRequest().withSession().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
+      val content = contentAsString(result)
+
+      content should include(traderBusinessNameValid)
+      content should include("my house")
+      content should include("my street")
+      content should include("my area")
+      content should include("my town")
+      content should include(services.fakes.FakeAddressLookupService.postcodeValid)
+    }
+
+    "display empty fields when cookie does not exist" in new WithApplication {
+      val request = FakeRequest().withSession().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
+      val content = contentAsString(result)
+      content should not include referenceNumberValid
+      content should not include registrationNumberValid
     }
   }
 
@@ -225,10 +260,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val cookieNames = cookies.map(_.name)
-          println("cookies: " + cookies)
-          println("cookies names: " + cookieNames)
-          cookieNames should contain allOf (vehicleLookupResponseCodeCacheKey, vehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain allOf (vehicleLookupResponseCodeCacheKey, vehicleLookupFormModelCacheKey)
       }
     }
 

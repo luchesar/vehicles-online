@@ -32,18 +32,18 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
 
   def present = Action.async {
     implicit request =>
-      request.fetch[SetupTradeDetailsModel] match {
+      request.getCookie[SetupTradeDetailsModel] match {
         case Some(setupTradeDetailsModel) =>
           fetchAddresses(setupTradeDetailsModel).map {
             addresses =>
-              val f = request.fetch[BusinessChooseYourAddressModel] match {
+              val f = request.getCookie[BusinessChooseYourAddressModel] match {
                 case Some(cached) => form.fill(cached)
                 case None => form // Blank form.
               }
               Ok(views.html.disposal_of_vehicle.business_choose_your_address(f, setupTradeDetailsModel.traderBusinessName, addresses))
           }
         case None => Future {
-          Redirect(routes.SetUpTradeDetails.present)
+          Redirect(routes.SetUpTradeDetails.present())
         }
       }
   }
@@ -51,22 +51,22 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
   def submit = Action.async { implicit request =>
       form.bindFromRequest.fold(
         formWithErrors =>
-          request.fetch[SetupTradeDetailsModel] match {
+          request.getCookie[SetupTradeDetailsModel] match {
             case Some(setupTradeDetailsModel) => fetchAddresses(setupTradeDetailsModel).map {
               addresses => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, setupTradeDetailsModel.traderBusinessName, addresses))
             }
             case None => Future {
               Logger.error("Failed to find dealer details in cache for submit formWithErrors, redirecting...")
-              Redirect(routes.SetUpTradeDetails.present)
+              Redirect(routes.SetUpTradeDetails.present())
             }
           },
         f =>
-          request.fetch[SetupTradeDetailsModel] match {
+          request.getCookie[SetupTradeDetailsModel] match {
             case Some(setupTradeDetailsModel) =>
               lookupUprn(f, setupTradeDetailsModel.traderBusinessName)
             case None => Future {
               Logger.error("Failed to find dealer details in cache on submit valid form, redirecting...")
-              Redirect(routes.SetUpTradeDetails.present)
+              Redirect(routes.SetUpTradeDetails.present())
             }
           }
       )
@@ -81,8 +81,8 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache.
          */
-        Redirect(routes.VehicleLookup.present).withCookie(model).withCookie(traderDetailsModel)
-      case None => Redirect(routes.UprnNotFound.present)
+        Redirect(routes.VehicleLookup.present()).withCookie(model).withCookie(traderDetailsModel)
+      case None => Redirect(routes.UprnNotFound.present())
     }
   }
 }

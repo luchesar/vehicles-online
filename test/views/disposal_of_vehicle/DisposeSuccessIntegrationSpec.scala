@@ -33,7 +33,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DealerDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CookieFactoryForUISpecs().dealerDetailsIntegration()
+      CookieFactoryForUISpecs.dealerDetailsIntegration()
 
       go to DisposeSuccessPage
 
@@ -42,8 +42,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only VehicleDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CookieFactoryForUISpecs().
-        vehicleDetailsModelIntegration()
+      CookieFactoryForUISpecs.vehicleDetailsModelIntegration()
 
       go to DisposeSuccessPage
 
@@ -52,8 +51,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DisposeDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CookieFactoryForUISpecs().
-        disposeFormModelIntegration()
+      CookieFactoryForUISpecs.disposeFormModelIntegration()
 
       go to DisposeSuccessPage
 
@@ -62,7 +60,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DealerDetails and VehicleDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CookieFactoryForUISpecs().
+      CookieFactoryForUISpecs.
         dealerDetailsIntegration().
         vehicleDetailsModelIntegration()
 
@@ -73,7 +71,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DisposeDetails and VehicleDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CookieFactoryForUISpecs().
+      CookieFactoryForUISpecs.
         disposeFormModelIntegration().
         vehicleDetailsModelIntegration()
 
@@ -84,7 +82,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when only DisposeDetails and DealerDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      new CookieFactoryForUISpecs().
+      CookieFactoryForUISpecs.
         dealerDetailsIntegration().
         disposeFormModelIntegration()
 
@@ -143,12 +141,11 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       assert(webDriver.manage().getCookieNamed(disposeFormTimestampIdCacheKey) == null)
       assert(webDriver.manage().getCookieNamed(disposeFormRegistrationNumberCacheKey) == null)
       assert(webDriver.manage().getCookieNamed(disposeModelCacheKey) == null)
-
     }
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    new CookieFactoryForUISpecs().
+    CookieFactoryForUISpecs.
       setupTradeDetailsIntegration().
       businessChooseYourAddressIntegration().
       dealerDetailsIntegration().
