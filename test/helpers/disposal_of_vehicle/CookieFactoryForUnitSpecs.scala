@@ -17,7 +17,7 @@ import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
-import services.fakes.{FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
+import services.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
 import services.fakes.FakeWebServiceImpl._
 import services.fakes.FakeAddressLookupService.postcodeValid
 import play.api.mvc.Cookie
@@ -70,7 +70,8 @@ object CookieFactoryForUnitSpecs {
   def disposeFormModel() = {
     val key = disposeFormModelCacheKey
     val value = DisposeFormModel(mileage = None,
-      dateOfDisposal = DayMonthYear.today,
+      dateOfDisposal = DayMonthYear(FakeDateServiceImpl.dateOfDisposalDayValid.toInt,
+        FakeDateServiceImpl.dateOfDisposalMonthValid.toInt, FakeDateServiceImpl.dateOfDisposalYearValid.toInt),
       consent = FakeDisposeWebServiceImpl.consentValid,
       lossOfRegistrationConsent = FakeDisposeWebServiceImpl.consentValid)
     createCookie(key, value)
