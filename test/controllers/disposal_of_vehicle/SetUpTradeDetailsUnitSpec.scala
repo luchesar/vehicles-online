@@ -20,13 +20,21 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
       }
     }
 
-    "populate fields when cookie exists" in new WithApplication {
+    "display populated fields when cookie exists" in new WithApplication {
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = setUpTradeDetails().present(request)
       val content = contentAsString(result)
       content should include(traderBusinessNameValid)
       content should include(postcodeValid)
+    }
+
+    "display empty fields when cookie exists" in new WithApplication {
+      val request = FakeRequest().withSession()
+      val result = setUpTradeDetails().present(request)
+      val content = contentAsString(result)
+      content should not include traderBusinessNameValid
+      content should not include postcodeValid
     }
   }
 
