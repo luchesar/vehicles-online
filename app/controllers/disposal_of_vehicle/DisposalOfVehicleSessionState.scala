@@ -2,13 +2,14 @@ package controllers.disposal_of_vehicle
 
 import play.api.libs.json.{Writes, Reads, JsPath, Json}
 import play.api.mvc._
-import utils.helpers.CryptoHelper
+import utils.helpers.{Config, CryptoHelper}
 import models.domain.common.CacheKey
 import play.api.mvc.Cookie
 import scala.Some
 import play.api.data.validation.ValidationError
 import play.api.mvc.SimpleResult
 import play.api.data.Form
+import Config.cookieMaxAge
 
 case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) extends Exception
 
@@ -19,7 +20,8 @@ object DisposalOfVehicleSessionState {
   implicit class RequestAdapter[A](val request: Request[A]) extends AnyVal {
     def getCookie[B](implicit fjs: Reads[B], cacheKey: CacheKey[B]): Option[B] = {
       val salt = getSalt(request).getOrElse("")
-      request.cookies.get(CryptoHelper.encryptCookieName(salt + cacheKey.value)).map { cookie =>
+      //request.cookies.get(CryptoHelper.encryptCookieName(salt + cacheKey.value)).map { cookie =>
+      request.cookies.get(CryptoHelper.encryptCookieName(cacheKey.value)).map { cookie =>
         val decrypted = CryptoHelper.decryptCookie(cookie.value)
         val parsed = Json.parse(decrypted)
         val fromJson = Json.fromJson[B](parsed)
@@ -32,7 +34,8 @@ object DisposalOfVehicleSessionState {
 
     def getCookieNamed(key: String): Option[String] = {
       val salt = getSalt(request).getOrElse("")
-      request.cookies.get(CryptoHelper.encryptCookieName(salt + key)).map { cookie =>
+      //request.cookies.get(CryptoHelper.encryptCookieName(salt + key)).map { cookie =>
+      request.cookies.get(CryptoHelper.encryptCookieName(key)).map { cookie =>
         CryptoHelper.decryptCookie(cookie.value)
       }
     }
@@ -46,7 +49,8 @@ object DisposalOfVehicleSessionState {
         val (result, salt) = resultWithSalt
         val stateAsJson = Json.toJson(model)
         val encryptedStateAsJson = CryptoHelper.encryptCookie(stateAsJson.toString())
-        val cookie = Cookie(CryptoHelper.encryptCookieName(salt + cacheKey.value), encryptedStateAsJson)
+        //val cookie = Cookie(CryptoHelper.encryptCookieName(salt + cacheKey.value), encryptedStateAsJson)
+        val cookie = Cookie(CryptoHelper.encryptCookieName(cacheKey.value), encryptedStateAsJson)
         result.withCookies(cookie)
       }
 
@@ -61,7 +65,12 @@ object DisposalOfVehicleSessionState {
       def withKeyValuePair(resultWithSalt: (SimpleResult, String)): SimpleResult = {
         val (result, salt) = resultWithSalt
         val encrypted = CryptoHelper.encryptCookie(value)
-        val cookie = Cookie(CryptoHelper.encryptCookieName(salt + key), encrypted)
+        //val cookie = Cookie(name = CryptoHelper.encryptCookieName(salt + key),
+        val cookie = Cookie(name = CryptoHelper.encryptCookieName(key),
+          value = encrypted,
+          maxAge = Some(cookieMaxAge),
+          secure = true
+        )
         result.withCookies(cookie)
       }
 

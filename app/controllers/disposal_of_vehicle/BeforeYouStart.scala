@@ -14,6 +14,7 @@ class BeforeYouStart extends Controller {
   def present = Action { implicit request =>
 
     Ok(views.html.disposal_of_vehicle.before_you_start()).
+      withNewSession.
       discardingCookies(getCookiesToDiscard: _*)
   }
 
