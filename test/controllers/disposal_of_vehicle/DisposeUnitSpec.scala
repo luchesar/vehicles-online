@@ -204,8 +204,8 @@ class DisposeUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val timestampCookie = cookies.find(_.name == disposeFormTimestampIdCacheKey)
-          timestampCookie match {
+          val found = cookies.find(_.name == disposeFormTimestampIdCacheKey)
+          found match {
             case Some(cookie) => cookie.value should include (CookieFactoryForUnitSpecs.disposeFormTimestamp().value)
             case _ => fail("Should have found cookie")
           }
