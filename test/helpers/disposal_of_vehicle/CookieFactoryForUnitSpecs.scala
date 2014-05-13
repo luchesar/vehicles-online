@@ -90,7 +90,7 @@ object CookieFactoryForUnitSpecs {
   def disposeFormRegistrationNumber(registrationNumber: String = registrationNumberValid) =
     Cookie(disposeFormRegistrationNumberCacheKey, registrationNumber)
 
-  def disposeFormTimestamp(timestamp: String = s"$dateOfDisposalYearValid-$dateOfDisposalMonthValid-${dateOfDisposalDayValid}T00:00:00.000+01:00") =
+  def disposeFormTimestamp(timestamp: String = s"$dateOfDisposalYearValid-$dateOfDisposalMonthValid-${dateOfDisposalDayValid}") =
     Cookie(disposeFormTimestampIdCacheKey, timestamp)
 
   def disposeTransactionId(transactionId: String = transactionIdValid) =
