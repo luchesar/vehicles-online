@@ -3,12 +3,11 @@ package controllers.disposal_of_vehicle
 import play.api.libs.json.{Writes, Reads, JsPath, Json}
 import play.api.mvc._
 import utils.helpers.CryptoHelper
+import play.api.data.Form
 import models.domain.common.CacheKey
-import play.api.mvc.Cookie
 import scala.Some
 import play.api.data.validation.ValidationError
 import play.api.mvc.SimpleResult
-import play.api.data.Form
 
 case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) extends Exception
 
@@ -44,7 +43,9 @@ object DisposalOfVehicleSessionState {
         val (result, salt) = resultWithSalt
         val stateAsJson = Json.toJson(model)
         val encryptedStateAsJson = CryptoHelper.encryptCookie(stateAsJson.toString())
-        val cookie = Cookie(CryptoHelper.encryptCookieName(salt + cacheKey.value), encryptedStateAsJson)
+        val cookie = CryptoHelper.createCookie(name = CryptoHelper.encryptCookieName(salt + cacheKey.value),
+          value = encryptedStateAsJson)
+
         result.withCookies(cookie)
       }
 
@@ -59,7 +60,8 @@ object DisposalOfVehicleSessionState {
       def withKeyValuePair(resultWithSalt: (SimpleResult, String)): SimpleResult = {
         val (result, salt) = resultWithSalt
         val encrypted = CryptoHelper.encryptCookie(value)
-        val cookie = Cookie(CryptoHelper.encryptCookieName(salt + key), encrypted)
+        val cookie = CryptoHelper.createCookie(name = CryptoHelper.encryptCookieName(salt + key),
+          value = encrypted)
         result.withCookies(cookie)
       }
 
