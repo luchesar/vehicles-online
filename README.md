@@ -88,3 +88,4 @@ Running the application
 [rest]: https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm "REST"
 [play-framework]: http://www.playframework.com/ "Play Framework"
 [scala]: http://www.scala-lang.org/ "Scala Language"
+

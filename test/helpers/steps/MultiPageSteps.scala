@@ -80,7 +80,7 @@ class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL wi
       getCookieNamed(disposeFormTimestampIdCacheKey).
       getValue
 
-    timestamp should equal(s"""\"$dateOfDisposalYearValid-$dateOfDisposalMonthValid-${dateOfDisposalDayValid}T00:00:00.000+01:00\"""")
+    timestamp should include(s"""$dateOfDisposalYearValid-$dateOfDisposalMonthValid-${dateOfDisposalDayValid}""")
   }
 
   private def enterValidManualAddress() {
