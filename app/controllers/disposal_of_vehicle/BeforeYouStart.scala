@@ -18,7 +18,8 @@ class BeforeYouStart extends Controller {
       discardingCookies(getCookiesToDiscard: _*)
   }
 
-  private def getCookiesToDiscard: Seq[DiscardingCookie] = {
+  private def getCookiesToDiscard(implicit request: Request[_]): Seq[DiscardingCookie] = {
+    val salt = CryptoHelper.getSaltFromRequest(request).getOrElse("")
     val cookieNames = Seq(SetupTradeDetailsCacheKey,
       traderDetailsCacheKey,
       businessChooseYourAddressCacheKey,
@@ -30,7 +31,7 @@ class BeforeYouStart extends Controller {
       disposeFormTimestampIdCacheKey,
       disposeFormRegistrationNumberCacheKey,
       disposeModelCacheKey)
-    cookieNames.map(cookieName => DiscardingCookie(name = CryptoHelper.encryptCookieName(cookieName)))
+    cookieNames.map(cookieName => DiscardingCookie(name = CryptoHelper.encryptCookieName(salt + cookieName)))
   }
 
   def submit = Action { implicit request =>

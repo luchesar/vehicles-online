@@ -14,11 +14,9 @@ case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) 
 
 object DisposalOfVehicleSessionState {
 
-  final lazy val SaltKey = CryptoHelper.encryptCookieName("FE291934-66BD-4500-B27F-517C7D77F26B")
-
   implicit class RequestAdapter[A](val request: Request[A]) extends AnyVal {
     def getCookie[B](implicit fjs: Reads[B], cacheKey: CacheKey[B]): Option[B] = {
-      val salt = getSalt(request).getOrElse("")
+      val salt = CryptoHelper.getSaltFromRequest(request).getOrElse("")
       request.cookies.get(CryptoHelper.encryptCookieName(salt + cacheKey.value)).map { cookie =>
         val decrypted = CryptoHelper.decryptCookie(cookie.value)
         val parsed = Json.parse(decrypted)
@@ -31,7 +29,7 @@ object DisposalOfVehicleSessionState {
     }
 
     def getCookieNamed(key: String): Option[String] = {
-      val salt = getSalt(request).getOrElse("")
+      val salt = CryptoHelper.getSaltFromRequest(request).getOrElse("")
       request.cookies.get(CryptoHelper.encryptCookieName(salt + key)).map { cookie =>
         CryptoHelper.decryptCookie(cookie.value)
       }
@@ -51,7 +49,7 @@ object DisposalOfVehicleSessionState {
       }
 
       Some(inner)
-        .map(withSalt)
+        .map(CryptoHelper.ensureSaltInResult)
         .map(withModel)
         .get
     }
@@ -66,25 +64,10 @@ object DisposalOfVehicleSessionState {
       }
 
       Some(inner)
-        .map(withSalt)
+        .map(CryptoHelper.ensureSaltInResult)
         .map(withKeyValuePair)
         .get
     }
-
-    private def withSalt(result: SimpleResult)(implicit request: Request[_]): (SimpleResult, String) =
-      getSalt(request) match {
-        case Some(saltFromRequest) =>
-          (result, saltFromRequest)
-        case None =>
-          val newSalt = CryptoHelper.newCookieNameSalt
-          if (newSalt.isEmpty)
-            (result, newSalt)
-          else {
-            val newSaltCookie = Cookie(SaltKey, CryptoHelper.encryptCookie(newSalt))
-            val resultWithSalt = result.withCookies(newSaltCookie)
-            (resultWithSalt, newSalt)
-          }
-      }
   }
 
   implicit class FormAdapter[A](val f: Form[A]) extends AnyVal {
@@ -94,10 +77,4 @@ object DisposalOfVehicleSessionState {
         case _ => f // No cookie found so return a blank form.
       }
   }
-
-  private def getSalt(request: Request[_]): Option[String] =
-    request.cookies.get(SaltKey) match {
-      case Some(cookie) => Some(CryptoHelper.decryptCookie(cookie.value))
-      case None => None
-    }
 }

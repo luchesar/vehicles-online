@@ -9,8 +9,12 @@ import org.apache.commons.codec.binary.{Hex, Base64}
 import java.nio.charset.StandardCharsets
 import play.api.{PlayException, Play}
 import java.security.SecureRandom
+import play.api.mvc.{Cookie, SimpleResult, Request}
 
 object CryptoHelper {
+
+  final lazy val SaltKey = CryptoHelper.encryptCookieName("FE291934-66BD-4500-B27F-517C7D77F26B")
+
   private val encryptFields = getProperty("encryptFields", default = true)
   
   private val encryptCookies = getProperty("encryptCookies", default = true)
@@ -45,6 +49,27 @@ object CryptoHelper {
   def encryptCookie(clearText: String, encryptCookies: Boolean = encryptCookies) = if (encryptCookies) encryptAESAsBase64(clearText) else clearText
   def encryptCookieName(clearText: String, encryptCookies: Boolean = encryptCookies) = if (encryptCookies) sha1Hash(clearText) else clearText
   def newCookieNameSalt = if (encryptCookies) Hex.encodeHexString(CryptoHelper.getSecureRandomBytes(16)) else ""
+
+  def getSaltFromRequest(request: Request[_]): Option[String] =
+    request.cookies.get(SaltKey) match {
+      case Some(cookie) => Some(CryptoHelper.decryptCookie(cookie.value))
+      case None => None
+    }
+
+  def ensureSaltInResult(result: SimpleResult)(implicit request: Request[_]): (SimpleResult, String) =
+    CryptoHelper.getSaltFromRequest(request) match {
+      case Some(saltFromRequest) =>
+        (result, saltFromRequest)
+      case None =>
+        val newSalt = CryptoHelper.newCookieNameSalt
+        if (newSalt.isEmpty)
+          (result, newSalt)
+        else {
+          val newSaltCookie = Cookie(SaltKey, CryptoHelper.encryptCookie(newSalt))
+          val resultWithSalt = result.withCookies(newSaltCookie)
+          (resultWithSalt, newSalt)
+        }
+    }
 
   private def sha1Hash(clearText: String): String = Codecs.sha1(clearText)
 

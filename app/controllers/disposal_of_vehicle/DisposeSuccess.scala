@@ -30,7 +30,8 @@ class DisposeSuccess @Inject()() extends Controller {
       }
   }
 
-  private def getCookiesToDiscard: Seq[DiscardingCookie] = {
+  private def getCookiesToDiscard(implicit request: Request[_]): Seq[DiscardingCookie] = {
+    val salt = CryptoHelper.getSaltFromRequest(request).getOrElse("")
     val cookieNames = Seq(vehicleLookupDetailsCacheKey,
       vehicleLookupResponseCodeCacheKey,
       vehicleLookupFormModelCacheKey,
@@ -39,7 +40,7 @@ class DisposeSuccess @Inject()() extends Controller {
       disposeFormTimestampIdCacheKey,
       disposeFormRegistrationNumberCacheKey,
       disposeModelCacheKey)
-    cookieNames.map(cookieName => DiscardingCookie(name = CryptoHelper.encryptCookieName(cookieName)))
+    cookieNames.map(cookieName => DiscardingCookie(name = CryptoHelper.encryptCookieName(salt + cookieName)))
   }
 
   private def fetchData(dealerDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel, transactionId: Option[String], registrationNumber: String): DisposeViewModel = {
