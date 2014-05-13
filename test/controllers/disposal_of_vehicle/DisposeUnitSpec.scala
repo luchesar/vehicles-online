@@ -21,6 +21,8 @@ import services.fakes.FakeDisposeWebServiceImpl._
 import play.api.mvc.Cookies
 
 class DisposeUnitSpec extends UnitSpec {
+  val emptySpace = " "
+
   "present" should {
     "display page" in new WithApplication {
       val request = FakeRequest().withSession().
@@ -31,7 +33,7 @@ class DisposeUnitSpec extends UnitSpec {
       whenReady(result) {
         r => r.header.status should equal(OK)
       }
-    } 
+    }
 
     "redirect to setupTradeDetails page when present and previous pages have not been visited" in new WithApplication {
       val request = FakeRequest().withSession()
@@ -47,13 +49,11 @@ class DisposeUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeFormModel())
-
         val result = disposeController().present(request)
         val content = contentAsString(result)
-        val emptySpace = " "
         val contentWithCarriageReturnsAndSpacesRemoved = content.replaceAll("[\n\r]", "").replaceAll(emptySpace, "")
-//        contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("consent", true))
-//        contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("lossOfRegistrationConsent", true))
+        contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("consent", true))
+        contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("lossOfRegistrationConsent", true))
 
         contentWithCarriageReturnsAndSpacesRemoved should include(buildSelectedOptionHtml("25", "25"))
         contentWithCarriageReturnsAndSpacesRemoved should include(buildSelectedOptionHtml("11", "November"))
@@ -65,20 +65,20 @@ class DisposeUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
-
         val result = disposeController().present(request)
         val content = contentAsString(result)
-        val emptySpace = " "
         val contentWithCarriageReturnsAndSpacesRemoved = content.replaceAll("[\n\r]", "").replaceAll(emptySpace, "")
-//        contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("consent", false))
-//        contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("lossOfRegistrationConsent", false))
-        content should not include "selected"
+        contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("consent", false))
+        contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("lossOfRegistrationConsent", false))
+        content should not include "selected" // No drop downs should be selected
     }
   }
 
-  // TODO work out how to test that the checkbox is ticked/unticked
-  private def buildCheckboxHtml(widgetName: String, value: Boolean) : String = {
-    s"""<inputtype="checkbox"id="$widgetName"name="$widgetName"value="${value.toString}"""
+  private def buildCheckboxHtml(widgetName: String, checked: Boolean) : String = {
+    if (checked)
+      s"""<inputtype="checkbox"id="$widgetName"name="$widgetName"value="true"checkedaria-required=true>"""
+    else
+      s"""<inputtype="checkbox"id="$widgetName"name="$widgetName"value="true"aria-required=true>"""
   }
 
   private def buildSelectedOptionHtml(optionValue: String, optionText: String) : String = {
