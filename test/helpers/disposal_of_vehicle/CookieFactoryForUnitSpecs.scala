@@ -19,13 +19,21 @@ import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
 import services.fakes.FakeWebServiceImpl._
 import services.fakes.FakeAddressLookupService.postcodeValid
-import play.api.mvc.Cookie
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
+import scala.Some
+import play.api.mvc.Cookie
+import utils.helpers.CryptoHelper
 
 object CookieFactoryForUnitSpecs {
   private def createCookie[A](key: String, value: A)(implicit tjs: Writes[A]): Cookie = {
     val valueAsString = Json.toJson(value).toString()
-    Cookie(key, valueAsString)
+    CryptoHelper.createCookie(name = key,
+      value = valueAsString)
+  }
+
+  private def createCookie[A](key: String, value: String): Cookie = {
+    CryptoHelper.createCookie(name = key,
+      value = value)
   }
 
   def setupTradeDetails(traderPostcode: String = postcodeValid) = {
@@ -88,16 +96,16 @@ object CookieFactoryForUnitSpecs {
   }
 
   def disposeFormRegistrationNumber(registrationNumber: String = registrationNumberValid) =
-    Cookie(disposeFormRegistrationNumberCacheKey, registrationNumber)
+    createCookie(disposeFormRegistrationNumberCacheKey, registrationNumber)
 
   def disposeFormTimestamp(timestamp: String = s"$dateOfDisposalYearValid-$dateOfDisposalMonthValid-${dateOfDisposalDayValid}") =
-    Cookie(disposeFormTimestampIdCacheKey, timestamp)
+    createCookie(disposeFormTimestampIdCacheKey, timestamp)
 
   def disposeTransactionId(transactionId: String = transactionIdValid) =
-    Cookie(disposeFormTransactionIdCacheKey, transactionId)
+    createCookie(disposeFormTransactionIdCacheKey, transactionId)
 
   def vehicleRegistrationNumber(registrationNumber: String = registrationNumberValid) =
-    Cookie(disposeFormRegistrationNumberCacheKey, registrationNumber)
+    createCookie(disposeFormRegistrationNumberCacheKey, registrationNumber)
 
   def disposeModel(referenceNumber: String = referenceNumberValid,
                    registrationNumber: String = registrationNumberValid,

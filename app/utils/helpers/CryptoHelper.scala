@@ -1,15 +1,15 @@
 package utils.helpers
 
 import app.ConfigProperties._
-import play.api.libs.{Codecs, Crypto}
-import java.util.UUID
+import play.api.libs.Codecs
 import javax.crypto.Cipher
 import javax.crypto.spec.{IvParameterSpec, SecretKeySpec}
 import org.apache.commons.codec.binary.{Hex, Base64}
 import java.nio.charset.StandardCharsets
-import play.api.{PlayException, Play}
+import play.api.Play
 import java.security.SecureRandom
 import play.api.mvc.{Cookie, SimpleResult, Request}
+import Config.cookieMaxAge
 
 object CryptoHelper {
 
@@ -84,7 +84,8 @@ object CryptoHelper {
         if (newSalt.isEmpty)
           (result, newSalt)
         else {
-          val newSaltCookie = Cookie(SaltKey, CryptoHelper.encryptCookie(newSalt))
+          val newSaltCookie = createCookie(name = SaltKey,
+            value = CryptoHelper.encryptCookie(newSalt))
           val resultWithSalt = result.withCookies(newSaltCookie)
           (resultWithSalt, newSalt)
         }
@@ -111,4 +112,10 @@ object CryptoHelper {
     val clearTextBytes = cipher.doFinal(cipherBytes)
     new String(clearTextBytes, StandardCharsets.UTF_8)
   }
+
+  def createCookie(name: String, value: String) = Cookie(name = name,
+    value = value,
+    maxAge = Some(cookieMaxAge)/*,
+    secure = true*/
+  )
 }
