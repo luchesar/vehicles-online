@@ -8,6 +8,7 @@ import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, 
 import services.dispose_service.{DisposeWebServiceImpl, DisposeWebService, DisposeServiceImpl, DisposeService}
 import services.{DateServiceImpl, DateService}
 import services.session.{PlaySessionState, SessionState}
+import utils.helpers.{FieldEncryption, AesEncryption, NoEncryption, CookieEncryption}
 
 /**
  * Provides real implementations of traits
@@ -33,6 +34,18 @@ object DevModule extends ScalaModule {
     bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton()
     bind[DateService].to[DateServiceImpl].asEagerSingleton()
     bind[SessionState].to[PlaySessionState].asEagerSingleton()
+
+    val encryptCookies = getProperty("encryptCookies", default = true)
+    if (encryptCookies)
+      bind[CookieEncryption].toInstance(new AesEncryption with CookieEncryption)
+    else
+      bind[CookieEncryption].toInstance(new NoEncryption with CookieEncryption)
+
+    val encryptFields = getProperty("encryptFields", default = true)
+    if (encryptFields)
+      bind[FieldEncryption].toInstance(new AesEncryption with FieldEncryption)
+    else
+      bind[FieldEncryption].toInstance(new NoEncryption with FieldEncryption)
   }
 
   private def ordnanceSurveyAddressLookup() = {

@@ -7,8 +7,17 @@ class CryptoHelperSpec extends WordSpec with Matchers {
   val clearText = "qwerty"
 
   "encryptCookie" should {
-    "return an encoded string" in new WithApplication {
+    "return an encrypted string" in new WithApplication {
       CryptoHelper.encryptCookie(clearText, encryptCookies = true) should not equal clearText
+    }
+
+    "return a different encrypted string given same clear text input" in new WithApplication {
+      val cipherText1 = CryptoHelper.encryptCookie(clearText, encryptCookies = true)
+      val cipherText2 = CryptoHelper.encryptCookie(clearText, encryptCookies = true)
+
+      withClue("Initialization vectors must be used to ensure output is always random") {
+        cipherText1 should not equal cipherText2
+      }
     }
   }
 
@@ -20,7 +29,7 @@ class CryptoHelperSpec extends WordSpec with Matchers {
   }
 
   "encryptCookieName" should {
-    "return an encoded string" in new WithApplication {
+    "return an encrypted string" in new WithApplication {
       CryptoHelper.encryptCookieName(clearText, encryptCookies = true) should not equal clearText
     }
 
@@ -32,8 +41,17 @@ class CryptoHelperSpec extends WordSpec with Matchers {
   }
 
   "encryptAES" should {
-    "return an encoded string" in new WithApplication {
+    "return an encrypted string" in new WithApplication {
       CryptoHelper.encryptAES(clearText, encryptFields = true) should not equal clearText
+    }
+
+    "return a different encrypted string given same clear text input" in new WithApplication {
+      val cipherText1 = CryptoHelper.encryptAES(clearText, encryptFields = true)
+      val cipherText2 = CryptoHelper.encryptAES(clearText, encryptFields = true)
+
+      withClue("Initialization vectors must be used to ensure output is always random") {
+        cipherText1 should not equal cipherText2
+      }
     }
   }
 
