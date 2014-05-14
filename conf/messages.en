@@ -331,8 +331,8 @@ disposal_vehiclelookupfailure.button2 = Exit
 vehicle_lookup_vrm_not_found = There is no record for this Vehicle Registration Mark. Please try again, or send a completed V5C/3 to DVLA
 vehicle_lookup_document_reference_mismatch = This is not the latest Document Reference Number for the vehicle. Please try again, or send a completed V5C/3 to DVLA
 
-error.address.line1Required = Address needs at least the house number / house name filled in
-addressAndPostcode.addressLines.line1 = House number / House name
+error.address.line1Required = Address needs at least the building name or number filled in
+addressAndPostcode.addressLines.line1 = Building name or number
 error.address.maxLengthOfLinesConcatenated = Address must have fewer than 130 characters
 error.address.characterinvalid = Invalid characters are not allowed
 addressAndPostcode.addressLines = Address
