@@ -14,9 +14,9 @@
 
     @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit) {
 
-		<div class="two-col clearfix">
+		<div>
 		
-			<div id="TraderDetailsDiv" class="first-col">
+			<div id="TraderDetailsDiv">
 				<h2>@Messages("disposal_vehiclelookup.p2")</h2>
 
 				<dl class="summary-detail-list">
@@ -33,7 +33,7 @@
                 */}
 			</div>
 			
-			<div id="FindAVehicleDiv" class="second-col">
+			<div id="FindAVehicleDiv">
 				<h2>@Messages("disposal_vehiclelookup.p1")</h2>
 				
 				@valtechInputText(vehicleLookupForm(registrationNumberId), args =
