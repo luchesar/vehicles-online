@@ -61,14 +61,18 @@
  		}
  	}
  	
- 	// styles two column information items
+ 	// information items (1/2 columns - typically 2 columns)
+ 	// this could be a DL element, or a wrapping div
  	.summary-detail-list {
+ 		@include clearfix;
 		margin:2.3rem 0 2rem 0;
 		padding:1rem;
 		background:$grey-3;
 
+		p {
+			margin:0;
+		}
 
-		@include clearfix;
 		dt, dd {
 			@include copy-19;
 			margin-bottom:0;
@@ -90,22 +94,17 @@
 		}
 		dd {
 			overflow: hidden;
-			
 			@media screen and (max-width: $device-small) {
 				clear:both;
 			}
 		}
+
+		// smaller width, more flexible container
+		&.summary-detail-list-flex {
+			@include summary-detail-list-flex();
+		}
 	}
 
-	// trader details/select trade address - two column information items
-	.TraderDetails .summary-detail-list {
-		@media screen and (min-width:$device-medium) {
-			max-width:500px;
-		}
-		@media screen and (min-width:$device-large) {
-			max-width:55%;
-		}
-	}
 	
 	// add out of scope watermark
 	.out-of-scope {
