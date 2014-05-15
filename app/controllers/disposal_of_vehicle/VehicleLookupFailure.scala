@@ -6,8 +6,9 @@ import com.google.inject.Inject
 import models.domain.disposal_of_vehicle.{TraderDetailsModel, VehicleLookupFormModel}
 import mappings.disposal_of_vehicle.VehicleLookup._
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
+import utils.helpers.CookieEncryption
 
-class VehicleLookupFailure @Inject()() extends Controller {
+class VehicleLookupFailure @Inject()()(implicit encryption: CookieEncryption) extends Controller {
 
 
   def present = Action { implicit request =>

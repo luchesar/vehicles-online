@@ -7,9 +7,10 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import mappings.disposal_of_vehicle.TraderDetails._
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
-import utils.helpers.CryptoHelper
+import utils.helpers.{CookieEncryption, CryptoHelper}
+import com.google.inject.Inject
 
-class BeforeYouStart extends Controller {
+class BeforeYouStart @Inject()(implicit encryption: CookieEncryption) extends Controller {
 
   def present = Action { implicit request =>
 

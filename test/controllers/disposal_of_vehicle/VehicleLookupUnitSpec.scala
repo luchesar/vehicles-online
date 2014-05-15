@@ -21,6 +21,7 @@ import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeWebServiceImpl._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import services.fakes.FakeAddressLookupService._
+import utils.helpers.{CookieEncryption, NoEncryption}
 
 class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -287,7 +288,8 @@ class VehicleLookupUnitSpec extends UnitSpec {
       new FakeResponse(status = fullResponse._1, fakeJson = responseAsJson)// Any call to a webservice will always return this successful response.
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
-    new disposal_of_vehicle.VehicleLookup( vehicleLookupServiceImpl)
+    val noCookieEncryption = new NoEncryption with CookieEncryption
+    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)(noCookieEncryption)
   }
 
   private def vehicleLookupError() = {
@@ -296,7 +298,8 @@ class VehicleLookupUnitSpec extends UnitSpec {
       throw new IllegalArgumentException
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
-    new disposal_of_vehicle.VehicleLookup( vehicleLookupServiceImpl)
+    val noCookieEncryption = new NoEncryption with CookieEncryption
+    new disposal_of_vehicle.VehicleLookup( vehicleLookupServiceImpl)(noCookieEncryption)
   }
 
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = referenceNumberValid,

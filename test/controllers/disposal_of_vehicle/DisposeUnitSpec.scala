@@ -19,6 +19,7 @@ import services.DateServiceImpl
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import play.api.mvc.Cookies
+import utils.helpers.{CookieEncryption, NoEncryption}
 
 class DisposeUnitSpec extends UnitSpec {
   val emptySpace = " "
@@ -144,7 +145,8 @@ class DisposeUnitSpec extends UnitSpec {
       val disposeResponseThrows = mock[(Int, Option[DisposeResponse])]
       val mockWebServiceThrows = mock[DisposeService]
       when(mockWebServiceThrows.invoke(any[DisposeRequest])).thenReturn(Future.failed(new RuntimeException))
-      val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateServiceStubbed())
+      val noCookieEncryption = new NoEncryption with CookieEncryption
+      val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateServiceStubbed())(noCookieEncryption)
       val result = dispose.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
@@ -257,6 +259,7 @@ class DisposeUnitSpec extends UnitSpec {
       new FakeResponse(status = disposeServiceStatus, fakeJson = fakeJson) // Any call to a webservice will always return this successful response.
     })
     val disposeServiceImpl = new DisposeServiceImpl(ws)
-    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())
+    val noCookieEncryption = new NoEncryption with CookieEncryption
+    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())(noCookieEncryption)
   }
 }

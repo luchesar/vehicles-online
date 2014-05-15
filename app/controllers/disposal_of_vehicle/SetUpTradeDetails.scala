@@ -10,8 +10,9 @@ import mappings.common.Postcode._
 import utils.helpers.FormExtensions._
 import com.google.inject.Inject
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.FormAdapter
+import utils.helpers.CookieEncryption
 
-class SetUpTradeDetails @Inject()() extends Controller {
+class SetUpTradeDetails @Inject()()(implicit encryption: CookieEncryption) extends Controller {
 
   val traderLookupForm = Form(
     mapping(

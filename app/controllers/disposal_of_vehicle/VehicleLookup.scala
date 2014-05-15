@@ -20,8 +20,9 @@ import play.api.mvc.SimpleResult
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.FormAdapter
+import utils.helpers.CookieEncryption
 
-class VehicleLookup @Inject()(webService: VehicleLookupService) extends Controller {
+class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encryption: CookieEncryption) extends Controller {
 
   val vehicleLookupForm = Form(
     mapping(

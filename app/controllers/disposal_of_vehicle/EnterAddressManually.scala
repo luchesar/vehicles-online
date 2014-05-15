@@ -11,8 +11,9 @@ import com.google.inject.Inject
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.FormAdapter
+import utils.helpers.CookieEncryption
 
-class EnterAddressManually @Inject()() extends Controller {
+class EnterAddressManually @Inject()()(implicit encryption: CookieEncryption) extends Controller {
 
   val form = Form(
     mapping(

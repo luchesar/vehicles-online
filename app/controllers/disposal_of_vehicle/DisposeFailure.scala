@@ -7,8 +7,9 @@ import com.google.inject.Inject
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
 import mappings.disposal_of_vehicle.Dispose._
 import models.domain.disposal_of_vehicle.DisposeViewModel
+import utils.helpers.CookieEncryption
 
-class DisposeFailure @Inject()() extends Controller {
+class DisposeFailure @Inject()()(implicit encryption: CookieEncryption) extends Controller {
 
 
   def present = Action { implicit request =>

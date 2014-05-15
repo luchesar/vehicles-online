@@ -5,6 +5,7 @@ import mappings.common.AddressAndPostcode._
 import mappings.common.AddressLines._
 import mappings.common.Postcode._
 import services.fakes.FakeAddressLookupService._
+import utils.helpers.{CookieEncryption, NoEncryption}
 
 class EnterAddressManuallyFormSpec extends UnitSpec {
 
@@ -52,7 +53,7 @@ class EnterAddressManuallyFormSpec extends UnitSpec {
     }
 
     "reject if line1 is greater than max length" in {
-      formWithValidDefaults(line1 = "a" * (line1MaxLength + 1)).errors should have length 1
+      formWithValidDefaults(line1 = "a" * (lineMaxLength + 1)).errors should have length 1
     }
 
     "reject if line1 contains special characters" in {
@@ -114,7 +115,8 @@ class EnterAddressManuallyFormSpec extends UnitSpec {
                                     line3: String = line3Valid,
                                     line4: String = line4Valid,
                                     postcode: String = postcodeValid) = {
-    new EnterAddressManually().form.bind(
+    val noCookieEncryption = new NoEncryption with CookieEncryption
+    new EnterAddressManually()(noCookieEncryption).form.bind(
       Map(
         s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1,
         s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> line2,
