@@ -15,8 +15,6 @@ trait Encryption {
 
 trait CookieEncryption extends Encryption
 
-trait FieldEncryption extends Encryption
-
 trait Hashing {
   def hash(clearText: String): String
 }

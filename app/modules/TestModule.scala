@@ -29,7 +29,6 @@ object TestModule extends ScalaModule {
     bind[DateService].to[FakeDateServiceImpl].asEagerSingleton()
     bind[SessionState].to[PlaySessionState].asEagerSingleton()
     bind[CookieEncryption].toInstance(new NoEncryption with CookieEncryption)
-    bind[FieldEncryption].toInstance(new NoEncryption with FieldEncryption)
     bind[CookieNameHashing].toInstance(new NoHash with CookieNameHashing)
   }
 
