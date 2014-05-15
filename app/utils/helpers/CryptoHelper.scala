@@ -63,19 +63,16 @@ object CryptoHelper {
   }
 
   def decryptAES(cipherText: String, decryptFields: Boolean = encryptFields): String = if (decryptFields) decryptAESAsBase64(cipherText) else cipherText
-  def decryptCookie(cipherText: String, decryptCookies: Boolean = encryptCookies): String = if (decryptCookies) decryptAESAsBase64(cipherText) else cipherText
-
   def encryptAES(clearText: String, encryptFields: Boolean = encryptFields) = if (encryptFields) encryptAESAsBase64(clearText) else clearText
-  def encryptCookie(clearText: String, encryptCookies: Boolean = encryptCookies) = if (encryptCookies) encryptAESAsBase64(clearText) else clearText
   def encryptCookieName(clearText: String, encryptCookies: Boolean = encryptCookies) = if (encryptCookies) sha1Hash(clearText) else clearText
   def newCookieNameSalt = if (encryptCookies) Hex.encodeHexString(CryptoHelper.getSecureRandomBytes(16)) else ""
 
-  def getSaltFromRequest(request: Request[_]): Option[String] =
+  def getSaltFromRequest(request: Request[_])(implicit encryption: CookieEncryption): Option[String] =
     request.cookies.get(SaltKey).map { cookie =>
-      CryptoHelper.decryptCookie(cookie.value)
+      encryption.decrypt(cookie.value)
     }
 
-  def ensureSaltInResult(result: SimpleResult)(implicit request: Request[_]): (SimpleResult, String) =
+  def ensureSaltInResult(result: SimpleResult)(implicit request: Request[_], encryption: CookieEncryption): (SimpleResult, String) =
     CryptoHelper.getSaltFromRequest(request) match {
       case Some(saltFromRequest) =>
         (result, saltFromRequest)
@@ -85,7 +82,7 @@ object CryptoHelper {
           (result, newSalt)
         else {
           val newSaltCookie = createCookie(name = SaltKey,
-            value = CryptoHelper.encryptCookie(newSalt))
+            value = encryption.encrypt(newSalt))
           val resultWithSalt = result.withCookies(newSaltCookie)
           (resultWithSalt, newSalt)
         }

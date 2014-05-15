@@ -5,6 +5,7 @@ import play.api.test.Helpers._
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
+import utils.helpers.{CookieEncryption, NoEncryption}
 
 class DisposeSuccessUnitSpec extends UnitSpec {
 
@@ -174,6 +175,8 @@ class DisposeSuccessUnitSpec extends UnitSpec {
     }
   }
 
-  private def disposeSuccess() =
-    new DisposeSuccess()
+  private def disposeSuccess() = {
+    val noCookieEncryption = new NoEncryption with CookieEncryption
+    new DisposeSuccess()(noCookieEncryption)
+  }
 }

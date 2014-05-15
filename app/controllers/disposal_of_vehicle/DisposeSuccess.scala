@@ -7,9 +7,9 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import models.domain.disposal_of_vehicle.{DisposeFormModel, VehicleDetailsModel, TraderDetailsModel}
 import play.api.mvc._
-import utils.helpers.CryptoHelper
+import utils.helpers.{CookieEncryption, CryptoHelper}
 
-class DisposeSuccess @Inject()() extends Controller {
+class DisposeSuccess @Inject()()(implicit encryption: CookieEncryption) extends Controller {
 
   def present = Action {
     implicit request =>

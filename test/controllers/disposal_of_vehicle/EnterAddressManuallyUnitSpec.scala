@@ -11,6 +11,7 @@ import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeAddressLookupService._
 import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
+import utils.helpers.{CookieEncryption, NoEncryption}
 
 class EnterAddressManuallyUnitSpec extends UnitSpec {
   "present" should {
@@ -204,7 +205,9 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
   }
 
-  private def enterAddressManually() =
-    new EnterAddressManually()
+  private def enterAddressManually() = {
+    val noCookieEncryption = new NoEncryption with CookieEncryption
+    new EnterAddressManually()(noCookieEncryption)
+  }
 
 }

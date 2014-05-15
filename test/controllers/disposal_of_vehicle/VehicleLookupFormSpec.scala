@@ -14,6 +14,7 @@ import play.api.libs.json.{JsValue, Json}
 import services.fakes.FakeResponse
 import services.fakes.FakeVehicleLookupWebService._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
+import utils.helpers.{CookieEncryption, NoEncryption}
 
 class VehicleLookupFormSpec extends UnitSpec {
 
@@ -99,7 +100,8 @@ class VehicleLookupFormSpec extends UnitSpec {
       new FakeResponse(status = fullResponse._1, fakeJson = responseAsJson)// Any call to a webservice will always return this successful response.
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
-    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)
+    val noCookieEncryption = new NoEncryption with CookieEncryption
+    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)(noCookieEncryption)
   }
 
   private def formWithValidDefaults(referenceNumber: String = referenceNumberValid,

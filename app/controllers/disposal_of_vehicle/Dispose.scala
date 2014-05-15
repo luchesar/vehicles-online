@@ -30,8 +30,9 @@ import scala.language.postfixOps
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.FormAdapter
+import utils.helpers.CookieEncryption
 
-class Dispose @Inject()(webService: DisposeService, dateService: DateService) extends Controller {
+class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit encryption: CookieEncryption) extends Controller {
 
   val disposeForm = Form(
     mapping(

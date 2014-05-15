@@ -9,6 +9,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeAddressLookupService._
 import play.api.mvc.Cookies
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import utils.helpers.{CookieEncryption, NoEncryption}
 
 class SetUpTradeDetailsUnitSpec extends UnitSpec {
   "present" should {
@@ -88,7 +89,9 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
       traderPostcodeId -> dealerPostcode)
   }
 
-  private def setUpTradeDetails() =
-    new SetUpTradeDetails()
+  private def setUpTradeDetails() = {
+    val noCookieEncryption = new NoEncryption with CookieEncryption
+    new SetUpTradeDetails()(noCookieEncryption)
+  }
 
 }
