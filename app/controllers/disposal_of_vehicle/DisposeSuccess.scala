@@ -31,7 +31,7 @@ class DisposeSuccess @Inject()()(implicit encryption: CookieEncryption, cookieNa
   }
 
   private def getCookiesToDiscard(implicit request: Request[_]): Seq[DiscardingCookie] = {
-    val salt = CryptoHelper.getSaltFromRequest(request).getOrElse("")
+    val salt = CryptoHelper.getSessionSecretKeyFromRequest(request).getOrElse("")
     val cookieNames = Seq(vehicleLookupDetailsCacheKey,
       vehicleLookupResponseCodeCacheKey,
       vehicleLookupFormModelCacheKey,

@@ -15,7 +15,7 @@ object DisposalOfVehicleSessionState {
 
   implicit class RequestAdapter[A](val request: Request[A]) extends AnyVal {
     def getCookie[B](implicit fjs: Reads[B], cacheKey: CacheKey[B], encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): Option[B] = {
-      val salt = CryptoHelper.getSaltFromRequest(request).getOrElse("")
+      val salt = CryptoHelper.getSessionSecretKeyFromRequest(request).getOrElse("")
       request.cookies.get(cookieNameHashing.hash(salt + cacheKey.value)).map { cookie =>
         val decrypted = encryption.decrypt(cookie.value)
         val parsed = Json.parse(decrypted)
@@ -28,7 +28,7 @@ object DisposalOfVehicleSessionState {
     }
 
     def getCookieNamed(key: String)(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): Option[String] = {
-      val salt = CryptoHelper.getSaltFromRequest(request).getOrElse("")
+      val salt = CryptoHelper.getSessionSecretKeyFromRequest(request).getOrElse("")
       request.cookies.get(cookieNameHashing.hash(salt + key)).map { cookie =>
         encryption.decrypt(cookie.value)
       }
@@ -51,7 +51,7 @@ object DisposalOfVehicleSessionState {
       }
 
       Some(inner)
-        .map(CryptoHelper.ensureSaltInResult)
+        .map(CryptoHelper.ensureSessionSecretKeyInResult)
         .map(withModel)
         .get
     }
@@ -68,7 +68,7 @@ object DisposalOfVehicleSessionState {
       }
 
       Some(inner)
-        .map(CryptoHelper.ensureSaltInResult)
+        .map(CryptoHelper.ensureSessionSecretKeyInResult)
         .map(withKeyValuePair)
         .get
     }
