@@ -1,7 +1,6 @@
 package utils.helpers
 
 import app.ConfigProperties._
-import play.api.libs.Codecs
 import javax.crypto.Cipher
 import javax.crypto.spec.{IvParameterSpec, SecretKeySpec}
 import org.apache.commons.codec.binary.{Hex, Base64}
@@ -13,10 +12,8 @@ import Config.cookieMaxAge
 
 object CryptoHelper {
 
-  final lazy val SaltKey = CryptoHelper.encryptCookieName("FE291934-66BD-4500-B27F-517C7D77F26B")
-
   private val encryptFields = getProperty("encryptFields", default = true)
-  
+
   private val encryptCookies = getProperty("encryptCookies", default = true)
 
   private val initializationVectorSizeInBytes = 128 / 8
@@ -27,7 +24,9 @@ object CryptoHelper {
   private val secretKey256Bit = applicationSecretKey256Bit.take(256 / 8)
   private val secretKey128Bit = applicationSecretKey256Bit.take(128 / 8)
 
-  private val initializationVector128Bit = applicationSecretKey256Bit.drop(128 / 8).take(128 / 8)
+  private def sessionSecretKeyCookieName(implicit cookieNameHashing: CookieNameHashing): String = {
+    cookieNameHashing.hash("FE291934-66BD-4500-B27F-517C7D77F26B")
+  }
 
   private def getSecureRandomBytes(numberOfBytes: Int): Array[Byte] = {
     val random = new SecureRandom()
@@ -37,8 +36,6 @@ object CryptoHelper {
   }
 
   private lazy val secretKeySpec = new SecretKeySpec(secretKey128Bit, "AES")
-
-//  private lazy val initializationVector = new IvParameterSpec(initializationVector128Bit)
 
   private def getConfig(key: String) = Play.maybeApplication.flatMap(_.configuration.getString(key))
   private lazy val provider: Option[String] = getConfig("application.crypto.provider")
@@ -64,15 +61,14 @@ object CryptoHelper {
 
   def decryptAES(cipherText: String, decryptFields: Boolean = encryptFields): String = if (decryptFields) decryptAESAsBase64(cipherText) else cipherText
   def encryptAES(clearText: String, encryptFields: Boolean = encryptFields) = if (encryptFields) encryptAESAsBase64(clearText) else clearText
-  def encryptCookieName(clearText: String, encryptCookies: Boolean = encryptCookies) = if (encryptCookies) sha1Hash(clearText) else clearText
   def newCookieNameSalt = if (encryptCookies) Hex.encodeHexString(CryptoHelper.getSecureRandomBytes(16)) else ""
 
-  def getSaltFromRequest(request: Request[_])(implicit encryption: CookieEncryption): Option[String] =
-    request.cookies.get(SaltKey).map { cookie =>
+  def getSaltFromRequest(request: Request[_])(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): Option[String] =
+    request.cookies.get(sessionSecretKeyCookieName).map { cookie =>
       encryption.decrypt(cookie.value)
     }
 
-  def ensureSaltInResult(result: SimpleResult)(implicit request: Request[_], encryption: CookieEncryption): (SimpleResult, String) =
+  def ensureSaltInResult(result: SimpleResult)(implicit request: Request[_], encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): (SimpleResult, String) =
     CryptoHelper.getSaltFromRequest(request) match {
       case Some(saltFromRequest) =>
         (result, saltFromRequest)
@@ -81,15 +77,12 @@ object CryptoHelper {
         if (newSalt.isEmpty)
           (result, newSalt)
         else {
-          val newSaltCookie = createCookie(name = SaltKey,
+          val newSaltCookie = createCookie(name = sessionSecretKeyCookieName,
             value = encryption.encrypt(newSalt))
           val resultWithSalt = result.withCookies(newSaltCookie)
           (resultWithSalt, newSalt)
         }
     }
-
-  private def sha1Hash(clearText: String): String =
-    Codecs.sha1(clearText)
 
   private def encryptAESAsBase64(clearText: String): String = {
     val initializationVectorBytes = getSecureRandomBytes(initializationVectorSizeInBytes)
