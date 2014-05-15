@@ -14,7 +14,7 @@ import play.api.libs.json.{JsValue, Json}
 import services.fakes.FakeResponse
 import services.fakes.FakeVehicleLookupWebService._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
-import utils.helpers.{CookieEncryption, NoEncryption}
+import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 class VehicleLookupFormSpec extends UnitSpec {
 
@@ -101,7 +101,8 @@ class VehicleLookupFormSpec extends UnitSpec {
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
     val noCookieEncryption = new NoEncryption with CookieEncryption
-    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)(noCookieEncryption)
+    val noCookieNameHashing = new NoHash with CookieNameHashing
+    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)(noCookieEncryption, noCookieNameHashing)
   }
 
   private def formWithValidDefaults(referenceNumber: String = referenceNumberValid,

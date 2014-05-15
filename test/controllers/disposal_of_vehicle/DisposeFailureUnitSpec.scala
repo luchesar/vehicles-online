@@ -4,7 +4,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
-import utils.helpers.{CookieEncryption, NoEncryption}
+import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 class DisposeFailureUnitSpec extends UnitSpec {
   "present" should {
@@ -15,7 +15,8 @@ class DisposeFailureUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeTransactionId())
       val noCookieEncryption = new NoEncryption with CookieEncryption
-      val result = new DisposeFailure()(noCookieEncryption).present(request)
+      val noCookieNameHashing = new NoHash with CookieNameHashing
+      val result = new DisposeFailure()(noCookieEncryption, noCookieNameHashing).present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
       }

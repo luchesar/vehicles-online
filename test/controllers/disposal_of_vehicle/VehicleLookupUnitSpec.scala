@@ -21,7 +21,7 @@ import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeWebServiceImpl._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import services.fakes.FakeAddressLookupService._
-import utils.helpers.{CookieEncryption, NoEncryption}
+import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -289,7 +289,8 @@ class VehicleLookupUnitSpec extends UnitSpec {
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
     val noCookieEncryption = new NoEncryption with CookieEncryption
-    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)(noCookieEncryption)
+    val noCookieNameHashing = new NoHash with CookieNameHashing
+    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)(noCookieEncryption, noCookieNameHashing)
   }
 
   private def vehicleLookupError() = {
@@ -299,7 +300,8 @@ class VehicleLookupUnitSpec extends UnitSpec {
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
     val noCookieEncryption = new NoEncryption with CookieEncryption
-    new disposal_of_vehicle.VehicleLookup( vehicleLookupServiceImpl)(noCookieEncryption)
+    val noCookieNameHashing = new NoHash with CookieNameHashing
+    new disposal_of_vehicle.VehicleLookup( vehicleLookupServiceImpl)(noCookieEncryption, noCookieNameHashing)
   }
 
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = referenceNumberValid,

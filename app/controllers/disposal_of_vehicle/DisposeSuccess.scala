@@ -7,9 +7,9 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import models.domain.disposal_of_vehicle.{DisposeFormModel, VehicleDetailsModel, TraderDetailsModel}
 import play.api.mvc._
-import utils.helpers.{CookieEncryption, CryptoHelper}
+import utils.helpers.{CookieNameHashing, CookieEncryption, CryptoHelper}
 
-class DisposeSuccess @Inject()()(implicit encryption: CookieEncryption) extends Controller {
+class DisposeSuccess @Inject()()(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing) extends Controller {
 
   def present = Action {
     implicit request =>
@@ -40,7 +40,7 @@ class DisposeSuccess @Inject()()(implicit encryption: CookieEncryption) extends 
       disposeFormTimestampIdCacheKey,
       disposeFormRegistrationNumberCacheKey,
       disposeModelCacheKey)
-    cookieNames.map(cookieName => DiscardingCookie(name = CryptoHelper.encryptCookieName(salt + cookieName)))
+    cookieNames.map(cookieName => DiscardingCookie(name = cookieNameHashing.hash(salt + cookieName)))
   }
 
   private def fetchData(dealerDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel, transactionId: Option[String], registrationNumber: String): DisposeViewModel = {

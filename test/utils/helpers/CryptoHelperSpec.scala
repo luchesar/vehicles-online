@@ -6,18 +6,6 @@ import play.api.test.WithApplication
 class CryptoHelperSpec extends WordSpec with Matchers {
   val clearText = "qwerty"
 
-  "encryptCookieName" should {
-    "return an encrypted string" in new WithApplication {
-      CryptoHelper.encryptCookieName(clearText, encryptCookies = true) should not equal clearText
-    }
-
-    "returns the same hash repeatedly" in new WithApplication {
-      val first = CryptoHelper.encryptCookieName(clearText, encryptCookies = true)
-      val second = CryptoHelper.encryptCookieName(clearText, encryptCookies = true)
-      first should equal(second)
-    }
-  }
-
   "encryptAES" should {
     "return an encrypted string" in new WithApplication {
       CryptoHelper.encryptAES(clearText, encryptFields = true) should not equal clearText

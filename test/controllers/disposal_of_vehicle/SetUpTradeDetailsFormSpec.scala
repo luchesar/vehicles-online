@@ -4,7 +4,7 @@ import helpers.UnitSpec
 import helpers.disposal_of_vehicle.Helper._
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import services.fakes.FakeAddressLookupService._
-import utils.helpers.{CookieEncryption, NoEncryption}
+import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 class SetUpTradeDetailsFormSpec extends UnitSpec {
 
@@ -76,7 +76,8 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
   private def formWithValidDefaults(traderBusinessName: String = traderBusinessNameValid,
                                     traderPostcode: String = postcodeValid) = {
     val noCookieEncryption = new NoEncryption with CookieEncryption
-    new SetUpTradeDetails()(noCookieEncryption).traderLookupForm.bind(
+    val noCookieNameHashing = new NoHash with CookieNameHashing
+    new SetUpTradeDetails()(noCookieEncryption, noCookieNameHashing).traderLookupForm.bind(
       Map(
         traderNameId -> traderBusinessName,
         traderPostcodeId -> traderPostcode

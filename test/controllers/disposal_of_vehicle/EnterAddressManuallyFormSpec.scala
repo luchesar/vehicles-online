@@ -5,7 +5,7 @@ import mappings.common.AddressAndPostcode._
 import mappings.common.AddressLines._
 import mappings.common.Postcode._
 import services.fakes.FakeAddressLookupService._
-import utils.helpers.{CookieEncryption, NoEncryption}
+import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 class EnterAddressManuallyFormSpec extends UnitSpec {
 
@@ -116,7 +116,8 @@ class EnterAddressManuallyFormSpec extends UnitSpec {
                                     line4: String = line4Valid,
                                     postcode: String = postcodeValid) = {
     val noCookieEncryption = new NoEncryption with CookieEncryption
-    new EnterAddressManually()(noCookieEncryption).form.bind(
+    val noCookieNameHashing = new NoHash with CookieNameHashing
+    new EnterAddressManually()(noCookieEncryption, noCookieNameHashing).form.bind(
       Map(
         s"$addressAndPostcodeId.$addressLinesId.$line1Id" -> line1,
         s"$addressAndPostcodeId.$addressLinesId.$line2Id" -> line2,

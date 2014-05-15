@@ -11,7 +11,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeAddressLookupService.traderBusinessNameValid
 import services.fakes.FakeWebServiceImpl
 import services.fakes.FakeWebServiceImpl._
-import utils.helpers.{CookieEncryption, NoEncryption}
+import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
@@ -122,7 +122,8 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     val fakeWebService = new FakeWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
     val noCookieEncryption = new NoEncryption with CookieEncryption
-    new BusinessChooseYourAddress(addressLookupService)(noCookieEncryption)
+    val noCookieNameHashing = new NoHash with CookieNameHashing
+    new BusinessChooseYourAddress(addressLookupService)(noCookieEncryption, noCookieNameHashing)
   }
 
   private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {

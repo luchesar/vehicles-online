@@ -7,10 +7,10 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import mappings.disposal_of_vehicle.TraderDetails._
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
-import utils.helpers.{CookieEncryption, CryptoHelper}
+import utils.helpers.{CookieNameHashing, CookieEncryption, CryptoHelper}
 import com.google.inject.Inject
 
-class BeforeYouStart @Inject()(implicit encryption: CookieEncryption) extends Controller {
+class BeforeYouStart @Inject()(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing) extends Controller {
 
   def present = Action { implicit request =>
 
@@ -32,7 +32,7 @@ class BeforeYouStart @Inject()(implicit encryption: CookieEncryption) extends Co
       disposeFormTimestampIdCacheKey,
       disposeFormRegistrationNumberCacheKey,
       disposeModelCacheKey)
-    cookieNames.map(cookieName => DiscardingCookie(name = CryptoHelper.encryptCookieName(salt + cookieName)))
+    cookieNames.map(cookieName => DiscardingCookie(name = cookieNameHashing.hash(salt + cookieName)))
   }
 
   def submit = Action { implicit request =>

@@ -4,7 +4,7 @@ import helpers.UnitSpec
 import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
-import utils.helpers.{CookieEncryption, NoEncryption}
+import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 class BeforeYouStartUnitSpec extends UnitSpec {
 
@@ -29,6 +29,7 @@ class BeforeYouStartUnitSpec extends UnitSpec {
 
   private def beforeYouStart = {
     val noCookieEncryption = new NoEncryption with CookieEncryption
-    new BeforeYouStart()(noCookieEncryption)
+    val noCookieNameHashing = new NoHash with CookieNameHashing
+    new BeforeYouStart()(noCookieEncryption, noCookieNameHashing)
   }
 }

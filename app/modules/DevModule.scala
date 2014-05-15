@@ -8,7 +8,7 @@ import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, 
 import services.dispose_service.{DisposeWebServiceImpl, DisposeWebService, DisposeServiceImpl, DisposeService}
 import services.{DateServiceImpl, DateService}
 import services.session.{PlaySessionState, SessionState}
-import utils.helpers.{FieldEncryption, AesEncryption, NoEncryption, CookieEncryption}
+import utils.helpers._
 
 /**
  * Provides real implementations of traits
@@ -36,10 +36,13 @@ object DevModule extends ScalaModule {
     bind[SessionState].to[PlaySessionState].asEagerSingleton()
 
     val encryptCookies = getProperty("encryptCookies", default = true)
-    if (encryptCookies)
+    if (encryptCookies) {
       bind[CookieEncryption].toInstance(new AesEncryption with CookieEncryption)
-    else
+      bind[CookieNameHashing].toInstance(new Sha1Hash with CookieNameHashing)
+    } else {
       bind[CookieEncryption].toInstance(new NoEncryption with CookieEncryption)
+      bind[CookieNameHashing].toInstance(new NoHash with CookieNameHashing)
+    }
 
     val encryptFields = getProperty("encryptFields", default = true)
     if (encryptFields)

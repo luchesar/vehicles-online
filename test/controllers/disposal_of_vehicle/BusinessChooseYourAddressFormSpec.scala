@@ -4,7 +4,7 @@ import helpers.UnitSpec
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import services.fakes.FakeWebServiceImpl
 import services.fakes.FakeWebServiceImpl._
-import utils.helpers.{CookieEncryption, NoEncryption}
+import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 class BusinessChooseYourAddressFormSpec extends UnitSpec {
   "form" should {
@@ -28,7 +28,8 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
     val fakeWebService = new FakeWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
     val noCookieEncryption = new NoEncryption with CookieEncryption
-    new BusinessChooseYourAddress( addressLookupService)(noCookieEncryption)
+    val noCookieNameHashing = new NoHash with CookieNameHashing
+    new BusinessChooseYourAddress( addressLookupService)(noCookieEncryption, noCookieNameHashing)
   }
 
   private def formWithValidDefaults(addressSelected: String = traderUprnValid.toString) = {

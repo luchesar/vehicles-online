@@ -17,7 +17,7 @@ import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeResponse
 import services.{DateService, DateServiceImpl}
-import utils.helpers.{CookieEncryption, NoEncryption}
+import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 class DisposeFormSpec extends UnitSpec {
 
@@ -144,7 +144,8 @@ class DisposeFormSpec extends UnitSpec {
     })
     val disposeServiceImpl = new DisposeServiceImpl(ws)
     val noCookieEncryption = new NoEncryption with CookieEncryption
-    new disposal_of_vehicle.Dispose( disposeServiceImpl, dateService)(noCookieEncryption)
+    val noCookieNameHashing = new NoHash with CookieNameHashing
+    new disposal_of_vehicle.Dispose( disposeServiceImpl, dateService)(noCookieEncryption, noCookieNameHashing)
   }
 
   private def formWithValidDefaults(mileage: String = mileageValid,

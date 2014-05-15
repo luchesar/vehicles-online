@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets
 import org.apache.commons.codec.binary.Base64
 import java.security.SecureRandom
 import play.api.Play
+import play.api.libs.Codecs
 
 trait Encryption {
   def decrypt(cipherText: String): String
@@ -16,6 +17,19 @@ trait CookieEncryption extends Encryption
 
 trait FieldEncryption extends Encryption
 
+trait Hashing {
+  def hash(clearText: String): String
+}
+
+trait CookieNameHashing extends Hashing
+
+class Sha1Hash extends Hashing {
+  override def hash(clearText: String): String = Codecs.sha1(clearText)
+}
+
+class NoHash extends Hashing {
+  override def hash(clearText: String): String = clearText
+}
 class AesEncryption extends Encryption {
   // TODO decide which strength of AES encryption to use
   // in order to use AES 256 bit (uses a 32 byte key (32 * 8 = 256 bit)) you must install the unlimited strength policy jar
@@ -76,7 +90,7 @@ class AesEncryption extends Encryption {
 }
 
 class NoEncryption extends Encryption {
-  override def decrypt(cipherText: String): String = cipherText
+  override def decrypt(clearText: String): String = clearText
 
   override def encrypt(clearText: String): String = clearText
 }

@@ -19,7 +19,7 @@ import services.DateServiceImpl
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import play.api.mvc.Cookies
-import utils.helpers.{CookieEncryption, NoEncryption}
+import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 class DisposeUnitSpec extends UnitSpec {
   val emptySpace = " "
@@ -146,7 +146,8 @@ class DisposeUnitSpec extends UnitSpec {
       val mockWebServiceThrows = mock[DisposeService]
       when(mockWebServiceThrows.invoke(any[DisposeRequest])).thenReturn(Future.failed(new RuntimeException))
       val noCookieEncryption = new NoEncryption with CookieEncryption
-      val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateServiceStubbed())(noCookieEncryption)
+      val noCookieNameHashing = new NoHash with CookieNameHashing
+      val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateServiceStubbed())(noCookieEncryption, noCookieNameHashing)
       val result = dispose.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
@@ -260,6 +261,7 @@ class DisposeUnitSpec extends UnitSpec {
     })
     val disposeServiceImpl = new DisposeServiceImpl(ws)
     val noCookieEncryption = new NoEncryption with CookieEncryption
-    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())(noCookieEncryption)
+    val noCookieNameHashing = new NoHash with CookieNameHashing
+    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())(noCookieEncryption, noCookieNameHashing)
   }
 }

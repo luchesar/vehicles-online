@@ -38,7 +38,7 @@ object CryptoHelper {
 
   private lazy val secretKeySpec = new SecretKeySpec(secretKey128Bit, "AES")
 
-  private lazy val initializationVector = new IvParameterSpec(initializationVector128Bit)
+//  private lazy val initializationVector = new IvParameterSpec(initializationVector128Bit)
 
   private def getConfig(key: String) = Play.maybeApplication.flatMap(_.configuration.getString(key))
   private lazy val provider: Option[String] = getConfig("application.crypto.provider")

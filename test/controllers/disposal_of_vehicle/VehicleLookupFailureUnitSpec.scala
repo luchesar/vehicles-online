@@ -5,7 +5,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
-import utils.helpers.{CookieEncryption, NoEncryption}
+import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 class VehicleLookupFailureUnitSpec extends UnitSpec {
 
@@ -67,7 +67,8 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
   
   private def vehicleLookupFailure() = {
     val noCookieEncryption = new NoEncryption with CookieEncryption
-    new VehicleLookupFailure()(noCookieEncryption)
+    val noCookieNameHashing = new NoHash with CookieNameHashing
+    new VehicleLookupFailure()(noCookieEncryption, noCookieNameHashing)
   }
 
 
