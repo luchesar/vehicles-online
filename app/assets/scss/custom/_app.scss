@@ -64,11 +64,15 @@
  	// styles two column information items
  	.summary-detail-list {
 		margin:2.3rem 0 2rem 0;
-		padding:0;
+		padding:1rem;
+		background:$grey-3;
+
+
 		@include clearfix;
 		dt, dd {
 			@include copy-19;
-			margin-bottom:1.2rem;
+			margin-bottom:0;
+
 			.ie & {
 				font-size:17px;
 			}
@@ -76,7 +80,7 @@
 		dt {
 			float:left;
 			width:190px;
-			font-weight: bold;
+			font-weight:bold;
 			clear:left;
 			
 			@media screen and (max-width: $device-small) {
@@ -92,6 +96,19 @@
 			}
 		}
 	}
+
+	// trader details/select trade address - two column information items
+	.TraderDetails .summary-detail-list {
+		@media screen and (min-width:$device-medium) {
+			max-width:500px;	
+		}
+		@media screen and (min-width:$device-large) {
+			max-width:55%;
+		}
+	}
+
+	
+
 	
 	// add out of scope watermark
 	.out-of-scope {
