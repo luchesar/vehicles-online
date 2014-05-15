@@ -100,15 +100,12 @@
 	// trader details/select trade address - two column information items
 	.TraderDetails .summary-detail-list {
 		@media screen and (min-width:$device-medium) {
-			max-width:500px;	
+			max-width:500px;
 		}
 		@media screen and (min-width:$device-large) {
 			max-width:55%;
 		}
 	}
-
-	
-
 	
 	// add out of scope watermark
 	.out-of-scope {
