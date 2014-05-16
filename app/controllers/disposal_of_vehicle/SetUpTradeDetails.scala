@@ -5,12 +5,14 @@ import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import mappings.disposal_of_vehicle.SetupTradeDetails._
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
+import common.EncryptedCookieImplicits
+import EncryptedCookieImplicits.SimpleResultAdapter
 import mappings.common.Postcode._
 import utils.helpers.FormExtensions._
 import com.google.inject.Inject
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.FormAdapter
+import EncryptedCookieImplicits.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
+import common.EncryptedCookieImplicits
 
 class SetUpTradeDetails @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 

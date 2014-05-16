@@ -1,47 +1,16 @@
-package controllers.disposal_of_vehicle
+package common
 
-import play.api.libs.json.{Writes, Reads, JsPath, Json}
+import play.api.libs.json.{Writes, Reads, Json}
 import play.api.mvc._
 import utils.helpers.{CookieNameHashing, CookieEncryption, CryptoHelper}
 import play.api.data.Form
 import models.domain.common.CacheKey
 import scala.Some
-import play.api.data.validation.ValidationError
-import play.api.mvc.SimpleResult
-import mappings.disposal_of_vehicle.SetupTradeDetails._
-import models.domain.common.CacheKey
-import scala.Some
-import play.api.data.validation.ValidationError
-import play.api.mvc.SimpleResult
-import play.api.mvc.DiscardingCookie
-import mappings.disposal_of_vehicle.TraderDetails._
-import models.domain.common.CacheKey
-import scala.Some
-import play.api.data.validation.ValidationError
-import play.api.mvc.SimpleResult
-import play.api.mvc.DiscardingCookie
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
-import models.domain.common.CacheKey
-import scala.Some
-import play.api.data.validation.ValidationError
-import play.api.mvc.SimpleResult
-import play.api.mvc.DiscardingCookie
-import mappings.disposal_of_vehicle.VehicleLookup._
-import models.domain.common.CacheKey
-import scala.Some
-import play.api.data.validation.ValidationError
-import play.api.mvc.SimpleResult
-import play.api.mvc.DiscardingCookie
-import mappings.disposal_of_vehicle.Dispose._
-import models.domain.common.CacheKey
-import scala.Some
-import play.api.data.validation.ValidationError
 import play.api.mvc.SimpleResult
 import play.api.mvc.DiscardingCookie
 
-case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) extends Exception
 
-object DisposalOfVehicleSessionState {
+object EncryptedCookieImplicits {
 
   implicit class RequestAdapter[A](val request: Request[A]) extends AnyVal {
     def getEncryptedCookie[B](implicit fjs: Reads[B], cacheKey: CacheKey[B], encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): Option[B] = {

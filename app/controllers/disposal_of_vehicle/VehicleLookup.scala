@@ -17,10 +17,12 @@ import utils.helpers.FormExtensions._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import play.api.data.FormError
 import play.api.mvc.SimpleResult
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.FormAdapter
+import common.EncryptedCookieImplicits
+import EncryptedCookieImplicits.RequestAdapter
+import EncryptedCookieImplicits.SimpleResultAdapter
+import EncryptedCookieImplicits.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
+import common.EncryptedCookieImplicits
 
 class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 

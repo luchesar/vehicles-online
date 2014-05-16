@@ -12,9 +12,11 @@ import javax.inject.Inject
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 import services.address_lookup.AddressLookupService
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
+import common.EncryptedCookieImplicits
+import EncryptedCookieImplicits.RequestAdapter
+import EncryptedCookieImplicits.SimpleResultAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
+import common.EncryptedCookieImplicits
 
 class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 

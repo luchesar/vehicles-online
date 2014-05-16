@@ -4,8 +4,10 @@ import play.api.mvc._
 import play.api.Logger
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 import com.google.inject.Inject
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
+import common.EncryptedCookieImplicits
+import EncryptedCookieImplicits.SimpleResultAdapter
 import mappings.disposal_of_vehicle.RelatedCacheKeys
+import common.EncryptedCookieImplicits
 
 class BeforeYouStart @Inject()(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing) extends Controller {
 

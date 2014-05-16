@@ -1,15 +1,16 @@
 package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
+import common.EncryptedCookieImplicits
+import EncryptedCookieImplicits.RequestAdapter
 import mappings.disposal_of_vehicle.Dispose._
-import mappings.disposal_of_vehicle.VehicleLookup._
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import models.domain.disposal_of_vehicle.{DisposeFormModel, VehicleDetailsModel, TraderDetailsModel}
 import play.api.mvc._
-import utils.helpers.{CookieNameHashing, CookieEncryption, CryptoHelper}
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
+import utils.helpers.{CookieNameHashing, CookieEncryption}
+import EncryptedCookieImplicits.SimpleResultAdapter
 import mappings.disposal_of_vehicle.RelatedCacheKeys
+import common.EncryptedCookieImplicits
 
 class DisposeSuccess @Inject()()(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing) extends Controller {
 

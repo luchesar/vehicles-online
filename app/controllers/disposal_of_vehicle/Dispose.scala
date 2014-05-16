@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import _root_.common.EncryptedCookieImplicits
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
@@ -27,9 +28,9 @@ import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import mappings.disposal_of_vehicle.Dispose.dateOfDisposalYearsIntoThePast
 import scala.language.postfixOps
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.FormAdapter
+import EncryptedCookieImplicits.RequestAdapter
+import EncryptedCookieImplicits.SimpleResultAdapter
+import EncryptedCookieImplicits.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 
 class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {

@@ -1,0 +1,6 @@
+package common
+
+import play.api.libs.json.JsPath
+import play.api.data.validation.ValidationError
+
+case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) extends Exception

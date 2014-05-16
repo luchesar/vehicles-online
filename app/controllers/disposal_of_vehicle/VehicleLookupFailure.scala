@@ -5,8 +5,10 @@ import play.api.mvc._
 import com.google.inject.Inject
 import models.domain.disposal_of_vehicle.{TraderDetailsModel, VehicleLookupFormModel}
 import mappings.disposal_of_vehicle.VehicleLookup._
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
+import common.EncryptedCookieImplicits
+import EncryptedCookieImplicits.RequestAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
+import common.EncryptedCookieImplicits
 
 class VehicleLookupFailure @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
