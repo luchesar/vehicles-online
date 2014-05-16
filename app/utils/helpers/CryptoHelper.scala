@@ -28,7 +28,8 @@ object CryptoHelper {
       encryption.decrypt(cookie.value)
     }
 
-  def ensureSessionSecretKeyInResult(result: SimpleResult)(implicit request: Request[_], encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): (SimpleResult, String) =
+  def ensureSessionSecretKeyInResult(result: SimpleResult)(implicit request: Request[_], encryption: CookieEncryption,
+                                                           cookieNameHashing: CookieNameHashing): (SimpleResult, String) =
     CryptoHelper.getSessionSecretKeyFromRequest(request) match {
       case Some(saltFromRequest) =>
         (result, saltFromRequest)

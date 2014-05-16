@@ -28,11 +28,12 @@ class Sha1Hash extends Hashing {
 class NoHash extends Hashing {
   override def hash(clearText: String): String = clearText
 }
+
 class AesEncryption extends Encryption {
   // TODO decide which strength of AES encryption to use
   // in order to use AES 256 bit (uses a 32 byte key (32 * 8 = 256 bit)) you must install the unlimited strength policy jar
   // files into the jre at the moment we are using AES 128 bit (uses a 16 byte key (16 * 8 = 128 bit))
-  private val secretKey256Bit = applicationSecretKey256Bit.take(256 / 8)
+//  private val secretKey256Bit = applicationSecretKey256Bit.take(256 / 8)
   private val secretKey128Bit = applicationSecretKey256Bit.take(128 / 8)
 
   private lazy val applicationSecretKey256Bit: Array[Byte] = {
