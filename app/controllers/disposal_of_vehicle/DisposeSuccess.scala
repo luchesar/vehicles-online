@@ -8,6 +8,8 @@ import models.domain.disposal_of_vehicle.DisposeViewModel
 import models.domain.disposal_of_vehicle.{DisposeFormModel, VehicleDetailsModel, TraderDetailsModel}
 import play.api.mvc._
 import utils.helpers.{CookieNameHashing, CookieEncryption, CryptoHelper}
+import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
+import mappings.disposal_of_vehicle.RelatedCacheKeys
 
 class DisposeSuccess @Inject()()(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing) extends Controller {
 
@@ -25,22 +27,9 @@ class DisposeSuccess @Inject()()(implicit encryption: CookieEncryption, cookieNa
     implicit request =>
       (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[DisposeFormModel], request.getEncryptedCookie[VehicleDetailsModel]) match {
         case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present()).
-          discardingCookies(getCookiesToDiscard: _*)
+          discardingEncryptedCookies(RelatedCacheKeys.DisposeSet)
         case _ => Redirect(routes.SetUpTradeDetails.present())
       }
-  }
-
-  private def getCookiesToDiscard(implicit request: Request[_]): Seq[DiscardingCookie] = {
-    val salt = CryptoHelper.getSessionSecretKeyFromRequest(request).getOrElse("")
-    val cookieNames = Seq(vehicleLookupDetailsCacheKey,
-      vehicleLookupResponseCodeCacheKey,
-      vehicleLookupFormModelCacheKey,
-      disposeFormModelCacheKey,
-      disposeFormTransactionIdCacheKey,
-      disposeFormTimestampIdCacheKey,
-      disposeFormRegistrationNumberCacheKey,
-      disposeModelCacheKey)
-    cookieNames.map(cookieName => DiscardingCookie(name = cookieNameHashing.hash(salt + cookieName)))
   }
 
   private def fetchData(dealerDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel, transactionId: Option[String], registrationNumber: String): DisposeViewModel = {

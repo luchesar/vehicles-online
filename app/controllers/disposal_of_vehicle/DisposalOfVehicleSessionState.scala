@@ -8,6 +8,36 @@ import models.domain.common.CacheKey
 import scala.Some
 import play.api.data.validation.ValidationError
 import play.api.mvc.SimpleResult
+import mappings.disposal_of_vehicle.SetupTradeDetails._
+import models.domain.common.CacheKey
+import scala.Some
+import play.api.data.validation.ValidationError
+import play.api.mvc.SimpleResult
+import play.api.mvc.DiscardingCookie
+import mappings.disposal_of_vehicle.TraderDetails._
+import models.domain.common.CacheKey
+import scala.Some
+import play.api.data.validation.ValidationError
+import play.api.mvc.SimpleResult
+import play.api.mvc.DiscardingCookie
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
+import models.domain.common.CacheKey
+import scala.Some
+import play.api.data.validation.ValidationError
+import play.api.mvc.SimpleResult
+import play.api.mvc.DiscardingCookie
+import mappings.disposal_of_vehicle.VehicleLookup._
+import models.domain.common.CacheKey
+import scala.Some
+import play.api.data.validation.ValidationError
+import play.api.mvc.SimpleResult
+import play.api.mvc.DiscardingCookie
+import mappings.disposal_of_vehicle.Dispose._
+import models.domain.common.CacheKey
+import scala.Some
+import play.api.data.validation.ValidationError
+import play.api.mvc.SimpleResult
+import play.api.mvc.DiscardingCookie
 
 case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) extends Exception
 
@@ -54,6 +84,13 @@ object DisposalOfVehicleSessionState {
         .map(CryptoHelper.ensureSessionSecretKeyInResult)
         .map(withModel)
         .get
+    }
+
+    def discardingEncryptedCookies(keys: Seq[String])(implicit request: Request[_], encryption: CookieEncryption,
+                                                      cookieNameHashing: CookieNameHashing): SimpleResult = {
+      val salt = CryptoHelper.getSessionSecretKeyFromRequest(request).getOrElse("")
+      val cookiesToDiscard = keys.map(cookieName => DiscardingCookie(name = cookieNameHashing.hash(salt + cookieName)))
+      inner.discardingCookies(cookiesToDiscard: _*)
     }
 
     def withEncryptedCookie(key: String, value: String)(implicit request: Request[_], encryption: CookieEncryption,
