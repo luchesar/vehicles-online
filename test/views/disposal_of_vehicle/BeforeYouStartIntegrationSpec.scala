@@ -41,7 +41,7 @@ class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness  {
       go to BeforeYouStartPage
 
       // Verify the cookies identified by the full set of cache keys have been removed
-      RelatedCacheKeys.FullSet.map(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) == null))
+      RelatedCacheKeys.FullSet.foreach(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) == null))
     }
   }
 }
