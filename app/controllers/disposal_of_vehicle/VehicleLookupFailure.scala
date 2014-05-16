@@ -31,7 +31,7 @@ class VehicleLookupFailure @Inject()()(implicit encryption: CookieEncryption, ha
   private def displayVehicleLookupFailure(vehicleLookUpFormModelDetails: VehicleLookupFormModel)(implicit request: Request[AnyContent]) = {
     val responseCodeErrorMessage = encodeResponseCodeErrorMessage
     Ok(views.html.disposal_of_vehicle.vehicle_lookup_failure(vehicleLookUpFormModelDetails, responseCodeErrorMessage)).
-      discardingCookies(DiscardingCookie(name = vehicleLookupResponseCodeCacheKey)) // TODO [SKW] please someone write a test for this and make sure it only removes this cookie and no other cookies.
+      discardingCookies(DiscardingCookie(name = vehicleLookupResponseCodeCacheKey))
   }
 
   private def encodeResponseCodeErrorMessage(implicit request: Request[AnyContent]): String =
