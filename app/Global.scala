@@ -1,14 +1,15 @@
 import com.google.inject.Guice
-import java.io.File
 import com.typesafe.config.ConfigFactory
+import java.io.File
 import java.util.UUID
 import modules.{DevModule, TestModule}
 import play.api._
 import play.api.Configuration
 import play.api.mvc._
 import play.api.mvc.Results._
-import scala.concurrent.{ExecutionContext, Future}
 import play.api.Play.current
+import play.filters.gzip._
+import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 
 /**
@@ -26,7 +27,7 @@ import ExecutionContext.Implicits.global
  * play -Dconfig.file=conf/application.test.conf run
  */
 
-object Global extends GlobalSettings {
+object Global extends WithFilters(new GzipFilter()) with GlobalSettings {
   // Play.isTest will evaluate to true when you run "play test" from the command line
   // If play is being run to execute the tests then use the TestModule to provide fake
   // implementations of traits otherwise use the DevModule to provide the real ones
