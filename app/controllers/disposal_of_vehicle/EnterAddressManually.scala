@@ -13,7 +13,6 @@ import EncryptedCookieImplicits.RequestAdapter
 import EncryptedCookieImplicits.SimpleResultAdapter
 import EncryptedCookieImplicits.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
-import common.EncryptedCookieImplicits
 
 class EnterAddressManually @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 

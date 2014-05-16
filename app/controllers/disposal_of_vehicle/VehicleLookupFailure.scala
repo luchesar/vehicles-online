@@ -8,10 +8,8 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 import common.EncryptedCookieImplicits
 import EncryptedCookieImplicits.RequestAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
-import common.EncryptedCookieImplicits
 
 class VehicleLookupFailure @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
-
 
   def present = Action { implicit request =>
     (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[VehicleLookupFormModel]) match {

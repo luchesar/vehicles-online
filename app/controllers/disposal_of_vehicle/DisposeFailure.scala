@@ -9,7 +9,6 @@ import EncryptedCookieImplicits.RequestAdapter
 import mappings.disposal_of_vehicle.Dispose._
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import utils.helpers.{CookieNameHashing, CookieEncryption}
-import common.EncryptedCookieImplicits
 
 class DisposeFailure @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 

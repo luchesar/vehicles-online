@@ -7,7 +7,6 @@ import com.google.inject.Inject
 import common.EncryptedCookieImplicits
 import EncryptedCookieImplicits.SimpleResultAdapter
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import common.EncryptedCookieImplicits
 
 class BeforeYouStart @Inject()(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing) extends Controller {
 

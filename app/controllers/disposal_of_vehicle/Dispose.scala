@@ -1,6 +1,6 @@
 package controllers.disposal_of_vehicle
 
-import _root_.common.EncryptedCookieImplicits
+import common.EncryptedCookieImplicits
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger

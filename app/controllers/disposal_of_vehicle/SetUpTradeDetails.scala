@@ -12,7 +12,6 @@ import utils.helpers.FormExtensions._
 import com.google.inject.Inject
 import EncryptedCookieImplicits.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
-import common.EncryptedCookieImplicits
 
 class SetUpTradeDetails @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 

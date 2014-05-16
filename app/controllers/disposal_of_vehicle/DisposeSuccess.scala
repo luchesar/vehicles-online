@@ -10,7 +10,6 @@ import play.api.mvc._
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 import EncryptedCookieImplicits.SimpleResultAdapter
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import common.EncryptedCookieImplicits
 
 class DisposeSuccess @Inject()()(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing) extends Controller {
 

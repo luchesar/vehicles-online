@@ -9,7 +9,6 @@ import scala.Some
 import play.api.mvc.SimpleResult
 import play.api.mvc.DiscardingCookie
 
-
 object EncryptedCookieImplicits {
 
   implicit class RequestAdapter[A](val request: Request[A]) extends AnyVal {
@@ -87,6 +86,5 @@ object EncryptedCookieImplicits {
         case _ => f // No cookie found so return a blank form.
       }
   }
-
 
 }
