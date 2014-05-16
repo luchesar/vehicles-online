@@ -49,11 +49,11 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
 
   def present = Action {
     implicit request => {
-      request.getCookie[TraderDetailsModel] match {
+      request.getEncryptedCookie[TraderDetailsModel] match {
         case (Some(dealerDetails)) =>
           Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
-          request.getCookie[VehicleDetailsModel] match {
+          request.getEncryptedCookie[VehicleDetailsModel] match {
             case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm.fill(), yearsDropdown))
             case _ => Redirect(routes.VehicleLookup.present())
           }
@@ -68,7 +68,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
       disposeForm.bindFromRequest.fold(
         formWithErrors =>
           Future {
-            (request.getCookie[TraderDetailsModel], request.getCookie[VehicleDetailsModel]) match {
+            (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[VehicleDetailsModel]) match {
               case (Some(dealerDetails), Some(vehicleDetails)) =>
                 val disposeViewModel = populateModelFromCachedData(dealerDetails, vehicleDetails)
                 // When the user doesn't select a value from the drop-down then the mapping will fail to match on an Int before
@@ -120,8 +120,8 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
         case (httpResponseCode, response) => Logger.debug(s"Dispose micro-service call successful - response = $response")
 
          Some(Redirect(nextPage(httpResponseCode, response))).
-            map(_.withCookie(disposeModel)).
-            map(_.withCookie(disposeFormModel)).
+            map(_.withEncryptedCookie(disposeModel)).
+            map(_.withEncryptedCookie(disposeFormModel)).
             map(storeResponseInCache(response, _)).
             map(transactionTimestamp).
             get
@@ -135,9 +135,9 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
     def storeResponseInCache(response: Option[DisposeResponse], nextPage: SimpleResult): SimpleResult = {
       response match {
         case Some(o) =>
-          val nextPageWithTransactionId = if (o.transactionId != "") nextPage.withCookie(disposeFormTransactionIdCacheKey, o.transactionId)
+          val nextPageWithTransactionId = if (o.transactionId != "") nextPage.withEncryptedCookie(disposeFormTransactionIdCacheKey, o.transactionId)
             else nextPage
-          if (o.registrationNumber != "") nextPageWithTransactionId.withCookie(disposeFormRegistrationNumberCacheKey, o.registrationNumber)
+          if (o.registrationNumber != "") nextPageWithTransactionId.withEncryptedCookie(disposeFormRegistrationNumberCacheKey, o.registrationNumber)
             else nextPageWithTransactionId
         case None => nextPage
       }
@@ -147,7 +147,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
       val transactionTimestamp = dateService.today.toDateTime.get
       val formatter = ISODateTimeFormat.dateTime()
       val isoDateTimeString = formatter.print(transactionTimestamp)
-      nextPage.withCookie(disposeFormTimestampIdCacheKey, isoDateTimeString)
+      nextPage.withEncryptedCookie(disposeFormTimestampIdCacheKey, isoDateTimeString)
     }
 
     def buildDisposeMicroServiceRequest(disposeModel: DisposeModel): DisposeRequest = {
@@ -192,7 +192,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
       }
     }
 
-    request.getCookie[VehicleLookupFormModel] match {
+    request.getEncryptedCookie[VehicleLookupFormModel] match {
       case Some(vehicleLookupFormModel) =>
         val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,
           registrationNumber = vehicleLookupFormModel.registrationNumber,

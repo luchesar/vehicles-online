@@ -14,7 +14,7 @@ case class JsonValidationException(errors: Seq[(JsPath, Seq[ValidationError])]) 
 object DisposalOfVehicleSessionState {
 
   implicit class RequestAdapter[A](val request: Request[A]) extends AnyVal {
-    def getCookie[B](implicit fjs: Reads[B], cacheKey: CacheKey[B], encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): Option[B] = {
+    def getEncryptedCookie[B](implicit fjs: Reads[B], cacheKey: CacheKey[B], encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): Option[B] = {
       val salt = CryptoHelper.getSessionSecretKeyFromRequest(request).getOrElse("")
       request.cookies.get(cookieNameHashing.hash(salt + cacheKey.value)).map { cookie =>
         val decrypted = encryption.decrypt(cookie.value)
@@ -37,7 +37,7 @@ object DisposalOfVehicleSessionState {
 
   implicit class SimpleResultAdapter(val inner: SimpleResult) extends AnyVal {
 
-    def withCookie[A](model: A)(implicit tjs: Writes[A], cacheKey: CacheKey[A], request: Request[_],
+    def withEncryptedCookie[A](model: A)(implicit tjs: Writes[A], cacheKey: CacheKey[A], request: Request[_],
                                 encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): SimpleResult = {
 
       def withModel(resultWithSalt: (SimpleResult, String)): SimpleResult = {
@@ -56,7 +56,7 @@ object DisposalOfVehicleSessionState {
         .get
     }
 
-    def withCookie(key: String, value: String)(implicit request: Request[_], encryption: CookieEncryption,
+    def withEncryptedCookie(key: String, value: String)(implicit request: Request[_], encryption: CookieEncryption,
                                                cookieNameHashing: CookieNameHashing): SimpleResult = {
 
       def withKeyValuePair(resultWithSalt: (SimpleResult, String)): SimpleResult = {
@@ -76,7 +76,7 @@ object DisposalOfVehicleSessionState {
 
   implicit class FormAdapter[A](val f: Form[A]) extends AnyVal {
     def fill()(implicit request: Request[_], fjs: Reads[A], cacheKey: CacheKey[A], encryption: CookieEncryption, hashing: CookieNameHashing): Form[A] =
-      request.getCookie[A] match {
+      request.getEncryptedCookie[A] match {
         case Some(v) => f.fill(v) // Found cookie so fill the form with the cached data.
         case _ => f // No cookie found so return a blank form.
       }

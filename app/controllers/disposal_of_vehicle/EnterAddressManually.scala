@@ -23,7 +23,7 @@ class EnterAddressManually @Inject()()(implicit encryption: CookieEncryption, ha
 
   def present = Action {
     implicit request =>
-      request.getCookie[SetupTradeDetailsModel] match {
+      request.getEncryptedCookie[SetupTradeDetailsModel] match {
         case Some(_) => Ok(views.html.disposal_of_vehicle.enter_address_manually(form.fill()))
         case None => Redirect(routes.SetUpTradeDetails.present())
       }
@@ -33,7 +33,7 @@ class EnterAddressManually @Inject()()(implicit encryption: CookieEncryption, ha
     implicit request => {
       form.bindFromRequest.fold(
         formWithErrors =>
-          request.getCookie[SetupTradeDetailsModel] match {
+          request.getEncryptedCookie[SetupTradeDetailsModel] match {
             case Some(_) =>
               val updatedFormWithErrors = formWithErrors.replaceError("addressAndPostcode.addressLines.line1", "error.required", FormError("addressAndPostcode.addressLines", "error.address.line1Required"))
               BadRequest(views.html.disposal_of_vehicle.enter_address_manually(updatedFormWithErrors))
@@ -42,12 +42,12 @@ class EnterAddressManually @Inject()()(implicit encryption: CookieEncryption, ha
               Redirect(routes.SetUpTradeDetails.present())
           },
         f =>
-          request.getCookie[SetupTradeDetailsModel].map(_.traderBusinessName) match {
+          request.getEncryptedCookie[SetupTradeDetailsModel].map(_.traderBusinessName) match {
           case Some(name) =>
             val dealerAddress = AddressViewModel.from(f.stripCharsNotAccepted.addressAndPostcodeModel)
             val dealerDetailsModel = TraderDetailsModel(traderName = name, traderAddress = dealerAddress)
 
-            Redirect(routes.VehicleLookup.present()).withCookie(dealerDetailsModel)
+            Redirect(routes.VehicleLookup.present()).withEncryptedCookie(dealerDetailsModel)
           case None =>
             Logger.debug("failed to find dealer name in cache on submit, redirecting...")
             Redirect(routes.SetUpTradeDetails.present())

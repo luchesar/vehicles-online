@@ -36,7 +36,7 @@ class SetUpTradeDetails @Inject()()(implicit encryption: CookieEncryption, hashi
             distinctErrors
           BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors))
         },
-        f => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(f)
+        f => Redirect(routes.BusinessChooseYourAddress.present()).withEncryptedCookie(f)
       )
   }
 }

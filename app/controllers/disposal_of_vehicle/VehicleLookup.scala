@@ -33,7 +33,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encrypt
 
   def present = Action {
     implicit request =>
-       request.getCookie[TraderDetailsModel] match {
+       request.getEncryptedCookie[TraderDetailsModel] match {
         case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm.fill()))
         case None => Redirect(routes.SetUpTradeDetails.present())
       }
@@ -44,7 +44,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encrypt
       vehicleLookupForm.bindFromRequest.fold(
         formWithErrors =>
           Future {
-            request.getCookie[TraderDetailsModel] match {
+            request.getEncryptedCookie[TraderDetailsModel] match {
               case Some(dealerDetails) => val formWithReplacedErrors = formWithErrors.
                   replaceError(registrationNumberId, FormError(key = registrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
                   replaceError(referenceNumberId, FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
@@ -62,7 +62,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encrypt
 
   def back = Action {
     implicit request =>
-      request.getCookie[TraderDetailsModel] match {
+      request.getEncryptedCookie[TraderDetailsModel] match {
         case Some(dealerDetails) =>
           if (dealerDetails.traderAddress.uprn.isDefined) Redirect(routes.BusinessChooseYourAddress.present())
           else Redirect(routes.EnterAddressManually.present())
@@ -75,7 +75,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encrypt
       case (responseStatus: Int, response: Option[VehicleDetailsResponse]) =>
         Logger.debug(s"VehicleLookup Web service call successful - response = $response")
         checkResponseConstruction(responseStatus, response).
-          withCookie(model)
+          withEncryptedCookie(model)
     }.recover {
       case exception: Throwable => throwToMicroServiceError(exception)
     }
@@ -99,7 +99,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encrypt
     response.responseCode match {
       case Some(responseCode) =>
         Redirect(routes.VehicleLookupFailure.present()).
-          withCookie(key = vehicleLookupResponseCodeCacheKey, value = responseCode) // TODO [SKW] I don't see a controller spec for testing that the correct value was written to the cache. Write one.
+          withEncryptedCookie(key = vehicleLookupResponseCodeCacheKey, value = responseCode) // TODO [SKW] I don't see a controller spec for testing that the correct value was written to the cache. Write one.
       case None => noResponseCodePresent(response.vehicleDetailsDto)
     }
   }
@@ -108,7 +108,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encrypt
     vehicleDetailsDto match {
       case Some(dto) =>
         Redirect(routes.Dispose.present()).
-          withCookie(VehicleDetailsModel.fromDto(dto))
+          withEncryptedCookie(VehicleDetailsModel.fromDto(dto))
       case None => Redirect(routes.MicroServiceError.present())
     }
   }

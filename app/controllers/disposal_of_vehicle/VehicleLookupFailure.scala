@@ -12,7 +12,7 @@ class VehicleLookupFailure @Inject()()(implicit encryption: CookieEncryption, ha
 
 
   def present = Action { implicit request =>
-    (request.getCookie[TraderDetailsModel], request.getCookie[VehicleLookupFormModel]) match {
+    (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[VehicleLookupFormModel]) match {
       case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) =>
         displayVehicleLookupFailure(vehicleLookUpFormModelDetails)
       case _ => Redirect(routes.SetUpTradeDetails.present())
@@ -20,7 +20,7 @@ class VehicleLookupFailure @Inject()()(implicit encryption: CookieEncryption, ha
   }
 
   def submit = Action { implicit request =>
-    (request.getCookie[TraderDetailsModel], request.getCookie[VehicleLookupFormModel]) match {
+    (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[VehicleLookupFormModel]) match {
       case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) =>
         Logger.debug("found dealer and vehicle details")
         Redirect(routes.VehicleLookup.present())
