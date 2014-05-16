@@ -54,10 +54,10 @@ object EncryptedCookieImplicits {
         .get
     }
 
-    def discardingEncryptedCookies(keys: Seq[String])(implicit request: Request[_], encryption: CookieEncryption,
+    def discardingEncryptedCookies(keys: Set[String])(implicit request: Request[_], encryption: CookieEncryption,
                                                       cookieNameHashing: CookieNameHashing): SimpleResult = {
       val salt = CryptoHelper.getSessionSecretKeyFromRequest(request).getOrElse("")
-      val cookiesToDiscard = keys.map(cookieName => DiscardingCookie(name = cookieNameHashing.hash(salt + cookieName)))
+      val cookiesToDiscard = keys.map(cookieName => DiscardingCookie(name = cookieNameHashing.hash(salt + cookieName))).toSeq
       inner.discardingCookies(cookiesToDiscard: _*)
     }
 

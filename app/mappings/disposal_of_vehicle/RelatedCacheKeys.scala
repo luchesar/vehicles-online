@@ -7,7 +7,7 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.disposal_of_vehicle.Dispose._
 
 object RelatedCacheKeys {
-  final val FullSet = Seq(SetupTradeDetailsCacheKey,
+  final val FullSet = Set(SetupTradeDetailsCacheKey,
     traderDetailsCacheKey,
     businessChooseYourAddressCacheKey,
     vehicleLookupDetailsCacheKey,
@@ -19,7 +19,7 @@ object RelatedCacheKeys {
     disposeFormRegistrationNumberCacheKey,
     disposeModelCacheKey)
 
-  final val DisposeSet = Seq(vehicleLookupDetailsCacheKey,
+  final val DisposeSet = Set(vehicleLookupDetailsCacheKey,
     vehicleLookupResponseCodeCacheKey,
     vehicleLookupFormModelCacheKey,
     disposeFormModelCacheKey,
@@ -28,7 +28,7 @@ object RelatedCacheKeys {
     disposeFormRegistrationNumberCacheKey,
     disposeModelCacheKey)
 
-  final val TradeDetailsSet = Seq(SetupTradeDetailsCacheKey,
+  final val TradeDetailsSet = Set(SetupTradeDetailsCacheKey,
       traderDetailsCacheKey,
       businessChooseYourAddressCacheKey)
 }
