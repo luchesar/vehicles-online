@@ -2,7 +2,6 @@ package models.domain.common
 
 import helpers.UnitSpec
 import services.fakes.FakeAddressLookupService._
-import scala.Some
 
 class AddressLinesModelSpec extends UnitSpec {
   "toViewFormat" should {
