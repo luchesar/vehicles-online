@@ -5,7 +5,7 @@
 @import utils.helpers._
 @import views.html.helper.base.valtechLabelText
 
-<label for="@CryptoHelper.encryptAES(field.id)">
+<label for="@field.id">
     @{Space.*}
     @valtechLabelText(field,args)
 </label>

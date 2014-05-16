@@ -44,11 +44,6 @@ object DevModule extends ScalaModule {
       bind[CookieNameHashing].toInstance(new NoHash with CookieNameHashing)
     }
 
-    val encryptFields = getProperty("encryptFields", default = true)
-    if (encryptFields)
-      bind[FieldEncryption].toInstance(new AesEncryption with FieldEncryption)
-    else
-      bind[FieldEncryption].toInstance(new NoEncryption with FieldEncryption)
   }
 
   private def ordnanceSurveyAddressLookup() = {
