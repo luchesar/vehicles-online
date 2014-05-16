@@ -23,6 +23,7 @@ html {
     -ms-filter: none;
 }
 
+
 body {
     font-family: "nta",Arial,sans-serif;
     font-size: 11pt;
@@ -399,6 +400,11 @@ label {
 }
 input {
 	margin-bottom:10px;
+}
+
+/*prevent chrome OSX from displaying grey lines in print preview*/
+select {
+    background: #fff !important;
 }
 
 body footer,body #global-user-location,body .related-positioning,header.page-header hgroup h1 span,body .actions,body nav,.visuallyhidden,#local-locator-form,#location-loading,#get-started,.finding_location,.found_location,.loading_location,.location_error,#global-cookie-message,#global-browser-prompt,.report-a-problem-toggle,.report-a-problem-container,
