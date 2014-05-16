@@ -31,6 +31,7 @@ import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdap
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
 import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
+import org.joda.time.DateTime
 
 class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
@@ -106,7 +107,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
   }
 
   private def disposeAction(webService: DisposeService, disposeFormModel: DisposeFormModel)(implicit request: Request[AnyContent]): Future[SimpleResult] = {
-    def callMicroService(disposeModel: DisposeModel) = {
+    def callMicroService(disposeModel: DisposeModel, traderDetailsModel: TraderDetailsModel) = {
       def nextPage(httpResponseCode: Int, response: Option[DisposeResponse]) = {
         // This makes the choice of which page to go to based on the first one it finds that is not None.
         response match {
@@ -115,7 +116,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
         }
       }
 
-      val disposeRequest = buildDisposeMicroServiceRequest(disposeModel)
+      val disposeRequest = buildDisposeMicroServiceRequest(disposeModel, traderDetailsModel)
       webService.invoke(disposeRequest).map {
         case (httpResponseCode, response) => Logger.debug(s"Dispose micro-service call successful - response = $response")
 
@@ -148,13 +149,6 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
       val formatter = ISODateTimeFormat.dateTime()
       val isoDateTimeString = formatter.print(transactionTimestamp)
       nextPage.withCookie(disposeFormTimestampIdCacheKey, isoDateTimeString)
-    }
-
-    def buildDisposeMicroServiceRequest(disposeModel: DisposeModel): DisposeRequest = {
-      val dateTime = disposeModel.dateOfDisposal.toDateTime.get
-      val formatter = ISODateTimeFormat.dateTime()
-      val isoDateTimeString = formatter.print(dateTime)
-      DisposeRequest(referenceNumber = disposeModel.referenceNumber, registrationNumber = disposeModel.registrationNumber, dateOfDisposal = isoDateTimeString, mileage = disposeModel.mileage)
     }
 
     // TODO disposeResponseCode should just be a String, detecting it being empty is the responsablility of the calling code.
@@ -192,16 +186,46 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
       }
     }
 
-    request.getCookie[VehicleLookupFormModel] match {
-      case Some(vehicleLookupFormModel) =>
-        val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,
-          registrationNumber = vehicleLookupFormModel.registrationNumber,
-          dateOfDisposal = disposeFormModel.dateOfDisposal, mileage = disposeFormModel.mileage)
-        callMicroService(disposeModel)
+    request.getCookie[TraderDetailsModel] match {
+      case Some(traderDetailsModel) =>
+        request.getCookie[VehicleLookupFormModel] match {
+          case Some(vehicleLookupFormModel) =>
+            val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,
+              registrationNumber = vehicleLookupFormModel.registrationNumber,
+              dateOfDisposal = disposeFormModel.dateOfDisposal, mileage = disposeFormModel.mileage)
+              callMicroService(disposeModel, traderDetailsModel)
+          case _ => Future {
+            Logger.error("could not find vehicle details in cache on Dispose submit")
+            Redirect(routes.SetUpTradeDetails.present())
+          }
+        }
       case _ => Future {
         Logger.error("could not find dealer details in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present())
       }
     }
   }
+
+  // TODO : This function has been made public so that it can be tested, it needs to be refactored to a seperate class
+  def buildDisposeMicroServiceRequest(disposeModel: DisposeModel, traderDetails: TraderDetailsModel): DisposeRequest = {
+    val dateTime = disposeModel.dateOfDisposal.toDateTime.get
+    val formatter = ISODateTimeFormat.dateTime()
+    val isoDateTimeString = formatter.print(dateTime)
+    DisposeRequest(referenceNumber = disposeModel.referenceNumber,
+      registrationNumber = disposeModel.registrationNumber,
+      traderName = traderDetails.traderName,
+      disposalAddress = disposalAddressDto(traderDetails.traderAddress),
+      dateOfDisposal = isoDateTimeString,
+      transactionTimestamp = isoDateTimeString, // todo: confirm date format and source, note that this is a timestamp
+      mileage = disposeModel.mileage,
+      ipAddress = None) // todo : source this from somewhere. US105
+  }
+
+  private def disposalAddressDto(sourceAddress: AddressViewModel): DisposalAddressDto = {
+    val allLines = sourceAddress.address.dropRight(1)
+    val postTown = if (allLines.size > 3) Some(allLines.last) else None
+    val postcode = sourceAddress.address.last
+    DisposalAddressDto(allLines.take(3), postTown, postcode, sourceAddress.uprn)
+  }
+
 }
