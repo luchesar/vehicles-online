@@ -11,6 +11,7 @@ object ApplicationBuild extends Build {
 
   val appDependencies = Seq(
     cache,
+    filters,
     "org.seleniumhq.selenium" % "selenium-java" % "2.40.0" % "test" withSources() withJavadoc(),
     "com.github.detro.ghostdriver" % "phantomjsdriver" % "1.1.0" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-scala_2.10" % "1.1.5" % "test" withSources() withJavadoc(),
