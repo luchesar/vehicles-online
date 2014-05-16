@@ -27,4 +27,8 @@ object RelatedCacheKeys {
     disposeFormTimestampIdCacheKey,
     disposeFormRegistrationNumberCacheKey,
     disposeModelCacheKey)
+
+  final val TradeDetailsSet = Seq(SetupTradeDetailsCacheKey,
+      traderDetailsCacheKey,
+      businessChooseYourAddressCacheKey)
 }

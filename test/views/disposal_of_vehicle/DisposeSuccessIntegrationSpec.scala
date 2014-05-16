@@ -3,14 +3,10 @@ package views.disposal_of_vehicle
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
-import mappings.disposal_of_vehicle.Dispose._
-import mappings.disposal_of_vehicle.SetupTradeDetails._
-import mappings.disposal_of_vehicle.TraderDetails._
-import mappings.disposal_of_vehicle.VehicleLookup._
 import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.DisposeSuccessPage._
 import pages.disposal_of_vehicle._
+import mappings.disposal_of_vehicle.RelatedCacheKeys
 
 class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
@@ -106,20 +102,11 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       click on newDisposal
 
-      // Expected to be removed
-      assert(webDriver.manage().getCookieNamed(vehicleLookupDetailsCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(vehicleLookupResponseCodeCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(vehicleLookupFormModelCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormModelCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormTransactionIdCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormTimestampIdCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormRegistrationNumberCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeModelCacheKey) == null)
+      // Verify the cookies identified by the dispose set of cache keys have been removed
+      RelatedCacheKeys.DisposeSet.map(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) == null))
 
-      // Expected to be present
-      assert(webDriver.manage().getCookieNamed(SetupTradeDetailsCacheKey) != null)
-      assert(webDriver.manage().getCookieNamed(businessChooseYourAddressCacheKey) != null)
-      assert(webDriver.manage().getCookieNamed(traderDetailsCacheKey) != null)
+      // Verify the cookies identified by the trade details set of cache keys are present
+      RelatedCacheKeys.TradeDetailsSet.map(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) != null))
     }
 
     "remove redundant cookies when 'exit' button is clicked" in new WebBrowser {
@@ -129,18 +116,8 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       click on exitDisposal
 
-      // Expected to be removed
-      assert(webDriver.manage().getCookieNamed(SetupTradeDetailsCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(businessChooseYourAddressCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(traderDetailsCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(vehicleLookupDetailsCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(vehicleLookupResponseCodeCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(vehicleLookupFormModelCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormModelCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormTransactionIdCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormTimestampIdCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormRegistrationNumberCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeModelCacheKey) == null)
+      // Verify the cookies identified by the full set of cache keys have been removed
+      RelatedCacheKeys.FullSet.map(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) == null))
     }
   }
 
