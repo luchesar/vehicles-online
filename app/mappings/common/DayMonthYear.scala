@@ -10,11 +10,15 @@ object DayMonthYear {
   val yearId = "year"
   val hourId = "hour"
   val minutesId = "minutes"
+  val maxDaysInMonth = 31
+  val maxMonthsInYear = 12
+  val maxHoursInDay = 24
+  val maxMinutesInHour = 59
 
   val dayMonthYear: Mapping[models.DayMonthYear] = mapping(
-    dayId -> number(max = 31).verifying(required), // TODO magic numbers
-    monthId -> number(max = 12).verifying(required),
+    dayId -> number(max = maxDaysInMonth).verifying(required),
+    monthId -> number(max = maxMonthsInYear).verifying(required),
     yearId -> number.verifying(required),
-    hourId -> optional(number(min = 0, max = 24)),
-    minutesId -> optional(number(min = 0, max = 60)))(models.DayMonthYear.apply)(models.DayMonthYear.unapply)
+    hourId -> optional(number(min = 0, max = maxHoursInDay)),
+    minutesId -> optional(number(min = 0, max = maxMinutesInHour)))(models.DayMonthYear.apply)(models.DayMonthYear.unapply)
 }
