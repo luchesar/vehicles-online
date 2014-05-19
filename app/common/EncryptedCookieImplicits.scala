@@ -13,8 +13,8 @@ object EncryptedCookieImplicits {
 
   implicit class RequestAdapter[A](val request: Request[A]) extends AnyVal {
     def getEncryptedCookie[B](implicit fjs: Reads[B], cacheKey: CacheKey[B], encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): Option[B] = {
-      val salt = CryptoHelper.getSessionSecretKeyFromRequest(request).getOrElse("")
-      request.cookies.get(cookieNameHashing.hash(salt + cacheKey.value)).map { cookie =>
+      val sessionSecretKey = CryptoHelper.getSessionSecretKeyFromRequest(request).getOrElse("")
+      request.cookies.get(cookieNameHashing.hash(sessionSecretKey + cacheKey.value)).map { cookie =>
         val decrypted = encryption.decrypt(cookie.value)
         val parsed = Json.parse(decrypted)
         val fromJson = Json.fromJson[B](parsed)
@@ -26,8 +26,8 @@ object EncryptedCookieImplicits {
     }
 
     def getCookieNamed(key: String)(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): Option[String] = {
-      val salt = CryptoHelper.getSessionSecretKeyFromRequest(request).getOrElse("")
-      request.cookies.get(cookieNameHashing.hash(salt + key)).map { cookie =>
+      val sessionSecretKey = CryptoHelper.getSessionSecretKeyFromRequest(request).getOrElse("")
+      request.cookies.get(cookieNameHashing.hash(sessionSecretKey + key)).map { cookie =>
         encryption.decrypt(cookie.value)
       }
     }
@@ -38,11 +38,11 @@ object EncryptedCookieImplicits {
     def withEncryptedCookie[A](model: A)(implicit tjs: Writes[A], cacheKey: CacheKey[A], request: Request[_],
                                 encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): SimpleResult = {
 
-      def withModel(resultWithSalt: (SimpleResult, String)): SimpleResult = {
-        val (result, salt) = resultWithSalt
+      def withModel(resultWithSessionSecretKey: (SimpleResult, String)): SimpleResult = {
+        val (result, sessionSecretKey) = resultWithSessionSecretKey
         val stateAsJson = Json.toJson(model)
         val encryptedStateAsJson = encryption.encrypt(stateAsJson.toString())
-        val cookie = CryptoHelper.createCookie(name = cookieNameHashing.hash(salt + cacheKey.value),
+        val cookie = CryptoHelper.createCookie(name = cookieNameHashing.hash(sessionSecretKey + cacheKey.value),
           value = encryptedStateAsJson)
 
         result.withCookies(cookie)
@@ -56,8 +56,8 @@ object EncryptedCookieImplicits {
 
     def discardingEncryptedCookies(keys: Set[String])(implicit request: Request[_], encryption: CookieEncryption,
                                                       cookieNameHashing: CookieNameHashing): SimpleResult = {
-      val salt = CryptoHelper.getSessionSecretKeyFromRequest(request).getOrElse("")
-      val cookiesToDiscard = keys.map(cookieName => DiscardingCookie(name = cookieNameHashing.hash(salt + cookieName))).toSeq
+      val sessionSecretKey = CryptoHelper.getSessionSecretKeyFromRequest(request).getOrElse("")
+      val cookiesToDiscard = keys.map(cookieName => DiscardingCookie(name = cookieNameHashing.hash(sessionSecretKey + cookieName))).toSeq
       inner.discardingCookies(cookiesToDiscard: _*)
     }
 
@@ -69,10 +69,10 @@ object EncryptedCookieImplicits {
     def withEncryptedCookie(key: String, value: String)(implicit request: Request[_], encryption: CookieEncryption,
                                                cookieNameHashing: CookieNameHashing): SimpleResult = {
 
-      def withKeyValuePair(resultWithSalt: (SimpleResult, String)): SimpleResult = {
-        val (result, salt) = resultWithSalt
+      def withKeyValuePair(resultWithSessionSecretKey: (SimpleResult, String)): SimpleResult = {
+        val (result, sessionSecretKey) = resultWithSessionSecretKey
         val encrypted = encryption.encrypt(value)
-        val cookie = CryptoHelper.createCookie(name = cookieNameHashing.hash(salt + key),
+        val cookie = CryptoHelper.createCookie(name = cookieNameHashing.hash(sessionSecretKey + key),
           value = encrypted)
         result.withCookies(cookie)
       }

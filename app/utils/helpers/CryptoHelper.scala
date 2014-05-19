@@ -21,7 +21,7 @@ object CryptoHelper {
     bytes
   }
 
-  private def newSessionSecretyKey = if (encryptCookies) Hex.encodeHexString(CryptoHelper.getSecureRandomBytes(16)) else ""
+  private def newSessionSecretKey = if (encryptCookies) Hex.encodeHexString(CryptoHelper.getSecureRandomBytes(16)) else ""
 
   def getSessionSecretKeyFromRequest(request: RequestHeader)(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): Option[String] =
       request.cookies.get(sessionSecretKeyCookieName).map { cookie =>
@@ -31,17 +31,17 @@ object CryptoHelper {
   def ensureSessionSecretKeyInResult(result: SimpleResult)(implicit request: Request[_], encryption: CookieEncryption,
                                                            cookieNameHashing: CookieNameHashing): (SimpleResult, String) =
     CryptoHelper.getSessionSecretKeyFromRequest(request) match {
-      case Some(saltFromRequest) =>
-        (result, saltFromRequest)
+      case Some(sessionSecretKeyFromRequest) =>
+        (result, sessionSecretKeyFromRequest)
       case None =>
-        val newSalt = CryptoHelper.newSessionSecretyKey
-        if (newSalt.isEmpty)
-          (result, newSalt)
+        val newSessionSecretKey = CryptoHelper.newSessionSecretKey
+        if (newSessionSecretKey.isEmpty)
+          (result, newSessionSecretKey)
         else {
-          val newSaltCookie = createCookie(name = sessionSecretKeyCookieName,
-            value = encryption.encrypt(newSalt))
-          val resultWithSalt = result.withCookies(newSaltCookie)
-          (resultWithSalt, newSalt)
+          val newSessionSecretKeyCookie = createCookie(name = sessionSecretKeyCookieName,
+            value = encryption.encrypt(newSessionSecretKey))
+          val resultWithSessionSecretKey = result.withCookies(newSessionSecretKeyCookie)
+          (resultWithSessionSecretKey, newSessionSecretKey)
         }
     }
 
