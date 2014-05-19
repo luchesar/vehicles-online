@@ -9,7 +9,7 @@ case class AddressLinesModel(line1: String,
                              line4: Option[String] = None) {
   def toViewFormat: Seq[String] = Seq(Some(line1), line2, line3, line4).flatten
 
-  def totalCharacters = toViewFormat.map(_.length).sum // TODO test this in isolation in a model test
+  def totalCharacters = toViewFormat.map(_.length).sum
 }
 
 object AddressLinesModel {
