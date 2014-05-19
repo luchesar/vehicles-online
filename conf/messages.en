@@ -333,7 +333,7 @@ vehicle_lookup_document_reference_mismatch = This is not the latest Document Ref
 
 error.address.line1Required = Address needs at least the building name or number filled in
 addressAndPostcode.addressLines.line1 = Building name or number
-error.address.maxLengthOfLinesConcatenated = Address must have fewer than 130 characters
+error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
 error.address.characterinvalid = Invalid characters are not allowed
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode

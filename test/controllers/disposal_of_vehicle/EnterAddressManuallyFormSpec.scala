@@ -73,7 +73,7 @@ class EnterAddressManuallyFormSpec extends UnitSpec {
     }
 
     "reject if total length of all address lines is more than maxLengthOfLinesConcatenated" in {
-      formWithValidDefaults(line1 = "a" * lineMaxLength,
+      formWithValidDefaults(line1 = "a" * lineMaxLength + 1,
         line2 = "b" * lineMaxLength,
         line3 = "c" * lineMaxLength,
         line4 = "d" * lineMaxLength
