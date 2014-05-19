@@ -40,7 +40,7 @@ GET         /disposal-of-vehicle/dispose                        @controllers.dis
 POST        /disposal-of-vehicle/dispose                        @controllers.disposal_of_vehicle.Dispose.submit
 
 GET         /disposal-of-vehicle/dispose-success                @controllers.disposal_of_vehicle.DisposeSuccess.present
-POST        /disposal-of-vehicle/dispose-success                @controllers.disposal_of_vehicle.DisposeSuccess.newDisposal
+POST        /disposal-of-vehicle/dispose-success                @controllers.disposal_of_vehicle.DisposeSuccess.submit
 
 GET         /disposal-of-vehicle/dispose-failure                @controllers.disposal_of_vehicle.DisposeFailure.present
 

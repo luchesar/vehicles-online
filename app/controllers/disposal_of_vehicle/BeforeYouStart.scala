@@ -1,7 +1,6 @@
 package controllers.disposal_of_vehicle
 
 import play.api.mvc._
-import play.api.Logger
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 import com.google.inject.Inject
 import common.EncryptedCookieImplicits
@@ -18,8 +17,6 @@ class BeforeYouStart @Inject()(implicit encryption: CookieEncryption, cookieName
   }
 
   def submit = Action { implicit request =>
-    val modelId = request.session.get("modelId")
-    Logger.debug(s"BeforeYouStart - reading modelId from session: $modelId")
     Redirect(routes.SetUpTradeDetails.present())
   }
 }
