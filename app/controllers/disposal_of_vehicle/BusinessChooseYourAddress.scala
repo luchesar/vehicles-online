@@ -28,7 +28,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
     mapping(
       /* We cannot apply constraints to this drop down as it is populated by web call to an address lookup service.
       Validation is done when we make a second web call with the UPRN, so if a bad guy is injecting a non-existent UPRN then it will fail at that step instead */
-      addressSelectId -> dropDown
+      addressSelectId -> addressDropDown
     )(BusinessChooseYourAddressModel.apply)(BusinessChooseYourAddressModel.unapply)
   )
 

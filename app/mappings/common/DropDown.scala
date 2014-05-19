@@ -5,9 +5,9 @@ import play.api.data.Forms._
 import constraints.common.DropDown.validDropDown
 
 object DropDown {
-  def dropDown: Mapping[Long] = longNumber
+  def addressDropDown: Mapping[Long] = longNumber
 
-/*  def dropDown(dropDownOptions: Map[String, String]): Mapping[String] = {
-    nonEmptyText(maxLength = 9999) verifying validDropDown(dropDownOptions)
+/*  def addressDropDown(dropDownOptions: Map[String, String]): Mapping[String] = {
+    longNumber verifying validDropDown(dropDownOptions)
   }*/
 }
