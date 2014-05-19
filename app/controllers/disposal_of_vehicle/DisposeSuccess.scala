@@ -15,7 +15,8 @@ class DisposeSuccess @Inject()()(implicit encryption: CookieEncryption, cookieNa
 
   def present = Action {
     implicit request =>
-      (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[DisposeFormModel], request.getEncryptedCookie[VehicleDetailsModel], request.getCookieNamed(disposeFormTransactionIdCacheKey), request.getCookieNamed(disposeFormRegistrationNumberCacheKey)) match {
+      (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[DisposeFormModel], request.getEncryptedCookie[VehicleDetailsModel],
+        request.getCookieNamed(disposeFormTransactionIdCacheKey), request.getCookieNamed(disposeFormRegistrationNumberCacheKey)) match {
         case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId), Some(registrationNumber)) =>
           val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId), registrationNumber)
           Ok(views.html.disposal_of_vehicle.dispose_success(disposeModel, disposeFormModel))
@@ -23,16 +24,32 @@ class DisposeSuccess @Inject()()(implicit encryption: CookieEncryption, cookieNa
       }
   }
 
-  def newDisposal = Action {
-    implicit request =>
-      (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[DisposeFormModel], request.getEncryptedCookie[VehicleDetailsModel]) match {
-        case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present()).
-          discardingEncryptedCookies(RelatedCacheKeys.DisposeSet)
-        case _ => Redirect(routes.SetUpTradeDetails.present())
-      }
+  def submit = Action { implicit request =>
+    val formData = request.body.asFormUrlEncoded.getOrElse(Map.empty[String, Seq[String]])
+    val actionValue = formData.get("action").flatMap(_.headOption)
+    actionValue match {
+      case Some("newDisposal") =>
+        newDisposal
+      case Some("exit") =>
+        exit
+      case _ => BadRequest("This action is not allowed") // TODO redirect to error page ?
+    }
   }
 
-  private def fetchData(dealerDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel, transactionId: Option[String], registrationNumber: String): DisposeViewModel = {
+  private def newDisposal(implicit request: Request[AnyContent]): SimpleResult =
+    (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[DisposeFormModel],
+      request.getEncryptedCookie[VehicleDetailsModel]) match {
+      case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present()).
+        discardingEncryptedCookies(RelatedCacheKeys.DisposeSet)
+      case _ => Redirect(routes.SetUpTradeDetails.present())
+    }
+
+  private def exit(implicit request: Request[AnyContent]): SimpleResult = {
+      Redirect(routes.BeforeYouStart.present()).discardingEncryptedCookies(RelatedCacheKeys.FullSet)
+  }
+
+  private def fetchData(dealerDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel, transactionId: Option[String],
+                        registrationNumber: String): DisposeViewModel = {
     DisposeViewModel(vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
       dealerName = dealerDetails.traderName,
