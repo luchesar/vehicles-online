@@ -7,11 +7,11 @@
     <div class="vehicles-online">
 
         @common.protoType()
-        @common.helpLine()
+        @{/*common.helpLine()*/}
 
         <section class="section-content">
-            <h1>This page cannot be found</h1>
-            <p>Please check that you have entered the correct web address, or explore <a href="http://www.gov.uk" target="_blank">GOV.UK</a> to find the information you need.</p>
+            <h1>@Messages("onHandlerNotFound.header")</h1>
+            <p>@Messages("onHandlerNotFound.body")</p>
         </section>
     </div>
 } {

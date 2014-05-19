@@ -345,3 +345,7 @@ soap_endpoint_error.title=Mae''n ddrwg gennym
 soap_endpoint_error.text=Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
 soap_endpoint_error.back.button=Yn ôl
 soap_endpoint_error.exit.button=Gadael
+
+# 404 onHandlerNotFound
+onHandlerNotFound.header=Ni all y dudalen ar gael
+onHandlerNotFound.body=Gwnewch yn siŵr eich bod wedi mynd i mewn i'r cyfeiriad gwe cywir, neu archwilio GOV.UK i ddod o hyd i'r wybodaeth rydych ei hangen.
