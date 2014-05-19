@@ -92,7 +92,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encrypt
   private def okResponseConstruction (vehicleDetailsResponse: Option[VehicleDetailsResponse])(implicit request: Request[_]) = {
     vehicleDetailsResponse match {
       case Some(response) => responseCodePresent(response)
-      case _ => Redirect(routes.MicroServiceError.present())
+      case _ => Redirect(routes.MicroServiceError.present()) // TODO write test to achieve code coverage.
     }
   }
   
@@ -100,7 +100,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encrypt
     response.responseCode match {
       case Some(responseCode) =>
         Redirect(routes.VehicleLookupFailure.present()).
-          withEncryptedCookie(key = vehicleLookupResponseCodeCacheKey, value = responseCode) // TODO [SKW] I don't see a controller spec for testing that the correct value was written to the cache. Write one.
+          withEncryptedCookie(key = vehicleLookupResponseCodeCacheKey, value = responseCode)
       case None => noResponseCodePresent(response.vehicleDetailsDto)
     }
   }

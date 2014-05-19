@@ -158,20 +158,6 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
       DisposeRequest(referenceNumber = disposeModel.referenceNumber, registrationNumber = disposeModel.registrationNumber, dateOfDisposal = isoDateTimeString, mileage = disposeModel.mileage)
     }
 
-    // TODO disposeResponseCode should just be a String, detecting it being empty is the responsablility of the calling code.
-    /*def handleResponseCode(disposeResponseCode: Option[String]) = {
-      val unableToProcessApplication = "ms.vehiclesService.response.unableToProcessApplication"
-
-      disposeResponseCode match {
-        case Some(responseCode) if responseCode == unableToProcessApplication =>
-          Logger.warn("Dispose soap endpoint redirecting to dispose failure page...")
-          Some(routes.DisposeFailure.present)
-        case Some(responseCode) =>
-          Logger.warn(s"Dispose micro-service failed: $responseCode, redirecting to error page...")
-          Some(routes.MicroServiceError.present)
-        case None => None
-      }
-    }*/
     def handleResponseCode(disposeResponseCode: String): Call = {
       val unableToProcessApplication = "ms.vehiclesService.response.unableToProcessApplication"
 

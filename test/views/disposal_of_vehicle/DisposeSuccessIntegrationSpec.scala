@@ -103,10 +103,10 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       click on newDisposal
 
       // Verify the cookies identified by the dispose set of cache keys have been removed
-      RelatedCacheKeys.DisposeSet.map(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) == null))
+      RelatedCacheKeys.DisposeSet.foreach(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) == null))
 
       // Verify the cookies identified by the trade details set of cache keys are present
-      RelatedCacheKeys.TradeDetailsSet.map(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) != null))
+      RelatedCacheKeys.TradeDetailsSet.foreach(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) != null))
     }
 
     "remove redundant cookies when 'exit' button is clicked" in new WebBrowser {
@@ -117,7 +117,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       click on exitDisposal
 
       // Verify the cookies identified by the full set of cache keys have been removed
-      RelatedCacheKeys.FullSet.map(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) == null))
+      RelatedCacheKeys.FullSet.foreach(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) == null))
     }
   }
 
