@@ -41,6 +41,8 @@ object ApplicationBuild extends Build {
     Seq(testOptions in Test += Tests.Argument("exclude", System.getProperty("exclude")))
   } else Seq.empty[Def.Setting[_]]
 
+  val eTest = testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-l", "helpers.tags.LiveTest")
+
   val jO = Seq(javaOptions in Test += System.getProperty("waitSeconds"))
 
   val gS = Seq(concurrentRestrictions in Global := Seq(Tags.limit(Tags.CPU, 4), Tags.limit(Tags.Network, 10), Tags.limit(Tags.Test, 4)))
@@ -49,7 +51,7 @@ object ApplicationBuild extends Build {
 
   val jcoco = Seq(parallelExecution in jacoco.Config := false)
 
-  val appSettings: Seq[Def.Setting[_]] = sOrg ++ SassPlugin.sassSettings ++ sV ++ sO ++ gS ++ sTest ++ jO ++ f ++ jcoco ++ scalaCheck
+  val appSettings: Seq[Def.Setting[_]] = sOrg ++ SassPlugin.sassSettings ++ sV ++ sO ++ gS ++ sTest ++ eTest ++ jO ++ f ++ jcoco ++ scalaCheck
 
   val main = play.Project(appName, appVersion, appDependencies, settings = play.Project.playScalaSettings ++ jacoco.settings).settings(appSettings: _*)
 }

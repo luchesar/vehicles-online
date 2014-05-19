@@ -28,6 +28,10 @@ dist
 /out
 /.idea_modules
 *.classpath
+cache/
+.sbt.ivy.lock
+
+
 
 /RUNNING_PID
 
