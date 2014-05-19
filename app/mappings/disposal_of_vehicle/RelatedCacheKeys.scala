@@ -7,6 +7,8 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.disposal_of_vehicle.Dispose._
 
 object RelatedCacheKeys {
+  final val SeenCookieMessageKey = "seen_cookie_message"
+
   final val FullSet = Set(SetupTradeDetailsCacheKey,
     traderDetailsCacheKey,
     businessChooseYourAddressCacheKey,

@@ -3,7 +3,7 @@ package utils.helpers
 import app.ConfigProperties._
 import org.apache.commons.codec.binary.Hex
 import java.security.SecureRandom
-import play.api.mvc.{Cookie, SimpleResult, Request}
+import play.api.mvc.{RequestHeader, Cookie, SimpleResult, Request}
 import Config.cookieMaxAge
 
 object CryptoHelper {
@@ -23,10 +23,10 @@ object CryptoHelper {
 
   private def newSessionSecretyKey = if (encryptCookies) Hex.encodeHexString(CryptoHelper.getSecureRandomBytes(16)) else ""
 
-  def getSessionSecretKeyFromRequest(request: Request[_])(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): Option[String] =
-    request.cookies.get(sessionSecretKeyCookieName).map { cookie =>
-      encryption.decrypt(cookie.value)
-    }
+  def getSessionSecretKeyFromRequest(request: RequestHeader)(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): Option[String] =
+      request.cookies.get(sessionSecretKeyCookieName).map { cookie =>
+        encryption.decrypt(cookie.value)
+      }
 
   def ensureSessionSecretKeyInResult(result: SimpleResult)(implicit request: Request[_], encryption: CookieEncryption,
                                                            cookieNameHashing: CookieNameHashing): (SimpleResult, String) =

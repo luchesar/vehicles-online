@@ -1,7 +1,10 @@
 import com.google.inject.Guice
 import com.typesafe.config.ConfigFactory
+import controllers.disposal_of_vehicle.routes
 import java.io.File
 import java.util.UUID
+import javax.crypto.BadPaddingException
+import mappings.disposal_of_vehicle.RelatedCacheKeys
 import modules.{DevModule, TestModule}
 import play.api._
 import play.api.Configuration
@@ -76,5 +79,15 @@ object Global extends WithFilters(new GzipFilter()) with GlobalSettings {
 
   // 404 - page not found error http://alvinalexander.com/scala/handling-scala-play-framework-2-404-500-errors
   override def onHandlerNotFound(request: RequestHeader): Future[SimpleResult] = Future(NotFound(views.html.errors.onHandlerNotFound(request)))
+
+  override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] = ex.getCause match {
+    case _: BadPaddingException  =>
+      import common.EncryptedCookieImplicits.SimpleResultAdapter
+      Logger.warn("Handling BadPaddingException by removing all cookies except seen cookie. Has the application secret changed ?")
+      val discardingCookiesKeys = request.cookies.map(_.name).filter(_ != RelatedCacheKeys.SeenCookieMessageKey).toSet
+      Future(Redirect(routes.BeforeYouStart.present()).
+        discardingEncryptedCookies(discardingCookiesKeys, request))
+    case _ => super.onError(request, ex)
+  }
 }
 

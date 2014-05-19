@@ -61,6 +61,11 @@ object EncryptedCookieImplicits {
       inner.discardingCookies(cookiesToDiscard: _*)
     }
 
+    def discardingEncryptedCookies(keys: Set[String], request: RequestHeader): SimpleResult = {
+      val cookiesToDiscard = keys.map(cookieName => DiscardingCookie(name = cookieName)).toSeq
+      inner.discardingCookies(cookiesToDiscard: _*)
+    }
+
     def withEncryptedCookie(key: String, value: String)(implicit request: Request[_], encryption: CookieEncryption,
                                                cookieNameHashing: CookieNameHashing): SimpleResult = {
 
