@@ -9,7 +9,7 @@
 
 @main(Messages("disposal_disposeconfirmation.title")){
 
-<div class="alert-complete">
+<div tabindex="0" class="alert-complete">
     <h2>Disposal complete</h2>
     <p>@Messages("ms.vehiclesService.response.applicationBeingProcessed")</p>
     <p>Your transaction ID is<br /><span class="emphasized">@Messages("disposal_disposeconfirmation.transactionid", data.transactionId.getOrElse(""))</span></p>
@@ -19,9 +19,9 @@
 
 	<div class="first-col">
 	
-		<h2>@Messages("disposal_disposeconfirmation.disposaldetails")</h2>
+		<h2 tabindex="0">@Messages("disposal_disposeconfirmation.disposaldetails")</h2>
 		
-		<dl class="summary-detail-list">
+		<dl tabindex="0" class="summary-detail-list">
 
             <dt>@Messages("disposal_disposeconfirmation.registrationNumber_label")</dt>
             <dd>@Messages("disposal_disposeconfirmation.registrationNumber", data.registrationNumber)</dd>
@@ -75,7 +75,7 @@
         @data.keeperName<br />
         @for(addr <- data.keeperAddress.address) {@addr<br/>}</p>
         */}
-        <p>@Messages("disposal_disposeconfirmation.exkeeper")</p>
+        <p tabindex="0">@Messages("disposal_disposeconfirmation.exkeeper")</p>
 
 		@{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
         @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.newDisposal) {
@@ -84,7 +84,7 @@
                 <a id="@exitDisposalId" class="button" href="/">@Messages("disposal_disposeconfirmation.exitbutton")</a>
 
                 @{/* TODO not yet a user story */}
-                <a class="button-not-implemented" aria-disabled="true">@Messages("global.buttonnavprint")</a>
+                <a tabindex="0" class="button-not-implemented" aria-disabled="true">@Messages("global.buttonnavprint")</a>
 
                 <br />
 
