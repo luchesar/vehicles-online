@@ -356,5 +356,6 @@ soap_endpoint_error.back.button=Back
 soap_endpoint_error.exit.button=Exit
 
 # 404 onHandlerNotFound
+onHandlerNotFound.title=This page cannot be found
 onHandlerNotFound.header=This page cannot be found
 onHandlerNotFound.body=Please check that you have entered the correct web address, or explore GOV.UK to find the information you need.

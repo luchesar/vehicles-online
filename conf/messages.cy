@@ -347,5 +347,6 @@ soap_endpoint_error.back.button=Yn ôl
 soap_endpoint_error.exit.button=Gadael
 
 # 404 onHandlerNotFound
+onHandlerNotFound.title=Ni all y dudalen ar gael
 onHandlerNotFound.header=Ni all y dudalen ar gael
 onHandlerNotFound.body=Gwnewch yn siŵr eich bod wedi mynd i mewn i'r cyfeiriad gwe cywir, neu archwilio GOV.UK i ddod o hyd i'r wybodaeth rydych ei hangen.
