@@ -27,6 +27,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
   val form = Form(
     mapping(
       /* We cannot apply constraints to this drop down as it is populated by web call to an address lookup service.
+      We would need the request here to get the cookie.
       Validation is done when we make a second web call with the UPRN, so if a bad guy is injecting a non-existent UPRN then it will fail at that step instead */
       addressSelectId -> addressDropDown
     )(BusinessChooseYourAddressModel.apply)(BusinessChooseYourAddressModel.unapply)
