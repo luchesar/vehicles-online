@@ -13,6 +13,6 @@ case class AddressLinesModel(line1: String,
 }
 
 object AddressLinesModel {
-  implicit val addressLinesModelFormat = Json.format[AddressLinesModel]
-  implicit val cacheKey = CacheKey[AddressLinesModel](AddressLinesCacheKey)
+  implicit final val AddressLinesModelFormat = Json.format[AddressLinesModel]
+  implicit final val Key = CacheKey[AddressLinesModel](AddressLinesCacheKey)
 }

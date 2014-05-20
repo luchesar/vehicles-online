@@ -1,8 +1,9 @@
 package models.domain.disposal_of_vehicle
 
+import play.api.libs.json.Json
+
 case class AddressDto(uprn: Option[Long], address: Seq[String])
 
 object AddressDto {
-  import play.api.libs.json.Json
-  implicit val addressDto = Json.format[AddressDto]
+  implicit final val AddressDtoFormat = Json.format[AddressDto]
 }
