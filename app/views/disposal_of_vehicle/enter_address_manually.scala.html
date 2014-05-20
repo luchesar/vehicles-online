@@ -7,14 +7,16 @@
 @main(Messages("disposal_enteraddressmanually.title")){
     @errorsSummary(enterAddressManuallyForm)
 
-    @form(action = controllers.disposal_of_vehicle.routes.EnterAddressManually.submit) {
+		<div class="enter-address-manually">
+	    @form(action = controllers.disposal_of_vehicle.routes.EnterAddressManually.submit) {
 
-        @addressAndPostcode(enterAddressManuallyForm(addressAndPostcodeId))
+	        @addressAndPostcode(enterAddressManuallyForm(addressAndPostcodeId))
 
-		@{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
-        <div class="form-steps">
-        	<button id="@nextId" type="submit" name="action" class="button">@Messages("disposal_enteraddressmanually.submitbutton")</button>
-            <a id="@backId" class="button-secondary" href="@controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit">@Messages("disposal_enteraddressmanually.backbutton")</a>
-        </div>
-    }
+			@{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
+	        <div class="form-steps">
+	        	<button id="@nextId" type="submit" name="action" class="button">@Messages("disposal_enteraddressmanually.submitbutton")</button>
+	            <a id="@backId" class="button-secondary" href="@controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit">@Messages("disposal_enteraddressmanually.backbutton")</a>
+	        </div>
+	    }
+    </div>
 }
