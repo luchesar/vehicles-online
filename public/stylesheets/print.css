@@ -417,7 +417,22 @@ footer ul {
     padding-left:0;   
 }
 
-body #global-user-location,body .related-positioning,header.page-header hgroup h1 span,body .actions,.visuallyhidden,#local-locator-form,#location-loading,#get-started,.finding_location,.found_location,.loading_location,.location_error,#global-cookie-message,#global-browser-prompt,.report-a-problem-toggle,.report-a-problem-container,
+body #global-user-location,
+body .related-positioning,
+header.page-header hgroup h1 span,
+body .actions,
+.visuallyhidden,
+#local-locator-form,
+#location-loading,
+#get-started,
+.finding_location,
+.found_location,
+.loading_location,
+.location_error,
+#global-cookie-message,
+#global-browser-prompt,
+.report-a-problem-toggle,
+.report-a-problem-container,
 button,
 .button,
 .button-secondary,
