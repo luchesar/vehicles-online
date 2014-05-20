@@ -80,7 +80,7 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
     "display 'No addresses found' message when address service returns no addresses" in new WebBrowser {
       SetupTradeDetailsPage.submitInvalidPostcode
 
-      page.source.contains("No addresses found for that postcode") should equal(true) // Does not contain message
+      page.source should include("No addresses found for that postcode") // Does not contain the positive message
     }
 
   }
