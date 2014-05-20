@@ -9,7 +9,7 @@ import play.api.Logger
 import models.domain.disposal_of_vehicle.VehicleDetailsRequest.vehicleDetailsRequest
 
 class VehicleLookupWebServiceImpl extends VehicleLookupWebService {
-  val endPoint = s"${Config.vehicleLookupMicroServiceBaseUrl}/vehicles/lookup/v1"
+  val endPoint = s"${Config.vehicleLookupMicroServiceBaseUrl}/vehicles/lookup/v1/dispose"
 
   override def callVehicleLookupService(request: VehicleDetailsRequest): Future[Response] = {
     Logger.debug(s"Calling vehicle lookup micro-service on ${endPoint} with request object: $request...")
