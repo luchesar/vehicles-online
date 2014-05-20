@@ -1,8 +1,8 @@
 package helpers.disposal_of_vehicle
 
 import mappings.disposal_of_vehicle.Dispose._
-import mappings.disposal_of_vehicle.Dispose.disposeFormModelCacheKey
-import mappings.disposal_of_vehicle.Dispose.disposeFormRegistrationNumberCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
 import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
 import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
@@ -96,7 +96,7 @@ object CookieFactoryForUnitSpecs {
   }
 
   def disposeFormModel() = {
-    val key = disposeFormModelCacheKey
+    val key = DisposeFormModelCacheKey
     val value = DisposeFormModel(mileage = None,
       dateOfDisposal = DayMonthYear(FakeDateServiceImpl.dateOfDisposalDayValid.toInt,
         FakeDateServiceImpl.dateOfDisposalMonthValid.toInt, FakeDateServiceImpl.dateOfDisposalYearValid.toInt),
@@ -106,22 +106,22 @@ object CookieFactoryForUnitSpecs {
   }
 
   def disposeFormRegistrationNumber(registrationNumber: String = registrationNumberValid) =
-    createCookie(disposeFormRegistrationNumberCacheKey, registrationNumber)
+    createCookie(DisposeFormRegistrationNumberCacheKey, registrationNumber)
 
   def disposeFormTimestamp(timestamp: String = s"$dateOfDisposalYearValid-$dateOfDisposalMonthValid-${dateOfDisposalDayValid}") =
-    createCookie(disposeFormTimestampIdCacheKey, timestamp)
+    createCookie(DisposeFormTimestampIdCacheKey, timestamp)
 
   def disposeTransactionId(transactionId: String = transactionIdValid) =
-    createCookie(disposeFormTransactionIdCacheKey, transactionId)
+    createCookie(DisposeFormTransactionIdCacheKey, transactionId)
 
   def vehicleRegistrationNumber(registrationNumber: String = registrationNumberValid) =
-    createCookie(disposeFormRegistrationNumberCacheKey, registrationNumber)
+    createCookie(DisposeFormRegistrationNumberCacheKey, registrationNumber)
 
   def disposeModel(referenceNumber: String = referenceNumberValid,
                    registrationNumber: String = registrationNumberValid,
                    dateOfDisposal: DayMonthYear = DayMonthYear.today,
                    mileage: Option[Int] = None) = {
-    val key = mappings.disposal_of_vehicle.Dispose.disposeModelCacheKey
+    val key = mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey
     val value = DisposeModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,
       dateOfDisposal = dateOfDisposal,

@@ -207,12 +207,12 @@ class DisposeUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val found = cookies.find(_.name == disposeFormTimestampIdCacheKey)
+          val found = cookies.find(_.name == DisposeFormTimestampIdCacheKey)
           found match {
             case Some(cookie) => cookie.value should include (CookieFactoryForUnitSpecs.disposeFormTimestamp().value)
             case _ => fail("Should have found cookie")
           }
-          cookies.map(_.name) should contain allOf (disposeModelCacheKey, disposeFormTransactionIdCacheKey, disposeFormModelCacheKey, disposeFormTimestampIdCacheKey)
+          cookies.map(_.name) should contain allOf (DisposeModelCacheKey, DisposeFormTransactionIdCacheKey, DisposeFormModelCacheKey, DisposeFormTimestampIdCacheKey)
       }
     }
 
@@ -225,7 +225,7 @@ class DisposeUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          cookies.map(_.name) should contain allOf (disposeModelCacheKey, disposeFormTransactionIdCacheKey, disposeFormRegistrationNumberCacheKey, disposeFormModelCacheKey, disposeFormTimestampIdCacheKey)
+          cookies.map(_.name) should contain allOf (DisposeModelCacheKey, DisposeFormTransactionIdCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormModelCacheKey, DisposeFormTimestampIdCacheKey)
       }
     }
   }
@@ -243,12 +243,12 @@ class DisposeUnitSpec extends UnitSpec {
   private def buildCorrectlyPopulatedRequest = {
     import mappings.common.DayMonthYear._
     FakeRequest().withSession().withFormUrlEncodedBody(
-      mileageId -> mileageValid,
-      s"$dateOfDisposalId.$dayId" -> dateOfDisposalDayValid,
-      s"$dateOfDisposalId.$monthId" -> dateOfDisposalMonthValid,
-      s"$dateOfDisposalId.$yearId" -> dateOfDisposalYearValid,
-      consentId -> consentValid,
-      lossOfRegistrationConsentId -> consentValid
+      MileageId -> mileageValid,
+      s"$DateOfDisposalId.$dayId" -> dateOfDisposalDayValid,
+      s"$DateOfDisposalId.$monthId" -> dateOfDisposalMonthValid,
+      s"$DateOfDisposalId.$yearId" -> dateOfDisposalYearValid,
+      ConsentId -> consentValid,
+      LossOfRegistrationConsentId -> consentValid
     )
   }
 

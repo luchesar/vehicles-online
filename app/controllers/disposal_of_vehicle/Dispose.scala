@@ -26,7 +26,7 @@ import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.DisposeViewModel
-import mappings.disposal_of_vehicle.Dispose.dateOfDisposalYearsIntoThePast
+import mappings.disposal_of_vehicle.Dispose.DateOfDisposalYearsIntoThePast
 import scala.language.postfixOps
 import EncryptedCookieImplicits.RequestAdapter
 import EncryptedCookieImplicits.SimpleResultAdapter
@@ -37,16 +37,16 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
 
   val disposeForm = Form(
     mapping(
-      mileageId -> mileage(),
-      dateOfDisposalId -> dayMonthYear.verifying(validDate(),
-        after(earliest = dateService.today - dateOfDisposalYearsIntoThePast years),
+      MileageId -> mileage(),
+      DateOfDisposalId -> dayMonthYear.verifying(validDate(),
+        after(earliest = dateService.today - DateOfDisposalYearsIntoThePast years),
         notInFuture(dateService)),
-      consentId -> consent,
-      lossOfRegistrationConsentId -> consent
+      ConsentId -> consent,
+      LossOfRegistrationConsentId -> consent
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 
-  private val yearsDropdown: Seq[(String, String)] = dateService.today.yearRangeToDropdown(yearsIntoThePast = dateOfDisposalYearsIntoThePast)
+  private val yearsDropdown: Seq[(String, String)] = dateService.today.yearRangeToDropdown(yearsIntoThePast = DateOfDisposalYearsIntoThePast)
 
   def present = Action {
     implicit request => {
@@ -79,8 +79,8 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
                   replaceError("dateOfDisposal.month", FormError("dateOfDisposal", "error.dateOfDisposal")).
                   replaceError("dateOfDisposal.year", FormError("dateOfDisposal", "error.dateOfDisposal")).
                   replaceError("dateOfDisposal", FormError("dateOfDisposal", "error.dateOfDisposal")).
-                  replaceError(consentId, "error.required", FormError(key = consentId, message = "disposal_dispose.consent.notgiven", args = Seq.empty)).
-                  replaceError(lossOfRegistrationConsentId, "error.required", FormError(key = lossOfRegistrationConsentId, message = "disposal_dispose.loss_of_registration.consent.notgiven", args = Seq.empty)).
+                  replaceError(ConsentId, "error.required", FormError(key = ConsentId, message = "disposal_dispose.consent.notgiven", args = Seq.empty)).
+                  replaceError(LossOfRegistrationConsentId, "error.required", FormError(key = LossOfRegistrationConsentId, message = "disposal_dispose.loss_of_registration.consent.notgiven", args = Seq.empty)).
                   distinctErrors
                 BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors, yearsDropdown))
               case _ =>
@@ -136,9 +136,9 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
     def storeResponseInCache(response: Option[DisposeResponse], nextPage: SimpleResult): SimpleResult = {
       response match {
         case Some(o) =>
-          val nextPageWithTransactionId = if (o.transactionId != "") nextPage.withEncryptedCookie(disposeFormTransactionIdCacheKey, o.transactionId)
+          val nextPageWithTransactionId = if (o.transactionId != "") nextPage.withEncryptedCookie(DisposeFormTransactionIdCacheKey, o.transactionId)
             else nextPage
-          if (o.registrationNumber != "") nextPageWithTransactionId.withEncryptedCookie(disposeFormRegistrationNumberCacheKey, o.registrationNumber)
+          if (o.registrationNumber != "") nextPageWithTransactionId.withEncryptedCookie(DisposeFormRegistrationNumberCacheKey, o.registrationNumber)
             else nextPageWithTransactionId
         case None => nextPage
       }
@@ -148,7 +148,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
       val transactionTimestamp = dateService.today.toDateTime.get
       val formatter = ISODateTimeFormat.dateTime()
       val isoDateTimeString = formatter.print(transactionTimestamp)
-      nextPage.withEncryptedCookie(disposeFormTimestampIdCacheKey, isoDateTimeString)
+      nextPage.withEncryptedCookie(DisposeFormTimestampIdCacheKey, isoDateTimeString)
     }
 
     def buildDisposeMicroServiceRequest(disposeModel: DisposeModel): DisposeRequest = {

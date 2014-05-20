@@ -12,11 +12,11 @@ object RelatedCacheKeys {
   final val DisposeSet = Set(vehicleLookupDetailsCacheKey,
     vehicleLookupResponseCodeCacheKey,
     vehicleLookupFormModelCacheKey,
-    disposeFormModelCacheKey,
-    disposeFormTransactionIdCacheKey,
-    disposeFormTimestampIdCacheKey,
-    disposeFormRegistrationNumberCacheKey,
-    disposeModelCacheKey)
+    DisposeFormModelCacheKey,
+    DisposeFormTransactionIdCacheKey,
+    DisposeFormTimestampIdCacheKey,
+    DisposeFormRegistrationNumberCacheKey,
+    DisposeModelCacheKey)
 
   final val TradeDetailsSet = Set(SetupTradeDetailsCacheKey,
       traderDetailsCacheKey,

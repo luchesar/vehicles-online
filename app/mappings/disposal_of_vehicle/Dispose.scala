@@ -1,16 +1,16 @@
 package mappings.disposal_of_vehicle
 
 object Dispose {
-  val mileageId = "mileage"
-  val dateOfDisposalId = "dateOfDisposal"
-  val disposeFormModelCacheKey = "disposeForm"
-  val disposeFormTransactionIdCacheKey = "disposeFormTransactionId"
-  val disposeFormTimestampIdCacheKey = "disposeFormTimestampId"
-  val disposeFormRegistrationNumberCacheKey = "disposeFormRegistrationNumber"
-  val disposeModelCacheKey = "formModel"
-  val consentId = "consent"
-  val lossOfRegistrationConsentId = "lossOfRegistrationConsent"
-  val dateOfDisposalYearsIntoThePast = 2
-  val backId = "back"
-  val submitId = "submit"
+  val MileageId = "mileage"
+  val DateOfDisposalId = "dateOfDisposal"
+  val DisposeFormModelCacheKey = "disposeForm"
+  val DisposeFormTransactionIdCacheKey = "disposeFormTransactionId"
+  val DisposeFormTimestampIdCacheKey = "disposeFormTimestampId"
+  val DisposeFormRegistrationNumberCacheKey = "disposeFormRegistrationNumber"
+  val DisposeModelCacheKey = "formModel"
+  val ConsentId = "consent"
+  val LossOfRegistrationConsentId = "lossOfRegistrationConsent"
+  val DateOfDisposalYearsIntoThePast = 2
+  val BackId = "back"
+  val SubmitId = "submit"
 }

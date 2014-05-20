@@ -9,5 +9,5 @@ case class DisposeFormModel(mileage: Option[Int], dateOfDisposal: DayMonthYear, 
 
 object DisposeFormModel {
   implicit val disposeFormModelFormat = Json.format[DisposeFormModel]
-  implicit val cacheKey = CacheKey[DisposeFormModel](value = disposeFormModelCacheKey)
+  implicit val cacheKey = CacheKey[DisposeFormModel](value = DisposeFormModelCacheKey)
 }

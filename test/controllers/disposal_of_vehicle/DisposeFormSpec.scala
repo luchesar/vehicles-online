@@ -78,7 +78,7 @@ class DisposeFormSpec extends UnitSpec {
         dayOfDispose = dayOfDispose)
 
       result.errors should have length 1
-      result.errors(0).key should equal(dateOfDisposalId)
+      result.errors(0).key should equal(DateOfDisposalId)
       result.errors(0).message should equal("error.notInFuture")
     }
 
@@ -94,7 +94,7 @@ class DisposeFormSpec extends UnitSpec {
         yearOfDispose = yearOfDispose)
 
       result.errors should have length 1
-      result.errors(0).key should equal(dateOfDisposalId)
+      result.errors(0).key should equal(DateOfDisposalId)
       result.errors(0).message should equal("error.withinTwoYears")
     }
 
@@ -107,7 +107,7 @@ class DisposeFormSpec extends UnitSpec {
         disposeController = dispose(dateServiceStubbed))
 
       result.errors should have length 1
-      result.errors(0).key should equal(dateOfDisposalId)
+      result.errors(0).key should equal(DateOfDisposalId)
       result.errors(0).message should equal("error.invalid")
     }
   }
@@ -158,12 +158,12 @@ class DisposeFormSpec extends UnitSpec {
 
     disposeController.disposeForm.bind(
       Map(
-        mileageId -> mileage,
-        s"$dateOfDisposalId.$dayId" -> dayOfDispose,
-        s"$dateOfDisposalId.$monthId" -> monthOfDispose,
-        s"$dateOfDisposalId.$yearId" -> yearOfDispose,
-        consentId -> consent,
-        lossOfRegistrationConsentId -> lossOfRegistrationConsent
+        MileageId -> mileage,
+        s"$DateOfDisposalId.$dayId" -> dayOfDispose,
+        s"$DateOfDisposalId.$monthId" -> monthOfDispose,
+        s"$DateOfDisposalId.$yearId" -> yearOfDispose,
+        ConsentId -> consent,
+        LossOfRegistrationConsentId -> lossOfRegistrationConsent
       )
     )
   }
