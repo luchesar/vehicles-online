@@ -7,7 +7,7 @@ import common.EncryptedCookieImplicits
 import EncryptedCookieImplicits.SimpleResultAdapter
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 
-class BeforeYouStart @Inject()(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing) extends Controller {
+final class BeforeYouStart @Inject()(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing) extends Controller {
 
   def present = Action { implicit request =>
 

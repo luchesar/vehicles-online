@@ -10,7 +10,7 @@ import mappings.disposal_of_vehicle.Dispose._
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 
-class DisposeFailure @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class DisposeFailure @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
 
   def present = Action { implicit request =>

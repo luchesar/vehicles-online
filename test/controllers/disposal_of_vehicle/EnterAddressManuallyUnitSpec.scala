@@ -80,7 +80,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "return bad request a valid postcode is entered without an address" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
-          s"$AddressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+          s"$AddressAndPostcodeId.$PostcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r => r.header.status should equal(BAD_REQUEST)
@@ -93,7 +93,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> line2Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> line3Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> line4Valid,
-        s"$AddressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+        s"$AddressAndPostcodeId.$PostcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
@@ -103,7 +103,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     "redirect to Dispose after a valid submission of mandatory fields only" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
           s"$AddressAndPostcodeId.$AddressLinesId.$Line1Id" -> line1Valid,
-          s"$AddressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+          s"$AddressAndPostcodeId.$PostcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
@@ -116,7 +116,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> "my street.",
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> "my area.",
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> "my town,",
-        s"$AddressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+        s"$AddressAndPostcodeId.$PostcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r =>
@@ -131,7 +131,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> "my street...,,.,",
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> "my area.,,..",
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> "my town,,,.,,,.",
-        s"$AddressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+        s"$AddressAndPostcodeId.$PostcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r =>
@@ -146,7 +146,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> "my street.",
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> "my area.",
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> "my town,",
-        s"$AddressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+        s"$AddressAndPostcodeId.$PostcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r =>
@@ -161,7 +161,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
     "submit does not accept an address containing only full stops" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$Line1Id" -> "...",
-        s"$AddressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+        s"$AddressAndPostcodeId.$PostcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r => r.header.status should equal(BAD_REQUEST)
@@ -174,7 +174,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> line2Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> line3Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> line4Valid,
-        s"$AddressAndPostcodeId.$postcodeId" -> postcodeValid)
+        s"$AddressAndPostcodeId.$PostcodeId" -> postcodeValid)
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -195,7 +195,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> line2Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> line3Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> line4Valid,
-        s"$AddressAndPostcodeId.$postcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+        s"$AddressAndPostcodeId.$PostcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually().submit(request)
       whenReady(result) {
         r =>

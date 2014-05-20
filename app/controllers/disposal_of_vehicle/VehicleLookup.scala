@@ -23,7 +23,7 @@ import EncryptedCookieImplicits.SimpleResultAdapter
 import EncryptedCookieImplicits.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 
-class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
   val vehicleLookupForm = Form(
     mapping(

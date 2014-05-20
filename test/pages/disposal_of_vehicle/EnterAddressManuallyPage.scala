@@ -22,7 +22,7 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 
   def addressLine4(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line4Id"))
 
-  def postcode(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_$postcodeId"))
+  def postcode(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_$PostcodeId"))
 
   def next(implicit driver: WebDriver): Element = find(id(NextId)).get
 

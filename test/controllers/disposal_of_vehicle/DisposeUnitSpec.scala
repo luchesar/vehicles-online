@@ -244,9 +244,9 @@ class DisposeUnitSpec extends UnitSpec {
     import mappings.common.DayMonthYear._
     FakeRequest().withSession().withFormUrlEncodedBody(
       MileageId -> mileageValid,
-      s"$DateOfDisposalId.$dayId" -> dateOfDisposalDayValid,
-      s"$DateOfDisposalId.$monthId" -> dateOfDisposalMonthValid,
-      s"$DateOfDisposalId.$yearId" -> dateOfDisposalYearValid,
+      s"$DateOfDisposalId.$DayId" -> dateOfDisposalDayValid,
+      s"$DateOfDisposalId.$MonthId" -> dateOfDisposalMonthValid,
+      s"$DateOfDisposalId.$YearId" -> dateOfDisposalYearValid,
       ConsentId -> consentValid,
       LossOfRegistrationConsentId -> consentValid
     )

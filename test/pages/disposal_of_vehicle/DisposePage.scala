@@ -14,11 +14,11 @@ object DisposePage extends Page with WebBrowserDSL {
 
   def mileage(implicit driver: WebDriver): TextField = textField(id(MileageId))
 
-  def dateOfDisposalDay(implicit driver: WebDriver): SingleSel = singleSel(id(s"${DateOfDisposalId}_$dayId"))
+  def dateOfDisposalDay(implicit driver: WebDriver): SingleSel = singleSel(id(s"${DateOfDisposalId}_$DayId"))
 
-  def dateOfDisposalMonth(implicit driver: WebDriver): SingleSel = singleSel(id(s"${DateOfDisposalId}_$monthId"))
+  def dateOfDisposalMonth(implicit driver: WebDriver): SingleSel = singleSel(id(s"${DateOfDisposalId}_$MonthId"))
 
-  def dateOfDisposalYear(implicit driver: WebDriver): SingleSel = singleSel(id(s"${DateOfDisposalId}_$yearId"))
+  def dateOfDisposalYear(implicit driver: WebDriver): SingleSel = singleSel(id(s"${DateOfDisposalId}_$YearId"))
 
   def consent(implicit driver: WebDriver): Checkbox = checkbox(id(ConsentId))
 

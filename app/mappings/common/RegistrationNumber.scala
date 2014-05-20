@@ -5,11 +5,11 @@ import play.api.data.Forms._
 import constraints.disposal_of_vehicle.RegistrationNumber.validRegistrationNumber
 
 object RegistrationNumber {
-  val minLength = 2
-  val maxLength = 8
-  val key = "RegistrationNumber"
+  final val MinLength = 2
+  final val MaxLength = 8
+  final val Key = "RegistrationNumber"
 
   def registrationNumber: Mapping[String] = {
-    nonEmptyText(minLength, maxLength) verifying validRegistrationNumber
+    nonEmptyText(MinLength, MaxLength) verifying validRegistrationNumber
   }
 }

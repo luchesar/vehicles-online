@@ -14,8 +14,8 @@ object AddressAndPostcode {
   final val AddressAndPostcodeCacheKey = "addressAndPostcodeCacheKey"
 
   val addressAndPostcode: Mapping[AddressAndPostcodeModel] = mapping(
-    uprnId -> uprn,
+    UprnId -> uprn,
     AddressLinesId -> addressLines.verifying(validAddressLines),
-    postcodeId -> postcode
+    PostcodeId -> postcode
   )(AddressAndPostcodeModel.apply)(AddressAndPostcodeModel.unapply)
 }

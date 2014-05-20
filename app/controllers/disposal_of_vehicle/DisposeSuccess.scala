@@ -11,7 +11,7 @@ import utils.helpers.{CookieNameHashing, CookieEncryption}
 import EncryptedCookieImplicits.SimpleResultAdapter
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 
-class DisposeSuccess @Inject()()(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing) extends Controller {
+final class DisposeSuccess @Inject()()(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing) extends Controller {
 
   def present = Action {
     implicit request =>

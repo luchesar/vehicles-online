@@ -43,8 +43,8 @@
             @valtechInputText(disposeForm(MileageId), args =
             Map('_label -> Messages("disposal_dispose.mileage.label"),
             '_showConstraints -> false,
-            'pattern -> Mileage.pattern,
-            'maxLength -> Mileage.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+            'pattern -> Mileage.Pattern,
+            'maxLength -> Mileage.Max, // Must be set independently of the pattern as the pattern is only checked when the user submits.
             'title -> Messages("disposal_dispose.mileage.validation")))
 
             @{

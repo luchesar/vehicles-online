@@ -13,7 +13,7 @@ import com.google.inject.Inject
 import EncryptedCookieImplicits.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 
-class SetUpTradeDetails @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class SetUpTradeDetails @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
   val traderLookupForm = Form(
     mapping(

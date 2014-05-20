@@ -33,7 +33,7 @@ import EncryptedCookieImplicits.SimpleResultAdapter
 import EncryptedCookieImplicits.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 
-class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
   val disposeForm = Form(
     mapping(

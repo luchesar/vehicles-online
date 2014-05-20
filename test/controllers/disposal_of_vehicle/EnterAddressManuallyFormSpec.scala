@@ -123,7 +123,7 @@ class EnterAddressManuallyFormSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> line2,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> line3,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> line4,
-        s"$AddressAndPostcodeId.$postcodeId" -> postcode
+        s"$AddressAndPostcodeId.$PostcodeId" -> postcode
       )
     )
   }

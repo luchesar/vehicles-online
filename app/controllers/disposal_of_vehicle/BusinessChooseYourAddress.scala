@@ -18,7 +18,7 @@ import EncryptedCookieImplicits.SimpleResultAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 import utils.helpers.FormExtensions._
 
-class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
   private def fetchAddresses(setupTradeDetailsModel: SetupTradeDetailsModel) = {
     val postcode = setupTradeDetailsModel.traderPostcode

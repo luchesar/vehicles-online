@@ -38,14 +38,14 @@
 				
 				@valtechInputText(vehicleLookupForm(RegistrationNumberId), args =
                     Map('_label -> Messages("disposal_vehiclelookup.vrninputlabel"),
-                    'maxLength -> RegistrationNumber.maxLength,
+                    'maxLength -> RegistrationNumber.MaxLength,
                     '_showConstraints -> false))
 				
 			    @valtechInputText(vehicleLookupForm(ReferenceNumberId), args =
                     Map('_label -> Messages("disposal_vehiclelookup.refnumlabel"),
                     '_showConstraints -> false,
-                    'pattern -> ReferenceNumber.pattern,
-                    'maxLength -> ReferenceNumber.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                    'pattern -> ReferenceNumber.Pattern,
+                    'maxLength -> ReferenceNumber.MaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                     'title -> Messages("error.validDocumentReferenceNumber")
                 ))
 

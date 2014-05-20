@@ -9,7 +9,7 @@ import common.EncryptedCookieImplicits
 import EncryptedCookieImplicits.RequestAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 
-class VehicleLookupFailure @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class VehicleLookupFailure @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
   def present = Action { implicit request =>
     (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[VehicleLookupFormModel]) match {

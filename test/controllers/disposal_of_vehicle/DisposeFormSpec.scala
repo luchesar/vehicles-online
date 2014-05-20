@@ -52,7 +52,7 @@ class DisposeFormSpec extends UnitSpec {
 
   "mileage" should {
     "reject if mileage is more than maximum" in {
-      formWithValidDefaults(mileage = (Mileage.max + 1).toString).errors should have length 1
+      formWithValidDefaults(mileage = (Mileage.Max + 1).toString).errors should have length 1
     }
   }
 
@@ -159,9 +159,9 @@ class DisposeFormSpec extends UnitSpec {
     disposeController.disposeForm.bind(
       Map(
         MileageId -> mileage,
-        s"$DateOfDisposalId.$dayId" -> dayOfDispose,
-        s"$DateOfDisposalId.$monthId" -> monthOfDispose,
-        s"$DateOfDisposalId.$yearId" -> yearOfDispose,
+        s"$DateOfDisposalId.$DayId" -> dayOfDispose,
+        s"$DateOfDisposalId.$MonthId" -> monthOfDispose,
+        s"$DateOfDisposalId.$YearId" -> yearOfDispose,
         ConsentId -> consent,
         LossOfRegistrationConsentId -> lossOfRegistrationConsent
       )

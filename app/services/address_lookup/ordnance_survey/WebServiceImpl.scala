@@ -5,8 +5,8 @@ import utils.helpers.Config
 import scala.concurrent.Future
 import play.api.Logger
 import services.address_lookup.AddressLookupWebService
-import mappings.common.Postcode.postcodeId
-import mappings.common.Uprn.uprnId
+import mappings.common.Postcode.PostcodeId
+import mappings.common.Uprn.UprnId
 import play.api.libs.json.Json
 
 class WebServiceImpl extends AddressLookupWebService {

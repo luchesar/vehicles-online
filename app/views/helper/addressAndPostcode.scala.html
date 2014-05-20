@@ -6,7 +6,7 @@
 @import views.html.helper.base._
 @import utils.helpers.BaseTemplate._
 @import mappings.common.AddressLines.AddressLinesId
-@import mappings.common.Postcode.postcodeId
+@import mappings.common.Postcode.PostcodeId
 @import mappings.common.Postcode
 
 <fieldset>
@@ -14,7 +14,7 @@
     @addressLines(field(AddressLinesId),
         args = Map('_label -> Messages("address.lines.label")))
 
-    @valtechInputText(field(postcodeId),
+    @valtechInputText(field(PostcodeId),
         args = Map(
             'placeholder -> Messages("address.postcode.label.prompt"),
             '_label -> Messages("address.postcode.label"),
