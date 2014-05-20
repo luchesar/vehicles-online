@@ -18,11 +18,11 @@
     	<p>@Messages("disposal_dispose.warning")&nbsp;<a href="https://www.gov.uk/contact">@Messages("disposal_dispose.warning.link")</a></p>
     </div>
 
-    <div class="two-col clearfix">
+    <div class="clearfix">
 
-        <div class="first-col">
+        <div class="disposal-info">
             <h2>@Messages("disposal_dispose.vehicledetails")</h2>
-            <dl class="summary-detail-list">
+            <dl class="summary-detail-list summary-detail-list-flex">
             	<dt>@Messages("disposal_dispose.vehiclereg")</dt>
             	<dd>@data.registrationNumber</dd>
                 <dt>@Messages("disposal_dispose.vehiclemake")</dt>
@@ -59,11 +59,13 @@
             }
         </div>
 
-        <div class="second-col disposal-form">
+        <div class="disposal-form">
             <h2>@Messages("disposal_dispose.disposevehicleto")</h2>
 
-            <p>@data.dealerName<br />
-            @for(addr <- data.dealerAddress.address) {@addr<br/>}</p>
+            <div class="summary-detail-list summary-detail-list-flex">
+              <p>@data.dealerName<br />
+              @for(addr <- data.dealerAddress.address) {@addr<br/>}</p>
+            </div>
 
             <div class="form-declaration">
                 @valtechDeclareCheck(disposeForm(consentId),

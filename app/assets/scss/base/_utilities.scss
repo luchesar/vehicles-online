@@ -22,3 +22,13 @@
 	top:0;
 	left:-9999px;
 }
+
+// smaller width, more flexible container
+@mixin summary-detail-list-flex {
+	@media screen and (min-width:$device-medium) {
+		max-width:500px;
+	}
+	@media screen and (min-width:$device-large) {
+		max-width:55%;
+	}	
+}
