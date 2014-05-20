@@ -22,6 +22,7 @@ import services.fakes.FakeWebServiceImpl._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import services.fakes.FakeAddressLookupService._
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
+import scala.Some
 
 class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -91,8 +92,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val foundMatch =  cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.vehicleLookupFormModel(registrationNumber = registrationNumberValid)))
-          foundMatch should equal(true)
+          cookies.map(_.name) should contain (vehicleLookupFormModelCacheKey)
       }
     }
 

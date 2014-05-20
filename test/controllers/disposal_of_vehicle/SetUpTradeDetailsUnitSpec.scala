@@ -77,8 +77,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val found = cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.setupTradeDetails()))
-          found should equal(true)
+          cookies.map(_.name) should contain (SetupTradeDetailsCacheKey)
       }
     }
   }
