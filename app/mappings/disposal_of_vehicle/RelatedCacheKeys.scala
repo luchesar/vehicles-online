@@ -9,18 +9,6 @@ import mappings.disposal_of_vehicle.Dispose._
 object RelatedCacheKeys {
   final val SeenCookieMessageKey = "seen_cookie_message"
 
-  final val FullSet = Set(SetupTradeDetailsCacheKey,
-    traderDetailsCacheKey,
-    businessChooseYourAddressCacheKey,
-    vehicleLookupDetailsCacheKey,
-    vehicleLookupResponseCodeCacheKey,
-    vehicleLookupFormModelCacheKey,
-    disposeFormModelCacheKey,
-    disposeFormTransactionIdCacheKey,
-    disposeFormTimestampIdCacheKey,
-    disposeFormRegistrationNumberCacheKey,
-    disposeModelCacheKey)
-
   final val DisposeSet = Set(vehicleLookupDetailsCacheKey,
     vehicleLookupResponseCodeCacheKey,
     vehicleLookupFormModelCacheKey,
@@ -33,4 +21,6 @@ object RelatedCacheKeys {
   final val TradeDetailsSet = Set(SetupTradeDetailsCacheKey,
       traderDetailsCacheKey,
       businessChooseYourAddressCacheKey)
+
+  final val FullSet = TradeDetailsSet ++ DisposeSet
 }

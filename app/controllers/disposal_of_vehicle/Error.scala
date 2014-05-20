@@ -16,8 +16,6 @@ class Error @Inject()()(implicit encryption: CookieEncryption, cookieNameHashing
 
   def submit = Action.async { implicit request =>
     Logger.debug("Error submit called - now going to remove full set of cookies and redirect to start page...")
-//    Redirect(routes.BeforeYouStart.present()).withNewSession
-//    Redirect(routes.BeforeYouStart.present()).discardingEncryptedCookies(RelatedCacheKeys.FullSet)
     CryptoHelper.discardAllCookies
   }
 

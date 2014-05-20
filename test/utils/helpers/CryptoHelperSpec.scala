@@ -6,12 +6,13 @@ import mappings.disposal_of_vehicle.RelatedCacheKeys
 import play.api.mvc.Cookies
 import play.api.test.Helpers._
 import play.api.test.{WithApplication, FakeApplication, FakeRequest}
+import pages.disposal_of_vehicle.BeforeYouStartPage
 
 class CryptoHelperSpec extends UnitSpec {
   private val appWithCryptpConfig = FakeApplication(
     additionalConfiguration = Map("application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo="))
 
-  "handleBadPaddingException" should {
+  "handleApplicationSecretChange" should {
     "discard all cookies except SeenCookieMessageKey" in new WithApplication(app = appWithCryptpConfig) {
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.seenCookieMessage()).
@@ -23,7 +24,8 @@ class CryptoHelperSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
         withCookies(CookieFactoryForUnitSpecs.disposeModel())
 
-      val result = CryptoHelper.discardAllCookies(request)
+      val result = CryptoHelper.handleApplicationSecretChange(request)
+
       whenReady(result) { r =>
         val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
         cookies.filter(cookie => RelatedCacheKeys.FullSet.contains(cookie.name)).foreach { cookie =>
@@ -35,6 +37,23 @@ class CryptoHelperSpec extends UnitSpec {
         }
       }
     }
-    //"redirect to BeforeYouStart page" in {}
+
+    "redirect to BeforeYouStart page" in new WithApplication(app = appWithCryptpConfig) {
+      val request = FakeRequest().withSession().
+        withCookies(CookieFactoryForUnitSpecs.seenCookieMessage()).
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeTransactionId()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
+        withCookies(CookieFactoryForUnitSpecs.disposeModel())
+
+      val result = CryptoHelper.handleApplicationSecretChange(request)
+      
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+      }
+    }
   }
 }
