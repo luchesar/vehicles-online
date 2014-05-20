@@ -244,6 +244,8 @@ disposal_uprnnotfound.p1 = An error has occurred validating your postcode. Pleas
 disposal_uprnnotfound.manualaddressbutton = Set-up trade details
 disposal_uprnnotfound.setuptradedetailsbutton = Manually enter address
 
+disposal_businessChooseYourAddress.address.required = Select an address from the drop down or enter it manually
+
 #page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Find vehicle details
 disposal_vehiclelookup.name = Dispose a vehicle into the motor trade

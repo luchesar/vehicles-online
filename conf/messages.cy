@@ -209,6 +209,8 @@ disposal_setuptradedetails.button = Nesaf
 traderName = Enw masnachwr
 traderPostcode = Cod post
 
+disposal_businessChooseYourAddress.address.required = Dewiswch gyfeiriad o''r gwymplen neu roi ei llaw
+
 #page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Dod o hyd i fanylion y cerbyd
 disposal_vehiclelookup.name = Gwaredu cerbyd i mewn i'r fasnach foduron
