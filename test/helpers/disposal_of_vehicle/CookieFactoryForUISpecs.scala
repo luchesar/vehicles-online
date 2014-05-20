@@ -2,7 +2,7 @@ package helpers.disposal_of_vehicle
 
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
-import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
+import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import models.DayMonthYear
 import models.domain.disposal_of_vehicle._
 import org.openqa.selenium.{WebDriver, Cookie}
@@ -38,7 +38,7 @@ object CookieFactoryForUISpecs {
   }
 
   def dealerDetailsIntegration(address: AddressViewModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
-    val key = traderDetailsCacheKey
+    val key = TraderDetailsCacheKey
     val value = TraderDetailsModel(traderName = traderBusinessNameValid, traderAddress = address)
     addCookie(key, value)
     this
@@ -46,7 +46,7 @@ object CookieFactoryForUISpecs {
 
   def vehicleLookupFormModelIntegration(referenceNumber: String = referenceNumberValid,
                                         registrationNumber: String = registrationNumberValid)(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupFormModelCacheKey
+    val key = mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
     val value = VehicleLookupFormModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber)
     addCookie(key, value)
@@ -57,7 +57,7 @@ object CookieFactoryForUISpecs {
                                      vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid,
                                      vehicleModel: String = vehicleModelValid,
                                      keeperName: String = keeperNameValid)(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
+    val key = mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupDetailsCacheKey
     val value = VehicleDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel)

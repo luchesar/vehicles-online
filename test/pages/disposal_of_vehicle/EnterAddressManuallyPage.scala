@@ -24,9 +24,9 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 
   def postcode(implicit driver: WebDriver): TextField = textField(id(s"${addressAndPostcodeId}_$postcodeId"))
 
-  def next(implicit driver: WebDriver): Element = find(id(nextId)).get
+  def next(implicit driver: WebDriver): Element = find(id(NextId)).get
 
-  def back(implicit driver: WebDriver): Element = find(id(backId)).get
+  def back(implicit driver: WebDriver): Element = find(id(BackId)).get
 
   def happyPath(line1: String = line1Valid, line2: String = line2Valid, line3: String = line3Valid, line4:String = line4Valid, postcode:String = postcodeValid)(implicit driver: WebDriver) ={
     go to EnterAddressManuallyPage

@@ -3,7 +3,7 @@ package models.domain.disposal_of_vehicle
 import models.domain.common.{CacheKey, AddressLinesModel, AddressAndPostcodeModel}
 import scala.annotation.tailrec
 import play.api.libs.json.Json
-import mappings.disposal_of_vehicle.EnterAddressManually.enterAddressManuallyCacheKey
+import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
 
 case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcodeModel) {
   def stripCharsNotAccepted = {
@@ -30,5 +30,5 @@ case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcode
 
 object EnterAddressManuallyModel {
   implicit val enterAddressManuallyModelFormat = Json.format[EnterAddressManuallyModel]
-  implicit val cacheKey = CacheKey[EnterAddressManuallyModel](enterAddressManuallyCacheKey)
+  implicit val cacheKey = CacheKey[EnterAddressManuallyModel](EnterAddressManuallyCacheKey)
 }

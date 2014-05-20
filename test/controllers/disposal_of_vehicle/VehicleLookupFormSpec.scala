@@ -36,7 +36,7 @@ class VehicleLookupFormSpec extends UnitSpec {
 
     "reject if blank" in {
       val vehicleLookupFormError = formWithValidDefaults(referenceNumber = "").errors
-      val expectedKey = referenceNumberId
+      val expectedKey = ReferenceNumberId
       
       vehicleLookupFormError should have length 3
       vehicleLookupFormError(0).key should equal(expectedKey)
@@ -110,8 +110,8 @@ class VehicleLookupFormSpec extends UnitSpec {
                                     consent: String = consentValid) = {
     vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).vehicleLookupForm.bind(
       Map(
-        referenceNumberId -> referenceNumber,
-        registrationNumberId -> registrationNumber
+        ReferenceNumberId -> referenceNumber,
+        RegistrationNumberId -> registrationNumber
       )
     )
   }

@@ -11,11 +11,11 @@ object SetupTradeDetailsPage extends Page with WebBrowserDSL {
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   override val title: String = "Provide your trader details"
 
-  def traderName(implicit driver: WebDriver): TextField = textField(id(traderNameId))
+  def traderName(implicit driver: WebDriver): TextField = textField(id(TraderNameId))
 
-  def traderPostcode(implicit driver: WebDriver): TextField = textField(id(traderPostcodeId))
+  def traderPostcode(implicit driver: WebDriver): TextField = textField(id(TraderPostcodeId))
 
-  def lookup(implicit driver: WebDriver): Element = find(id(submitId)).get
+  def lookup(implicit driver: WebDriver): Element = find(id(SubmitId)).get
 
   def happyPath(traderBusinessName: String = traderBusinessNameValid, traderBusinessPostcode: String = postcodeValid)(implicit driver: WebDriver) = {
     go to SetupTradeDetailsPage

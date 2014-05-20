@@ -10,7 +10,7 @@ import play.api.mvc.Cookies
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeAddressLookupService._
-import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
+import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 class EnterAddressManuallyUnitSpec extends UnitSpec {
@@ -121,7 +121,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          cookies.map(_.name) should contain (traderDetailsCacheKey)
+          cookies.map(_.name) should contain (TraderDetailsCacheKey)
       }
     }
 
@@ -136,7 +136,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          cookies.map(_.name) should contain (traderDetailsCacheKey)
+          cookies.map(_.name) should contain (TraderDetailsCacheKey)
       }
     }
 
@@ -151,7 +151,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          cookies.find(_.name == traderDetailsCacheKey) match {
+          cookies.find(_.name == TraderDetailsCacheKey) match {
             case Some(cookie) => cookie.value should include ("my house 1.1")
             case _ => fail("should have found some cookie")
           }
@@ -200,7 +200,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          cookies.map(_.name) should contain (traderDetailsCacheKey)
+          cookies.map(_.name) should contain (TraderDetailsCacheKey)
       }
     }
   }

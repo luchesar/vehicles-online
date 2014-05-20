@@ -9,7 +9,7 @@ object VehicleLookupFailurePage extends Page with WebBrowserDSL {
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   override val title: String = "Dispose a vehicle into the motor trade: vehicle lookup failure"
 
-  def beforeYouStart(implicit driver: WebDriver): Element = find(id(beforeyoustartId)).get
+  def beforeYouStart(implicit driver: WebDriver): Element = find(id(BeforeYouStartId)).get
 
-  def vehicleLookup(implicit driver: WebDriver): Element = find(id(vehiclelookupId)).get
+  def vehicleLookup(implicit driver: WebDriver): Element = find(id(VehicleLookupId)).get
 }

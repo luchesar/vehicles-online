@@ -4,11 +4,11 @@ import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
 import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
-import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
-import mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
-import mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupFormModelCacheKey
+import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupDetailsCacheKey
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
-import mappings.disposal_of_vehicle.EnterAddressManually.enterAddressManuallyCacheKey
+import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
 import models.DayMonthYear
 import models.domain.disposal_of_vehicle._
 import play.api.libs.json.{Writes, Json}
@@ -60,7 +60,7 @@ object CookieFactoryForUnitSpecs {
   }
 
   def enterAddressManually() = {
-    val key = enterAddressManuallyCacheKey
+    val key = EnterAddressManuallyCacheKey
     val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = line1Valid,
       line2 = Some(line2Valid),
       line3 = Some(line3Valid),
@@ -70,7 +70,7 @@ object CookieFactoryForUnitSpecs {
   }
 
   def traderDetailsModel(uprn: Option[Long] = None, line1: String = "my house", traderPostcode: String = postcodeValid) = {
-    val key = traderDetailsCacheKey
+    val key = TraderDetailsCacheKey
     val value = TraderDetailsModel(traderName = traderBusinessNameValid,
       traderAddress = AddressViewModel(uprn = uprn, address = Seq(line1, "my street", "my area", "my town", "CM81QJ")))
     createCookie(key, value)
@@ -78,7 +78,7 @@ object CookieFactoryForUnitSpecs {
 
   def vehicleLookupFormModel(referenceNumber: String = referenceNumberValid,
                              registrationNumber: String = registrationNumberValid) = {
-    val key = vehicleLookupFormModelCacheKey
+    val key = VehicleLookupFormModelCacheKey
     val value = VehicleLookupFormModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber)
     createCookie(key, value)
@@ -88,7 +88,7 @@ object CookieFactoryForUnitSpecs {
                           vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid,
                           vehicleModel: String = vehicleModelValid,
                           keeperName: String = keeperNameValid) = {
-    val key = vehicleLookupDetailsCacheKey
+    val key = VehicleLookupDetailsCacheKey
     val value = VehicleDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel)

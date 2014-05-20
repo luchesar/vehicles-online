@@ -31,11 +31,11 @@ class VehicleLookupFailure @Inject()()(implicit encryption: CookieEncryption, ha
   private def displayVehicleLookupFailure(vehicleLookUpFormModelDetails: VehicleLookupFormModel)(implicit request: Request[AnyContent]) = {
     val responseCodeErrorMessage = encodeResponseCodeErrorMessage
     Ok(views.html.disposal_of_vehicle.vehicle_lookup_failure(vehicleLookUpFormModelDetails, responseCodeErrorMessage)).
-      discardingCookies(DiscardingCookie(name = vehicleLookupResponseCodeCacheKey))
+      discardingCookies(DiscardingCookie(name = VehicleLookupResponseCodeCacheKey))
   }
 
   private def encodeResponseCodeErrorMessage(implicit request: Request[AnyContent]): String =
-    request.getCookieNamed(vehicleLookupResponseCodeCacheKey) match {
+    request.getCookieNamed(VehicleLookupResponseCodeCacheKey) match {
       case Some(responseCode) => responseCode
       case _ => "disposal_vehiclelookupfailure.p1"
     }

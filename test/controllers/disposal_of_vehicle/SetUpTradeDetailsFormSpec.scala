@@ -21,11 +21,11 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
       // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderBusinessName = "").errors
       errors should have length 3
-      errors(0).key should equal(traderNameId)
+      errors(0).key should equal(TraderNameId)
       errors(0).message should equal("error.minLength")
-      errors(1).key should equal(traderNameId)
+      errors(1).key should equal(TraderNameId)
       errors(1).message should equal("error.required")
-      errors(2).key should equal(traderNameId)
+      errors(2).key should equal(TraderNameId)
       errors(2).message should equal("error.validTraderBusinessName")
     }
 
@@ -48,11 +48,11 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
       // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderPostcode = "").errors
       errors should have length 3
-      errors(0).key should equal(traderPostcodeId)
+      errors(0).key should equal(TraderPostcodeId)
       errors(0).message should equal("error.minLength")
-      errors(1).key should equal(traderPostcodeId)
+      errors(1).key should equal(TraderPostcodeId)
       errors(1).message should equal("error.required")
-      errors(2).key should equal(traderPostcodeId)
+      errors(2).key should equal(TraderPostcodeId)
       errors(2).message should equal("error.restricted.validPostcode")
     }
 
@@ -79,8 +79,8 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
     val noCookieNameHashing = new NoHash with CookieNameHashing
     new SetUpTradeDetails()(noCookieEncryption, noCookieNameHashing).traderLookupForm.bind(
       Map(
-        traderNameId -> traderBusinessName,
-        traderPostcodeId -> traderPostcode
+        TraderNameId -> traderBusinessName,
+        TraderPostcodeId -> traderPostcode
       )
     )
   }

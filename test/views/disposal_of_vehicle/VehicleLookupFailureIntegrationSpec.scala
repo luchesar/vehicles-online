@@ -71,7 +71,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
       go to VehicleLookupFailurePage
 
-      assert(webDriver.manage().getCookieNamed(vehicleLookupResponseCodeCacheKey) == null)
+      assert(webDriver.manage().getCookieNamed(VehicleLookupResponseCodeCacheKey) == null)
     }
   }
 

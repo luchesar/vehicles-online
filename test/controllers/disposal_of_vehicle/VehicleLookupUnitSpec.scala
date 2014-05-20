@@ -92,7 +92,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          cookies.map(_.name) should contain (vehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain (VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -141,7 +141,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "replace max length error message for document reference number with standard error message (US43)" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (referenceNumberLength + 1)).
+      val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (ReferenceNumberLength + 1)).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
       // check the validation summary text
@@ -241,7 +241,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          cookies.map(_.name) should contain (vehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain (VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -251,7 +251,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          cookies.map(_.name) should contain allOf (vehicleLookupResponseCodeCacheKey, vehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain allOf (VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -261,7 +261,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          cookies.map(_.name) should contain allOf (vehicleLookupResponseCodeCacheKey, vehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain allOf (VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -308,9 +308,9 @@ class VehicleLookupUnitSpec extends UnitSpec {
                                              registrationNumber: String = registrationNumberValid,
                                              consent: String = consentValid) = {
     FakeRequest().withSession().withFormUrlEncodedBody(
-      referenceNumberId -> referenceNumber,
-      registrationNumberId -> registrationNumber,
-      consentId -> consent)
+      ReferenceNumberId -> referenceNumber,
+      RegistrationNumberId -> registrationNumber,
+      ConsentId -> consent)
   }
 
 }

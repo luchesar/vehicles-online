@@ -17,8 +17,8 @@ class SetUpTradeDetails @Inject()()(implicit encryption: CookieEncryption, hashi
 
   val traderLookupForm = Form(
     mapping(
-      traderNameId -> traderBusinessName(),
-      traderPostcodeId -> postcode
+      TraderNameId -> traderBusinessName(),
+      TraderPostcodeId -> postcode
     )(SetupTradeDetailsModel.apply)(SetupTradeDetailsModel.unapply)
   )
 
@@ -32,8 +32,8 @@ class SetUpTradeDetails @Inject()()(implicit encryption: CookieEncryption, hashi
       traderLookupForm.bindFromRequest.fold(
         formWithErrors => {
           val formWithReplacedErrors = formWithErrors.
-            replaceError(traderNameId, FormError(key = traderNameId, message = "error.validTraderBusinessName", args = Seq.empty)).
-            replaceError(traderPostcodeId, FormError(key = traderPostcodeId, message = "error.restricted.validPostcode", args = Seq.empty)).
+            replaceError(TraderNameId, FormError(key = TraderNameId, message = "error.validTraderBusinessName", args = Seq.empty)).
+            replaceError(TraderPostcodeId, FormError(key = TraderPostcodeId, message = "error.restricted.validPostcode", args = Seq.empty)).
             distinctErrors
           BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors))
         },

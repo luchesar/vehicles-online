@@ -57,7 +57,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
     }
 
     "replace max length error message for traderBusinessName with standard error message (US158)" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (traderNameMaxLength + 1))
+      val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (TraderNameMaxLength + 1))
       val result = setUpTradeDetails().submit(request)
       val count = countSubstring(contentAsString(result), "Must be between two and 30 characters and not contain invalid characters")
       count should equal(2)
@@ -84,8 +84,8 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
   private def buildCorrectlyPopulatedRequest(dealerName: String = traderBusinessNameValid, dealerPostcode: String = postcodeValid) = {
     FakeRequest().withSession().withFormUrlEncodedBody(
-      traderNameId -> dealerName,
-      traderPostcodeId -> dealerPostcode)
+      TraderNameId -> dealerName,
+      TraderPostcodeId -> dealerPostcode)
   }
 
   private def setUpTradeDetails() = {

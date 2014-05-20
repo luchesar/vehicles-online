@@ -27,8 +27,8 @@ class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encrypt
 
   val vehicleLookupForm = Form(
     mapping(
-      referenceNumberId -> referenceNumber,
-      registrationNumberId -> registrationNumber
+      ReferenceNumberId -> referenceNumber,
+      RegistrationNumberId -> registrationNumber
     )(VehicleLookupFormModel.apply)(VehicleLookupFormModel.unapply)
   )
 
@@ -47,8 +47,8 @@ class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encrypt
           Future {
             request.getEncryptedCookie[TraderDetailsModel] match {
               case Some(dealerDetails) => val formWithReplacedErrors = formWithErrors.
-                  replaceError(registrationNumberId, FormError(key = registrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
-                  replaceError(referenceNumberId, FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
+                  replaceError(RegistrationNumberId, FormError(key = RegistrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
+                  replaceError(ReferenceNumberId, FormError(key = ReferenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
                   distinctErrors
                 BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithReplacedErrors))
               case None => Redirect(routes.SetUpTradeDetails.present())
@@ -100,7 +100,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encrypt
     response.responseCode match {
       case Some(responseCode) =>
         Redirect(routes.VehicleLookupFailure.present()).
-          withEncryptedCookie(key = vehicleLookupResponseCodeCacheKey, value = responseCode)
+          withEncryptedCookie(key = VehicleLookupResponseCodeCacheKey, value = responseCode)
       case None => noResponseCodePresent(response.vehicleDetailsDto)
     }
   }

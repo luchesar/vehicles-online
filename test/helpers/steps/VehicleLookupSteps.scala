@@ -58,7 +58,7 @@ class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
   @Then("""^the doc ref number is retained$""")
   def the_doc_ref_number_is_retained() = {
     val vrn = webDriver.manage().
-      getCookieNamed(vehicleLookupFormModelCacheKey).
+      getCookieNamed(VehicleLookupFormModelCacheKey).
       getValue
 
     vrn should include(referenceNumberValid)
