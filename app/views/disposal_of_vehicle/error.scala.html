@@ -1,0 +1,12 @@
+@()(implicit lang: Lang)
+
+@import helper._
+
+@main(Messages("error.title")){
+
+    @form(action = controllers.disposal_of_vehicle.routes.Error.submit) {
+        <div class="form-steps">
+            <button id="start" type="submit" name="action" class="button">@Messages("error.button")</button>
+        </div>
+    }
+}

@@ -34,9 +34,9 @@ object CryptoHelper {
   private def newSessionSecretKey = if (encryptCookies) Hex.encodeHexString(CryptoHelper.getSecureRandomBytes(16)) else ""
 
   def getSessionSecretKeyFromRequest(request: RequestHeader)(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): Option[String] =
-      request.cookies.get(sessionSecretKeyCookieName).map { cookie =>
-        encryption.decrypt(cookie.value)
-      }
+    request.cookies.get(sessionSecretKeyCookieName).map { cookie =>
+      encryption.decrypt(cookie.value)
+    }
 
   def ensureSessionSecretKeyInResult(result: SimpleResult)(implicit request: Request[_], encryption: CookieEncryption,
                                                            cookieNameHashing: CookieNameHashing): (SimpleResult, String) =
@@ -61,10 +61,12 @@ object CryptoHelper {
     secure = true*/
   )
 
-  def handleBadPaddingException(implicit request: RequestHeader): Future[SimpleResult] = {
-    Logger.warn("Handling BadPaddingException by removing all cookies except seen cookie. Has the application secret changed ?")
+  def handleApplicationSecretChange(implicit request: RequestHeader): Future[SimpleResult] = discardAllCookies
+
+  def discardAllCookies(implicit request: RequestHeader): Future[SimpleResult] = {
+    Logger.warn("Handling BadPaddingException or IllegalBlockSizeException by removing all cookies except seen cookie. Has the application secret changed or has a user tampered with his session secret?")
     val discardingCookiesKeys = request.cookies.map(_.name).filter(_ != RelatedCacheKeys.SeenCookieMessageKey).toSet
     Future(Redirect(routes.BeforeYouStart.present()).
-      discardingEncryptedCookies(discardingCookiesKeys, request)) // TODO can we wrap this in Action.async like other play controller actions?
+      discardingEncryptedCookies(discardingCookiesKeys, request))
   }
 }

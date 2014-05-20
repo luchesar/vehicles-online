@@ -23,7 +23,7 @@ class CryptoHelperSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
         withCookies(CookieFactoryForUnitSpecs.disposeModel())
 
-      val result = CryptoHelper.handleBadPaddingException(request)
+      val result = CryptoHelper.discardAllCookies(request)
       whenReady(result) { r =>
         val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
         cookies.filter(cookie => RelatedCacheKeys.FullSet.contains(cookie.name)).foreach { cookie =>

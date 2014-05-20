@@ -364,3 +364,7 @@ soap_endpoint_error.exit.button=Exit
 onHandlerNotFound.title=This page cannot be found
 onHandlerNotFound.header=This page cannot be found
 onHandlerNotFound.body=Please check that you have entered the correct web address, or explore GOV.UK to find the information you need.
+
+error.title=An unrecoverable error has occurred
+error.text=An unrecoverable error has occurred
+error.button=Start again

@@ -82,8 +82,8 @@ object Global extends WithFilters(new GzipFilter()) with GlobalSettings {
   override def onHandlerNotFound(request: RequestHeader): Future[SimpleResult] = Future(NotFound(views.html.errors.onHandlerNotFound(request)))
 
   override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] = ex.getCause match {
-    case _: BadPaddingException  => CryptoHelper.handleBadPaddingException(request)
-    case _ => super.onError(request, ex)
+    case _: BadPaddingException  => CryptoHelper.handleApplicationSecretChange(request)
+    case _ => Future(Redirect(routes.Error.present()))
   }
 }
 

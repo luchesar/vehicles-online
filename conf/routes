@@ -51,3 +51,6 @@ GET         /disposal-of-vehicle/uprn-not-found                 @controllers.dis
 
 GET         /disposal-of-vehicle/micro-service-error            @controllers.disposal_of_vehicle.MicroServiceError.present
 GET         /disposal-of-vehicle/soap-endpoint-error            @controllers.disposal_of_vehicle.SoapEndpointError.present
+
+GET         /disposal-of-vehicle/error                          @controllers.disposal_of_vehicle.Error.present
+POST        /disposal-of-vehicle/error                          @controllers.disposal_of_vehicle.Error.submit
