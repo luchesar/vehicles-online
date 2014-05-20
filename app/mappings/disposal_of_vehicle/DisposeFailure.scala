@@ -1,6 +1,6 @@
 package mappings.disposal_of_vehicle
 
 object DisposeFailure {
-  val vehiclelookupId = "vehiclelookup"
-  val setuptradedetailsId = "setuptradedetails"
+  val VehicleLookupId = "vehiclelookup"
+  val SetupTradeDetailsId = "setuptradedetails"
 }
