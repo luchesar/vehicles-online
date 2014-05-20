@@ -442,3 +442,10 @@ button,
 .button-text {
     display: none !important;
 }
+
+/*show some specific form element labels*/
+#FindAVehicleDiv label,
+#FindAVehicleDiv legend {
+    display:block !important;
+}
+}
