@@ -23,17 +23,27 @@ import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 import scala.Some
 import play.api.mvc.Cookie
 import utils.helpers.CryptoHelper
+import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
 
 object CookieFactoryForUnitSpecs {
   private def createCookie[A](key: String, value: A)(implicit tjs: Writes[A]): Cookie = {
     val valueAsString = Json.toJson(value).toString()
-    CryptoHelper.createCookie(name = key,
+    val cookie = CryptoHelper.createCookie(name = key,
       value = valueAsString)
+    assert(cookie.maxAge.get > 0, "MaxAge is an option, and in testing we are not setting maxAge, so our understanding " +
+      s"is that a Cookie will be created with maxAge = None and therefore does not expire during a test. Value was: ${cookie.maxAge}")
+    cookie
   }
 
   private def createCookie[A](key: String, value: String): Cookie = {
     CryptoHelper.createCookie(name = key,
       value = value)
+  }
+
+  def seenCookieMessage() = {
+    val key = SeenCookieMessageKey
+    val value = "yes" // TODO make a constant
+    createCookie(key, value)
   }
 
   def setupTradeDetails(traderPostcode: String = postcodeValid) = {

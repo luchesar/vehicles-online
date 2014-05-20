@@ -3,8 +3,18 @@ package utils.helpers
 import app.ConfigProperties._
 import org.apache.commons.codec.binary.Hex
 import java.security.SecureRandom
-import play.api.mvc.{RequestHeader, Cookie, SimpleResult, Request}
+import play.api.mvc.{RequestHeader, Request}
 import Config.cookieMaxAge
+import play.api.Logger
+import mappings.disposal_of_vehicle.RelatedCacheKeys
+import scala.concurrent.{ExecutionContext, Future}
+import play.api.mvc.Results._
+import play.api.mvc.Cookie
+import scala.Some
+import play.api.mvc.SimpleResult
+import controllers.disposal_of_vehicle.routes
+import common.EncryptedCookieImplicits.SimpleResultAdapter
+import ExecutionContext.Implicits.global
 
 object CryptoHelper {
 
@@ -50,4 +60,11 @@ object CryptoHelper {
     maxAge = Some(cookieMaxAge)/*,
     secure = true*/
   )
+
+  def handleBadPaddingException(implicit request: RequestHeader): Future[SimpleResult] = {
+    Logger.warn("Handling BadPaddingException by removing all cookies except seen cookie. Has the application secret changed ?")
+    val discardingCookiesKeys = request.cookies.map(_.name).filter(_ != RelatedCacheKeys.SeenCookieMessageKey).toSet
+    Future(Redirect(routes.BeforeYouStart.present()).
+      discardingEncryptedCookies(discardingCookiesKeys, request)) // TODO can we wrap this in Action.async like other play controller actions?
+  }
 }

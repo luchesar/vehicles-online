@@ -14,6 +14,7 @@ import play.api.Play.current
 import play.filters.gzip._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
+import utils.helpers.CryptoHelper
 
 /**
  * Application configuration is in a hierarchy of files:
@@ -81,12 +82,7 @@ object Global extends WithFilters(new GzipFilter()) with GlobalSettings {
   override def onHandlerNotFound(request: RequestHeader): Future[SimpleResult] = Future(NotFound(views.html.errors.onHandlerNotFound(request)))
 
   override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] = ex.getCause match {
-    case _: BadPaddingException  =>
-      import common.EncryptedCookieImplicits.SimpleResultAdapter
-      Logger.warn("Handling BadPaddingException by removing all cookies except seen cookie. Has the application secret changed ?")
-      val discardingCookiesKeys = request.cookies.map(_.name).filter(_ != RelatedCacheKeys.SeenCookieMessageKey).toSet
-      Future(Redirect(routes.BeforeYouStart.present()).
-        discardingEncryptedCookies(discardingCookiesKeys, request))
+    case _: BadPaddingException  => CryptoHelper.handleBadPaddingException(request)
     case _ => super.onError(request, ex)
   }
 }
