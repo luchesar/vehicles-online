@@ -5,9 +5,9 @@
 
 @main(Messages("disposal_disposefailure.title")){
 
-<p tabindex="0">@Messages("disposal_disposefailure.p1")</p>
+<p>@Messages("disposal_disposefailure.p1")</p>
 
-<div tabindex="0" class="alert-error">
+<div class="alert-error">
     <h2>Disposal failure</h2>
     <p>@Messages("ms.vehiclesService.response.unableToProcessApplication")</p>
     <p>Your transaction ID is<br /><span class="emphasized">@Messages("disposal_disposefailure.transactionid", data.transactionId.getOrElse(""))</span></p>

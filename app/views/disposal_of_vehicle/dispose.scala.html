@@ -14,15 +14,15 @@
     
     @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit) {
     
-	<div tabindex="0" class="alert-warning">
+	<div class="alert-warning">
     	<p>@Messages("disposal_dispose.warning")&nbsp;<a href="https://www.gov.uk/contact">@Messages("disposal_dispose.warning.link")</a></p>
     </div>
 
     <div class="two-col clearfix">
 
         <div class="first-col">
-            <h2 tabindex="0">@Messages("disposal_dispose.vehicledetails")</h2>
-            <dl tabindex="0" class="summary-detail-list">
+            <h2>@Messages("disposal_dispose.vehicledetails")</h2>
+            <dl class="summary-detail-list">
             	<dt>@Messages("disposal_dispose.vehiclereg")</dt>
             	<dd>@data.registrationNumber</dd>
                 <dt>@Messages("disposal_dispose.vehiclemake")</dt>
@@ -60,9 +60,9 @@
         </div>
 
         <div class="second-col disposal-form">
-            <h2 tabindex="0">@Messages("disposal_dispose.disposevehicleto")</h2>
+            <h2>@Messages("disposal_dispose.disposevehicleto")</h2>
 
-            <p tabindex="0">@data.dealerName<br />
+            <p>@data.dealerName<br />
             @for(addr <- data.dealerAddress.address) {@addr<br/>}</p>
 
             <div class="form-declaration">
