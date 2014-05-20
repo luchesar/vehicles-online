@@ -17,7 +17,11 @@
         
         @{/*<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/date-picker.css")">*/}
         
-        <!--[if lte IE 8]><!--> <link href="@routes.Assets.at("stylesheets/old/header-footer-only.css")" media="screen" rel="stylesheet" type="text/css"> <!--<![endif]-->
+        <link href="@routes.Assets.at("stylesheets/old/header-footer-only.css")" media="screen" rel="stylesheet" type="text/css">
+
+        <!--[if lte IE 9]>
+        <link href="@routes.Assets.at("stylesheets/old/ie-all.css")" media="screen" rel="stylesheet" type="text/css"> 
+        <![endif]-->
         
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("screen.min.css")">
 
