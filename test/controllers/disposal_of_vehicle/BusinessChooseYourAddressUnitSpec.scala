@@ -98,9 +98,6 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val foundBusinessChooseYourAddress = cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.businessChooseYourAddress()))
-          foundBusinessChooseYourAddress should equal(true)
-
           cookies.map(_.name) should contain allOf(businessChooseYourAddressCacheKey, traderDetailsCacheKey)
       }
     }

@@ -121,8 +121,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val foundMatch = cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.traderDetailsModel()))
-          foundMatch should equal(true)
+          cookies.map(_.name) should contain (traderDetailsCacheKey)
       }
     }
 
@@ -137,8 +136,7 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val foundMatch =  cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.traderDetailsModel()))
-          foundMatch should equal(true)
+          cookies.map(_.name) should contain (traderDetailsCacheKey)
       }
     }
 
@@ -153,8 +151,10 @@ class EnterAddressManuallyUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val foundMatch =  cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "my house 1.1")))
-          foundMatch should equal(true)
+          cookies.find(_.name == traderDetailsCacheKey) match {
+            case Some(cookie) => cookie.value should include ("my house 1.1")
+            case _ => fail("should have found some cookie")
+          }
       }
     }
 
