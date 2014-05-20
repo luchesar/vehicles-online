@@ -3,6 +3,7 @@ import sbt.Keys._
 import play.Project._
 import net.litola.SassPlugin
 import de.johoop.jacoco4sbt.JacocoPlugin._
+import org.scalastyle.sbt.ScalastylePlugin
 
 object ApplicationBuild extends Build {
   val appName         = "vehicles-online"
@@ -53,5 +54,5 @@ object ApplicationBuild extends Build {
 
   val appSettings: Seq[Def.Setting[_]] = sOrg ++ SassPlugin.sassSettings ++ sV ++ sO ++ gS ++ sTest ++ eTest ++ jO ++ f ++ jcoco ++ scalaCheck
 
-  val main = play.Project(appName, appVersion, appDependencies, settings = play.Project.playScalaSettings ++ jacoco.settings).settings(appSettings: _*)
+  val main = play.Project(appName, appVersion, appDependencies, settings = play.Project.playScalaSettings ++ jacoco.settings ++ ScalastylePlugin.Settings).settings(appSettings: _*)
 }
