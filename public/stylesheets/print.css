@@ -218,6 +218,14 @@ article li p {
     margin: 0;
 }
 
+dl dt {
+    font-weight:bold;
+}
+
+dl dd {
+    margin:0;
+}
+
 article table {
     border: 1pt solid #7d7d7d;
     border-collapse: collapse;
@@ -443,9 +451,8 @@ button,
     display: none !important;
 }
 
-/*show some specific form element labels*/
+/*vehicle-lookup/'Find vehicle details' - show and style some specific form element labels*/
 #FindAVehicleDiv label,
 #FindAVehicleDiv legend {
     display:block !important;
-}
 }
