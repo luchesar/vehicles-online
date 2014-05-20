@@ -30,7 +30,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
       /* We cannot apply constraints to this drop down as it is populated by web call to an address lookup service.
       We would need the request here to get the cookie.
       Validation is done when we make a second web call with the UPRN, so if a bad guy is injecting a non-existent UPRN then it will fail at that step instead */
-      addressSelectId -> addressDropDown
+      AddressSelectId -> addressDropDown
     )(BusinessChooseYourAddressModel.apply)(BusinessChooseYourAddressModel.unapply)
   )
 
@@ -59,7 +59,7 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
             case Some(setupTradeDetailsModel) => fetchAddresses(setupTradeDetailsModel).map {
               addresses =>
                 val formWithReplacedErrors = formWithErrors.
-                  replaceError(addressSelectId, "error.number", FormError(key = addressSelectId, message = "disposal_businessChooseYourAddress.address.required", args = Seq.empty)).
+                  replaceError(AddressSelectId, "error.number", FormError(key = AddressSelectId, message = "disposal_businessChooseYourAddress.address.required", args = Seq.empty)).
                   distinctErrors
 
                 BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithReplacedErrors, setupTradeDetailsModel.traderBusinessName, addresses))

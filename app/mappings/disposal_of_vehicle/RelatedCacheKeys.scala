@@ -20,7 +20,7 @@ object RelatedCacheKeys {
 
   final val TradeDetailsSet = Set(SetupTradeDetailsCacheKey,
       traderDetailsCacheKey,
-      businessChooseYourAddressCacheKey)
+      BusinessChooseYourAddressCacheKey)
 
   final val FullSet = TradeDetailsSet ++ DisposeSet
 }

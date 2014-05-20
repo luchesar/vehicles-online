@@ -1,6 +1,6 @@
 package helpers.disposal_of_vehicle
 
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress.businessChooseYourAddressCacheKey
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
 import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
 import models.DayMonthYear
@@ -31,7 +31,7 @@ object CookieFactoryForUISpecs {
   }
 
   def businessChooseYourAddressIntegration(uprn: Long = traderUprnValid)(implicit webDriver: WebDriver) = {
-    val key = businessChooseYourAddressCacheKey
+    val key = BusinessChooseYourAddressCacheKey
     val value = BusinessChooseYourAddressModel(uprnSelected = uprn)
     addCookie(key, value)
     this

@@ -98,7 +98,7 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          cookies.map(_.name) should contain allOf(businessChooseYourAddressCacheKey, traderDetailsCacheKey)
+          cookies.map(_.name) should contain allOf(BusinessChooseYourAddressCacheKey, traderDetailsCacheKey)
       }
     }
 
@@ -108,7 +108,7 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          cookies.map(_.name) should contain noneOf(businessChooseYourAddressCacheKey, traderDetailsCacheKey)
+          cookies.map(_.name) should contain noneOf(BusinessChooseYourAddressCacheKey, traderDetailsCacheKey)
       }
     }
   }
@@ -125,7 +125,7 @@ class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
   private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {
     FakeRequest().withSession().withFormUrlEncodedBody(
-      addressSelectId -> traderUprn)
+      AddressSelectId -> traderUprn)
   }
 
   private def businessChooseYourAddressWithUprnFound() =

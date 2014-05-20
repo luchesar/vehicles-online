@@ -90,6 +90,5 @@ class AesEncryption extends Encryption {
 
 class NoEncryption extends Encryption {
   override def decrypt(clearText: String): String = clearText
-
   override def encrypt(clearText: String): String = clearText
 }

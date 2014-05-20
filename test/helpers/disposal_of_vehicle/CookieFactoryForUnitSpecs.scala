@@ -7,7 +7,7 @@ import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
 import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupFormModelCacheKey
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress.businessChooseYourAddressCacheKey
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.disposal_of_vehicle.EnterAddressManually.enterAddressManuallyCacheKey
 import models.DayMonthYear
 import models.domain.disposal_of_vehicle._
@@ -54,7 +54,7 @@ object CookieFactoryForUnitSpecs {
   }
 
   def businessChooseYourAddress() = {
-    val key = businessChooseYourAddressCacheKey
+    val key = BusinessChooseYourAddressCacheKey
     val value = BusinessChooseYourAddressModel(uprnSelected = traderUprnValid)
     createCookie(key, value)
   }
