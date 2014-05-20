@@ -14,15 +14,15 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   override val title: String = "Enter address manually"
 
-  def addressLine1(implicit driver: WebDriver): TextField = textField(id(s"${addressAndPostcodeId}_${addressLinesId}_$line1Id"))
+  def addressLine1(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line1Id"))
 
-  def addressLine2(implicit driver: WebDriver): TextField = textField(id(s"${addressAndPostcodeId}_${addressLinesId}_$line2Id"))
+  def addressLine2(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line2Id"))
 
-  def addressLine3(implicit driver: WebDriver): TextField = textField(id(s"${addressAndPostcodeId}_${addressLinesId}_$line3Id"))
+  def addressLine3(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line3Id"))
 
-  def addressLine4(implicit driver: WebDriver): TextField = textField(id(s"${addressAndPostcodeId}_${addressLinesId}_$line4Id"))
+  def addressLine4(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line4Id"))
 
-  def postcode(implicit driver: WebDriver): TextField = textField(id(s"${addressAndPostcodeId}_$postcodeId"))
+  def postcode(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_$postcodeId"))
 
   def next(implicit driver: WebDriver): Element = find(id(NextId)).get
 

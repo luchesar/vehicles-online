@@ -1,15 +1,15 @@
 package mappings.disposal_of_vehicle
 
 object VehicleLookup {
-  val ReferenceNumberLength = 11
-  val RegistrationNumberMinLength = 2
-  val RegistrationNumberMaxLength = 8
-  val ReferenceNumberId = "referenceNumber"
-  val RegistrationNumberId = "registrationNumber"
-  val ConsentId = "consent"
-  val VehicleLookupDetailsCacheKey = "vehicleDetails"
-  val VehicleLookupResponseCodeCacheKey = "vehicleLookupResponseCode"
-  val VehicleLookupFormModelCacheKey = "vehicleLookupFormModel"
-  val BackId = "back"
-  val SubmitId = "submit"
+  final val ReferenceNumberLength = 11
+  final val RegistrationNumberMinLength = 2
+  final val RegistrationNumberMaxLength = 8
+  final val ReferenceNumberId = "referenceNumber"
+  final val RegistrationNumberId = "registrationNumber"
+  final val ConsentId = "consent"
+  final val VehicleLookupDetailsCacheKey = "vehicleDetails"
+  final val VehicleLookupResponseCodeCacheKey = "vehicleLookupResponseCode"
+  final val VehicleLookupFormModelCacheKey = "vehicleLookupFormModel"
+  final val BackId = "back"
+  final val SubmitId = "submit"
 }

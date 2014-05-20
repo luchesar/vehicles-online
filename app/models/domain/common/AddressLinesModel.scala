@@ -14,5 +14,5 @@ case class AddressLinesModel(line1: String,
 
 object AddressLinesModel {
   implicit val addressLinesModelFormat = Json.format[AddressLinesModel]
-  implicit val cacheKey = CacheKey[AddressLinesModel](addressLinesCacheKey)
+  implicit val cacheKey = CacheKey[AddressLinesModel](AddressLinesCacheKey)
 }

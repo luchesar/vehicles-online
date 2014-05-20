@@ -1,6 +1,6 @@
 package mappings.disposal_of_vehicle
 
 object MicroserviceError {
-  val TryAgainId = "tryagain"
-  val ExitId = "exit"
+  final val TryAgainId = "tryagain"
+  final val ExitId = "exit"
 }

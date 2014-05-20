@@ -18,7 +18,7 @@ class EnterAddressManually @Inject()()(implicit encryption: CookieEncryption, ha
 
   val form = Form(
     mapping(
-      addressAndPostcodeId -> addressAndPostcode
+      AddressAndPostcodeId -> addressAndPostcode
     )(EnterAddressManuallyModel.apply)(EnterAddressManuallyModel.unapply)
   )
 

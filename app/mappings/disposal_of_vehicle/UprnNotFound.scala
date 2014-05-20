@@ -1,6 +1,6 @@
 package mappings.disposal_of_vehicle
 
 object UprnNotFound {
-  val SetuptradedetailsbuttonId = "setuptradedetailsbutton"
-  val ManualaddressbuttonId = "manualaddressbutton"
+  final val SetuptradedetailsbuttonId = "setuptradedetailsbutton"
+  final val ManualaddressbuttonId = "manualaddressbutton"
 }

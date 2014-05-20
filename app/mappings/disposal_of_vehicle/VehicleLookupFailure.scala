@@ -1,6 +1,6 @@
 package mappings.disposal_of_vehicle
 
 object VehicleLookupFailure {
-  val VehicleLookupId = "vehiclelookup"
-  val BeforeYouStartId = "beforeyoustart"
+  final val VehicleLookupId = "vehiclelookup"
+  final val BeforeYouStartId = "beforeyoustart"
 }
