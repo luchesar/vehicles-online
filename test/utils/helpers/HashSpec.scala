@@ -4,8 +4,6 @@ import org.scalatest.{Matchers, WordSpec}
 import play.api.test.WithApplication
 
 final class HashSpec extends WordSpec with Matchers {
-  val clearText = "qwerty"
-
   "encryptCookieName" should {
     "return an encrypted string" in new WithApplication {
       val sha1Hash = new Sha1Hash
@@ -19,4 +17,6 @@ final class HashSpec extends WordSpec with Matchers {
       first should equal(second)
     }
   }
+
+  private val clearText = "qwerty"
 }

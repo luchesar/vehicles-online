@@ -4,8 +4,6 @@ import org.scalatest.{Matchers, WordSpec}
 import play.api.test.WithApplication
 
 final class NoEncryptionSpec extends WordSpec with Matchers {
-  val clearText = "qwerty"
-
   "encryptCookie" should {
     "return an clear text string" in new WithApplication {
       val noEncryption = new NoEncryption
@@ -20,5 +18,5 @@ final class NoEncryptionSpec extends WordSpec with Matchers {
     }
   }
 
-
+  private val clearText = "qwerty"
 }

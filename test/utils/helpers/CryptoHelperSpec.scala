@@ -9,9 +9,6 @@ import play.api.test.{WithApplication, FakeApplication, FakeRequest}
 import pages.disposal_of_vehicle.BeforeYouStartPage
 
 final class CryptoHelperSpec extends UnitSpec {
-  private val appWithCryptpConfig = FakeApplication(
-    additionalConfiguration = Map("application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo="))
-
   "handleApplicationSecretChange" should {
     "discard all cookies except SeenCookieMessageKey" in new WithApplication(app = appWithCryptpConfig) {
       val request = FakeRequest().withSession().
@@ -56,4 +53,7 @@ final class CryptoHelperSpec extends UnitSpec {
       }
     }
   }
+
+  private val appWithCryptpConfig = FakeApplication(
+    additionalConfiguration = Map("application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo="))
 }
