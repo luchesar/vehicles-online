@@ -12,7 +12,7 @@ import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeWebServiceImpl.traderUprnValid
 import mappings.disposal_of_vehicle.Dispose._
 
-class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
+final class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 

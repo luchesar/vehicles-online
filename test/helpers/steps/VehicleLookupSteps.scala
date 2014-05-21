@@ -9,7 +9,7 @@ import org.openqa.selenium.WebDriver
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 import mappings.disposal_of_vehicle.VehicleLookup._
 
-class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
+final class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 
