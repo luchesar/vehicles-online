@@ -8,5 +8,5 @@ case class DisposeRequest(referenceNumber: String,
                         mileage: Option[Int])
 
 object DisposeRequest {
-  implicit final val JsonFormat = Json.format[DisposeRequest]
+  implicit val JsonFormat = Json.format[DisposeRequest]
 }

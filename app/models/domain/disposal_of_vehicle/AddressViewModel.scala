@@ -7,7 +7,7 @@ case class AddressViewModel(uprn: Option[Long] = None, // Optional because if us
                             address: Seq[String])
 
 object AddressViewModel {
-  implicit final val JsonFormat = Json.format[AddressViewModel]
+  implicit val JsonFormat = Json.format[AddressViewModel]
 
   def from(address: AddressAndPostcodeModel): AddressViewModel = {
     AddressViewModel(address = address.toViewFormat)

@@ -8,6 +8,6 @@ case class AddressAndPostcodeModel(uprn: Option[Int] = None, addressLinesModel: 
 }
 
 object AddressAndPostcodeModel {
-  implicit final val AddressAndPostcodeModelFormat = Json.format[AddressAndPostcodeModel]
-  implicit final val Key = CacheKey[AddressAndPostcodeModel](AddressAndPostcodeCacheKey)
+  implicit val AddressAndPostcodeModelFormat = Json.format[AddressAndPostcodeModel]
+  implicit val Key = CacheKey[AddressAndPostcodeModel](AddressAndPostcodeCacheKey)
 }

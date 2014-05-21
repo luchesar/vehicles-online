@@ -7,6 +7,6 @@ import play.api.libs.json.Json
 case class SetupTradeDetailsModel(traderBusinessName: String, traderPostcode: String)
 
 object SetupTradeDetailsModel {
-  implicit final val JsonFormat = Json.format[SetupTradeDetailsModel]
-  implicit final val Key = CacheKey[SetupTradeDetailsModel](SetupTradeDetailsCacheKey)
+  implicit val JsonFormat = Json.format[SetupTradeDetailsModel]
+  implicit val Key = CacheKey[SetupTradeDetailsModel](SetupTradeDetailsCacheKey)
 }

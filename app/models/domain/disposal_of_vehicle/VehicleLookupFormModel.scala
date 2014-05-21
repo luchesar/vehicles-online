@@ -8,6 +8,6 @@ case class VehicleLookupFormModel(referenceNumber: String,
                                   registrationNumber: String)
 
 object VehicleLookupFormModel {
-  implicit final val JsonFormat = Json.format[VehicleLookupFormModel]
-  implicit final val Key = CacheKey[VehicleLookupFormModel](VehicleLookupFormModelCacheKey)
+  implicit val JsonFormat = Json.format[VehicleLookupFormModel]
+  implicit val Key = CacheKey[VehicleLookupFormModel](VehicleLookupFormModelCacheKey)
 }

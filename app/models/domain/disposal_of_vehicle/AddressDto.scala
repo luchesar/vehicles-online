@@ -5,5 +5,5 @@ import play.api.libs.json.Json
 case class AddressDto(uprn: Option[Long], address: Seq[String])
 
 object AddressDto {
-  implicit final val JsonFormat = Json.format[AddressDto]
+  implicit val JsonFormat = Json.format[AddressDto]
 }
