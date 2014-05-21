@@ -6,5 +6,5 @@ case class PostcodeToAddressResponse(addresses: Seq[UprnAddressPair])
 
 object PostcodeToAddressResponse{
 
-  implicit val JsonFormat = Json.format[PostcodeToAddressResponse]
+  implicit final val JsonFormat = Json.format[PostcodeToAddressResponse]
 }

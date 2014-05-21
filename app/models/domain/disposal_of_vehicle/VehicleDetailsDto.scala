@@ -5,6 +5,5 @@ import play.api.libs.json.Json
 case class VehicleDetailsDto(registrationNumber: String, vehicleMake: String, vehicleModel: String)
 
 object VehicleDetailsDto {
-
-  implicit val JsonFormat = Json.format[VehicleDetailsDto]
+  implicit final val JsonFormat = Json.format[VehicleDetailsDto]
 }

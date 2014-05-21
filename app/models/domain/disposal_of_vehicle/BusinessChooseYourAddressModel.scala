@@ -7,6 +7,6 @@ import play.api.libs.json.Json
 case class BusinessChooseYourAddressModel(uprnSelected: Long)
 
 object BusinessChooseYourAddressModel {
-  implicit val JsonFormat = Json.format[BusinessChooseYourAddressModel]
-  implicit val cacheKey = CacheKey[BusinessChooseYourAddressModel](value = BusinessChooseYourAddressCacheKey)
+  implicit final val JsonFormat = Json.format[BusinessChooseYourAddressModel]
+  implicit final val Key = CacheKey[BusinessChooseYourAddressModel](value = BusinessChooseYourAddressCacheKey)
 }
