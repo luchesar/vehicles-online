@@ -15,7 +15,7 @@ import services.fakes.{FakeResponse}
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
-import services.DateServiceImpl
+import services.{DateService, DateServiceImpl}
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import play.api.mvc.Cookies
@@ -233,7 +233,7 @@ class DisposeUnitSpec extends UnitSpec {
   private def dateServiceStubbed(day: Int = dateOfDisposalDayValid.toInt,
                                  month: Int = dateOfDisposalMonthValid.toInt,
                                  year: Int = dateOfDisposalYearValid.toInt) = {
-    val dateService = mock[DateServiceImpl]
+    val dateService = mock[DateService]
     when(dateService.today).thenReturn(new models.DayMonthYear(day = day,
       month = month,
       year = year))

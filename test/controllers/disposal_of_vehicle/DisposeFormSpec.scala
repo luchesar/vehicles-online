@@ -130,7 +130,7 @@ class DisposeFormSpec extends UnitSpec {
     val dayMonthYearStub = new models.DayMonthYear(day = dayToday,
       month = monthToday,
       year = yearToday)
-    val dateService = mock[DateServiceImpl]
+    val dateService = mock[DateService]
     when(dateService.today).thenReturn(dayMonthYearStub)
     dateService
   }
