@@ -2,7 +2,12 @@
 	padding-bottom:150px !important;
 }
 
-/*ie7-6 inline block, see:
+/*ensure IE does not ignore padding-bottom*/
+.vehicles-online .section-content {
+	display:inline-block;
+}	
+
+/*IE7-6 inline block, see:
 http://stackoverflow.com/questions/5838454/inline-block-doesnt-work-in-internet-explorer-7-6
 */
 #footer .footer-meta .nav-wrapper,
