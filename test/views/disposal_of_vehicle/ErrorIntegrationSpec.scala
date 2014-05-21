@@ -16,7 +16,7 @@ final class ErrorIntegrationSpec extends UiSpec with TestHarness {
 
       go to ErrorPage
 
-      assert(page.title equals ErrorPage.title)
+      page.title should equal(ErrorPage.title)
     }
   }
 
@@ -29,7 +29,9 @@ final class ErrorIntegrationSpec extends UiSpec with TestHarness {
       click on startAgain
 
       // Verify the cookies identified by the full set of cache keys have been removed
-      RelatedCacheKeys.FullSet.foreach(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) == null))
+      RelatedCacheKeys.FullSet.foreach(cacheKey => {
+        webDriver.manage().getCookieNamed(cacheKey) should equal(null)
+      })
     }
   }
 

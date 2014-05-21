@@ -16,13 +16,13 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       go to VehicleLookupFailurePage
 
-      assert(page.title equals VehicleLookupFailurePage.title)
+      page.title should equal(VehicleLookupFailurePage.title)
     }
 
     "redirect to setuptrade details if cache is empty on page load" in new WebBrowser {
       go to VehicleLookupFailurePage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "redirect to setuptrade details if only VehicleLookupFormModelCache is populated" in new WebBrowser {
@@ -31,7 +31,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       go to VehicleLookupFailurePage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "redirect to setuptrade details if only dealerDetails cache is populated" in new WebBrowser {
@@ -40,7 +40,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       go to VehicleLookupFailurePage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "remove redundant cookies when displayed" in new WebBrowser {
@@ -49,7 +49,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       go to VehicleLookupFailurePage
 
-      assert(webDriver.manage().getCookieNamed(VehicleLookupResponseCodeCacheKey) == null)
+      webDriver.manage().getCookieNamed(VehicleLookupResponseCodeCacheKey) should equal(null)
     }
   }
 
@@ -61,7 +61,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       click on vehicleLookup
 
-      assert(page.title equals VehicleLookupPage.title)
+      page.title should equal(VehicleLookupPage.title)
     }
   }
 
@@ -73,7 +73,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       click on beforeYouStart
 
-      assert(page.title equals BeforeYouStartPage.title)
+      page.title should equal(BeforeYouStartPage.title)
     }
   }
 

@@ -12,7 +12,7 @@ final class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
     "display the page" in new WebBrowser {
       go to MicroServiceErrorPage
 
-      assert(page.title equals MicroServiceErrorPage.title)
+      page.title should equal(MicroServiceErrorPage.title)
     }
   }
 
@@ -24,7 +24,7 @@ final class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
 
       click on tryAgain
 
-      assert(page.title equals VehicleLookupPage.title)
+      page.title should equal(VehicleLookupPage.title)
     }
 
     "redirect to setuptradedetails when no details are cached" in new WebBrowser {
@@ -32,7 +32,7 @@ final class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
 
       click on tryAgain
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
   }
 
@@ -44,7 +44,7 @@ final class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
 
       click on exit
 
-      assert(page.title equals BeforeYouStartPage.title)
+      page.title should equal(BeforeYouStartPage.title)
     }
   }
 
