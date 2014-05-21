@@ -17,7 +17,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
     "display page if dealer details cached" in new WithApplication {
       val request = FakeRequest().withSession().withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = businessChooseYourAddressWithUprnFound().present(request)
+      val result = businessChooseYourAddressWithUprnFound.present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
       }
@@ -27,7 +27,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress())
-      val result = businessChooseYourAddressWithUprnFound().present(request)
+      val result = businessChooseYourAddressWithUprnFound.present(request)
       val content = contentAsString(result)
       content should include(traderBusinessNameValid)
       content should include( s"""<option value="$traderUprnValid" selected>""")
@@ -36,7 +36,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "display unselected field when cookie does not exist" in new WithApplication {
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = businessChooseYourAddressWithUprnFound().present(request)
+      val result = businessChooseYourAddressWithUprnFound.present(request)
       val content = contentAsString(result)
       content should include(traderBusinessNameValid)
       content should not include "selected"
@@ -44,7 +44,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
     "redirect to setupTradeDetails page when present with no dealer name cached" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = businessChooseYourAddressWithUprnFound().present(request)
+      val result = businessChooseYourAddressWithUprnFound.present(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
@@ -54,7 +54,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "submit" should {
     "redirect to VehicleLookup page after a valid submit" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest().withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = businessChooseYourAddressWithUprnFound().submit(request)
+      val result = businessChooseYourAddressWithUprnFound.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
@@ -62,7 +62,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
     "return a bad request if not address selected" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(traderUprn = "").withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = businessChooseYourAddressWithUprnFound().submit(request)
+      val result = businessChooseYourAddressWithUprnFound.submit(request)
       whenReady(result) {
         r => r.header.status should equal(BAD_REQUEST)
       }
@@ -70,7 +70,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
     "redirect to setupTradeDetails page when valid submit with no dealer name cached" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = businessChooseYourAddressWithUprnFound().submit(request)
+      val result = businessChooseYourAddressWithUprnFound.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
@@ -78,7 +78,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
     "redirect to setupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(traderUprn = "")
-      val result = businessChooseYourAddressWithUprnFound().submit(request)
+      val result = businessChooseYourAddressWithUprnFound.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
@@ -94,7 +94,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
     "write cookie when uprn found" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest().withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = businessChooseYourAddressWithUprnFound().submit(request)
+      val result = businessChooseYourAddressWithUprnFound.submit(request)
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
@@ -128,7 +128,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       AddressSelectId -> traderUprn)
   }
 
-  private def businessChooseYourAddressWithUprnFound() =
+  private val businessChooseYourAddressWithUprnFound =
     businessChooseYourAddressWithFakeWebService()
 
   private val businessChooseYourAddressWithUprnNotFound = businessChooseYourAddressWithFakeWebService(uprnFound = false)
