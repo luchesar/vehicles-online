@@ -8,7 +8,7 @@ import javax.inject.Inject
 import play.api.libs.ws.Response
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 
-class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends AddressLookupService {
+final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends AddressLookupService {
   override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = {
     def extractFromJson(resp: Response): Option[PostcodeToAddressResponse] = {
       resp.json.asOpt[PostcodeToAddressResponse]
