@@ -27,32 +27,34 @@ object ApplicationBuild extends Build {
     "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc()
   )
 
-  val sOrg = Seq(organization := "Driver & Vehicle Licensing Agency")
+  val myOrganization = Seq(organization := "Driver & Vehicle Licensing Agency")
 
-  val sO = Seq(scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls"))
+  val compilerOptions = Seq(scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls"))
 
-  val sV = Seq(scalaVersion := "2.10.3")
+  val myScalaVersion = Seq(scalaVersion := "2.10.3")
 
   val scalaCheck = org.scalastyle.sbt.ScalastylePlugin.Settings
 
-  val sTest =
+  val myTestOptions =
   if (System.getProperty("include") != null ) {
     Seq(testOptions in Test += Tests.Argument("include", System.getProperty("include")))
   } else if (System.getProperty("exclude") != null ) {
     Seq(testOptions in Test += Tests.Argument("exclude", System.getProperty("exclude")))
   } else Seq.empty[Def.Setting[_]]
 
-  val eTest = testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-l", "helpers.tags.LiveTest")
+  // If tests are annotated with @LiveTest then they are excluded when running sbt test
+  val excludeTest = testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-l", "helpers.tags.LiveTest")
 
-  val jO = Seq(javaOptions in Test += System.getProperty("waitSeconds"))
+  val myJavaOptions = Seq(javaOptions in Test += System.getProperty("waitSeconds"))
 
-  val gS = Seq(concurrentRestrictions in Global := Seq(Tags.limit(Tags.CPU, 4), Tags.limit(Tags.Network, 10), Tags.limit(Tags.Test, 4)))
+  val myConcurrentRestrictions = Seq(concurrentRestrictions in Global := Seq(Tags.limit(Tags.CPU, 4), Tags.limit(Tags.Network, 10), Tags.limit(Tags.Test, 4)))
 
-  val f = Seq(sbt.Keys.fork in Test := false)
+  val fork = Seq(sbt.Keys.fork in Test := false)
 
   val jcoco = Seq(parallelExecution in jacoco.Config := false)
 
-  val appSettings: Seq[Def.Setting[_]] = sOrg ++ SassPlugin.sassSettings ++ sV ++ sO ++ gS ++ sTest ++ eTest ++ jO ++ f ++ jcoco ++ scalaCheck
+  val appSettings: Seq[Def.Setting[_]] = myOrganization ++ SassPlugin.sassSettings ++ myScalaVersion ++ compilerOptions ++ myConcurrentRestrictions ++
+    myTestOptions ++ excludeTest ++ myJavaOptions ++ fork ++ jcoco ++ scalaCheck
 
   val main = play.Project(appName, appVersion, appDependencies, settings = play.Project.playScalaSettings ++ jacoco.settings ++ ScalastylePlugin.Settings).settings(appSettings: _*)
 }
