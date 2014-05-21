@@ -767,6 +767,10 @@ input:focus, textarea:focus, select:focus {
         &:last-child {
           background-image: none;
           margin-right: 0;
+          margin-top:15px;
+          a {
+            padding-top:0;
+          }
         }
       }
     }
@@ -892,6 +896,11 @@ input:focus, textarea:focus, select:focus {
     padding: 60px 1em 0 1em;
     padding: 6rem 1em 0 1em;
   }
+  ul li {
+    display:inline-block;
+    margin:0 15px 0 0;
+    margin:0 1.5rem 0 0;
+  }
   a {
     color: #454a4c;
     &:hover {
@@ -908,63 +917,7 @@ input:focus, textarea:focus, select:focus {
     color: #454a4c;
     margin: 0;
   }
-  .footer-categories {
-    font-size: 0;
-    float: left;
-    padding: 0 0 60px 0;
-    padding: 0 0 6rem 0;
-    width: 100%;
-    .footer-explore {
-      float: left;
-      margin-right: 7%;
-      width: 62%;
-    }
-    ul {
-      font-family: "nta",Arial,sans-serif;
-      font-size: 16px;
-      font-size: 1.6rem;
-      line-height: 1.25;
-      font-weight: 300;
-      text-transform: none;
-      list-style: none;
-      border: 1px solid #a1acb2;
-      border-width: 1px 0 0 0;
-      margin: 20px 0 0 0;
-      margin: 2rem 0 0 0;
-      padding: 20px 0 0 0;
-      padding: 2rem 0 0 0;
-      min-height: 210px;
-      min-height: 21rem;
-      vertical-align: top;
-      li {
-        display: block;
-        float: left;
-        clear: left;
-        margin: 0 0 15px 0;
-        margin: 0 0 1.5rem 0;
-        width: 45.5%;
-        &:nth-child(even) {
-          float: right;
-          clear: none;
-        }
-      }
-    }
-    .footer-inside-government {
-      float: left;
-      width: 31%;
-      ul {
-        margin-right: 0;
-        li {
-          margin-right: 0;
-          width: 100%;
-          &:nth-child(even) {
-            float: none;
-            clear: none;
-          }
-        }
-      }
-    }
-  }
+
   .footer-meta {
     clear: both;
     font-size: 0;
@@ -990,11 +943,6 @@ input:focus, textarea:focus, select:focus {
         list-style: none;
         margin: 0 0 1em;
         padding: 0;
-        li {
-          display: inline-block;
-          margin:0 15px 0 0;
-          margin: 0 1.5rem 0 0;
-        }
       }
       p {
         font-family: "nta",Arial,sans-serif;
@@ -1033,68 +981,41 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
-@media (max-width:$device-large) {
-  #footer .footer-wrapper {
-    max-width:100%;
-  }
-}
+@media (max-width: $device-small) {
+  #footer {
 
-
-@media (max-width: 640px) {
-  #footer .footer-wrapper {
-    padding-top: 20px;
-    padding-top: 2rem;
-  }
-}
-
-@media (max-width: 640px) {
-  #footer h2 {
-    font-size: 2rem;
-    line-height: 1.2;
-  }
-}
-
-@media (max-width: 640px) {
-  #footer .footer-categories {
-    padding: 20px 0;
-    padding: 2rem 0;
-  }
-}
-
-@media (max-width: 640px) {
-  #footer .footer-categories .footer-explore {
-    display: block;
-    margin: 0 0 30px 0;
-    margin: 0 0 3rem 0;
-    width: 100%;
-  }
-}
-
-@media (max-width: 640px) {
-  #footer .footer-categories ul {
-    font-size: 1.4rem;
-    line-height: 1.14286;
-  }
-}
-
-@media (max-width: 640px) {
-  #footer .footer-categories ul {
-    border-width: 0;
-    min-height: 0;
-  }
-}
-
-@media (max-width: 640px) {
-  #footer .footer-categories ul li {
-    float: none;
-    width: 100%;
-    margin-left: 0;
-    &:nth-child(even) {
-      float: none;
+    h2 {
+      font-size:2rem;
+      line-height:1.2;
     }
-    &:first-child, &:nth-child(2) {
-      border-top: none;
-      padding-top: 0;
+
+    .footer-wrapper {
+      max-width:100%;
+      padding-top: 20px;
+      padding-top: 2rem;
+
+      ul {
+        margin-bottom:0.5em;
+
+        li {
+          display:inline-block;
+          margin:0 0.75rem;
+
+          a {
+            display:block;
+            padding:12px 5px;
+          }
+
+          &:last-child {
+            clear: both;
+            display: block;
+            padding: 0 5px;
+            a {
+              padding-top:0;
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -1140,7 +1061,7 @@ input:focus, textarea:focus, select:focus {
 
 @media (max-width: 640px) {
   #footer .footer-meta .nav-wrapper ul {
-    width: auto;
+    width: 100%;
     margin: 0 0 1.5em 0;
   }
 }
