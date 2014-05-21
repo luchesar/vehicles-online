@@ -3,7 +3,7 @@ package utils.helpers
 import org.scalatest.{Matchers, WordSpec}
 import play.api.test.WithApplication
 
-class NoHashSpec extends WordSpec with Matchers {
+final class NoHashSpec extends WordSpec with Matchers {
 
   "hash" should {
     "return a clear text string" in new WithApplication {

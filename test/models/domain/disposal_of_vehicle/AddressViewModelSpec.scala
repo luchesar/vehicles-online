@@ -3,7 +3,7 @@ package models.domain.disposal_of_vehicle
 import services.fakes.FakeVehicleLookupWebService._
 import helpers.UnitSpec
 
-class AddressViewModelSpec extends UnitSpec {
+final class AddressViewModelSpec extends UnitSpec {
 
   "AddressViewModel - model" should {
 

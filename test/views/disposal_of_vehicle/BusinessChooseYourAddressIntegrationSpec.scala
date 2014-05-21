@@ -9,7 +9,7 @@ import pages.disposal_of_vehicle.BusinessChooseYourAddressPage.{sadPath, happyPa
 import pages.disposal_of_vehicle._
 import services.fakes.FakeAddressLookupService.postcodeValid
 
-class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
+final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 
   "Business choose your address - Integration" should {
 

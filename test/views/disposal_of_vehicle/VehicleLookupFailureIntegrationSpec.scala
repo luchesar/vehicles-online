@@ -8,7 +8,7 @@ import pages.disposal_of_vehicle.VehicleLookupFailurePage._
 import pages.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.VehicleLookup._
 
-class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
+final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
   "VehicleLookupFailureIntegration" should {
 

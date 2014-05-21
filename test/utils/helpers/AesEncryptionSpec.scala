@@ -3,7 +3,7 @@ package utils.helpers
 import org.scalatest.{Matchers, WordSpec}
 import play.api.test.{FakeApplication, WithApplication}
 
-class AesEncryptionSpec extends WordSpec with Matchers {
+final class AesEncryptionSpec extends WordSpec with Matchers {
   val clearText = "qwerty"
   val appWithCryptpConfig = FakeApplication(
     additionalConfiguration = Map("application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo="))

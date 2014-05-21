@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import pages.disposal_of_vehicle.ErrorPage.startAgain
 
-class ErrorIntegrationSpec extends UiSpec with TestHarness {
+final class ErrorIntegrationSpec extends UiSpec with TestHarness {
   "present" should {
     "display page" in new WebBrowser {
       go to BeforeYouStartPage

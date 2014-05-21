@@ -16,7 +16,7 @@ import play.api.libs.ws.Response
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import models.domain.disposal_of_vehicle.{UprnToAddressResponse, PostcodeToAddressResponse}
 
-class OSAddressLookupServiceSpec extends UnitSpec {
+final class OSAddressLookupServiceSpec extends UnitSpec {
   val timeout = Timeout(Span(1, Second))
 
   def addressServiceMock(response: Future[Response]): AddressLookupService = {

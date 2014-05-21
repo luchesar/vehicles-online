@@ -3,7 +3,7 @@ package models.domain.common
 import helpers.UnitSpec
 import services.fakes.FakeAddressLookupService._
 
-class AddressLinesModelSpec extends UnitSpec {
+final class AddressLinesModelSpec extends UnitSpec {
   "toViewFormat" should {
     "return all lines when all lines are set to a value" in {
       AddressLinesModel(line1 = line1Valid,

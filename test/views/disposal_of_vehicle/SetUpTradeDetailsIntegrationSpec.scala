@@ -8,7 +8,7 @@ import pages.common.ErrorPanel
 import pages.disposal_of_vehicle.SetupTradeDetailsPage.happyPath
 import pages.disposal_of_vehicle._
 
-class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
+final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
 
   "SetUpTradeDetails Integration" should {
 

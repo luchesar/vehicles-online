@@ -6,7 +6,7 @@ import helpers.webbrowser.TestHarness
 import pages.disposal_of_vehicle.UprnNotFoundPage._
 import pages.disposal_of_vehicle._
 
-class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
+final class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
 
   "UprnNotFound Integration" should {
 

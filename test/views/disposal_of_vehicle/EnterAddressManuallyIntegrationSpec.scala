@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver
 import pages.common.ErrorPanel
 import pages.disposal_of_vehicle._
 
-class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
+final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
   "EnterAddressManually integration" should {
 

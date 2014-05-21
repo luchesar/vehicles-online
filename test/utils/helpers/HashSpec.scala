@@ -3,7 +3,7 @@ package utils.helpers
 import org.scalatest.{Matchers, WordSpec}
 import play.api.test.WithApplication
 
-class HashSpec extends WordSpec with Matchers {
+final class HashSpec extends WordSpec with Matchers {
   val clearText = "qwerty"
 
   "encryptCookieName" should {

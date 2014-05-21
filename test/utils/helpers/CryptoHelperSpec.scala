@@ -8,7 +8,7 @@ import play.api.test.Helpers._
 import play.api.test.{WithApplication, FakeApplication, FakeRequest}
 import pages.disposal_of_vehicle.BeforeYouStartPage
 
-class CryptoHelperSpec extends UnitSpec {
+final class CryptoHelperSpec extends UnitSpec {
   private val appWithCryptpConfig = FakeApplication(
     additionalConfiguration = Map("application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo="))
 

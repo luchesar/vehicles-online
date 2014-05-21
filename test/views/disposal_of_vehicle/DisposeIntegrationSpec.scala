@@ -9,7 +9,7 @@ import pages.common.ErrorPanel
 import pages.disposal_of_vehicle._
 import services.fakes.FakeDateServiceImpl._
 
-class DisposeIntegrationSpec extends UiSpec with TestHarness {
+final class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
   "Dispose Integration" should {
 

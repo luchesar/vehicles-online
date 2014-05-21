@@ -17,7 +17,7 @@ import services.fakes.FakeWebServiceImpl.traderUprnValid
 import services.fakes.FakeAddressLookupService._
 import play.api.http.Status.{OK, NOT_FOUND}
 
-class GdsPostcodeLookupSpec extends UnitSpec {
+final class GdsPostcodeLookupSpec extends UnitSpec {
   /*
     The service will:
     1) Send postcode string to GDS micro-service

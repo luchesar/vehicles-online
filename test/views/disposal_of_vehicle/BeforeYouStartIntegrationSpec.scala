@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.BeforeYouStartPage.startNow
 import pages.disposal_of_vehicle._
 
-class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
+final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
   "BeforeYouStart Integration" should {
 
