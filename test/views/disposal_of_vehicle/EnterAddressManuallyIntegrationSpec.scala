@@ -9,10 +9,8 @@ import pages.common.ErrorPanel
 import pages.disposal_of_vehicle._
 
 final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
-
-  "EnterAddressManually integration" should {
-
-    "be presented" in new WebBrowser {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -20,7 +18,9 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       assert(page.title equals EnterAddressManuallyPage.title)
     }
-
+  }
+  
+  "next" should {
     "accept and redirect when all fields are input with valid entry" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()

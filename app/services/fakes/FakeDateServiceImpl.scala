@@ -4,9 +4,7 @@ import models.DayMonthYear
 import services.DateService
 
 final class FakeDateServiceImpl extends DateService {
-
   import FakeDateServiceImpl._
-
   override def today = DayMonthYear(dateOfDisposalDayValid.toInt, dateOfDisposalMonthValid.toInt, dateOfDisposalYearValid.toInt)
 }
 

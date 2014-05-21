@@ -9,10 +9,8 @@ import pages.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 
 final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
-
-  "Dispose confirmation integration" should {
-
-    "be presented" in new WebBrowser {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -20,7 +18,6 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       assert(page.title equals DisposeSuccessPage.title)
     }
-
     "redirect when no details are cached" in new WebBrowser {
       go to DisposeSuccessPage
 
@@ -86,8 +83,10 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
+  }
 
-    "display vehicle lookup page when new disposal link is clicked" in new WebBrowser {
+  "newDisposal button" should {
+    "display vehicle lookup page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       DisposeSuccessPage.happyPath
@@ -95,7 +94,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       assert(page.title equals VehicleLookupPage.title)
     }
 
-    "remove redundant cookies when 'new disposal' button is clicked" in new WebBrowser {
+    "remove redundant cookies" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeSuccessPage
@@ -108,8 +107,10 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       // Verify the cookies identified by the trade details set of cache keys are present
       RelatedCacheKeys.TradeDetailsSet.foreach(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) != null))
     }
+  }
 
-    "remove redundant cookies when 'exit' button is clicked" in new WebBrowser {
+  "exit" should {
+    "remove redundant cookies" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeSuccessPage
