@@ -25,9 +25,9 @@ final class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
 }
 
 object FakeWebServiceImpl {
-  val traderUprnValid = 12345L
-  val traderUprnValid2 = 4567L
-  val postcodeValid = "CM81QJ"
+  final val traderUprnValid = 12345L
+  final val traderUprnValid2 = 4567L
+  final val postcodeValid = "CM81QJ"
 
   private def addressSeq(houseName: String, houseNumber: String): Seq[String] = {
     Seq(houseName, houseNumber, "property stub", "street stub", "town stub", "area stub", postcodeValid)

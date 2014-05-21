@@ -5,7 +5,7 @@ import play.api.data.{FormError, Form}
 import play.api.mvc.{Request}
 
 object FormExtensions {
-  implicit def formBinding[T](form: Form[T])(implicit request: Request[_]) = new RichForm[T](form)
+  implicit def formBinding[T](form: Form[T])(implicit request: Request[_]) = new RichForm[T](form) // TODO should this be updated to look like the extension method in EncryptedCookieImplicits?
 
   // Extension method for forms.
   class RichForm[T](form: Form[T])(implicit request: Request[_]) {

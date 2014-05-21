@@ -11,7 +11,7 @@ final class FakeDateServiceImpl extends DateService {
 }
 
 object FakeDateServiceImpl {
-  val dateOfDisposalDayValid = "25"
-  val dateOfDisposalMonthValid = "11"
-  val dateOfDisposalYearValid = "1970"
+  final val dateOfDisposalDayValid = "25"
+  final val dateOfDisposalMonthValid = "11"
+  final val dateOfDisposalYearValid = "1970"
 }

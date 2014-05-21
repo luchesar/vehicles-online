@@ -27,10 +27,10 @@ final class FakeDisposeWebServiceImpl extends DisposeWebService {
 }
 
 object FakeDisposeWebServiceImpl {
-  val transactionIdValid = "1234"
-  val auditIdValid = "7575"
-  val simulateMicroServiceUnavailable = "8" * 11
-  val simulateSoapEndpointFailure = "9" * 11
+  final val transactionIdValid = "1234"
+  final val auditIdValid = "7575"
+  final val simulateMicroServiceUnavailable = "8" * 11
+  final val simulateSoapEndpointFailure = "9" * 11
 
   val disposeResponseSuccess =
     DisposeResponse(message = "Fake Web Dispose Service - Good response",
@@ -81,6 +81,6 @@ object FakeDisposeWebServiceImpl {
       responseCode = Some("undefined"))
 
 
-  val consentValid = "true"
-  val mileageValid = "20000"
+  final val consentValid = "true"
+  final val mileageValid = "20000"
 }
