@@ -19,8 +19,8 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
       assert(page.title equals EnterAddressManuallyPage.title)
     }
   }
-  
-  "next" should {
+
+  "next button" should {
     "accept and redirect when all fields are input with valid entry" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()

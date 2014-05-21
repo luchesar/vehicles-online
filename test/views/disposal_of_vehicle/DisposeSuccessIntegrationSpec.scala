@@ -109,7 +109,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  "exit" should {
+  "exit button" should {
     "remove redundant cookies" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()

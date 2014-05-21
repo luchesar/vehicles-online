@@ -8,16 +8,16 @@ import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle._
 
 final class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
-
-  "MicroserviceError Integration" should {
-
-    "be presented" in new WebBrowser {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to MicroServiceErrorPage
 
       assert(page.title equals MicroServiceErrorPage.title)
     }
+  }
 
-    "redirect to vehiclelookup when try again is clicked" in new WebBrowser {
+  "tryAgain button" should {
+    "redirect to vehiclelookup" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to MicroServiceErrorPage
@@ -27,15 +27,17 @@ final class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
       assert(page.title equals VehicleLookupPage.title)
     }
 
-    "redirect to setuptradedetails when no details are cachd and try again is click" in new WebBrowser {
+    "redirect to setuptradedetails when no details are cached" in new WebBrowser {
       go to MicroServiceErrorPage
 
       click on tryAgain
 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
+  }
 
-    "redirect to beforeyoustart when exit is clicked" in new WebBrowser {
+  "exit button" should {
+    "redirect to beforeyoustart" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to MicroServiceErrorPage

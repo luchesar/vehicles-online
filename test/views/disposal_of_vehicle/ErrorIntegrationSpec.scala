@@ -9,8 +9,8 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import pages.disposal_of_vehicle.ErrorPage.startAgain
 
 final class ErrorIntegrationSpec extends UiSpec with TestHarness {
-  "present" should {
-    "display page" in new WebBrowser {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -20,7 +20,7 @@ final class ErrorIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  "submit" should {
+  "submit button" should {
     "remove redundant cookies when 'start again' button is clicked" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
