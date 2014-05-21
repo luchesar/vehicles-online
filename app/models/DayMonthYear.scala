@@ -6,7 +6,7 @@ import org.joda.time.format.DateTimeFormat
 import scala.annotation.tailrec
 import play.api.libs.json.Json
 
-case class DayMonthYear(day: Int, month: Int, year: Int,
+final case class DayMonthYear(day: Int, month: Int, year: Int,
                         hour: Option[Int] = None, minutes: Option[Int] = None) extends Ordered[DayMonthYear] {
   def withTime(hour: Int, minutes: Int) = copy(hour = Some(hour), minutes = Some(minutes))
 

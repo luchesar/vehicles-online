@@ -4,7 +4,7 @@ import models.domain.common.CacheKey
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import play.api.libs.json.Json
 
-case class TraderDetailsModel(traderName: String, traderAddress: AddressViewModel)
+final case class TraderDetailsModel(traderName: String, traderAddress: AddressViewModel)
 
 object TraderDetailsModel {
   implicit val JsonFormat = Json.format[TraderDetailsModel]

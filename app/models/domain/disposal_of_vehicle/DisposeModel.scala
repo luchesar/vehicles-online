@@ -5,7 +5,7 @@ import play.api.libs.json.Json
 import mappings.disposal_of_vehicle.Dispose._
 import models.domain.common.CacheKey
 
-case class DisposeModel(referenceNumber: String,
+final case class DisposeModel(referenceNumber: String,
                         registrationNumber: String,
                         dateOfDisposal: DayMonthYear,
                         mileage: Option[Int])

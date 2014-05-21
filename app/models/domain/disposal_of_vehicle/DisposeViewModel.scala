@@ -1,6 +1,6 @@
 package models.domain.disposal_of_vehicle
 
-case class DisposeViewModel(vehicleMake: String,
+final case class DisposeViewModel(vehicleMake: String,
                             vehicleModel: String,
                             dealerName: String,
                             dealerAddress: AddressViewModel,

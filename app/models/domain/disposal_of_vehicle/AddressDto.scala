@@ -2,7 +2,7 @@ package models.domain.disposal_of_vehicle
 
 import play.api.libs.json.Json
 
-case class AddressDto(uprn: Option[Long], address: Seq[String])
+final case class AddressDto(uprn: Option[Long], address: Seq[String])
 
 object AddressDto {
   implicit val JsonFormat = Json.format[AddressDto]

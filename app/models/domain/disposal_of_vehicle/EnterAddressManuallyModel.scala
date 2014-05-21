@@ -5,7 +5,7 @@ import scala.annotation.tailrec
 import play.api.libs.json.Json
 import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
 
-case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcodeModel) {
+final case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcodeModel) {
   def stripCharsNotAccepted = {
     @tailrec
     def stripEndOfLine(inputLine: Option[String]): Option[String] = inputLine match {

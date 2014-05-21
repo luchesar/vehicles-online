@@ -4,7 +4,7 @@ import play.api.libs.json.Json
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupDetailsCacheKey
 import models.domain.common.CacheKey
 
-case class VehicleDetailsModel(registrationNumber: String,
+final case class VehicleDetailsModel(registrationNumber: String,
                                vehicleMake: String,
                                vehicleModel: String)
 
