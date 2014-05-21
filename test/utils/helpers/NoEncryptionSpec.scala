@@ -18,5 +18,5 @@ final class NoEncryptionSpec extends WordSpec with Matchers {
     }
   }
 
-  private val clearText = "qwerty"
+  private final val clearText = "qwerty"
 }

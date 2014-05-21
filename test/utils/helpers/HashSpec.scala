@@ -18,5 +18,5 @@ final class HashSpec extends WordSpec with Matchers {
     }
   }
 
-  private val clearText = "qwerty"
+  private final val clearText = "qwerty"
 }

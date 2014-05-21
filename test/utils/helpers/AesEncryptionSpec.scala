@@ -29,7 +29,7 @@ final class AesEncryptionSpec extends WordSpec with Matchers {
     }
   }
 
-  private val clearText = "qwerty"
+  private final val clearText = "qwerty" // TODO all the different copies of clearText should be replaced by a single val in an object
   private val appWithCryptpConfig = FakeApplication(
     additionalConfiguration = Map("application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo="))
 

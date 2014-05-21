@@ -218,13 +218,13 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
     FakeResponse(status = statusCode, fakeJson = Some(inputAsJson))
   }
 
-  private def responseThrows = Future {
+  private val responseThrows = Future {
     val response = mock[Response]
     when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
     response
   }
 
-  private def responseTimeout = Future {
+  private val responseTimeout = Future {
     val response = mock[Response]
     when(response.status).thenThrow(new java.util.concurrent.TimeoutException("This error is generated deliberately by a test"))
     response
