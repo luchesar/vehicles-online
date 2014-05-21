@@ -8,7 +8,7 @@ import play.api.http.Status._
 import play.api.libs.json.Json
 import services.vehicle_lookup.VehicleLookupWebService
 
-class FakeVehicleLookupWebService extends VehicleLookupWebService {
+final class FakeVehicleLookupWebService extends VehicleLookupWebService {
   override def callVehicleLookupService(request: VehicleDetailsRequest) = Future {
     val (responseStatus, response) = {
       request.referenceNumber match {

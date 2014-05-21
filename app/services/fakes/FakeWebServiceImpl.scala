@@ -13,7 +13,7 @@ import services.address_lookup.gds.domain.Location
 import services.address_lookup.gds.domain.Presentation
 import services.fakes.FakeAddressLookupService.postcodeInvalid
 
-class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
+final class FakeWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                          responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
   override def callPostcodeWebService(postcode: String): Future[Response] =
     if (postcode == postcodeInvalid) Future {
