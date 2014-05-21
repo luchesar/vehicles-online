@@ -9,10 +9,8 @@ import pages.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.VehicleLookup._
 
 final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
-
-  "VehicleLookupFailureIntegration" should {
-
-    "be presented" in new WebBrowser {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -45,6 +43,17 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       assert(page.title equals SetupTradeDetailsPage.title)
     }
 
+    "remove redundant cookies when displayed" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      go to VehicleLookupFailurePage
+
+      assert(webDriver.manage().getCookieNamed(VehicleLookupResponseCodeCacheKey) == null)
+    }
+  }
+
+  "vehicleLookup button" should {
     "redirect to vehiclelookup when button clicked" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
@@ -54,8 +63,10 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       assert(page.title equals VehicleLookupPage.title)
     }
+  }
 
-    "redirect to beforeyoustart when button clicked" in new WebBrowser {
+  "beforeYouStart button" should {
+    "redirect to beforeyoustart" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to VehicleLookupFailurePage
@@ -63,15 +74,6 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       click on beforeYouStart
 
       assert(page.title equals BeforeYouStartPage.title)
-    }
-
-    "remove redundant cookies when displayed" in new WebBrowser {
-      go to BeforeYouStartPage
-      cacheSetup()
-
-      go to VehicleLookupFailurePage
-
-      assert(webDriver.manage().getCookieNamed(VehicleLookupResponseCodeCacheKey) == null)
     }
   }
 
