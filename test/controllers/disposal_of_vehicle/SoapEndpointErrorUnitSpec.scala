@@ -5,8 +5,8 @@ import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
 
 final class SoapEndpointErrorUnitSpec extends UnitSpec {
-  "Soap endpoint error - Controller" should {
-    "present" in new WithApplication {
+  "present" should {
+    "display the page" in new WithApplication {
       val request = FakeRequest().withSession()
       val result = new controllers.disposal_of_vehicle.SoapEndpointError().present(request)
 

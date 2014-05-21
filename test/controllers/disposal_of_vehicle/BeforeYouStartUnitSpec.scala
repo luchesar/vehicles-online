@@ -7,14 +7,14 @@ import play.api.test.{FakeRequest, WithApplication}
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 final class BeforeYouStartUnitSpec extends UnitSpec {
-
-  "BeforeYouStart - Controller" should {
-
-    "present" in new WithApplication {
+  "present" should {
+    "display the page" in new WithApplication {
       val result = beforeYouStart.present(newFakeRequest)
       status(result) should equal(OK)
     }
+  }
 
+  "submit" should {
     "redirect to next page after the button is clicked" in new WithApplication {
       val result = beforeYouStart.submit(newFakeRequest)
       whenReady(result) {

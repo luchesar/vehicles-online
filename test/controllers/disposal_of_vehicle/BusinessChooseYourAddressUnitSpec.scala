@@ -15,7 +15,7 @@ import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
-    "display page if dealer details cached" in new WithApplication {
+    "display the page if dealer details cached" in new WithApplication {
       val request = FakeRequest().withSession().withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnFound.present(request)
       whenReady(result) {

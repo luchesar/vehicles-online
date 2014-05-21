@@ -23,7 +23,7 @@ import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
-    "display page" in new WithApplication {
+    "display the page" in new WithApplication {
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).

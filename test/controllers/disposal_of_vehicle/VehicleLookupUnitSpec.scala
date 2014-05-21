@@ -24,9 +24,8 @@ import services.fakes.FakeAddressLookupService._
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 final class VehicleLookupUnitSpec extends UnitSpec {
-
   "present" should {
-    "display" in new WithApplication {
+    "display the page" in new WithApplication {
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
