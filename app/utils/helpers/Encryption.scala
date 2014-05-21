@@ -45,7 +45,8 @@ class AesEncryption extends Encryption {
         val applicationSecret = Base64.decodeBase64(base64EncodedApplicationSecret)
 
         if (applicationSecret.length != decodedKeySizeInBytes) {
-          throw new Exception(s"Application secret key must be $keySizeInBits bits ($decodedKeySizeInBytes decoded bytes). Actual size in bytes was ${applicationSecret.length}.")
+          throw new Exception(s"Application secret key must be $keySizeInBits bits ($decodedKeySizeInBytes decoded bytes). " +
+            s"Actual size in bytes was ${applicationSecret.length}.")
         }
 
         applicationSecret
