@@ -22,8 +22,6 @@ import play.api.mvc.Cookies
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 final class DisposeUnitSpec extends UnitSpec {
-  val emptySpace = " "
-
   "present" should {
     "display page" in new WithApplication {
       val request = FakeRequest().withSession().
@@ -229,6 +227,8 @@ final class DisposeUnitSpec extends UnitSpec {
       }
     }
   }
+
+  private val emptySpace = " "
 
   private def dateServiceStubbed(day: Int = dateOfDisposalDayValid.toInt,
                                  month: Int = dateOfDisposalMonthValid.toInt,

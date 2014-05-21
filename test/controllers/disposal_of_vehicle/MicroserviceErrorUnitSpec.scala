@@ -14,7 +14,7 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
     }
   }
 
-  def newFakeRequest = {
+  private def newFakeRequest = {
     FakeRequest().withSession()
   }
 

@@ -9,8 +9,6 @@ import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 import scala.Some
 
 final class DisposeSuccessUnitSpec extends UnitSpec {
-  val actionNotAllowedMessage = "This action is not allowed"
-
   "Disposal success controller" should {
     "present" in new WithApplication {
       val request = FakeRequest().withSession().
@@ -204,6 +202,8 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
       }
     }
   }
+
+  private val actionNotAllowedMessage = "This action is not allowed"
 
   private def disposeSuccess() = {
     val noCookieEncryption = new NoEncryption with CookieEncryption

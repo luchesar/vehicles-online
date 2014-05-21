@@ -23,7 +23,7 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
     }
   }
 
-  def newFakeRequest = {
+  private def newFakeRequest = {
     FakeRequest().withSession()
   }
 
