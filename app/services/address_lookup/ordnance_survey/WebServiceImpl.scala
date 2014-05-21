@@ -5,12 +5,9 @@ import utils.helpers.Config
 import scala.concurrent.Future
 import play.api.Logger
 import services.address_lookup.AddressLookupWebService
-import mappings.common.Postcode.PostcodeId
-import mappings.common.Uprn.UprnId
-import play.api.libs.json.Json
 
 final class WebServiceImpl extends AddressLookupWebService {
-  private val baseUrl: String = Config.ordnanceSurveyMicroServiceUrl
+  private val baseUrl: String = Config.ordnanceSurveyMicroServiceUrl // TODO would it be better to move these to a companion object? And maybe private[this]
   private val requestTimeout: Int = Config.ordnanceSurveyRequestTimeout.toInt
 
   def postcodeWithNoSpaces(postcode: String): String = postcode.filter(_ != ' ')
