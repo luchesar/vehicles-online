@@ -6,7 +6,6 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.Config
 import models.domain.disposal_of_vehicle.{DisposeRequest, DisposeResponse}
-import models.domain.disposal_of_vehicle.DisposeRequest.disposeRequestFormat
 import javax.inject.Inject
 
 class DisposeServiceImpl @Inject()(ws: DisposeWebService) extends DisposeService {

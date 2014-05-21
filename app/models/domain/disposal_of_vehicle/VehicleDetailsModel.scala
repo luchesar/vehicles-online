@@ -11,6 +11,6 @@ object VehicleDetailsModel {
   def fromDto(model: VehicleDetailsDto) = VehicleDetailsModel(registrationNumber = model.registrationNumber, vehicleMake = model.vehicleMake,
     vehicleModel = model.vehicleModel)
 
-  implicit val vehicleDetailsModelFormat = Json.format[VehicleDetailsModel]
+  implicit val JsonFormat = Json.format[VehicleDetailsModel]
   implicit val cacheKey = CacheKey[VehicleDetailsModel](VehicleLookupDetailsCacheKey)
 }

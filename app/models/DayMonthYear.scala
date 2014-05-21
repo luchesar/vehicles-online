@@ -101,7 +101,7 @@ case class DayMonthYear(day: Int, month: Int, year: Int,
 object DayMonthYear {
   import play.api.libs.json.Json
 
-  implicit val dayMonthYearFormat = Json.format[DayMonthYear]
+  implicit val JsonFormat = Json.format[DayMonthYear]
 
   def from(dt: DateTime) = DayMonthYear(dt.dayOfMonth().get, dt.monthOfYear().get, dt.year().get, Some(dt.hourOfDay().get()), Some(dt.minuteOfHour().get))
 

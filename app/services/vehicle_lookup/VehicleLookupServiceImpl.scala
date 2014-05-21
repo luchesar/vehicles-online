@@ -6,7 +6,6 @@ import ExecutionContext.Implicits.global
 import models.domain.disposal_of_vehicle._
 import models.domain.disposal_of_vehicle.VehicleDetailsResponse
 import javax.inject.Inject
-import models.domain.disposal_of_vehicle.VehicleDetailsResponse.vehicleDetailsResponse
 import play.api.http.Status
 
 class VehicleLookupServiceImpl @Inject()(ws: VehicleLookupWebService) extends VehicleLookupService {

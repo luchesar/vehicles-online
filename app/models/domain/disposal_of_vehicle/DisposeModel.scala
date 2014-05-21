@@ -11,6 +11,6 @@ case class DisposeModel(referenceNumber: String,
                         mileage: Option[Int])
 
 object DisposeModel {
-  implicit val disposeModelFormat = Json.format[DisposeModel]
+  implicit val JsonFormat = Json.format[DisposeModel]
   implicit val cacheKey = CacheKey[DisposeModel](value = DisposeModelCacheKey)
 }
