@@ -6,7 +6,7 @@ import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class ErrorUnitSpec extends UnitSpec {
+final class ErrorUnitSpec extends UnitSpec {
   "present" should {
     "display page" in new WithApplication {
       val request = FakeRequest().withSession().

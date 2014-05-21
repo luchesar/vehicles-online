@@ -8,7 +8,7 @@ import helpers.UnitSpec
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 import scala.Some
 
-class DisposeSuccessUnitSpec extends UnitSpec {
+final class DisposeSuccessUnitSpec extends UnitSpec {
   val actionNotAllowedMessage = "This action is not allowed"
 
   "Disposal success controller" should {

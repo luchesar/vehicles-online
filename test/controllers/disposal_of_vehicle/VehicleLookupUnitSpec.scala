@@ -24,7 +24,7 @@ import services.fakes.FakeAddressLookupService._
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 import scala.Some
 
-class VehicleLookupUnitSpec extends UnitSpec {
+final class VehicleLookupUnitSpec extends UnitSpec {
 
   "present" should {
     "display" in new WithApplication {

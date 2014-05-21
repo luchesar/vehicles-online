@@ -11,7 +11,7 @@ import play.api.mvc.Cookies
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class SetUpTradeDetailsUnitSpec extends UnitSpec {
+final class SetUpTradeDetailsUnitSpec extends UnitSpec {
   "present" should {
     "display page" in new WithApplication {
       val request = FakeRequest().withSession()

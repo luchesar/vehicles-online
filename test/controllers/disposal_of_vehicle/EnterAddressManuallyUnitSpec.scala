@@ -13,7 +13,7 @@ import services.fakes.FakeAddressLookupService._
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class EnterAddressManuallyUnitSpec extends UnitSpec {
+final class EnterAddressManuallyUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
       val request = FakeRequest().withSession().withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())

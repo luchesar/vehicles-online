@@ -21,7 +21,7 @@ import services.fakes.FakeDisposeWebServiceImpl._
 import play.api.mvc.Cookies
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class DisposeUnitSpec extends UnitSpec {
+final class DisposeUnitSpec extends UnitSpec {
   val emptySpace = " "
 
   "present" should {

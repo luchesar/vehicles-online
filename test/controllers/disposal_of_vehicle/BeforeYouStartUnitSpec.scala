@@ -6,7 +6,7 @@ import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class BeforeYouStartUnitSpec extends UnitSpec {
+final class BeforeYouStartUnitSpec extends UnitSpec {
 
   "BeforeYouStart - Controller" should {
 

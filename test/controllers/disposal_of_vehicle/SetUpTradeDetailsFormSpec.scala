@@ -6,7 +6,7 @@ import mappings.disposal_of_vehicle.SetupTradeDetails._
 import services.fakes.FakeAddressLookupService._
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class SetUpTradeDetailsFormSpec extends UnitSpec {
+final class SetUpTradeDetailsFormSpec extends UnitSpec {
 
   "SetupTradeDetails form" should {
     "accept if form is valid with all fields filled in" in {

@@ -7,7 +7,7 @@ import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class VehicleLookupFailureUnitSpec extends UnitSpec {
+final class VehicleLookupFailureUnitSpec extends UnitSpec {
 
   "VehicleLookupFailurePage - Controller" should {
 

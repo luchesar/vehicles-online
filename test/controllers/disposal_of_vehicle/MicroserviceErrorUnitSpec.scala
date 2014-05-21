@@ -4,7 +4,7 @@ import helpers.UnitSpec
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
 
-class MicroserviceErrorUnitSpec extends UnitSpec {
+final class MicroserviceErrorUnitSpec extends UnitSpec {
 
   "MicroserviceError controller" should {
 

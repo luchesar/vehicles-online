@@ -4,7 +4,7 @@ import helpers.UnitSpec
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
 
-class UprnNotFoundUnitSpec extends UnitSpec {
+final class UprnNotFoundUnitSpec extends UnitSpec {
 
   "UprnNotFound - Controller" should {
 

@@ -13,7 +13,7 @@ import services.fakes.FakeWebServiceImpl
 import services.fakes.FakeWebServiceImpl._
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class BusinessChooseYourAddressUnitSpec extends UnitSpec {
+final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
     "display page if dealer details cached" in new WithApplication {
       val request = FakeRequest().withSession().withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
