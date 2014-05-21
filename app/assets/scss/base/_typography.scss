@@ -11,14 +11,6 @@
 //  Although there is a lot of duplication within this file, as long
 //  as you GZIP your CSS it shouldnt cause any bloat.
 
-// standard outline/focus
-* {
-  &:focus {
-    outline: 3px solid $yellow;
-  }
-} 
-
-
 // CORE FONTS - NEW TRANSPORT
 
 $is-print: false !default;
