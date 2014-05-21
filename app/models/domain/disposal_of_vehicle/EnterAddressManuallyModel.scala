@@ -29,6 +29,6 @@ case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcode
 }
 
 object EnterAddressManuallyModel {
-  implicit val enterAddressManuallyModelFormat = Json.format[EnterAddressManuallyModel]
-  implicit val cacheKey = CacheKey[EnterAddressManuallyModel](EnterAddressManuallyCacheKey)
+  implicit final val JsonFormat = Json.format[EnterAddressManuallyModel]
+  implicit final val Key = CacheKey[EnterAddressManuallyModel](EnterAddressManuallyCacheKey)
 }

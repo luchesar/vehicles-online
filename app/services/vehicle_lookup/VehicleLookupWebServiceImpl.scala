@@ -6,7 +6,6 @@ import models.domain.disposal_of_vehicle.VehicleDetailsRequest
 import play.api.libs.json.Json
 import utils.helpers.Config
 import play.api.Logger
-import models.domain.disposal_of_vehicle.VehicleDetailsRequest.vehicleDetailsRequest
 
 class VehicleLookupWebServiceImpl extends VehicleLookupWebService {
   val endPoint = s"${Config.vehicleLookupMicroServiceBaseUrl}/vehicles/lookup/v1/dispose"
