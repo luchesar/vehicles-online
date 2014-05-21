@@ -11,7 +11,7 @@ import play.api.libs.json.Json
 import play.api.libs.ws.Response
 import services.dispose_service.DisposeWebService
 
-class FakeDisposeWebServiceImpl extends DisposeWebService {
+final class FakeDisposeWebServiceImpl extends DisposeWebService {
   override def callDisposeService(request: DisposeRequest): Future[Response] = Future {
     val disposeResponse: DisposeResponse = {
       request.referenceNumber match {

@@ -3,7 +3,7 @@ package services.fakes
 import models.DayMonthYear
 import services.DateService
 
-class FakeDateServiceImpl extends DateService {
+final class FakeDateServiceImpl extends DateService {
 
   import FakeDateServiceImpl._
 
