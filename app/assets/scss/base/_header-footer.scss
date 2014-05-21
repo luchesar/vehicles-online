@@ -887,7 +887,7 @@ input:focus, textarea:focus, select:focus {
   background-color: #dee0e2;
   border-top: 1px solid #a1acb2;
   .footer-wrapper {
-    max-width: 60em;
+    max-width: 960px;
     margin: 0 auto;
     padding: 60px 1em 0 1em;
     padding: 6rem 1em 0 1em;
@@ -992,6 +992,7 @@ input:focus, textarea:focus, select:focus {
         padding: 0;
         li {
           display: inline-block;
+          margin:0 15px 0 0;
           margin: 0 1.5rem 0 0;
         }
       }
@@ -1031,6 +1032,13 @@ input:focus, textarea:focus, select:focus {
     }
   }
 }
+
+@media (max-width:$device-large) {
+  #footer .footer-wrapper {
+    max-width:100%;
+  }
+}
+
 
 @media (max-width: 640px) {
   #footer .footer-wrapper {

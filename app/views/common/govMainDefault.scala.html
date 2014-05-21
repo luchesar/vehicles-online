@@ -17,13 +17,13 @@
         
         @{/*<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/date-picker.css")">*/}
         
-        <link href="@routes.Assets.at("stylesheets/old/header-footer-only.css")" media="screen" rel="stylesheet" type="text/css">
-
-        <!--[if lte IE 9]>
-        <link href="@routes.Assets.at("stylesheets/old/ie-all.css")" media="screen" rel="stylesheet" type="text/css"> 
-        <![endif]-->
         
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("screen.min.css")">
+
+        <!--[if lt IE 9]>
+        <link href="@routes.Assets.at("stylesheets/ie9l.css")" media="all" rel="stylesheet" type="text/css">
+        <!--<![endif]-->
+
 
         <link href="@routes.Assets.at("stylesheets/print.css")" media="print" rel="stylesheet" type="text/css">
 
@@ -114,10 +114,7 @@
                 @footerCategories
 
                 <div class="footer-meta">
-                
-                
-                    <nav>
-                    
+                    <div class="nav-wrapper">
                         <ul>
                             <li><a href="https://www.gov.uk/help" target="_blank">@{Messages("footer.helpdesk")(lang)}</a></li>
                             <li><a href="https://www.gov.uk/help/cookies" target="_blank">@{Messages("footer.privacypolicy")(lang)}</a></li>
@@ -125,8 +122,7 @@
                             <li><a href="https://www.gov.uk/cymraeg" target="_blank">@{Messages("footer.welsh")(lang)}</a></li>
                             <li>@{Messages("footer.builtbyintro")(lang)}&nbsp;<a href="https://www.gov.uk/government/organisations/driver-and-vehicle-licensing-agency" target="_blank">@{Messages("footer.builtby")(lang)}</a></li>
                         </ul>
-
-                    </nav>
+                    </div>
 
                     <div class="copyright">
                         <a href="http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm" target="_blank">&copy; Crown Copyright</a>
