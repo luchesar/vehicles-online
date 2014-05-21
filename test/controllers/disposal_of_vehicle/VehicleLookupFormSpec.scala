@@ -17,8 +17,7 @@ import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebServic
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
 final class VehicleLookupFormSpec extends UnitSpec {
-
-  "VehicleLookup form" should {
+  "form" should {
     "accept when all fields contain valid responses" in {
       formWithValidDefaults().get.referenceNumber should equal(referenceNumberValid)
       formWithValidDefaults().get.registrationNumber should equal(registrationNumberValid)

@@ -9,7 +9,6 @@ final class SoapEndpointErrorUnitSpec extends UnitSpec {
     "display the page" in new WithApplication {
       val request = FakeRequest().withSession()
       val result = new controllers.disposal_of_vehicle.SoapEndpointError().present(request)
-
       whenReady(result) {
         r => r.header.status should equal(OK)
       }
