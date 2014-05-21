@@ -13,7 +13,7 @@ import org.mockito.Mockito._
 import pages.disposal_of_vehicle._
 import play.api.http.Status.OK
 import play.api.libs.json.{JsValue, Json}
-import play.api.mvc.{SimpleResult, Cookies}
+import play.api.mvc.Cookies
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeResponse
@@ -22,7 +22,6 @@ import services.fakes.FakeWebServiceImpl._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import services.fakes.FakeAddressLookupService._
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
-import scala.Some
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -219,7 +218,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to MicroserviceError when microservice throws" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = vehicleLookupError().submit(request)
+      val result = vehicleLookupError.submit(request)
 
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
@@ -267,7 +266,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "does not write cookie when microservice throws" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = vehicleLookupError().submit(request)
+      val result = vehicleLookupError.submit(request)
 
       whenReady(result) {
         r =>
@@ -279,7 +278,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   private def vehicleLookupResponseGenerator( fullResponse:(Int, Option[VehicleDetailsResponse])) = {
-  val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
+    val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
     when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
       val responseAsJson : Option[JsValue] = fullResponse._2 match {
         case Some(e) => Some(Json.toJson(e))
@@ -293,7 +292,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)(noCookieEncryption, noCookieNameHashing)
   }
 
-  private def vehicleLookupError() = {
+  private val vehicleLookupError = {
     val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
     when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
       throw new IllegalArgumentException

@@ -18,5 +18,5 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
     FakeRequest().withSession()
   }
 
-  private def microserviceError = new MicroServiceError()
+  private val microserviceError = new MicroServiceError()
 }

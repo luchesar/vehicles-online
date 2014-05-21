@@ -27,7 +27,7 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
     FakeRequest().withSession()
   }
 
-  private def beforeYouStart = {
+  private val beforeYouStart = {
     val noCookieEncryption = new NoEncryption with CookieEncryption
     val noCookieNameHashing = new NoHash with CookieNameHashing
     new BeforeYouStart()(noCookieEncryption, noCookieNameHashing)
