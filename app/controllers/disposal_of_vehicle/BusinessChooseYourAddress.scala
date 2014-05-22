@@ -43,11 +43,9 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
         case Some(setupTradeDetailsModel) =>
           fetchAddresses(setupTradeDetailsModel).map {
             addresses =>
-              val f = request.getEncryptedCookie[BusinessChooseYourAddressModel] match {
-                case Some(cached) => form.fill()
-                case None => form // Blank form.
-              }
-              Ok(views.html.disposal_of_vehicle.business_choose_your_address(f, setupTradeDetailsModel.traderBusinessName, addresses))
+              Ok(views.html.disposal_of_vehicle.business_choose_your_address(form.fill(),
+                setupTradeDetailsModel.traderBusinessName,
+                addresses))
           }
         case None => Future {
           Redirect(routes.SetUpTradeDetails.present())
@@ -56,32 +54,32 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
   }
 
   def submit = Action.async { implicit request =>
-      form.bindFromRequest.fold(
-        formWithErrors =>
-          request.getEncryptedCookie[SetupTradeDetailsModel] match {
-            case Some(setupTradeDetailsModel) => fetchAddresses(setupTradeDetailsModel).map {
-              addresses =>
-                val formWithReplacedErrors = formWithErrors.
-                  replaceError(AddressSelectId, "error.number", FormError(key = AddressSelectId, message = "disposal_businessChooseYourAddress.address.required", args = Seq.empty)).
-                  distinctErrors
+    form.bindFromRequest.fold(
+      formWithErrors =>
+        request.getEncryptedCookie[SetupTradeDetailsModel] match {
+          case Some(setupTradeDetailsModel) => fetchAddresses(setupTradeDetailsModel).map {
+            addresses =>
+              val formWithReplacedErrors = formWithErrors.
+                replaceError(AddressSelectId, "error.number", FormError(key = AddressSelectId, message = "disposal_businessChooseYourAddress.address.required", args = Seq.empty)).
+                distinctErrors
 
-                BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithReplacedErrors, setupTradeDetailsModel.traderBusinessName, addresses))
-            }
-            case None => Future {
-              Logger.error("Failed to find dealer details in cache for submit formWithErrors, redirecting...")
-              Redirect(routes.SetUpTradeDetails.present())
-            }
-          },
-        f =>
-          request.getEncryptedCookie[SetupTradeDetailsModel] match {
-            case Some(setupTradeDetailsModel) =>
-              lookupUprn(f, setupTradeDetailsModel.traderBusinessName)
-            case None => Future {
-              Logger.error("Failed to find dealer details in cache on submit valid form, redirecting...")
-              Redirect(routes.SetUpTradeDetails.present())
-            }
+              BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithReplacedErrors, setupTradeDetailsModel.traderBusinessName, addresses))
           }
-      )
+          case None => Future {
+            Logger.error("Failed to find dealer details in cache for submit formWithErrors, redirecting...")
+            Redirect(routes.SetUpTradeDetails.present())
+          }
+        },
+      f =>
+        request.getEncryptedCookie[SetupTradeDetailsModel] match {
+          case Some(setupTradeDetailsModel) =>
+            lookupUprn(f, setupTradeDetailsModel.traderBusinessName)
+          case None => Future {
+            Logger.error("Failed to find dealer details in cache on submit valid form, redirecting...")
+            Redirect(routes.SetUpTradeDetails.present())
+          }
+        }
+    )
   }
 
   private def lookupUprn(model: BusinessChooseYourAddressModel, traderName: String)(implicit request: Request[_]) = {
