@@ -19,8 +19,7 @@ import services.fakes.FakeResponse
 import services.{DateService, DateServiceImpl}
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class DisposeFormSpec extends UnitSpec {
-
+final class DisposeFormSpec extends UnitSpec {
   "form" should {
     "accept when all fields contain valid responses" in {
       val model = formWithValidDefaults().get

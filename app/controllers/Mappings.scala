@@ -1,5 +1,5 @@
 package controllers
 
 object Mappings {
-  val sixty = 60
+  final val sixty = 60
 }

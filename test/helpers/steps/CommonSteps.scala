@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver
 import org.scalatest.Matchers
 import pages.common.ErrorPanel
 
-class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDSL with Matchers {
+final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 

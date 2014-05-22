@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver
 import helpers.webbrowser.WebBrowserDriver
 import cucumber.api.java.{Before,After}
 
-class WebBrowserHooks(webBrowserDriver:WebBrowserDriver) {
+final class WebBrowserHooks(webBrowserDriver:WebBrowserDriver) {
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 

@@ -11,7 +11,7 @@ import play.api.libs.json.Json
 import play.api.libs.ws.Response
 import services.dispose_service.DisposeWebService
 
-class FakeDisposeWebServiceImpl extends DisposeWebService {
+final class FakeDisposeWebServiceImpl extends DisposeWebService {
   override def callDisposeService(request: DisposeRequest): Future[Response] = Future {
     val disposeResponse: DisposeResponse = {
       request.referenceNumber match {
@@ -27,10 +27,10 @@ class FakeDisposeWebServiceImpl extends DisposeWebService {
 }
 
 object FakeDisposeWebServiceImpl {
-  val transactionIdValid = "1234"
-  val auditIdValid = "7575"
-  val simulateMicroServiceUnavailable = "8" * 11
-  val simulateSoapEndpointFailure = "9" * 11
+  final val transactionIdValid = "1234"
+  private final val auditIdValid = "7575"
+  private final val simulateMicroServiceUnavailable = "8" * 11
+  private final val simulateSoapEndpointFailure = "9" * 11
 
   val disposeResponseSuccess =
     DisposeResponse(message = "Fake Web Dispose Service - Good response",
@@ -81,6 +81,6 @@ object FakeDisposeWebServiceImpl {
       responseCode = Some("undefined"))
 
 
-  val consentValid = "true"
-  val mileageValid = "20000"
+  final val consentValid = "true"
+  final val mileageValid = "20000"
 }

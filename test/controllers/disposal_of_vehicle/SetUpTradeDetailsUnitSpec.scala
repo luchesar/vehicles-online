@@ -11,11 +11,11 @@ import play.api.mvc.Cookies
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class SetUpTradeDetailsUnitSpec extends UnitSpec {
+final class SetUpTradeDetailsUnitSpec extends UnitSpec {
   "present" should {
-    "display page" in new WithApplication {
+    "display the page" in new WithApplication {
       val request = FakeRequest().withSession()
-      val result = setUpTradeDetails().present(request)
+      val result = setUpTradeDetails.present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
       }
@@ -24,7 +24,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
     "display populated fields when cookie exists" in new WithApplication {
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = setUpTradeDetails().present(request)
+      val result = setUpTradeDetails.present(request)
       val content = contentAsString(result)
       content should include(traderBusinessNameValid)
       content should include(postcodeValid)
@@ -32,7 +32,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
     "display empty fields when cookie does not exist" in new WithApplication {
       val request = FakeRequest().withSession()
-      val result = setUpTradeDetails().present(request)
+      val result = setUpTradeDetails.present(request)
       val content = contentAsString(result)
       content should not include traderBusinessNameValid
       content should not include postcodeValid
@@ -42,7 +42,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
   "submit" should {
     "redirect to next page when the form is completed successfully" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = setUpTradeDetails().submit(request)
+      val result = setUpTradeDetails.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
       }
@@ -50,7 +50,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
     "return a bad request if no details are entered" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "", dealerPostcode = "")
-      val result = setUpTradeDetails().submit(request)
+      val result = setUpTradeDetails.submit(request)
       whenReady(result) {
         r => r.header.status should equal(BAD_REQUEST)
       }
@@ -58,14 +58,14 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
     "replace max length error message for traderBusinessName with standard error message (US158)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (TraderNameMaxLength + 1))
-      val result = setUpTradeDetails().submit(request)
+      val result = setUpTradeDetails.submit(request)
       val count = countSubstring(contentAsString(result), "Must be between two and 30 characters and not contain invalid characters")
       count should equal(2)
     }
 
     "replace required and min length error messages for traderBusinessName with standard error message (US158)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "")
-      val result = setUpTradeDetails().submit(request)
+      val result = setUpTradeDetails.submit(request)
       val count = countSubstring(contentAsString(result), "Must be between two and 30 characters and not contain invalid characters")
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
       // the page and once above the field.
@@ -73,7 +73,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
     "write cookie when the form is completed successfully" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = setUpTradeDetails().submit(request)
+      val result = setUpTradeDetails.submit(request)
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
@@ -88,10 +88,9 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
       TraderPostcodeId -> dealerPostcode)
   }
 
-  private def setUpTradeDetails() = {
+  private val setUpTradeDetails = {
     val noCookieEncryption = new NoEncryption with CookieEncryption
     val noCookieNameHashing = new NoHash with CookieNameHashing
     new SetUpTradeDetails()(noCookieEncryption, noCookieNameHashing)
   }
-
 }

@@ -16,34 +16,7 @@ import play.api.libs.ws.Response
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import models.domain.disposal_of_vehicle.{UprnToAddressResponse, PostcodeToAddressResponse}
 
-class OSAddressLookupServiceSpec extends UnitSpec {
-  val timeout = Timeout(Span(1, Second))
-
-  def addressServiceMock(response: Future[Response]): AddressLookupService = {
-    // Using the real address lookup service but passing in a fake web service that returns the responses we specify.
-    new ordnance_survey.AddressLookupServiceImpl(new FakeWebServiceImpl(responseOfPostcodeWebService = response, responseOfUprnWebService = response))
-  }
-
-  def response(statusCode: Int, inputAsJson: JsValue): Future[Response] = Future {
-    FakeResponse(status = statusCode, fakeJson = Some(inputAsJson))
-  }
-
-  def responsePostcode(statusCode: Int,
-                       input: PostcodeToAddressResponse = postcodeToAddressResponseValid): Future[Response] = {
-    val inputAsJson = Json.toJson(input)
-    response(statusCode, inputAsJson)
-  }
-
-  def responseUprn(statusCode: Int,
-                   input: UprnToAddressResponse = uprnToAddressResponseValid): Future[Response] = {
-    val inputAsJson = Json.toJson(input)
-    response(statusCode, inputAsJson)
-  }
-
-  val responseThrows: Future[Response] = Future {
-    throw new RuntimeException("This error is generated deliberately by a test")
-  }
-
+final class OSAddressLookupServiceSpec extends UnitSpec {
   "fetchAddressesForPostcode" should {
     "return seq when response status is 200 OK and returns results" in {
       val service = addressServiceMock(responseValidForPostcodeToAddress)
@@ -153,5 +126,32 @@ class OSAddressLookupServiceSpec extends UnitSpec {
         _ shouldBe empty
       }
     }
+  }
+
+  private val timeout = Timeout(Span(1, Second))
+
+  private def addressServiceMock(response: Future[Response]): AddressLookupService = {
+    // Using the real address lookup service but passing in a fake web service that returns the responses we specify.
+    new ordnance_survey.AddressLookupServiceImpl(new FakeWebServiceImpl(responseOfPostcodeWebService = response, responseOfUprnWebService = response))
+  }
+
+  private def response(statusCode: Int, inputAsJson: JsValue): Future[Response] = Future {
+    FakeResponse(status = statusCode, fakeJson = Some(inputAsJson))
+  }
+
+  private def responsePostcode(statusCode: Int,
+                       input: PostcodeToAddressResponse = postcodeToAddressResponseValid): Future[Response] = {
+    val inputAsJson = Json.toJson(input)
+    response(statusCode, inputAsJson)
+  }
+
+  private def responseUprn(statusCode: Int,
+                   input: UprnToAddressResponse = uprnToAddressResponseValid): Future[Response] = {
+    val inputAsJson = Json.toJson(input)
+    response(statusCode, inputAsJson)
+  }
+
+  private val responseThrows: Future[Response] = Future {
+    throw new RuntimeException("This error is generated deliberately by a test")
   }
 }

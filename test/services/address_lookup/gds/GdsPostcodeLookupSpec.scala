@@ -17,34 +17,13 @@ import services.fakes.FakeWebServiceImpl.traderUprnValid
 import services.fakes.FakeAddressLookupService._
 import play.api.http.Status.{OK, NOT_FOUND}
 
-class GdsPostcodeLookupSpec extends UnitSpec {
+final class GdsPostcodeLookupSpec extends UnitSpec {
   /*
     The service will:
     1) Send postcode string to GDS micro-service
     2) Get a response from the GDS micro-service
     3) Translate the response into a Seq that can be used by the drop-down
     */
-  def addressServiceMock(response: Future[Response]): AddressLookupService = {
-    // Using the real address lookup service but passing in a fake web service that returns the responses we specify.
-    new gds.AddressLookupServiceImpl(new FakeWebServiceImpl(responseOfPostcodeWebService = response, responseOfUprnWebService = response))
-  }
-
-  def response(statusCode: Int, inputAsJson: JsValue) = Future {
-    FakeResponse(status = statusCode, fakeJson = Some(inputAsJson))
-  }
-
-  def responseThrows = Future {
-    val response = mock[Response]
-    when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
-    response
-  }
-
-  def responseTimeout = Future {
-    val response = mock[Response]
-    when(response.status).thenThrow(new java.util.concurrent.TimeoutException("This error is generated deliberately by a test"))
-    response
-  }
-
   "fetchAddressesForPostcode" should {
     "return empty seq when cannot connect to micro-service" in {
       val service = addressServiceMock(responseTimeout)
@@ -230,5 +209,24 @@ class GdsPostcodeLookupSpec extends UnitSpec {
       }
     }
   }
+  private def addressServiceMock(response: Future[Response]): AddressLookupService = {
+    // Using the real address lookup service but passing in a fake web service that returns the responses we specify.
+    new gds.AddressLookupServiceImpl(new FakeWebServiceImpl(responseOfPostcodeWebService = response, responseOfUprnWebService = response))
+  }
 
+  private def response(statusCode: Int, inputAsJson: JsValue) = Future {
+    FakeResponse(status = statusCode, fakeJson = Some(inputAsJson))
+  }
+
+  private val responseThrows = Future {
+    val response = mock[Response]
+    when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
+    response
+  }
+
+  private val responseTimeout = Future {
+    val response = mock[Response]
+    when(response.status).thenThrow(new java.util.concurrent.TimeoutException("This error is generated deliberately by a test"))
+    response
+  }
 }

@@ -6,9 +6,9 @@ import services.fakes.FakeVehicleLookupWebService._
 import mappings.disposal_of_vehicle.VehicleLookup._
 
 object VehicleLookupPage extends Page with WebBrowserDSL {
-  val address = "/disposal-of-vehicle/vehicle-lookup"
+  final val address = "/disposal-of-vehicle/vehicle-lookup"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  override val title: String = "Find vehicle details"
+  final override val title: String = "Find vehicle details"
 
   def vehicleRegistrationNumber(implicit driver: WebDriver): TextField = textField(id(RegistrationNumberId))
 

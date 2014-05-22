@@ -83,9 +83,14 @@ Running the application
 
 3.  Repeat *step 1* for each required microservice (if any).
 
+Session encryption
+------------------
+
+Please refer to the [session encryption][session-encryption] document for details on the encryption algorithm used.
+
 [install-sass]: http://sass-lang.com/install "Install SASS"
 [install-sbt]: http://www.scala-sbt.org/release/docs/Getting-Started/Setup.html#installing-sbt "Install SBT"
 [rest]: https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm "REST"
 [play-framework]: http://www.playframework.com/ "Play Framework"
 [scala]: http://www.scala-lang.org/ "Scala Language"
-
+[session-encryption]: encrypted-session-state.md "Session Encryption"

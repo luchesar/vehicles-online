@@ -6,15 +6,15 @@ import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class BeforeYouStartUnitSpec extends UnitSpec {
-
-  "BeforeYouStart - Controller" should {
-
-    "present" in new WithApplication {
+final class BeforeYouStartUnitSpec extends UnitSpec {
+  "present" should {
+    "display the page" in new WithApplication {
       val result = beforeYouStart.present(newFakeRequest)
       status(result) should equal(OK)
     }
+  }
 
+  "submit" should {
     "redirect to next page after the button is clicked" in new WithApplication {
       val result = beforeYouStart.submit(newFakeRequest)
       whenReady(result) {
@@ -23,11 +23,11 @@ class BeforeYouStartUnitSpec extends UnitSpec {
     }
   }
 
-  def newFakeRequest = {
+  private def newFakeRequest = {
     FakeRequest().withSession()
   }
 
-  private def beforeYouStart = {
+  private val beforeYouStart = {
     val noCookieEncryption = new NoEncryption with CookieEncryption
     val noCookieNameHashing = new NoHash with CookieNameHashing
     new BeforeYouStart()(noCookieEncryption, noCookieNameHashing)

@@ -8,23 +8,20 @@ import pages.disposal_of_vehicle.DisposeSuccessPage._
 import pages.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 
-class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
-
-  "Dispose confirmation integration" should {
-
-    "be presented" in new WebBrowser {
+final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
       go to DisposeSuccessPage
 
-      assert(page.title equals DisposeSuccessPage.title)
+      page.title should equal(DisposeSuccessPage.title)
     }
-
     "redirect when no details are cached" in new WebBrowser {
       go to DisposeSuccessPage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "redirect when only DealerDetails are cached" in new WebBrowser {
@@ -33,7 +30,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposeSuccessPage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "redirect when only VehicleDetails are cached" in new WebBrowser {
@@ -42,7 +39,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposeSuccessPage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "redirect when only DisposeDetails are cached" in new WebBrowser {
@@ -51,7 +48,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposeSuccessPage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "redirect when only DealerDetails and VehicleDetails are cached" in new WebBrowser {
@@ -62,7 +59,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposeSuccessPage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "redirect when only DisposeDetails and VehicleDetails are cached" in new WebBrowser {
@@ -73,7 +70,7 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposeSuccessPage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "redirect when only DisposeDetails and DealerDetails are cached" in new WebBrowser {
@@ -84,18 +81,20 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposeSuccessPage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
+  }
 
-    "display vehicle lookup page when new disposal link is clicked" in new WebBrowser {
+  "newDisposal button" should {
+    "display vehicle lookup page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       DisposeSuccessPage.happyPath
 
-      assert(page.title equals VehicleLookupPage.title)
+      page.title should equal(VehicleLookupPage.title)
     }
 
-    "remove redundant cookies when 'new disposal' button is clicked" in new WebBrowser {
+    "remove redundant cookies" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeSuccessPage
@@ -103,13 +102,19 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       click on newDisposal
 
       // Verify the cookies identified by the dispose set of cache keys have been removed
-      RelatedCacheKeys.DisposeSet.foreach(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) == null))
+      RelatedCacheKeys.DisposeSet.foreach(cacheKey => {
+        webDriver.manage().getCookieNamed(cacheKey) should equal(null)
+      })
 
       // Verify the cookies identified by the trade details set of cache keys are present
-      RelatedCacheKeys.TradeDetailsSet.foreach(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) != null))
+      RelatedCacheKeys.TradeDetailsSet.foreach(cacheKey => {
+        webDriver.manage().getCookieNamed(cacheKey) should not equal null
+      })
     }
+  }
 
-    "remove redundant cookies when 'exit' button is clicked" in new WebBrowser {
+  "exit button" should {
+    "remove redundant cookies" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeSuccessPage
@@ -117,7 +122,9 @@ class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       click on exitDisposal
 
       // Verify the cookies identified by the full set of cache keys have been removed
-      RelatedCacheKeys.FullSet.foreach(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) == null))
+      RelatedCacheKeys.FullSet.foreach(cacheKey => {
+        webDriver.manage().getCookieNamed(cacheKey) should equal(null)
+      })
     }
   }
 

@@ -55,7 +55,7 @@ class AesEncryption extends Encryption {
     }
   }
 
-  private val initializationVectorSizeInBytes = 128 / 8
+  private final val initializationVectorSizeInBytes = 128 / 8
   private lazy val provider: Option[String] = getConfig("application.crypto.provider")
   private lazy val transformation: String = getConfig("application.crypto.aes.transformation").getOrElse("AES")
   private lazy val secretKeySpec = new SecretKeySpec(secretKey128Bit, "AES")

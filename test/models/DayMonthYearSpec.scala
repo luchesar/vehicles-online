@@ -6,7 +6,7 @@ import org.joda.time.format.DateTimeFormat
 import scala.util.Try
 import scala.language.postfixOps
 
-class DayMonthYearSpec extends WordSpec with Matchers {
+final class DayMonthYearSpec extends WordSpec with Matchers {
   "DayMonthYear" should {
     "return the correct 'yyyy-MM-dd' date format" in {
       val dmy = DayMonthYear(1, 1, 1963)

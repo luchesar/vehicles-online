@@ -20,4 +20,4 @@
 
 package helpers.webbrowser
 
-class TestFailedException(msg: String) extends RuntimeException(msg)
+final class TestFailedException(msg: String) extends RuntimeException(msg)

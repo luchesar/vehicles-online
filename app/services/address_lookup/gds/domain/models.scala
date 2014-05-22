@@ -44,7 +44,7 @@ object JsonFormats {
 
   import play.api.libs.json._
 
-  final val pattern = "yyyy-MM-dd'T'HH:mm:ssz"
+  private final val pattern = "yyyy-MM-dd'T'HH:mm:ssz"
   implicit val dateFormat =
     Format[DateTime](Reads.jodaDateReads(pattern), Writes.jodaDateWrites(pattern))
 

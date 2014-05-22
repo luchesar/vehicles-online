@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 import services.fakes.FakeAddressLookupService.traderBusinessNameValid
 
-class PostCodeLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
+final class PostCodeLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 
