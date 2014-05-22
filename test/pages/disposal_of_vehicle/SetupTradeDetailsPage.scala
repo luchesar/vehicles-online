@@ -2,7 +2,6 @@ package pages.disposal_of_vehicle
 
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
-import helpers.disposal_of_vehicle.Helper._
 import services.fakes.FakeAddressLookupService._
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 

@@ -4,7 +4,6 @@ import org.scalatest.{BeforeAndAfterAll, Matchers, GivenWhenThen, FeatureSpec}
 import pages.disposal_of_vehicle._
 import helpers.webbrowser._
 import services.fakes.FakeWebServiceImpl.traderUprnValid
-import helpers.disposal_of_vehicle.Helper._
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeAddressLookupService._
