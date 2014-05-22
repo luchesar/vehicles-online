@@ -10,7 +10,7 @@ import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeDisposeWebServiceImpl._
 
-class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
+final class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 
   feature("Dispose of a vehicle to trade") {
 

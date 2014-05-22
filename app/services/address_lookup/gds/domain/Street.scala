@@ -1,3 +1,3 @@
 package services.address_lookup.gds.domain
 
-case class Street(usrn: String, streetDescription: String, townName: String, administrativeArea: String)
+final case class Street(usrn: String, streetDescription: String, townName: String, administrativeArea: String)

@@ -8,28 +8,19 @@ import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.BeforeYouStartPage.startNow
 import pages.disposal_of_vehicle._
 
-class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
-
-  "BeforeYouStart Integration" should {
-
-    "be presented" in new WebBrowser {
+final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to BeforeYouStartPage
 
       page.title should equal(BeforeYouStartPage.title)
     }
 
-    "go to next page after the button is clicked" in new WebBrowser {
-      go to BeforeYouStartPage
-
-      click on startNow
-
-      page.title should equal(SetupTradeDetailsPage.title)
-    }
-
-    "remove redundant cookies when 'exit' button is clicked" in new WebBrowser {
+    "remove redundant cookies (needed for when a user exits the service and comes back)" in new WebBrowser {
       def cacheSetup()(implicit webDriver: WebDriver) =
         CookieFactoryForUISpecs.setupTradeDetailsIntegration().
           businessChooseYourAddressIntegration().
+          enterAddressManuallyIntegration().
           dealerDetailsIntegration().
           vehicleDetailsModelIntegration().
           disposeFormModelIntegration().
@@ -42,6 +33,16 @@ class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
       // Verify the cookies identified by the full set of cache keys have been removed
       RelatedCacheKeys.FullSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
+    }
+  }
+
+  "startNow button" should {
+    "go to next page" in new WebBrowser {
+      go to BeforeYouStartPage
+
+      click on startNow
+
+      page.title should equal(SetupTradeDetailsPage.title)
     }
   }
 }

@@ -7,8 +7,8 @@ import play.api.data.validation.ValidationError
 import services.DateService
 
 object DayMonthYear {
-  final val MinYear = 999
-  final val MaxYear = 9999
+  private final val MinYear = 999
+  private final val MaxYear = 9999
 
   def required: Constraint[Int] = Constraint[Int]("constraint.required") {
     case i if i > 0 => Valid

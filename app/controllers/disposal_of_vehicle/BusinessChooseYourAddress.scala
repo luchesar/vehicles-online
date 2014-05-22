@@ -17,6 +17,9 @@ import EncryptedCookieImplicits.RequestAdapter
 import EncryptedCookieImplicits.SimpleResultAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 import utils.helpers.FormExtensions._
+import mappings.disposal_of_vehicle.EnterAddressManually._
+import play.api.data.FormError
+import scala.Some
 
 final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
@@ -90,7 +93,10 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache.
          */
-        Redirect(routes.VehicleLookup.present()).withEncryptedCookie(model).withEncryptedCookie(traderDetailsModel)
+        Redirect(routes.VehicleLookup.present()).
+          discardingEncryptedCookie(EnterAddressManuallyCacheKey).
+          withEncryptedCookie(model).
+          withEncryptedCookie(traderDetailsModel)
       case None => Redirect(routes.UprnNotFound.present())
     }
   }

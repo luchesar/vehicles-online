@@ -6,7 +6,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class DisposeFailureUnitSpec extends UnitSpec {
+final class DisposeFailureUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
       val request = FakeRequest().withSession().

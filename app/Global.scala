@@ -4,7 +4,6 @@ import controllers.disposal_of_vehicle.routes
 import java.io.File
 import java.util.UUID
 import javax.crypto.BadPaddingException
-import mappings.disposal_of_vehicle.RelatedCacheKeys
 import modules.{DevModule, TestModule}
 import play.api._
 import play.api.Configuration
@@ -49,9 +48,9 @@ object Global extends WithFilters(new GzipFilter()) with GlobalSettings {
    * To override and stipulate a particular "conf" e.g.
    * play -Dconfig.file=conf/application.test.conf run
    */
-  def module = if (Play.isTest) TestModule else DevModule
+  private def module = if (Play.isTest) TestModule else DevModule
 
-  lazy val injector = Guice.createInjector(module)
+  private lazy val injector = Guice.createInjector(module)
 
 
   /**

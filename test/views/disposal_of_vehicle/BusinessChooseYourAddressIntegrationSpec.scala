@@ -8,58 +8,22 @@ import pages.common.ErrorPanel
 import pages.disposal_of_vehicle.BusinessChooseYourAddressPage.{sadPath, happyPath, manualAddress, back}
 import pages.disposal_of_vehicle._
 import services.fakes.FakeAddressLookupService.postcodeValid
+import mappings.disposal_of_vehicle.RelatedCacheKeys
+import mappings.disposal_of_vehicle.EnterAddressManually._
 
-class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
-
-  "Business choose your address - Integration" should {
-
-    "be presented" in new WebBrowser {
+final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
       page.title should equal(BusinessChooseYourAddressPage.title)
     }
 
-    "go to the next page when correct data is entered" in new WebBrowser {
-      go to BeforeYouStartPage
-      cacheSetup()
-      happyPath
-
-      page.title should equal(VehicleLookupPage.title)
-    }
-
-    "go to the manual address entry page when manualAddressButton is clicked" in new WebBrowser {
-      go to BeforeYouStartPage
-      cacheSetup()
-      go to BusinessChooseYourAddressPage
-
-      click on manualAddress
-
-      page.title should equal(EnterAddressManuallyPage.title)
-    }
-
-    "display previous page when back link is clicked" in new WebBrowser {
-      go to BeforeYouStartPage
-      cacheSetup()
-      go to BusinessChooseYourAddressPage
-
-      click on back
-
-      page.title should equal(SetupTradeDetailsPage.title)
-    }
-
     "redirect when no traderBusinessName is cached" in new WebBrowser {
       go to BusinessChooseYourAddressPage
 
       page.title should equal(SetupTradeDetailsPage.title)
-    }
-
-    "display validation error messages when addressSelected is not in the list" in new WebBrowser {
-      go to BeforeYouStartPage
-      cacheSetup()
-      sadPath
-
-      ErrorPanel.numberOfErrors should equal(1)
     }
 
     "not display 'No addresses found' message when address service returns addresses" in new WebBrowser {
@@ -82,7 +46,61 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 
       page.source should include("No addresses found for that postcode") // Does not contain the positive message
     }
+  }
 
+  "manualAddress button" should {
+    "go to the manual address entry page" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to BusinessChooseYourAddressPage
+
+      click on manualAddress
+
+      page.title should equal(EnterAddressManuallyPage.title)
+    }
+  }
+
+  "back button" should {
+    "display previous page" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to BusinessChooseYourAddressPage
+
+      click on back
+
+      page.title should equal(SetupTradeDetailsPage.title)
+    }
+  }
+
+  "select button" should {
+    "go to the next page when correct data is entered" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      happyPath
+
+      page.title should equal(VehicleLookupPage.title)
+    }
+
+    "display validation error messages when addressSelected is not in the list" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      sadPath
+
+      ErrorPanel.numberOfErrors should equal(1)
+    }
+
+    "remove redundant EnterAddressManually cookie (as we are now in an alternate history)" in new WebBrowser {
+      def cacheSetupVisitedEnterAddressManuallyPage()(implicit webDriver: WebDriver) =
+        CookieFactoryForUISpecs.setupTradeDetailsIntegration().
+          enterAddressManuallyIntegration()
+
+      go to BeforeYouStartPage
+      cacheSetupVisitedEnterAddressManuallyPage()
+      happyPath
+
+      // Verify the cookies identified by the full set of cache keys have been removed
+      webDriver.manage().getCookieNamed(EnterAddressManuallyCacheKey) should equal(null)
+    }
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =

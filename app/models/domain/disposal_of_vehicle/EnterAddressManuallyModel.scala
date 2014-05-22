@@ -19,11 +19,11 @@ final case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPo
     }
 
     val line1 = stripEndOfLine(Some(addressAndPostcodeModel.addressLinesModel.line1))
+    require(line1.isDefined, "Address line1 must have content")
     val line2 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line2)
     val line3 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line3)
     val line4 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line4)
 
-    require(line1.isDefined, "Address line1 must have content")
     copy(addressAndPostcodeModel = addressAndPostcodeModel.copy(addressLinesModel = AddressLinesModel(line1.get, line2, line3, line4)))
   }
 }

@@ -15,17 +15,15 @@ import services.fakes.{FakeResponse}
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
-import services.DateServiceImpl
+import services.{DateService, DateServiceImpl}
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import play.api.mvc.Cookies
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class DisposeUnitSpec extends UnitSpec {
-  val emptySpace = " "
-
+final class DisposeUnitSpec extends UnitSpec {
   "present" should {
-    "display page" in new WithApplication {
+    "display the page" in new WithApplication {
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
@@ -50,15 +48,15 @@ class DisposeUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeFormModel())
-        val result = disposeController().present(request)
-        val content = contentAsString(result)
-        val contentWithCarriageReturnsAndSpacesRemoved = content.replaceAll("[\n\r]", "").replaceAll(emptySpace, "")
-        contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("consent", true))
-        contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("lossOfRegistrationConsent", true))
+      val result = disposeController().present(request)
+      val content = contentAsString(result)
+      val contentWithCarriageReturnsAndSpacesRemoved = content.replaceAll("[\n\r]", "").replaceAll(emptySpace, "")
+      contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("consent", true))
+      contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("lossOfRegistrationConsent", true))
 
-        contentWithCarriageReturnsAndSpacesRemoved should include(buildSelectedOptionHtml("25", "25"))
-        contentWithCarriageReturnsAndSpacesRemoved should include(buildSelectedOptionHtml("11", "November"))
-        contentWithCarriageReturnsAndSpacesRemoved should include(buildSelectedOptionHtml("1970", "1970"))
+      contentWithCarriageReturnsAndSpacesRemoved should include(buildSelectedOptionHtml("25", "25"))
+      contentWithCarriageReturnsAndSpacesRemoved should include(buildSelectedOptionHtml("11", "November"))
+      contentWithCarriageReturnsAndSpacesRemoved should include(buildSelectedOptionHtml("1970", "1970"))
     }
 
     "display empty fields when cookie does not exist" in new WithApplication {
@@ -66,12 +64,12 @@ class DisposeUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
-        val result = disposeController().present(request)
-        val content = contentAsString(result)
-        val contentWithCarriageReturnsAndSpacesRemoved = content.replaceAll("[\n\r]", "").replaceAll(emptySpace, "")
-        contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("consent", false))
-        contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("lossOfRegistrationConsent", false))
-        content should not include "selected" // No drop downs should be selected
+      val result = disposeController().present(request)
+      val content = contentAsString(result)
+      val contentWithCarriageReturnsAndSpacesRemoved = content.replaceAll("[\n\r]", "").replaceAll(emptySpace, "")
+      contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("consent", false))
+      contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("lossOfRegistrationConsent", false))
+      content should not include "selected" // No drop downs should be selected
     }
   }
 
@@ -230,10 +228,12 @@ class DisposeUnitSpec extends UnitSpec {
     }
   }
 
+  private val emptySpace = " "
+
   private def dateServiceStubbed(day: Int = dateOfDisposalDayValid.toInt,
                                  month: Int = dateOfDisposalMonthValid.toInt,
                                  year: Int = dateOfDisposalYearValid.toInt) = {
-    val dateService = mock[DateServiceImpl]
+    val dateService = mock[DateService]
     when(dateService.today).thenReturn(new models.DayMonthYear(day = day,
       month = month,
       year = year))

@@ -8,8 +8,7 @@ import models.domain.disposal_of_vehicle.VehicleDetailsResponse
 import javax.inject.Inject
 import play.api.http.Status
 
-class VehicleLookupServiceImpl @Inject()(ws: VehicleLookupWebService) extends VehicleLookupService {
-
+final class VehicleLookupServiceImpl @Inject()(ws: VehicleLookupWebService) extends VehicleLookupService {
   override def invoke(cmd: VehicleDetailsRequest): (Future[(Int, Option[VehicleDetailsResponse])]) = {
     ws.callVehicleLookupService(cmd).map {
       resp =>

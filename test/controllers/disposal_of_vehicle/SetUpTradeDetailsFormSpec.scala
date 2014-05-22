@@ -6,9 +6,8 @@ import mappings.disposal_of_vehicle.SetupTradeDetails._
 import services.fakes.FakeAddressLookupService._
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class SetUpTradeDetailsFormSpec extends UnitSpec {
-
-  "SetupTradeDetails form" should {
+final class SetUpTradeDetailsFormSpec extends UnitSpec {
+  "form" should {
     "accept if form is valid with all fields filled in" in {
       val model = formWithValidDefaults(traderBusinessName = traderBusinessNameValid, traderPostcode = postcodeValid).get
       model.traderBusinessName should equal(traderBusinessNameValid)

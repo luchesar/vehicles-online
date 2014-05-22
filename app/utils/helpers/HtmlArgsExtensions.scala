@@ -9,7 +9,7 @@ import scala.language.implicitConversions
 
 object HtmlArgsExtensions {
 
-  class RichHtmlArgs(htmlArgs: Map[Symbol, Any], validationOff: Boolean = Play.isTest) {
+  final class RichHtmlArgs(htmlArgs: Map[Symbol, Any], validationOff: Boolean = Play.isTest) {
     // Always have a maxLength on production, so if you forgot to add one then the default is used.
     // We need to be able to override this behaviour when running integration tests that check that
     // server-side error messages are shown in non-html5 browser
@@ -39,5 +39,5 @@ object HtmlArgsExtensions {
     }
   }
 
-  implicit def richHtmlArgs(htmlArgs: Map[Symbol, Any]) = new RichHtmlArgs(htmlArgs)
+  implicit def richHtmlArgs(htmlArgs: Map[Symbol, Any]) = new RichHtmlArgs(htmlArgs) // TODO can this be replaced with the way we use implicits in the EncryptedCookieImplicits
 }

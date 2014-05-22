@@ -227,23 +227,23 @@ trait WebBrowserDSL {
       }
     }
   }
-  
+
   case class IdQuery(queryString: String) extends Query { val by = By.id(queryString)}
-  
+
   case class NameQuery(queryString: String) extends Query { val by = By.name(queryString) }
-  
+
   case class XPathQuery(queryString: String) extends Query { val by = By.xpath(queryString) }
 
   // TODO: Are these case classes just to get at the val?
-  
+
   case class ClassNameQuery(queryString: String) extends Query { val by = By.className(queryString) }
-  
+
   case class CssSelectorQuery(queryString: String) extends Query { val by = By.cssSelector(queryString) }
-  
+
   case class LinkTextQuery(queryString: String) extends Query { val by = By.linkText(queryString) }
-  
+
   case class PartialLinkTextQuery(queryString: String) extends Query { val by = By.partialLinkText(queryString) }
-  
+
   case class TagNameQuery(queryString: String) extends Query { val by = By.tagName(queryString) }
   
   def id(elementId: String): IdQuery = new IdQuery(elementId)

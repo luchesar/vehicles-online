@@ -8,9 +8,9 @@ import mappings.common.DayMonthYear._
 import services.fakes.FakeDisposeWebServiceImpl._
 
 object DisposePage extends Page with WebBrowserDSL {
-  val address = "/disposal-of-vehicle/dispose"
+  final val address = "/disposal-of-vehicle/dispose"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  override val title: String = "Complete & confirm"
+  final override val title: String = "Complete & confirm"
 
   def mileage(implicit driver: WebDriver): TextField = textField(id(MileageId))
 

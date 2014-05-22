@@ -50,7 +50,8 @@ object EncryptedCookieImplicits {
   implicit class SimpleResultAdapter(val inner: SimpleResult) extends AnyVal {
 
     def withEncryptedCookie[A](model: A)(implicit tjs: Writes[A], cacheKey: CacheKey[A], request: Request[_],
-                                encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): SimpleResult = {
+                                         encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): SimpleResult = {
+
       def withModel(resultWithSessionSecretKey: (SimpleResult, String)): SimpleResult = {
         val (result, sessionSecretKey) = resultWithSessionSecretKey
         val stateAsJson = Json.toJson(model)
@@ -68,20 +69,33 @@ object EncryptedCookieImplicits {
         .get
     }
 
-    def discardingEncryptedCookies(keys: Set[String])(implicit request: Request[_], encryption: CookieEncryption,
+    def discardingEncryptedCookie(keyUnhashed: String)(implicit request: Request[_], encryption: CookieEncryption,
+                                               cookieNameHashing: CookieNameHashing): SimpleResult = {
+      val sessionSecretKey = CryptoHelper.getSessionSecretKeyFromRequest(request).getOrElse("")
+      val cookieToDiscard =  {
+        val cookieNameHashed = cookieNameHashing.hash(sessionSecretKey + keyUnhashed) // We are selectively removing a cookie, so we need to convert the key to a hashed form to do the matching.
+        DiscardingCookie(name = cookieNameHashed)
+      }
+      inner.discardingCookies(cookieToDiscard)
+    }
+
+    def discardingEncryptedCookies(keysUnhashed: Set[String])(implicit request: Request[_], encryption: CookieEncryption,
                                                       cookieNameHashing: CookieNameHashing): SimpleResult = {
       val sessionSecretKey = CryptoHelper.getSessionSecretKeyFromRequest(request).getOrElse("")
-      val cookiesToDiscard = keys.map(cookieName => DiscardingCookie(name = cookieNameHashing.hash(sessionSecretKey + cookieName))).toSeq
+      val cookiesToDiscard = keysUnhashed.map(cookieName => {
+        val cookieNameHashed = cookieNameHashing.hash(sessionSecretKey + cookieName) // We are selectively removing cookies, so we need to convert the key to a hashed form to do the matching.
+        DiscardingCookie(name = cookieNameHashed)
+      }).toSeq
       inner.discardingCookies(cookiesToDiscard: _*)
     }
 
-    def discardingEncryptedCookies(keys: Set[String], request: RequestHeader): SimpleResult = {
-      val cookiesToDiscard = keys.map(cookieName => DiscardingCookie(name = cookieName)).toSeq
+    def discardingEncryptedCookies(keysHashed: Set[String], request: RequestHeader): SimpleResult = {
+      val cookiesToDiscard = keysHashed.map(cookieName => DiscardingCookie(name = cookieName)).toSeq
       inner.discardingCookies(cookiesToDiscard: _*)
     }
 
     def withEncryptedCookie(key: String, value: String)(implicit request: Request[_], encryption: CookieEncryption,
-                                               cookieNameHashing: CookieNameHashing): SimpleResult = {
+                                                        cookieNameHashing: CookieNameHashing): SimpleResult = {
 
       def withKeyValuePair(resultWithSessionSecretKey: (SimpleResult, String)): SimpleResult = {
         val (result, sessionSecretKey) = resultWithSessionSecretKey

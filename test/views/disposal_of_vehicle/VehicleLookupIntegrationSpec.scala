@@ -9,11 +9,9 @@ import pages.common.ErrorPanel
 import pages.disposal_of_vehicle._
 import services.fakes.FakeAddressLookupService._
 
-class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
-
-  "VehicleLookupIntegrationSpec Integration" should {
-
-    "be presented" in new WebBrowser {
+final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -28,6 +26,14 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(SetupTradeDetailsPage.title)
     }
 
+    "redirect when no dealerBusinessName is cached" in new WebBrowser {
+      go to VehicleLookupPage
+
+      page.title should equal(SetupTradeDetailsPage.title)
+    }
+  }
+
+  "findVehicleDetails button" should {
     "go to the next page when correct data is entered" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
@@ -99,13 +105,9 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       ErrorPanel.numberOfErrors should equal(1)
     }
+  }
 
-    "redirect when no dealerBusinessName is cached" in new WebBrowser {
-      go to VehicleLookupPage
-
-      page.title should equal(SetupTradeDetailsPage.title)
-    }
-
+  "back" should {
     "display previous page when back link is clicked with uprn present" in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.

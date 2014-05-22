@@ -7,8 +7,7 @@ import mappings.common.Postcode._
 import services.fakes.FakeAddressLookupService._
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class EnterAddressManuallyFormSpec extends UnitSpec {
-
+final class EnterAddressManuallyFormSpec extends UnitSpec {
   "form" should {
     "accept if form is valid with all fields filled in" in {
       val model = formWithValidDefaults().get.addressAndPostcodeModel

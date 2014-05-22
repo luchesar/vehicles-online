@@ -25,7 +25,9 @@ final class EnterAddressManually @Inject()()(implicit encryption: CookieEncrypti
   def present = Action {
     implicit request =>
       request.getEncryptedCookie[SetupTradeDetailsModel] match {
-        case Some(_) => Ok(views.html.disposal_of_vehicle.enter_address_manually(form.fill()))
+        case Some(_) => {
+          Ok(views.html.disposal_of_vehicle.enter_address_manually(form.fill()))
+        }
         case None => Redirect(routes.SetUpTradeDetails.present())
       }
   }
@@ -44,11 +46,13 @@ final class EnterAddressManually @Inject()()(implicit encryption: CookieEncrypti
           },
         f =>
           request.getEncryptedCookie[SetupTradeDetailsModel].map(_.traderBusinessName) match {
-          case Some(name) =>
-            val dealerAddress = AddressViewModel.from(f.stripCharsNotAccepted.addressAndPostcodeModel)
-            val dealerDetailsModel = TraderDetailsModel(traderName = name, traderAddress = dealerAddress)
+          case Some(traderBusinessName) =>
+            val traderAddress = AddressViewModel.from(f.stripCharsNotAccepted.addressAndPostcodeModel)
+            val traderDetailsModel = TraderDetailsModel(traderName = traderBusinessName, traderAddress = traderAddress)
 
-            Redirect(routes.VehicleLookup.present()).withEncryptedCookie(dealerDetailsModel)
+            Redirect(routes.VehicleLookup.present()).
+              withEncryptedCookie(f).
+              withEncryptedCookie(traderDetailsModel)
           case None =>
             Logger.debug("failed to find dealer name in cache on submit, redirecting...")
             Redirect(routes.SetUpTradeDetails.present())

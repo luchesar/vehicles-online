@@ -5,11 +5,11 @@ import cucumber.api.java.Before
 import play.api.test.TestServer
 import play.api.test.FakeApplication
 
-class TestServerHooks {
+final class TestServerHooks {
 
-  val port: Int = 9001
+  private val port: Int = 9001
   val app: FakeApplication = FakeApplication()
-  val testServer: TestServer = TestServer(port, app)
+  private val testServer: TestServer = TestServer(port, app)
 
   @Before(order = 500)
   def startServer() = {

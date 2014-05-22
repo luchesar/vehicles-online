@@ -16,9 +16,8 @@ import services.fakes.FakeVehicleLookupWebService._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class VehicleLookupFormSpec extends UnitSpec {
-
-  "VehicleLookup form" should {
+final class VehicleLookupFormSpec extends UnitSpec {
+  "form" should {
     "accept when all fields contain valid responses" in {
       formWithValidDefaults().get.referenceNumber should equal(referenceNumberValid)
       formWithValidDefaults().get.registrationNumber should equal(registrationNumberValid)
