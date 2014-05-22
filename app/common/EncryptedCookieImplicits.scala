@@ -1,5 +1,6 @@
 package common
 
+import app.ConfigProperties._
 import play.api.libs.json.{Writes, Reads, Json}
 import play.api.mvc._
 import utils.helpers.{CookieNameHashing, CookieEncryption, CryptoHelper}
@@ -11,18 +12,31 @@ import play.api.mvc.DiscardingCookie
 
 object EncryptedCookieImplicits {
 
+  private val encryptCookies = getProperty("encryptCookies", default = true)
+
   implicit class RequestAdapter[A](val request: Request[A]) extends AnyVal {
     def getEncryptedCookie[B](implicit fjs: Reads[B], cacheKey: CacheKey[B], encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): Option[B] = {
       val sessionSecretKey = CryptoHelper.getSessionSecretKeyFromRequest(request).getOrElse("")
-      request.cookies.get(cookieNameHashing.hash(sessionSecretKey + cacheKey.value)).map { cookie =>
+      val hashedCookieName = cookieNameHashing.hash(sessionSecretKey + cacheKey.value)
+      request.cookies.get(hashedCookieName).map { cookie =>
         val decrypted = encryption.decrypt(cookie.value)
-        val parsed = Json.parse(decrypted)
+        val parsed = getJsonValue(decrypted, hashedCookieName)
         val fromJson = Json.fromJson[B](parsed)
         fromJson.asEither match {
           case Left(errors) => throw JsonValidationException(errors)
           case Right(model) => model
         }
       }
+    }
+
+    private def getJsonValue(decrypted: String, hashedCookieName: String): play.api.libs.json.JsValue = {
+      if (encryptCookies) {
+        val cookieNameFromPayload = decrypted.substring(0, CryptoHelper.CookieNameFromPayloadSize)
+        assert(cookieNameFromPayload == hashedCookieName, "The cookie name bytes from the payload must match the cookie name")
+        Json.parse(decrypted.substring(CryptoHelper.CookieNameFromPayloadSize))
+      }
+      else
+        Json.parse(decrypted)
     }
 
     def getCookieNamed(key: String)(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): Option[String] = {
@@ -37,14 +51,14 @@ object EncryptedCookieImplicits {
 
     def withEncryptedCookie[A](model: A)(implicit tjs: Writes[A], cacheKey: CacheKey[A], request: Request[_],
                                 encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): SimpleResult = {
-
       def withModel(resultWithSessionSecretKey: (SimpleResult, String)): SimpleResult = {
         val (result, sessionSecretKey) = resultWithSessionSecretKey
         val stateAsJson = Json.toJson(model)
-        val encryptedStateAsJson = encryption.encrypt(stateAsJson.toString())
-        val cookie = CryptoHelper.createCookie(name = cookieNameHashing.hash(sessionSecretKey + cacheKey.value),
-          value = encryptedStateAsJson)
-
+        val hashedCookieName = cookieNameHashing.hash(sessionSecretKey + cacheKey.value)
+        val encryptedStateAsJson =
+          if (encryptCookies) encryption.encrypt(hashedCookieName + stateAsJson.toString())
+          else encryption.encrypt(stateAsJson.toString())
+        val cookie = CryptoHelper.createCookie(name = hashedCookieName, value = encryptedStateAsJson)
         result.withCookies(cookie)
       }
 
@@ -71,8 +85,9 @@ object EncryptedCookieImplicits {
 
       def withKeyValuePair(resultWithSessionSecretKey: (SimpleResult, String)): SimpleResult = {
         val (result, sessionSecretKey) = resultWithSessionSecretKey
-        val encrypted = encryption.encrypt(value)
-        val cookie = CryptoHelper.createCookie(name = cookieNameHashing.hash(sessionSecretKey + key),
+        val hashedCookieName = cookieNameHashing.hash(sessionSecretKey + key)
+        val encrypted = if (encryptCookies) encryption.encrypt(hashedCookieName + value) else encryption.encrypt(value)
+        val cookie = CryptoHelper.createCookie(name = hashedCookieName,
           value = encrypted)
         result.withCookies(cookie)
       }

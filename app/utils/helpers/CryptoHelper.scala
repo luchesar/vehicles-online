@@ -18,6 +18,7 @@ import ExecutionContext.Implicits.global
 
 object CryptoHelper {
 
+  final val CookieNameFromPayloadSize = 40 // Sha1 hash produces 160 bit (20 byte) hash value. As a hex number is 40 digits long
   private val encryptCookies = getProperty("encryptCookies", default = true)
 
   private def sessionSecretKeyCookieName(implicit cookieNameHashing: CookieNameHashing): String = {
@@ -35,7 +36,14 @@ object CryptoHelper {
 
   def getSessionSecretKeyFromRequest(request: RequestHeader)(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): Option[String] =
     request.cookies.get(sessionSecretKeyCookieName).map { cookie =>
-      encryption.decrypt(cookie.value)
+      val decrypted = encryption.decrypt(cookie.value)
+      if (encryptCookies) {
+        val cookieNameFromPayload = decrypted.substring(0, CryptoHelper.CookieNameFromPayloadSize)
+        assert(cookieNameFromPayload == sessionSecretKeyCookieName, "The cookie name bytes from the payload must match the cookie name")
+        decrypted.substring(CryptoHelper.CookieNameFromPayloadSize)
+      }
+      else
+        decrypted
     }
 
   def ensureSessionSecretKeyInResult(result: SimpleResult)(implicit request: Request[_], encryption: CookieEncryption,
@@ -49,9 +57,9 @@ object CryptoHelper {
           (result, newSessionSecretKey)
         else {
           val newSessionSecretKeyCookie = createCookie(name = sessionSecretKeyCookieName,
-            value = encryption.encrypt(newSessionSecretKey))
-          val resultWithSessionSecretKey = result.withCookies(newSessionSecretKeyCookie)
-          (resultWithSessionSecretKey, newSessionSecretKey)
+            value = encryption.encrypt(sessionSecretKeyCookieName + newSessionSecretKey))
+          val resultWithSessionSecretKeyCookie = result.withCookies(newSessionSecretKeyCookie)
+          (resultWithSessionSecretKeyCookie, newSessionSecretKey)
         }
     }
 

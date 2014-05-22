@@ -75,7 +75,8 @@ class AesEncryption extends Encryption {
     val initializationVector = new IvParameterSpec(initializationVectorBytes)
     val cipher = provider.fold(Cipher.getInstance(transformation))(p => Cipher.getInstance(transformation, p))
     cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, initializationVector)
-    val cipherBytes = cipher.doFinal(clearText.getBytes(StandardCharsets.UTF_8))
+    val clearTextBytes = clearText.getBytes(StandardCharsets.UTF_8)
+    val cipherBytes = cipher.doFinal(clearTextBytes)
     Base64.encodeBase64String(initializationVectorBytes ++ cipherBytes)
   }
 
