@@ -8,7 +8,7 @@ import pages.common.ErrorPanel
 import pages.disposal_of_vehicle.SetupTradeDetailsPage.happyPath
 import pages.disposal_of_vehicle._
 
-class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
+final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
 
   "SetUpTradeDetails Integration" should {
 
@@ -29,22 +29,22 @@ class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness  {
 
     "add aria required attribute to trader name field when required field not input" in new WebBrowser {
       happyPath(traderBusinessName = "" )
-      assert(Accessibility.ariaRequiredPresent(SetupTradeDetails.traderNameId) equals true)
+      assert(Accessibility.ariaRequiredPresent(SetupTradeDetails.TraderNameId) equals true)
     }
 
     "add aria invalid attribute to trader name field when invalid characters input on field" in new WebBrowser {
       happyPath(traderBusinessName = "$£%&" )
-      assert(Accessibility.ariaInvalidPresent(SetupTradeDetails.traderNameId) equals true)
+      assert(Accessibility.ariaInvalidPresent(SetupTradeDetails.TraderNameId) equals true)
     }
 
     "add aria required attribute to trader postcode field when required field not input" in new WebBrowser {
       happyPath(traderBusinessPostcode = "" )
-      assert(Accessibility.ariaRequiredPresent(SetupTradeDetails.traderPostcodeId) equals true)
+      assert(Accessibility.ariaRequiredPresent(SetupTradeDetails.TraderPostcodeId) equals true)
     }
 
     "add aria invalid attribute to trader postcode field when invalid characters input on field" in new WebBrowser {
       happyPath(traderBusinessPostcode = "$£%&" )
-      assert(Accessibility.ariaInvalidPresent(SetupTradeDetails.traderPostcodeId) equals true)
+      assert(Accessibility.ariaInvalidPresent(SetupTradeDetails.TraderPostcodeId) equals true)
     }
   }
 }

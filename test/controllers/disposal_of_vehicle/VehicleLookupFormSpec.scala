@@ -16,9 +16,8 @@ import services.fakes.FakeVehicleLookupWebService._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class VehicleLookupFormSpec extends UnitSpec {
-
-  "VehicleLookup form" should {
+final class VehicleLookupFormSpec extends UnitSpec {
+  "form" should {
     "accept when all fields contain valid responses" in {
       formWithValidDefaults().get.referenceNumber should equal(referenceNumberValid)
       formWithValidDefaults().get.registrationNumber should equal(registrationNumberValid)
@@ -36,7 +35,7 @@ class VehicleLookupFormSpec extends UnitSpec {
 
     "reject if blank" in {
       val vehicleLookupFormError = formWithValidDefaults(referenceNumber = "").errors
-      val expectedKey = referenceNumberId
+      val expectedKey = ReferenceNumberId
       
       vehicleLookupFormError should have length 3
       vehicleLookupFormError(0).key should equal(expectedKey)
@@ -110,8 +109,8 @@ class VehicleLookupFormSpec extends UnitSpec {
                                     consent: String = consentValid) = {
     vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).vehicleLookupForm.bind(
       Map(
-        referenceNumberId -> referenceNumber,
-        registrationNumberId -> registrationNumber
+        ReferenceNumberId -> referenceNumber,
+        RegistrationNumberId -> registrationNumber
       )
     )
   }

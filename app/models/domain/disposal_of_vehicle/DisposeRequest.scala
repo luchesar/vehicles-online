@@ -1,6 +1,8 @@
 package models.domain.disposal_of_vehicle
 
-case class DisposeRequest(referenceNumber: String,
+import play.api.libs.json.Json
+
+final case class DisposeRequest(referenceNumber: String,
                           registrationNumber: String,
                           traderName: String,
                           disposalAddress: DisposalAddressDto,
@@ -10,6 +12,5 @@ case class DisposeRequest(referenceNumber: String,
                           ipAddress: Option[String] = None)
 
 object DisposeRequest {
-  import play.api.libs.json.Json
-  implicit val disposeRequestFormat = Json.format[DisposeRequest]
+  implicit val JsonFormat = Json.format[DisposeRequest]
 }

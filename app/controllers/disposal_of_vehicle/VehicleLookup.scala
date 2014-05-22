@@ -23,12 +23,12 @@ import EncryptedCookieImplicits.SimpleResultAdapter
 import EncryptedCookieImplicits.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 
-class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
   val vehicleLookupForm = Form(
     mapping(
-      referenceNumberId -> referenceNumber,
-      registrationNumberId -> registrationNumber
+      ReferenceNumberId -> referenceNumber,
+      RegistrationNumberId -> registrationNumber
     )(VehicleLookupFormModel.apply)(VehicleLookupFormModel.unapply)
   )
 
@@ -47,8 +47,8 @@ class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encrypt
           Future {
             request.getEncryptedCookie[TraderDetailsModel] match {
               case Some(dealerDetails) => val formWithReplacedErrors = formWithErrors.
-                  replaceError(registrationNumberId, FormError(key = registrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
-                  replaceError(referenceNumberId, FormError(key = referenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
+                  replaceError(RegistrationNumberId, FormError(key = RegistrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
+                  replaceError(ReferenceNumberId, FormError(key = ReferenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
                   distinctErrors
                 BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithReplacedErrors))
               case None => Redirect(routes.SetUpTradeDetails.present())
@@ -92,7 +92,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encrypt
   private def okResponseConstruction (vehicleDetailsResponse: Option[VehicleDetailsResponse])(implicit request: Request[_]) = {
     vehicleDetailsResponse match {
       case Some(response) => responseCodePresent(response)
-      case _ => Redirect(routes.MicroServiceError.present())
+      case _ => Redirect(routes.MicroServiceError.present()) // TODO write test to achieve code coverage.
     }
   }
   
@@ -100,7 +100,7 @@ class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encrypt
     response.responseCode match {
       case Some(responseCode) =>
         Redirect(routes.VehicleLookupFailure.present()).
-          withEncryptedCookie(key = vehicleLookupResponseCodeCacheKey, value = responseCode) // TODO [SKW] I don't see a controller spec for testing that the correct value was written to the cache. Write one.
+          withEncryptedCookie(key = VehicleLookupResponseCodeCacheKey, value = responseCode)
       case None => noResponseCodePresent(response.vehicleDetailsDto)
     }
   }

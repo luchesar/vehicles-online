@@ -1,21 +1,21 @@
 package views.disposal_of_vehicle
 
 import helpers.UiSpec
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
+import mappings.disposal_of_vehicle.RelatedCacheKeys
+import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.BeforeYouStartPage.startNow
 import pages.disposal_of_vehicle._
-import org.openqa.selenium.WebDriver
-import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
-import mappings.disposal_of_vehicle.RelatedCacheKeys
 
-class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness  {
+final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
   "BeforeYouStart Integration" should {
 
     "be presented" in new WebBrowser {
       go to BeforeYouStartPage
 
-      assert(page.title equals BeforeYouStartPage.title)
+      page.title should equal(BeforeYouStartPage.title)
     }
 
     "go to next page after the button is clicked" in new WebBrowser {
@@ -23,7 +23,7 @@ class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness  {
 
       click on startNow
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "remove redundant cookies when 'exit' button is clicked" in new WebBrowser {
@@ -41,7 +41,7 @@ class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness  {
       go to BeforeYouStartPage
 
       // Verify the cookies identified by the full set of cache keys have been removed
-      RelatedCacheKeys.FullSet.foreach(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) == null))
+      RelatedCacheKeys.FullSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
     }
   }
 }

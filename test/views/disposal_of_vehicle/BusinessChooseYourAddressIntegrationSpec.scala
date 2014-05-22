@@ -9,7 +9,7 @@ import pages.disposal_of_vehicle.BusinessChooseYourAddressPage.{sadPath, happyPa
 import pages.disposal_of_vehicle._
 import services.fakes.FakeAddressLookupService.postcodeValid
 
-class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
+final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 
   "Business choose your address - Integration" should {
 
@@ -17,7 +17,7 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
-      assert(page.title equals BusinessChooseYourAddressPage.title)
+      page.title should equal(BusinessChooseYourAddressPage.title)
     }
 
     "go to the next page when correct data is entered" in new WebBrowser {
@@ -25,7 +25,7 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
       cacheSetup()
       happyPath
 
-      assert(page.title equals VehicleLookupPage.title)
+      page.title should equal(VehicleLookupPage.title)
     }
 
     "go to the manual address entry page when manualAddressButton is clicked" in new WebBrowser {
@@ -35,7 +35,7 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 
       click on manualAddress
 
-      assert(page.title equals EnterAddressManuallyPage.title)
+      page.title should equal(EnterAddressManuallyPage.title)
     }
 
     "display previous page when back link is clicked" in new WebBrowser {
@@ -45,13 +45,13 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 
       click on back
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "redirect when no traderBusinessName is cached" in new WebBrowser {
       go to BusinessChooseYourAddressPage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "display validation error messages when addressSelected is not in the list" in new WebBrowser {
@@ -59,28 +59,28 @@ class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
       cacheSetup()
       sadPath
 
-      assert(ErrorPanel.numberOfErrors equals 1)
+      ErrorPanel.numberOfErrors should equal(1)
     }
 
     "not display 'No addresses found' message when address service returns addresses" in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
 
-      assert(page.source.contains("No addresses found for that postcode") equals false) // Does not contain message
+      page.source.contains("No addresses found for that postcode") should equal(false) // Does not contain message
     }
 
     "display expected addresses in dropdown when address service returns addresses" in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
 
-      assert(BusinessChooseYourAddressPage.getListCount equals 4) // The first option is the "Please select..." and the other options are the addresses.
-      assert(page.source.contains(s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $postcodeValid"))
-      assert(page.source.contains(s"presentationProperty stub, 456, property stub, street stub, town stub, area stub, $postcodeValid"))
-      assert(page.source.contains(s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $postcodeValid"))
+      BusinessChooseYourAddressPage.getListCount should equal(4) // The first option is the "Please select..." and the other options are the addresses.
+      page.source should include(s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $postcodeValid")
+      page.source should include(s"presentationProperty stub, 456, property stub, street stub, town stub, area stub, $postcodeValid")
+      page.source should include(s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $postcodeValid")
     }
 
     "display 'No addresses found' message when address service returns no addresses" in new WebBrowser {
       SetupTradeDetailsPage.submitInvalidPostcode
 
-      assert(page.source.contains("No addresses found for that postcode") equals true) // Does not contain message
+      page.source should include("No addresses found for that postcode") // Does not contain the positive message
     }
 
   }

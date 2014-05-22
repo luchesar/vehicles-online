@@ -17,7 +17,7 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
     "reject if empty" in {
       val errors = formWithValidDefaults(addressSelected = "").errors
       errors.length should equal(1)
-      errors(0).key should equal(addressSelectId)
+      errors(0).key should equal(AddressSelectId)
       errors(0).message should equal("error.number")
     }
   }
@@ -34,7 +34,7 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
 
   private def formWithValidDefaults(addressSelected: String = traderUprnValid.toString) = {
     businessChooseYourAddressWithFakeWebService().form.bind(
-      Map(addressSelectId -> addressSelected)
+      Map(AddressSelectId -> addressSelected)
     )
   }
 }

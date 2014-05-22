@@ -7,15 +7,15 @@ import play.api.data.validation.ValidationError
 import services.DateService
 
 object DayMonthYear {
-  val minYear = 999
-  val maxYear = 9999
+  private final val MinYear = 999
+  private final val MaxYear = 9999
 
   def required: Constraint[Int] = Constraint[Int]("constraint.required") {
     case i if i > 0 => Valid
     case _ => Invalid(ValidationError("error.dropDownInvalid"))
   }
 
-  def validDate(minYear: Int = minYear, maxYear: Int = maxYear): Constraint[models.DayMonthYear] = {
+  def validDate(minYear: Int = MinYear, maxYear: Int = MaxYear): Constraint[models.DayMonthYear] = {
     def dateValidation(dmy: models.DayMonthYear): ValidationResult = Try(new DateTime(dmy.year, dmy.month, dmy.day, 0, 0)) match {
       case Success(dt: DateTime) if dt.getYear > minYear && dt.getYear < maxYear => Valid
       case _ => Invalid(ValidationError("error.invalid"))

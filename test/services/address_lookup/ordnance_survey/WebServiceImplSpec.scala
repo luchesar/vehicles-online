@@ -3,7 +3,7 @@ package services.address_lookup.ordnance_survey
 import helpers.UnitSpec
 import services.fakes.FakeAddressLookupService._
 
-class WebServiceImplSpec extends UnitSpec {
+final class WebServiceImplSpec extends UnitSpec {
   "postcodeWithNoSpaces" should {
     val addressLookupService = new services.address_lookup.ordnance_survey.WebServiceImpl()
 

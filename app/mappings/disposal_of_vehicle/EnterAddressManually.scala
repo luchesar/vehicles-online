@@ -1,7 +1,7 @@
 package mappings.disposal_of_vehicle
 
 object EnterAddressManually {
-  val enterAddressManuallyCacheKey = "enterAddressManually"
-  val nextId = "next"
-  val backId = "back"
+  final val EnterAddressManuallyCacheKey = "enterAddressManually"
+  final val NextId = "next"
+  final val BackId = "back"
 }

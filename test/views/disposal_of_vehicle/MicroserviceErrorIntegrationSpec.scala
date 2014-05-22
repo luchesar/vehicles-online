@@ -7,7 +7,7 @@ import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle._
 
-class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
+final class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
 
   "MicroserviceError Integration" should {
 

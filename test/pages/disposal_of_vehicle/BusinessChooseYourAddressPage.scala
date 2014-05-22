@@ -6,21 +6,21 @@ import services.fakes.FakeWebServiceImpl.traderUprnValid
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 
 object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
-  val address: String = "/disposal-of-vehicle/business-choose-your-address"
+  final val address: String = "/disposal-of-vehicle/business-choose-your-address"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  override val title = "Select your trade address"
+  final override val title = "Select your trade address"
 
-  def chooseAddress(implicit driver: WebDriver): SingleSel = singleSel(id(addressSelectId))
+  def chooseAddress(implicit driver: WebDriver): SingleSel = singleSel(id(AddressSelectId))
 
-  def back(implicit driver: WebDriver): Element = find(id(backId)).get
+  def back(implicit driver: WebDriver): Element = find(id(BackId)).get
 
-  def manualAddress(implicit driver: WebDriver): Element = find(id(enterAddressManuallyButtonId)).get
+  def manualAddress(implicit driver: WebDriver): Element = find(id(EnterAddressManuallyButtonId)).get
 
-  def getList(implicit driver: WebDriver) = singleSel(id(addressSelectId)).getOptions
+  def getList(implicit driver: WebDriver) = singleSel(id(AddressSelectId)).getOptions
 
   def getListCount(implicit driver: WebDriver): Int = getList.size
 
-  def select(implicit driver: WebDriver): Element = find(id(selectId)).get
+  def select(implicit driver: WebDriver): Element = find(id(SelectId)).get
 
   def happyPath(implicit driver: WebDriver) = {
     go to BusinessChooseYourAddressPage

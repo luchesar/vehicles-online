@@ -1,8 +1,8 @@
 package helpers.disposal_of_vehicle
 
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress.businessChooseYourAddressCacheKey
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
-import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
+import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import models.DayMonthYear
 import models.domain.disposal_of_vehicle._
 import org.openqa.selenium.{WebDriver, Cookie}
@@ -31,14 +31,14 @@ object CookieFactoryForUISpecs {
   }
 
   def businessChooseYourAddressIntegration(uprn: Long = traderUprnValid)(implicit webDriver: WebDriver) = {
-    val key = businessChooseYourAddressCacheKey
+    val key = BusinessChooseYourAddressCacheKey
     val value = BusinessChooseYourAddressModel(uprnSelected = uprn)
     addCookie(key, value)
     this
   }
 
   def dealerDetailsIntegration(address: AddressViewModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
-    val key = traderDetailsCacheKey
+    val key = TraderDetailsCacheKey
     val value = TraderDetailsModel(traderName = traderBusinessNameValid, traderAddress = address)
     addCookie(key, value)
     this
@@ -46,7 +46,7 @@ object CookieFactoryForUISpecs {
 
   def vehicleLookupFormModelIntegration(referenceNumber: String = referenceNumberValid,
                                         registrationNumber: String = registrationNumberValid)(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupFormModelCacheKey
+    val key = mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
     val value = VehicleLookupFormModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber)
     addCookie(key, value)
@@ -57,7 +57,7 @@ object CookieFactoryForUISpecs {
                                      vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid,
                                      vehicleModel: String = vehicleModelValid,
                                      keeperName: String = keeperNameValid)(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
+    val key = mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupDetailsCacheKey
     val value = VehicleDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel)
@@ -66,7 +66,7 @@ object CookieFactoryForUISpecs {
   }
 
   def disposeFormModelIntegration()(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.Dispose.disposeFormModelCacheKey
+    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
     val value = DisposeFormModel(mileage = None,
       dateOfDisposal = DayMonthYear.today,
       consent = FakeDisposeWebServiceImpl.consentValid,
@@ -79,7 +79,7 @@ object CookieFactoryForUISpecs {
                               registrationNumber: String = registrationNumberValid,
                               dateOfDisposal: DayMonthYear = DayMonthYear.today,
                               mileage: Option[Int] = None)(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.Dispose.disposeModelCacheKey
+    val key = mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey
     val value = DisposeModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,
       dateOfDisposal = dateOfDisposal,
@@ -89,14 +89,14 @@ object CookieFactoryForUISpecs {
   }
 
   def disposeTransactionIdIntegration(transactionId: String = transactionIdValid)(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.Dispose.disposeFormTransactionIdCacheKey
+    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
     val value = transactionId
     addCookie(key, value)
     this
   }
 
   def vehicleRegistrationNumberIntegration()(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.Dispose.disposeFormRegistrationNumberCacheKey
+    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
     val value = registrationNumberValid
     addCookie(key, value)
     this

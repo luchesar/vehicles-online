@@ -7,7 +7,7 @@ import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle._
 
-class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
+final class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
 
   "DisposeFailureIntegration" should {
 
@@ -16,13 +16,13 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
       cacheSetup()
       go to DisposeFailurePage
 
-      assert(page.title equals DisposeFailurePage.title)
+      page.title should equal(DisposeFailurePage.title)
     }
 
     "redirect to setuptrade details if cache is empty on page load" in new WebBrowser {
       go to DisposeFailurePage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "redirect to vehiclelookup when button clicked" in new WebBrowser {
@@ -32,7 +32,7 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
 
       click on vehiclelookup
 
-      assert(page.title equals VehicleLookupPage.title)
+      page.title should equal(VehicleLookupPage.title)
     }
 
     "redirect to setuptradedetails when button clicked" in new WebBrowser {
@@ -42,7 +42,7 @@ class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
 
       click on setuptradedetails
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
   }
 

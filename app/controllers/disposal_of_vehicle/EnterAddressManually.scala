@@ -14,11 +14,11 @@ import EncryptedCookieImplicits.SimpleResultAdapter
 import EncryptedCookieImplicits.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 
-class EnterAddressManually @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class EnterAddressManually @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
   val form = Form(
     mapping(
-      addressAndPostcodeId -> addressAndPostcode
+      AddressAndPostcodeId -> addressAndPostcode
     )(EnterAddressManuallyModel.apply)(EnterAddressManuallyModel.unapply)
   )
 

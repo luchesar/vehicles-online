@@ -4,7 +4,7 @@ import play.api.libs.json.JsValue
 import play.api.libs.ws.Response
 import scala.xml.Elem
 
-class FakeResponse(
+final class FakeResponse(
                     override val status: Int,
                     override val statusText: String = "",
                     headers: Map[String, String] = Map.empty,

@@ -1,7 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import play.api.mvc._
-import play.api.data.Form
+import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import play.api.Logger
 import models.domain.disposal_of_vehicle.{SetupTradeDetailsModel, TraderDetailsModel, BusinessChooseYourAddressModel}
@@ -16,8 +16,9 @@ import common.EncryptedCookieImplicits
 import EncryptedCookieImplicits.RequestAdapter
 import EncryptedCookieImplicits.SimpleResultAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
+import utils.helpers.FormExtensions._
 
-class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
   private def fetchAddresses(setupTradeDetailsModel: SetupTradeDetailsModel) = {
     val postcode = setupTradeDetailsModel.traderPostcode
@@ -27,8 +28,9 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
   val form = Form(
     mapping(
       /* We cannot apply constraints to this drop down as it is populated by web call to an address lookup service.
+      We would need the request here to get the cookie.
       Validation is done when we make a second web call with the UPRN, so if a bad guy is injecting a non-existent UPRN then it will fail at that step instead */
-      addressSelectId -> dropDown
+      AddressSelectId -> addressDropDown
     )(BusinessChooseYourAddressModel.apply)(BusinessChooseYourAddressModel.unapply)
   )
 
@@ -55,7 +57,12 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
         formWithErrors =>
           request.getEncryptedCookie[SetupTradeDetailsModel] match {
             case Some(setupTradeDetailsModel) => fetchAddresses(setupTradeDetailsModel).map {
-              addresses => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, setupTradeDetailsModel.traderBusinessName, addresses))
+              addresses =>
+                val formWithReplacedErrors = formWithErrors.
+                  replaceError(AddressSelectId, "error.number", FormError(key = AddressSelectId, message = "disposal_businessChooseYourAddress.address.required", args = Seq.empty)).
+                  distinctErrors
+
+                BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithReplacedErrors, setupTradeDetailsModel.traderBusinessName, addresses))
             }
             case None => Future {
               Logger.error("Failed to find dealer details in cache for submit formWithErrors, redirecting...")

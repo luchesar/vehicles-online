@@ -8,7 +8,7 @@ import pages.disposal_of_vehicle.DisposeSuccessPage._
 import pages.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 
-class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
+final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
   "Dispose confirmation integration" should {
 

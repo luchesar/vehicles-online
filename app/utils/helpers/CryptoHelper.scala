@@ -3,8 +3,18 @@ package utils.helpers
 import app.ConfigProperties._
 import org.apache.commons.codec.binary.Hex
 import java.security.SecureRandom
-import play.api.mvc.{Cookie, SimpleResult, Request}
+import play.api.mvc.{RequestHeader, Request}
 import Config.cookieMaxAge
+import play.api.Logger
+import mappings.disposal_of_vehicle.RelatedCacheKeys
+import scala.concurrent.{ExecutionContext, Future}
+import play.api.mvc.Results._
+import play.api.mvc.Cookie
+import scala.Some
+import play.api.mvc.SimpleResult
+import controllers.disposal_of_vehicle.routes
+import common.EncryptedCookieImplicits.SimpleResultAdapter
+import ExecutionContext.Implicits.global
 
 object CryptoHelper {
 
@@ -21,9 +31,9 @@ object CryptoHelper {
     bytes
   }
 
-  private def newSessionSecretyKey = if (encryptCookies) Hex.encodeHexString(CryptoHelper.getSecureRandomBytes(16)) else ""
+  private def newSessionSecretKey = if (encryptCookies) Hex.encodeHexString(CryptoHelper.getSecureRandomBytes(16)) else ""
 
-  def getSessionSecretKeyFromRequest(request: Request[_])(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): Option[String] =
+  def getSessionSecretKeyFromRequest(request: RequestHeader)(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing): Option[String] =
     request.cookies.get(sessionSecretKeyCookieName).map { cookie =>
       encryption.decrypt(cookie.value)
     }
@@ -31,17 +41,17 @@ object CryptoHelper {
   def ensureSessionSecretKeyInResult(result: SimpleResult)(implicit request: Request[_], encryption: CookieEncryption,
                                                            cookieNameHashing: CookieNameHashing): (SimpleResult, String) =
     CryptoHelper.getSessionSecretKeyFromRequest(request) match {
-      case Some(saltFromRequest) =>
-        (result, saltFromRequest)
+      case Some(sessionSecretKeyFromRequest) =>
+        (result, sessionSecretKeyFromRequest)
       case None =>
-        val newSalt = CryptoHelper.newSessionSecretyKey
-        if (newSalt.isEmpty)
-          (result, newSalt)
+        val newSessionSecretKey = CryptoHelper.newSessionSecretKey
+        if (newSessionSecretKey.isEmpty)
+          (result, newSessionSecretKey)
         else {
-          val newSaltCookie = createCookie(name = sessionSecretKeyCookieName,
-            value = encryption.encrypt(newSalt))
-          val resultWithSalt = result.withCookies(newSaltCookie)
-          (resultWithSalt, newSalt)
+          val newSessionSecretKeyCookie = createCookie(name = sessionSecretKeyCookieName,
+            value = encryption.encrypt(newSessionSecretKey))
+          val resultWithSessionSecretKey = result.withCookies(newSessionSecretKeyCookie)
+          (resultWithSessionSecretKey, newSessionSecretKey)
         }
     }
 
@@ -50,4 +60,14 @@ object CryptoHelper {
     maxAge = Some(cookieMaxAge)/*,
     secure = true*/
   )
+
+  def handleApplicationSecretChange(implicit request: RequestHeader): Future[SimpleResult] = discardAllCookies
+
+  def discardAllCookies(implicit request: RequestHeader): Future[SimpleResult] = {
+    Logger.warn("Handling BadPaddingException or IllegalBlockSizeException by removing all cookies except seen cookie. " +
+      "Has the application secret changed or has a user tampered with his session secret ?")
+    val discardingCookiesKeys = request.cookies.map(_.name).filter(_ != RelatedCacheKeys.SeenCookieMessageKey).toSet
+    Future(Redirect(routes.BeforeYouStart.present()).
+      discardingEncryptedCookies(discardingCookiesKeys, request))
+  }
 }

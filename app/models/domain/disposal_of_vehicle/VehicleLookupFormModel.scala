@@ -2,12 +2,12 @@ package models.domain.disposal_of_vehicle
 
 import play.api.libs.json.Json
 import models.domain.common.CacheKey
-import mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupFormModelCacheKey
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
 
-case class VehicleLookupFormModel(referenceNumber: String,
+final case class VehicleLookupFormModel(referenceNumber: String,
                                   registrationNumber: String)
 
 object VehicleLookupFormModel {
-  implicit val vehicleLookupFormModelFormat = Json.format[VehicleLookupFormModel]
-  implicit val cacheKey = CacheKey[VehicleLookupFormModel](vehicleLookupFormModelCacheKey)
+  implicit val JsonFormat = Json.format[VehicleLookupFormModel]
+  implicit val Key = CacheKey[VehicleLookupFormModel](VehicleLookupFormModelCacheKey)
 }

@@ -12,7 +12,7 @@ import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeWebServiceImpl.traderUprnValid
 import mappings.disposal_of_vehicle.Dispose._
 
-class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
+final class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 
@@ -77,7 +77,7 @@ class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL wi
   @Then("""^a timestamp representing the current date and time is generated and retained$""")
   def a_timestamp_representing_the_current_date_and_time_is_generated_and_retained() = {
     val timestamp = webDriver.manage().
-      getCookieNamed(disposeFormTimestampIdCacheKey).
+      getCookieNamed(DisposeFormTimestampIdCacheKey).
       getValue
 
     timestamp should include(s"""$dateOfDisposalYearValid-$dateOfDisposalMonthValid-${dateOfDisposalDayValid}""")

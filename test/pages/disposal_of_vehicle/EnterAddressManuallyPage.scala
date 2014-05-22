@@ -9,24 +9,23 @@ import mappings.common.AddressAndPostcode._
 import mappings.disposal_of_vehicle.EnterAddressManually._
 
 object EnterAddressManuallyPage extends Page with WebBrowserDSL {
-
-  val address = "/disposal-of-vehicle/enter-address-manually"
+  final val address = "/disposal-of-vehicle/enter-address-manually"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  override val title: String = "Enter address manually"
+  final override val title: String = "Enter address manually"
 
-  def addressLine1(implicit driver: WebDriver): TextField = textField(id(s"${addressAndPostcodeId}_${addressLinesId}_$line1Id"))
+  def addressLine1(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line1Id"))
 
-  def addressLine2(implicit driver: WebDriver): TextField = textField(id(s"${addressAndPostcodeId}_${addressLinesId}_$line2Id"))
+  def addressLine2(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line2Id"))
 
-  def addressLine3(implicit driver: WebDriver): TextField = textField(id(s"${addressAndPostcodeId}_${addressLinesId}_$line3Id"))
+  def addressLine3(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line3Id"))
 
-  def addressLine4(implicit driver: WebDriver): TextField = textField(id(s"${addressAndPostcodeId}_${addressLinesId}_$line4Id"))
+  def addressLine4(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line4Id"))
 
-  def postcode(implicit driver: WebDriver): TextField = textField(id(s"${addressAndPostcodeId}_$postcodeId"))
+  def postcode(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_$PostcodeId"))
 
-  def next(implicit driver: WebDriver): Element = find(id(nextId)).get
+  def next(implicit driver: WebDriver): Element = find(id(NextId)).get
 
-  def back(implicit driver: WebDriver): Element = find(id(backId)).get
+  def back(implicit driver: WebDriver): Element = find(id(BackId)).get
 
   def happyPath(line1: String = line1Valid, line2: String = line2Valid, line3: String = line3Valid, line4:String = line4Valid, postcode:String = postcodeValid)(implicit driver: WebDriver) ={
     go to EnterAddressManuallyPage

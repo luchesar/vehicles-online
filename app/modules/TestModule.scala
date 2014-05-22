@@ -8,7 +8,6 @@ import services.fakes._
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebServiceImpl, VehicleLookupWebService}
 import services.dispose_service.{DisposeServiceImpl, DisposeWebServiceImpl, DisposeWebService, DisposeService}
-import services.session.{PlaySessionState, SessionState}
 import utils.helpers._
 
 object TestModule extends ScalaModule {
@@ -27,7 +26,6 @@ object TestModule extends ScalaModule {
     bind[DisposeWebService].to[FakeDisposeWebServiceImpl].asEagerSingleton()
     bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton()
     bind[DateService].to[FakeDateServiceImpl].asEagerSingleton()
-    bind[SessionState].to[PlaySessionState].asEagerSingleton()
     bind[CookieEncryption].toInstance(new NoEncryption with CookieEncryption)
     bind[CookieNameHashing].toInstance(new NoHash with CookieNameHashing)
   }

@@ -13,7 +13,7 @@ import org.mockito.Mockito._
 import pages.disposal_of_vehicle._
 import play.api.http.Status.OK
 import play.api.libs.json.{JsValue, Json}
-import play.api.mvc.{SimpleResult, Cookies}
+import play.api.mvc.Cookies
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeResponse
@@ -23,10 +23,9 @@ import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebServic
 import services.fakes.FakeAddressLookupService._
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 
-class VehicleLookupUnitSpec extends UnitSpec {
-
+final class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {
-    "display" in new WithApplication {
+    "display the page" in new WithApplication {
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
@@ -91,8 +90,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val foundMatch =  cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.vehicleLookupFormModel(registrationNumber = registrationNumberValid)))
-          foundMatch should equal(true)
+          cookies.map(_.name) should contain (VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -141,7 +139,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "replace max length error message for document reference number with standard error message (US43)" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (referenceNumberLength + 1)).
+      val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (ReferenceNumberLength + 1)).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
       // check the validation summary text
@@ -219,7 +217,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to MicroserviceError when microservice throws" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = vehicleLookupError().submit(request)
+      val result = vehicleLookupError.submit(request)
 
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
@@ -241,7 +239,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          cookies.map(_.name) should contain (vehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain (VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -251,7 +249,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          cookies.map(_.name) should contain allOf (vehicleLookupResponseCodeCacheKey, vehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain allOf (VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -261,13 +259,13 @@ class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          cookies.map(_.name) should contain allOf (vehicleLookupResponseCodeCacheKey, vehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain allOf (VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
 
     "does not write cookie when microservice throws" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = vehicleLookupError().submit(request)
+      val result = vehicleLookupError.submit(request)
 
       whenReady(result) {
         r =>
@@ -279,7 +277,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   private def vehicleLookupResponseGenerator( fullResponse:(Int, Option[VehicleDetailsResponse])) = {
-  val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
+    val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
     when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
       val responseAsJson : Option[JsValue] = fullResponse._2 match {
         case Some(e) => Some(Json.toJson(e))
@@ -293,7 +291,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)(noCookieEncryption, noCookieNameHashing)
   }
 
-  private def vehicleLookupError() = {
+  private val vehicleLookupError = {
     val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
     when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
       throw new IllegalArgumentException
@@ -308,9 +306,9 @@ class VehicleLookupUnitSpec extends UnitSpec {
                                              registrationNumber: String = registrationNumberValid,
                                              consent: String = consentValid) = {
     FakeRequest().withSession().withFormUrlEncodedBody(
-      referenceNumberId -> referenceNumber,
-      registrationNumberId -> registrationNumber,
-      consentId -> consent)
+      ReferenceNumberId -> referenceNumber,
+      RegistrationNumberId -> registrationNumber,
+      ConsentId -> consent)
   }
 
 }

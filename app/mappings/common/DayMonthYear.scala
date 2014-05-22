@@ -5,16 +5,20 @@ import play.api.data.Forms._
 import constraints.common.DayMonthYear._
 
 object DayMonthYear {
-  val dayId = "day"
-  val monthId = "month"
-  val yearId = "year"
-  val hourId = "hour"
-  val minutesId = "minutes"
+  final val DayId = "day"
+  final val MonthId = "month"
+  final val YearId = "year"
+  final val HourId = "hour"
+  final val MinutesId = "minutes"
+  final val MaxDaysInMonth = 31
+  final val MaxMonthsInYear = 12
+  final val MaxHoursInDay = 24
+  final val MaxMinutesInHour = 59
 
   val dayMonthYear: Mapping[models.DayMonthYear] = mapping(
-    dayId -> number(max = 31).verifying(required), // TODO magic numbers
-    monthId -> number(max = 12).verifying(required),
-    yearId -> number.verifying(required),
-    hourId -> optional(number(min = 0, max = 24)),
-    minutesId -> optional(number(min = 0, max = 60)))(models.DayMonthYear.apply)(models.DayMonthYear.unapply)
+    DayId -> number(max = MaxDaysInMonth).verifying(required),
+    MonthId -> number(max = MaxMonthsInYear).verifying(required),
+    YearId -> number.verifying(required),
+    HourId -> optional(number(min = 0, max = MaxHoursInDay)),
+    MinutesId -> optional(number(min = 0, max = MaxMinutesInHour)))(models.DayMonthYear.apply)(models.DayMonthYear.unapply)
 }

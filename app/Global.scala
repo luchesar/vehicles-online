@@ -1,15 +1,19 @@
 import com.google.inject.Guice
-import java.io.File
 import com.typesafe.config.ConfigFactory
+import controllers.disposal_of_vehicle.routes
+import java.io.File
 import java.util.UUID
+import javax.crypto.BadPaddingException
 import modules.{DevModule, TestModule}
 import play.api._
 import play.api.Configuration
 import play.api.mvc._
 import play.api.mvc.Results._
-import scala.concurrent.{ExecutionContext, Future}
 import play.api.Play.current
+import play.filters.gzip._
+import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
+import utils.helpers.CryptoHelper
 
 /**
  * Application configuration is in a hierarchy of files:
@@ -26,7 +30,7 @@ import ExecutionContext.Implicits.global
  * play -Dconfig.file=conf/application.test.conf run
  */
 
-object Global extends GlobalSettings {
+object Global extends WithFilters(new GzipFilter()) with GlobalSettings {
   // Play.isTest will evaluate to true when you run "play test" from the command line
   // If play is being run to execute the tests then use the TestModule to provide fake
   // implementations of traits otherwise use the DevModule to provide the real ones
@@ -44,9 +48,9 @@ object Global extends GlobalSettings {
    * To override and stipulate a particular "conf" e.g.
    * play -Dconfig.file=conf/application.test.conf run
    */
-  def module = if (Play.isTest) TestModule else DevModule
+  private def module = if (Play.isTest) TestModule else DevModule
 
-  lazy val injector = Guice.createInjector(module)
+  private lazy val injector = Guice.createInjector(module)
 
 
   /**
@@ -75,5 +79,10 @@ object Global extends GlobalSettings {
 
   // 404 - page not found error http://alvinalexander.com/scala/handling-scala-play-framework-2-404-500-errors
   override def onHandlerNotFound(request: RequestHeader): Future[SimpleResult] = Future(NotFound(views.html.errors.onHandlerNotFound(request)))
+
+  override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] = ex.getCause match {
+    case _: BadPaddingException  => CryptoHelper.handleApplicationSecretChange(request)
+    case _ => Future(Redirect(routes.Error.present()))
+  }
 }
 

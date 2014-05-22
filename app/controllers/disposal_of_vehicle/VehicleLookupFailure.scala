@@ -9,7 +9,7 @@ import common.EncryptedCookieImplicits
 import EncryptedCookieImplicits.RequestAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 
-class VehicleLookupFailure @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class VehicleLookupFailure @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
   def present = Action { implicit request =>
     (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[VehicleLookupFormModel]) match {
@@ -31,11 +31,11 @@ class VehicleLookupFailure @Inject()()(implicit encryption: CookieEncryption, ha
   private def displayVehicleLookupFailure(vehicleLookUpFormModelDetails: VehicleLookupFormModel)(implicit request: Request[AnyContent]) = {
     val responseCodeErrorMessage = encodeResponseCodeErrorMessage
     Ok(views.html.disposal_of_vehicle.vehicle_lookup_failure(vehicleLookUpFormModelDetails, responseCodeErrorMessage)).
-      discardingCookies(DiscardingCookie(name = vehicleLookupResponseCodeCacheKey)) // TODO [SKW] please someone write a test for this and make sure it only removes this cookie and no other cookies.
+      discardingCookies(DiscardingCookie(name = VehicleLookupResponseCodeCacheKey))
   }
 
   private def encodeResponseCodeErrorMessage(implicit request: Request[AnyContent]): String =
-    request.getCookieNamed(vehicleLookupResponseCodeCacheKey) match {
+    request.getCookieNamed(VehicleLookupResponseCodeCacheKey) match {
       case Some(responseCode) => responseCode
       case _ => "disposal_vehiclelookupfailure.p1"
     }

@@ -45,7 +45,8 @@ class AesEncryption extends Encryption {
         val applicationSecret = Base64.decodeBase64(base64EncodedApplicationSecret)
 
         if (applicationSecret.length != decodedKeySizeInBytes) {
-          throw new Exception(s"Application secret key must be $keySizeInBits bits ($decodedKeySizeInBytes decoded bytes). Actual size in bytes was ${applicationSecret.length}.")
+          throw new Exception(s"Application secret key must be $keySizeInBits bits ($decodedKeySizeInBytes decoded bytes). " +
+            s"Actual size in bytes was ${applicationSecret.length}.")
         }
 
         applicationSecret
@@ -54,7 +55,7 @@ class AesEncryption extends Encryption {
     }
   }
 
-  private val initializationVectorSizeInBytes = 128 / 8
+  private final val initializationVectorSizeInBytes = 128 / 8
   private lazy val provider: Option[String] = getConfig("application.crypto.provider")
   private lazy val transformation: String = getConfig("application.crypto.aes.transformation").getOrElse("AES")
   private lazy val secretKeySpec = new SecretKeySpec(secretKey128Bit, "AES")
@@ -90,6 +91,5 @@ class AesEncryption extends Encryption {
 
 class NoEncryption extends Encryption {
   override def decrypt(clearText: String): String = clearText
-
   override def encrypt(clearText: String): String = clearText
 }

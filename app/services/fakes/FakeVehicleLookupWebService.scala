@@ -8,7 +8,7 @@ import play.api.http.Status._
 import play.api.libs.json.Json
 import services.vehicle_lookup.VehicleLookupWebService
 
-class FakeVehicleLookupWebService extends VehicleLookupWebService {
+final class FakeVehicleLookupWebService extends VehicleLookupWebService {
   override def callVehicleLookupService(request: VehicleDetailsRequest) = Future {
     val (responseStatus, response) = {
       request.referenceNumber match {
@@ -25,14 +25,14 @@ class FakeVehicleLookupWebService extends VehicleLookupWebService {
 }
 
 object FakeVehicleLookupWebService {
-  val registrationNumberValid = "AB12AWR"
-  val registrationNumberWithSpaceValid = "AB12 AWR"
-  val referenceNumberValid = "12345678910"
-  val vehicleMakeValid = "Alfa Romeo"
-  val vehicleModelValid = "Alfasud ti"
-  val keeperNameValid = "Keeper Name"
-  val keeperUprnValid = 10123456789L
-  val consentValid = "true"
+  final val registrationNumberValid = "AB12AWR"
+  final val registrationNumberWithSpaceValid = "AB12 AWR"
+  final val referenceNumberValid = "12345678910"
+  final val vehicleMakeValid = "Alfa Romeo"
+  final val vehicleModelValid = "Alfasud ti"
+  final val keeperNameValid = "Keeper Name"
+  final val keeperUprnValid = 10123456789L
+  final val consentValid = "true"
 
   private val vehicleDetails = VehicleDetailsDto(registrationNumber = registrationNumberValid,
     vehicleMake = vehicleMakeValid,

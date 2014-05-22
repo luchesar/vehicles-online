@@ -10,7 +10,7 @@ object MicroServiceErrorPage extends Page with WebBrowserDSL {
 
   val title = "We are sorry"
 
-  def tryAgain(implicit driver: WebDriver): Element = find(id(tryAgainId)).get
+  def tryAgain(implicit driver: WebDriver): Element = find(id(TryAgainId)).get
 
-  def exit(implicit driver: WebDriver): Element = find(id(exitId)).get
+  def exit(implicit driver: WebDriver): Element = find(id(ExitId)).get
 }

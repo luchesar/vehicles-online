@@ -21,42 +21,34 @@ import org.joda.time.format.ISODateTimeFormat
 import services.dispose_service.DisposeService
 import services.DateService
 import models.domain.disposal_of_vehicle.DisposeFormModel
-import play.api.data.FormError
-import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.DisposeModel
-import models.domain.disposal_of_vehicle.DisposeViewModel
+import mappings.disposal_of_vehicle.Dispose.DateOfDisposalYearsIntoThePast
 import scala.language.postfixOps
 import EncryptedCookieImplicits.RequestAdapter
 import EncryptedCookieImplicits.SimpleResultAdapter
 import EncryptedCookieImplicits.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
-import org.joda.time.DateTime
-import scala.Some
-import play.api.mvc.SimpleResult
-import models.domain.disposal_of_vehicle.DisposeViewModel
-import play.api.data.FormError
-import play.api.mvc.Call
 import scala.Some
 import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import play.api.data.FormError
 import play.api.mvc.Call
 
-class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
   val disposeForm = Form(
     mapping(
-      mileageId -> mileage(),
-      dateOfDisposalId -> dayMonthYear.verifying(validDate(),
-        after(earliest = dateService.today - dateOfDisposalYearsIntoThePast years),
+      MileageId -> mileage(),
+      DateOfDisposalId -> dayMonthYear.verifying(validDate(),
+        after(earliest = dateService.today - DateOfDisposalYearsIntoThePast years),
         notInFuture(dateService)),
-      consentId -> consent,
-      lossOfRegistrationConsentId -> consent
+      ConsentId -> consent,
+      LossOfRegistrationConsentId -> consent
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 
-  private val yearsDropdown: Seq[(String, String)] = dateService.today.yearRangeToDropdown(yearsIntoThePast = dateOfDisposalYearsIntoThePast)
+  private val yearsDropdown: Seq[(String, String)] = dateService.today.yearRangeToDropdown(yearsIntoThePast = DateOfDisposalYearsIntoThePast)
 
   def present = Action {
     implicit request => {
@@ -89,8 +81,8 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
                   replaceError("dateOfDisposal.month", FormError("dateOfDisposal", "error.dateOfDisposal")).
                   replaceError("dateOfDisposal.year", FormError("dateOfDisposal", "error.dateOfDisposal")).
                   replaceError("dateOfDisposal", FormError("dateOfDisposal", "error.dateOfDisposal")).
-                  replaceError(consentId, "error.required", FormError(key = consentId, message = "disposal_dispose.consent.notgiven", args = Seq.empty)).
-                  replaceError(lossOfRegistrationConsentId, "error.required", FormError(key = lossOfRegistrationConsentId, message = "disposal_dispose.loss_of_registration.consent.notgiven", args = Seq.empty)).
+                  replaceError(ConsentId, "error.required", FormError(key = ConsentId, message = "disposal_dispose.consent.notgiven", args = Seq.empty)).
+                  replaceError(LossOfRegistrationConsentId, "error.required", FormError(key = LossOfRegistrationConsentId, message = "disposal_dispose.loss_of_registration.consent.notgiven", args = Seq.empty)).
                   distinctErrors
                 BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors, yearsDropdown))
               case _ =>
@@ -146,9 +138,9 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
     def storeResponseInCache(response: Option[DisposeResponse], nextPage: SimpleResult): SimpleResult = {
       response match {
         case Some(o) =>
-          val nextPageWithTransactionId = if (o.transactionId != "") nextPage.withEncryptedCookie(disposeFormTransactionIdCacheKey, o.transactionId)
+          val nextPageWithTransactionId = if (o.transactionId != "") nextPage.withEncryptedCookie(DisposeFormTransactionIdCacheKey, o.transactionId)
             else nextPage
-          if (o.registrationNumber != "") nextPageWithTransactionId.withEncryptedCookie(disposeFormRegistrationNumberCacheKey, o.registrationNumber)
+          if (o.registrationNumber != "") nextPageWithTransactionId.withEncryptedCookie(DisposeFormRegistrationNumberCacheKey, o.registrationNumber)
             else nextPageWithTransactionId
         case None => nextPage
       }
@@ -158,7 +150,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
       val transactionTimestamp = dateService.today.toDateTime.get
       val formatter = ISODateTimeFormat.dateTime()
       val isoDateTimeString = formatter.print(transactionTimestamp)
-      nextPage.withEncryptedCookie(disposeFormTimestampIdCacheKey, isoDateTimeString)
+      nextPage.withEncryptedCookie(DisposeFormTimestampIdCacheKey, isoDateTimeString)
     }
 
     def buildDisposeMicroServiceRequest(disposeModel: DisposeModel, traderDetails: TraderDetailsModel): DisposeRequest = {
@@ -176,20 +168,6 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
         ipAddress = None) // TODO : US105 should provide this value
     }
 
-    // TODO disposeResponseCode should just be a String, detecting it being empty is the responsablility of the calling code.
-    /*def handleResponseCode(disposeResponseCode: Option[String]) = {
-      val unableToProcessApplication = "ms.vehiclesService.response.unableToProcessApplication"
-
-      disposeResponseCode match {
-        case Some(responseCode) if responseCode == unableToProcessApplication =>
-          Logger.warn("Dispose soap endpoint redirecting to dispose failure page...")
-          Some(routes.DisposeFailure.present)
-        case Some(responseCode) =>
-          Logger.warn(s"Dispose micro-service failed: $responseCode, redirecting to error page...")
-          Some(routes.MicroServiceError.present)
-        case None => None
-      }
-    }*/
     def handleResponseCode(disposeResponseCode: String): Call = {
       val unableToProcessApplication = "ms.vehiclesService.response.unableToProcessApplication"
 

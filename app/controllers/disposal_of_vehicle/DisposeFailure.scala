@@ -10,11 +10,11 @@ import mappings.disposal_of_vehicle.Dispose._
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 
-class DisposeFailure @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class DisposeFailure @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
 
   def present = Action { implicit request =>
-    (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[DisposeFormModel], request.getEncryptedCookie[VehicleDetailsModel], request.getCookieNamed(disposeFormTransactionIdCacheKey)) match {
+    (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[DisposeFormModel], request.getEncryptedCookie[VehicleDetailsModel], request.getCookieNamed(DisposeFormTransactionIdCacheKey)) match {
       case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId)) =>
         val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId))
         Ok(views.html.disposal_of_vehicle.dispose_failure(disposeModel, disposeFormModel))

@@ -1,3 +1,3 @@
 package services.address_lookup.gds.domain
 
-case class Location(x: Double, y: Double)
+final case class Location(x: Double, y: Double)
