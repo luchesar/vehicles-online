@@ -5,7 +5,6 @@ import ExecutionContext.Implicits.global
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import helpers.disposal_of_vehicle.Helper._
 import mappings.disposal_of_vehicle.VehicleLookup._
 import models.domain.disposal_of_vehicle.{VehicleDetailsResponse, VehicleDetailsRequest}
 import org.mockito.Matchers._
@@ -143,9 +142,10 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
       // check the validation summary text
-      countSubstring(contentAsString(result), "Document reference number - Document reference number must be an 11-digit number") should equal(1)
+      //findAllIn
+      "Document reference number - Document reference number must be an 11-digit number".r.findAllIn(contentAsString(result)).length should equal(1)
       // check the form item validation
-      countSubstring(contentAsString(result), "\"error\">Document reference number must be an 11-digit number") should equal(1)
+      "\"error\">Document reference number must be an 11-digit number".r.findAllIn(contentAsString(result)).length should equal(1)
     }
 
     "replace required and min length error messages for document reference number with standard error message (US43)" in new WithApplication {
@@ -153,16 +153,16 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
       // check the validation summary text
-      countSubstring(contentAsString(result), "Document reference number - Document reference number must be an 11-digit number") should equal(1)
+      "Document reference number - Document reference number must be an 11-digit number".r.findAllIn(contentAsString(result)).length should equal(1)
       // check the form item validation
-      countSubstring(contentAsString(result), "\"error\">Document reference number must be an 11-digit number") should equal(1)
+      "\"error\">Document reference number must be an 11-digit number".r.findAllIn(contentAsString(result)).length should equal(1)
     }
 
     "replace max length error message for vehicle registration mark with standard error message (US43)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "PJ05YYYX").
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
-      val count = countSubstring(contentAsString(result), "Must be valid format")
+      val count = "Must be valid format".r.findAllIn(contentAsString(result)).length
 
       count should equal(2)
     }
@@ -171,7 +171,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "").
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
-      val count = countSubstring(contentAsString(result), "Must be valid format")
+      val count = "Must be valid format".r.findAllIn(contentAsString(result)).length
 
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of the page and once above the field.
     }

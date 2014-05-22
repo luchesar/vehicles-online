@@ -8,6 +8,8 @@ import pages.common.ErrorPanel
 import pages.disposal_of_vehicle.BusinessChooseYourAddressPage.{sadPath, happyPath, manualAddress, back}
 import pages.disposal_of_vehicle._
 import services.fakes.FakeAddressLookupService.postcodeValid
+import mappings.disposal_of_vehicle.RelatedCacheKeys
+import mappings.disposal_of_vehicle.EnterAddressManually._
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -86,8 +88,21 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
       ErrorPanel.numberOfErrors should equal(1)
     }
+
+    "remove redundant EnterAddressManually cookie (as we are now in an alternate history)" in new WebBrowser {
+      def cacheSetupVisitedEnterAddressManuallyPage()(implicit webDriver: WebDriver) =
+        CookieFactoryForUISpecs.setupTradeDetails().
+          enterAddressManually()
+
+      go to BeforeYouStartPage
+      cacheSetupVisitedEnterAddressManuallyPage()
+      happyPath
+
+      // Verify the cookies identified by the full set of cache keys have been removed
+      webDriver.manage().getCookieNamed(EnterAddressManuallyCacheKey) should equal(null)
+    }
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.setupTradeDetailsIntegration()
+    CookieFactoryForUISpecs.setupTradeDetails()
 }

@@ -1,7 +1,6 @@
 package controllers.disposal_of_vehicle
 
 import helpers.UnitSpec
-import helpers.disposal_of_vehicle.Helper._
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import services.fakes.FakeAddressLookupService._
 import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}

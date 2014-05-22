@@ -13,10 +13,13 @@ import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 import services.address_lookup.AddressLookupService
 import common.EncryptedCookieImplicits
-import EncryptedCookieImplicits.RequestAdapter
-import EncryptedCookieImplicits.SimpleResultAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 import utils.helpers.FormExtensions._
+import mappings.disposal_of_vehicle.EnterAddressManually._
+import play.api.data.FormError
+import EncryptedCookieImplicits.RequestAdapter
+import EncryptedCookieImplicits.SimpleResultAdapter
+import EncryptedCookieImplicits.FormAdapter
 
 final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
@@ -40,11 +43,9 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
         case Some(setupTradeDetailsModel) =>
           fetchAddresses(setupTradeDetailsModel).map {
             addresses =>
-              val f = request.getEncryptedCookie[BusinessChooseYourAddressModel] match {
-                case Some(cached) => form.fill(cached)
-                case None => form // Blank form.
-              }
-              Ok(views.html.disposal_of_vehicle.business_choose_your_address(f, setupTradeDetailsModel.traderBusinessName, addresses))
+              Ok(views.html.disposal_of_vehicle.business_choose_your_address(form.fill(),
+                setupTradeDetailsModel.traderBusinessName,
+                addresses))
           }
         case None => Future {
           Redirect(routes.SetUpTradeDetails.present())
@@ -53,32 +54,32 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
   }
 
   def submit = Action.async { implicit request =>
-      form.bindFromRequest.fold(
-        formWithErrors =>
-          request.getEncryptedCookie[SetupTradeDetailsModel] match {
-            case Some(setupTradeDetailsModel) => fetchAddresses(setupTradeDetailsModel).map {
-              addresses =>
-                val formWithReplacedErrors = formWithErrors.
-                  replaceError(AddressSelectId, "error.number", FormError(key = AddressSelectId, message = "disposal_businessChooseYourAddress.address.required", args = Seq.empty)).
-                  distinctErrors
+    form.bindFromRequest.fold(
+      formWithErrors =>
+        request.getEncryptedCookie[SetupTradeDetailsModel] match {
+          case Some(setupTradeDetailsModel) => fetchAddresses(setupTradeDetailsModel).map {
+            addresses =>
+              val formWithReplacedErrors = formWithErrors.
+                replaceError(AddressSelectId, "error.number", FormError(key = AddressSelectId, message = "disposal_businessChooseYourAddress.address.required", args = Seq.empty)).
+                distinctErrors
 
-                BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithReplacedErrors, setupTradeDetailsModel.traderBusinessName, addresses))
-            }
-            case None => Future {
-              Logger.error("Failed to find dealer details in cache for submit formWithErrors, redirecting...")
-              Redirect(routes.SetUpTradeDetails.present())
-            }
-          },
-        f =>
-          request.getEncryptedCookie[SetupTradeDetailsModel] match {
-            case Some(setupTradeDetailsModel) =>
-              lookupUprn(f, setupTradeDetailsModel.traderBusinessName)
-            case None => Future {
-              Logger.error("Failed to find dealer details in cache on submit valid form, redirecting...")
-              Redirect(routes.SetUpTradeDetails.present())
-            }
+              BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithReplacedErrors, setupTradeDetailsModel.traderBusinessName, addresses))
           }
-      )
+          case None => Future {
+            Logger.error("Failed to find dealer details in cache for submit formWithErrors, redirecting...")
+            Redirect(routes.SetUpTradeDetails.present())
+          }
+        },
+      f =>
+        request.getEncryptedCookie[SetupTradeDetailsModel] match {
+          case Some(setupTradeDetailsModel) =>
+            lookupUprn(f, setupTradeDetailsModel.traderBusinessName)
+          case None => Future {
+            Logger.error("Failed to find dealer details in cache on submit valid form, redirecting...")
+            Redirect(routes.SetUpTradeDetails.present())
+          }
+        }
+    )
   }
 
   private def lookupUprn(model: BusinessChooseYourAddressModel, traderName: String)(implicit request: Request[_]) = {
@@ -90,7 +91,10 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache.
          */
-        Redirect(routes.VehicleLookup.present()).withEncryptedCookie(model).withEncryptedCookie(traderDetailsModel)
+        Redirect(routes.VehicleLookup.present()).
+          discardingEncryptedCookie(EnterAddressManuallyCacheKey).
+          withEncryptedCookie(model).
+          withEncryptedCookie(traderDetailsModel)
       case None => Redirect(routes.UprnNotFound.present())
     }
   }

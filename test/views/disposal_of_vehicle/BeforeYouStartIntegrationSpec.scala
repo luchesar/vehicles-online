@@ -18,13 +18,14 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
     "remove redundant cookies (needed for when a user exits the service and comes back)" in new WebBrowser {
       def cacheSetup()(implicit webDriver: WebDriver) =
-        CookieFactoryForUISpecs.setupTradeDetailsIntegration().
-          businessChooseYourAddressIntegration().
-          dealerDetailsIntegration().
-          vehicleDetailsModelIntegration().
-          disposeFormModelIntegration().
-          disposeTransactionIdIntegration().
-          vehicleRegistrationNumberIntegration()
+        CookieFactoryForUISpecs.setupTradeDetails().
+          businessChooseYourAddress().
+          enterAddressManually().
+          dealerDetails().
+          vehicleDetailsModel().
+          disposeFormModel().
+          disposeTransactionId().
+          vehicleRegistrationNumber()
 
       go to BeforeYouStartPage
       cacheSetup()

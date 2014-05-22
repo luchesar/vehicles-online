@@ -5,7 +5,6 @@ import pages.disposal_of_vehicle._
 import org.scalatest.Matchers
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
-import helpers.disposal_of_vehicle.Helper._
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeAddressLookupService._
