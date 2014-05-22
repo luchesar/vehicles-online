@@ -1,3 +1,10 @@
+/*prevent resposive styles*/
+#global-header .header-wrapper,
+.vehicles-online,
+#footer .footer-wrapper {
+	width:980px;
+}
+
 #footer .footer-wrapper {
 	padding-bottom:150px !important;
 }
