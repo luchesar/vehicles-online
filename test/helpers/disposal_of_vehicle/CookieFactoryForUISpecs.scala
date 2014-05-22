@@ -13,6 +13,8 @@ import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeWebServiceImpl._
 import services.fakes.{FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
+import mappings.disposal_of_vehicle.EnterAddressManually._
+import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 
 object CookieFactoryForUISpecs {
   private def addCookie[A](key: String, value: A)(implicit tjs: Writes[A], webDriver: WebDriver): Unit = {
@@ -33,6 +35,17 @@ object CookieFactoryForUISpecs {
   def businessChooseYourAddressIntegration(uprn: Long = traderUprnValid)(implicit webDriver: WebDriver) = {
     val key = BusinessChooseYourAddressCacheKey
     val value = BusinessChooseYourAddressModel(uprnSelected = uprn)
+    addCookie(key, value)
+    this
+  }
+
+  def enterAddressManuallyIntegration()(implicit webDriver: WebDriver) = {
+    val key = EnterAddressManuallyCacheKey
+    val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = line1Valid,
+      line2 = Some(line2Valid),
+      line3 = Some(line3Valid),
+      line4 = Some(line4Valid)),
+      postcode = postcodeValid))
     addCookie(key, value)
     this
   }
