@@ -91,8 +91,8 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
     "remove redundant EnterAddressManually cookie (as we are now in an alternate history)" in new WebBrowser {
       def cacheSetupVisitedEnterAddressManuallyPage()(implicit webDriver: WebDriver) =
-        CookieFactoryForUISpecs.setupTradeDetailsIntegration().
-          enterAddressManuallyIntegration()
+        CookieFactoryForUISpecs.setupTradeDetails().
+          enterAddressManually()
 
       go to BeforeYouStartPage
       cacheSetupVisitedEnterAddressManuallyPage()
@@ -104,5 +104,5 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.setupTradeDetailsIntegration()
+    CookieFactoryForUISpecs.setupTradeDetails()
 }
