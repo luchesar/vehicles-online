@@ -5,10 +5,6 @@
    	margin: 0 auto;
    	max-width: 980px;
 
-   	.ie6 & {
-	   	width: 980px;
-   	}
-
    	@media screen and (max-width: $device-small) {
    		border-top: 10px solid phase-colour($phase);
    	}
@@ -139,7 +135,16 @@
 			}
 		}
 	}
-	
+
+	//vehicle lookup/find vehicle details
+	.TraderDetails dd {
+		/*ie6 fallback*/
+		.ie6 & {	
+			clear:both;
+		}
+	}	
+
+
 	.disposal-form {
 		.form-steps {
 			margin-top:-20px;
