@@ -71,12 +71,7 @@ object EncryptedCookieImplicits {
 
     def discardingEncryptedCookie(keyUnhashed: String)(implicit request: Request[_], encryption: CookieEncryption,
                                                cookieNameHashing: CookieNameHashing): SimpleResult = {
-      val sessionSecretKey = CryptoHelper.getSessionSecretKeyFromRequest(request).getOrElse("")
-      val cookieToDiscard =  {
-        val cookieNameHashed = cookieNameHashing.hash(sessionSecretKey + keyUnhashed) // We are selectively removing a cookie, so we need to convert the key to a hashed form to do the matching.
-        DiscardingCookie(name = cookieNameHashed)
-      }
-      inner.discardingCookies(cookieToDiscard)
+      discardingEncryptedCookies(Set(keyUnhashed))
     }
 
     def discardingEncryptedCookies(keysUnhashed: Set[String])(implicit request: Request[_], encryption: CookieEncryption,

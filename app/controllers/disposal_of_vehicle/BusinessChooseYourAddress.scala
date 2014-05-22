@@ -13,13 +13,13 @@ import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 import services.address_lookup.AddressLookupService
 import common.EncryptedCookieImplicits
-import EncryptedCookieImplicits.RequestAdapter
-import EncryptedCookieImplicits.SimpleResultAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 import utils.helpers.FormExtensions._
 import mappings.disposal_of_vehicle.EnterAddressManually._
 import play.api.data.FormError
-import scala.Some
+import EncryptedCookieImplicits.RequestAdapter
+import EncryptedCookieImplicits.SimpleResultAdapter
+import EncryptedCookieImplicits.FormAdapter
 
 final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
@@ -44,7 +44,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
           fetchAddresses(setupTradeDetailsModel).map {
             addresses =>
               val f = request.getEncryptedCookie[BusinessChooseYourAddressModel] match {
-                case Some(cached) => form.fill(cached)
+                case Some(cached) => form.fill()
                 case None => form // Blank form.
               }
               Ok(views.html.disposal_of_vehicle.business_choose_your_address(f, setupTradeDetailsModel.traderBusinessName, addresses))
