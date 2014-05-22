@@ -217,7 +217,7 @@ disposal_businessChooseYourAddress_addressSelect = Choose your address
 disposal_businessChooseYourAddress_addressSelect_label = Choose your address
 disposal_businessChooseYourAddress.backbutton = Back
 disposal_businessChooseYourAddress.submitbutton = Select
-disposal_businessChooseYourAddress.manualAddressEntry = I can't find my address
+disposal_businessChooseYourAddress.manualAddressEntry = I can''t find my address
 error.dropDownInvalid = Please select a value from the drop down list.
 disposal_businessChooseYourAddress_noaddressesfound = No addresses found for that postcode. Click the back button to enter a different postcode or enter an address manually
 
