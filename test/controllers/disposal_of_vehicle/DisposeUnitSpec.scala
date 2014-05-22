@@ -24,6 +24,7 @@ import models.DayMonthYear
 import scala.Some
 import services.fakes.FakeAddressLookupService._
 import scala.Some
+import org.joda.time.format.ISODateTimeFormat
 
 class DisposeUnitSpec extends UnitSpec {
   val emptySpace = " "
@@ -109,7 +110,7 @@ class DisposeUnitSpec extends UnitSpec {
       val disposeModel = DisposeModel("01234567890", "AA111AAA", dateOfDisposal, mileage)
       val traderModel = TraderDetailsModel(traderName, traderAddress)
       val disposeClient = new disposal_of_vehicle.Dispose(mock[DisposeService], dateServiceStubbed())(noCookieEncryption, noCookieNameHashing)
-      val disposeResponse = disposeClient.buildDisposeMicroServiceRequest(disposeModel, traderModel)
+      val disposeResponse = buildDisposeMicroServiceRequest(disposeModel, traderModel)
 
       disposeResponse.referenceNumber should equal(referenceNumber)
       disposeResponse.registrationNumber should equal(registrationNumber)
@@ -307,4 +308,29 @@ class DisposeUnitSpec extends UnitSpec {
     val noCookieNameHashing = new NoHash with CookieNameHashing
     new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())(noCookieEncryption, noCookieNameHashing)
   }
+
+  private def buildDisposeMicroServiceRequest(disposeModel: DisposeModel, traderDetails: TraderDetailsModel): DisposeRequest = {
+    val dateTime = disposeModel.dateOfDisposal.toDateTime.get
+    val formatter = ISODateTimeFormat.dateTime()
+    val isoDateTimeString = formatter.print(dateTime)
+
+    DisposeRequest(referenceNumber = disposeModel.referenceNumber,
+      registrationNumber = disposeModel.registrationNumber,
+      traderName = traderDetails.traderName,
+      disposalAddress = disposalAddressDto(traderDetails.traderAddress),
+      dateOfDisposal = isoDateTimeString,
+      transactionTimestamp = ISODateTimeFormat.dateTime().print(dateTime),
+      mileage = disposeModel.mileage,
+      ipAddress = None)
+  }
+
+  private def disposalAddressDto(sourceAddress: AddressViewModel): DisposalAddressDto = {
+    // The last two address lines are always post town and postcode
+    val postAddressLines = sourceAddress.address.dropRight(2)
+    val postTown = sourceAddress.address.takeRight(2).head
+    val postcode = sourceAddress.address.last
+
+    DisposalAddressDto(postAddressLines, Some(postTown), postcode, sourceAddress.uprn)
+  }
+
 }

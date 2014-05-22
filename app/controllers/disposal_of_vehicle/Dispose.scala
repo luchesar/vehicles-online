@@ -26,13 +26,22 @@ import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.DisposeViewModel
-import mappings.disposal_of_vehicle.Dispose.dateOfDisposalYearsIntoThePast
 import scala.language.postfixOps
 import EncryptedCookieImplicits.RequestAdapter
 import EncryptedCookieImplicits.SimpleResultAdapter
 import EncryptedCookieImplicits.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 import org.joda.time.DateTime
+import scala.Some
+import play.api.mvc.SimpleResult
+import models.domain.disposal_of_vehicle.DisposeViewModel
+import play.api.data.FormError
+import play.api.mvc.Call
+import scala.Some
+import play.api.mvc.SimpleResult
+import models.domain.disposal_of_vehicle.DisposeViewModel
+import play.api.data.FormError
+import play.api.mvc.Call
 
 class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
 
@@ -145,11 +154,26 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
       }
     }
 
-    def transactionTimestamp(nextPage: SimpleResult) = {
+      def transactionTimestamp(nextPage: SimpleResult) = {
       val transactionTimestamp = dateService.today.toDateTime.get
       val formatter = ISODateTimeFormat.dateTime()
       val isoDateTimeString = formatter.print(transactionTimestamp)
       nextPage.withEncryptedCookie(disposeFormTimestampIdCacheKey, isoDateTimeString)
+    }
+
+    def buildDisposeMicroServiceRequest(disposeModel: DisposeModel, traderDetails: TraderDetailsModel): DisposeRequest = {
+      val dateTime = disposeModel.dateOfDisposal.toDateTime.get
+      val formatter = ISODateTimeFormat.dateTime()
+      val isoDateTimeString = formatter.print(dateTime)
+
+      DisposeRequest(referenceNumber = disposeModel.referenceNumber,
+        registrationNumber = disposeModel.registrationNumber,
+        traderName = traderDetails.traderName,
+        disposalAddress = disposalAddressDto(traderDetails.traderAddress),
+        dateOfDisposal = isoDateTimeString,
+        transactionTimestamp = ISODateTimeFormat.dateTime().print(dateService.today.toDateTime.get),
+        mileage = disposeModel.mileage,
+        ipAddress = None) // TODO : US105 should provide this value
     }
 
     // TODO disposeResponseCode should just be a String, detecting it being empty is the responsablility of the calling code.
@@ -187,46 +211,31 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
       }
     }
 
-    request.getEncryptedCookie[TraderDetailsModel] match {
-      case Some(traderDetailsModel) =>
-        request.getEncryptedCookie[VehicleLookupFormModel] match {
-          case Some(vehicleLookupFormModel) =>
-            val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,
-              registrationNumber = vehicleLookupFormModel.registrationNumber,
-              dateOfDisposal = disposeFormModel.dateOfDisposal, mileage = disposeFormModel.mileage)
-              callMicroService(disposeModel, traderDetailsModel)
-          case _ => Future {
-            Logger.error("could not find vehicle details in cache on Dispose submit")
-            Redirect(routes.SetUpTradeDetails.present())
-          }
-        }
-      case _ => Future {
+    (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[VehicleLookupFormModel]) match {
+      case (Some(traderDetails), Some(vehicleLookup)) =>  {
+        val disposeModel = DisposeModel(referenceNumber = vehicleLookup.referenceNumber,
+          registrationNumber = vehicleLookup.registrationNumber,
+          dateOfDisposal = disposeFormModel.dateOfDisposal, mileage = disposeFormModel.mileage)
+        callMicroService(disposeModel, traderDetails)
+      }
+      case (None, _) => Future {
         Logger.error("could not find dealer details in cache on Dispose submit")
+        Redirect(routes.SetUpTradeDetails.present())
+      }
+      case (_, None) =>  Future {
+        Logger.error("could not find vehicle details in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present())
       }
     }
   }
 
-  // TODO : This function has been made public so that it can be tested, it needs to be refactored to a seperate class
-  def buildDisposeMicroServiceRequest(disposeModel: DisposeModel, traderDetails: TraderDetailsModel): DisposeRequest = {
-    val dateTime = disposeModel.dateOfDisposal.toDateTime.get
-    val formatter = ISODateTimeFormat.dateTime()
-    val isoDateTimeString = formatter.print(dateTime)
-    DisposeRequest(referenceNumber = disposeModel.referenceNumber,
-      registrationNumber = disposeModel.registrationNumber,
-      traderName = traderDetails.traderName,
-      disposalAddress = disposalAddressDto(traderDetails.traderAddress),
-      dateOfDisposal = isoDateTimeString,
-      transactionTimestamp = isoDateTimeString, // todo: confirm date format and source, note that this is a timestamp
-      mileage = disposeModel.mileage,
-      ipAddress = None) // todo : source this from somewhere. US105
-  }
-
   private def disposalAddressDto(sourceAddress: AddressViewModel): DisposalAddressDto = {
-    val allLines = sourceAddress.address.dropRight(1)
-    val postTown = if (allLines.size > 3) Some(allLines.last) else None
+  // The last two address lines are always post town and postcode
+    val postAddressLines = sourceAddress.address.dropRight(2)
+    val postTown = sourceAddress.address.takeRight(2).head
     val postcode = sourceAddress.address.last
-    DisposalAddressDto(allLines.take(3), postTown, postcode, sourceAddress.uprn)
+
+    DisposalAddressDto(postAddressLines, Some(postTown), postcode, sourceAddress.uprn)
   }
 
 }
