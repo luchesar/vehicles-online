@@ -71,8 +71,8 @@
 		}
 	
 		@media screen and (max-width: $device-small) {
-			width: 100%;
-			@include box-sizing(border-box);
+				width: 100%;
+				@include box-sizing(border-box);
 			.ie7 &, .ie8 & {
 				width:97%;
 			}
@@ -138,14 +138,21 @@
 		position:relative;
 		padding-left:25px;
 		font-size: 1.7rem;
-		.ie & {
-			font-size:17px;
-		}
 		input {
 			position: absolute;
 			top:0;
 			left:0;
 		}
+
+		.ie & {
+			font-size:17px;
+		}
+		.ie6 & {
+			input.checkbox {
+				left:-30px;
+			}
+		}
+
 	}
 	
 	.form-declaration {
