@@ -8,10 +8,8 @@ import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle._
 
 final class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
-
-  "DisposeFailureIntegration" should {
-
-    "be presented" in new WebBrowser {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeFailurePage
@@ -24,8 +22,10 @@ final class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
 
       page.title should equal(SetupTradeDetailsPage.title)
     }
+  }
 
-    "redirect to vehiclelookup when button clicked" in new WebBrowser {
+  "vehiclelookup button" should {
+    "redirect to vehiclelookup" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeFailurePage
@@ -34,8 +34,10 @@ final class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
 
       page.title should equal(VehicleLookupPage.title)
     }
+  }
 
-    "redirect to setuptradedetails when button clicked" in new WebBrowser {
+  "setuptradedetails button" should {
+    "redirect to setuptradedetails" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeFailurePage

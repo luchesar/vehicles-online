@@ -10,35 +10,14 @@ import pages.disposal_of_vehicle._
 import services.fakes.FakeDateServiceImpl._
 
 final class DisposeIntegrationSpec extends UiSpec with TestHarness {
-
-  "Dispose Integration" should {
-
-    "be presented" in new WebBrowser {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
       go to DisposePage
 
       page.title should equal(title)
-    }
-
-    "display DisposeSuccess page on correct submission" in new WebBrowser {
-      go to BeforeYouStartPage
-      cacheSetup().
-        vehicleLookupFormModelIntegration()
-
-      happyPath
-
-      page.title should equal(DisposeSuccessPage.title)
-    }
-
-    "display validation errors when no data is entered" in new WebBrowser {
-      go to BeforeYouStartPage
-      cacheSetup()
-
-      sadPath
-
-      ErrorPanel.numberOfErrors should equal(3)
     }
 
     "redirect when no vehicleDetailsModel is cached" in new WebBrowser {
@@ -63,6 +42,27 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       go to DisposePage
 
       page.title should equal(SetupTradeDetailsPage.title)
+    }
+  }
+
+  "dispose button" should {
+    "display DisposeSuccess page on correct submission" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup().
+        vehicleLookupFormModelIntegration()
+
+      happyPath
+
+      page.title should equal(DisposeSuccessPage.title)
+    }
+
+    "display validation errors when no data is entered" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      sadPath
+
+      ErrorPanel.numberOfErrors should equal(3)
     }
 
     "display validation errors when month and year are input but no day" in new WebBrowser {
@@ -106,8 +106,10 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
       ErrorPanel.numberOfErrors should equal(1)
     }
+  }
 
-    "display previous page when back link is clicked" in new WebBrowser {
+  "back button" should {
+    "display previous page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposePage

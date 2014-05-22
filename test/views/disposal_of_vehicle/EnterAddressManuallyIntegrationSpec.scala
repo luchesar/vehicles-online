@@ -9,25 +9,25 @@ import pages.common.ErrorPanel
 import pages.disposal_of_vehicle._
 
 final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
-
-  "EnterAddressManually integration" should {
-
-    "be presented" in new WebBrowser {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
       go to EnterAddressManuallyPage
 
-      assert(page.title equals EnterAddressManuallyPage.title)
+      page.title should equal(EnterAddressManuallyPage.title)
     }
+  }
 
+  "next button" should {
     "accept and redirect when all fields are input with valid entry" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
       happyPath()
 
-      assert(page.title equals VehicleLookupPage.title)
+      page.title should equal(VehicleLookupPage.title)
     }
 
     "accept when only mandatory fields only are input" in new WebBrowser {
@@ -36,7 +36,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       happyPathMandatoryFieldsOnly()
 
-      assert(page.title equals VehicleLookupPage.title)
+      page.title should equal(VehicleLookupPage.title)
     }
 
     "display validation error messages when no details are entered" in new WebBrowser {
@@ -45,7 +45,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       sadPath
 
-      assert(ErrorPanel.numberOfErrors equals 5)
+      ErrorPanel.numberOfErrors should equal(5)
     }
 
     "display validation error messages when a blank postcode is entered" in new WebBrowser {
@@ -54,7 +54,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       happyPath(postcode = "")
 
-      assert(ErrorPanel.numberOfErrors equals 3)
+      ErrorPanel.numberOfErrors should equal(3)
     }
   }
 

@@ -9,18 +9,18 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import pages.disposal_of_vehicle.ErrorPage.startAgain
 
 final class ErrorIntegrationSpec extends UiSpec with TestHarness {
-  "present" should {
-    "display page" in new WebBrowser {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
       go to ErrorPage
 
-      assert(page.title equals ErrorPage.title)
+      page.title should equal(ErrorPage.title)
     }
   }
 
-  "submit" should {
+  "submit button" should {
     "remove redundant cookies when 'start again' button is clicked" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
@@ -29,7 +29,9 @@ final class ErrorIntegrationSpec extends UiSpec with TestHarness {
       click on startAgain
 
       // Verify the cookies identified by the full set of cache keys have been removed
-      RelatedCacheKeys.FullSet.foreach(cacheKey => assert(webDriver.manage().getCookieNamed(cacheKey) == null))
+      RelatedCacheKeys.FullSet.foreach(cacheKey => {
+        webDriver.manage().getCookieNamed(cacheKey) should equal(null)
+      })
     }
   }
 

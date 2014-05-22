@@ -21,7 +21,6 @@ final class FakeResponse(
 }
 
 object FakeResponse {
-
   def apply(status: Int,
             statusText: String = "",
             headers: Map[String, String] = Map.empty,
