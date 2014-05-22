@@ -73,22 +73,21 @@
 */}
 <p>@Messages("disposal_disposeconfirmation.exkeeper")</p>
 
-@{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
-@form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.newDisposal) {
-    <div class="form-steps">
-        <button id="@newDisposalId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
-        <a id="@exitDisposalId" class="button" href="/">@Messages("disposal_disposeconfirmation.exitbutton")</a>
+<div class="dispose-success">
+    @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
+    @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.newDisposal) {
+        <div class="form-steps">
+            <button id="@newDisposalId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
+            <a id="@exitDisposalId" class="button" href="/">@Messages("disposal_disposeconfirmation.exitbutton")</a>
 
-        @{/* TODO not yet a user story */}
-        <a class="button-not-implemented" aria-disabled="true">@Messages("global.buttonnavprint")</a>
+            @{/* TODO not yet a user story */}
+            <a class="button-not-implemented" aria-disabled="true">@Messages("global.buttonnavprint")</a>
 
-        <br />
+            <br />
 
-        @{/* TODO URL tbc */}
-        <a href="#" class="button-text">@Messages("disposal_disposeconfirmation.survey")</a>
-    </div>
-}
-  
-  
-    
+            @{/* TODO URL tbc */}
+            <a href="#" class="button-text">@Messages("disposal_disposeconfirmation.survey")</a>
+        </div>
+    }
+</div>
 }
