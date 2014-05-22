@@ -20,6 +20,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
       def cacheSetup()(implicit webDriver: WebDriver) =
         CookieFactoryForUISpecs.setupTradeDetailsIntegration().
           businessChooseYourAddressIntegration().
+          enterAddressManuallyIntegration().
           dealerDetailsIntegration().
           vehicleDetailsModelIntegration().
           disposeFormModelIntegration().
