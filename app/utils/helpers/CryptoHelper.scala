@@ -19,6 +19,7 @@ import ExecutionContext.Implicits.global
 object CryptoHelper {
 
   private val encryptCookies = getProperty("encryptCookies", default = true)
+  private val secureCookies = getProperty("secureCookies", default = true)
 
   private def sessionSecretKeyCookieName(implicit cookieNameHashing: CookieNameHashing): String = {
     cookieNameHashing.hash("FE291934-66BD-4500-B27F-517C7D77F26B")
@@ -57,8 +58,8 @@ object CryptoHelper {
 
   def createCookie(name: String, value: String) = Cookie(name = name,
     value = value,
-    maxAge = Some(cookieMaxAge)/*,
-    secure = true*/
+    maxAge = Some(cookieMaxAge),
+    secure = secureCookies
   )
 
   def handleApplicationSecretChange(implicit request: RequestHeader): Future[SimpleResult] = discardAllCookies
