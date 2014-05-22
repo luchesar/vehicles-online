@@ -208,6 +208,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
   }
 
   private def disposalAddressDto(sourceAddress: AddressViewModel): DisposalAddressDto = {
+    // TODO US66 check the assumptions made about things always being present as I'm sure Matt has seen OS return some addresses without this many commas.
   // The last two address lines are always post town and postcode
     val postAddressLines = sourceAddress.address.dropRight(2)
     val postTown = sourceAddress.address.takeRight(2).head

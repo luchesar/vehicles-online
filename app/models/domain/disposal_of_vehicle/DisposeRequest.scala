@@ -12,5 +12,5 @@ final case class DisposeRequest(referenceNumber: String,
                           ipAddress: Option[String] = None)
 
 object DisposeRequest {
-  implicit val JsonFormat = Json.format[DisposeRequest]
+  implicit val JsonFormat = Json.format[DisposeRequest] // TODO US66 if we only ever write and never read then we can change the 'Json.format' to 'Json.writes' to reduce the compilation.
 }

@@ -5,5 +5,5 @@ import play.api.libs.json.Json
 final case class DisposeResponse (transactionId: String, registrationNumber: String, auditId: String, responseCode: Option[String] = None)
 
 object DisposeResponse{
-  implicit val JsonFormat = Json.format[DisposeResponse]
+  implicit val JsonFormat = Json.format[DisposeResponse] // TODO US66 if we only ever read and never write then we can change the 'Json.format' to 'Json.reads' to reduce the compilation.
 }

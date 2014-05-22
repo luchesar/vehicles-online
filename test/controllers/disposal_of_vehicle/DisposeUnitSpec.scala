@@ -109,7 +109,9 @@ final class DisposeUnitSpec extends UnitSpec {
       val traderModel = TraderDetailsModel(traderName, traderAddress)
       val disposeClient = new disposal_of_vehicle.Dispose(mock[DisposeService], dateServiceStubbed())(noCookieEncryption, noCookieNameHashing)
       val disposeResponse = buildDisposeMicroServiceRequest(disposeModel, traderModel)
-
+// TODO US66 This isn't testing production code (disposeClient), it is running on a test helper! For this test to have
+// any value you need to call disposeController().submit(request), and if the intention is to check the cookie was
+// written with the correct values then you must read back the cookie.
       disposeResponse.referenceNumber should equal(referenceNumber)
       disposeResponse.registrationNumber should equal(registrationNumber)
       disposeResponse.traderName should equal(traderName)
