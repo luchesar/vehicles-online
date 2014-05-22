@@ -20,6 +20,7 @@ object CryptoHelper {
 
   final val CookieNameFromPayloadSize = 40 // Sha1 hash produces 160 bit (20 byte) hash value. As a hex number is 40 digits long
   private val encryptCookies = getProperty("encryptCookies", default = true)
+  private val secureCookies = getProperty("secureCookies", default = true)
 
   private def sessionSecretKeyCookieName(implicit cookieNameHashing: CookieNameHashing): String = {
     cookieNameHashing.hash("FE291934-66BD-4500-B27F-517C7D77F26B")
@@ -65,8 +66,8 @@ object CryptoHelper {
 
   def createCookie(name: String, value: String) = Cookie(name = name,
     value = value,
-    maxAge = Some(cookieMaxAge)/*,
-    secure = true*/
+    maxAge = Some(cookieMaxAge),
+    secure = secureCookies
   )
 
   def handleApplicationSecretChange(implicit request: RequestHeader): Future[SimpleResult] = discardAllCookies
