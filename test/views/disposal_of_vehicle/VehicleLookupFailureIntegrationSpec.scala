@@ -27,7 +27,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
     "redirect to setuptrade details if only VehicleLookupFormModelCache is populated" in new WebBrowser {
       go to BeforeYouStartPage
-      CookieFactoryForUISpecs.vehicleLookupFormModelIntegration()
+      CookieFactoryForUISpecs.vehicleLookupFormModel()
 
       go to VehicleLookupFailurePage
 
@@ -36,7 +36,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
     "redirect to setuptrade details if only dealerDetails cache is populated" in new WebBrowser {
       go to BeforeYouStartPage
-      CookieFactoryForUISpecs.dealerDetailsIntegration()
+      CookieFactoryForUISpecs.dealerDetails()
 
       go to VehicleLookupFailurePage
 
@@ -79,6 +79,6 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
-      dealerDetailsIntegration().
-      vehicleLookupFormModelIntegration()
+      dealerDetails().
+      vehicleLookupFormModel()
 }

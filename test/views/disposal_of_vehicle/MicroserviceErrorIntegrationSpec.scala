@@ -50,6 +50,6 @@ final class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
-      setupTradeDetailsIntegration().
-      dealerDetailsIntegration()
+      setupTradeDetails().
+      dealerDetails()
 }

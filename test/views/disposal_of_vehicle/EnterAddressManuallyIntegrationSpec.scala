@@ -59,5 +59,5 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.setupTradeDetailsIntegration()
+    CookieFactoryForUISpecs.setupTradeDetails()
 }

@@ -37,11 +37,11 @@ final class ErrorIntegrationSpec extends UiSpec with TestHarness {
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
-      setupTradeDetailsIntegration().
-      businessChooseYourAddressIntegration().
-      dealerDetailsIntegration().
-      vehicleDetailsModelIntegration().
-      disposeFormModelIntegration().
-      disposeTransactionIdIntegration().
-      vehicleRegistrationNumberIntegration()
+      setupTradeDetails().
+      businessChooseYourAddress().
+      dealerDetails().
+      vehicleDetailsModel().
+      disposeFormModel().
+      disposeTransactionId().
+      vehicleRegistrationNumber()
 }

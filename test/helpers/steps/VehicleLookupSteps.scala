@@ -73,8 +73,8 @@ final class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBro
     go to BeforeYouStartPage
 
     CookieFactoryForUISpecs
-      .setupTradeDetailsIntegration()
-      .dealerDetailsIntegration()
+      .setupTradeDetails()
+      .dealerDetails()
 
     go to VehicleLookupPage
   }
