@@ -22,7 +22,7 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when no vehicleDetailsModel is cached" in new WebBrowser {
       go to BeforeYouStartPage
-      CookieFactoryForUISpecs.dealerDetailsIntegration()
+      CookieFactoryForUISpecs.dealerDetails()
 
       go to DisposePage
 
@@ -31,7 +31,7 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
     "redirect when no businessChooseYourAddress is cached" in new WebBrowser {
       go to BeforeYouStartPage
-      CookieFactoryForUISpecs.vehicleDetailsModelIntegration()
+      CookieFactoryForUISpecs.vehicleDetailsModel()
 
       go to DisposePage
 
@@ -49,7 +49,7 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
     "display DisposeSuccess page on correct submission" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup().
-        vehicleLookupFormModelIntegration()
+        vehicleLookupFormModel()
 
       happyPath
 
@@ -122,7 +122,7 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
   private def cacheSetup()(implicit webDriver: WebDriver) = {
     CookieFactoryForUISpecs.
-      dealerDetailsIntegration().
-      vehicleDetailsModelIntegration()
+      dealerDetails().
+      vehicleDetailsModel()
   }
 }
