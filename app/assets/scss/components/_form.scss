@@ -190,6 +190,11 @@
 	   			max-width: 4em;
 	   		}
 	   	}
+	   	@media screen and (max-width: $device-x-small) {
+	   		select {
+	   			margin-bottom:7px;
+	   		}
+	   	}
 	}
 	
 	// styles a stacked address widget
