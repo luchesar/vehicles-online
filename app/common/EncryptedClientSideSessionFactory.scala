@@ -1,13 +1,13 @@
 package common
 
-import utils.helpers.Config.secureCookies
+import app.ConfigProperties._
 import play.api.mvc.Request
 import utils.helpers.{CookieEncryption, CookieNameHashing}
 import org.apache.commons.codec.binary.Hex
 import java.security.SecureRandom
+import com.google.inject.Inject
 import play.api.mvc.Cookie
 import play.api.mvc.SimpleResult
-import com.google.inject.Inject
 
 class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: CookieFlags,
                                                    encryption: CookieEncryption,
@@ -17,6 +17,8 @@ class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: Cookie
    * Session secret key must not expire before any other cookie that relies on it.
    */
   private final val SessionSecretKeyLifetime = None
+
+  val secureCookies: Boolean = getProperty("secureCookies", default = true)
 
   override def newSession(request: Request[_], result: SimpleResult): (SimpleResult, ClientSideSession) = {
     val sessionSecretKey = newSessionSecretKey
