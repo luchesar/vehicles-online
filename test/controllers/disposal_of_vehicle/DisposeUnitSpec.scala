@@ -90,38 +90,6 @@ final class DisposeUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-    "build a dispose request when cookie contains all required data" in {
-      val traderName = "TestTraderName"
-      val traderAddress = AddressViewModel(Some(12345), Seq("Line1Val", "AA11AA"))
-      val expectedDisposalAddress = DisposalAddressDto(Seq("LineVal1"),None, "AA11AA", Some(12345))
-      val referenceNumber = "01234567890"
-      val registrationNumber = "AA111AAA"
-      val mileage = Some(2000)
-      val dateOfDisposal = DayMonthYear(1, 1, 2014)
-      val expetedDateOfDisposal = "2014-01-01T00:00:00.000Z"
-      val expetedTimestamp = "2014-01-01T00:00:00.000Z"
-      val ipAddress = None
-
-      val noCookieEncryption = new NoEncryption with CookieEncryption
-      val noCookieNameHashing = new NoHash with CookieNameHashing
-
-      val disposeModel = DisposeModel("01234567890", "AA111AAA", dateOfDisposal, mileage)
-      val traderModel = TraderDetailsModel(traderName, traderAddress)
-      val disposeClient = new disposal_of_vehicle.Dispose(mock[DisposeService], dateServiceStubbed())(noCookieEncryption, noCookieNameHashing)
-      val disposeResponse = buildDisposeMicroServiceRequest(disposeModel, traderModel)
-// TODO US66 This isn't testing production code (disposeClient), it is running on a test helper! For this test to have
-// any value you need to call disposeController().submit(request), and if the intention is to check the cookie was
-// written with the correct values then you must read back the cookie.
-      disposeResponse.referenceNumber should equal(referenceNumber)
-      disposeResponse.registrationNumber should equal(registrationNumber)
-      disposeResponse.traderName should equal(traderName)
-      disposeResponse.disposalAddress.postCode should equal(expectedDisposalAddress.postCode)
-      disposeResponse.dateOfDisposal should equal(expetedDateOfDisposal)
-      disposeResponse.mileage should equal(mileage)
-      disposeResponse.transactionTimestamp should equal (expetedTimestamp)
-      disposeResponse.ipAddress should equal(ipAddress)
-    }
-
     "redirect to dispose success when a success message is returned by the fake microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
@@ -309,30 +277,6 @@ final class DisposeUnitSpec extends UnitSpec {
     val noCookieEncryption = new NoEncryption with CookieEncryption
     val noCookieNameHashing = new NoHash with CookieNameHashing
     new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())(noCookieEncryption, noCookieNameHashing)
-  }
-
-  private def buildDisposeMicroServiceRequest(disposeModel: DisposeModel, traderDetails: TraderDetailsModel): DisposeRequest = {
-    val dateTime = disposeModel.dateOfDisposal.toDateTime.get
-    val formatter = ISODateTimeFormat.dateTime()
-    val isoDateTimeString = formatter.print(dateTime)
-
-    DisposeRequest(referenceNumber = disposeModel.referenceNumber,
-      registrationNumber = disposeModel.registrationNumber,
-      traderName = traderDetails.traderName,
-      disposalAddress = disposalAddressDto(traderDetails.traderAddress),
-      dateOfDisposal = isoDateTimeString,
-      transactionTimestamp = ISODateTimeFormat.dateTime().print(dateTime),
-      mileage = disposeModel.mileage,
-      ipAddress = None)
-  }
-
-  private def disposalAddressDto(sourceAddress: AddressViewModel): DisposalAddressDto = {
-    // The last two address lines are always post town and postcode
-    val postAddressLines = sourceAddress.address.dropRight(2)
-    val postTown = sourceAddress.address.takeRight(2).head
-    val postcode = sourceAddress.address.last
-
-    DisposalAddressDto(postAddressLines, Some(postTown), postcode, sourceAddress.uprn)
   }
 
 }
