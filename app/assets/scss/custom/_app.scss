@@ -12,6 +12,9 @@
 	.section-content {
 		padding: 1.7em 1em 4em 1em;
       @include clearfix;
+      .ie & {
+      	display:inline-block;
+      }
 	}
 
 	h1 {
@@ -147,7 +150,6 @@
 		}
 	}	
 
-
 	.disposal-form {
 		.form-steps {
 			margin-top:-20px;
@@ -159,4 +161,10 @@
 			margin-top:20px;
 		}
 	}
+
+	/*failsafe (predominantly ie)*/
+	.dispose-success .form-steps br {	
+		clear:both;
+	}
+
 }

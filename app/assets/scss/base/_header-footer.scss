@@ -985,8 +985,19 @@ input:focus, textarea:focus, select:focus {
         text-decoration: none;
       }
     }
+
+    /*IE7-6 inline block, see:
+    http://stackoverflow.com/questions/5838454/inline-block-doesnt-work-in-internet-explorer-7-6*/
+    .nav-wrapper,
+    .copyright,
+    .nav-wrapper ul li {
+      display: inline-block;
+      *display: inline;
+      zoom: 1;
+    }
   }
 }
+
 
 @media (max-width: $device-small) {
   #footer {
