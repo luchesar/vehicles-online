@@ -4,13 +4,13 @@ import play.api.mvc._
 import models.domain.disposal_of_vehicle.{DisposeFormModel, TraderDetailsModel, VehicleDetailsModel}
 import play.api.Logger
 import com.google.inject.Inject
-import common.EncryptedCookieImplicits
+import common.{ClientSideSessionFactory, EncryptedCookieImplicits}
 import EncryptedCookieImplicits.RequestAdapter
 import mappings.disposal_of_vehicle.Dispose._
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 
-final class DisposeFailure @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class DisposeFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
 
   def present = Action { implicit request =>

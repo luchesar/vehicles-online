@@ -1,10 +1,9 @@
 package controllers.disposal_of_vehicle
 
 import helpers.UnitSpec
-import helpers.disposal_of_vehicle.Helper._
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import services.fakes.FakeAddressLookupService._
-import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
+import composition.{testInjector => injector}
 
 final class SetUpTradeDetailsFormSpec extends UnitSpec {
   "form" should {
@@ -74,9 +73,9 @@ final class SetUpTradeDetailsFormSpec extends UnitSpec {
 
   private def formWithValidDefaults(traderBusinessName: String = traderBusinessNameValid,
                                     traderPostcode: String = postcodeValid) = {
-    val noCookieEncryption = new NoEncryption with CookieEncryption
-    val noCookieNameHashing = new NoHash with CookieNameHashing
-    new SetUpTradeDetails()(noCookieEncryption, noCookieNameHashing).traderLookupForm.bind(
+
+    injector.getInstance(classOf[SetUpTradeDetails])
+      .traderLookupForm.bind(
       Map(
         TraderNameId -> traderBusinessName,
         TraderPostcodeId -> traderPostcode

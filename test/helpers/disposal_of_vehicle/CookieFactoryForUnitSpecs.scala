@@ -20,24 +20,26 @@ import services.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehic
 import services.fakes.FakeWebServiceImpl._
 import services.fakes.FakeAddressLookupService.postcodeValid
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
+import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
+import common.{CookieFlags, ClearTextClientSideSession}
+import composition.{testInjector => injector}
 import scala.Some
 import play.api.mvc.Cookie
-import utils.helpers.CryptoHelper
-import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
 
 object CookieFactoryForUnitSpecs {
+
+  implicit private val cookieFlags = injector.getInstance(classOf[CookieFlags])
+  private val session = new ClearTextClientSideSession()
+
   private def createCookie[A](key: String, value: A)(implicit tjs: Writes[A]): Cookie = {
-    val valueAsString = Json.toJson(value).toString()
-    val cookie = CryptoHelper.createCookie(name = key,
-      value = valueAsString)
-    assert(cookie.maxAge.get > 0, "MaxAge is an option, and in testing we are not setting maxAge, so our understanding " +
-      s"is that a Cookie will be created with maxAge = None and therefore does not expire during a test. Value was: ${cookie.maxAge}")
-    cookie
+    val json = Json.toJson(value).toString()
+    val cookieName = session.nameCookie(key)
+    session.newCookie(cookieName, json)
   }
 
   private def createCookie[A](key: String, value: String): Cookie = {
-    CryptoHelper.createCookie(name = key,
-      value = value)
+    val cookieName = session.nameCookie(key)
+    session.newCookie(cookieName, value)
   }
 
   def seenCookieMessage() = {

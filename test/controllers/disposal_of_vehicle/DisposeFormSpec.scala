@@ -16,8 +16,10 @@ import services.dispose_service.{DisposeWebService, DisposeServiceImpl}
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeResponse
-import services.{DateService, DateServiceImpl}
-import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
+import services.DateService
+import scala.Some
+import common.ClientSideSessionFactory
+import composition.{testInjector => injector}
 
 final class DisposeFormSpec extends UnitSpec {
   "form" should {
@@ -142,9 +144,8 @@ final class DisposeFormSpec extends UnitSpec {
       new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
     })
     val disposeServiceImpl = new DisposeServiceImpl(ws)
-    val noCookieEncryption = new NoEncryption with CookieEncryption
-    val noCookieNameHashing = new NoHash with CookieNameHashing
-    new disposal_of_vehicle.Dispose( disposeServiceImpl, dateService)(noCookieEncryption, noCookieNameHashing)
+    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService)(clientSideSessionFactory)
   }
 
   private def formWithValidDefaults(mileage: String = mileageValid,

@@ -21,7 +21,9 @@ import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeWebServiceImpl._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import services.fakes.FakeAddressLookupService._
-import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
+import scala.Some
+import common.ClientSideSessionFactory
+import composition.{testInjector => injector}
 
 final class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {
@@ -286,9 +288,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new FakeResponse(status = fullResponse._1, fakeJson = responseAsJson)// Any call to a webservice will always return this successful response.
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
-    val noCookieEncryption = new NoEncryption with CookieEncryption
-    val noCookieNameHashing = new NoHash with CookieNameHashing
-    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)(noCookieEncryption, noCookieNameHashing)
+    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)(clientSideSessionFactory)
   }
 
   private val vehicleLookupError = {
@@ -297,9 +298,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       throw new IllegalArgumentException
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
-    val noCookieEncryption = new NoEncryption with CookieEncryption
-    val noCookieNameHashing = new NoHash with CookieNameHashing
-    new disposal_of_vehicle.VehicleLookup( vehicleLookupServiceImpl)(noCookieEncryption, noCookieNameHashing)
+    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    new disposal_of_vehicle.VehicleLookup( vehicleLookupServiceImpl)(clientSideSessionFactory)
   }
 
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = referenceNumberValid,

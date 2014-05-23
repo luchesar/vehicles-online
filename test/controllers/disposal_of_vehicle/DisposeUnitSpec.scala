@@ -11,15 +11,17 @@ import org.mockito.Mockito._
 import org.mockito.Matchers._
 import helpers.UnitSpec
 import services.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeService}
-import services.fakes.{FakeResponse}
+import services.fakes.FakeResponse
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import ExecutionContext.Implicits.global
-import services.{DateService, DateServiceImpl}
+import services.DateService
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import play.api.mvc.Cookies
-import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
+import scala.Some
+import common.ClientSideSessionFactory
+import composition.{testInjector => injector}
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
@@ -143,9 +145,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val disposeResponseThrows = mock[(Int, Option[DisposeResponse])]
       val mockWebServiceThrows = mock[DisposeService]
       when(mockWebServiceThrows.invoke(any[DisposeRequest])).thenReturn(Future.failed(new RuntimeException))
-      val noCookieEncryption = new NoEncryption with CookieEncryption
-      val noCookieNameHashing = new NoHash with CookieNameHashing
-      val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateServiceStubbed())(noCookieEncryption, noCookieNameHashing)
+      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateServiceStubbed())(clientSideSessionFactory)
       val result = dispose.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
@@ -260,8 +261,7 @@ final class DisposeUnitSpec extends UnitSpec {
       new FakeResponse(status = disposeServiceStatus, fakeJson = fakeJson) // Any call to a webservice will always return this successful response.
     })
     val disposeServiceImpl = new DisposeServiceImpl(ws)
-    val noCookieEncryption = new NoEncryption with CookieEncryption
-    val noCookieNameHashing = new NoHash with CookieNameHashing
-    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())(noCookieEncryption, noCookieNameHashing)
+    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())(clientSideSessionFactory)
   }
 }
