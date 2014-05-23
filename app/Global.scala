@@ -1,10 +1,8 @@
-import com.google.inject.Guice
 import com.typesafe.config.ConfigFactory
 import controllers.disposal_of_vehicle.routes
 import java.io.File
 import java.util.UUID
 import javax.crypto.BadPaddingException
-import composition.{DevModule, TestModule}
 import play.api._
 import play.api.Configuration
 import play.api.mvc._
