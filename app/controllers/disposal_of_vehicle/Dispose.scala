@@ -21,17 +21,19 @@ import org.joda.time.format.ISODateTimeFormat
 import services.dispose_service.DisposeService
 import services.DateService
 import models.domain.disposal_of_vehicle.DisposeFormModel
-import play.api.data.FormError
-import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.DisposeModel
-import models.domain.disposal_of_vehicle.DisposeViewModel
 import mappings.disposal_of_vehicle.Dispose.DateOfDisposalYearsIntoThePast
 import scala.language.postfixOps
 import EncryptedCookieImplicits.RequestAdapter
 import EncryptedCookieImplicits.SimpleResultAdapter
 import EncryptedCookieImplicits.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
+import scala.Some
+import play.api.mvc.SimpleResult
+import models.domain.disposal_of_vehicle.DisposeViewModel
+import play.api.data.FormError
+import play.api.mvc.Call
 
 final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -107,7 +109,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
   }
 
   private def disposeAction(webService: DisposeService, disposeFormModel: DisposeFormModel)(implicit request: Request[AnyContent]): Future[SimpleResult] = {
-    def callMicroService(disposeModel: DisposeModel) = {
+    def callMicroService(disposeModel: DisposeModel, traderDetailsModel: TraderDetailsModel) = {
       def nextPage(httpResponseCode: Int, response: Option[DisposeResponse]) = {
         // This makes the choice of which page to go to based on the first one it finds that is not None.
         response match {
@@ -116,7 +118,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         }
       }
 
-      val disposeRequest = buildDisposeMicroServiceRequest(disposeModel)
+      val disposeRequest = buildDisposeMicroServiceRequest(disposeModel, traderDetailsModel)
       webService.invoke(disposeRequest).map {
         case (httpResponseCode, response) => Logger.debug(s"Dispose micro-service call successful - response = $response")
 
@@ -144,18 +146,26 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       }
     }
 
-    def transactionTimestamp(nextPage: SimpleResult) = {
+      def transactionTimestamp(nextPage: SimpleResult) = {
       val transactionTimestamp = dateService.today.toDateTime.get
       val formatter = ISODateTimeFormat.dateTime()
       val isoDateTimeString = formatter.print(transactionTimestamp)
       nextPage.withEncryptedCookie(DisposeFormTimestampIdCacheKey, isoDateTimeString)
     }
 
-    def buildDisposeMicroServiceRequest(disposeModel: DisposeModel): DisposeRequest = {
+    def buildDisposeMicroServiceRequest(disposeModel: DisposeModel, traderDetails: TraderDetailsModel): DisposeRequest = {
       val dateTime = disposeModel.dateOfDisposal.toDateTime.get
       val formatter = ISODateTimeFormat.dateTime()
       val isoDateTimeString = formatter.print(dateTime)
-      DisposeRequest(referenceNumber = disposeModel.referenceNumber, registrationNumber = disposeModel.registrationNumber, dateOfDisposal = isoDateTimeString, mileage = disposeModel.mileage)
+
+      DisposeRequest(referenceNumber = disposeModel.referenceNumber,
+        registrationNumber = disposeModel.registrationNumber,
+        traderName = traderDetails.traderName,
+        disposalAddress = disposalAddressDto(traderDetails.traderAddress),
+        dateOfDisposal = isoDateTimeString,
+        transactionTimestamp = ISODateTimeFormat.dateTime().print(dateService.today.toDateTime.get),
+        mileage = disposeModel.mileage,
+        ipAddress = None) // TODO : US105 should provide this value
     }
 
     def handleResponseCode(disposeResponseCode: String): Call = {
@@ -179,16 +189,32 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       }
     }
 
-    request.getEncryptedCookie[VehicleLookupFormModel] match {
-      case Some(vehicleLookupFormModel) =>
-        val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,
-          registrationNumber = vehicleLookupFormModel.registrationNumber,
+    (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[VehicleLookupFormModel]) match {
+      case (Some(traderDetails), Some(vehicleLookup)) =>  {
+        val disposeModel = DisposeModel(referenceNumber = vehicleLookup.referenceNumber,
+          registrationNumber = vehicleLookup.registrationNumber,
           dateOfDisposal = disposeFormModel.dateOfDisposal, mileage = disposeFormModel.mileage)
-        callMicroService(disposeModel)
-      case _ => Future {
+        callMicroService(disposeModel, traderDetails)
+      }
+      case (None, _) => Future {
         Logger.error("could not find dealer details in cache on Dispose submit")
+        Redirect(routes.SetUpTradeDetails.present())
+      }
+      case (_, None) =>  Future {
+        Logger.error("could not find vehicle details in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present())
       }
     }
   }
+
+  private def disposalAddressDto(sourceAddress: AddressViewModel): DisposalAddressDto = {
+    // TODO US66 check the assumptions made about things always being present as I'm sure Matt has seen OS return some addresses without this many commas.
+  // The last two address lines are always post town and postcode
+    val postAddressLines = sourceAddress.address.dropRight(2)
+    val postTown = sourceAddress.address.takeRight(2).head
+    val postcode = sourceAddress.address.last
+
+    DisposalAddressDto(postAddressLines, Some(postTown), postcode, sourceAddress.uprn)
+  }
+
 }
