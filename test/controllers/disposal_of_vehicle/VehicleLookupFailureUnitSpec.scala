@@ -5,7 +5,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
-import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
+import composition.{testInjector => injector}
 
 final class VehicleLookupFailureUnitSpec extends UnitSpec {
   "present" should {
@@ -66,8 +66,6 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
   }
   
   private val vehicleLookupFailure = {
-    val noCookieEncryption = new NoEncryption with CookieEncryption
-    val noCookieNameHashing = new NoHash with CookieNameHashing
-    new VehicleLookupFailure()(noCookieEncryption, noCookieNameHashing)
+    injector.getInstance(classOf[VehicleLookupFailure])
   }
 }

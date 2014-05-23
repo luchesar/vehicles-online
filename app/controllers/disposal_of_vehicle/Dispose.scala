@@ -1,6 +1,6 @@
 package controllers.disposal_of_vehicle
 
-import common.EncryptedCookieImplicits
+import _root_.common.{ClientSideSessionFactory, EncryptedCookieImplicits}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
@@ -35,7 +35,7 @@ import models.domain.disposal_of_vehicle.DisposeViewModel
 import play.api.data.FormError
 import play.api.mvc.Call
 
-final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   val disposeForm = Form(
     mapping(

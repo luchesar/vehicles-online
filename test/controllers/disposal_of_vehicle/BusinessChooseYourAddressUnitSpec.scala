@@ -11,7 +11,9 @@ import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeAddressLookupService.traderBusinessNameValid
 import services.fakes.FakeWebServiceImpl
 import services.fakes.FakeWebServiceImpl._
-import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
+import scala.Some
+import common.ClientSideSessionFactory
+import composition.{testInjector => injector}
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
@@ -118,9 +120,8 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     val responseUprn = if (uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
-    val noCookieEncryption = new NoEncryption with CookieEncryption
-    val noCookieNameHashing = new NoHash with CookieNameHashing
-    new BusinessChooseYourAddress(addressLookupService)(noCookieEncryption, noCookieNameHashing)
+    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    new BusinessChooseYourAddress(addressLookupService)(clientSideSessionFactory)
   }
 
   private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {

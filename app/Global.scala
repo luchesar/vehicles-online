@@ -4,7 +4,7 @@ import controllers.disposal_of_vehicle.routes
 import java.io.File
 import java.util.UUID
 import javax.crypto.BadPaddingException
-import modules.{DevModule, TestModule}
+import composition.{DevModule, TestModule}
 import play.api._
 import play.api.Configuration
 import play.api.mvc._
@@ -31,27 +31,8 @@ import utils.helpers.CryptoHelper
  */
 
 object Global extends WithFilters(new GzipFilter()) with GlobalSettings {
-  // Play.isTest will evaluate to true when you run "play test" from the command line
-  // If play is being run to execute the tests then use the TestModule to provide fake
-  // implementations of traits otherwise use the DevModule to provide the real ones
-  /**
-   * Application configuration is in a hierarchy of files:
-   *
-   * application.conf
-   * /             |            \
-   * application.prod.conf    application.dev.conf    application.test.conf <- these can override and add to application.conf
-   *
-   * play test  <- test mode picks up application.test.conf
-   * play run   <- dev mode picks up application.dev.conf
-   * play start <- prod mode picks up application.prod.conf
-   *
-   * To override and stipulate a particular "conf" e.g.
-   * play -Dconfig.file=conf/application.test.conf run
-   */
-  private def module = if (Play.isTest) TestModule else DevModule
 
-  private lazy val injector = Guice.createInjector(module)
-
+  private lazy val injector = if (Play.isTest) composition.testInjector else composition.devInjector
 
   /**
    * Controllers must be resolved through the application context. There is a special method of GlobalSettings

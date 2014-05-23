@@ -8,13 +8,13 @@ import mappings.common.AddressAndPostcode._
 import models.domain.disposal_of_vehicle.{TraderDetailsModel, AddressViewModel, SetupTradeDetailsModel, EnterAddressManuallyModel}
 import utils.helpers.FormExtensions._
 import com.google.inject.Inject
-import common.EncryptedCookieImplicits
+import common.{ClientSideSessionFactory, EncryptedCookieImplicits}
 import EncryptedCookieImplicits.RequestAdapter
 import EncryptedCookieImplicits.SimpleResultAdapter
 import EncryptedCookieImplicits.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 
-final class EnterAddressManually @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   val form = Form(
     mapping(

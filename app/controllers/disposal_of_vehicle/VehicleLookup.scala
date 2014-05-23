@@ -17,13 +17,13 @@ import utils.helpers.FormExtensions._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import play.api.data.FormError
 import play.api.mvc.SimpleResult
-import common.EncryptedCookieImplicits
+import common.{ClientSideSessionFactory, EncryptedCookieImplicits}
 import EncryptedCookieImplicits.RequestAdapter
 import EncryptedCookieImplicits.SimpleResultAdapter
 import EncryptedCookieImplicits.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 
-final class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   val vehicleLookupForm = Form(
     mapping(

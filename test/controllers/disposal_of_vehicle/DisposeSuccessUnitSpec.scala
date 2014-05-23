@@ -5,8 +5,8 @@ import play.api.test.Helpers._
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
-import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
 import scala.Some
+import composition.{testInjector => injector}
 
 final class DisposeSuccessUnitSpec extends UnitSpec {
   "present" should {
@@ -208,9 +208,5 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
 
   private val actionNotAllowedMessage = "This action is not allowed"
 
-  private val disposeSuccess = {
-    val noCookieEncryption = new NoEncryption with CookieEncryption
-    val noCookieNameHashing = new NoHash with CookieNameHashing
-    new DisposeSuccess()(noCookieEncryption, noCookieNameHashing)
-  }
+  private val disposeSuccess = injector.getInstance(classOf[DisposeSuccess])
 }

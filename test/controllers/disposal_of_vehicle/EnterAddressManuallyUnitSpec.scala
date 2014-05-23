@@ -11,7 +11,7 @@ import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeAddressLookupService._
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
-import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
+import composition.{testInjector => injector}
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
   "present" should {
@@ -206,9 +206,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
   }
 
   private val enterAddressManually = {
-    val noCookieEncryption = new NoEncryption with CookieEncryption
-    val noCookieNameHashing = new NoHash with CookieNameHashing
-    new EnterAddressManually()(noCookieEncryption, noCookieNameHashing)
+    injector.getInstance(classOf[EnterAddressManually])
   }
 
 }

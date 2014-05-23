@@ -1,13 +1,12 @@
 package controllers.disposal_of_vehicle
 
 import play.api.mvc._
-import utils.helpers.{CookieNameHashing, CookieEncryption}
 import com.google.inject.Inject
-import common.EncryptedCookieImplicits
+import common.{ClientSideSessionFactory, EncryptedCookieImplicits}
 import EncryptedCookieImplicits.SimpleResultAdapter
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 
-final class BeforeYouStart @Inject()(implicit encryption: CookieEncryption, cookieNameHashing: CookieNameHashing) extends Controller {
+final class BeforeYouStart @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   def present = Action { implicit request =>
 

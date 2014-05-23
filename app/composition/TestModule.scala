@@ -1,4 +1,4 @@
-package modules
+package composition
 
 import app.ConfigProperties._
 import com.tzavellas.sse.guice.ScalaModule
@@ -9,6 +9,7 @@ import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebServiceImpl, VehicleLookupWebService}
 import services.dispose_service.{DisposeServiceImpl, DisposeWebServiceImpl, DisposeWebService, DisposeService}
 import utils.helpers._
+import common._
 
 object TestModule extends ScalaModule {
   /**
@@ -26,8 +27,8 @@ object TestModule extends ScalaModule {
     bind[DisposeWebService].to[FakeDisposeWebServiceImpl].asEagerSingleton()
     bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton()
     bind[DateService].to[FakeDateServiceImpl].asEagerSingleton()
-    bind[CookieEncryption].toInstance(new NoEncryption with CookieEncryption)
-    bind[CookieNameHashing].toInstance(new NoHash with CookieNameHashing)
+    bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
+    bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
   }
 
   private def ordnanceSurveyAddressLookup() = {

@@ -1,3 +1,4 @@
+
 package object app {
 
   import play.api.Play
@@ -24,5 +25,4 @@ package object app {
       case _ => default
     }
   }
-
 }

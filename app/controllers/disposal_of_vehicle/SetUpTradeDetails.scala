@@ -5,7 +5,7 @@ import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import mappings.disposal_of_vehicle.SetupTradeDetails._
-import common.EncryptedCookieImplicits
+import common.{ClientSideSessionFactory, EncryptedCookieImplicits}
 import EncryptedCookieImplicits.SimpleResultAdapter
 import mappings.common.Postcode._
 import utils.helpers.FormExtensions._
@@ -13,7 +13,7 @@ import com.google.inject.Inject
 import EncryptedCookieImplicits.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 
-final class SetUpTradeDetails @Inject()()(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   val traderLookupForm = Form(
     mapping(

@@ -23,4 +23,6 @@ object Config {
 
   // Cookie expiry
   val cookieMaxAge: Int = getProperty("cookieMaxAge", (30 minutes).toSeconds.toInt)
+
+  val secureCookies = getProperty("secureCookies", default = true)
 }

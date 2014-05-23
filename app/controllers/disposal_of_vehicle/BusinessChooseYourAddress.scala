@@ -1,7 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import play.api.mvc._
-import play.api.data.{FormError, Form}
+import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
 import models.domain.disposal_of_vehicle.{SetupTradeDetailsModel, TraderDetailsModel, BusinessChooseYourAddressModel}
@@ -12,8 +12,7 @@ import javax.inject.Inject
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 import services.address_lookup.AddressLookupService
-import common.EncryptedCookieImplicits
-import utils.helpers.{CookieNameHashing, CookieEncryption}
+import common.{ClientSideSessionFactory, EncryptedCookieImplicits}
 import utils.helpers.FormExtensions._
 import mappings.disposal_of_vehicle.EnterAddressManually._
 import play.api.data.FormError
@@ -21,7 +20,7 @@ import EncryptedCookieImplicits.RequestAdapter
 import EncryptedCookieImplicits.SimpleResultAdapter
 import EncryptedCookieImplicits.FormAdapter
 
-final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)(implicit encryption: CookieEncryption, hashing: CookieNameHashing) extends Controller {
+final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   private def fetchAddresses(setupTradeDetailsModel: SetupTradeDetailsModel) = {
     val postcode = setupTradeDetailsModel.traderPostcode

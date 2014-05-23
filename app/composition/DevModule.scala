@@ -1,4 +1,4 @@
-package modules
+package composition
 
 import app.ConfigProperties._
 import com.tzavellas.sse.guice.ScalaModule
@@ -8,6 +8,7 @@ import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, 
 import services.dispose_service.{DisposeWebServiceImpl, DisposeWebService, DisposeServiceImpl, DisposeService}
 import services.{DateServiceImpl, DateService}
 import utils.helpers._
+import common._
 
 /**
  * Provides real implementations of traits
@@ -32,16 +33,16 @@ object DevModule extends ScalaModule {
     bind[DisposeWebService].to[DisposeWebServiceImpl].asEagerSingleton()
     bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton()
     bind[DateService].to[DateServiceImpl].asEagerSingleton()
+    bind[CookieFlags].to[CookieFlagsFromConfig].asEagerSingleton()
 
     val encryptCookies = getProperty("encryptCookies", default = true)
     if (encryptCookies) {
       bind[CookieEncryption].toInstance(new AesEncryption with CookieEncryption)
       bind[CookieNameHashing].toInstance(new Sha1Hash with CookieNameHashing)
+      bind[ClientSideSessionFactory].to[EncryptedClientSideSessionFactory].asEagerSingleton()
     } else {
-      bind[CookieEncryption].toInstance(new NoEncryption with CookieEncryption)
-      bind[CookieNameHashing].toInstance(new NoHash with CookieNameHashing)
+      bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
     }
-
   }
 
   private def ordnanceSurveyAddressLookup() = {

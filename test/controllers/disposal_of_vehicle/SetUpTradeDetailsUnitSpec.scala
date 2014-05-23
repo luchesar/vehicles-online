@@ -8,7 +8,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeAddressLookupService._
 import play.api.mvc.Cookies
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import utils.helpers.{CookieNameHashing, NoHash, CookieEncryption, NoEncryption}
+import composition.{testInjector => injector}
 
 final class SetUpTradeDetailsUnitSpec extends UnitSpec {
   "present" should {
@@ -88,8 +88,6 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
   }
 
   private val setUpTradeDetails = {
-    val noCookieEncryption = new NoEncryption with CookieEncryption
-    val noCookieNameHashing = new NoHash with CookieNameHashing
-    new SetUpTradeDetails()(noCookieEncryption, noCookieNameHashing)
+    injector.getInstance(classOf[SetUpTradeDetails])
   }
 }
