@@ -92,7 +92,11 @@
 		}
 		dd {
 			overflow: hidden;
+
 			@media screen and (max-width: $device-small) {
+				clear:both;
+			}
+			.ie6 & {	
 				clear:both;
 			}
 		}
@@ -138,7 +142,6 @@
 
 	//vehicle lookup/find vehicle details
 	.TraderDetails dd {
-		/*ie6 fallback*/
 		.ie6 & {	
 			clear:both;
 		}

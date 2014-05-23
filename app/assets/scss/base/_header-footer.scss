@@ -704,6 +704,10 @@ input:focus, textarea:focus, select:focus {
   .cookie-message-wrapper {
     margin:0 auto;
   }
+  .ie6 & {
+     padding-left:1em;
+     padding-right:1em;
+  }
 }
 
 #global-browser-prompt {
