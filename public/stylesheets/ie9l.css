@@ -1,5 +1,6 @@
 /*prevent responsive styles*/
 #global-header .header-wrapper,
+.cookie-message-wrapper,
 .vehicles-online,
 #footer .footer-wrapper {
 	width:980px;
