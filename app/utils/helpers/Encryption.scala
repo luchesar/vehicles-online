@@ -32,6 +32,11 @@ class Sha1Hash extends Hashing {
   override val digestStringLength: Int = CharactersInHexedSha1
 }
 
+class NoHash extends Hashing {
+  override def hash(clearText: String): String = clearText
+  override val digestStringLength: Int = 0
+}
+
 class AesEncryption extends Encryption {
   // TODO decide which strength of AES encryption to use
   // in order to use AES 256 bit (uses a 32 byte key (32 * 8 = 256 bit)) you must install the unlimited strength policy jar
@@ -91,4 +96,10 @@ class AesEncryption extends Encryption {
   }
 
   private def getConfig(key: String) = Play.maybeApplication.flatMap(_.configuration.getString(key))
+
+}
+
+class NoEncryption extends Encryption {
+  override def decrypt(clearText: String): String = clearText
+  override def encrypt(clearText: String): String = clearText
 }
