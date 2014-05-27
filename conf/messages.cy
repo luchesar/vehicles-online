@@ -166,6 +166,7 @@ disposal_businessChooseYourAddress_title = Dewiswch eich cyfeiriad masnach
 disposal_businessChooseYourAddress_legend = Manylion sefydlu masnach
 disposal_businessChooseYourAddress_businessName_label = Enw masnachwr
 disposal_businessChooseYourAddress_businessName = {0}
+disposal_businessChooseYourAddress_postcode_label = Cod post
 disposal_businessChooseYourAddress_businessAddress_label = Gyfeiriad masnachwr
 disposal_businessChooseYourAddress_addressSelect = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress_addressSelect_label = Dewiswch eich cyfeiriad

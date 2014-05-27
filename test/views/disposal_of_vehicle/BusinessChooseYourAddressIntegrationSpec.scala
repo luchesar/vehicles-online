@@ -10,6 +10,7 @@ import pages.disposal_of_vehicle._
 import services.fakes.FakeAddressLookupService.postcodeValid
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import mappings.disposal_of_vehicle.EnterAddressManually._
+import services.fakes.FakeAddressLookupService
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -28,8 +29,12 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
     "not display 'No addresses found' message when address service returns addresses" in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
-
       page.source.contains("No addresses found for that postcode") should equal(false) // Does not contain message
+    }
+
+    "should display the postcode entered in the previous page" in new WebBrowser {
+      SetupTradeDetailsPage.happyPath()
+      page.source.contains(FakeAddressLookupService.postcodeValid) should equal(true)
     }
 
     "display expected addresses in dropdown when address service returns addresses" in new WebBrowser {
