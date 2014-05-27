@@ -34,7 +34,7 @@ object CookieFactoryForUISpecs {
 
   def businessChooseYourAddress(uprn: Long = traderUprnValid)(implicit webDriver: WebDriver) = {
     val key = BusinessChooseYourAddressCacheKey
-    val value = BusinessChooseYourAddressModel(uprnSelected = uprn)
+    val value = BusinessChooseYourAddressModel(uprnSelected = uprn.toString)
     addCookie(key, value)
     this
   }

@@ -10,7 +10,7 @@ import common.ClientSideSessionFactory
 class BusinessChooseYourAddressFormSpec extends UnitSpec {
   "form" should {
     "accept when all fields contain valid responses" in {
-      formWithValidDefaults().get.uprnSelected should equal(traderUprnValid)
+      formWithValidDefaults().get.uprnSelected should equal(traderUprnValid.toString)
     }
   }
 
@@ -19,7 +19,7 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
       val errors = formWithValidDefaults(addressSelected = "").errors
       errors.length should equal(1)
       errors(0).key should equal(AddressSelectId)
-      errors(0).message should equal("error.number")
+      errors(0).message should equal("error.required")
     }
   }
 
