@@ -44,6 +44,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
             addresses =>
               Ok(views.html.disposal_of_vehicle.business_choose_your_address(form.fill(),
                 setupTradeDetailsModel.traderBusinessName,
+                setupTradeDetailsModel.traderPostcode,
                 addresses))
           }
         case None => Future {
@@ -62,7 +63,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
                 replaceError(AddressSelectId, "error.required", FormError(key = AddressSelectId, message = "disposal_businessChooseYourAddress.address.required", args = Seq.empty)).
                 distinctErrors
 
-              BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithReplacedErrors, setupTradeDetailsModel.traderBusinessName, addresses))
+              BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithReplacedErrors, setupTradeDetailsModel.traderBusinessName, setupTradeDetailsModel.traderPostcode, addresses))
           }
           case None => Future {
             Logger.error("Failed to find dealer details in cache for submit formWithErrors, redirecting...")

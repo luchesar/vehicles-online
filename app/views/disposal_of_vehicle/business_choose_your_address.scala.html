@@ -1,4 +1,4 @@
-@(businessChooseYourAddressForm: Form[models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel], traderBusinessName: String, dropDownOptions: Seq[(String, String)])(implicit lang: Lang)
+@(businessChooseYourAddressForm: Form[models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel], traderBusinessName: String, traderPostcode: String, dropDownOptions: Seq[(String, String)])(implicit lang: Lang)
 
 @import helper._
 @import utils.helpers.BaseTemplate._
@@ -20,6 +20,8 @@
     	<dl class="summary-detail-list">
         	<dt>@Messages("disposal_businessChooseYourAddress_businessName_label")</dt>
         	<dd>@Messages("disposal_businessChooseYourAddress_businessName", traderBusinessName)</dd>
+            <dt>@Messages("disposal_businessChooseYourAddress_postcode_label")</dt>
+            <dd>@traderPostcode</dd>
     	</dl>
         	
         @if(dropDownOptions.isEmpty) {
