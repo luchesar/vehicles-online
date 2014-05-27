@@ -22,7 +22,7 @@ import services.fakes.FakeAddressLookupService.postcodeValid
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
 import common.{CookieFlags, ClearTextClientSideSession}
-import composition.{testInjector => injector}
+import composition.TestComposition.{testInjector => injector}
 import scala.Some
 import play.api.mvc.Cookie
 

@@ -5,7 +5,7 @@ import mappings.common.AddressAndPostcode._
 import mappings.common.AddressLines._
 import mappings.common.Postcode._
 import services.fakes.FakeAddressLookupService._
-import composition.{testInjector => injector}
+import composition.TestComposition.{testInjector => injector}
 
 final class EnterAddressManuallyFormSpec extends UnitSpec {
   "form" should {

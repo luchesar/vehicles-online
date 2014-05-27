@@ -1,4 +1,6 @@
+import com.google.inject.{Guice, Injector}
 import com.typesafe.config.ConfigFactory
+import composition.DevModule
 import controllers.disposal_of_vehicle.routes
 import java.io.File
 import java.util.UUID
@@ -12,6 +14,7 @@ import play.filters.gzip._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.CryptoHelper
+import composition.Composition._
 
 /**
  * Application configuration is in a hierarchy of files:
@@ -28,9 +31,9 @@ import utils.helpers.CryptoHelper
  * play -Dconfig.file=conf/application.test.conf run
  */
 
-object Global extends WithFilters(new GzipFilter()) with GlobalSettings {
+object Global extends WithFilters(filters) with GlobalSettings {
 
-  private lazy val injector = composition.devInjector
+  private lazy val injector: Injector = devInjector
 
   /**
    * Controllers must be resolved through the application context. There is a special method of GlobalSettings

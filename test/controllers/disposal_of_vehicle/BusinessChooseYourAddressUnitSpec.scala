@@ -12,7 +12,7 @@ import services.fakes.FakeAddressLookupService.traderBusinessNameValid
 import services.fakes.FakeWebServiceImpl
 import services.fakes.FakeWebServiceImpl._
 import common.ClientSideSessionFactory
-import composition.{testInjector => injector}
+import composition.TestComposition.{testInjector => injector}
 import common.EncryptedCookieImplicitsHelper.SimpleResultAdapter
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {

@@ -10,10 +10,11 @@ import play.api.Configuration
 import play.api.mvc._
 import play.api.mvc.Results._
 import play.api.Play.current
-import play.filters.gzip._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.CryptoHelper
+import com.google.inject.Injector
+import composition.TestComposition._
 
 /**
  * Application configuration is in a hierarchy of files:
@@ -30,9 +31,8 @@ import utils.helpers.CryptoHelper
  * play -Dconfig.file=conf/application.test.conf run
  */
 
-object TestGlobal extends WithFilters(new GzipFilter()) with GlobalSettings {
-
-  private lazy val injector = composition.testInjector
+object TestGlobal extends WithFilters(filters) with GlobalSettings {
+  private lazy val injector: Injector = testInjector
 
   /**
    * Controllers must be resolved through the application context. There is a special method of GlobalSettings

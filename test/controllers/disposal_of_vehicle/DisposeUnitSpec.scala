@@ -19,7 +19,7 @@ import services.DateService
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import common.ClientSideSessionFactory
-import composition.{testInjector => injector}
+import composition.TestComposition.{testInjector => injector}
 import common.EncryptedCookieImplicitsHelper.SimpleResultAdapter
 
 final class DisposeUnitSpec extends UnitSpec {

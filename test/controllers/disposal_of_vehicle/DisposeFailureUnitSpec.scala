@@ -4,7 +4,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import play.api.test.Helpers._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
-import composition.{testInjector => injector}
+import composition.TestComposition.{testInjector => injector}
 
 final class DisposeFailureUnitSpec extends UnitSpec {
   "present" should {

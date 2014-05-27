@@ -1,6 +1,10 @@
-import com.google.inject.Guice
+package composition
 
-package object composition {
+import com.google.inject.Guice
+import play.api.mvc.EssentialFilter
+import play.filters.gzip.GzipFilter
+
+object Composition {
   /**
    * Application configuration is in a hierarchy of files:
    *
@@ -16,5 +20,6 @@ package object composition {
    * play -Dconfig.file=conf/application.test.conf run
    */
   lazy val devInjector = Guice.createInjector(DevModule)
-  lazy val testInjector = Guice.createInjector(TestModule)
+
+  lazy val filters: EssentialFilter = new GzipFilter()
 }

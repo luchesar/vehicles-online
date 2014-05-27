@@ -2,7 +2,7 @@ package common
 
 import play.api.test.{FakeRequest, WithApplication}
 import utils.helpers._
-import composition.{testInjector => injector}
+import composition.TestComposition.{testInjector => injector}
 import helpers.UnitSpec
 import controllers.disposal_of_vehicle.SetUpTradeDetails
 import common.EncryptedCookieImplicitsHelper.SimpleResultAdapter

@@ -4,7 +4,7 @@ import helpers.UnitSpec
 import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
-import composition.{testInjector => injector}
+import composition.TestComposition.{testInjector => injector}
 
 final class BeforeYouStartUnitSpec extends UnitSpec {
   "present" should {

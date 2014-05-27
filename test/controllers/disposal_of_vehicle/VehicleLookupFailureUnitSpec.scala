@@ -5,7 +5,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
-import composition.{testInjector => injector}
+import composition.TestComposition.{testInjector => injector}
 
 final class VehicleLookupFailureUnitSpec extends UnitSpec {
   "present" should {

@@ -6,7 +6,7 @@ import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
 import scala.Some
-import composition.{testInjector => injector}
+import composition.TestComposition.{testInjector => injector}
 
 final class DisposeSuccessUnitSpec extends UnitSpec {
   "present" should {

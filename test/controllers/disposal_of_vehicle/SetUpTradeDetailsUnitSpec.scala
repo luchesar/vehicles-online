@@ -8,7 +8,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeAddressLookupService._
 import play.api.mvc.Cookies
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import composition.{testInjector => injector}
+import composition.TestComposition.{testInjector => injector}
 import common.EncryptedCookieImplicitsHelper.SimpleResultAdapter
 
 final class SetUpTradeDetailsUnitSpec extends UnitSpec {

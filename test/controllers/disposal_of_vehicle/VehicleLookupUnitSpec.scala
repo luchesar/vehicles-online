@@ -21,7 +21,7 @@ import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebServic
 import services.fakes.FakeAddressLookupService._
 import scala.Some
 import common.ClientSideSessionFactory
-import composition.{testInjector => injector}
+import composition.TestComposition.{testInjector => injector}
 import common.EncryptedCookieImplicitsHelper.SimpleResultAdapter
 
 final class VehicleLookupUnitSpec extends UnitSpec {

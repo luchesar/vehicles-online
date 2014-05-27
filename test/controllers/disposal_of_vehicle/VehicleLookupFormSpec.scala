@@ -15,7 +15,7 @@ import services.fakes.FakeResponse
 import services.fakes.FakeVehicleLookupWebService._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import common.ClientSideSessionFactory
-import composition.{testInjector => injector}
+import composition.TestComposition.{testInjector => injector}
 
 final class VehicleLookupFormSpec extends UnitSpec {
   "form" should {
