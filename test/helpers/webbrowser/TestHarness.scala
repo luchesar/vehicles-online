@@ -18,9 +18,7 @@ trait TestHarness {
   abstract class WebBrowser(val app: FakeApplication = fakeAppWithTestGlobal, val port: Int = 9001)
       extends Around with Scope with WebBrowserDSL {
 
-    //implicit def implicitApp = app
-    //implicit def implicitPort: Port = port
-    implicit lazy val webDriver: WebDriver = WebDriverFactory.webDriver
+    implicit protected lazy val webDriver: WebDriver = WebDriverFactory.webDriver
 
     override def around[T: AsResult](t: => T): Result = {
       try {
