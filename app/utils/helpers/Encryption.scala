@@ -23,9 +23,9 @@ trait Hashing {
 trait CookieNameHashing extends Hashing
 
 class Sha1Hash extends Hashing {
-  final val Sha1SizeInBits = 160
-  final val BitsPerHexCharacter = 4
-  final val CharactersInHexedSha1 = Sha1SizeInBits / BitsPerHexCharacter
+  private final val Sha1SizeInBits = 160
+  private final val BitsPerHexCharacter = 4
+  private final val CharactersInHexedSha1 = Sha1SizeInBits / BitsPerHexCharacter
 
   override def hash(clearText: String): String = Codecs.sha1(clearText)
 

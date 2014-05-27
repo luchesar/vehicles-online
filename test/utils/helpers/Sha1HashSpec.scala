@@ -3,18 +3,22 @@ package utils.helpers
 import org.scalatest.{Matchers, WordSpec}
 import play.api.test.WithApplication
 
-final class HashSpec extends WordSpec with Matchers {
-  "encryptCookieName" should {
-    "return an encrypted string" in new WithApplication {
-      val sha1Hash = new Sha1Hash
+final class Sha1HashSpec extends WordSpec with Matchers {
+  val sha1Hash = new Sha1Hash // Sharing immutable fixture objects via instance variables
+
+  "Sha1Hash" should {
+    "return a hashed string" in new WithApplication {
       sha1Hash.hash(ClearText) should not equal ClearText
     }
 
     "returns the same hash repeatedly" in new WithApplication {
-      val sha1Hash = new Sha1Hash
       val first = sha1Hash.hash(ClearText)
       val second = sha1Hash.hash(ClearText)
       first should equal(second)
+    }
+
+    "return expected length for the digest" in new WithApplication {
+      sha1Hash.digestStringLength should equal(40)
     }
   }
 
