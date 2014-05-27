@@ -57,7 +57,7 @@ object CookieFactoryForUnitSpecs {
 
   def businessChooseYourAddress() = {
     val key = BusinessChooseYourAddressCacheKey
-    val value = BusinessChooseYourAddressModel(uprnSelected = traderUprnValid)
+    val value = BusinessChooseYourAddressModel(uprnSelected = traderUprnValid.toString)
     createCookie(key, value)
   }
 

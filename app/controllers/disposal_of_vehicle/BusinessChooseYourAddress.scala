@@ -59,7 +59,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
           case Some(setupTradeDetailsModel) => fetchAddresses(setupTradeDetailsModel).map {
             addresses =>
               val formWithReplacedErrors = formWithErrors.
-                replaceError(AddressSelectId, "error.number", FormError(key = AddressSelectId, message = "disposal_businessChooseYourAddress.address.required", args = Seq.empty)).
+                replaceError(AddressSelectId, "error.required", FormError(key = AddressSelectId, message = "disposal_businessChooseYourAddress.address.required", args = Seq.empty)).
                 distinctErrors
 
               BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithReplacedErrors, setupTradeDetailsModel.traderBusinessName, addresses))

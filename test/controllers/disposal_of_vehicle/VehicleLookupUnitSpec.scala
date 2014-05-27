@@ -12,7 +12,6 @@ import org.mockito.Mockito._
 import pages.disposal_of_vehicle._
 import play.api.http.Status.OK
 import play.api.libs.json.{JsValue, Json}
-import play.api.mvc.Cookies
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeResponse
@@ -23,6 +22,7 @@ import services.fakes.FakeAddressLookupService._
 import scala.Some
 import common.ClientSideSessionFactory
 import composition.{testInjector => injector}
+import common.EncryptedCookieImplicitsHelper.SimpleResultAdapter
 
 final class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {
@@ -90,7 +90,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
       whenReady(result) {
         r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val cookies = r.fetchCookiesFromHeaders
           cookies.map(_.name) should contain (VehicleLookupFormModelCacheKey)
       }
     }
@@ -240,7 +240,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
       whenReady(result) {
         r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val cookies = r.fetchCookiesFromHeaders
           cookies.map(_.name) should contain (VehicleLookupFormModelCacheKey)
       }
     }
@@ -250,7 +250,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val result = vehicleLookupResponseGenerator(fullResponse = vehicleDetailsResponseDocRefNumberNotLatest).submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val cookies = r.fetchCookiesFromHeaders
           cookies.map(_.name) should contain allOf (VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
@@ -260,7 +260,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val result = vehicleLookupResponseGenerator(fullResponse = vehicleDetailsResponseVRMNotFound).submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val cookies = r.fetchCookiesFromHeaders
           cookies.map(_.name) should contain allOf (VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
@@ -272,7 +272,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val cookies = r.fetchCookiesFromHeaders
           cookies shouldBe empty
       }
     }

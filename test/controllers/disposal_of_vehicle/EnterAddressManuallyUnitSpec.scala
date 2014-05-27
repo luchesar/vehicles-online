@@ -12,6 +12,7 @@ import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeAddressLookupService._
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import composition.{testInjector => injector}
+import common.EncryptedCookieImplicitsHelper.SimpleResultAdapter
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
   "present" should {
@@ -120,7 +121,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val result = enterAddressManually.submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val cookies = r.fetchCookiesFromHeaders
           cookies.map(_.name) should contain (TraderDetailsCacheKey)
       }
     }
@@ -135,7 +136,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val result = enterAddressManually.submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val cookies = r.fetchCookiesFromHeaders
           cookies.map(_.name) should contain (TraderDetailsCacheKey)
       }
     }
@@ -150,7 +151,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val result = enterAddressManually.submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val cookies = r.fetchCookiesFromHeaders
           cookies.find(_.name == TraderDetailsCacheKey) match {
             case Some(cookie) => cookie.value should include ("my house 1.1")
             case _ => fail("should have found some cookie")
@@ -199,7 +200,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val result = enterAddressManually.submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val cookies = r.fetchCookiesFromHeaders
           cookies.map(_.name) should contain (TraderDetailsCacheKey)
       }
     }
