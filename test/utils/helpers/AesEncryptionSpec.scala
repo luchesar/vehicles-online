@@ -19,6 +19,13 @@ final class AesEncryptionSpec extends WordSpec with Matchers {
         cipherText1 should not equal cipherText2
       }
     }
+
+    "throw an exception when the application secret key is the wrong size" in new WithApplication(app = fakeAppWithWrongLengthAppSecretConfig) {
+      intercept[Exception] {
+        val aesEncryption = new AesEncryption
+        aesEncryption.encrypt(ClearText)
+      }
+    }
   }
 
   "decryptCookie" should {
@@ -32,5 +39,7 @@ final class AesEncryptionSpec extends WordSpec with Matchers {
   private final val ClearText = "qwerty"
   private val fakeAppWithCryptoConfig = FakeApplication(
     additionalConfiguration = Map("application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo="))
+  private val fakeAppWithWrongLengthAppSecretConfig = FakeApplication(
+    additionalConfiguration = Map("application.secret256Bit" -> "rubbish"))
 
 }
