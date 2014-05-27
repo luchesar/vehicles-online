@@ -22,7 +22,7 @@ import services.fakes.FakeAddressLookupService._
 import scala.Some
 import common.ClientSideSessionFactory
 import composition.{testInjector => injector}
-import common.EncryptedCookieImplicitsHelper.SimpleResultAdapter
+import common.CookieHelper._
 
 final class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {
@@ -90,7 +90,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
       whenReady(result) {
         r =>
-          val cookies = r.fetchCookiesFromHeaders
+          val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain (VehicleLookupFormModelCacheKey)
       }
     }
@@ -240,7 +240,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
       whenReady(result) {
         r =>
-          val cookies = r.fetchCookiesFromHeaders
+          val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain (VehicleLookupFormModelCacheKey)
       }
     }
@@ -250,7 +250,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val result = vehicleLookupResponseGenerator(fullResponse = vehicleDetailsResponseDocRefNumberNotLatest).submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.fetchCookiesFromHeaders
+          val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain allOf (VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
@@ -260,7 +260,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val result = vehicleLookupResponseGenerator(fullResponse = vehicleDetailsResponseVRMNotFound).submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.fetchCookiesFromHeaders
+          val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain allOf (VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
@@ -272,7 +272,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-          val cookies = r.fetchCookiesFromHeaders
+          val cookies = fetchCookiesFromHeaders(r)
           cookies shouldBe empty
       }
     }

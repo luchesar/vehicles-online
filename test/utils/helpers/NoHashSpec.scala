@@ -4,7 +4,6 @@ import org.scalatest.{Matchers, WordSpec}
 import play.api.test.WithApplication
 
 final class NoHashSpec extends WordSpec with Matchers {
-  val noHash = new NoHash // Sharing immutable fixture objects via instance variables
 
   "NoHash" should {
     "return a clear text string" in new WithApplication {
@@ -16,5 +15,6 @@ final class NoHashSpec extends WordSpec with Matchers {
     }
   }
 
+  private val noHash = new NoHash // Sharing immutable fixture objects via instance variables
   private final val ClearText = "qwerty"
 }

@@ -4,7 +4,6 @@ import org.scalatest.{Matchers, WordSpec}
 import play.api.test.WithApplication
 
 final class Sha1HashSpec extends WordSpec with Matchers {
-  val sha1Hash = new Sha1Hash // Sharing immutable fixture objects via instance variables
 
   "Sha1Hash" should {
     "return a hashed string" in new WithApplication {
@@ -22,5 +21,6 @@ final class Sha1HashSpec extends WordSpec with Matchers {
     }
   }
 
+  private val sha1Hash = new Sha1Hash // Sharing immutable fixture objects via instance variables
   private final val ClearText = "qwerty"
 }

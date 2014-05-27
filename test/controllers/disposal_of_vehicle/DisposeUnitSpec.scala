@@ -20,7 +20,7 @@ import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import common.ClientSideSessionFactory
 import composition.{testInjector => injector}
-import common.EncryptedCookieImplicitsHelper.SimpleResultAdapter
+import common.CookieHelper._
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
@@ -212,7 +212,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val result = disposeController().submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.fetchCookiesFromHeaders
+          val cookies = fetchCookiesFromHeaders(r)
           val found = cookies.find(_.name == DisposeFormTimestampIdCacheKey)
           found match {
             case Some(cookie) => cookie.value should include (CookieFactoryForUnitSpecs.disposeFormTimestamp().value)
@@ -231,7 +231,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val result = disposeSuccess.submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.fetchCookiesFromHeaders
+          val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain allOf (DisposeModelCacheKey, DisposeFormTransactionIdCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormModelCacheKey, DisposeFormTimestampIdCacheKey)
       }
     }

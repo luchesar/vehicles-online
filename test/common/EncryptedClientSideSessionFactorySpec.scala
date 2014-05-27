@@ -5,7 +5,8 @@ import utils.helpers._
 import composition.{testInjector => injector}
 import helpers.UnitSpec
 import controllers.disposal_of_vehicle.SetUpTradeDetails
-import common.EncryptedCookieImplicitsHelper.SimpleResultAdapter
+import common.CookieHelper._
+import common.EncryptedCookieImplicits.SimpleResultAdapter
 
 final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
   "newSession" should {
@@ -15,11 +16,11 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
 
       whenReady(result) {
         r =>
-          val cookiesBefore = r.fetchCookiesFromHeaders
+          val cookiesBefore = fetchCookiesFromHeaders(r)
           cookiesBefore.size should equal(0) // There should be no cookies in the result before we call the factory
           val encryptedClientSideSessionFactory = new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing)
           val (newResult, _) = encryptedClientSideSessionFactory.newSession(request, r)
-          val cookiesAfter = newResult.fetchCookiesFromHeaders
+          val cookiesAfter = fetchCookiesFromHeaders(newResult)
           cookiesAfter.size should equal(1) // We expect the new result to contain the session secret cookie
 
           val sessionSecretKeyCookie = cookiesAfter.head
@@ -35,10 +36,8 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
       whenReady(result) {
         r =>
           val encryptedClientSideSessionFactory = new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing)
-
           val (newResult, session) = encryptedClientSideSessionFactory.newSession(request, r)
-
-          val cookiesAfter = newResult.fetchCookiesFromHeaders
+          val cookiesAfter = fetchCookiesFromHeaders(newResult)
           val sessionSecretKeyCookie = cookiesAfter.head
           session.getCookieValue(sessionSecretKeyCookie) should not equal ""
       }
@@ -50,6 +49,22 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
       val session = encryptedClientSideSessionFactory.getSession(request)
       session should equal(None)
     }
+
+    "return a client side session when trying to fetch the session from the request object that contains a cookie" in new WithApplication {
+      implicit val request = FakeRequest().withSession()
+      implicit val encryptedClientSideSessionFactory = new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing)
+      val result = setUpTradeDetails.present(request)
+
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.size should equal(0)
+          val newResult = r.withEncryptedCookie("key", "value") // Add a cookie to the result. The side effect of this will be to also add the session cookie
+          val newResultCookies = fetchCookiesFromHeaders(newResult)
+          newResultCookies.size should equal(2) // We now expect the result to contain the encrypted cookie and the session secret cookie
+      }
+    }
+
   }
 
   implicit val noCookieFlags = new NoCookieFlags
