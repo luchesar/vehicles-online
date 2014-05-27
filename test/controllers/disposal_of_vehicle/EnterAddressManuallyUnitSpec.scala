@@ -7,11 +7,12 @@ import mappings.common.AddressAndPostcode._
 import mappings.common.AddressLines._
 import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
-import play.api.test.{FakeRequest, WithApplication}
+import play.api.test.FakeRequest
 import services.fakes.FakeAddressLookupService._
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import composition.TestComposition.{testInjector => injector}
 import common.CookieHelper._
+import helpers.WithApplication
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
   "present" should {

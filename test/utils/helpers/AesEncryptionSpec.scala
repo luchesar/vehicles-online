@@ -1,7 +1,8 @@
 package utils.helpers
 
+import helpers.WithApplication
 import org.scalatest.{Matchers, WordSpec}
-import play.api.test.{FakeApplication, WithApplication}
+import play.api.test.FakeApplication
 
 final class AesEncryptionSpec extends WordSpec with Matchers {
   "encryptCookie" should {

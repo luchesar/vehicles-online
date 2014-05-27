@@ -13,16 +13,16 @@ import pages.disposal_of_vehicle._
 import play.api.http.Status.OK
 import play.api.libs.json.{JsValue, Json}
 import play.api.test.Helpers._
-import play.api.test.{FakeRequest, WithApplication}
+import play.api.test.FakeRequest
 import services.fakes.FakeResponse
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeWebServiceImpl._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import services.fakes.FakeAddressLookupService._
-import scala.Some
 import common.ClientSideSessionFactory
 import composition.TestComposition.{testInjector => injector}
 import common.CookieHelper._
+import helpers.WithApplication
 
 final class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {

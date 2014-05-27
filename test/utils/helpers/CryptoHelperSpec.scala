@@ -4,9 +4,10 @@ import helpers.UnitSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import play.api.test.Helpers._
-import play.api.test.{WithApplication, FakeApplication, FakeRequest}
+import play.api.test.{FakeApplication, FakeRequest}
 import pages.disposal_of_vehicle.BeforeYouStartPage
 import common.CookieHelper._
+import helpers.WithApplication
 
 final class CryptoHelperSpec extends UnitSpec {
   "handleApplicationSecretChange" should {

@@ -1,10 +1,11 @@
 package controllers.disposal_of_vehicle
 
-import helpers.UnitSpec
-import pages.disposal_of_vehicle._
-import play.api.test.Helpers._
-import play.api.test.{FakeRequest, WithApplication}
 import composition.TestComposition.{testInjector => injector}
+import helpers.UnitSpec
+import helpers.WithApplication
+import pages.disposal_of_vehicle._
+import play.api.test.FakeRequest
+import play.api.test.Helpers._
 
 final class BeforeYouStartUnitSpec extends UnitSpec {
   "present" should {

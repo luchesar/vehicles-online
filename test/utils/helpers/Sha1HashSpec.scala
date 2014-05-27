@@ -1,7 +1,7 @@
 package utils.helpers
 
 import org.scalatest.{Matchers, WordSpec}
-import play.api.test.WithApplication
+import helpers.WithApplication
 
 final class Sha1HashSpec extends WordSpec with Matchers {
 

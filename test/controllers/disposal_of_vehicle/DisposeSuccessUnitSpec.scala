@@ -1,12 +1,12 @@
 package controllers.disposal_of_vehicle
 
-import play.api.test.{FakeRequest, WithApplication}
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
-import scala.Some
 import composition.TestComposition.{testInjector => injector}
+import helpers.WithApplication
 
 final class DisposeSuccessUnitSpec extends UnitSpec {
   "present" should {

@@ -1,10 +1,11 @@
 package controllers.disposal_of_vehicle
 
-import play.api.test.{FakeRequest, WithApplication}
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
 import composition.TestComposition.{testInjector => injector}
+import helpers.WithApplication
 
 final class DisposeFailureUnitSpec extends UnitSpec {
   "present" should {

@@ -4,11 +4,12 @@ import helpers.UnitSpec
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
-import play.api.test.{FakeRequest, WithApplication}
+import play.api.test.FakeRequest
 import services.fakes.FakeAddressLookupService._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import composition.TestComposition.{testInjector => injector}
 import common.CookieHelper._
+import helpers.WithApplication
 
 final class SetUpTradeDetailsUnitSpec extends UnitSpec {
   "present" should {
