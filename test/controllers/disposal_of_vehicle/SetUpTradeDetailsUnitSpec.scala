@@ -6,10 +6,9 @@ import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeAddressLookupService._
-import play.api.mvc.Cookies
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import composition.TestComposition.{testInjector => injector}
-import common.EncryptedCookieImplicitsHelper.SimpleResultAdapter
+import common.CookieHelper._
 
 final class SetUpTradeDetailsUnitSpec extends UnitSpec {
   "present" should {
@@ -76,7 +75,7 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
       val result = setUpTradeDetails.submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.fetchCookiesFromHeaders
+          val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain (SetupTradeDetailsCacheKey)
       }
     }

@@ -13,7 +13,7 @@ import services.fakes.FakeWebServiceImpl
 import services.fakes.FakeWebServiceImpl._
 import common.ClientSideSessionFactory
 import composition.TestComposition.{testInjector => injector}
-import common.EncryptedCookieImplicitsHelper.SimpleResultAdapter
+import common.CookieHelper._
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
@@ -99,7 +99,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val result = businessChooseYourAddressWithUprnFound.submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.fetchCookiesFromHeaders
+          val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain allOf(BusinessChooseYourAddressCacheKey, TraderDetailsCacheKey)
       }
     }
