@@ -1,6 +1,6 @@
 package pages.common
 
-import helpers.webbrowser.{WebBrowserDSL, Page}
+import helpers.webbrowser.WebBrowserDSL
 import org.openqa.selenium.{By, WebDriver}
 
 object ErrorPanel extends WebBrowserDSL {

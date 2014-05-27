@@ -22,6 +22,6 @@ final class TestServerHooks {
 }
 
 object TestServerHooks {
-  private val port: Int = 9001
+  private final val port: Int = 9001
   private lazy val fakeAppWithTestGlobal: FakeApplication = FakeApplication(withGlobal = Some(TestGlobal))
 }
