@@ -129,14 +129,14 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
       val request = FakeRequest().withSession().withFormUrlEncodedBody("action" -> "RUBBISH_ACTION")
       val result = disposeSuccess.submit(request)
       val content = contentAsString(result)
-      content should equal(actionNotAllowedMessage)
+      content should equal(ActionNotAllowedMessage)
     }
 
     "handle a form post in which no action is specified" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody()
       val result = disposeSuccess.submit(request)
       val content = contentAsString(result)
-      content should equal(actionNotAllowedMessage)
+      content should equal(ActionNotAllowedMessage)
     }
 
 
@@ -206,7 +206,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     }
   }
 
-  private val actionNotAllowedMessage = "This action is not allowed"
+  private final val ActionNotAllowedMessage = "This action is not allowed"
 
   private val disposeSuccess = injector.getInstance(classOf[DisposeSuccess])
 }
