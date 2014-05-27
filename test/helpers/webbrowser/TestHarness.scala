@@ -15,7 +15,7 @@ import org.specs2.execute.{Result, AsResult}
 
 trait TestHarness {
 
-  abstract class WebBrowser(val app: FakeApplication = FakeApplication(), val port: Int = 9001)
+  abstract class WebBrowser(val app: FakeApplication = FakeApplication(withGlobal = Some(TestGlobal)), val port: Int = 9001)
       extends Around with Scope with WebBrowserDSL {
 
     //implicit def implicitApp = app

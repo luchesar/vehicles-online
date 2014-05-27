@@ -1,3 +1,5 @@
+package helpers.webbrowser
+
 import com.typesafe.config.ConfigFactory
 import controllers.disposal_of_vehicle.routes
 import java.io.File
@@ -28,19 +30,15 @@ import utils.helpers.CryptoHelper
  * play -Dconfig.file=conf/application.test.conf run
  */
 
-object Global extends WithFilters(new GzipFilter()) with GlobalSettings {
+object TestGlobal extends WithFilters(new GzipFilter()) with GlobalSettings {
 
-  private lazy val injector = composition.devInjector
+  private lazy val injector = composition.testInjector
 
   /**
    * Controllers must be resolved through the application context. There is a special method of GlobalSettings
    * that we can override to resolve a given controller. This resolution is required by the Play router.
    */
   override def getControllerInstance[A](controllerClass: Class[A]): A = injector.getInstance(controllerClass)
-
-  override def onStart(app: Application) {
-    Logger.info("vehicles-online Started") // used for operations, do not remove
-  }
 
   override def onLoadConfig(configuration: Configuration, path: File, classloader: ClassLoader, mode: Mode.Mode): Configuration = {
     val dynamicConfig = Configuration.from(Map("session.cookieName" -> UUID.randomUUID().toString.substring(0, 16)))
@@ -49,11 +47,6 @@ object Global extends WithFilters(new GzipFilter()) with GlobalSettings {
       Configuration(ConfigFactory.load(applicationConf)) ++
       dynamicConfig
     super.onLoadConfig(environmentOverridingConfiguration, path, classloader, mode)
-  }
-
-  override def onStop(app: Application) {
-    super.onStop(app)
-    Logger.info("vehicles-online Stopped") // used for operations, do not remove
   }
 
   // 404 - page not found error http://alvinalexander.com/scala/handling-scala-play-framework-2-404-500-errors

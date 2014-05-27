@@ -4,11 +4,12 @@ import cucumber.api.java.After
 import cucumber.api.java.Before
 import play.api.test.TestServer
 import play.api.test.FakeApplication
+import helpers.webbrowser.TestGlobal
 
 final class TestServerHooks {
 
   private val port: Int = 9001
-  val app: FakeApplication = FakeApplication()
+  val app: FakeApplication = FakeApplication(withGlobal = Some(TestGlobal))
   private val testServer: TestServer = TestServer(port, app)
 
   @Before(order = 500)
