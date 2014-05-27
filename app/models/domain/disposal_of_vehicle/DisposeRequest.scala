@@ -5,7 +5,7 @@ import play.api.libs.json.Json
 final case class DisposeRequest(referenceNumber: String,
                           registrationNumber: String,
                           traderName: String,
-                          disposalAddress: DisposalAddressDto,
+                          traderAddress: DisposalAddressDto,
                           dateOfDisposal: String,
                           transactionTimestamp: String,
                           mileage: Option[Int] = None,

@@ -161,7 +161,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       DisposeRequest(referenceNumber = disposeModel.referenceNumber,
         registrationNumber = disposeModel.registrationNumber,
         traderName = traderDetails.traderName,
-        disposalAddress = disposalAddressDto(traderDetails.traderAddress),
+        traderAddress = disposalAddressDto(traderDetails.traderAddress),
         dateOfDisposal = isoDateTimeString,
         transactionTimestamp = ISODateTimeFormat.dateTime().print(dateService.today.toDateTime.get),
         mileage = disposeModel.mileage,
