@@ -3,6 +3,7 @@ package utils.helpers
 import helpers.WithApplication
 import org.scalatest.{Matchers, WordSpec}
 import play.api.test.FakeApplication
+import helpers.webbrowser.TestGlobal
 
 final class AesEncryptionSpec extends WordSpec with Matchers {
   "encryptCookie" should {
@@ -39,8 +40,9 @@ final class AesEncryptionSpec extends WordSpec with Matchers {
 
   private final val ClearText = "qwerty"
   private val fakeAppWithCryptoConfig = FakeApplication(
+    withGlobal = Some(TestGlobal),
     additionalConfiguration = Map("application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo="))
   private val fakeAppWithWrongLengthAppSecretConfig = FakeApplication(
+    withGlobal = Some(TestGlobal),
     additionalConfiguration = Map("application.secret256Bit" -> "rubbish"))
-
 }
