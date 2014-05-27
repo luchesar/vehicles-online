@@ -6,10 +6,7 @@ import play.api.mvc.Cookie
 import scala.concurrent.duration._
 import scala.language.postfixOps
 
-class CookieFlagsSpec extends WordSpec with Matchers {
-
-  private final val TenMinutesInSeconds = (10 minutes).toSeconds.toInt
-
+final class CookieFlagsSpec extends WordSpec with Matchers {
   "CookieFlagsFromConfig" should {
     "return a cookie with max age and secure properties set" in new WithApplication(app = fakeAppWithCookieConfig) {
       val cookieFlags = new CookieFlagsFromConfig
@@ -18,11 +15,13 @@ class CookieFlagsSpec extends WordSpec with Matchers {
       originalCookie.secure should equal(false)
       originalCookie.maxAge should equal(None)
 
-      val modifiedCookie = cookieFlags.applyToCookie(originalCookie)
+      val modifiedCookie = cookieFlags.applyToCookie(originalCookie) // This will load values from the fake config we are passing into this test's WithApplication.
       modifiedCookie.secure should equal(true)
       modifiedCookie.maxAge should equal(Some(TenMinutesInSeconds))
     }
   }
+
+  private final val TenMinutesInSeconds = (10 minutes).toSeconds.toInt
 
   private val fakeAppWithCookieConfig = FakeApplication(
     additionalConfiguration = Map("secureCookies" -> true, "cookieMaxAge" -> TenMinutesInSeconds))

@@ -11,9 +11,9 @@ import play.api.test.{FakeRequest, WithApplication}
 import services.fakes.FakeAddressLookupService.traderBusinessNameValid
 import services.fakes.FakeWebServiceImpl
 import services.fakes.FakeWebServiceImpl._
-import scala.Some
 import common.ClientSideSessionFactory
 import composition.{testInjector => injector}
+import common.EncryptedCookieImplicitsHelper.SimpleResultAdapter
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
@@ -99,7 +99,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val result = businessChooseYourAddressWithUprnFound.submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val cookies = r.fetchCookiesFromHeaders
           cookies.map(_.name) should contain allOf(BusinessChooseYourAddressCacheKey, TraderDetailsCacheKey)
       }
     }

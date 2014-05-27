@@ -9,6 +9,7 @@ import services.fakes.FakeAddressLookupService._
 import play.api.mvc.Cookies
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import composition.{testInjector => injector}
+import common.EncryptedCookieImplicitsHelper.SimpleResultAdapter
 
 final class SetUpTradeDetailsUnitSpec extends UnitSpec {
   "present" should {
@@ -75,7 +76,7 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
       val result = setUpTradeDetails.submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val cookies = r.fetchCookiesFromHeaders
           cookies.map(_.name) should contain (SetupTradeDetailsCacheKey)
       }
     }

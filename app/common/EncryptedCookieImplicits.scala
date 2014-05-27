@@ -7,6 +7,11 @@ import models.domain.common.CacheKey
 import scala.Some
 import play.api.mvc.SimpleResult
 import play.api.mvc.DiscardingCookie
+import play.api.http.HeaderNames._
+import play.api.mvc.DiscardingCookie
+import models.domain.common.CacheKey
+import scala.Some
+import play.api.mvc.SimpleResult
 
 object EncryptedCookieImplicits {
 

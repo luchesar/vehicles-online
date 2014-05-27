@@ -18,12 +18,9 @@ import ExecutionContext.Implicits.global
 import services.DateService
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
-import play.api.mvc.Cookies
 import common.ClientSideSessionFactory
 import composition.{testInjector => injector}
-import models.DayMonthYear
-import scala.Some
-import org.joda.time.format.ISODateTimeFormat
+import common.EncryptedCookieImplicitsHelper.SimpleResultAdapter
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
@@ -215,7 +212,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val result = disposeController().submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val cookies = r.fetchCookiesFromHeaders
           val found = cookies.find(_.name == DisposeFormTimestampIdCacheKey)
           found match {
             case Some(cookie) => cookie.value should include (CookieFactoryForUnitSpecs.disposeFormTimestamp().value)
@@ -234,7 +231,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val result = disposeSuccess.submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val cookies = r.fetchCookiesFromHeaders
           cookies.map(_.name) should contain allOf (DisposeModelCacheKey, DisposeFormTransactionIdCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormModelCacheKey, DisposeFormTimestampIdCacheKey)
       }
     }
