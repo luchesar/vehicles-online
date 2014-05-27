@@ -26,14 +26,6 @@ final class AesEncryptionSpec extends WordSpec with Matchers {
         aesEncryption.encrypt(ClearText)
       }
     }
-/*
-    "throw an exception when the application secret key is missing from config" in new WithApplication(app = fakeAppWithNoAppSecretConfig) {
-      intercept[Exception] {
-        val aesEncryption = new AesEncryption
-        aesEncryption.encrypt(ClearText)
-      }
-    }
-*/
   }
 
   "decryptCookie" should {
@@ -49,7 +41,5 @@ final class AesEncryptionSpec extends WordSpec with Matchers {
     additionalConfiguration = Map("application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo="))
   private val fakeAppWithWrongLengthAppSecretConfig = FakeApplication(
     additionalConfiguration = Map("application.secret256Bit" -> "rubbish"))
-//  private val fakeAppWithNoAppSecretConfig = FakeApplication(
-//    additionalConfiguration = Map())
 
 }
