@@ -154,6 +154,13 @@
 		.form-steps {
 			margin-top:-20px;
 		}
+		label {
+			cursor:pointer;
+
+			.ie6 & {
+				cursor:default;
+			}
+		}
 	}
 	
 	.disposal-date {
