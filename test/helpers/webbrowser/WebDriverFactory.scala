@@ -13,7 +13,7 @@ import org.openqa.selenium.remote.DesiredCapabilities
 import java.util.concurrent.TimeUnit
 
 object WebDriverFactory {
-  private val systemProperties = System.getProperties()
+  private val systemProperties = System.getProperties
 
   def webDriver: WebDriver = {
     val targetBrowser = getProperty("browser.type", "htmlunit")
@@ -37,7 +37,7 @@ object WebDriverFactory {
   }
 
   def testRemote: Boolean = {
-    getProperty("test.remote", false)
+    getProperty("test.remote", default = false)
   }
 
   def testUrl: String = {
@@ -76,7 +76,7 @@ object WebDriverFactory {
     capabilities.setCapability(
       PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
       systemProperties.getProperty("webdriver.phantomjs.binary"))
-    capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, Array("--ignore-ssl-errors=yes", "--web-security=false", "--ssl-protocol=any"));
+    capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, Array("--ignore-ssl-errors=yes", "--web-security=false", "--ssl-protocol=any"))
 
     new PhantomJSDriver(capabilities)
   }

@@ -23,13 +23,18 @@ trait Hashing {
 trait CookieNameHashing extends Hashing
 
 class Sha1Hash extends Hashing {
-  final val Sha1SizeInBits = 160
-  final val BitsPerHexCharacter = 4
-  final val CharactersInHexedSha1 = Sha1SizeInBits / BitsPerHexCharacter
+  private final val Sha1SizeInBits = 160
+  private final val BitsPerHexCharacter = 4
+  private final val CharactersInHexedSha1 = Sha1SizeInBits / BitsPerHexCharacter
 
   override def hash(clearText: String): String = Codecs.sha1(clearText)
 
   override val digestStringLength: Int = CharactersInHexedSha1
+}
+
+class NoHash extends Hashing {
+  override def hash(clearText: String): String = clearText
+  override val digestStringLength: Int = 0
 }
 
 class AesEncryption extends Encryption {
@@ -91,4 +96,10 @@ class AesEncryption extends Encryption {
   }
 
   private def getConfig(key: String) = Play.maybeApplication.flatMap(_.configuration.getString(key))
+
+}
+
+class NoEncryption extends Encryption {
+  override def decrypt(clearText: String): String = clearText
+  override def encrypt(clearText: String): String = clearText
 }

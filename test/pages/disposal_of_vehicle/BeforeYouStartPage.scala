@@ -6,7 +6,6 @@ import mappings.disposal_of_vehicle.BeforeYouStart._
 
 object BeforeYouStartPage extends Page with WebBrowserDSL {
   final val address = "/disposal-of-vehicle/before-you-start"
-
   override val url: String = WebDriverFactory.testUrl
   final override val title: String = "Sell a vehicle into the motor trade"
 

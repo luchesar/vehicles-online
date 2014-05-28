@@ -7,13 +7,14 @@ import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import pages.disposal_of_vehicle._
 import play.api.mvc.Cookies
 import play.api.test.Helpers._
-import play.api.test.{FakeRequest, WithApplication}
+import play.api.test.FakeRequest
+import helpers.WithApplication
 import services.fakes.FakeAddressLookupService.traderBusinessNameValid
 import services.fakes.FakeWebServiceImpl
 import services.fakes.FakeWebServiceImpl._
-import scala.Some
 import common.ClientSideSessionFactory
-import composition.{testInjector => injector}
+import composition.TestComposition.{testInjector => injector}
+import common.CookieHelper._
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
@@ -99,7 +100,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val result = businessChooseYourAddressWithUprnFound.submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain allOf(BusinessChooseYourAddressCacheKey, TraderDetailsCacheKey)
       }
     }

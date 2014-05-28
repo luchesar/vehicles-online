@@ -166,12 +166,13 @@ disposal_businessChooseYourAddress_title = Dewiswch eich cyfeiriad masnach
 disposal_businessChooseYourAddress_legend = Manylion sefydlu masnach
 disposal_businessChooseYourAddress_businessName_label = Enw masnachwr
 disposal_businessChooseYourAddress_businessName = {0}
+disposal_businessChooseYourAddress_postcode_label = Cod post
 disposal_businessChooseYourAddress_businessAddress_label = Gyfeiriad masnachwr
 disposal_businessChooseYourAddress_addressSelect = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress_addressSelect_label = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress.backbutton = Holau
 disposal_businessChooseYourAddress.submitbutton = Dewis
-disposal_businessChooseYourAddress.manualAddressEntry = Ni allaf ddod o hyd i fy nghyfeiriad
+disposal_businessChooseYourAddress.manualAddressEntry = Nid yw fy cyfeiriad yn y rhestr
 error.dropDownInvalid = Dewiswch werth o''r rhestr a ollyngir i lawr
 disposal_businessChooseYourAddress_noaddressesfound = Dim canlyniadau ar gyfer y cod post cyfeiriadau. Cliciwch ar y botwm yn ôl i fynd i mewn i god post wahanol neu roi cyfeiriad llaw
 

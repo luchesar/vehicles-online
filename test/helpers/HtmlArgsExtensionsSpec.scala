@@ -1,6 +1,5 @@
 package helpers
 
-import play.api.test.WithApplication
 import utils.helpers.HtmlArgsExtensions.RichHtmlArgs
 
 final class HtmlArgsExtensionsSpec extends UnitSpec {

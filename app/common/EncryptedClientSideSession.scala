@@ -3,7 +3,9 @@ package common
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 import play.api.mvc.Cookie
 
-class EncryptedClientSideSession(sessionSecretKey: String)(implicit cookieFlags: CookieFlags, encryption: CookieEncryption, cookieNameHashing: CookieNameHashing) extends ClientSideSession {
+class EncryptedClientSideSession(sessionSecretKey: String)(implicit cookieFlags: CookieFlags,
+                                                                    encryption: CookieEncryption,
+                                                                    cookieNameHashing: CookieNameHashing) extends ClientSideSession {
 
   override def nameCookie(key: String): CookieName =
     CookieName(cookieNameHashing.hash(sessionSecretKey + key))

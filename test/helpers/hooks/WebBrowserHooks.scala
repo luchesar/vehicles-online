@@ -1,19 +1,17 @@
 package helpers.hooks
 
-import org.openqa.selenium.WebDriver
+import cucumber.api.java.After
 import helpers.webbrowser.WebBrowserDriver
-import cucumber.api.java.{Before,After}
+import org.openqa.selenium.WebDriver
 
-final class WebBrowserHooks(webBrowserDriver:WebBrowserDriver) {
-
-  implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
-
+final class WebBrowserHooks(webBrowserDriver: WebBrowserDriver) {
   /*@Before
   def configureBrowser() = {
   }*/
 
   @After
   def quitBrowser() = {
+    implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
     webDriver.quit()
   }
 }

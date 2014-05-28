@@ -4,7 +4,7 @@ import helpers.UnitSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, WithApplication}
-import composition.{testInjector => injector}
+import composition.TestComposition.{testInjector => injector}
 
 final class ErrorUnitSpec extends UnitSpec {
   "present" should {

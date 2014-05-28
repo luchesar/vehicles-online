@@ -1,6 +1,6 @@
 package controllers.disposal_of_vehicle
 
-import play.api.test.{FakeRequest, WithApplication}
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import mappings.disposal_of_vehicle.Dispose._
@@ -18,12 +18,10 @@ import ExecutionContext.Implicits.global
 import services.DateService
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
-import play.api.mvc.Cookies
 import common.ClientSideSessionFactory
-import composition.{testInjector => injector}
-import models.DayMonthYear
-import scala.Some
-import org.joda.time.format.ISODateTimeFormat
+import composition.TestComposition.{testInjector => injector}
+import common.CookieHelper._
+import helpers.WithApplication
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
@@ -55,8 +53,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val result = disposeController().present(request)
       val content = contentAsString(result)
       val contentWithCarriageReturnsAndSpacesRemoved = content.replaceAll("[\n\r]", "").replaceAll(emptySpace, "")
-      contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("consent", true))
-      contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("lossOfRegistrationConsent", true))
+      contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("consent", checked = true))
+      contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("lossOfRegistrationConsent", checked = true))
 
       contentWithCarriageReturnsAndSpacesRemoved should include(buildSelectedOptionHtml("25", "25"))
       contentWithCarriageReturnsAndSpacesRemoved should include(buildSelectedOptionHtml("11", "November"))
@@ -71,8 +69,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val result = disposeController().present(request)
       val content = contentAsString(result)
       val contentWithCarriageReturnsAndSpacesRemoved = content.replaceAll("[\n\r]", "").replaceAll(emptySpace, "")
-      contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("consent", false))
-      contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("lossOfRegistrationConsent", false))
+      contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("consent", checked = false))
+      contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("lossOfRegistrationConsent", checked = false))
       content should not include "selected" // No drop downs should be selected
     }
   }
@@ -89,36 +87,6 @@ final class DisposeUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-    "build a dispose request when cookie contains all required data" in {
-      val traderName = "TestTraderName"
-      val traderAddress = AddressViewModel(Some(12345), Seq("Line1Val", "AA11AA"))
-      val expectedDisposalAddress = DisposalAddressDto(Seq("LineVal1"),None, "AA11AA", Some(12345))
-      val referenceNumber = "01234567890"
-      val registrationNumber = "AA111AAA"
-      val mileage = Some(2000)
-      val dateOfDisposal = DayMonthYear(1, 1, 2014)
-      val expetedDateOfDisposal = "2014-01-01T00:00:00.000Z"
-      val expetedTimestamp = "2014-01-01T00:00:00.000Z"
-      val ipAddress = None
-
-      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-      val disposeModel = DisposeModel("01234567890", "AA111AAA", dateOfDisposal, mileage)
-      val traderModel = TraderDetailsModel(traderName, traderAddress)
-      val disposeClient = new disposal_of_vehicle.Dispose(mock[DisposeService], dateServiceStubbed())(clientSideSessionFactory)
-      val disposeResponse = buildDisposeMicroServiceRequest(disposeModel, traderModel)
-// TODO US66 This isn't testing production code (disposeClient), it is running on a test helper! For this test to have
-// any value you need to call disposeController().submit(request), and if the intention is to check the cookie was
-// written with the correct values then you must read back the cookie.
-      disposeResponse.referenceNumber should equal(referenceNumber)
-      disposeResponse.registrationNumber should equal(registrationNumber)
-      disposeResponse.traderName should equal(traderName)
-      disposeResponse.disposalAddress.postCode should equal(expectedDisposalAddress.postCode)
-      disposeResponse.dateOfDisposal should equal(expetedDateOfDisposal)
-      disposeResponse.mileage should equal(mileage)
-      disposeResponse.transactionTimestamp should equal (expetedTimestamp)
-      disposeResponse.ipAddress should equal(ipAddress)
-    }
-
     "redirect to dispose success when a success message is returned by the fake microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
@@ -245,7 +213,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val result = disposeController().submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val cookies = fetchCookiesFromHeaders(r)
           val found = cookies.find(_.name == DisposeFormTimestampIdCacheKey)
           found match {
             case Some(cookie) => cookie.value should include (CookieFactoryForUnitSpecs.disposeFormTimestamp().value)
@@ -264,7 +232,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val result = disposeSuccess.submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+          val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain allOf (DisposeModelCacheKey, DisposeFormTransactionIdCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormModelCacheKey, DisposeFormTimestampIdCacheKey)
       }
     }
@@ -304,30 +272,6 @@ final class DisposeUnitSpec extends UnitSpec {
     val disposeServiceImpl = new DisposeServiceImpl(ws)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())(clientSideSessionFactory)
-  }
-
-  private def buildDisposeMicroServiceRequest(disposeModel: DisposeModel, traderDetails: TraderDetailsModel): DisposeRequest = {
-    val dateTime = disposeModel.dateOfDisposal.toDateTime.get
-    val formatter = ISODateTimeFormat.dateTime()
-    val isoDateTimeString = formatter.print(dateTime)
-
-    DisposeRequest(referenceNumber = disposeModel.referenceNumber,
-      registrationNumber = disposeModel.registrationNumber,
-      traderName = traderDetails.traderName,
-      disposalAddress = disposalAddressDto(traderDetails.traderAddress),
-      dateOfDisposal = isoDateTimeString,
-      transactionTimestamp = ISODateTimeFormat.dateTime().print(dateTime),
-      mileage = disposeModel.mileage,
-      ipAddress = None)
-  }
-
-  private def disposalAddressDto(sourceAddress: AddressViewModel): DisposalAddressDto = {
-    // The last two address lines are always post town and postcode
-    val postAddressLines = sourceAddress.address.dropRight(2)
-    val postTown = sourceAddress.address.takeRight(2).head
-    val postcode = sourceAddress.address.last
-
-    DisposalAddressDto(postAddressLines, Some(postTown), postcode, sourceAddress.uprn)
   }
 
 }

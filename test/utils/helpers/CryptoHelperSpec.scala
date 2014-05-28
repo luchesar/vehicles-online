@@ -3,10 +3,11 @@ package utils.helpers
 import helpers.UnitSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import play.api.mvc.Cookies
 import play.api.test.Helpers._
-import play.api.test.{WithApplication, FakeApplication, FakeRequest}
+import play.api.test.{FakeApplication, FakeRequest}
 import pages.disposal_of_vehicle.BeforeYouStartPage
+import common.CookieHelper._
+import helpers.WithApplication
 
 final class CryptoHelperSpec extends UnitSpec {
   "handleApplicationSecretChange" should {
@@ -24,7 +25,7 @@ final class CryptoHelperSpec extends UnitSpec {
       val result = CryptoHelper.handleApplicationSecretChange(request)
 
       whenReady(result) { r =>
-        val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+        val cookies = fetchCookiesFromHeaders(r)
         cookies.filter(cookie => RelatedCacheKeys.FullSet.contains(cookie.name)).foreach { cookie =>
           cookie.maxAge match {
             case Some(maxAge) if maxAge < 0 => // Success
