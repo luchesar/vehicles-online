@@ -4,6 +4,6 @@ import models.domain.disposal_of_vehicle.{PostcodeToAddressResponse, AddressView
 import scala.concurrent.Future
 import play.api.libs.ws.Response
 
-trait BruteForceService {
+trait BruteForcePreventionService {
   def vrmLookupPermitted(vrm: String): Future[Boolean]
 }

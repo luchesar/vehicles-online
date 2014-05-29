@@ -9,7 +9,7 @@ import services.dispose_service.{DisposeWebServiceImpl, DisposeWebService, Dispo
 import services.{DateServiceImpl, DateService}
 import utils.helpers._
 import common._
-import services.brute_force_prevention.{BruteForcePreventionServiceImpl, BruteForceService, BruteForcePreventionWebService}
+import services.brute_force_prevention._
 
 /**
  * Provides real implementations of traits
@@ -46,7 +46,7 @@ object DevModule extends ScalaModule {
     }
 
     bind[BruteForcePreventionWebService].to[services.brute_force_prevention.WebServiceImpl].asEagerSingleton()
-    bind[BruteForceService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
+    bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
   }
 
   private def ordnanceSurveyAddressLookup() = {

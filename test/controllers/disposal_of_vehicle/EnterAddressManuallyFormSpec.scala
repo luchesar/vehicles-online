@@ -12,7 +12,6 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     "accept if form is valid with all fields filled in" in {
       val model = formWithValidDefaults().get.addressAndPostcodeModel
       model.addressLinesModel.line1 should equal(line1Valid)
-      println("** Line 1:" + model.addressLinesModel.line1.toString)
 
       model.addressLinesModel.line2 should equal(Some(line2Valid))
       model.addressLinesModel.line3 should equal(Some(line3Valid))

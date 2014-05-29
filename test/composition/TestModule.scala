@@ -10,7 +10,7 @@ import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, 
 import services.dispose_service.{DisposeServiceImpl, DisposeWebServiceImpl, DisposeWebService, DisposeService}
 import utils.helpers._
 import common._
-import services.brute_force_prevention.{BruteForcePreventionServiceImpl, BruteForceService, BruteForcePreventionWebService}
+import services.brute_force_prevention._
 import services.fakes.brute_force_protection.FakeBruteForcePrventionWebServiceImpl
 
 object TestModule extends ScalaModule {
@@ -33,7 +33,7 @@ object TestModule extends ScalaModule {
     bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
 
     bind[BruteForcePreventionWebService].to[FakeBruteForcePrventionWebServiceImpl].asEagerSingleton()
-    bind[BruteForceService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
+    bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
   }
 
   private def ordnanceSurveyAddressLookup() = {

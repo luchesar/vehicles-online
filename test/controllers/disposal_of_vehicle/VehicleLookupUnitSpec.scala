@@ -1,29 +1,28 @@
 package controllers.disposal_of_vehicle
 
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
+import common.ClientSideSessionFactory
+import common.CookieHelper._
+import composition.TestComposition.{testInjector => injector}
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
+import helpers.WithApplication
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.disposal_of_vehicle.VehicleLookup._
 import models.domain.disposal_of_vehicle.{VehicleDetailsResponse, VehicleDetailsRequest}
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import pages.disposal_of_vehicle._
-import play.api.http.Status.OK
 import play.api.libs.json.{JsValue, Json}
-import play.api.test.Helpers._
 import play.api.test.FakeRequest
+import play.api.test.Helpers._
+import scala.concurrent.{ExecutionContext, Future}
+import ExecutionContext.Implicits.global
+import services.brute_force_prevention.{BruteForcePreventionServiceImpl, BruteForcePreventionService, BruteForcePreventionWebService}
+import services.fakes.FakeAddressLookupService._
+import services.fakes.FakeAddressLookupWebServiceImpl._
 import services.fakes.FakeResponse
 import services.fakes.FakeVehicleLookupWebService._
-import services.fakes.FakeAddressLookupWebServiceImpl._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
-import services.fakes.FakeAddressLookupService._
-import common.ClientSideSessionFactory
-import composition.TestComposition.{testInjector => injector}
-import common.CookieHelper._
-import helpers.WithApplication
-import services.brute_force_prevention.{BruteForcePreventionServiceImpl, BruteForceService, BruteForcePreventionWebService}
 
 final class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {
@@ -79,7 +78,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   "submit" should {
     "redirect to Dispose after a valid submit and true message returned from the fake microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = vehicleLookupResponseGenerator( vehicleDetailsResponseSuccess).submit(request)
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
 
       result.futureValue.header.headers.get(LOCATION) should equal(Some(DisposePage.address))
     }
@@ -92,7 +91,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain (VehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain(VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -242,7 +241,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain (VehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain(VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -252,7 +251,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain allOf (VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain allOf(VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -262,7 +261,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain allOf (VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain allOf(VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -277,34 +276,46 @@ final class VehicleLookupUnitSpec extends UnitSpec {
           cookies shouldBe empty
       }
     }
+
+    "redirect to vrm locked when valid submit and brute force prevention returns not permitted" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess, permitted = false).submit(request)
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+    }
   }
 
-  private val bruteForceServiceImpl: BruteForceService = {
+  private def bruteForceServiceImpl(permitted: Boolean): BruteForcePreventionService = {
+    val status = if (permitted) OK else FORBIDDEN
     val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
-    when(bruteForcePreventionWebService.callBruteForce(anyString())).thenReturn( Future {
-      new FakeResponse(status = OK)
+    when(bruteForcePreventionWebService.callBruteForce(anyString())).thenReturn(Future {
+      new FakeResponse(status = status)
     }
     )
-    new BruteForcePreventionServiceImpl(bruteForcePreventionWebService)
+
+    new BruteForcePreventionServiceImpl(
+      ws = bruteForcePreventionWebService)
   }
 
-  private def vehicleLookupResponseGenerator( fullResponse:(Int, Option[VehicleDetailsResponse])) = {
+  private def vehicleLookupResponseGenerator(fullResponse: (Int, Option[VehicleDetailsResponse]), permitted: Boolean = true) = {
+    val (status, vehicleDetailsResponse) = fullResponse
     val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
     when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
-      val responseAsJson : Option[JsValue] = fullResponse._2 match {
+      val responseAsJson: Option[JsValue] = vehicleDetailsResponse match {
         case Some(e) => Some(Json.toJson(e))
         case _ => None
       }
-      new FakeResponse(status = fullResponse._1, fakeJson = responseAsJson)// Any call to a webservice will always return this successful response.
+      new FakeResponse(status = status, fakeJson = responseAsJson) // Any call to a webservice will always return this successful response.
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
-
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    new disposal_of_vehicle.VehicleLookup(bruteForceService = bruteForceServiceImpl,
+
+    new disposal_of_vehicle.VehicleLookup(
+      bruteForceService = bruteForceServiceImpl(permitted = permitted),
       vehicleLookupService = vehicleLookupServiceImpl)(clientSideSessionFactory)
   }
 
-  private val vehicleLookupError = {
+  private lazy val vehicleLookupError = {
+    val permitted = true // The lookup is permitted as we are testing failure on the next step.
     val vehicleLookupWebService: VehicleLookupWebService = mock[VehicleLookupWebService]
     when(vehicleLookupWebService.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
       throw new IllegalArgumentException
@@ -312,7 +323,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(vehicleLookupWebService)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
 
-    new disposal_of_vehicle.VehicleLookup(bruteForceService = bruteForceServiceImpl,
+    new disposal_of_vehicle.VehicleLookup(
+      bruteForceService = bruteForceServiceImpl(permitted = permitted),
       vehicleLookupService = vehicleLookupServiceImpl)(clientSideSessionFactory)
   }
 
