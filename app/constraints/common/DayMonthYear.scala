@@ -12,7 +12,7 @@ object DayMonthYear {
 
   def required: Constraint[Int] = Constraint[Int]("constraint.required") {
     case i if i > 0 => Valid
-    case _ => Invalid(ValidationError("error.dropDownInvalid"))
+    case _ => Invalid(ValidationError("error.dropDownInvalid")) // TODO test coverage
   }
 
   def validDate(minYear: Int = MinYear, maxYear: Int = MaxYear): Constraint[models.DayMonthYear] = {
@@ -23,7 +23,7 @@ object DayMonthYear {
 
     Constraint("constraint.required") {
       case dmy@models.DayMonthYear(_, _, _, _, _) => dateValidation(dmy)
-      case _ => Invalid(ValidationError("error.required"))
+      case _ => Invalid(ValidationError("error.required")) // TODO test coverage
     }
   }
 

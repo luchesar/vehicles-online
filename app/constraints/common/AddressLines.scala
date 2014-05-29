@@ -12,6 +12,6 @@ object AddressLines {
       if (input.totalCharacters > MaxLengthOfLinesConcatenated) Invalid(ValidationError("error.address.maxLengthOfLinesConcatenated"))
       else if (!whitelist.pattern.matcher(input.toViewFormat.mkString).matches) Invalid(ValidationError("error.address.characterinvalid"))
       else Valid
-    case _ => Invalid(ValidationError("error.address.line1Required"))
+    case _ => Invalid(ValidationError("error.address.line1Required")) // TODO test coverage
   }
 }
