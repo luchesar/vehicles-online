@@ -11,7 +11,7 @@ import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeAddressLookupService.postcodeValid
 import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
-import services.fakes.FakeWebServiceImpl._
+import services.fakes.FakeAddressLookupWebServiceImpl._
 import services.fakes.{FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
 import mappings.disposal_of_vehicle.EnterAddressManually._
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}

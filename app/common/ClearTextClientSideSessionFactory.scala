@@ -1,6 +1,6 @@
 package common
 
-import play.api.mvc.{SimpleResult, Request}
+import play.api.mvc.{Cookie, SimpleResult}
 import com.google.inject.Inject
 
 class ClearTextClientSideSessionFactory @Inject()(implicit cookieFlags: CookieFlags) extends ClientSideSessionFactory {
@@ -8,9 +8,9 @@ class ClearTextClientSideSessionFactory @Inject()(implicit cookieFlags: CookieFl
   // No intrinsic state so safe to return same instance for all sessions.
   private val clearTextClientSideSession = new ClearTextClientSideSession()
 
-  override def newSession(request: Request[_], result: SimpleResult): (SimpleResult, ClientSideSession) =
+  override def newSession(result: SimpleResult): (SimpleResult, ClientSideSession) =
     (result, clearTextClientSideSession)
 
-  override def getSession(request: Request[_]): Option[ClientSideSession] =
+  override def getSession(request: Traversable[Cookie]): Option[ClientSideSession] =
     Some(clearTextClientSideSession)
 }

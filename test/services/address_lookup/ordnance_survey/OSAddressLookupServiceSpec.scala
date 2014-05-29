@@ -1,6 +1,6 @@
 package services.address_lookup.ordnance_survey
 
-import services.fakes.FakeWebServiceImpl
+import services.fakes.FakeAddressLookupWebServiceImpl
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.address_lookup._
@@ -10,7 +10,7 @@ import helpers.UnitSpec
 import services.fakes.FakeResponse
 import org.scalatest.time.Span
 import org.scalatest.time.Second
-import services.fakes.FakeWebServiceImpl._
+import services.fakes.FakeAddressLookupWebServiceImpl._
 import play.api.http.Status._
 import play.api.libs.ws.Response
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
@@ -132,7 +132,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
 
   private def addressServiceMock(response: Future[Response]): AddressLookupService = {
     // Using the real address lookup service but passing in a fake web service that returns the responses we specify.
-    new ordnance_survey.AddressLookupServiceImpl(new FakeWebServiceImpl(responseOfPostcodeWebService = response, responseOfUprnWebService = response))
+    new ordnance_survey.AddressLookupServiceImpl(new FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService = response, responseOfUprnWebService = response))
   }
 
   private def response(statusCode: Int, inputAsJson: JsValue): Future[Response] = Future {

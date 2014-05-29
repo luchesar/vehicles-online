@@ -1,7 +1,7 @@
 package services.fakes
 
 import models.domain.disposal_of_vehicle.AddressViewModel
-import FakeWebServiceImpl.{traderUprnValid, traderUprnValid2}
+import FakeAddressLookupWebServiceImpl.{traderUprnValid, traderUprnValid2}
 
 object FakeAddressLookupService {
   final val traderBusinessNameValid = "example trader name"
