@@ -2,7 +2,7 @@ package pages.disposal_of_vehicle
 
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
-import services.fakes.FakeWebServiceImpl.traderUprnValid
+import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 
 object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {

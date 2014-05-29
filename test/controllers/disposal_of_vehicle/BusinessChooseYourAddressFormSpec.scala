@@ -2,8 +2,8 @@ package controllers.disposal_of_vehicle
 
 import helpers.UnitSpec
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
-import services.fakes.FakeWebServiceImpl
-import services.fakes.FakeWebServiceImpl._
+import services.fakes.FakeAddressLookupWebServiceImpl
+import services.fakes.FakeAddressLookupWebServiceImpl._
 import composition.TestComposition.{testInjector => injector}
 import common.ClientSideSessionFactory
 
@@ -26,7 +26,7 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
   private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
     val responsePostcode = if(uprnFound) responseValidForPostcodeToAddress else responseValidForPostcodeToAddressNotFound
     val responseUprn = if(uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
-    val fakeWebService = new FakeWebServiceImpl(responsePostcode, responseUprn)
+    val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     new BusinessChooseYourAddress(addressLookupService)(clientSideSessionFactory)
