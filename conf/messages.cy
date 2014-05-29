@@ -182,9 +182,9 @@ disposal_enteraddressmanually.submitbutton = Nesaf
 disposal_enteraddressmanually.backbutton = Yn ôl
 addressAndPostcode_addressLines = Cyfeiriad
 address.lines.label = Cyfeiriad
-address.line1.label = Enw'r adeilad neu rif
-address.line2.label= Enwau strydoedd
-address.line3.label= Ardal
+address.line1.label = Llinell 1
+address.line2.label= Llinell 2
+address.line3.label= Llinell 3
 address.line4.label= Postiwch y dref
 address.postcode.label = Cod post
 address.postcode.label.prompt = e.g. SA99 1BD
@@ -328,8 +328,8 @@ select_default = Dewiswch
 
 error.invalid = Gwerth annilys
 
-error.address.line1Required = Mae angen o leiaf y llinell gyntaf lenwi gyfeiriad
-addressAndPostcode.addressLines.line1 = Rhif y ty / Enw ty
+error.address.line1Required = Mae angen llinell 1 llenwi gyfeiriad
+addressAndPostcode.addressLines.line1 = Llinell 1
 error.address.maxLengthOfLinesConcatenated = Gall gyfeiriad gael mwy na 120 o gymeriadau
 error.address.characterinvalid = Nid yw nodau annilys chaniateir
 addressAndPostcode.addressLines = Cyfeiriad

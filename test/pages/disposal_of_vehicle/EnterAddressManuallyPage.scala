@@ -37,9 +37,10 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
     click on next
   }
 
-  def happyPathMandatoryFieldsOnly(line1: String = line1Valid, postcode:String = postcodeValid)(implicit driver: WebDriver) ={
+  def happyPathMandatoryFieldsOnly(line1: String = line1Valid, line4: String = line4Valid, postcode:String = postcodeValid)(implicit driver: WebDriver) ={
     go to EnterAddressManuallyPage
     addressLine1.value = line1
+    addressLine4.value = line4
     EnterAddressManuallyPage.postcode.value = postcode
     click on next
   }

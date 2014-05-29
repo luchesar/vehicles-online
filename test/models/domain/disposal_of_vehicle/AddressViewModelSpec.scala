@@ -13,7 +13,7 @@ final class AddressViewModelSpec extends UnitSpec {
       val addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = line1Valid,
         line2 = Some(line2Valid),
         line3 = Some(line3Valid),
-        line4 = Some(line4Valid)),
+        line4 = line4Valid),
         postcode = postcodeValid)
 
       val result = AddressViewModel.from(addressAndPostcodeModel)
