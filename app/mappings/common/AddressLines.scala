@@ -10,7 +10,8 @@ object AddressLines {
   final val Line2Id = "line2"
   final val Line3Id = "line3"
   final val Line4Id = "line4"
-  final val Line1MinLength = 1
+  final val Line1MinLength = 4
+  final val Line4MinLength = 3
   final val LineMaxLength = 30
   final val MaxLengthOfLinesConcatenated = 120
   final val AddressLinesCacheKey = "addressLines"
@@ -19,6 +20,6 @@ object AddressLines {
     Line1Id -> nonEmptyText(minLength = Line1MinLength, maxLength = LineMaxLength),
     Line2Id -> optional(text(maxLength = LineMaxLength)),
     Line3Id -> optional(text(maxLength = LineMaxLength)),
-    Line4Id -> optional(text(maxLength = LineMaxLength))
+    Line4Id -> nonEmptyText(minLength = Line4MinLength, maxLength = LineMaxLength)
   )(AddressLinesModel.apply)(AddressLinesModel.unapply)
 }

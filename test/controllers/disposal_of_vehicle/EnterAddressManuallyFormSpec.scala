@@ -12,9 +12,11 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     "accept if form is valid with all fields filled in" in {
       val model = formWithValidDefaults().get.addressAndPostcodeModel
       model.addressLinesModel.line1 should equal(line1Valid)
+      println("** Line 1:" + model.addressLinesModel.line1.toString)
+
       model.addressLinesModel.line2 should equal(Some(line2Valid))
       model.addressLinesModel.line3 should equal(Some(line3Valid))
-      model.addressLinesModel.line4 should equal(Some(line4Valid))
+      model.addressLinesModel.line4 should equal(line4Valid)
       model.postcode should equal(postcodeValid)
     }
 
@@ -27,7 +29,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
 
   "address lines" should {
     "accept if form address lines contain hyphens" in {
-      val line1Hypthens = "1-1"
+      val line1Hypthens = "1-12"
       val line2Hypthens = "address line - 2"
       val line3Hypthens = "address line - 3"
       val line4Hypthens = "address line - 4"
@@ -40,15 +42,23 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
       model.addressLinesModel.line1 should equal(line1Hypthens)
       model.addressLinesModel.line2 should equal(Some(line2Hypthens))
       model.addressLinesModel.line3 should equal(Some(line3Hypthens))
-      model.addressLinesModel.line4 should equal(Some(line4Hypthens))
+      model.addressLinesModel.line4 should equal(line4Hypthens)
+    }
+
+    "reject if line 4 is blank" in {
+      formWithValidDefaults(line4 = "").errors should have length 2
     }
 
     "reject if line1 is blank" in {
       formWithValidDefaults(line1 = "").errors should have length 2
     }
 
+    "reject if line1 is less than min length" in {
+      formWithValidDefaults(line1 = "abc", line2 = "", line3 = "", line4 = line4Valid).errors should have length 1
+    }
+
     "reject if line1 is more than max length" in {
-      formWithValidDefaults(line1 = "a" * (LineMaxLength + 1), line2 = "", line3 = "", line4 = "").errors should have length 1
+      formWithValidDefaults(line1 = "a" * (LineMaxLength + 1), line2 = "", line3 = "", line4 = line4Valid).errors should have length 1
     }
 
     "reject if line1 is greater than max length" in {
@@ -60,15 +70,19 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     }
 
     "reject if line2 is more than max length" in {
-      formWithValidDefaults(line2 = "a" * (LineMaxLength + 1), line3 = "", line4 = "").errors should have length 1
+      formWithValidDefaults(line2 = "a" * (LineMaxLength + 1), line3 = "", line4 = line4Valid).errors should have length 1
     }
 
     "reject if line3 is more than max length" in {
-      formWithValidDefaults(line2 = "", line3 = "a" * (LineMaxLength + 1), line4 = "").errors should have length 1
+      formWithValidDefaults(line2 = "", line3 = "a" * (LineMaxLength + 1), line4 = line4Valid).errors should have length 1
     }
 
     "reject if line4 is more than max length" in {
       formWithValidDefaults(line2 = "", line3 = "", line4 = "a" * (LineMaxLength + 1)).errors should have length 1
+    }
+
+    "reject if line4 is less than min length" in {
+      formWithValidDefaults(line2 = "", line3 = "", line4 = "ab").errors should have length 1
     }
 
     "reject if total length of all address lines is more than maxLengthOfLinesConcatenated" in {

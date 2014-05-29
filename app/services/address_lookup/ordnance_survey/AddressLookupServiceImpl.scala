@@ -28,7 +28,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
 
     ws.callPostcodeWebService(postcode).map {
       resp =>
-        Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}")
+        //Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}")
         if (resp.status == play.api.http.Status.OK) toDropDown(resp)
         else Seq.empty // The service returned http code other than 200 OK
     }.recover {
@@ -54,7 +54,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
 
     ws.callUprnWebService(uprn).map {
       resp =>
-        Logger.debug(s"Http response code from Ordnance Survey uprn lookup service was: ${resp.status}")
+        //Logger.debug(s"Http response code from Ordnance Survey uprn lookup service was: ${resp.status}")
         if (resp.status == play.api.http.Status.OK) toViewModel(resp)
         else None
     }.recover {

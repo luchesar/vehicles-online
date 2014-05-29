@@ -66,7 +66,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
               BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithReplacedErrors, setupTradeDetailsModel.traderBusinessName, setupTradeDetailsModel.traderPostcode, addresses))
           }
           case None => Future {
-            Logger.error("Failed to find dealer details in cache for submit formWithErrors, redirecting...")
+            //Logger.error("Failed to find dealer details in cache for submit formWithErrors, redirecting...")
             Redirect(routes.SetUpTradeDetails.present())
           }
         },
@@ -75,7 +75,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
           case Some(setupTradeDetailsModel) =>
             lookupUprn(f, setupTradeDetailsModel.traderBusinessName)
           case None => Future {
-            Logger.error("Failed to find dealer details in cache on submit valid form, redirecting...")
+            //Logger.error("Failed to find dealer details in cache on submit valid form, redirecting...")
             Redirect(routes.SetUpTradeDetails.present())
           }
         }

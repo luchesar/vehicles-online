@@ -104,6 +104,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     "redirect to Dispose after a valid submission of mandatory fields only" in new WithApplication {
       val request = FakeRequest().withSession().withFormUrlEncodedBody(
           s"$AddressAndPostcodeId.$AddressLinesId.$Line1Id" -> line1Valid,
+          s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> line4Valid,
           s"$AddressAndPostcodeId.$PostcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually.submit(request)
       whenReady(result) {

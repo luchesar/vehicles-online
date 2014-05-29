@@ -5,27 +5,27 @@ import org.scalatest.{Matchers, WordSpec}
 final class AddressAndPostcodeSpec extends WordSpec with Matchers {
   "Address - model" should {
     "return expected toString value" in {
-      val address = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = "a",
-        line2 = Some("b"),
-        line3 = Some("c"),
-        line4 = Some("d")),
-        postcode = "e")
+      val address = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = "abcd",
+        line2 = Some("e"),
+        line3 = Some("f"),
+        line4 = "ghi"),
+        postcode = "j")
 
       val result = address.toViewFormat.mkString(", ")
 
-      result should equal("a, b, c, d, e")
+      result should equal("abcd, e, f, ghi, j")
     }
 
     "return expected toString value with missings values" in {
-      val address = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = "a",
+      val address = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = "abcd",
         line2 = None,
         line3 = None,
-        line4 = None),
-        postcode = "e")
+        line4 = "efg"),
+        postcode = "h")
 
       val result = address.toViewFormat.mkString(", ")
 
-      result should equal("a, e")
+      result should equal("abcd, efg, h")
     }
   }
 }
