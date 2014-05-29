@@ -6,8 +6,8 @@ import scala.language.postfixOps
 
 object Config {
   // Micro-service config
-  val vehicleLookupMicroServiceBaseUrl = getProperty("vehicleLookupMicroServiceUrlBase", "http://localhost:8090")
-  val disposeVehicleMicroServiceBaseUrl = getProperty("disposeVehicleMicroServiceUrlBase", "http://localhost:8080")
+  val vehicleLookupMicroServiceBaseUrl = getProperty("vehicleLookupMicroServiceUrlBase", "NOT FOUND")
+  val disposeVehicleMicroServiceBaseUrl = getProperty("disposeVehicleMicroServiceUrlBase", "NOT FOUND")
 
   // Ordnance survey config
   val ordnanceSurveyMicroServiceUrl = getProperty("ordnancesurvey.ms.url", "")
@@ -20,4 +20,6 @@ object Config {
 
   // Dispose
   val disposeMsRequestTimeout = getProperty("dispose.ms.requesttimeout", (30 seconds).toMillis)
+
+  val bruteForcePreventionMicroServiceBase = getProperty("bruteForcePreventionMicroServiceBase", "NOT FOUND")
 }
