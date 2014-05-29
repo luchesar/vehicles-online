@@ -27,6 +27,23 @@ object ApplicationBuild extends Build {
     "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc()
   )
 
+  val jsModulesToOptimise = Seq("custom.js")
+
+  /**
+   * The Play Framework requires all config for RequireJS to be defined through a single file. The location of this file
+   * is specified through the `requireJsShim` SBT setting.
+   *
+   * TypeSafe advocate setting the `requireJsShim` path to the application's `data-main` module. This approach assumes
+   * there is just one, and will not scale when multiple `data-main` modules are used across the site.
+   *
+   * Currently this is not an issue: this application only uses one `data-main` module: custom.js
+   *
+   * If this becomes an issue, the solution is to define the universal set of all configuration options in a central
+   * config file. This file can either be appended to the `/assets/javascripts/require.js` file (to reduce introducing
+   * a new resource), or more simply, the subset of relevant options can be repeated across each `data-main` module.
+   */
+  val jsConfig = "custom.js"
+
   val myOrganization = Seq(organization := "Driver & Vehicle Licensing Agency")
 
   val compilerOptions = Seq(scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls"))
@@ -34,6 +51,8 @@ object ApplicationBuild extends Build {
   val myScalaVersion = Seq(scalaVersion := "2.10.3")
 
   val scalaCheck = org.scalastyle.sbt.ScalastylePlugin.Settings
+
+  val requireJsSettings = Seq(requireJs := jsModulesToOptimise, requireJsShim := jsConfig)
 
   val myTestOptions =
   if (System.getProperty("include") != null ) {
@@ -54,7 +73,7 @@ object ApplicationBuild extends Build {
   val jcoco = Seq(parallelExecution in jacoco.Config := false)
 
   val appSettings: Seq[Def.Setting[_]] = myOrganization ++ SassPlugin.sassSettings ++ myScalaVersion ++ compilerOptions ++ myConcurrentRestrictions ++
-    myTestOptions ++ excludeTest ++ myJavaOptions ++ fork ++ jcoco ++ scalaCheck
+    myTestOptions ++ excludeTest ++ myJavaOptions ++ fork ++ jcoco ++ scalaCheck ++ requireJsSettings
 
   val main = play.Project(appName, appVersion, appDependencies, settings = play.Project.playScalaSettings ++ jacoco.settings ++ ScalastylePlugin.Settings).settings(appSettings: _*)
 }
