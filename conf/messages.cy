@@ -329,6 +329,9 @@ select_default = Dewiswch
 error.invalid = Gwerth annilys
 
 error.address.line1Required = Mae angen llinell 1 llenwi gyfeiriad
+error.address.line1minLength = Llinell 1 yn gofyn o leiaf hyd o 4 cymeriadau
+error.address.line4Required = Mae angen ar ôl tref llenwi gyfeiriad
+error.address.line4minLength = Llinell 4 yn gofyn o leiaf hyd o 3 cymeriadau
 addressAndPostcode.addressLines.line1 = Llinell 1
 error.address.maxLengthOfLinesConcatenated = Gall gyfeiriad gael mwy na 120 o gymeriadau
 error.address.characterinvalid = Nid yw nodau annilys chaniateir
