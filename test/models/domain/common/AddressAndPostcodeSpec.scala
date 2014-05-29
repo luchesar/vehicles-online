@@ -2,7 +2,7 @@ package models.domain.common
 
 import org.scalatest.{Matchers, WordSpec}
 
-class AddressAndPostcodeSpec extends WordSpec with Matchers {
+final class AddressAndPostcodeSpec extends WordSpec with Matchers {
   "Address - model" should {
     "return expected toString value" in {
       val address = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = "a",

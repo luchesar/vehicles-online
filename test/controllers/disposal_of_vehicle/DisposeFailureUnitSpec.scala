@@ -1,12 +1,13 @@
 package controllers.disposal_of_vehicle
 
-import play.api.test.{FakeRequest, WithApplication}
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
-import utils.helpers.{CookieEncryption, NoEncryption}
+import composition.TestComposition.{testInjector => injector}
+import helpers.WithApplication
 
-class DisposeFailureUnitSpec extends UnitSpec {
+final class DisposeFailureUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
       val request = FakeRequest().withSession().
@@ -14,8 +15,7 @@ class DisposeFailureUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeTransactionId())
-      val noCookieEncryption = new NoEncryption with CookieEncryption
-      val result = new DisposeFailure()(noCookieEncryption).present(request)
+      val result = injector.getInstance(classOf[DisposeFailure]).present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
       }

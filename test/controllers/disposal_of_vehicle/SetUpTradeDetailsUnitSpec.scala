@@ -1,21 +1,21 @@
 package controllers.disposal_of_vehicle
 
 import helpers.UnitSpec
-import helpers.disposal_of_vehicle.Helper._
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
-import play.api.test.{FakeRequest, WithApplication}
+import play.api.test.FakeRequest
 import services.fakes.FakeAddressLookupService._
-import play.api.mvc.Cookies
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import utils.helpers.{CookieEncryption, NoEncryption}
+import composition.TestComposition.{testInjector => injector}
+import common.CookieHelper._
+import helpers.WithApplication
 
-class SetUpTradeDetailsUnitSpec extends UnitSpec {
+final class SetUpTradeDetailsUnitSpec extends UnitSpec {
   "present" should {
-    "display page" in new WithApplication {
+    "display the page" in new WithApplication {
       val request = FakeRequest().withSession()
-      val result = setUpTradeDetails().present(request)
+      val result = setUpTradeDetails.present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
       }
@@ -24,7 +24,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
     "display populated fields when cookie exists" in new WithApplication {
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = setUpTradeDetails().present(request)
+      val result = setUpTradeDetails.present(request)
       val content = contentAsString(result)
       content should include(traderBusinessNameValid)
       content should include(postcodeValid)
@@ -32,7 +32,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
     "display empty fields when cookie does not exist" in new WithApplication {
       val request = FakeRequest().withSession()
-      val result = setUpTradeDetails().present(request)
+      val result = setUpTradeDetails.present(request)
       val content = contentAsString(result)
       content should not include traderBusinessNameValid
       content should not include postcodeValid
@@ -42,7 +42,7 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
   "submit" should {
     "redirect to next page when the form is completed successfully" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = setUpTradeDetails().submit(request)
+      val result = setUpTradeDetails.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
       }
@@ -50,48 +50,45 @@ class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
     "return a bad request if no details are entered" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "", dealerPostcode = "")
-      val result = setUpTradeDetails().submit(request)
+      val result = setUpTradeDetails.submit(request)
       whenReady(result) {
         r => r.header.status should equal(BAD_REQUEST)
       }
     }
 
     "replace max length error message for traderBusinessName with standard error message (US158)" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (traderNameMaxLength + 1))
-      val result = setUpTradeDetails().submit(request)
-      val count = countSubstring(contentAsString(result), "Must be between two and 30 characters and not contain invalid characters")
+      val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (TraderNameMaxLength + 1))
+      val result = setUpTradeDetails.submit(request)
+      val count = "Must be between two and 30 characters and not contain invalid characters".r.findAllIn(contentAsString(result)).length
       count should equal(2)
     }
 
     "replace required and min length error messages for traderBusinessName with standard error message (US158)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "")
-      val result = setUpTradeDetails().submit(request)
-      val count = countSubstring(contentAsString(result), "Must be between two and 30 characters and not contain invalid characters")
+      val result = setUpTradeDetails.submit(request)
+      val count = "Must be between two and 30 characters and not contain invalid characters".r.findAllIn(contentAsString(result)).length
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
       // the page and once above the field.
     }
 
     "write cookie when the form is completed successfully" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = setUpTradeDetails().submit(request)
+      val result = setUpTradeDetails.submit(request)
       whenReady(result) {
         r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          val found = cookies.exists(cookie => cookie.equals(CookieFactoryForUnitSpecs.setupTradeDetails()))
-          found should equal(true)
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.map(_.name) should contain (SetupTradeDetailsCacheKey)
       }
     }
   }
 
   private def buildCorrectlyPopulatedRequest(dealerName: String = traderBusinessNameValid, dealerPostcode: String = postcodeValid) = {
     FakeRequest().withSession().withFormUrlEncodedBody(
-      traderNameId -> dealerName,
-      traderPostcodeId -> dealerPostcode)
+      TraderNameId -> dealerName,
+      TraderPostcodeId -> dealerPostcode)
   }
 
-  private def setUpTradeDetails() = {
-    val noCookieEncryption = new NoEncryption with CookieEncryption
-    new SetUpTradeDetails()(noCookieEncryption)
+  private val setUpTradeDetails = {
+    injector.getInstance(classOf[SetUpTradeDetails])
   }
-
 }

@@ -166,12 +166,13 @@ disposal_businessChooseYourAddress_title = Dewiswch eich cyfeiriad masnach
 disposal_businessChooseYourAddress_legend = Manylion sefydlu masnach
 disposal_businessChooseYourAddress_businessName_label = Enw masnachwr
 disposal_businessChooseYourAddress_businessName = {0}
+disposal_businessChooseYourAddress_postcode_label = Cod post
 disposal_businessChooseYourAddress_businessAddress_label = Gyfeiriad masnachwr
 disposal_businessChooseYourAddress_addressSelect = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress_addressSelect_label = Dewiswch eich cyfeiriad
 disposal_businessChooseYourAddress.backbutton = Holau
 disposal_businessChooseYourAddress.submitbutton = Dewis
-disposal_businessChooseYourAddress.manualAddressEntry = Ni allaf ddod o hyd i fy nghyfeiriad
+disposal_businessChooseYourAddress.manualAddressEntry = Nid yw fy cyfeiriad yn y rhestr
 error.dropDownInvalid = Dewiswch werth o''r rhestr a ollyngir i lawr
 disposal_businessChooseYourAddress_noaddressesfound = Dim canlyniadau ar gyfer y cod post cyfeiriadau. Cliciwch ar y botwm yn ôl i fynd i mewn i god post wahanol neu roi cyfeiriad llaw
 
@@ -187,7 +188,10 @@ address.line3.label= Ardal
 address.line4.label= Postiwch y dref
 address.postcode.label = Cod post
 address.postcode.label.prompt = e.g. SA99 1BD
-address.postcode.validation = WELSH Enter a valid postcode
+address.postcode.validation = Rhowch god post dilys
+addressAndPostcode.addressLines.line2 = Enwau strydoedd
+addressAndPostcode.addressLines.line3 = Ardal
+addressAndPostcode.addressLines.line4 = Postiwch y dref
 
 #page 3 - uprn not found
 disposal_uprnnotfound.title = Gwall cod post yn cadarnhau
@@ -205,6 +209,8 @@ disposal_setuptradedetails.traderpostcodelabel.validation = Rhaid bod rhwng 5 ac
 disposal_setuptradedetails.button = Nesaf
 traderName = Enw masnachwr
 traderPostcode = Cod post
+
+disposal_businessChooseYourAddress.address.required = Dewiswch gyfeiriad o''r gwymplen neu roi ei llaw
 
 #page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Dod o hyd i fanylion y cerbyd
@@ -324,7 +330,7 @@ error.invalid = Gwerth annilys
 
 error.address.line1Required = Mae angen o leiaf y llinell gyntaf lenwi gyfeiriad
 addressAndPostcode.addressLines.line1 = Rhif y ty / Enw ty
-error.address.maxLengthOfLinesConcatenated = Mae'n rhaid i gyfeiriad gael llai na 130 nod
+error.address.maxLengthOfLinesConcatenated = Gall gyfeiriad gael mwy na 120 o gymeriadau
 error.address.characterinvalid = Nid yw nodau annilys chaniateir
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post
@@ -345,3 +351,11 @@ soap_endpoint_error.title=Mae''n ddrwg gennym
 soap_endpoint_error.text=Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
 soap_endpoint_error.back.button=Yn ôl
 soap_endpoint_error.exit.button=Gadael
+
+# 404 onHandlerNotFound
+onHandlerNotFound.title=Ni all y dudalen ar gael
+onHandlerNotFound.header=Ni all y dudalen ar gael
+onHandlerNotFound.body=Gwnewch yn siŵr eich bod wedi mynd i mewn i'r cyfeiriad gwe cywir, neu archwilio GOV.UK i ddod o hyd i'r wybodaeth rydych ei hangen.
+
+error.title = Mae gwall wedi digwydd na ellir ei adennill
+error.button = Dechrau eto

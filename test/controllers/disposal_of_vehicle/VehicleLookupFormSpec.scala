@@ -14,11 +14,11 @@ import play.api.libs.json.{JsValue, Json}
 import services.fakes.FakeResponse
 import services.fakes.FakeVehicleLookupWebService._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
-import utils.helpers.{CookieEncryption, NoEncryption}
+import common.ClientSideSessionFactory
+import composition.TestComposition.{testInjector => injector}
 
-class VehicleLookupFormSpec extends UnitSpec {
-
-  "VehicleLookup form" should {
+final class VehicleLookupFormSpec extends UnitSpec {
+  "form" should {
     "accept when all fields contain valid responses" in {
       formWithValidDefaults().get.referenceNumber should equal(referenceNumberValid)
       formWithValidDefaults().get.registrationNumber should equal(registrationNumberValid)
@@ -36,7 +36,7 @@ class VehicleLookupFormSpec extends UnitSpec {
 
     "reject if blank" in {
       val vehicleLookupFormError = formWithValidDefaults(referenceNumber = "").errors
-      val expectedKey = referenceNumberId
+      val expectedKey = ReferenceNumberId
       
       vehicleLookupFormError should have length 3
       vehicleLookupFormError(0).key should equal(expectedKey)
@@ -100,8 +100,8 @@ class VehicleLookupFormSpec extends UnitSpec {
       new FakeResponse(status = fullResponse._1, fakeJson = responseAsJson)// Any call to a webservice will always return this successful response.
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
-    val noCookieEncryption = new NoEncryption with CookieEncryption
-    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)(noCookieEncryption)
+    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)(clientSideSessionFactory)
   }
 
   private def formWithValidDefaults(referenceNumber: String = referenceNumberValid,
@@ -109,8 +109,8 @@ class VehicleLookupFormSpec extends UnitSpec {
                                     consent: String = consentValid) = {
     vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).vehicleLookupForm.bind(
       Map(
-        referenceNumberId -> referenceNumber,
-        registrationNumberId -> registrationNumber
+        ReferenceNumberId -> referenceNumber,
+        RegistrationNumberId -> registrationNumber
       )
     )
   }

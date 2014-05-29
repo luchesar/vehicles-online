@@ -16,11 +16,12 @@ import services.dispose_service.{DisposeWebService, DisposeServiceImpl}
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeResponse
-import services.{DateService, DateServiceImpl}
-import utils.helpers.{CookieEncryption, NoEncryption}
+import services.DateService
+import scala.Some
+import common.ClientSideSessionFactory
+import composition.TestComposition.{testInjector => injector}
 
-class DisposeFormSpec extends UnitSpec {
-
+final class DisposeFormSpec extends UnitSpec {
   "form" should {
     "accept when all fields contain valid responses" in {
       val model = formWithValidDefaults().get
@@ -52,7 +53,7 @@ class DisposeFormSpec extends UnitSpec {
 
   "mileage" should {
     "reject if mileage is more than maximum" in {
-      formWithValidDefaults(mileage = (Mileage.max + 1).toString).errors should have length 1
+      formWithValidDefaults(mileage = (Mileage.Max + 1).toString).errors should have length 1
     }
   }
 
@@ -78,7 +79,7 @@ class DisposeFormSpec extends UnitSpec {
         dayOfDispose = dayOfDispose)
 
       result.errors should have length 1
-      result.errors(0).key should equal(dateOfDisposalId)
+      result.errors(0).key should equal(DateOfDisposalId)
       result.errors(0).message should equal("error.notInFuture")
     }
 
@@ -94,7 +95,7 @@ class DisposeFormSpec extends UnitSpec {
         yearOfDispose = yearOfDispose)
 
       result.errors should have length 1
-      result.errors(0).key should equal(dateOfDisposalId)
+      result.errors(0).key should equal(DateOfDisposalId)
       result.errors(0).message should equal("error.withinTwoYears")
     }
 
@@ -107,7 +108,7 @@ class DisposeFormSpec extends UnitSpec {
         disposeController = dispose(dateServiceStubbed))
 
       result.errors should have length 1
-      result.errors(0).key should equal(dateOfDisposalId)
+      result.errors(0).key should equal(DateOfDisposalId)
       result.errors(0).message should equal("error.invalid")
     }
   }
@@ -130,7 +131,7 @@ class DisposeFormSpec extends UnitSpec {
     val dayMonthYearStub = new models.DayMonthYear(day = dayToday,
       month = monthToday,
       year = yearToday)
-    val dateService = mock[DateServiceImpl]
+    val dateService = mock[DateService]
     when(dateService.today).thenReturn(dayMonthYearStub)
     dateService
   }
@@ -143,8 +144,8 @@ class DisposeFormSpec extends UnitSpec {
       new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
     })
     val disposeServiceImpl = new DisposeServiceImpl(ws)
-    val noCookieEncryption = new NoEncryption with CookieEncryption
-    new disposal_of_vehicle.Dispose( disposeServiceImpl, dateService)(noCookieEncryption)
+    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService)(clientSideSessionFactory)
   }
 
   private def formWithValidDefaults(mileage: String = mileageValid,
@@ -157,12 +158,12 @@ class DisposeFormSpec extends UnitSpec {
 
     disposeController.disposeForm.bind(
       Map(
-        mileageId -> mileage,
-        s"$dateOfDisposalId.$dayId" -> dayOfDispose,
-        s"$dateOfDisposalId.$monthId" -> monthOfDispose,
-        s"$dateOfDisposalId.$yearId" -> yearOfDispose,
-        consentId -> consent,
-        lossOfRegistrationConsentId -> lossOfRegistrationConsent
+        MileageId -> mileage,
+        s"$DateOfDisposalId.$DayId" -> dayOfDispose,
+        s"$DateOfDisposalId.$MonthId" -> monthOfDispose,
+        s"$DateOfDisposalId.$YearId" -> yearOfDispose,
+        ConsentId -> consent,
+        LossOfRegistrationConsentId -> lossOfRegistrationConsent
       )
     )
   }

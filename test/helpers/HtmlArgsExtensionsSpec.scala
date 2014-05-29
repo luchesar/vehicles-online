@@ -1,13 +1,9 @@
 package helpers
 
-import play.api.test.WithApplication
 import utils.helpers.HtmlArgsExtensions.RichHtmlArgs
 
-class HtmlArgsExtensionsSpec extends UnitSpec {
+final class HtmlArgsExtensionsSpec extends UnitSpec {
   "HtmlArgsExtensions maxlength rules" should {
-    val htmlArgsMinimal: Map[Symbol, Any] = Map('title -> "test")
-    val htmlArgsWithMaxLength: Map[Symbol, Any] = Map('title -> "test", 'maxLength -> 60)
-
     "remove maxLength from args when key maxLength is present and in test mode" in new WithApplication {
       val richHtmlArgs = new RichHtmlArgs(htmlArgsWithMaxLength)
 
@@ -70,4 +66,7 @@ class HtmlArgsExtensionsSpec extends UnitSpec {
       result should equal(htmlArgsWithAutoCompleteOff)
     }
   }
+
+  private val htmlArgsMinimal: Map[Symbol, Any] = Map('title -> "test")
+  private val htmlArgsWithMaxLength: Map[Symbol, Any] = Map('title -> "test", 'maxLength -> 60)
 }

@@ -3,154 +3,140 @@ package views.disposal_of_vehicle
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
-import mappings.disposal_of_vehicle.Dispose._
-import mappings.disposal_of_vehicle.SetupTradeDetails._
-import mappings.disposal_of_vehicle.TraderDetails._
-import mappings.disposal_of_vehicle.VehicleLookup._
 import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.DisposeSuccessPage._
 import pages.disposal_of_vehicle._
+import mappings.disposal_of_vehicle.RelatedCacheKeys
+import mappings.disposal_of_vehicle.EnterAddressManually._
 
-class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
-
-  "Dispose confirmation integration" should {
-
-    "be presented" in new WebBrowser {
+final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
       go to DisposeSuccessPage
 
-      assert(page.title equals DisposeSuccessPage.title)
+      page.title should equal(DisposeSuccessPage.title)
     }
-
     "redirect when no details are cached" in new WebBrowser {
       go to DisposeSuccessPage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "redirect when only DealerDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      CookieFactoryForUISpecs.dealerDetailsIntegration()
+      CookieFactoryForUISpecs.dealerDetails()
 
       go to DisposeSuccessPage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "redirect when only VehicleDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      CookieFactoryForUISpecs.vehicleDetailsModelIntegration()
+      CookieFactoryForUISpecs.vehicleDetailsModel()
 
       go to DisposeSuccessPage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "redirect when only DisposeDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
-      CookieFactoryForUISpecs.disposeFormModelIntegration()
+      CookieFactoryForUISpecs.disposeFormModel()
 
       go to DisposeSuccessPage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "redirect when only DealerDetails and VehicleDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.
-        dealerDetailsIntegration().
-        vehicleDetailsModelIntegration()
+        dealerDetails().
+        vehicleDetailsModel()
 
       go to DisposeSuccessPage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "redirect when only DisposeDetails and VehicleDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.
-        disposeFormModelIntegration().
-        vehicleDetailsModelIntegration()
+        disposeFormModel().
+        vehicleDetailsModel()
 
       go to DisposeSuccessPage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
     "redirect when only DisposeDetails and DealerDetails are cached" in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.
-        dealerDetailsIntegration().
-        disposeFormModelIntegration()
+        dealerDetails().
+        disposeFormModel()
 
       go to DisposeSuccessPage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
+  }
 
-    "display vehicle lookup page when new disposal link is clicked" in new WebBrowser {
+  "newDisposal button" should {
+    "display vehicle lookup page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       DisposeSuccessPage.happyPath
 
-      assert(page.title equals VehicleLookupPage.title)
+      page.title should equal(VehicleLookupPage.title)
     }
 
-    "remove redundant cookies when 'new disposal' button is clicked" in new WebBrowser {
+    "remove redundant cookies" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeSuccessPage
 
       click on newDisposal
 
-      // Expected to be removed
-      assert(webDriver.manage().getCookieNamed(vehicleLookupDetailsCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(vehicleLookupResponseCodeCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(vehicleLookupFormModelCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormModelCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormTransactionIdCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormTimestampIdCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormRegistrationNumberCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeModelCacheKey) == null)
+      // Verify the cookies identified by the dispose set of cache keys have been removed
+      RelatedCacheKeys.DisposeSet.foreach(cacheKey => {
+        webDriver.manage().getCookieNamed(cacheKey) should equal(null)
+      })
 
-      // Expected to be present
-      assert(webDriver.manage().getCookieNamed(SetupTradeDetailsCacheKey) != null)
-      assert(webDriver.manage().getCookieNamed(businessChooseYourAddressCacheKey) != null)
-      assert(webDriver.manage().getCookieNamed(traderDetailsCacheKey) != null)
+      // Verify the cookies identified by the trade details set of cache keys are present.
+      RelatedCacheKeys.TradeDetailsSet.foreach(cacheKey => {
+        webDriver.manage().getCookieNamed(cacheKey) should not equal null
+      })
     }
+  }
 
-    "remove redundant cookies when 'exit' button is clicked" in new WebBrowser {
+  "exit button" should {
+    "remove redundant cookies" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeSuccessPage
 
       click on exitDisposal
 
-      // Expected to be removed
-      assert(webDriver.manage().getCookieNamed(SetupTradeDetailsCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(businessChooseYourAddressCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(traderDetailsCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(vehicleLookupDetailsCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(vehicleLookupResponseCodeCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(vehicleLookupFormModelCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormModelCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormTransactionIdCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormTimestampIdCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormRegistrationNumberCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeModelCacheKey) == null)
+      // Verify the cookies identified by the full set of cache keys have been removed
+      RelatedCacheKeys.FullSet.foreach(cacheKey => {
+        webDriver.manage().getCookieNamed(cacheKey) should equal(null)
+      })
     }
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
-      setupTradeDetailsIntegration().
-      businessChooseYourAddressIntegration().
-      dealerDetailsIntegration().
-      vehicleDetailsModelIntegration().
-      disposeFormModelIntegration().
-      disposeTransactionIdIntegration().
-      vehicleRegistrationNumberIntegration()
+      setupTradeDetails().
+      businessChooseYourAddress().
+      enterAddressManually().
+      dealerDetails().
+      vehicleDetailsModel().
+      disposeFormModel().
+      disposeTransactionId().
+      vehicleRegistrationNumber()
 }

@@ -5,15 +5,15 @@ import play.api.data.Mapping
 import play.api.data.Forms._
 
 object SetupTradeDetails {
-  val traderNameMaxLength = 30
-  val traderNameMinLength = 2
-  val traderNameId = "traderName"
+  final val TraderNameMaxLength = 30
+  final val TraderNameMinLength = 2
+  final val TraderNameId = "traderName"
 
-  val traderPostcodeId = "traderPostcode"
-  val SetupTradeDetailsCacheKey = "setupTraderDetails"
-  val submitId = "submit"
+  final val TraderPostcodeId = "traderPostcode"
+  final val SetupTradeDetailsCacheKey = "setupTraderDetails"
+  final val SubmitId = "submit"
 
-  def traderBusinessName (minLength: Int = traderNameMinLength, maxLength: Int = traderNameMaxLength): Mapping[String] = {
+  def traderBusinessName (minLength: Int = TraderNameMinLength, maxLength: Int = TraderNameMaxLength): Mapping[String] = {
     nonEmptyText(minLength, maxLength) verifying TraderBusinessName.validTraderBusinessName
   }
 }

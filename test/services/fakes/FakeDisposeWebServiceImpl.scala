@@ -11,7 +11,7 @@ import play.api.libs.json.Json
 import play.api.libs.ws.Response
 import services.dispose_service.DisposeWebService
 
-class FakeDisposeWebServiceImpl extends DisposeWebService {
+final class FakeDisposeWebServiceImpl extends DisposeWebService {
   override def callDisposeService(request: DisposeRequest): Future[Response] = Future {
     val disposeResponse: DisposeResponse = {
       request.referenceNumber match {
@@ -27,60 +27,53 @@ class FakeDisposeWebServiceImpl extends DisposeWebService {
 }
 
 object FakeDisposeWebServiceImpl {
-  val transactionIdValid = "1234"
-  val auditIdValid = "7575"
-  val simulateMicroServiceUnavailable = "8" * 11
-  val simulateSoapEndpointFailure = "9" * 11
+  final val transactionIdValid = "1234"
+  private final val auditIdValid = "7575"
+  private final val simulateMicroServiceUnavailable = "8" * 11
+  private final val simulateSoapEndpointFailure = "9" * 11
 
   val disposeResponseSuccess =
-    DisposeResponse(message = "Fake Web Dispose Service - Good response",
-      transactionId = transactionIdValid,
+    DisposeResponse(transactionId = transactionIdValid,
       registrationNumber = registrationNumberValid,
       auditId = auditIdValid)
 
   val disposeResponseSoapEndpointFailure =
-    DisposeResponse(message = "Fake Web Dispose Service - Bad response - Soap endpoint down",
-      transactionId = "", // No transactionId because the soap endpoint is down
+    DisposeResponse(transactionId = "", // No transactionId because the soap endpoint is down
       registrationNumber = "",
       auditId = "",
       responseCode = None)
 
   val disposeResponseFailureWithResponseCode =
-    DisposeResponse(message = "Fake Web Dispose Service - Bad response",
-      transactionId = transactionIdValid, // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
+    DisposeResponse(transactionId = transactionIdValid, // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
       registrationNumber = "",
       auditId = "",
       responseCode = Some("ms.vehiclesService.response.unableToProcessApplication"))
 
   val disposeResponseSoapEndpointTimeout =
-    DisposeResponse(message = "Fake Web Dispose Service - Bad response - Soap endpoint timeout",
-      transactionId = "", // No transactionId because the soap endpoint is down
+    DisposeResponse(transactionId = "", // No transactionId because the soap endpoint is down
       registrationNumber = "",
       auditId = "",
       responseCode = None)
 
   val disposeResponseApplicationBeingProcessed =
-    DisposeResponse(message = "Fake Web Dispose Service - Good response",
-      transactionId = transactionIdValid,
+    DisposeResponse(transactionId = transactionIdValid,
       registrationNumber = registrationNumberValid,
       auditId = auditIdValid,
       responseCode = None)
 
   val disposeResponseUnableToProcessApplication =
-    DisposeResponse(message = "Fake Web Dispose Service - Bad response - Soap endpoint timeout",
-      transactionId = "", // No transactionId because the soap endpoint is down
+    DisposeResponse(transactionId = "", // No transactionId because the soap endpoint is down
       registrationNumber = "",
       auditId = "",
       responseCode = Some("ms.vehiclesService.response.unableToProcessApplication"))
 
   val disposeResponseUndefinedError =
-    DisposeResponse(message = "Fake Web Dispose Service - Bad response - Soap endpoint timeout",
-      transactionId = "", // No transactionId because the soap endpoint is down
+    DisposeResponse(transactionId = "", // No transactionId because the soap endpoint is down
       registrationNumber = "",
       auditId = "",
       responseCode = Some("undefined"))
 
 
-  val consentValid = "true"
-  val mileageValid = "20000"
+  final val consentValid = "true"
+  final val mileageValid = "20000"
 }

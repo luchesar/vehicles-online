@@ -1,4 +1,4 @@
-package modules
+package composition
 
 import app.ConfigProperties._
 import com.tzavellas.sse.guice.ScalaModule
@@ -7,8 +7,8 @@ import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebServiceImpl, VehicleLookupWebService}
 import services.dispose_service.{DisposeWebServiceImpl, DisposeWebService, DisposeServiceImpl, DisposeService}
 import services.{DateServiceImpl, DateService}
-import services.session.{PlaySessionState, SessionState}
-import utils.helpers.{FieldEncryption, AesEncryption, NoEncryption, CookieEncryption}
+import utils.helpers._
+import common._
 
 /**
  * Provides real implementations of traits
@@ -33,19 +33,16 @@ object DevModule extends ScalaModule {
     bind[DisposeWebService].to[DisposeWebServiceImpl].asEagerSingleton()
     bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton()
     bind[DateService].to[DateServiceImpl].asEagerSingleton()
-    bind[SessionState].to[PlaySessionState].asEagerSingleton()
+    bind[CookieFlags].to[CookieFlagsFromConfig].asEagerSingleton()
 
     val encryptCookies = getProperty("encryptCookies", default = true)
-    if (encryptCookies)
+    if (encryptCookies) {
       bind[CookieEncryption].toInstance(new AesEncryption with CookieEncryption)
-    else
-      bind[CookieEncryption].toInstance(new NoEncryption with CookieEncryption)
-
-    val encryptFields = getProperty("encryptFields", default = true)
-    if (encryptFields)
-      bind[FieldEncryption].toInstance(new AesEncryption with FieldEncryption)
-    else
-      bind[FieldEncryption].toInstance(new NoEncryption with FieldEncryption)
+      bind[CookieNameHashing].toInstance(new Sha1Hash with CookieNameHashing)
+      bind[ClientSideSessionFactory].to[EncryptedClientSideSessionFactory].asEagerSingleton()
+    } else {
+      bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
+    }
   }
 
   private def ordnanceSurveyAddressLookup() = {

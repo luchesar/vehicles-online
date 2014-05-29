@@ -1,7 +1,9 @@
 package mappings.disposal_of_vehicle
 
 object DisposeSuccess {
-  val emailAddressId = "emailAddress"
-  val newDisposalId = "newDisposal"
-  val exitDisposalId = "exitDisposal"
+  final val EmailAddressId = "emailAddress"
+  final val NewDisposalId = "newDisposal"
+  final val ExitDisposalId = "exitDisposal"
+  final val NewDisposalAction = "newDisposal"
+  final val ExitAction = "exit"
 }

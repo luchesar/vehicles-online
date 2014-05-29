@@ -1,42 +1,60 @@
 package utils.helpers
 
-import org.scalatest.{Matchers, WordSpec}
-import play.api.test.WithApplication
+import helpers.UnitSpec
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import mappings.disposal_of_vehicle.RelatedCacheKeys
+import play.api.test.Helpers._
+import play.api.test.{FakeApplication, FakeRequest}
+import pages.disposal_of_vehicle.BeforeYouStartPage
+import common.CookieHelper._
+import helpers.WithApplication
 
-class CryptoHelperSpec extends WordSpec with Matchers {
-  val clearText = "qwerty"
+final class CryptoHelperSpec extends UnitSpec {
+  "handleApplicationSecretChange" should {
+    "discard all cookies except SeenCookieMessageKey" in new WithApplication(app = appWithCryptpConfig) {
+      val request = FakeRequest().withSession().
+        withCookies(CookieFactoryForUnitSpecs.seenCookieMessage()).
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeTransactionId()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
+        withCookies(CookieFactoryForUnitSpecs.disposeModel())
 
-  "encryptCookieName" should {
-    "return an encrypted string" in new WithApplication {
-      CryptoHelper.encryptCookieName(clearText, encryptCookies = true) should not equal clearText
+      val result = CryptoHelper.handleApplicationSecretChange(request)
+
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.filter(cookie => RelatedCacheKeys.FullSet.contains(cookie.name)).foreach { cookie =>
+          cookie.maxAge match {
+            case Some(maxAge) if maxAge < 0 => // Success
+            case Some(maxAge) => fail(s"maxAge should be negative but was $maxAge")
+            case _ => fail("should be some maxAge")
+          }
+        }
+      }
     }
 
-    "returns the same hash repeatedly" in new WithApplication {
-      val first = CryptoHelper.encryptCookieName(clearText, encryptCookies = true)
-      val second = CryptoHelper.encryptCookieName(clearText, encryptCookies = true)
-      first should equal(second)
-    }
-  }
+    "redirect to BeforeYouStart page" in new WithApplication(app = appWithCryptpConfig) {
+      val request = FakeRequest().withSession().
+        withCookies(CookieFactoryForUnitSpecs.seenCookieMessage()).
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeTransactionId()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
+        withCookies(CookieFactoryForUnitSpecs.disposeModel())
 
-  "encryptAES" should {
-    "return an encrypted string" in new WithApplication {
-      CryptoHelper.encryptAES(clearText, encryptFields = true) should not equal clearText
-    }
-
-    "return a different encrypted string given same clear text input" in new WithApplication {
-      val cipherText1 = CryptoHelper.encryptAES(clearText, encryptFields = true)
-      val cipherText2 = CryptoHelper.encryptAES(clearText, encryptFields = true)
-
-      withClue("Initialization vectors must be used to ensure output is always random") {
-        cipherText1 should not equal cipherText2
+      val result = CryptoHelper.handleApplicationSecretChange(request)
+      
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
       }
     }
   }
 
-  "decryptAES" should {
-    "return a decrypted string" in new WithApplication {
-      val encrypted = CryptoHelper.encryptAES(clearText, encryptFields = true)
-      CryptoHelper.decryptAES(encrypted, decryptFields = true) should equal(clearText)
-    }
-  }
+  private val appWithCryptpConfig = FakeApplication(
+    additionalConfiguration = Map("application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo="))
 }

@@ -3,9 +3,9 @@ package models.domain.disposal_of_vehicle
 import models.domain.common.{CacheKey, AddressLinesModel, AddressAndPostcodeModel}
 import scala.annotation.tailrec
 import play.api.libs.json.Json
-import mappings.disposal_of_vehicle.EnterAddressManually.enterAddressManuallyCacheKey
+import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
 
-case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcodeModel) {
+final case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcodeModel) {
   def stripCharsNotAccepted = {
     @tailrec
     def stripEndOfLine(inputLine: Option[String]): Option[String] = inputLine match {
@@ -19,16 +19,16 @@ case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcode
     }
 
     val line1 = stripEndOfLine(Some(addressAndPostcodeModel.addressLinesModel.line1))
+    require(line1.isDefined, "Address line1 must have content")
     val line2 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line2)
     val line3 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line3)
     val line4 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line4)
 
-    require(line1.isDefined, "Address line1 must have content")
     copy(addressAndPostcodeModel = addressAndPostcodeModel.copy(addressLinesModel = AddressLinesModel(line1.get, line2, line3, line4)))
   }
 }
 
 object EnterAddressManuallyModel {
-  implicit val enterAddressManuallyModelFormat = Json.format[EnterAddressManuallyModel]
-  implicit val cacheKey = CacheKey[EnterAddressManuallyModel](enterAddressManuallyCacheKey)
+  implicit val JsonFormat = Json.format[EnterAddressManuallyModel]
+  implicit val Key = CacheKey[EnterAddressManuallyModel](EnterAddressManuallyCacheKey)
 }

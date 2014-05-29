@@ -226,7 +226,7 @@ final class Checkbox(val underlying: WebElement) extends Element {
 }
 
 
-class MultiSelOptionSeq(underlying: collection.immutable.IndexedSeq[String]) extends collection.immutable.IndexedSeq[String] {
+final class MultiSelOptionSeq(underlying: collection.immutable.IndexedSeq[String]) extends collection.immutable.IndexedSeq[String] {
 
   def apply(idx: Int): String = underlying.apply(idx)
 
@@ -247,7 +247,7 @@ class MultiSelOptionSeq(underlying: collection.immutable.IndexedSeq[String]) ext
   }
 }
 
-class SingleSel(val underlying: WebElement) extends Element {
+final class SingleSel(val underlying: WebElement) extends Element {
   if(underlying.getTagName.toLowerCase != "select")
     throw new TestFailedException("Element " + underlying + " is not select.")
   private val select = new Select(underlying)
@@ -281,7 +281,7 @@ class SingleSel(val underlying: WebElement) extends Element {
   def getOptions = select.getOptions
 }
 
-class MultiSel(val underlying: WebElement) extends Element {
+final class MultiSel(val underlying: WebElement) extends Element {
   if(underlying.getTagName.toLowerCase != "select")
     throw new TestFailedException("Element " + underlying + " is not select.")
   private val select = new Select(underlying)
@@ -313,6 +313,6 @@ class MultiSel(val underlying: WebElement) extends Element {
   }
 }
 
-case class Point(x: Int, y: Int)
+final case class Point(x: Int, y: Int)
 
-case class Dimension(width: Int, height: Int)
+final case class Dimension(width: Int, height: Int)

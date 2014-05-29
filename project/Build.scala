@@ -3,6 +3,7 @@ import sbt.Keys._
 import play.Project._
 import net.litola.SassPlugin
 import de.johoop.jacoco4sbt.JacocoPlugin._
+import org.scalastyle.sbt.ScalastylePlugin
 
 object ApplicationBuild extends Build {
   val appName         = "vehicles-online"
@@ -11,6 +12,7 @@ object ApplicationBuild extends Build {
 
   val appDependencies = Seq(
     cache,
+    filters,
     "org.seleniumhq.selenium" % "selenium-java" % "2.40.0" % "test" withSources() withJavadoc(),
     "com.github.detro.ghostdriver" % "phantomjsdriver" % "1.1.0" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-scala_2.10" % "1.1.5" % "test" withSources() withJavadoc(),
@@ -25,30 +27,53 @@ object ApplicationBuild extends Build {
     "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc()
   )
 
-  val sOrg = Seq(organization := "Driver & Vehicle Licensing Agency")
+  val jsModulesToOptimise = Seq("custom.js")
 
-  val sO = Seq(scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls"))
+  /**
+   * The Play Framework requires all config for RequireJS to be defined through a single file. The location of this file
+   * is specified through the `requireJsShim` SBT setting.
+   *
+   * TypeSafe advocate setting the `requireJsShim` path to the application's `data-main` module. This approach assumes
+   * there is just one, and will not scale when multiple `data-main` modules are used across the site.
+   *
+   * Currently this is not an issue: this application only uses one `data-main` module: custom.js
+   *
+   * If this becomes an issue, the solution is to define the universal set of all configuration options in a central
+   * config file. This file can either be appended to the `/assets/javascripts/require.js` file (to reduce introducing
+   * a new resource), or more simply, the subset of relevant options can be repeated across each `data-main` module.
+   */
+  val jsConfig = "custom.js"
 
-  val sV = Seq(scalaVersion := "2.10.3")
+  val myOrganization = Seq(organization := "Driver & Vehicle Licensing Agency")
+
+  val compilerOptions = Seq(scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls"))
+
+  val myScalaVersion = Seq(scalaVersion := "2.10.3")
 
   val scalaCheck = org.scalastyle.sbt.ScalastylePlugin.Settings
 
-  val sTest =
+  val requireJsSettings = Seq(requireJs := jsModulesToOptimise, requireJsShim := jsConfig)
+
+  val myTestOptions =
   if (System.getProperty("include") != null ) {
     Seq(testOptions in Test += Tests.Argument("include", System.getProperty("include")))
   } else if (System.getProperty("exclude") != null ) {
     Seq(testOptions in Test += Tests.Argument("exclude", System.getProperty("exclude")))
   } else Seq.empty[Def.Setting[_]]
 
-  val jO = Seq(javaOptions in Test += System.getProperty("waitSeconds"))
+  // If tests are annotated with @LiveTest then they are excluded when running sbt test
+  val excludeTest = testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-l", "helpers.tags.LiveTest")
 
-  val gS = Seq(concurrentRestrictions in Global := Seq(Tags.limit(Tags.CPU, 4), Tags.limit(Tags.Network, 10), Tags.limit(Tags.Test, 4)))
+  val myJavaOptions = Seq(javaOptions in Test += System.getProperty("waitSeconds"))
 
-  val f = Seq(sbt.Keys.fork in Test := false)
+  val myConcurrentRestrictions = Seq(concurrentRestrictions in Global := Seq(Tags.limit(Tags.CPU, 4), Tags.limit(Tags.Network, 10), Tags.limit(Tags.Test, 4)))
+
+  val fork = Seq(sbt.Keys.fork in Test := false)
 
   val jcoco = Seq(parallelExecution in jacoco.Config := false)
 
-  val appSettings: Seq[Def.Setting[_]] = sOrg ++ SassPlugin.sassSettings ++ sV ++ sO ++ gS ++ sTest ++ jO ++ f ++ jcoco ++ scalaCheck
+  val appSettings: Seq[Def.Setting[_]] = myOrganization ++ SassPlugin.sassSettings ++ myScalaVersion ++ compilerOptions ++ myConcurrentRestrictions ++
+    myTestOptions ++ excludeTest ++ myJavaOptions ++ fork ++ jcoco ++ scalaCheck ++ requireJsSettings
 
-  val main = play.Project(appName, appVersion, appDependencies, settings = play.Project.playScalaSettings ++ jacoco.settings).settings(appSettings: _*)
+  val main = play.Project(appName, appVersion, appDependencies, settings = play.Project.playScalaSettings ++ jacoco.settings ++ ScalastylePlugin.Settings).settings(appSettings: _*)
 }

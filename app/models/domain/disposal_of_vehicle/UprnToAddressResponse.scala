@@ -1,10 +1,9 @@
 package models.domain.disposal_of_vehicle
 
-case class UprnToAddressResponse(addressViewModel: Option[AddressViewModel])
+import play.api.libs.json.Json
+
+final case class UprnToAddressResponse(addressViewModel: Option[AddressViewModel])
 
 object UprnToAddressResponse {
-
-  import play.api.libs.json.Json
-
-  implicit val uprnToAddressResponseFormat = Json.format[UprnToAddressResponse]
+  implicit val JsonFormat = Json.format[UprnToAddressResponse]
 }

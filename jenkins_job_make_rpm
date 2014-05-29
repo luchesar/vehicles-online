@@ -34,6 +34,7 @@ mkdir -p workdir/etc/monit.d
 (
   cd workdir/$RPM_PREFIX/
   unzip $WORKSPACE/target/universal/vehicles-online-1.0-SNAPSHOT.zip
+  mv vehicles-online-1.0-SNAPSHOT vehicles-online
   cd -
 )
 
@@ -44,9 +45,11 @@ git log > workdir/$RPM_PREFIX/$RPM_NAME/git-log.txt
 cp -r $MONIT_FILES_DIR/* workdir/etc/monit.d
 cp -r $UPSTART_FILES_DIR/* workdir/etc/init
 
-# package the thing
+# package the thine
 test -e $RPM_TARGETDIR || mkdir $RPM_TARGETDIR
 fpm -n $RPM_NAME \
+  --before-remove="pkg-scripts/stop" \
+  --after-install="pkg-scripts/restart" \
   -v $RPM_VERSION  \
   -a all \
   -p $RPM_TARGETDIR \

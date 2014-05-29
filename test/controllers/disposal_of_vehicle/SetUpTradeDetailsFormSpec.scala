@@ -1,14 +1,12 @@
 package controllers.disposal_of_vehicle
 
 import helpers.UnitSpec
-import helpers.disposal_of_vehicle.Helper._
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import services.fakes.FakeAddressLookupService._
-import utils.helpers.{CookieEncryption, NoEncryption}
+import composition.TestComposition.{testInjector => injector}
 
-class SetUpTradeDetailsFormSpec extends UnitSpec {
-
-  "SetupTradeDetails form" should {
+final class SetUpTradeDetailsFormSpec extends UnitSpec {
+  "form" should {
     "accept if form is valid with all fields filled in" in {
       val model = formWithValidDefaults(traderBusinessName = traderBusinessNameValid, traderPostcode = postcodeValid).get
       model.traderBusinessName should equal(traderBusinessNameValid)
@@ -21,11 +19,11 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
       // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderBusinessName = "").errors
       errors should have length 3
-      errors(0).key should equal(traderNameId)
+      errors(0).key should equal(TraderNameId)
       errors(0).message should equal("error.minLength")
-      errors(1).key should equal(traderNameId)
+      errors(1).key should equal(TraderNameId)
       errors(1).message should equal("error.required")
-      errors(2).key should equal(traderNameId)
+      errors(2).key should equal(TraderNameId)
       errors(2).message should equal("error.validTraderBusinessName")
     }
 
@@ -48,11 +46,11 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
       // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderPostcode = "").errors
       errors should have length 3
-      errors(0).key should equal(traderPostcodeId)
+      errors(0).key should equal(TraderPostcodeId)
       errors(0).message should equal("error.minLength")
-      errors(1).key should equal(traderPostcodeId)
+      errors(1).key should equal(TraderPostcodeId)
       errors(1).message should equal("error.required")
-      errors(2).key should equal(traderPostcodeId)
+      errors(2).key should equal(TraderPostcodeId)
       errors(2).message should equal("error.restricted.validPostcode")
     }
 
@@ -75,11 +73,12 @@ class SetUpTradeDetailsFormSpec extends UnitSpec {
 
   private def formWithValidDefaults(traderBusinessName: String = traderBusinessNameValid,
                                     traderPostcode: String = postcodeValid) = {
-    val noCookieEncryption = new NoEncryption with CookieEncryption
-    new SetUpTradeDetails()(noCookieEncryption).traderLookupForm.bind(
+
+    injector.getInstance(classOf[SetUpTradeDetails])
+      .traderLookupForm.bind(
       Map(
-        traderNameId -> traderBusinessName,
-        traderPostcodeId -> traderPostcode
+        TraderNameId -> traderBusinessName,
+        TraderPostcodeId -> traderPostcode
       )
     )
   }

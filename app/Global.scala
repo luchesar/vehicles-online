@@ -1,15 +1,20 @@
-import com.google.inject.Guice
-import java.io.File
+import com.google.inject.{Guice, Injector}
 import com.typesafe.config.ConfigFactory
+import composition.DevModule
+import controllers.disposal_of_vehicle.routes
+import java.io.File
 import java.util.UUID
-import modules.{DevModule, TestModule}
+import javax.crypto.BadPaddingException
 import play.api._
 import play.api.Configuration
 import play.api.mvc._
 import play.api.mvc.Results._
-import scala.concurrent.{ExecutionContext, Future}
 import play.api.Play.current
+import play.filters.gzip._
+import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
+import utils.helpers.CryptoHelper
+import composition.Composition._
 
 /**
  * Application configuration is in a hierarchy of files:
@@ -26,28 +31,9 @@ import ExecutionContext.Implicits.global
  * play -Dconfig.file=conf/application.test.conf run
  */
 
-object Global extends GlobalSettings {
-  // Play.isTest will evaluate to true when you run "play test" from the command line
-  // If play is being run to execute the tests then use the TestModule to provide fake
-  // implementations of traits otherwise use the DevModule to provide the real ones
-  /**
-   * Application configuration is in a hierarchy of files:
-   *
-   * application.conf
-   * /             |            \
-   * application.prod.conf    application.dev.conf    application.test.conf <- these can override and add to application.conf
-   *
-   * play test  <- test mode picks up application.test.conf
-   * play run   <- dev mode picks up application.dev.conf
-   * play start <- prod mode picks up application.prod.conf
-   *
-   * To override and stipulate a particular "conf" e.g.
-   * play -Dconfig.file=conf/application.test.conf run
-   */
-  def module = if (Play.isTest) TestModule else DevModule
+object Global extends WithFilters(filters) with GlobalSettings {
 
-  lazy val injector = Guice.createInjector(module)
-
+  private lazy val injector: Injector = devInjector
 
   /**
    * Controllers must be resolved through the application context. There is a special method of GlobalSettings
@@ -74,6 +60,14 @@ object Global extends GlobalSettings {
   }
 
   // 404 - page not found error http://alvinalexander.com/scala/handling-scala-play-framework-2-404-500-errors
-  override def onHandlerNotFound(request: RequestHeader): Future[SimpleResult] = Future(NotFound(views.html.errors.onHandlerNotFound(request)))
+  override def onHandlerNotFound(request: RequestHeader): Future[SimpleResult] = {
+    Logger.warn(s"Broken link returning http code 404. uri: ${request.uri}")
+    Future(NotFound(views.html.errors.onHandlerNotFound(request)))
+  }
+
+  override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] = ex.getCause match {
+    case _: BadPaddingException  => CryptoHelper.handleApplicationSecretChange(request)
+    case _ => Future(Redirect(routes.Error.present()))
+  }
 }
 

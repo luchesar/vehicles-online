@@ -8,7 +8,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 
-class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
+final class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 
@@ -72,14 +72,14 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
   @Given("""^that entered details correspond to a valid clean record that has no markers or error codes$""")
   def that_entered_details_correspond_to_a_valid_clean_record_that_has_no_markers_or_error_codes() = {
     go to BeforeYouStartPage
-    CookieFactoryForUISpecs.setupTradeDetailsIntegration()
-    CookieFactoryForUISpecs.dealerDetailsIntegration()
+    CookieFactoryForUISpecs.setupTradeDetails().
+      dealerDetails()
 
     go to VehicleLookupPage
     VehicleLookupPage.vehicleRegistrationNumber enter "AB12AWR"
     VehicleLookupPage.documentReferenceNumber enter "11111111112"
     click on VehicleLookupPage.findVehicleDetails
-    enterValidDisposalDate
+    enterValidDisposalDate()
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
   }
@@ -87,8 +87,8 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
   @Given("""^that entered details correspond to a valid record which has markers or error codes$""")
   def that_entered_details_correspond_to_a_valid_record_which_has_markers_or_error_codes() = {
     go to BeforeYouStartPage
-    CookieFactoryForUISpecs.setupTradeDetailsIntegration()
-    CookieFactoryForUISpecs.dealerDetailsIntegration()
+    CookieFactoryForUISpecs.setupTradeDetails().
+      dealerDetails()
 
     go to VehicleLookupPage
     VehicleLookupPage.vehicleRegistrationNumber enter "AB12AWR"
@@ -113,9 +113,9 @@ class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with
   private def buildDisposeSetup(){
     go to BeforeYouStartPage
 
-    CookieFactoryForUISpecs.setupTradeDetailsIntegration()
-    CookieFactoryForUISpecs.dealerDetailsIntegration()
-    CookieFactoryForUISpecs.vehicleDetailsModelIntegration()
-    CookieFactoryForUISpecs.vehicleLookupFormModelIntegration()
+    CookieFactoryForUISpecs.setupTradeDetails().
+      dealerDetails().
+      vehicleDetailsModel().
+      vehicleLookupFormModel()
   }
 }

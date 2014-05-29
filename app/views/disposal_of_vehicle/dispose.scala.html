@@ -40,10 +40,10 @@
                 */}
             </dl>
 
-            @valtechInputText(disposeForm(mileageId), args =
+            @valtechInputText(disposeForm(MileageId), args =
             Map('_label -> Messages("disposal_dispose.mileage.label"),
             '_showConstraints -> false,
-            'pattern -> Mileage.pattern,
+            'pattern -> Mileage.Pattern,
             'maxLength -> Mileage.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
             'title -> Messages("disposal_dispose.mileage.validation")))
 
@@ -68,7 +68,7 @@
             </div>
 
             <div class="form-declaration">
-                @valtechDeclareCheck(disposeForm(consentId),
+                @valtechDeclareCheck(disposeForm(ConsentId),
                     args = Map(
                         '_showConstraints -> false,
                         '_label -> Messages("disposal_dispose.consent")
@@ -76,7 +76,7 @@
                 )
             </div>
             <div class="form-declaration">
-                @valtechDeclareCheck(disposeForm(lossOfRegistrationConsentId),
+                @valtechDeclareCheck(disposeForm(LossOfRegistrationConsentId),
                     args = Map(
                         '_showConstraints -> false,
                         '_label -> Messages("disposal_dispose.loss_of_registration.consent")
@@ -84,8 +84,8 @@
                 )
             </div>
 
-            <div id=@mappings.disposal_of_vehicle.Dispose.dateOfDisposalId class="disposal-date">
-                @inputDayMonthYear(disposeForm(dateOfDisposalId), years,
+            <div id=@mappings.disposal_of_vehicle.Dispose.DateOfDisposalId class="disposal-date">
+                @inputDayMonthYear(disposeForm(DateOfDisposalId), years,
                     args = Map(
                         '_label -> Messages("disposal_dispose.dateofdisposal.label")
                     )
@@ -94,8 +94,8 @@
 
             @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
             <div class="form-steps">
-            	<button id="@submitId" type="submit" name="action" class="button">@Messages("disposal_dispose.submitbutton")</button>
-                <a id="@backId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present" class="button-secondary">@Messages("disposal_dispose.backbutton")</a>
+            	<button id="@SubmitId" type="submit" name="action" class="button">@Messages("disposal_dispose.submitbutton")</button>
+                <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present" class="button-secondary">@Messages("disposal_dispose.backbutton")</a>
 
                 <div class="two-col-spacer">
                     @{ /*

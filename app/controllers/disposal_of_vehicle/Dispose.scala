@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import _root_.common.{ClientSideSessionFactory, EncryptedCookieImplicits}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
@@ -20,40 +21,42 @@ import org.joda.time.format.ISODateTimeFormat
 import services.dispose_service.DisposeService
 import services.DateService
 import models.domain.disposal_of_vehicle.DisposeFormModel
-import play.api.data.FormError
-import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.DisposeModel
-import models.domain.disposal_of_vehicle.DisposeViewModel
-import mappings.disposal_of_vehicle.Dispose.dateOfDisposalYearsIntoThePast
+import mappings.disposal_of_vehicle.Dispose.DateOfDisposalYearsIntoThePast
 import scala.language.postfixOps
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.FormAdapter
-import utils.helpers.CookieEncryption
+import EncryptedCookieImplicits.RequestAdapter
+import EncryptedCookieImplicits.SimpleResultAdapter
+import EncryptedCookieImplicits.FormAdapter
+import utils.helpers.{CookieNameHashing, CookieEncryption}
+import scala.Some
+import play.api.mvc.SimpleResult
+import models.domain.disposal_of_vehicle.DisposeViewModel
+import play.api.data.FormError
+import play.api.mvc.Call
 
-class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit encryption: CookieEncryption) extends Controller {
+final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   val disposeForm = Form(
     mapping(
-      mileageId -> mileage(),
-      dateOfDisposalId -> dayMonthYear.verifying(validDate(),
-        after(earliest = dateService.today - dateOfDisposalYearsIntoThePast years),
+      MileageId -> mileage(),
+      DateOfDisposalId -> dayMonthYear.verifying(validDate(),
+        after(earliest = dateService.today - DateOfDisposalYearsIntoThePast years),
         notInFuture(dateService)),
-      consentId -> consent,
-      lossOfRegistrationConsentId -> consent
+      ConsentId -> consent,
+      LossOfRegistrationConsentId -> consent
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 
-  private val yearsDropdown: Seq[(String, String)] = dateService.today.yearRangeToDropdown(yearsIntoThePast = dateOfDisposalYearsIntoThePast)
+  private val yearsDropdown: Seq[(String, String)] = dateService.today.yearRangeToDropdown(yearsIntoThePast = DateOfDisposalYearsIntoThePast)
 
   def present = Action {
     implicit request => {
-      request.getCookie[TraderDetailsModel] match {
+      request.getEncryptedCookie[TraderDetailsModel] match {
         case (Some(dealerDetails)) =>
           Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
-          request.getCookie[VehicleDetailsModel] match {
+          request.getEncryptedCookie[VehicleDetailsModel] match {
             case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm.fill(), yearsDropdown))
             case _ => Redirect(routes.VehicleLookup.present())
           }
@@ -68,7 +71,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
       disposeForm.bindFromRequest.fold(
         formWithErrors =>
           Future {
-            (request.getCookie[TraderDetailsModel], request.getCookie[VehicleDetailsModel]) match {
+            (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[VehicleDetailsModel]) match {
               case (Some(dealerDetails), Some(vehicleDetails)) =>
                 val disposeViewModel = populateModelFromCachedData(dealerDetails, vehicleDetails)
                 // When the user doesn't select a value from the drop-down then the mapping will fail to match on an Int before
@@ -78,8 +81,8 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
                   replaceError("dateOfDisposal.month", FormError("dateOfDisposal", "error.dateOfDisposal")).
                   replaceError("dateOfDisposal.year", FormError("dateOfDisposal", "error.dateOfDisposal")).
                   replaceError("dateOfDisposal", FormError("dateOfDisposal", "error.dateOfDisposal")).
-                  replaceError(consentId, "error.required", FormError(key = consentId, message = "disposal_dispose.consent.notgiven", args = Seq.empty)).
-                  replaceError(lossOfRegistrationConsentId, "error.required", FormError(key = lossOfRegistrationConsentId, message = "disposal_dispose.loss_of_registration.consent.notgiven", args = Seq.empty)).
+                  replaceError(ConsentId, "error.required", FormError(key = ConsentId, message = "disposal_dispose.consent.notgiven", args = Seq.empty)).
+                  replaceError(LossOfRegistrationConsentId, "error.required", FormError(key = LossOfRegistrationConsentId, message = "disposal_dispose.loss_of_registration.consent.notgiven", args = Seq.empty)).
                   distinctErrors
                 BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors, yearsDropdown))
               case _ =>
@@ -106,7 +109,7 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
   }
 
   private def disposeAction(webService: DisposeService, disposeFormModel: DisposeFormModel)(implicit request: Request[AnyContent]): Future[SimpleResult] = {
-    def callMicroService(disposeModel: DisposeModel) = {
+    def callMicroService(disposeModel: DisposeModel, traderDetailsModel: TraderDetailsModel) = {
       def nextPage(httpResponseCode: Int, response: Option[DisposeResponse]) = {
         // This makes the choice of which page to go to based on the first one it finds that is not None.
         response match {
@@ -115,13 +118,13 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
         }
       }
 
-      val disposeRequest = buildDisposeMicroServiceRequest(disposeModel)
+      val disposeRequest = buildDisposeMicroServiceRequest(disposeModel, traderDetailsModel)
       webService.invoke(disposeRequest).map {
         case (httpResponseCode, response) => Logger.debug(s"Dispose micro-service call successful - response = $response")
 
          Some(Redirect(nextPage(httpResponseCode, response))).
-            map(_.withCookie(disposeModel)).
-            map(_.withCookie(disposeFormModel)).
+            map(_.withEncryptedCookie(disposeModel)).
+            map(_.withEncryptedCookie(disposeFormModel)).
             map(storeResponseInCache(response, _)).
             map(transactionTimestamp).
             get
@@ -135,42 +138,36 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
     def storeResponseInCache(response: Option[DisposeResponse], nextPage: SimpleResult): SimpleResult = {
       response match {
         case Some(o) =>
-          val nextPageWithTransactionId = if (o.transactionId != "") nextPage.withCookie(disposeFormTransactionIdCacheKey, o.transactionId)
+          val nextPageWithTransactionId = if (o.transactionId != "") nextPage.withEncryptedCookie(DisposeFormTransactionIdCacheKey, o.transactionId)
             else nextPage
-          if (o.registrationNumber != "") nextPageWithTransactionId.withCookie(disposeFormRegistrationNumberCacheKey, o.registrationNumber)
+          if (o.registrationNumber != "") nextPageWithTransactionId.withEncryptedCookie(DisposeFormRegistrationNumberCacheKey, o.registrationNumber)
             else nextPageWithTransactionId
         case None => nextPage
       }
     }
 
-    def transactionTimestamp(nextPage: SimpleResult) = {
+      def transactionTimestamp(nextPage: SimpleResult) = {
       val transactionTimestamp = dateService.today.toDateTime.get
       val formatter = ISODateTimeFormat.dateTime()
       val isoDateTimeString = formatter.print(transactionTimestamp)
-      nextPage.withCookie(disposeFormTimestampIdCacheKey, isoDateTimeString)
+      nextPage.withEncryptedCookie(DisposeFormTimestampIdCacheKey, isoDateTimeString)
     }
 
-    def buildDisposeMicroServiceRequest(disposeModel: DisposeModel): DisposeRequest = {
+    def buildDisposeMicroServiceRequest(disposeModel: DisposeModel, traderDetails: TraderDetailsModel): DisposeRequest = {
       val dateTime = disposeModel.dateOfDisposal.toDateTime.get
       val formatter = ISODateTimeFormat.dateTime()
       val isoDateTimeString = formatter.print(dateTime)
-      DisposeRequest(referenceNumber = disposeModel.referenceNumber, registrationNumber = disposeModel.registrationNumber, dateOfDisposal = isoDateTimeString, mileage = disposeModel.mileage)
+
+      DisposeRequest(referenceNumber = disposeModel.referenceNumber,
+        registrationNumber = disposeModel.registrationNumber,
+        traderName = traderDetails.traderName,
+        traderAddress = disposalAddressDto(traderDetails.traderAddress),
+        dateOfDisposal = isoDateTimeString,
+        transactionTimestamp = ISODateTimeFormat.dateTime().print(dateService.today.toDateTime.get),
+        mileage = disposeModel.mileage,
+        ipAddress = None) // TODO : US105 should provide this value
     }
 
-    // TODO disposeResponseCode should just be a String, detecting it being empty is the responsablility of the calling code.
-    /*def handleResponseCode(disposeResponseCode: Option[String]) = {
-      val unableToProcessApplication = "ms.vehiclesService.response.unableToProcessApplication"
-
-      disposeResponseCode match {
-        case Some(responseCode) if responseCode == unableToProcessApplication =>
-          Logger.warn("Dispose soap endpoint redirecting to dispose failure page...")
-          Some(routes.DisposeFailure.present)
-        case Some(responseCode) =>
-          Logger.warn(s"Dispose micro-service failed: $responseCode, redirecting to error page...")
-          Some(routes.MicroServiceError.present)
-        case None => None
-      }
-    }*/
     def handleResponseCode(disposeResponseCode: String): Call = {
       val unableToProcessApplication = "ms.vehiclesService.response.unableToProcessApplication"
 
@@ -192,16 +189,31 @@ class Dispose @Inject()(webService: DisposeService, dateService: DateService)(im
       }
     }
 
-    request.getCookie[VehicleLookupFormModel] match {
-      case Some(vehicleLookupFormModel) =>
-        val disposeModel = DisposeModel(referenceNumber = vehicleLookupFormModel.referenceNumber,
-          registrationNumber = vehicleLookupFormModel.registrationNumber,
+    (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[VehicleLookupFormModel]) match {
+      case (Some(traderDetails), Some(vehicleLookup)) =>  {
+        val disposeModel = DisposeModel(referenceNumber = vehicleLookup.referenceNumber,
+          registrationNumber = vehicleLookup.registrationNumber,
           dateOfDisposal = disposeFormModel.dateOfDisposal, mileage = disposeFormModel.mileage)
-        callMicroService(disposeModel)
-      case _ => Future {
+        callMicroService(disposeModel, traderDetails)
+      }
+      case (None, _) => Future {
         Logger.error("could not find dealer details in cache on Dispose submit")
+        Redirect(routes.SetUpTradeDetails.present())
+      }
+      case (_, None) =>  Future {
+        Logger.error("could not find vehicle details in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present())
       }
     }
   }
+
+  private def disposalAddressDto(sourceAddress: AddressViewModel): DisposalAddressDto = {
+  // The last two address lines are always post town and postcode
+    val postAddressLines = sourceAddress.address.dropRight(2)
+    val postTown = sourceAddress.address.takeRight(2).head
+    val postcode = sourceAddress.address.last
+
+    DisposalAddressDto(postAddressLines, Some(postTown), postcode, sourceAddress.uprn)
+  }
+
 }

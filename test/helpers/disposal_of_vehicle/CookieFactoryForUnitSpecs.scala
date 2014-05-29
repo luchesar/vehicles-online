@@ -1,14 +1,14 @@
 package helpers.disposal_of_vehicle
 
 import mappings.disposal_of_vehicle.Dispose._
-import mappings.disposal_of_vehicle.Dispose.disposeFormModelCacheKey
-import mappings.disposal_of_vehicle.Dispose.disposeFormRegistrationNumberCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
 import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
-import mappings.disposal_of_vehicle.TraderDetails.traderDetailsCacheKey
-import mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupDetailsCacheKey
-import mappings.disposal_of_vehicle.VehicleLookup.vehicleLookupFormModelCacheKey
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress.businessChooseYourAddressCacheKey
-import mappings.disposal_of_vehicle.EnterAddressManually.enterAddressManuallyCacheKey
+import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupDetailsCacheKey
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
+import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
 import models.DayMonthYear
 import models.domain.disposal_of_vehicle._
 import play.api.libs.json.{Writes, Json}
@@ -20,20 +20,32 @@ import services.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehic
 import services.fakes.FakeWebServiceImpl._
 import services.fakes.FakeAddressLookupService.postcodeValid
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
+import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
+import common.{CookieFlags, ClearTextClientSideSession}
+import composition.TestComposition.{testInjector => injector}
 import scala.Some
 import play.api.mvc.Cookie
-import utils.helpers.CryptoHelper
 
 object CookieFactoryForUnitSpecs {
+
+  implicit private val cookieFlags = injector.getInstance(classOf[CookieFlags])
+  private val session = new ClearTextClientSideSession()
+
   private def createCookie[A](key: String, value: A)(implicit tjs: Writes[A]): Cookie = {
-    val valueAsString = Json.toJson(value).toString()
-    CryptoHelper.createCookie(name = key,
-      value = valueAsString)
+    val json = Json.toJson(value).toString()
+    val cookieName = session.nameCookie(key)
+    session.newCookie(cookieName, json)
   }
 
   private def createCookie[A](key: String, value: String): Cookie = {
-    CryptoHelper.createCookie(name = key,
-      value = value)
+    val cookieName = session.nameCookie(key)
+    session.newCookie(cookieName, value)
+  }
+
+  def seenCookieMessage() = {
+    val key = SeenCookieMessageKey
+    val value = "yes" // TODO make a constant
+    createCookie(key, value)
   }
 
   def setupTradeDetails(traderPostcode: String = postcodeValid) = {
@@ -44,13 +56,13 @@ object CookieFactoryForUnitSpecs {
   }
 
   def businessChooseYourAddress() = {
-    val key = businessChooseYourAddressCacheKey
-    val value = BusinessChooseYourAddressModel(uprnSelected = traderUprnValid)
+    val key = BusinessChooseYourAddressCacheKey
+    val value = BusinessChooseYourAddressModel(uprnSelected = traderUprnValid.toString)
     createCookie(key, value)
   }
 
   def enterAddressManually() = {
-    val key = enterAddressManuallyCacheKey
+    val key = EnterAddressManuallyCacheKey
     val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = line1Valid,
       line2 = Some(line2Valid),
       line3 = Some(line3Valid),
@@ -60,7 +72,7 @@ object CookieFactoryForUnitSpecs {
   }
 
   def traderDetailsModel(uprn: Option[Long] = None, line1: String = "my house", traderPostcode: String = postcodeValid) = {
-    val key = traderDetailsCacheKey
+    val key = TraderDetailsCacheKey
     val value = TraderDetailsModel(traderName = traderBusinessNameValid,
       traderAddress = AddressViewModel(uprn = uprn, address = Seq(line1, "my street", "my area", "my town", "CM81QJ")))
     createCookie(key, value)
@@ -68,7 +80,7 @@ object CookieFactoryForUnitSpecs {
 
   def vehicleLookupFormModel(referenceNumber: String = referenceNumberValid,
                              registrationNumber: String = registrationNumberValid) = {
-    val key = vehicleLookupFormModelCacheKey
+    val key = VehicleLookupFormModelCacheKey
     val value = VehicleLookupFormModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber)
     createCookie(key, value)
@@ -78,7 +90,7 @@ object CookieFactoryForUnitSpecs {
                           vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid,
                           vehicleModel: String = vehicleModelValid,
                           keeperName: String = keeperNameValid) = {
-    val key = vehicleLookupDetailsCacheKey
+    val key = VehicleLookupDetailsCacheKey
     val value = VehicleDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel)
@@ -86,7 +98,7 @@ object CookieFactoryForUnitSpecs {
   }
 
   def disposeFormModel() = {
-    val key = disposeFormModelCacheKey
+    val key = DisposeFormModelCacheKey
     val value = DisposeFormModel(mileage = None,
       dateOfDisposal = DayMonthYear(FakeDateServiceImpl.dateOfDisposalDayValid.toInt,
         FakeDateServiceImpl.dateOfDisposalMonthValid.toInt, FakeDateServiceImpl.dateOfDisposalYearValid.toInt),
@@ -96,22 +108,22 @@ object CookieFactoryForUnitSpecs {
   }
 
   def disposeFormRegistrationNumber(registrationNumber: String = registrationNumberValid) =
-    createCookie(disposeFormRegistrationNumberCacheKey, registrationNumber)
+    createCookie(DisposeFormRegistrationNumberCacheKey, registrationNumber)
 
   def disposeFormTimestamp(timestamp: String = s"$dateOfDisposalYearValid-$dateOfDisposalMonthValid-${dateOfDisposalDayValid}") =
-    createCookie(disposeFormTimestampIdCacheKey, timestamp)
+    createCookie(DisposeFormTimestampIdCacheKey, timestamp)
 
   def disposeTransactionId(transactionId: String = transactionIdValid) =
-    createCookie(disposeFormTransactionIdCacheKey, transactionId)
+    createCookie(DisposeFormTransactionIdCacheKey, transactionId)
 
   def vehicleRegistrationNumber(registrationNumber: String = registrationNumberValid) =
-    createCookie(disposeFormRegistrationNumberCacheKey, registrationNumber)
+    createCookie(DisposeFormRegistrationNumberCacheKey, registrationNumber)
 
   def disposeModel(referenceNumber: String = referenceNumberValid,
                    registrationNumber: String = registrationNumberValid,
                    dateOfDisposal: DayMonthYear = DayMonthYear.today,
                    mileage: Option[Int] = None) = {
-    val key = mappings.disposal_of_vehicle.Dispose.disposeModelCacheKey
+    val key = mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey
     val value = DisposeModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,
       dateOfDisposal = dateOfDisposal,

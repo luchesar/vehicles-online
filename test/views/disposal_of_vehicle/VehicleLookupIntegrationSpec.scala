@@ -9,32 +9,38 @@ import pages.common.ErrorPanel
 import pages.disposal_of_vehicle._
 import services.fakes.FakeAddressLookupService._
 
-class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
-
-  "VehicleLookupIntegrationSpec Integration" should {
-
-    "be presented" in new WebBrowser {
+final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
       go to VehicleLookupPage
 
-      assert(page.title equals VehicleLookupPage.title)
+      page.title should equal(VehicleLookupPage.title)
     }
 
     "Redirect when no traderBusinessName is cached" in new WebBrowser {
       go to VehicleLookupPage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
 
+    "redirect when no dealerBusinessName is cached" in new WebBrowser {
+      go to VehicleLookupPage
+
+      page.title should equal(SetupTradeDetailsPage.title)
+    }
+  }
+
+  "findVehicleDetails button" should {
     "go to the next page when correct data is entered" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
       happyPath()
 
-      assert(page.title equals DisposePage.title)
+      page.title should equal(DisposePage.title)
     }
 
     "display one validation error message when no referenceNumber is entered" in new WebBrowser {
@@ -43,7 +49,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       happyPath(referenceNumber = "")
 
-      assert(ErrorPanel.numberOfErrors equals 1)
+      ErrorPanel.numberOfErrors should equal(1)
     }
 
     "display one validation error message when no registrationNumber is entered" in new WebBrowser {
@@ -52,7 +58,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       happyPath(registrationNumber = "")
 
-      assert(ErrorPanel.numberOfErrors equals 1)
+      ErrorPanel.numberOfErrors should equal(1)
     }
 
     "display one validation error message when a registrationNumber is entered containing one character" in new WebBrowser {
@@ -61,7 +67,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       happyPath(registrationNumber = "a")
 
-      assert(ErrorPanel.numberOfErrors equals 1)
+      ErrorPanel.numberOfErrors should equal(1)
     }
 
     "display one validation error message when a registrationNumber is entered containing special characters" in new WebBrowser {
@@ -70,7 +76,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       happyPath(registrationNumber = "$^")
 
-      assert(ErrorPanel.numberOfErrors equals 1)
+      ErrorPanel.numberOfErrors should equal(1)
     }
 
     "display two validation error messages when no vehicle details are entered but consent is given" in new WebBrowser {
@@ -79,7 +85,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       happyPath(referenceNumber = "", registrationNumber = "")
 
-      assert(ErrorPanel.numberOfErrors equals 2)
+      ErrorPanel.numberOfErrors should equal(2)
     }
 
     "display one validation error message when only a valid referenceNumber is entered and consent is given" in new WebBrowser {
@@ -88,7 +94,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       happyPath(registrationNumber = "")
 
-      assert(ErrorPanel.numberOfErrors equals 1)
+      ErrorPanel.numberOfErrors should equal(1)
     }
 
     "display one validation error message when only a valid registrationNumber is entered and consent is given" in new WebBrowser {
@@ -97,25 +103,21 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       happyPath(referenceNumber = "")
 
-      assert(ErrorPanel.numberOfErrors equals 1)
+      ErrorPanel.numberOfErrors should equal(1)
     }
+  }
 
-    "redirect when no dealerBusinessName is cached" in new WebBrowser {
-      go to VehicleLookupPage
-
-      assert(page.title equals SetupTradeDetailsPage.title)
-    }
-
+  "back" should {
     "display previous page when back link is clicked with uprn present" in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.
-        setupTradeDetailsIntegration().
-        dealerDetailsIntegration(addressWithUprn)
+        setupTradeDetails().
+        dealerDetails(addressWithUprn)
       go to VehicleLookupPage
 
       click on back
 
-      assert(page.title equals BusinessChooseYourAddressPage.title)
+      page.title should equal(BusinessChooseYourAddressPage.title)
     }
 
     "display previous page when back link is clicked with no uprn present" in new WebBrowser {
@@ -125,12 +127,12 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       click on back
 
-      assert(page.title equals EnterAddressManuallyPage.title)
+      page.title should equal(EnterAddressManuallyPage.title)
     }
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
-      setupTradeDetailsIntegration().
-      dealerDetailsIntegration()
+      setupTradeDetails().
+      dealerDetails()
 }

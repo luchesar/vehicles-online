@@ -10,7 +10,7 @@
         <ol>
             @for(error <- form.errors) {
                 <li>
-                    <a href="#@CryptoHelper.encryptAES(error.key.replace(".","_"))">
+                    <a href="#@error.key.replace(".","_")">
                         @Messages(error.key, error.args: _*) - @Messages(error.message, error.args: _*)
                     </a>
                 </li>

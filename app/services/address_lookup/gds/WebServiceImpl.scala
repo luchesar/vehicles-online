@@ -6,10 +6,10 @@ import play.api.Logger
 import utils.helpers.Config
 import services.address_lookup.AddressLookupWebService
 
-class WebServiceImpl extends AddressLookupWebService {
-  val baseUrl = Config.gdsAddressLookupBaseUrl
-  val authorisation = Config.gdsAddressLookupAuthorisation
-  val requestTimeout = Config.gdsAddressLookupRequestTimeout.toInt
+final class WebServiceImpl extends AddressLookupWebService {
+  private val baseUrl: String = Config.gdsAddressLookupBaseUrl
+  private val authorisation: String = Config.gdsAddressLookupAuthorisation
+  private val requestTimeout: Int = Config.gdsAddressLookupRequestTimeout.toInt
 
   def postcodeWithNoSpaces(postcode: String): String = postcode.filter(_ != ' ')
 

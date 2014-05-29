@@ -4,12 +4,13 @@ import helpers.UnitSpec
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import services.fakes.FakeWebServiceImpl
 import services.fakes.FakeWebServiceImpl._
-import utils.helpers.{CookieEncryption, NoEncryption}
+import composition.TestComposition.{testInjector => injector}
+import common.ClientSideSessionFactory
 
 class BusinessChooseYourAddressFormSpec extends UnitSpec {
   "form" should {
     "accept when all fields contain valid responses" in {
-      formWithValidDefaults().get.uprnSelected should equal(traderUprnValid)
+      formWithValidDefaults().get.uprnSelected should equal(traderUprnValid.toString)
     }
   }
 
@@ -17,8 +18,8 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
     "reject if empty" in {
       val errors = formWithValidDefaults(addressSelected = "").errors
       errors.length should equal(1)
-      errors(0).key should equal(addressSelectId)
-      errors(0).message should equal("error.number")
+      errors(0).key should equal(AddressSelectId)
+      errors(0).message should equal("error.required")
     }
   }
 
@@ -27,13 +28,13 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
     val responseUprn = if(uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
-    val noCookieEncryption = new NoEncryption with CookieEncryption
-    new BusinessChooseYourAddress( addressLookupService)(noCookieEncryption)
+    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    new BusinessChooseYourAddress(addressLookupService)(clientSideSessionFactory)
   }
 
   private def formWithValidDefaults(addressSelected: String = traderUprnValid.toString) = {
     businessChooseYourAddressWithFakeWebService().form.bind(
-      Map(addressSelectId -> addressSelected)
+      Map(AddressSelectId -> addressSelected)
     )
   }
 }

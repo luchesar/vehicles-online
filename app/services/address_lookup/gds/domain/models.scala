@@ -2,7 +2,7 @@ package services.address_lookup.gds.domain
 
 import org.joda.time.DateTime
 
-case class Details(
+final case class Details(
                     usrn: String,
                     isResidential: Boolean,
                     isCommercial: Boolean,
@@ -14,7 +14,7 @@ case class Details(
                     // blpuCreatedAt: DateTime
                     )
 
-case class Presentation(
+final case class Presentation(
                          property: Option[String],
                          street: Option[String],
                          town: Option[String],
@@ -24,7 +24,7 @@ case class Presentation(
   def toViewModel = Seq(property, street, town, area, Some(postcode)).flatten
 }
 
-case class Address(
+final case class Address(
                     gssCode: String,
                     countryCode: String,
                     postcode: String,
@@ -37,14 +37,14 @@ case class Address(
   def toViewModel = presentation.toViewModel
 }
 
-case class Ero(telephoneNumber: String = "")
-case class LocalAuthority(gssId: String, opcsId: String, name: String, ero: Ero = Ero())
+final case class Ero(telephoneNumber: String = "")
+final case class LocalAuthority(gssId: String, opcsId: String, name: String, ero: Ero = Ero())
 
 object JsonFormats {
 
   import play.api.libs.json._
 
-  val pattern = "yyyy-MM-dd'T'HH:mm:ssz"
+  private final val pattern = "yyyy-MM-dd'T'HH:mm:ssz"
   implicit val dateFormat =
     Format[DateTime](Reads.jodaDateReads(pattern), Writes.jodaDateWrites(pattern))
 

@@ -51,9 +51,9 @@ keeperstatus.button3 = Neither private nor business
 #page 3
 verifyidentity.title = Change of keeper address3
 verifyidentity.alert = Example alert message
-verifyidentity.name = 2. Verify your identity 
+verifyidentity.name = 2. Verify your identity
 verifyidentity.infomessage = It is a criminal offence to obtain someone else''s personal information without their permission.
-verifyidentity.p1 = Before you can start using the ''Change of keeper address'' service, you need to select the authentication provider you wish to use: 
+verifyidentity.p1 = Before you can start using the ''Change of keeper address'' service, you need to select the authentication provider you wish to use:
 verifyidentity.p2 = GOV.UK is the new way to use government services online. You will need an identity profile to do things like renew your driving licence, pay tax or apply for a passport.
 verifyidentity.button = Use existing identity profile
 verifyidentity.button1text = Don''t have an identity profile?
@@ -118,7 +118,7 @@ authentication.inputlabel = * PIN
 authentication.button = Submit
 authentication.button2 = Cancel
 authentication.pin.incorrect = You must enter a number with a length of 6 digits
-authentication.disclaimer = This is not a page from the real website, it has been created so that we can demonstrate the user journey. 
+authentication.disclaimer = This is not a page from the real website, it has been created so that we can demonstrate the user journey.
 
 #page 9
 v5csearch.title = Change of keeper address9
@@ -212,12 +212,13 @@ disposal_businessChooseYourAddress_title = Select your trade address
 disposal_businessChooseYourAddress_legend = Set up trade details
 disposal_businessChooseYourAddress_businessName_label = Trader name
 disposal_businessChooseYourAddress_businessName = {0}
+disposal_businessChooseYourAddress_postcode_label = Postcode
 disposal_businessChooseYourAddress_businessAddress_label = Trader address
 disposal_businessChooseYourAddress_addressSelect = Choose your address
 disposal_businessChooseYourAddress_addressSelect_label = Choose your address
 disposal_businessChooseYourAddress.backbutton = Back
 disposal_businessChooseYourAddress.submitbutton = Select
-disposal_businessChooseYourAddress.manualAddressEntry = I can't find my address
+disposal_businessChooseYourAddress.manualAddressEntry = My address is not in the list
 error.dropDownInvalid = Please select a value from the drop down list.
 disposal_businessChooseYourAddress_noaddressesfound = No addresses found for that postcode. Click the back button to enter a different postcode or enter an address manually
 
@@ -234,12 +235,17 @@ address.line4.label= Post town
 address.postcode.label = Postcode
 address.postcode.label.prompt = e.g. SA99 1BD
 address.postcode.validation = Enter a valid postcode
+addressAndPostcode.addressLines.line2 = Street name
+addressAndPostcode.addressLines.line3 = Area
+addressAndPostcode.addressLines.line4 = Post town
 
 #page 3 - uprn not found
 disposal_uprnnotfound.title = Error confirming postcode
 disposal_uprnnotfound.p1 = An error has occurred validating your postcode. Please re-enter or enter your details manually
 disposal_uprnnotfound.manualaddressbutton = Set-up trade details
 disposal_uprnnotfound.setuptradedetailsbutton = Manually enter address
+
+disposal_businessChooseYourAddress.address.required = Select an address from the drop down or enter it manually
 
 #page 4 - vehicle Lookup
 disposal_vehiclelookup.title = Find vehicle details
@@ -333,7 +339,7 @@ vehicle_lookup_document_reference_mismatch = This is not the latest Document Ref
 
 error.address.line1Required = Address needs at least the building name or number filled in
 addressAndPostcode.addressLines.line1 = Building name or number
-error.address.maxLengthOfLinesConcatenated = Address must have fewer than 130 characters
+error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
 error.address.characterinvalid = Invalid characters are not allowed
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
@@ -354,3 +360,11 @@ soap_endpoint_error.title=We are sorry
 soap_endpoint_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
 soap_endpoint_error.back.button=Back
 soap_endpoint_error.exit.button=Exit
+
+# 404 onHandlerNotFound
+onHandlerNotFound.title=This page cannot be found
+onHandlerNotFound.header=This page cannot be found
+onHandlerNotFound.body=Please check that you have entered the correct web address, or explore GOV.UK to find the information you need.
+
+error.title=An unrecoverable error has occurred
+error.button=Start again

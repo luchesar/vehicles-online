@@ -1,61 +1,48 @@
 package views.disposal_of_vehicle
 
 import helpers.UiSpec
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
+import mappings.disposal_of_vehicle.RelatedCacheKeys
+import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.BeforeYouStartPage.startNow
 import pages.disposal_of_vehicle._
-import org.openqa.selenium.WebDriver
-import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
-import mappings.disposal_of_vehicle.SetupTradeDetails._
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
-import mappings.disposal_of_vehicle.TraderDetails._
-import mappings.disposal_of_vehicle.VehicleLookup._
-import mappings.disposal_of_vehicle.Dispose._
 
-class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness  {
-
-  "BeforeYouStart Integration" should {
-
-    "be presented" in new WebBrowser {
+final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to BeforeYouStartPage
 
-      assert(page.title equals BeforeYouStartPage.title)
+      page.title should equal(BeforeYouStartPage.title)
     }
 
-    "go to next page after the button is clicked" in new WebBrowser {
-      go to BeforeYouStartPage
-
-      click on startNow
-
-      assert(page.title equals SetupTradeDetailsPage.title)
-    }
-
-    "remove redundant cookies when 'exit' button is clicked" in new WebBrowser {
+    "remove redundant cookies (needed for when a user exits the service and comes back)" in new WebBrowser {
       def cacheSetup()(implicit webDriver: WebDriver) =
-        CookieFactoryForUISpecs.setupTradeDetailsIntegration().
-          businessChooseYourAddressIntegration().
-          dealerDetailsIntegration().
-          vehicleDetailsModelIntegration().
-          disposeFormModelIntegration().
-          disposeTransactionIdIntegration().
-          vehicleRegistrationNumberIntegration()
+        CookieFactoryForUISpecs.setupTradeDetails().
+          businessChooseYourAddress().
+          enterAddressManually().
+          dealerDetails().
+          vehicleDetailsModel().
+          disposeFormModel().
+          disposeTransactionId().
+          vehicleRegistrationNumber()
 
       go to BeforeYouStartPage
       cacheSetup()
       go to BeforeYouStartPage
 
-      // Expected to be removed
-      assert(webDriver.manage().getCookieNamed(SetupTradeDetailsCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(businessChooseYourAddressCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(traderDetailsCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(vehicleLookupDetailsCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(vehicleLookupResponseCodeCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(vehicleLookupFormModelCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormModelCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormTransactionIdCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormTimestampIdCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeFormRegistrationNumberCacheKey) == null)
-      assert(webDriver.manage().getCookieNamed(disposeModelCacheKey) == null)
+      // Verify the cookies identified by the full set of cache keys have been removed
+      RelatedCacheKeys.FullSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
+    }
+  }
+
+  "startNow button" should {
+    "go to next page" in new WebBrowser {
+      go to BeforeYouStartPage
+
+      click on startNow
+
+      page.title should equal(SetupTradeDetailsPage.title)
     }
   }
 }

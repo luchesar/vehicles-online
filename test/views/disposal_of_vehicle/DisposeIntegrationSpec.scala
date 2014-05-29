@@ -9,27 +9,51 @@ import pages.common.ErrorPanel
 import pages.disposal_of_vehicle._
 import services.fakes.FakeDateServiceImpl._
 
-class DisposeIntegrationSpec extends UiSpec with TestHarness {
-
-  "Dispose Integration" should {
-
-    "be presented" in new WebBrowser {
+final class DisposeIntegrationSpec extends UiSpec with TestHarness {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
       go to DisposePage
 
-      assert(page.title equals title)
+      page.title should equal(title)
     }
 
+    "redirect when no vehicleDetailsModel is cached" in new WebBrowser {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs.dealerDetails()
+
+      go to DisposePage
+
+      page.title should equal(VehicleLookupPage.title)
+    }
+
+    "redirect when no businessChooseYourAddress is cached" in new WebBrowser {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs.vehicleDetailsModel()
+
+      go to DisposePage
+
+      page.title should equal(SetupTradeDetailsPage.title)
+    }
+
+    "redirect when no traderBusinessName is cached" in new WebBrowser {
+      go to DisposePage
+
+      page.title should equal(SetupTradeDetailsPage.title)
+    }
+  }
+
+  "dispose button" should {
     "display DisposeSuccess page on correct submission" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup().
-        vehicleLookupFormModelIntegration()
+        vehicleLookupFormModel()
 
       happyPath
 
-      assert(page.title equals DisposeSuccessPage.title)
+      page.title should equal(DisposeSuccessPage.title)
     }
 
     "display validation errors when no data is entered" in new WebBrowser {
@@ -38,31 +62,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
       sadPath
 
-      assert(ErrorPanel.numberOfErrors equals 3)
-    }
-
-    "redirect when no vehicleDetailsModel is cached" in new WebBrowser {
-      go to BeforeYouStartPage
-      CookieFactoryForUISpecs.dealerDetailsIntegration()
-
-      go to DisposePage
-
-      assert(page.title equals VehicleLookupPage.title)
-    }
-
-    "redirect when no businessChooseYourAddress is cached" in new WebBrowser {
-      go to BeforeYouStartPage
-      CookieFactoryForUISpecs.vehicleDetailsModelIntegration()
-
-      go to DisposePage
-
-      assert(page.title equals SetupTradeDetailsPage.title)
-    }
-
-    "redirect when no traderBusinessName is cached" in new WebBrowser {
-      go to DisposePage
-
-      assert(page.title equals SetupTradeDetailsPage.title)
+      ErrorPanel.numberOfErrors should equal(3)
     }
 
     "display validation errors when month and year are input but no day" in new WebBrowser {
@@ -76,7 +76,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       click on lossOfRegistrationConsent
       click on dispose
 
-      assert(ErrorPanel.numberOfErrors equals 1)
+      ErrorPanel.numberOfErrors should equal(1)
     }
 
     "display validation errors when day and year are input but no month" in new WebBrowser {
@@ -90,7 +90,7 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       click on lossOfRegistrationConsent
       click on dispose
 
-      assert(ErrorPanel.numberOfErrors equals 1)
+      ErrorPanel.numberOfErrors should equal(1)
     }
 
     "display validation errors when day and month are input but no year" in new WebBrowser {
@@ -104,23 +104,25 @@ class DisposeIntegrationSpec extends UiSpec with TestHarness {
       click on lossOfRegistrationConsent
       click on dispose
 
-      assert(ErrorPanel.numberOfErrors equals 1)
+      ErrorPanel.numberOfErrors should equal(1)
     }
+  }
 
-    "display previous page when back link is clicked" in new WebBrowser {
+  "back button" should {
+    "display previous page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposePage
 
       click on back
 
-      assert(page.title equals VehicleLookupPage.title)
+      page.title should equal(VehicleLookupPage.title)
     }
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) = {
     CookieFactoryForUISpecs.
-      dealerDetailsIntegration().
-      vehicleDetailsModelIntegration()
+      dealerDetails().
+      vehicleDetailsModel()
   }
 }

@@ -12,11 +12,15 @@ import javax.inject.Inject
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 import services.address_lookup.AddressLookupService
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.RequestAdapter
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
-import utils.helpers.CookieEncryption
+import common.{ClientSideSessionFactory, EncryptedCookieImplicits}
+import utils.helpers.FormExtensions._
+import mappings.disposal_of_vehicle.EnterAddressManually._
+import play.api.data.FormError
+import EncryptedCookieImplicits.RequestAdapter
+import EncryptedCookieImplicits.SimpleResultAdapter
+import EncryptedCookieImplicits.FormAdapter
 
-class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)(implicit encryption: CookieEncryption) extends Controller {
+final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   private def fetchAddresses(setupTradeDetailsModel: SetupTradeDetailsModel) = {
     val postcode = setupTradeDetailsModel.traderPostcode
@@ -26,22 +30,22 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
   val form = Form(
     mapping(
       /* We cannot apply constraints to this drop down as it is populated by web call to an address lookup service.
+      We would need the request here to get the cookie.
       Validation is done when we make a second web call with the UPRN, so if a bad guy is injecting a non-existent UPRN then it will fail at that step instead */
-      addressSelectId -> dropDown
+      AddressSelectId -> addressDropDown
     )(BusinessChooseYourAddressModel.apply)(BusinessChooseYourAddressModel.unapply)
   )
 
   def present = Action.async {
     implicit request =>
-      request.getCookie[SetupTradeDetailsModel] match {
+      request.getEncryptedCookie[SetupTradeDetailsModel] match {
         case Some(setupTradeDetailsModel) =>
           fetchAddresses(setupTradeDetailsModel).map {
             addresses =>
-              val f = request.getCookie[BusinessChooseYourAddressModel] match {
-                case Some(cached) => form.fill(cached)
-                case None => form // Blank form.
-              }
-              Ok(views.html.disposal_of_vehicle.business_choose_your_address(f, setupTradeDetailsModel.traderBusinessName, addresses))
+              Ok(views.html.disposal_of_vehicle.business_choose_your_address(form.fill(),
+                setupTradeDetailsModel.traderBusinessName,
+                setupTradeDetailsModel.traderPostcode,
+                addresses))
           }
         case None => Future {
           Redirect(routes.SetUpTradeDetails.present())
@@ -50,27 +54,32 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
   }
 
   def submit = Action.async { implicit request =>
-      form.bindFromRequest.fold(
-        formWithErrors =>
-          request.getCookie[SetupTradeDetailsModel] match {
-            case Some(setupTradeDetailsModel) => fetchAddresses(setupTradeDetailsModel).map {
-              addresses => BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithErrors, setupTradeDetailsModel.traderBusinessName, addresses))
-            }
-            case None => Future {
-              Logger.error("Failed to find dealer details in cache for submit formWithErrors, redirecting...")
-              Redirect(routes.SetUpTradeDetails.present())
-            }
-          },
-        f =>
-          request.getCookie[SetupTradeDetailsModel] match {
-            case Some(setupTradeDetailsModel) =>
-              lookupUprn(f, setupTradeDetailsModel.traderBusinessName)
-            case None => Future {
-              Logger.error("Failed to find dealer details in cache on submit valid form, redirecting...")
-              Redirect(routes.SetUpTradeDetails.present())
-            }
+    form.bindFromRequest.fold(
+      formWithErrors =>
+        request.getEncryptedCookie[SetupTradeDetailsModel] match {
+          case Some(setupTradeDetailsModel) => fetchAddresses(setupTradeDetailsModel).map {
+            addresses =>
+              val formWithReplacedErrors = formWithErrors.
+                replaceError(AddressSelectId, "error.required", FormError(key = AddressSelectId, message = "disposal_businessChooseYourAddress.address.required", args = Seq.empty)).
+                distinctErrors
+
+              BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithReplacedErrors, setupTradeDetailsModel.traderBusinessName, setupTradeDetailsModel.traderPostcode, addresses))
           }
-      )
+          case None => Future {
+            Logger.error("Failed to find dealer details in cache for submit formWithErrors, redirecting...")
+            Redirect(routes.SetUpTradeDetails.present())
+          }
+        },
+      f =>
+        request.getEncryptedCookie[SetupTradeDetailsModel] match {
+          case Some(setupTradeDetailsModel) =>
+            lookupUprn(f, setupTradeDetailsModel.traderBusinessName)
+          case None => Future {
+            Logger.error("Failed to find dealer details in cache on submit valid form, redirecting...")
+            Redirect(routes.SetUpTradeDetails.present())
+          }
+        }
+    )
   }
 
   private def lookupUprn(model: BusinessChooseYourAddressModel, traderName: String)(implicit request: Request[_]) = {
@@ -82,7 +91,10 @@ class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupSer
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache.
          */
-        Redirect(routes.VehicleLookup.present()).withCookie(model).withCookie(traderDetailsModel)
+        Redirect(routes.VehicleLookup.present()).
+          discardingEncryptedCookie(EnterAddressManuallyCacheKey).
+          withEncryptedCookie(model).
+          withEncryptedCookie(traderDetailsModel)
       case None => Redirect(routes.UprnNotFound.present())
     }
   }

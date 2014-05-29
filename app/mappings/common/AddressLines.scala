@@ -5,20 +5,20 @@ import play.api.data.Forms._
 import models.domain.common.AddressLinesModel
 
 object AddressLines {
-  val addressLinesId = "addressLines"
-  val line1Id = "line1"
-  val line2Id = "line2"
-  val line3Id = "line3"
-  val line4Id = "line4"
-  val line1MinLength = 1
-  val lineMaxLength = 30
-  val maxLengthOfLinesConcatenated = 120
-  val addressLinesCacheKey = "addressLines"
+  final val AddressLinesId = "addressLines"
+  final val Line1Id = "line1"
+  final val Line2Id = "line2"
+  final val Line3Id = "line3"
+  final val Line4Id = "line4"
+  final val Line1MinLength = 1
+  final val LineMaxLength = 30
+  final val MaxLengthOfLinesConcatenated = 120
+  final val AddressLinesCacheKey = "addressLines"
 
   def addressLines: Mapping[AddressLinesModel] = mapping(
-    line1Id -> nonEmptyText(minLength = line1MinLength, maxLength = lineMaxLength),
-    line2Id -> optional(text(maxLength = lineMaxLength)),
-    line3Id -> optional(text(maxLength = lineMaxLength)),
-    line4Id -> optional(text(maxLength = lineMaxLength))
+    Line1Id -> nonEmptyText(minLength = Line1MinLength, maxLength = LineMaxLength),
+    Line2Id -> optional(text(maxLength = LineMaxLength)),
+    Line3Id -> optional(text(maxLength = LineMaxLength)),
+    Line4Id -> optional(text(maxLength = LineMaxLength))
   )(AddressLinesModel.apply)(AddressLinesModel.unapply)
 }

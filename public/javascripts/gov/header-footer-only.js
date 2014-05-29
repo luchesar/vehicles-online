@@ -78,53 +78,6 @@ var Alphagov = {
             }), !1
         }
     };
-$(document).ready(function () {
-
-    function t(e) {
-        $(e).length == 1 && ($(e).css("top") == "auto" || "0") && $(window).scrollTop($(e).offset().top - $("#global-header").height())
-    }
-    $(".print-link a").attr("target", "_blank"), $(".js-header-toggle").on("click", function (e) {
-        e.preventDefault(), $($(e.target).attr("href")).toggleClass("js-visible"), $(this).toggleClass("js-hidden")
-    });
-    var e = $(".js-search-focus");
-    e.val() !== "" && e.addClass("focus"), e.on("focus", function (e) {
-        $(e.target).addClass("focus")
-    }), e.on("blur", function (t) {
-        e.val() === "" && $(t.target).removeClass("focus")
-    }), window.location.hash && $(".design-principles").length != 1 && $(".section-page").length != 1 && t(window.location.hash), $("nav").delegate("a", "click", function () {
-        var e, t = $(this).attr("href");
-        t.charAt(0) === "#" ? e = t : t.indexOf("#") > 0 && (e = "#" + t.split("#")[1]), $(e).length == 1 && $("html, body").animate({
-            scrollTop: $(e).offset().top - $("#global-header").height()
-        }, 10)
-    }), $(".report-a-problem-toggle a").on("click", function () {
-        return $(".report-a-problem-container").toggle(), !1
-    });
-    var n = $(".report-a-problem-container form, .report-a-problem form");
-    n.append('<input type="hidden" name="javascript_enabled" value="true"/>'), n.append($('<input type="hidden" name="referrer">').val(document.referrer || "unknown")), $(".report-a-problem-container form").submit(ReportAProblem.submit), $.browser.msie && $.browser.version < 8 && ($(".button").not("a").on("click focus", function (e) {
-        $(this).addClass("button-active")
-    }).on("blur", function (e) {
-        $(this).removeClass("button-active")
-    }), $(".button").on("mouseover", function (e) {
-        $(this).addClass("button-hover")
-    }).on("mouseout", function (e) {
-        $(this).removeClass("button-hover")
-    })),
-    function () {
-        var e = window.navigator.userAgent.match(/(\(Windows[\s\w\.]+\))[\/\(\s\w\.\,\)]+(Version\/[\d\.]+)\s(Safari\/[\d\.]+)/) !== null,
-            t;
-        e && (t = $("<style type='text/css' media='print'>@font-face {font-family: nta !important;src: local('Arial') !important;}</style>"), document.getElementsByTagName("head")[0].appendChild(t[0]))
-    }(), window.GOVUK && GOVUK.userSatisfaction && GOVUK.userSatisfaction.randomlyShowSurveyBar()
-}), $(function () {
-    function s() {
-        var e = i ? "related-" + i : "related";
-        r && (e += "-with-cookie"), n.length && e !== "related" && n.addClass(e)
-    }
-    var e, t = $("#global-cookie-message"),
-        n = $("#wrapper .related-positioning"),
-        r = t.length && getCookie("seen_cookie_message") === null,
-        i = $(".beta-notice").length ? "beta" : null;
-    s, r && (n.length && typeof GOVUK.stopScrollingAtFooter != "undefined" && GOVUK.stopScrollingAtFooter.updateFooterTop(), t.show(), setCookie("seen_cookie_message", "yes", 28)), s()
-});
 var GOVUK = GOVUK || {};
 GOVUK.Analytics = GOVUK.Analytics || {}, GOVUK.Analytics.internalSiteEvents = function () {
     var e = "GDS_successEvents",
@@ -279,7 +232,7 @@ GOVUK.sendToAnalytics = function (e) {
         s(i.shouldTrackEntry, !c) && (GOVUK.sendToAnalytics(o("Entry", !0)), GOVUK.Analytics.entryTokens.assignToken()), s(i.shouldTrackSuccess, !c) && (i(l), GOVUK.Analytics.entryTokens.revokeToken())
     }
     return GOVUK.Analytics.internalSiteEvents.sendAll(), l
-}, $(GOVUK.Analytics.startAnalytics),
+},
 function () {
     var e = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/__utm.gif";
     e += "?utmwv=5.3.9", e += "&utmn=" + Math.floor(Math.random() * parseInt("0x7fffffff", 16)), e += "&utmhn=" + encodeURIComponent(document.location.hostname), e += "&utmp=" + encodeURIComponent("/print" + document.location.pathname), e += "&utmac=UA-26179049-1", e += "&utmcc=__utma%3D999.999.999.999.999.1%3B";
@@ -290,3 +243,58 @@ function () {
     var r = document.getElementsByTagName("head")[0];
     r && r.appendChild(t)
 }();
+
+require(["jquery"],function($) {
+
+    $(document).ready(function () {
+
+        function t(e) {
+            $(e).length == 1 && ($(e).css("top") == "auto" || "0") && $(window).scrollTop($(e).offset().top - $("#global-header").height())
+        }
+        $(".print-link a").attr("target", "_blank"), $(".js-header-toggle").on("click", function (e) {
+            e.preventDefault(), $($(e.target).attr("href")).toggleClass("js-visible"), $(this).toggleClass("js-hidden")
+        });
+        var e = $(".js-search-focus");
+        e.val() !== "" && e.addClass("focus"), e.on("focus", function (e) {
+            $(e.target).addClass("focus")
+        }), e.on("blur", function (t) {
+            e.val() === "" && $(t.target).removeClass("focus")
+        }), window.location.hash && $(".design-principles").length != 1 && $(".section-page").length != 1 && t(window.location.hash), $("nav").delegate("a", "click", function () {
+            var e, t = $(this).attr("href");
+            t.charAt(0) === "#" ? e = t : t.indexOf("#") > 0 && (e = "#" + t.split("#")[1]), $(e).length == 1 && $("html, body").animate({
+                scrollTop: $(e).offset().top - $("#global-header").height()
+            }, 10)
+        }), $(".report-a-problem-toggle a").on("click", function () {
+            return $(".report-a-problem-container").toggle(), !1
+        });
+        var n = $(".report-a-problem-container form, .report-a-problem form");
+        n.append('<input type="hidden" name="javascript_enabled" value="true"/>'), n.append($('<input type="hidden" name="referrer">').val(document.referrer || "unknown")), $(".report-a-problem-container form").submit(ReportAProblem.submit), $.browser.msie && $.browser.version < 8 && ($(".button").not("a").on("click focus", function (e) {
+            $(this).addClass("button-active")
+        }).on("blur", function (e) {
+            $(this).removeClass("button-active")
+        }), $(".button").on("mouseover", function (e) {
+            $(this).addClass("button-hover")
+        }).on("mouseout", function (e) {
+            $(this).removeClass("button-hover")
+        })),
+        function () {
+            var e = window.navigator.userAgent.match(/(\(Windows[\s\w\.]+\))[\/\(\s\w\.\,\)]+(Version\/[\d\.]+)\s(Safari\/[\d\.]+)/) !== null,
+                t;
+            e && (t = $("<style type='text/css' media='print'>@font-face {font-family: nta !important;src: local('Arial') !important;}</style>"), document.getElementsByTagName("head")[0].appendChild(t[0]))
+        }(), window.GOVUK && GOVUK.userSatisfaction && GOVUK.userSatisfaction.randomlyShowSurveyBar()
+    })
+
+    $(function () {
+        function s() {
+            var e = i ? "related-" + i : "related";
+            r && (e += "-with-cookie"), n.length && e !== "related" && n.addClass(e)
+        }
+        var e, t = $("#global-cookie-message"),
+            n = $("#wrapper .related-positioning"),
+            r = t.length && getCookie("seen_cookie_message") === null,
+            i = $(".beta-notice").length ? "beta" : null;
+        s, r && (n.length && typeof GOVUK.stopScrollingAtFooter != "undefined" && GOVUK.stopScrollingAtFooter.updateFooterTop(), t.show(), setCookie("seen_cookie_message", "yes", 28)), s()
+    });
+
+    $(GOVUK.Analytics.startAnalytics)
+});

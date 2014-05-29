@@ -7,51 +7,53 @@ import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle._
 
-class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
-
-  "DisposeFailureIntegration" should {
-
-    "be presented" in new WebBrowser {
+final class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
+  "go to page" should {
+    "display the page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeFailurePage
 
-      assert(page.title equals DisposeFailurePage.title)
+      page.title should equal(DisposeFailurePage.title)
     }
 
     "redirect to setuptrade details if cache is empty on page load" in new WebBrowser {
       go to DisposeFailurePage
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
+  }
 
-    "redirect to vehiclelookup when button clicked" in new WebBrowser {
+  "vehiclelookup button" should {
+    "redirect to vehiclelookup" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeFailurePage
 
       click on vehiclelookup
 
-      assert(page.title equals VehicleLookupPage.title)
+      page.title should equal(VehicleLookupPage.title)
     }
+  }
 
-    "redirect to setuptradedetails when button clicked" in new WebBrowser {
+  "setuptradedetails button" should {
+    "redirect to setuptradedetails" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeFailurePage
 
       click on setuptradedetails
 
-      assert(page.title equals SetupTradeDetailsPage.title)
+      page.title should equal(SetupTradeDetailsPage.title)
     }
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
-      dealerDetailsIntegration().
-      vehicleDetailsModelIntegration().
-      disposeFormModelIntegration().
-      disposeTransactionIdIntegration().
-      vehicleRegistrationNumberIntegration()
+      dealerDetails().
+      vehicleDetailsModel().
+      disposeFormModel().
+      disposeTransactionId().
+      vehicleRegistrationNumber()
 
 }

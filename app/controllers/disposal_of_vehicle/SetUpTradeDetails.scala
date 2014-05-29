@@ -5,19 +5,20 @@ import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import mappings.disposal_of_vehicle.SetupTradeDetails._
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.SimpleResultAdapter
+import common.{ClientSideSessionFactory, EncryptedCookieImplicits}
+import EncryptedCookieImplicits.SimpleResultAdapter
 import mappings.common.Postcode._
 import utils.helpers.FormExtensions._
 import com.google.inject.Inject
-import controllers.disposal_of_vehicle.DisposalOfVehicleSessionState.FormAdapter
-import utils.helpers.CookieEncryption
+import EncryptedCookieImplicits.FormAdapter
+import utils.helpers.{CookieNameHashing, CookieEncryption}
 
-class SetUpTradeDetails @Inject()()(implicit encryption: CookieEncryption) extends Controller {
+final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   val traderLookupForm = Form(
     mapping(
-      traderNameId -> traderBusinessName(),
-      traderPostcodeId -> postcode
+      TraderNameId -> traderBusinessName(),
+      TraderPostcodeId -> postcode
     )(SetupTradeDetailsModel.apply)(SetupTradeDetailsModel.unapply)
   )
 
@@ -31,12 +32,12 @@ class SetUpTradeDetails @Inject()()(implicit encryption: CookieEncryption) exten
       traderLookupForm.bindFromRequest.fold(
         formWithErrors => {
           val formWithReplacedErrors = formWithErrors.
-            replaceError(traderNameId, FormError(key = traderNameId, message = "error.validTraderBusinessName", args = Seq.empty)).
-            replaceError(traderPostcodeId, FormError(key = traderPostcodeId, message = "error.restricted.validPostcode", args = Seq.empty)).
+            replaceError(TraderNameId, FormError(key = TraderNameId, message = "error.validTraderBusinessName", args = Seq.empty)).
+            replaceError(TraderPostcodeId, FormError(key = TraderPostcodeId, message = "error.restricted.validPostcode", args = Seq.empty)).
             distinctErrors
           BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors))
         },
-        f => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(f)
+        f => Redirect(routes.BusinessChooseYourAddress.present()).withEncryptedCookie(f)
       )
   }
 }
