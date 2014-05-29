@@ -17,13 +17,14 @@ import utils.helpers.FormExtensions._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import play.api.data.FormError
 import play.api.mvc.SimpleResult
-import services.brute_force_prevention.BruteForceService
+import services.brute_force_prevention.BruteForcePreventionService
 import common.{ClientSideSessionFactory, CookieImplicits}
 import CookieImplicits.RequestCookiesAdapter
 import CookieImplicits.SimpleResultAdapter
 import CookieImplicits.FormAdapter
+import utils.helpers.Config
 
-final class VehicleLookup @Inject()(bruteForceService: BruteForceService, vehicleLookupService: VehicleLookupService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   val vehicleLookupForm = Form(
     mapping(
@@ -35,7 +36,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForceService, vehicl
   def present = Action {
     implicit request =>
        request.cookies.getModel[TraderDetailsModel] match {
-        case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm.fill()))
+        case Some(traderDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, vehicleLookupForm.fill()))
         case None => Redirect(routes.SetUpTradeDetails.present())
       }
   }
@@ -55,7 +56,8 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForceService, vehicl
             }
           },
         f => {
-          val modelWithoutSpaces = f.copy(registrationNumber = f.registrationNumber.replace(" ", "")) // DE7 Strip spaces from input as it is not allowed in the micro-service.
+          val registrationNumberWithoutSpaces = f.registrationNumber.replace(" ", "")
+          val modelWithoutSpaces = f.copy(registrationNumber = registrationNumberWithoutSpaces) // DE7: Strip spaces from input as it is not allowed in the micro-service.
           lookupVehicle(modelWithoutSpaces)
         }
       )
@@ -72,8 +74,8 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForceService, vehicl
   }
 
   private def lookupVehicle(model: VehicleLookupFormModel)(implicit request: Request[_]): Future[SimpleResult] =
-    bruteForceService.vrmLookupPermitted(model.registrationNumber).map {
-      permitted => permitted
+    bruteForceService.vrmLookupPermitted(model.registrationNumber).map { permitted =>
+        permitted // TODO US270 @Lawrence please code review the way we are using map, the lambda (I think we could use _ but it looks strange to read) and flatmap
     } flatMap { permitted =>
       if (permitted) {
         vehicleLookupService.invoke(buildMicroServiceRequest(model)).map {
@@ -88,7 +90,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForceService, vehicl
       else {
         Future {
           Logger.warn(s"BruteForceService locked out vrm: ${model.registrationNumber}")
-          Redirect(routes.MicroServiceError.present())
+          Redirect(routes.VrmLocked.present())
         }
       }
     } recover {

@@ -34,6 +34,7 @@ import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import play.api.data.FormError
 import play.api.mvc.Call
+import mappings.common.AddressLines._
 
 final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -209,11 +210,17 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
   private def disposalAddressDto(sourceAddress: AddressViewModel): DisposalAddressDto = {
   // The last two address lines are always post town and postcode
-    val postAddressLines = sourceAddress.address.dropRight(2)
+    val legacyAddressLines = lineLengthCheck(sourceAddress.address.dropRight(2), Nil)
     val postTown = sourceAddress.address.takeRight(2).head
-    val postcode = sourceAddress.address.last
+    val postcode = sourceAddress.address.last.replaceAll(" ","")
 
-    DisposalAddressDto(postAddressLines, Some(postTown), postcode, sourceAddress.uprn)
+    DisposalAddressDto(legacyAddressLines, Some(postTown), postcode, sourceAddress.uprn)
+  }
+
+  def lineLengthCheck(existingAddress: Seq[String], accAddress: Seq[String]) : Seq[String] = {
+    if (existingAddress.isEmpty) accAddress
+    else if (existingAddress.head.size > LineMaxLength) lineLengthCheck(existingAddress.tail, accAddress :+ existingAddress.head.substring(0, LineMaxLength))
+    else lineLengthCheck(existingAddress.tail, accAddress :+ existingAddress.head)
   }
 
 }

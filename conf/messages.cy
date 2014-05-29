@@ -329,6 +329,9 @@ select_default = Dewiswch
 error.invalid = Gwerth annilys
 
 error.address.line1Required = Mae angen llinell 1 llenwi gyfeiriad
+error.address.line1minLength = Llinell 1 yn gofyn o leiaf hyd o 4 cymeriadau
+error.address.line4Required = Mae angen ar ôl tref llenwi gyfeiriad
+error.address.line4minLength = Llinell 4 yn gofyn o leiaf hyd o 3 cymeriadau
 addressAndPostcode.addressLines.line1 = Llinell 1
 error.address.maxLengthOfLinesConcatenated = Gall gyfeiriad gael mwy na 120 o gymeriadau
 error.address.characterinvalid = Nid yw nodau annilys chaniateir
@@ -351,6 +354,15 @@ soap_endpoint_error.title=Mae''n ddrwg gennym
 soap_endpoint_error.text=Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
 soap_endpoint_error.back.button=Yn ôl
 soap_endpoint_error.exit.button=Gadael
+
+#vrm locked
+vrm_locked.title = marc cofrestru yn gloi
+vrm_locked.text1 = Cafwyd tri chynnig i gael mynediad i''r manylion y cerbyd heb lwyddiant. Y marc cofrestru cerbyd bellach yn cael ei gloi am 10 munud fel dull diogelu. Yn ystod y cyfnod hwn y gellir ei brosesu gerbydau eraill.
+vrm_locked.text2.1 = glo yn
+vrm_locked.text2.2 = {0}
+vrm_locked.text2.3 = (dyma''r amser pan ddechreuodd y gwall wladwriaeth)
+vrm_locked.text3.1 = Os ydych angen cymorth i brosesu cerbyd hwn, ffoniwch ein Canolfan Gyswllt ar
+vrm_locked.text3.2 = 0300 790 6801
 
 # 404 onHandlerNotFound
 onHandlerNotFound.title=Ni all y dudalen ar gael
