@@ -24,7 +24,7 @@ final class AddressLinesModelSpec extends UnitSpec {
     }
 
     "return expected length when only mandatory fields are filled" in {
-      AddressLinesModel(line1 = line1Valid, line4 = line4Valid).totalCharacters should equal(line1Valid.length)
+      AddressLinesModel(line1 = line1Valid, line4 = line4Valid).totalCharacters should equal(line1Valid.length + line4Valid.length)
     }
 
     "return expected length when some fields are not filled" in {
