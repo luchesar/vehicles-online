@@ -280,7 +280,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     "redirect to vrm locked when valid submit and brute force prevention returns not permitted" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess, permitted = false).submit(request)
-      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(VrmLockedPage.address))
     }
   }
 
@@ -315,7 +315,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   private lazy val vehicleLookupError = {
-    val permitted = true // The lookup is permitted as we are testing failure on the next step.
+    val permitted = true // The lookup is permitted as we want to test failure on the vehicle lookup micro-service step.
     val vehicleLookupWebService: VehicleLookupWebService = mock[VehicleLookupWebService]
     when(vehicleLookupWebService.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
       throw new IllegalArgumentException

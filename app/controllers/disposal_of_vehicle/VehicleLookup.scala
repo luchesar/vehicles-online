@@ -36,7 +36,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
   def present = Action {
     implicit request =>
        request.cookies.getModel[TraderDetailsModel] match {
-        case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm.fill()))
+        case Some(traderDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, vehicleLookupForm.fill()))
         case None => Redirect(routes.SetUpTradeDetails.present())
       }
   }
@@ -90,7 +90,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       else {
         Future {
           Logger.warn(s"BruteForceService locked out vrm: ${model.registrationNumber}")
-          Redirect(routes.MicroServiceError.present())
+          Redirect(routes.VrmLocked.present())
         }
       }
     } recover {
