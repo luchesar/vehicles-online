@@ -6,8 +6,8 @@ import scala.concurrent.Future
 import utils.helpers.Config
 
 final class WebServiceImpl extends BruteForcePreventionWebService {
-  private val baseUrl: String = Config.bruteForcePreventionMicroServiceBase
-  private val requestTimeout: Int = 5000 /// TODO put this value in config
+  private val baseUrl: String = Config.bruteForcePreventionMicroServiceBaseUrl
+  private val requestTimeout: Int = Config.bruteForcePreventionTimeout /// TODO put this value in config
 
   override def callBruteForce(vrm: String): Future[Response] = {
     val endPoint = s"$baseUrl/security"
