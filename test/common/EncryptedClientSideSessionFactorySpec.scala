@@ -1,6 +1,6 @@
 package common
 
-import play.api.test.{FakeRequest, WithApplication}
+import play.api.test.WithApplication
 import utils.helpers._
 import composition.TestComposition.{testInjector => injector}
 import helpers.UnitSpec
@@ -11,7 +11,7 @@ import common.CookieImplicits.SimpleResultAdapter
 final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
   "newSession" should {
     "return result containing a new session secret cookie" in new WithApplication {
-      val request = FakeRequest().withSession()
+      val request = FakeCSRFRequest()
       val result = setUpTradeDetails.present(request)
 
       whenReady(result) {
@@ -30,7 +30,7 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
     }
 
     "return session containing a populated new session secret cookie" in new WithApplication {
-      val request = FakeRequest().withSession()
+      val request = FakeCSRFRequest()
       val result = setUpTradeDetails.present(request)
 
       whenReady(result) {
@@ -44,14 +44,14 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
     }
 
     "return None when trying to fetch the client session from the request object when there are no cookies" in new WithApplication {
-      val request = FakeRequest().withSession()
+      val request = FakeCSRFRequest()
       val encryptedClientSideSessionFactory = new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing)
       val session = encryptedClientSideSessionFactory.getSession(request.cookies)
       session should equal(None)
     }
 
     "return a client side session when trying to fetch the session from the request object that contains a cookie" in new WithApplication {
-      implicit val request = FakeRequest().withSession()
+      implicit val request = FakeCSRFRequest()
       implicit val encryptedClientSideSessionFactory = new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing)
       val result = setUpTradeDetails.present(request)
 

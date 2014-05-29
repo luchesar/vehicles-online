@@ -1,11 +1,11 @@
-@()(implicit lang: Lang)
+@()(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
 
 @import helper._
 @import mappings.disposal_of_vehicle.Error._
 
 @main(Messages("error.title")){
 
-    @form(action = controllers.disposal_of_vehicle.routes.Error.submit) {
+    @form(action = CSRF(controllers.disposal_of_vehicle.routes.Error.submit)) {
         <div class="form-steps">
             <button id="@SubmitId" type="submit" name="action" class="button">@Messages("error.button")</button>
         </div>

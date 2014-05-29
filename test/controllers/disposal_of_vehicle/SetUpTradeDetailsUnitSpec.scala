@@ -4,7 +4,6 @@ import helpers.UnitSpec
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
-import play.api.test.FakeRequest
 import services.fakes.FakeAddressLookupService._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import composition.TestComposition.{testInjector => injector}
@@ -14,7 +13,7 @@ import helpers.WithApplication
 final class SetUpTradeDetailsUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      val request = FakeRequest().withSession()
+      val request = FakeCSRFRequest()
       val result = setUpTradeDetails.present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
@@ -22,7 +21,7 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
     }
 
     "display populated fields when cookie exists" in new WithApplication {
-      val request = FakeRequest().withSession().
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = setUpTradeDetails.present(request)
       val content = contentAsString(result)
@@ -31,7 +30,7 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
     }
 
     "display empty fields when cookie does not exist" in new WithApplication {
-      val request = FakeRequest().withSession()
+      val request = FakeCSRFRequest()
       val result = setUpTradeDetails.present(request)
       val content = contentAsString(result)
       content should not include traderBusinessNameValid
@@ -83,7 +82,7 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
   }
 
   private def buildCorrectlyPopulatedRequest(dealerName: String = traderBusinessNameValid, dealerPostcode: String = postcodeValid) = {
-    FakeRequest().withSession().withFormUrlEncodedBody(
+    FakeCSRFRequest().withFormUrlEncodedBody(
       TraderNameId -> dealerName,
       TraderPostcodeId -> dealerPostcode)
   }

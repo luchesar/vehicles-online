@@ -1,4 +1,4 @@
-@(traderLookupForm: Form[models.domain.disposal_of_vehicle.SetupTradeDetailsModel])(implicit lang: Lang)
+@(traderLookupForm: Form[models.domain.disposal_of_vehicle.SetupTradeDetailsModel])(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
 
 @import mappings.common.Postcode
 @import helper._
@@ -11,7 +11,7 @@
 @main(Messages("disposal_setuptradedetails.title")) {
     @errorsSummary(traderLookupForm)
 
-    @form(action = controllers.disposal_of_vehicle.routes.SetUpTradeDetails.submit) {
+    @form(action = CSRF(controllers.disposal_of_vehicle.routes.SetUpTradeDetails.submit)) {
 
     @{/*
     	Removed following review feedback 18/3/14
