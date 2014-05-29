@@ -2,8 +2,8 @@ package controllers.disposal_of_vehicle
 
 import play.api.mvc._
 import com.google.inject.Inject
-import common.{ClientSideSessionFactory, EncryptedCookieImplicits}
-import EncryptedCookieImplicits.SimpleResultAdapter
+import common.{ClientSideSessionFactory, CookieImplicits}
+import CookieImplicits.SimpleResultAdapter
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 
 final class BeforeYouStart @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
@@ -12,7 +12,7 @@ final class BeforeYouStart @Inject()(implicit clientSideSessionFactory: ClientSi
 
     Ok(views.html.disposal_of_vehicle.before_you_start()).
       withNewSession.
-      discardingEncryptedCookies(RelatedCacheKeys.FullSet)
+      discardingCookies(RelatedCacheKeys.FullSet)
   }
 
   def submit = Action { implicit request =>

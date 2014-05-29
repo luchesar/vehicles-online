@@ -12,13 +12,13 @@ import javax.inject.Inject
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
 import services.address_lookup.AddressLookupService
-import common.{ClientSideSessionFactory, EncryptedCookieImplicits}
+import common.{ClientSideSessionFactory, CookieImplicits}
 import utils.helpers.FormExtensions._
 import mappings.disposal_of_vehicle.EnterAddressManually._
 import play.api.data.FormError
-import EncryptedCookieImplicits.RequestAdapter
-import EncryptedCookieImplicits.SimpleResultAdapter
-import EncryptedCookieImplicits.FormAdapter
+import CookieImplicits.RequestCookiesAdapter
+import CookieImplicits.SimpleResultAdapter
+import CookieImplicits.FormAdapter
 
 final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -38,7 +38,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
 
   def present = Action.async {
     implicit request =>
-      request.getEncryptedCookie[SetupTradeDetailsModel] match {
+      request.cookies.getModel[SetupTradeDetailsModel] match {
         case Some(setupTradeDetailsModel) =>
           fetchAddresses(setupTradeDetailsModel).map {
             addresses =>
@@ -56,7 +56,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
   def submit = Action.async { implicit request =>
     form.bindFromRequest.fold(
       formWithErrors =>
-        request.getEncryptedCookie[SetupTradeDetailsModel] match {
+        request.cookies.getModel[SetupTradeDetailsModel] match {
           case Some(setupTradeDetailsModel) => fetchAddresses(setupTradeDetailsModel).map {
             addresses =>
               val formWithReplacedErrors = formWithErrors.
@@ -71,7 +71,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
           }
         },
       f =>
-        request.getEncryptedCookie[SetupTradeDetailsModel] match {
+        request.cookies.getModel[SetupTradeDetailsModel] match {
           case Some(setupTradeDetailsModel) =>
             lookupUprn(f, setupTradeDetailsModel.traderBusinessName)
           case None => Future {
@@ -92,9 +92,9 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
          2) the browser does not change page before the future has completed and written to the cache.
          */
         Redirect(routes.VehicleLookup.present()).
-          discardingEncryptedCookie(EnterAddressManuallyCacheKey).
-          withEncryptedCookie(model).
-          withEncryptedCookie(traderDetailsModel)
+          discardingCookie(EnterAddressManuallyCacheKey).
+          withCookie(model).
+          withCookie(traderDetailsModel)
       case None => Redirect(routes.UprnNotFound.present())
     }
   }
