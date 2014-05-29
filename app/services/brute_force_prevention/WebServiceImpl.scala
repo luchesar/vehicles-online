@@ -7,7 +7,7 @@ import utils.helpers.Config
 
 final class WebServiceImpl extends BruteForcePreventionWebService {
   private val baseUrl: String = Config.bruteForcePreventionMicroServiceBaseUrl
-  private val requestTimeout: Int = Config.bruteForcePreventionTimeout /// TODO put this value in config
+  private val requestTimeout: Int = Config.bruteForcePreventionTimeout
 
   override def callBruteForce(vrm: String): Future[Response] = {
     val endPoint = s"$baseUrl/security"

@@ -24,4 +24,5 @@ object Config {
   // Brute force prevention config
   val bruteForcePreventionMicroServiceBaseUrl: String = getProperty("bruteForcePreventionMicroServiceBase", "NOT FOUND")
   val bruteForcePreventionTimeout: Int = getProperty("bruteForcePrevention.requesttimeout", (5 seconds).toMillis.toInt)
+  val bruteForcePreventionEnabled: Boolean = getProperty("bruteForcePrevention.enabled", default = true)
 }
