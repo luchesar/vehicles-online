@@ -10,8 +10,8 @@ import play.api.test.Helpers._
 import play.api.test.FakeRequest
 import helpers.WithApplication
 import services.fakes.FakeAddressLookupService.traderBusinessNameValid
-import services.fakes.FakeWebServiceImpl
-import services.fakes.FakeWebServiceImpl._
+import services.fakes.FakeAddressLookupWebServiceImpl
+import services.fakes.FakeAddressLookupWebServiceImpl._
 import common.ClientSideSessionFactory
 import composition.TestComposition.{testInjector => injector}
 import common.CookieHelper._
@@ -119,7 +119,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
     val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress else responseValidForPostcodeToAddressNotFound
     val responseUprn = if (uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
-    val fakeWebService = new FakeWebServiceImpl(responsePostcode, responseUprn)
+    val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     new BusinessChooseYourAddress(addressLookupService)(clientSideSessionFactory)
