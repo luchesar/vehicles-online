@@ -10,12 +10,11 @@ import org.mockito.Matchers._
 import play.api.libs.ws.Response
 import FakeVehicleLookupWebService.registrationNumberValid
 
-class BruteForcePreventionServiceImplSpec extends UnitSpec {
+final class BruteForcePreventionServiceImplSpec extends UnitSpec {
   "vrmLookupPermitted" should {
     "return true when response status is 200 OK" in {
       val resp = response(permitted = true)
-      val ws = bruteForcePreventionWebService(resp = resp)
-      val service = bruteForceServiceImpl(ws)
+      val service = bruteForceServiceImpl(resp)
       whenReady(service.vrmLookupPermitted(registrationNumberValid)) {
         r => r should equal(true)
       }
@@ -23,8 +22,7 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
 
     "return false when response status is not 200 OK" in {
       val resp = response(permitted = false)
-      val ws = bruteForcePreventionWebService(resp = resp)
-      val service = bruteForceServiceImpl(ws)
+      val service = bruteForceServiceImpl(resp)
       whenReady(service.vrmLookupPermitted(registrationNumberValid)) {
         r => r should equal(false)
       }
@@ -32,8 +30,7 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
 
     "return false when webservice call throws" in {
       val resp = responseThrows
-      val ws = bruteForcePreventionWebService(resp = resp)
-      val service = bruteForceServiceImpl(ws)
+      val service = bruteForceServiceImpl(resp)
       whenReady(service.vrmLookupPermitted(registrationNumberValid)) {
         r => r should equal(false)
       }
@@ -49,14 +46,14 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
     throw new RuntimeException("This error is generated deliberately by a test")
   }
 
-  private def bruteForcePreventionWebService(resp: Future[Response]): BruteForcePreventionWebService = {
-    val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
-    when(bruteForcePreventionWebService.callBruteForce(anyString())).thenReturn(resp)
-    bruteForcePreventionWebService
-  }
+  private def bruteForceServiceImpl(resp: Future[Response]): BruteForcePreventionService = {
+    def bruteForcePreventionWebService(resp: Future[Response]): BruteForcePreventionWebService = {
+      val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
+      when(bruteForcePreventionWebService.callBruteForce(anyString())).thenReturn(resp)
+      bruteForcePreventionWebService
+    }
 
-  private def bruteForceServiceImpl(bruteForcePreventionWebService: BruteForcePreventionWebService): BruteForcePreventionService = {
     new BruteForcePreventionServiceImpl(
-      ws = bruteForcePreventionWebService)
+      ws = bruteForcePreventionWebService(resp))
   }
 }
