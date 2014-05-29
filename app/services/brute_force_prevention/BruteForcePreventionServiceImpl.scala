@@ -8,7 +8,8 @@ import utils.helpers.Config
 
 final class BruteForcePreventionServiceImpl @Inject()(ws: BruteForcePreventionWebService) extends BruteForcePreventionService {
   override def vrmLookupPermitted(vrm: String): Future[Boolean] =
-    if (Config.bruteForcePreventionEnabled) // TODO US270 this is temporary until we all developers have Redis setup locally.
+    if (Config.bruteForcePreventionEnabled) {
+      // TODO US270 this is temporary until we all developers have Redis setup locally.
       ws.callBruteForce(vrm).map {
         resp =>
           Logger.debug(s"Http response code from Brute force prevention service was: ${resp.status}")
@@ -18,6 +19,7 @@ final class BruteForcePreventionServiceImpl @Inject()(ws: BruteForcePreventionWe
           Logger.error(s"Brute force prevention service error: $e")
           false
       }
+    }
     else Future {
       true
     }
