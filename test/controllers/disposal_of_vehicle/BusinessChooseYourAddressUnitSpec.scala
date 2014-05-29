@@ -7,7 +7,6 @@ import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import pages.disposal_of_vehicle._
 import play.api.mvc.Cookies
 import play.api.test.Helpers._
-import play.api.test.FakeRequest
 import helpers.WithApplication
 import services.fakes.FakeAddressLookupService.traderBusinessNameValid
 import services.fakes.FakeAddressLookupWebServiceImpl
@@ -19,7 +18,7 @@ import common.CookieHelper._
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
     "display the page if dealer details cached" in new WithApplication {
-      val request = FakeRequest().withSession().withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+      val request = FakeCSRFRequest().withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnFound.present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
@@ -27,7 +26,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "display selected field when cookie exists" in new WithApplication {
-      val request = FakeRequest().withSession().
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress())
       val result = businessChooseYourAddressWithUprnFound.present(request)
@@ -37,7 +36,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "display unselected field when cookie does not exist" in new WithApplication {
-      val request = FakeRequest().withSession().
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnFound.present(request)
       val content = contentAsString(result)
@@ -126,7 +125,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   }
 
   private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {
-    FakeRequest().withSession().withFormUrlEncodedBody(
+    FakeCSRFRequest().withFormUrlEncodedBody(
       AddressSelectId -> traderUprn)
   }
 

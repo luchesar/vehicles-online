@@ -13,7 +13,6 @@ import org.mockito.Matchers._
 import org.mockito.Mockito._
 import pages.disposal_of_vehicle._
 import play.api.libs.json.{JsValue, Json}
-import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
@@ -27,7 +26,7 @@ import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebServic
 final class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      val request = FakeRequest().withSession().
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
 
@@ -42,7 +41,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "display populated fields when cookie exists" in new WithApplication {
-      val request = FakeRequest().withSession().
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
@@ -52,7 +51,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "display data captured in previous pages" in new WithApplication {
-      val request = FakeRequest().withSession().
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
       val content = contentAsString(result)
@@ -66,7 +65,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "display empty fields when cookie does not exist" in new WithApplication {
-      val request = FakeRequest().withSession().
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
       val content = contentAsString(result)
@@ -179,7 +178,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to EnterAddressManually when back button is pressed and there is no uprn" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody().
+      val request = FakeCSRFRequest().withFormUrlEncodedBody().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).back(request)
 
@@ -187,7 +186,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to BusinessChooseYourAddress when back button is pressed and there is a uprn" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody().
+      val request = FakeCSRFRequest().withFormUrlEncodedBody().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(uprn = Some(traderUprnValid)))
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).back(request)
 
@@ -195,7 +194,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to SetupTradeDetails page when back button is pressed and dealer details is not in cache" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody()
+      val request = FakeCSRFRequest().withFormUrlEncodedBody()
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).back(request)
 
       result.futureValue.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -331,10 +330,10 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = referenceNumberValid,
                                              registrationNumber: String = registrationNumberValid,
                                              consent: String = consentValid) = {
-    FakeRequest().withSession().withFormUrlEncodedBody(
-      ReferenceNumberId -> referenceNumber,
-      RegistrationNumberId -> registrationNumber,
-      ConsentId -> consent)
+    FakeCSRFRequest().withFormUrlEncodedBody(
+        ReferenceNumberId -> referenceNumber,
+        RegistrationNumberId -> registrationNumber,
+        ConsentId -> consent)
   }
 
 }
