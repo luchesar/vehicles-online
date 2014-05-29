@@ -17,11 +17,10 @@ import utils.helpers.FormExtensions._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import play.api.data.FormError
 import play.api.mvc.SimpleResult
-import common.{ClientSideSessionFactory, EncryptedCookieImplicits}
-import EncryptedCookieImplicits.RequestAdapter
-import EncryptedCookieImplicits.SimpleResultAdapter
-import EncryptedCookieImplicits.FormAdapter
-import utils.helpers.{CookieNameHashing, CookieEncryption}
+import common.{ClientSideSessionFactory, CookieImplicits}
+import CookieImplicits.RequestCookiesAdapter
+import CookieImplicits.SimpleResultAdapter
+import CookieImplicits.FormAdapter
 
 final class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -34,7 +33,7 @@ final class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit c
 
   def present = Action {
     implicit request =>
-       request.getEncryptedCookie[TraderDetailsModel] match {
+       request.cookies.getModel[TraderDetailsModel] match {
         case Some(dealerDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, vehicleLookupForm.fill()))
         case None => Redirect(routes.SetUpTradeDetails.present())
       }
@@ -45,7 +44,7 @@ final class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit c
       vehicleLookupForm.bindFromRequest.fold(
         formWithErrors =>
           Future {
-            request.getEncryptedCookie[TraderDetailsModel] match {
+            request.cookies.getModel[TraderDetailsModel] match {
               case Some(dealerDetails) => val formWithReplacedErrors = formWithErrors.
                   replaceError(RegistrationNumberId, FormError(key = RegistrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
                   replaceError(ReferenceNumberId, FormError(key = ReferenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
@@ -63,7 +62,7 @@ final class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit c
 
   def back = Action {
     implicit request =>
-      request.getEncryptedCookie[TraderDetailsModel] match {
+      request.cookies.getModel[TraderDetailsModel] match {
         case Some(dealerDetails) =>
           if (dealerDetails.traderAddress.uprn.isDefined) Redirect(routes.BusinessChooseYourAddress.present())
           else Redirect(routes.EnterAddressManually.present())
@@ -76,7 +75,7 @@ final class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit c
       case (responseStatus: Int, response: Option[VehicleDetailsResponse]) =>
         Logger.debug(s"VehicleLookup Web service call successful - response = $response")
         checkResponseConstruction(responseStatus, response).
-          withEncryptedCookie(model)
+          withCookie(model)
     }.recover {
       case exception: Throwable => throwToMicroServiceError(exception)
     }
@@ -100,7 +99,7 @@ final class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit c
     response.responseCode match {
       case Some(responseCode) =>
         Redirect(routes.VehicleLookupFailure.present()).
-          withEncryptedCookie(key = VehicleLookupResponseCodeCacheKey, value = responseCode)
+          withCookie(key = VehicleLookupResponseCodeCacheKey, value = responseCode)
       case None => noResponseCodePresent(response.vehicleDetailsDto)
     }
   }
@@ -109,7 +108,7 @@ final class VehicleLookup @Inject()(webService: VehicleLookupService)(implicit c
     vehicleDetailsDto match {
       case Some(dto) =>
         Redirect(routes.Dispose.present()).
-          withEncryptedCookie(VehicleDetailsModel.fromDto(dto))
+          withCookie(VehicleDetailsModel.fromDto(dto))
       case None => Redirect(routes.MicroServiceError.present())
     }
   }

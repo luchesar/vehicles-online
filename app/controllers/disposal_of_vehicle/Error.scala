@@ -2,11 +2,8 @@ package controllers.disposal_of_vehicle
 
 import play.api.mvc._
 import play.api.Logger
-import mappings.disposal_of_vehicle.RelatedCacheKeys
-import common.EncryptedCookieImplicits
-import EncryptedCookieImplicits.SimpleResultAdapter
 import com.google.inject.Inject
-import utils.helpers.{CryptoHelper, CookieNameHashing, CookieEncryption}
+import utils.helpers.CryptoHelper
 
 final class Error @Inject()() extends Controller {
   def present = Action { implicit request =>

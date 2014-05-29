@@ -1,7 +1,6 @@
 package common
 
 import app.ConfigProperties._
-import play.api.mvc.Request
 import utils.helpers.{CookieEncryption, CookieNameHashing}
 import org.apache.commons.codec.binary.Hex
 import java.security.SecureRandom
@@ -20,7 +19,7 @@ class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: Cookie
 
   val secureCookies: Boolean = getProperty("secureCookies", default = true)
 
-  override def newSession(request: Request[_], result: SimpleResult): (SimpleResult, ClientSideSession) = {
+  override def newSession(result: SimpleResult): (SimpleResult, ClientSideSession) = {
     val sessionSecretKey = newSessionSecretKey
     
     val cookieName = sessionSecretKeyCookieName
@@ -38,9 +37,9 @@ class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: Cookie
     (resultWithSessionSecretKeyCookie, clientSideSession)
   }
 
-  override def getSession(request: Request[_]): Option[ClientSideSession] = {
+  override def getSession(request: Traversable[Cookie]): Option[ClientSideSession] = {
     val cookieName = sessionSecretKeyCookieName
-    request.cookies.get(cookieName).map { cookie =>
+    request.find(_.name == cookieName).map { cookie =>
       val decrypted = encryption.decrypt(cookie.value)
       val (cookieNameFromPayload, sessionSecretKey) = decrypted.splitAt(cookieName.length)
       assert(cookieName == cookieNameFromPayload, "The cookie name bytes from the payload must match the cookie name")
