@@ -75,9 +75,9 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
 
   private def lookupVehicle(model: VehicleLookupFormModel)(implicit request: Request[_]): Future[SimpleResult] =
     bruteForceService.vrmLookupPermitted(model.registrationNumber).map { resp =>
+      resp // TODO US270 @Lawrence please code review the way we are using map, the lambda (I think we could use _ but it looks strange to read) and flatmap
+    } flatMap { resp =>
       val (permitted, bruteForcePreventionResponse) = resp
-      permitted // TODO US270 @Lawrence please code review the way we are using map, the lambda (I think we could use _ but it looks strange to read) and flatmap
-    } flatMap { permitted =>
       if (permitted) {
         vehicleLookupService.invoke(buildMicroServiceRequest(model)).map {
           case (responseStatus: Int, response: Option[VehicleDetailsResponse]) =>
