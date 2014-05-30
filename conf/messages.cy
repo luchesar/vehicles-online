@@ -349,6 +349,12 @@ micro_service_error.text=Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda c
 micro_service_error.back.button=WELSH Try again
 micro_service_error.exit.button=Gadael
 
+#duplicate-disposal error page
+duplicate_disposal_error.title=WELSH We are sorry
+duplicate_disposal_error.text=WELSH This vehicle has already been notified as sold. If you think this an error then please call DVLA Customer Enquiries on 0300 790 6802
+duplicate_disposal_error.back.button=WELSH Try again
+duplicate_disposal_error.exit.button=WELSH Exit
+
 #soap endpoint error page
 soap_endpoint_error.title=Mae''n ddrwg gennym
 soap_endpoint_error.text=Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
