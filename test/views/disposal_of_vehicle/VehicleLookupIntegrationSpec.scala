@@ -1,6 +1,6 @@
 package views.disposal_of_vehicle
 
-import pages.disposal_of_vehicle.VehicleLookupPage.{happyPath, back}
+import pages.disposal_of_vehicle.VehicleLookupPage._
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
@@ -104,6 +104,14 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       happyPath(referenceNumber = "")
 
       ErrorPanel.numberOfErrors should equal(1)
+    }
+
+    "redirect to vrm locked when too many attempting to lookup a locked vrm" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      tryLockedVrm()
+      page.title should equal(VrmLockedPage.title)
     }
   }
 

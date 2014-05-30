@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
 import services.fakes.FakeVehicleLookupWebService._
 import mappings.disposal_of_vehicle.VehicleLookup._
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 
 object VehicleLookupPage extends Page with WebBrowserDSL {
   final val address = "/disposal-of-vehicle/vehicle-lookup"
@@ -22,6 +23,13 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
     go to VehicleLookupPage
     documentReferenceNumber.value = referenceNumber
     VehicleLookupPage.vehicleRegistrationNumber.value = registrationNumber
+    click on findVehicleDetails
+  }
+
+  def tryLockedVrm()(implicit driver: WebDriver) = {
+    go to VehicleLookupPage
+    documentReferenceNumber.value = referenceNumberValid
+    VehicleLookupPage.vehicleRegistrationNumber.value = FakeBruteForcePreventionWebServiceImpl.VrmLocked
     click on findVehicleDetails
   }
 }

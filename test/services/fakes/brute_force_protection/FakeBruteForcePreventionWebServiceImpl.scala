@@ -16,7 +16,5 @@ final class FakeBruteForcePreventionWebServiceImpl() extends BruteForcePreventio
 }
 
 object FakeBruteForcePreventionWebServiceImpl  {
-  private final val VrmLocked = "st05999"
-  
-  //def fakeBruteForcePreventionWebService: BruteForcePreventionWebService = ???
+  final val VrmLocked = "ST05YYY"
 }
