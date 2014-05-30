@@ -26,7 +26,8 @@ final class VrmLocked @Inject()(dateService: DateService)(implicit clientSideSes
         newDisposal
       case Some("exit") =>
         exit
-      case _ => BadRequest("This action is not allowed") // TODO redirect to error page ?
+      case _ =>
+        BadRequest("This action is not allowed") // TODO redirect to error page ?
     }
   }
 
