@@ -7,12 +7,15 @@ import mappings.disposal_of_vehicle.RelatedCacheKeys
 import models.domain.disposal_of_vehicle.TraderDetailsModel
 import common.ClientSideSessionFactory
 import com.google.inject.Inject
+import services.DateService
 
-final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class VrmLocked @Inject()(dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   def present = Action { implicit request =>
     Logger.debug(s"VrmLocked - displaying the vrm locked error page")
-    Ok(views.html.disposal_of_vehicle.vrm_locked())
+    val today = dateService.today
+    val formattedTime = today.`HH:mm`
+    Ok(views.html.disposal_of_vehicle.vrm_locked(formattedTime))
   }
 
   def submit = Action { implicit request =>

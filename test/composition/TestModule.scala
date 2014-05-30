@@ -11,9 +11,10 @@ import services.dispose_service.{DisposeServiceImpl, DisposeWebServiceImpl, Disp
 import utils.helpers._
 import common._
 import services.brute_force_prevention._
-import services.fakes.brute_force_protection.FakeBruteForcePrventionWebServiceImpl
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
+import org.scalatest.mock.MockitoSugar
 
-object TestModule extends ScalaModule {
+class TestModule() extends ScalaModule with MockitoSugar {
   /**
    * Bind the fake implementations the traits
    */
@@ -32,7 +33,7 @@ object TestModule extends ScalaModule {
     bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
     bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
 
-    bind[BruteForcePreventionWebService].to[FakeBruteForcePrventionWebServiceImpl].asEagerSingleton()
+    bind[BruteForcePreventionWebService].to[FakeBruteForcePreventionWebServiceImpl].asEagerSingleton()
     bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
   }
 
