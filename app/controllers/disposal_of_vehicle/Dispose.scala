@@ -165,8 +165,9 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         traderAddress = disposalAddressDto(traderDetails.traderAddress),
         dateOfDisposal = isoDateTimeString,
         transactionTimestamp = ISODateTimeFormat.dateTime().print(dateService.today.toDateTime.get),
-        mileage = disposeModel.mileage,
-        ipAddress = None) // TODO : This to be removed when new WSDL is provided
+        prConsent = true, // TODO : CJR : eplace these with field values
+        keeperConsent = true, // TODO : CJR : eplace these with field values
+        mileage = disposeModel.mileage)
     }
 
     def handleResponseCode(disposeResponseCode: String): Call = {
