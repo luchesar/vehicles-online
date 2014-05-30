@@ -7,20 +7,20 @@ import ExecutionContext.Implicits.global
 import utils.helpers.Config
 
 final class BruteForcePreventionServiceImpl @Inject()(ws: BruteForcePreventionWebService) extends BruteForcePreventionService {
-  override def vrmLookupPermitted(vrm: String): Future[Boolean] =
+  override def vrmLookupPermitted(vrm: String): Future[(Boolean, Int, Int)] =
     if (Config.bruteForcePreventionEnabled) {
       // TODO US270 this is temporary until we all developers have Redis setup locally.
       ws.callBruteForce(vrm).map {
         resp =>
           Logger.debug(s"Http response code from Brute force prevention service was: ${resp.status}")
-          resp.status == play.api.http.Status.OK
+          (resp.status == play.api.http.Status.OK, 0, 3)
       }.recover {
         case e: Throwable =>
           Logger.error(s"Brute force prevention service error: $e")
-          false
+          (false, 0, 0)
       }
     }
     else Future {
-      true
+      (true, 0, 0)
     }
 }

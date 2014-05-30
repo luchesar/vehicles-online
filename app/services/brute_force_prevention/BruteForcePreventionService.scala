@@ -5,5 +5,5 @@ import scala.concurrent.Future
 import play.api.libs.ws.Response
 
 trait BruteForcePreventionService {
-  def vrmLookupPermitted(vrm: String): Future[Boolean]
+  def vrmLookupPermitted(vrm: String): Future[(Boolean, Int, Int)]
 }

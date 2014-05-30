@@ -278,9 +278,17 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to vrm locked when valid submit and brute force prevention returns not permitted" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess, permitted = false).submit(request)
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess, bruteForceService = bruteForceServiceImpl(permitted = false)).submit(request)
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VrmLockedPage.address))
     }
+
+    "redirect to VehicleLookupFailure and display 1st attempt message when document reference number not found and security service returns attempt number that is less than maxAttempts" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseDocRefNumberNotLatest, bruteForceService = bruteForceServiceImpl(permitted = true)).submit(request)
+
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+    }
+
   }
 
   private def bruteForceServiceImpl(permitted: Boolean): BruteForcePreventionService = {
@@ -295,7 +303,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       ws = bruteForcePreventionWebService)
   }
 
-  private def vehicleLookupResponseGenerator(fullResponse: (Int, Option[VehicleDetailsResponse]), permitted: Boolean = true) = {
+  private def vehicleLookupResponseGenerator(fullResponse: (Int, Option[VehicleDetailsResponse]), bruteForceService: BruteForcePreventionService = bruteForceServiceImpl(permitted = true)) = {
     val (status, vehicleDetailsResponse) = fullResponse
     val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
     when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
@@ -309,7 +317,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
 
     new disposal_of_vehicle.VehicleLookup(
-      bruteForceService = bruteForceServiceImpl(permitted = permitted),
+      bruteForceService = bruteForceService,
       vehicleLookupService = vehicleLookupServiceImpl)(clientSideSessionFactory)
   }
 
