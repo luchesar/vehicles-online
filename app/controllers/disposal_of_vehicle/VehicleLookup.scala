@@ -22,7 +22,6 @@ import common.{ClientSideSessionFactory, CookieImplicits}
 import CookieImplicits.RequestCookiesAdapter
 import CookieImplicits.SimpleResultAdapter
 import CookieImplicits.FormAdapter
-import utils.helpers.Config
 import models.domain.common.BruteForcePreventionResponse
 import models.domain.common.BruteForcePreventionResponse._
 
@@ -147,7 +146,6 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
 
   private def throwToMicroServiceError(exception: Throwable) = {
     Logger.debug(s"Web service call failed. Exception: $exception")
-    BadRequest("The remote server didn't like the request.")
     Redirect(routes.MicroServiceError.present())
   }
 }

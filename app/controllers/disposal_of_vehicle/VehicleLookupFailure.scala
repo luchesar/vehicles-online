@@ -8,12 +8,14 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 import common.{ClientSideSessionFactory, CookieImplicits}
 import CookieImplicits.RequestCookiesAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
+import models.domain.common.BruteForcePreventionResponse
+import models.domain.common.BruteForcePreventionResponse._
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   def present = Action { implicit request =>
-    (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleLookupFormModel]) match {
-      case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) =>
+    (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[BruteForcePreventionResponse], request.cookies.getModel[VehicleLookupFormModel]) match {
+      case (Some(dealerDetails), Some(bruteForcePreventionResponse), Some(vehicleLookUpFormModelDetails)) =>
         displayVehicleLookupFailure(vehicleLookUpFormModelDetails)
       case _ => Redirect(routes.SetUpTradeDetails.present())
     }
