@@ -7,7 +7,9 @@
 @main(Messages("disposal_enteraddressmanually.title")){
     @errorsSummary(enterAddressManuallyForm)
 
-    @form(action = CSRF(controllers.disposal_of_vehicle.routes.EnterAddressManually.submit)) {
+    @form(action = controllers.disposal_of_vehicle.routes.EnterAddressManually.submit) {
+
+        @CSRF.formField
 
         @addressAndPostcode(enterAddressManuallyForm(AddressAndPostcodeId))
 

@@ -12,8 +12,10 @@
 @main(Messages("disposal_dispose.title")){
     @errorsSummary(disposeForm)
     
-    @form(action = CSRF(controllers.disposal_of_vehicle.routes.Dispose.submit)) {
-    
+    @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit) {
+
+    @CSRF.formField
+
 	<div class="alert-warning">
     	<p>@Messages("disposal_dispose.warning")&nbsp;<a href="https://www.gov.uk/contact">@Messages("disposal_dispose.warning.link")</a></p>
     </div>

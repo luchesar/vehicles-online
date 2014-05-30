@@ -22,6 +22,10 @@ import services.fakes.FakeAddressLookupWebServiceImpl._
 import services.fakes.FakeResponse
 import services.fakes.FakeVehicleLookupWebService._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
+import play.api.test.FakeRequest
+import scala.Some
+import scala.Some
+import scala.Some
 
 final class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {
@@ -72,6 +76,15 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       content should not include referenceNumberValid
       content should not include registrationNumberValid
     }
+
+//    "redirect to TBD when no csrf token is present in page" in new WithApplication {
+//      val request = FakeCSRFRequest().
+//        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+//
+//      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
+//
+//    }
+
   }
 
   "submit" should {
@@ -281,6 +294,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess, permitted = false).submit(request)
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VrmLockedPage.address))
     }
+
   }
 
   private def bruteForceServiceImpl(permitted: Boolean): BruteForcePreventionService = {

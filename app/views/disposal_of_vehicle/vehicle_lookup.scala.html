@@ -12,7 +12,9 @@
 @main(Messages("disposal_vehiclelookup.title")) {
     @errorsSummary(vehicleLookupForm)
 
-    @form(action = CSRF(controllers.disposal_of_vehicle.routes.VehicleLookup.submit)) {
+    @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit) {
+
+    @CSRF.formField
 
 		<div class="two-col clearfix">
 		

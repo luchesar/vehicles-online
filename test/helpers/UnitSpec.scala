@@ -12,7 +12,6 @@ abstract class UnitSpec extends WordSpec with Matchers with MockitoSugar with Sc
   object FakeCSRFRequest {
     def apply(): FakeRequest[AnyContentAsEmpty.type] = {
       FakeRequest()
-        .withHeaders("Csrf-Token" -> "nocheck")
         .withSession("csrfToken" -> CSRF.SignedTokenProvider.generateToken)
     }
   }
