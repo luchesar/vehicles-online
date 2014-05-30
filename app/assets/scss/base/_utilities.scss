@@ -23,7 +23,8 @@
 	left:-9999px;
 }
 
-// smaller width, more flexible container
+// summery detail (playback info after user-input)
+// provides smaller width, more flexible container with a single/full column row
 @mixin summary-detail-list-flex {
 	@media screen and (min-width:$device-medium) {
 		max-width:500px;
