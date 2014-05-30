@@ -61,10 +61,10 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val content = contentAsString(result)
 
       content should include(traderBusinessNameValid)
-      content should include("my house")
-      content should include("my street")
-      content should include("my area")
-      content should include("my town")
+      content should include(line1Valid)
+      content should include(line2Valid)
+      content should include(line3Valid)
+      content should include(line4Valid)
       content should include(services.fakes.FakeAddressLookupService.postcodeValid)
     }
 

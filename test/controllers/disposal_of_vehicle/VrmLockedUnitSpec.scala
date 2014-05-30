@@ -12,7 +12,7 @@ import play.api.http.Status._
 final class VrmLockedUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      val request = FakeCSRFRequest().withSession()
+      val request = FakeCSRFRequest()
       val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       val result = new controllers.disposal_of_vehicle.VrmLocked(dateServiceStubbed())(clientSideSessionFactory).present(request)
       whenReady(result) {

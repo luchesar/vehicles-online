@@ -23,9 +23,10 @@ import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeResponse
 import services.fakes.FakeVehicleLookupWebService._
+import mappings.common.AddressLines.LineMaxLength
+import services.fakes.FakeDateServiceImpl._
 import scala.Some
 import services.fakes.FakeDisposeWebServiceImpl.consentValid
-import mappings.common.AddressLines.LineMaxLength
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
@@ -115,6 +116,18 @@ final class DisposeUnitSpec extends UnitSpec {
       val result = disposeFailure.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
+    }
+
+    "redirect to duplicate-disposal error page when an duplicate disposal error occurs" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest.
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeModel()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+      val disposeFailure = disposeController(disposeServiceStatus = OK, disposeServiceResponse = Some(disposeResponseFailureWithDuplicateDisposal))
+      val result = disposeFailure.submit(request)
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(DuplicateDisposalErrorPage.address))
       }
     }
 
@@ -258,20 +271,15 @@ final class DisposeUnitSpec extends UnitSpec {
         registrationNumber = registrationNumberValid,
         referenceNumber = referenceNumberValid,
         traderName = traderBusinessNameValid,
-        traderAddress = DisposalAddressDto(
-          line = Seq("my house", "my street", "my area"), // TODO these hard coded strings should come from the same constants as used in the CookieFactory.
-          postTown = Some("my town"), // TODO these hard coded strings should come from the same constants as used in the CookieFactory.
-          postCode = postcodeValid,
-          uprn = None),
-        dateOfDisposal = "1970-11-25T00:00:00.000+01:00",
-        mileage = Some(20000),
-        transactionTimestamp = s"1970-11-25T00:00:00.000+01:00"
+        traderAddress = DisposalAddressDto(line = Seq(line1Valid, line2Valid, line3Valid),postTown = Some(line4Valid),postCode = postcodeValid,uprn = None),
+        dateOfDisposal = dateValid,
+        mileage = Some(mileageValid.toInt),
+        transactionTimestamp = dateValid
       )
-
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
 
-    "truncate line1 up to max characters" in new WithApplication {
+    "truncate address lines 1,2 and 3 up to max characters" in new WithApplication {
       val disposeServiceMock = mock[DisposeService]
       when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
       val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
@@ -280,7 +288,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "a" * LineMaxLength + 1)) // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "a" * LineMaxLength + 1, line2 = "b" * LineMaxLength + 1, line3 = "c" * LineMaxLength + 1)) // line1 is longer than maximum
 
       val result = disposeController.submit(request)
 
@@ -288,16 +296,36 @@ final class DisposeUnitSpec extends UnitSpec {
         registrationNumber = registrationNumberValid,
         referenceNumber = referenceNumberValid,
         traderName = traderBusinessNameValid,
-        traderAddress = DisposalAddressDto(
-          line = Seq("a" * LineMaxLength, "my street", "my area"), // line1 now should be truncated up the the maximum
-          postTown = Some("my town"),
-          postCode = postcodeValid,
-          uprn = None),
-        dateOfDisposal = "1970-11-25T00:00:00.000+01:00",
-        mileage = Some(20000),
-        transactionTimestamp = s"1970-11-25T00:00:00.000+01:00"
+        traderAddress = DisposalAddressDto(line = Seq("a" * LineMaxLength, "b" * LineMaxLength, "c" * LineMaxLength),postTown = Some(line4Valid),postCode = postcodeValid,uprn = None),
+        dateOfDisposal = dateValid,
+        mileage = Some(mileageValid.toInt),
+        transactionTimestamp = dateValid
       )
+      verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
+    }
 
+    "remove spaces from postcode on submit" in new WithApplication {
+      val disposeServiceMock = mock[DisposeService]
+      when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
+      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val disposeController = new disposal_of_vehicle.Dispose(disposeServiceMock, dateServiceStubbed())(clientSideSessionFactory)
+
+      val request = buildCorrectlyPopulatedRequest.
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(traderPostcode = "CM8 1QJ")) // postcode contains space
+
+      val result = disposeController.submit(request)
+
+      val disposeRequest = DisposeRequest(
+        registrationNumber = registrationNumberValid,
+        referenceNumber = referenceNumberValid,
+        traderName = traderBusinessNameValid,
+        traderAddress = DisposalAddressDto(line = Seq(line1Valid, line2Valid, line3Valid),postTown = Some(line4Valid),postCode = postcodeValid,uprn = None),
+        dateOfDisposal = dateValid,
+        mileage = Some(mileageValid.toInt),
+        transactionTimestamp = dateValid
+      )
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
   }
