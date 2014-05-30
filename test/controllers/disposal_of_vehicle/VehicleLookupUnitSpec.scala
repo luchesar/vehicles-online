@@ -293,7 +293,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
     }
 
-    "redirect to VehicleLookupFailure and display 1st attempt message when document reference number not found and security service returns 2nd attempt" in new WithApplication {
+    "redirect to VehicleLookupFailure and display 2nd attempt message when document reference number not found and security service returns 2nd attempt" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmAttempt2)
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseDocRefNumberNotLatest, bruteForceService = bruteForceServiceImpl(permitted = true)).submit(request)
 

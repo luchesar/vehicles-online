@@ -23,6 +23,6 @@ object FakeBruteForcePreventionWebServiceImpl {
   final val VrmLocked = "ST05YYC"
   final val VrmThrows = "ST05YYD"
   final val MaxAttempts = 3
-  val attempt1Json = Some(Json.parse(s"""{"attempts": 0, "maxAttempts": $MaxAttempts}"""))
-  val attempt2Json = Some(Json.parse(s"""{"attempts": 1, "maxAttempts": $MaxAttempts}"""))
+  lazy val attempt1Json = Some(Json.parse(s"""{"attempts": 0, "maxAttempts": $MaxAttempts}"""))
+  lazy val attempt2Json = Some(Json.parse(s"""{"attempts": 1, "maxAttempts": $MaxAttempts}"""))
 }
