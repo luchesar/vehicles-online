@@ -23,9 +23,10 @@ import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeResponse
 import services.fakes.FakeVehicleLookupWebService._
+import mappings.common.AddressLines.LineMaxLength
+import services.fakes.FakeDateServiceImpl._
 import scala.Some
 import services.fakes.FakeDisposeWebServiceImpl.consentValid
-import mappings.common.AddressLines.LineMaxLength
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
@@ -259,13 +260,13 @@ final class DisposeUnitSpec extends UnitSpec {
         referenceNumber = referenceNumberValid,
         traderName = traderBusinessNameValid,
         traderAddress = DisposalAddressDto(
-          line = Seq("my house", "my street", "my area"), // TODO these hard coded strings should come from the same constants as used in the CookieFactory.
-          postTown = Some("my town"), // TODO these hard coded strings should come from the same constants as used in the CookieFactory.
+          line = Seq(line1Valid, line2Valid, line3Valid),
+          postTown = Some(line4Valid),
           postCode = postcodeValid,
           uprn = None),
-        dateOfDisposal = "1970-11-25T00:00:00.000+01:00",
-        mileage = Some(20000),
-        transactionTimestamp = s"1970-11-25T00:00:00.000+01:00"
+        dateOfDisposal = dateValid,
+        mileage = Some(mileageValid.toInt),
+        transactionTimestamp = dateValid
       )
 
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
@@ -289,13 +290,13 @@ final class DisposeUnitSpec extends UnitSpec {
         referenceNumber = referenceNumberValid,
         traderName = traderBusinessNameValid,
         traderAddress = DisposalAddressDto(
-          line = Seq("a" * LineMaxLength, "my street", "my area"), // line1 now should be truncated up the the maximum
-          postTown = Some("my town"),
+          line = Seq("a" * LineMaxLength, line2Valid, line3Valid), // line1 now should be truncated up the the maximum
+          postTown = Some(line4Valid),
           postCode = postcodeValid,
           uprn = None),
-        dateOfDisposal = "1970-11-25T00:00:00.000+01:00",
-        mileage = Some(20000),
-        transactionTimestamp = s"1970-11-25T00:00:00.000+01:00"
+        dateOfDisposal = dateValid,
+        mileage = Some(mileageValid.toInt),
+        transactionTimestamp = dateValid
       )
 
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
