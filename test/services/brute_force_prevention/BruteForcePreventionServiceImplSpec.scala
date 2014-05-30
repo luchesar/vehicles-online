@@ -16,7 +16,7 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
       val resp = response(permitted = true)
       val service = bruteForceServiceImpl(resp)
       whenReady(service.vrmLookupPermitted(registrationNumberValid)) {
-        r => r should equal((true, 0, 3)) // TODO the 2 ints will change values.
+        r => r should equal((true, 0, 3))
       }
     }
 

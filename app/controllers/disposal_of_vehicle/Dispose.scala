@@ -214,8 +214,15 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
   private def disposalAddressDto(sourceAddress: AddressViewModel): DisposalAddressDto = {
   // The last two address lines are always post town and postcode
+
+    //TODO - check with BAs what they want to do if no first line of address is present (returned by OS lookup)
+//    val sourceAddressToCheck = if (sourceAddress.address.size == 2) Seq("No address line supplied") ++ sourceAddress.address
+//                               else sourceAddress.address
+
     val legacyAddressLines = lineLengthCheck(sourceAddress.address.dropRight(2), Nil)
-    val postTown = sourceAddress.address.takeRight(2).head
+    val postTownToCheck = sourceAddress.address.takeRight(2).head
+    val postTown = if (postTownToCheck.size > LineMaxLength) postTownToCheck.substring(0, LineMaxLength)
+                   else postTownToCheck
     val postcode = sourceAddress.address.last.replaceAll(" ","")
 
     DisposalAddressDto(legacyAddressLines, Some(postTown), postcode, sourceAddress.uprn)

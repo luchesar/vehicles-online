@@ -12,15 +12,17 @@
 @main(Messages("disposal_dispose.title")){
     @errorsSummary(disposeForm)
     
-    @form(action = CSRF(controllers.disposal_of_vehicle.routes.Dispose.submit)) {
-    
+    @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit) {
+
+    @CSRF.formField
+
 	<div class="alert-warning">
     	<p>@Messages("disposal_dispose.warning")&nbsp;<a href="https://www.gov.uk/contact">@Messages("disposal_dispose.warning.link")</a></p>
     </div>
 
     <div class="two-col clearfix">
 
-        <div class="first-col">
+        <div class="disposal-info first-col">
             <h2>@Messages("disposal_dispose.vehicledetails")</h2>
             <dl class="summary-detail-list">
             	<dt>@Messages("disposal_dispose.vehiclereg")</dt>
@@ -59,11 +61,13 @@
             }
         </div>
 
-        <div class="second-col disposal-form">
+        <div class="disposal-form second-col">
             <h2>@Messages("disposal_dispose.disposevehicleto")</h2>
 
-            <p>@data.dealerName<br />
-            @for(addr <- data.dealerAddress.address) {@addr<br/>}</p>
+            <div class="summary-detail-list">
+              <p>@data.dealerName<br />
+              @for(addr <- data.dealerAddress.address) {@addr<br/>}</p>
+            </div>
 
             <div class="form-declaration">
                 @valtechDeclareCheck(disposeForm(ConsentId),

@@ -12,11 +12,13 @@
 @main(Messages("disposal_vehiclelookup.title")) {
     @errorsSummary(vehicleLookupForm)
 
-    @form(action = CSRF(controllers.disposal_of_vehicle.routes.VehicleLookup.submit)) {
+    @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit) {
+
+    @CSRF.formField
 
 		<div class="two-col clearfix">
 		
-			<div id="TraderDetailsDiv" class="first-col">
+			<div id="TraderDetails" class="TraderDetails first-col">
 				<h2>@Messages("disposal_vehiclelookup.p2")</h2>
 
 				<dl class="summary-detail-list">

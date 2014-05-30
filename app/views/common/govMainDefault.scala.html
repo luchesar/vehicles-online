@@ -14,36 +14,40 @@
 
         <title>@title</title>
 
-        
-        @{/*<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/date-picker.css")">*/}
-        
-        <!--[if gt IE 8]><!--> <link href="@routes.Assets.at("stylesheets/header-footer-only.css")" media="screen" rel="stylesheet" type="text/css"> <!--<![endif]-->
-        <!--[if IE 6]><link href="@routes.Assets.at("stylesheets/header-footer-only-ie6.css")" media="screen" rel="stylesheet" type="text/css"><![endif]-->
-        <!--[if IE 7]><link href="@routes.Assets.at("stylesheets/header-footer-only-ie7.css")" media="screen" rel="stylesheet" type="text/css"><![endif]-->
-        <!--[if IE 8]><link href="@routes.Assets.at("stylesheets/header-footer-only-ie8.css")" media="screen" rel="stylesheet" type="text/css"><![endif]-->
-        
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("screen.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("screen.min.css")">        
 
-        <link href="@routes.Assets.at("stylesheets/print.css")" media="print" rel="stylesheet" type="text/css">
+        <!--[if IE 8]>
+        <script type="text/javascript">
+            (function(){if(window.opera){return;}
+            setTimeout(function(){var a=document,g,b={families:(g=
+            ["nta"]),urls:["<link href="@routes.Assets.at("fonts-ie8.min.css")"]},
+            c="@routes.Assets.at("javascripts/webfont-debug.js")",d="script",
+            e=a.createElement(d),f=a.getElementsByTagName(d)[0],h=g.length;WebFontConfig
+            ={custom:b},e.src=c,f.parentNode.insertBefore(e,f);for(;h=h-1;a.documentElement
+            .className+=' wf-'+g[h].replace(/\s/g,'').toLowerCase()+'-n4-loading');},0)
+            })()
+        </script>
+        <![endif]-->
 
         <!--[if gte IE 9]><!-->
-        <link href="@routes.Assets.at("stylesheets/fonts.css")" media="all" rel="stylesheet" type="text/css">
+        <link href="@routes.Assets.at("fonts.min.css")" media="all" rel="stylesheet" type="text/css">
         <!--<![endif]-->
 
+        <link href="@routes.Assets.at("print.min.css")" media="print" rel="stylesheet" type="text/css">
 
         <link rel="shortcut icon" href="@routes.Assets.at("images/favicon-447e4ac1ab790342660eacfe3dcce264.ico")" type="image/x-icon">
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@routes.Assets.at("images/apple-touch-icon-144x144-4e306e01c31e237722b82b7aa7130082.png")">
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@routes.Assets.at("images/apple-touch-icon-114x114-f1d7ccdc7b86d923386b373a9ba5e3db.png")">
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@routes.Assets.at("images/apple-touch-icon-72x72-2ddbe540853e3ba0d30fbad2a95eab3c.png")">
         <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("images/apple-touch-icon-57x57-37527434942ed8407b091aae5feff3f3.png")">
-
+        
     </head>
 
     <body>
 
         <a href="#main" class="visuallyhidden">Skip to main content</a>
 
-        <header role="banner" id="global-header">
+        <div role="banner" id="global-header">
             <div class="header-wrapper">
                 <div class="header-global">
                     <div class="header-logo">
@@ -59,30 +63,29 @@
 
                 </div>
             </div>
-        </header>
+        </div>
         <!--end header-->
 
         <div id="global-cookie-message">
+          <div class="cookie-message-wrapper">
             <p>@{Messages("global.cookiemessage")(lang)}&nbsp;<a href="http://www.gov.uk/support/cookies">@{Messages("global.cookiefindoutmore")(lang)}</a></p>
+          </div>
         </div>
 
         <div id="global-browser-prompt">
             <p>@{Messages("global.browserprompt")(lang)}&nbsp;<a href="http://www.gov.uk/support/browsers">@{Messages("global.browserfindoutmore")(lang)}</a> <a href="#" class="dismiss" title="@{Messages("global.browserclosetitle")(lang)}">@{Messages("global.browserclosemessage")(lang)}</a></p>
         </div>
 
-        <main role="main" id="main">
+        <div role="main" id="main">
            @content
-        </main>
+        </div>
 
-        <footer class="group js-footer" id="footer" role="contentinfo">
+        <div class="group js-footer" id="footer" role="contentinfo">
             <div class="footer-wrapper carers-allowance-footer">
                 @footerCategories
 
                 <div class="footer-meta">
-                
-                
-                    <nav>
-                    
+                    <div class="nav-wrapper">
                         <ul>
                             <li><a href="https://www.gov.uk/help" target="_blank">@{Messages("footer.helpdesk")(lang)}</a></li>
                             <li><a href="https://www.gov.uk/help/cookies" target="_blank">@{Messages("footer.privacypolicy")(lang)}</a></li>
@@ -90,15 +93,14 @@
                             <li><a href="https://www.gov.uk/cymraeg" target="_blank">@{Messages("footer.welsh")(lang)}</a></li>
                             <li>@{Messages("footer.builtbyintro")(lang)}&nbsp;<a href="https://www.gov.uk/government/organisations/driver-and-vehicle-licensing-agency" target="_blank">@{Messages("footer.builtby")(lang)}</a></li>
                         </ul>
-
-                    </nav>
+                    </div>
 
                     <div class="copyright">
                         <a href="http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm" target="_blank">&copy; Crown Copyright</a>
                     </div>
                 </div>
             </div>
-        </footer>
+        </div>
         <!--end footer-->
 
         <div id="global-app-error" class="app-error hidden"></div>
@@ -127,6 +129,5 @@
         <![endif]-->
 
         <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
-
     </body>
 </html>

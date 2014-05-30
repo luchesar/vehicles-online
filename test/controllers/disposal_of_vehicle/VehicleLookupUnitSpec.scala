@@ -22,8 +22,6 @@ import services.fakes.FakeAddressLookupWebServiceImpl._
 import services.fakes.FakeResponse
 import services.fakes.FakeVehicleLookupWebService._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
-import play.api.http.Status._
-import scala.Some
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
 
 final class VehicleLookupUnitSpec extends UnitSpec {
@@ -60,10 +58,10 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val content = contentAsString(result)
 
       content should include(traderBusinessNameValid)
-      content should include("my house")
-      content should include("my street")
-      content should include("my area")
-      content should include("my town")
+      content should include(line1Valid)
+      content should include(line2Valid)
+      content should include(line3Valid)
+      content should include(line4Valid)
       content should include(services.fakes.FakeAddressLookupService.postcodeValid)
     }
 
@@ -75,6 +73,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       content should not include referenceNumberValid
       content should not include registrationNumberValid
     }
+
   }
 
   "submit" should {

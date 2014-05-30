@@ -10,7 +10,9 @@
 @main(Messages("disposal_businessChooseYourAddress_title")) {
     @errorsSummary(businessChooseYourAddressForm)
 
-    @form(action = CSRF(controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit)) {
+    @form(action = controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit) {
+
+    @CSRF.formField
 
         @{/*
         	Removed according to changes 18/3/13

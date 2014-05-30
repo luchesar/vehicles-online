@@ -80,6 +80,7 @@ require(["jquery", "jquery-migrate", "header-footer-only", "stageprompt"],functi
             $('#content').toggle(false);
         }
 
+
     });
 
 
