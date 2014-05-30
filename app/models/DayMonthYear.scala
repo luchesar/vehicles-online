@@ -16,6 +16,8 @@ final case class DayMonthYear(day: Int, month: Int, year: Int,
 
   def `yyyy-MM-dd'T'HH:mm:00`: String = format("yyyy-MM-dd'T'HH:mm:00")
 
+  def `HH:mm`: String = format("HH:mm")
+
   def `dd/MM/yyyy`: String = {
     def pad(i: Int): String = if (i < 10) s"0$i" else s"$i"
     pad(day) + "/" + pad(month) + "/" + year.toString
@@ -106,7 +108,7 @@ object DayMonthYear {
 
   def today = {
     val now = DateTime.now()
-    new DayMonthYear(now.dayOfMonth().get, now.monthOfYear().get, now.year().get)
+    new DayMonthYear(now.dayOfMonth().get, now.monthOfYear().get, now.year().get, Some(now.hourOfDay().get()), Some(now.minuteOfHour().get))
   }
 }
 
