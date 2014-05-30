@@ -1,0 +1,13 @@
+@()(implicit lang: Lang)
+
+@import helper._
+
+@main(Messages("duplicate_disposal_error.title")){
+    <p>@Messages("duplicate_disposal_error.text")</p>
+
+    <div class="form-steps">
+        @{ /* Note the reverse routing syntax for the hyperlink */ }
+        <a class="button" id="tryagain" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present">@Messages("duplicate_disposal_error.back.button")</a>
+        <a class="button" id="exit" href="@controllers.disposal_of_vehicle.routes.BeforeYouStart.present">@Messages("duplicate_disposal_error.exit.button")</a>
+    </div>
+}

@@ -170,14 +170,21 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
     def handleResponseCode(disposeResponseCode: String): Call = {
       val unableToProcessApplication = "ms.vehiclesService.response.unableToProcessApplication"
+      val duplicateDisposal = "ms.vehiclesService.response.duplicateDisposalToTrade"
 
-      if (disposeResponseCode == unableToProcessApplication){
-        Logger.warn("Dispose soap endpoint redirecting to dispose failure page...")
-        routes.DisposeFailure.present()
-      }
-      else {
-        Logger.warn(s"Dispose micro-service failed: $disposeResponseCode, redirecting to error page...")
-        routes.MicroServiceError.present()
+      disposeResponseCode match {
+        case "ms.vehiclesService.response.unableToProcessApplication" => {
+          Logger.warn("Dispose soap endpoint redirecting to dispose failure page...")
+          routes.DisposeFailure.present()
+        }
+        case "ms.vehiclesService.response.duplicateDisposalToTrade" => {
+          Logger.warn("Dispose soap endpoint redirecting to duplicate disposal page...")
+          routes.DuplicateDisposalError.present()
+        }
+        case _ => {
+          Logger.warn(s"Dispose micro-service failed: $disposeResponseCode, redirecting to error page...")
+          routes.MicroServiceError.present()
+        }
       }
     }
 
