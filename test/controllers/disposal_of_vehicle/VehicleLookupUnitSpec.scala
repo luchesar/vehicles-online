@@ -23,6 +23,8 @@ import services.fakes.FakeResponse
 import services.fakes.FakeVehicleLookupWebService._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
+import play.api.libs.ws.Response
 
 final class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {
@@ -299,19 +301,28 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
   }
 
-  private def bruteForceServiceImpl(permitted: Boolean): BruteForcePreventionService = {
-    val status = if (permitted) play.api.http.Status.OK else play.api.http.Status.FORBIDDEN
-    val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
+  private def responseThrows: Future[Response] = Future {
+    throw new RuntimeException("This error is generated deliberately by a test")
+  }
 
-    when(bruteForcePreventionWebService.callBruteForce(registrationNumberValid)).thenReturn(Future {
-      new FakeResponse (status = play.api.http.Status.OK, fakeJson = Some(Json.parse("""{"attempts": "1", "maxAttempts": "3"}""")))
-    })
-    when(bruteForcePreventionWebService.callBruteForce(VrmAttempt2)).thenReturn(Future {
-      new FakeResponse (status = play.api.http.Status.OK, fakeJson = Some(Json.parse("""{"attempts": "2", "maxAttempts": "3"}""")))
-    })
-    when(bruteForcePreventionWebService.callBruteForce(VrmLocked)).thenReturn(Future {
-      new FakeResponse (status = play.api.http.Status.FORBIDDEN)
-    })
+  private def bruteForceServiceImpl(permitted: Boolean): BruteForcePreventionService = {
+    def bruteForcePreventionWebService: BruteForcePreventionWebService = {
+      val status = if (permitted) play.api.http.Status.OK else play.api.http.Status.FORBIDDEN
+      val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
+
+      when(bruteForcePreventionWebService.callBruteForce(registrationNumberValid)).thenReturn(Future {
+        new FakeResponse (status = status, fakeJson = Some(Json.parse(s"""{"attempts": 0, "maxAttempts": $MaxAttempts}""")))
+      })
+      when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmAttempt2)).thenReturn(Future {
+        new FakeResponse (status = status, fakeJson = Some(Json.parse(s"""{"attempts": 1, "maxAttempts": $MaxAttempts}""")))
+      })
+      when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmLocked)).thenReturn(Future {
+        new FakeResponse (status = status)
+      })
+      when(bruteForcePreventionWebService.callBruteForce(VrmThrows)).thenReturn(responseThrows)
+
+      bruteForcePreventionWebService
+    }
 
     new BruteForcePreventionServiceImpl(
       ws = bruteForcePreventionWebService)
