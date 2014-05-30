@@ -114,6 +114,18 @@ final class DisposeUnitSpec extends UnitSpec {
       }
     }
 
+    "redirect to duplicate-disposal error page when an duplicate disposal error occurs" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest.
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeModel()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+      val disposeFailure = disposeController(disposeServiceStatus = OK, disposeServiceResponse = Some(disposeResponseFailureWithDuplicateDisposal))
+      val result = disposeFailure.submit(request)
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(DuplicateDisposalErrorPage.address))
+      }
+    }
+
     "redirect to setupTradeDetails page after the dispose button is clicked and no vehicleLookupFormModel is cached" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest.withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = disposeController().submit(request)
