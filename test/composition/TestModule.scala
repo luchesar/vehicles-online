@@ -10,8 +10,11 @@ import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, 
 import services.dispose_service.{DisposeServiceImpl, DisposeWebServiceImpl, DisposeWebService, DisposeService}
 import utils.helpers._
 import common._
+import services.brute_force_prevention._
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
+import org.scalatest.mock.MockitoSugar
 
-object TestModule extends ScalaModule {
+class TestModule() extends ScalaModule with MockitoSugar {
   /**
    * Bind the fake implementations the traits
    */
@@ -29,23 +32,26 @@ object TestModule extends ScalaModule {
     bind[DateService].to[FakeDateServiceImpl].asEagerSingleton()
     bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
     bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
+
+    bind[BruteForcePreventionWebService].to[FakeBruteForcePreventionWebServiceImpl].asEagerSingleton()
+    bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
   }
 
   private def ordnanceSurveyAddressLookup() = {
     bind[AddressLookupService].to[services.address_lookup.ordnance_survey.AddressLookupServiceImpl]
 
-    val fakeWebServiceImpl = new FakeWebServiceImpl(
-      responseOfPostcodeWebService = FakeWebServiceImpl.responseValidForPostcodeToAddress,
-      responseOfUprnWebService = FakeWebServiceImpl.responseValidForUprnToAddress
+    val fakeWebServiceImpl = new FakeAddressLookupWebServiceImpl(
+      responseOfPostcodeWebService = FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress,
+      responseOfUprnWebService = FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
     )
     bind[AddressLookupWebService].toInstance(fakeWebServiceImpl)
   }
 
   private def gdsAddressLookup() = {
     bind[AddressLookupService].to[services.address_lookup.gds.AddressLookupServiceImpl]
-    val fakeWebServiceImpl = new FakeWebServiceImpl(
-      responseOfPostcodeWebService = FakeWebServiceImpl.responseValidForGdsAddressLookup,
-      responseOfUprnWebService = FakeWebServiceImpl.responseValidForGdsAddressLookup
+    val fakeWebServiceImpl = new FakeAddressLookupWebServiceImpl(
+      responseOfPostcodeWebService = FakeAddressLookupWebServiceImpl.responseValidForGdsAddressLookup,
+      responseOfUprnWebService = FakeAddressLookupWebServiceImpl.responseValidForGdsAddressLookup
     )
     bind[AddressLookupWebService].toInstance(fakeWebServiceImpl)
   }

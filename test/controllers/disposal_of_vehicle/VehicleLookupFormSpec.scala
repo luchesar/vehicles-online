@@ -16,6 +16,9 @@ import services.fakes.FakeVehicleLookupWebService._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import common.ClientSideSessionFactory
 import composition.TestComposition.{testInjector => injector}
+import services.brute_force_prevention.{BruteForcePreventionServiceImpl, BruteForcePreventionWebService, BruteForcePreventionService}
+import play.api.http.Status._
+import scala.Some
 
 final class VehicleLookupFormSpec extends UnitSpec {
   "form" should {
@@ -90,18 +93,30 @@ final class VehicleLookupFormSpec extends UnitSpec {
     }
   }
 
+  private val bruteForceServiceImpl: BruteForcePreventionService = {
+    val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
+    when(bruteForcePreventionWebService.callBruteForce(anyString())).thenReturn( Future {
+      new FakeResponse(status = OK)
+    }
+    )
+
+    new BruteForcePreventionServiceImpl(bruteForcePreventionWebService)
+  }
+
   private def vehicleLookupResponseGenerator(fullResponse:(Int, Option[VehicleDetailsResponse])) = {
-    val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
-    when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
+    val vehicleLookupWebService: VehicleLookupWebService = mock[VehicleLookupWebService]
+    when(vehicleLookupWebService.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
       val responseAsJson : Option[JsValue] = fullResponse._2 match {
         case Some(e) => Some(Json.toJson(e))
         case _ => None
       }
       new FakeResponse(status = fullResponse._1, fakeJson = responseAsJson)// Any call to a webservice will always return this successful response.
     })
-    val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
+    val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(vehicleLookupWebService)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    new disposal_of_vehicle.VehicleLookup(vehicleLookupServiceImpl)(clientSideSessionFactory)
+
+    new disposal_of_vehicle.VehicleLookup(bruteForceService = bruteForceServiceImpl,
+      vehicleLookupService = vehicleLookupServiceImpl)(clientSideSessionFactory)
   }
 
   private def formWithValidDefaults(referenceNumber: String = referenceNumberValid,

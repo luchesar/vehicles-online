@@ -13,7 +13,7 @@ final class AddressViewModelSpec extends UnitSpec {
       val addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = line1Valid,
         line2 = Some(line2Valid),
         line3 = Some(line3Valid),
-        line4 = Some(line4Valid)),
+        line4 = line4Valid),
         postcode = postcodeValid)
 
       val result = AddressViewModel.from(addressAndPostcodeModel)
@@ -36,5 +36,5 @@ final class AddressViewModelSpec extends UnitSpec {
     }
   }
 
-  private val asJson = Json.parse("""{"uprn":10123456789,"address":["123","line2 stub","line3 stub","line4 stub","CM81QJ"]}""")
+  private val asJson = Json.parse("""{"uprn":10123456789,"address":["1234","line2 stub","line3 stub","line4 stub","CM81QJ"]}""")
 }

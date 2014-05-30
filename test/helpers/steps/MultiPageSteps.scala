@@ -8,7 +8,7 @@ import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeAddressLookupService._
-import services.fakes.FakeWebServiceImpl.traderUprnValid
+import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import mappings.disposal_of_vehicle.Dispose._
 
 final class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {

@@ -10,7 +10,8 @@ import play.api.Configuration
 import play.api.mvc._
 import play.api.mvc.Results._
 import play.api.Play.current
-import play.filters.gzip._
+//import play.filters.gzip._
+import play.filters.csrf._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.CryptoHelper
@@ -60,7 +61,10 @@ object Global extends WithFilters(filters) with GlobalSettings {
   }
 
   // 404 - page not found error http://alvinalexander.com/scala/handling-scala-play-framework-2-404-500-errors
-  override def onHandlerNotFound(request: RequestHeader): Future[SimpleResult] = Future(NotFound(views.html.errors.onHandlerNotFound(request)))
+  override def onHandlerNotFound(request: RequestHeader): Future[SimpleResult] = {
+    Logger.warn(s"Broken link returning http code 404. uri: ${request.uri}")
+    Future(NotFound(views.html.errors.onHandlerNotFound(request)))
+  }
 
   override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] = ex.getCause match {
     case _: BadPaddingException  => CryptoHelper.handleApplicationSecretChange(request)

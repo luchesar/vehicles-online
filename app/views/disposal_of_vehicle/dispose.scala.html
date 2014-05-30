@@ -1,4 +1,4 @@
-@(data: models.domain.disposal_of_vehicle.DisposeViewModel, disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel], years: Seq[(String, String)])(implicit lang: Lang)
+@(data: models.domain.disposal_of_vehicle.DisposeViewModel, disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel], years: Seq[(String, String)])(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
 
 @import helper._
 @import views.html.helper.base._
@@ -12,7 +12,7 @@
 @main(Messages("disposal_dispose.title")){
     @errorsSummary(disposeForm)
     
-    @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit) {
+    @form(action = CSRF(controllers.disposal_of_vehicle.routes.Dispose.submit)) {
     
 	<div class="alert-warning">
     	<p>@Messages("disposal_dispose.warning")&nbsp;<a href="https://www.gov.uk/contact">@Messages("disposal_dispose.warning.link")</a></p>
@@ -44,7 +44,7 @@
             Map('_label -> Messages("disposal_dispose.mileage.label"),
             '_showConstraints -> false,
             'pattern -> Mileage.Pattern,
-            'maxLength -> Mileage.Max, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+            'maxLength -> Mileage.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
             'title -> Messages("disposal_dispose.mileage.validation")))
 
             @{

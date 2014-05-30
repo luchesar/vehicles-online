@@ -1,6 +1,6 @@
 package services.address_lookup.gds
 
-import services.fakes.{FakeResponse, FakeWebServiceImpl}
+import services.fakes.{FakeResponse, FakeAddressLookupWebServiceImpl}
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.address_lookup.{AddressLookupService, gds}
@@ -12,8 +12,8 @@ import services.address_lookup.gds.domain.JsonFormats.addressFormat
 import helpers.UnitSpec
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Second, Span}
-import services.fakes.FakeWebServiceImpl.gdsAddress
-import services.fakes.FakeWebServiceImpl.traderUprnValid
+import services.fakes.FakeAddressLookupWebServiceImpl.gdsAddress
+import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.FakeAddressLookupService._
 import play.api.http.Status.{OK, NOT_FOUND}
 
@@ -211,7 +211,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
   }
   private def addressServiceMock(response: Future[Response]): AddressLookupService = {
     // Using the real address lookup service but passing in a fake web service that returns the responses we specify.
-    new gds.AddressLookupServiceImpl(new FakeWebServiceImpl(responseOfPostcodeWebService = response, responseOfUprnWebService = response))
+    new gds.AddressLookupServiceImpl(new FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService = response, responseOfUprnWebService = response))
   }
 
   private def response(statusCode: Int, inputAsJson: JsValue) = Future {

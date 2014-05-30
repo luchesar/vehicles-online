@@ -1,0 +1,17 @@
+@(timeString: String)(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
+
+@import helper._
+@import mappings.disposal_of_vehicle.VrmLocked._
+
+@main(Messages("vrm_locked.title")){
+    <p>@Messages("vrm_locked.text1")</p>
+    <p>@Messages("vrm_locked.text2.1")&nbsp;<strong>@Messages("vrm_locked.text2.2", timeString)</strong>&nbsp;@Messages("vrm_locked.text2.3")</p>
+    <p>@Messages("vrm_locked.text3.1")&nbsp;<strong>@Messages("vrm_locked.text3.2")</strong></p>
+
+    @form(action = CSRF(controllers.disposal_of_vehicle.routes.VrmLocked.submit)) {
+        <div class="form-steps">
+            <button id="@NewDisposalId" type="submit" name="action" value="@NewDisposalAction" class="button">@Messages("vrm_locked.newdisposalbutton")</button>
+            <button id="@ExitDisposalId" type="submit" name="action" value="@ExitAction" class="button">@Messages("vrm_locked.exit.button")</button>
+        </div>
+    }
+}

@@ -1,6 +1,6 @@
 package controllers.disposal_of_vehicle
 
-import _root_.common.{ClientSideSessionFactory, EncryptedCookieImplicits}
+import _root_.common.{ClientSideSessionFactory, CookieImplicits}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
@@ -25,15 +25,16 @@ import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.DisposeModel
 import mappings.disposal_of_vehicle.Dispose.DateOfDisposalYearsIntoThePast
 import scala.language.postfixOps
-import EncryptedCookieImplicits.RequestAdapter
-import EncryptedCookieImplicits.SimpleResultAdapter
-import EncryptedCookieImplicits.FormAdapter
+import CookieImplicits.RequestCookiesAdapter
+import CookieImplicits.SimpleResultAdapter
+import CookieImplicits.FormAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 import scala.Some
 import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import play.api.data.FormError
 import play.api.mvc.Call
+import mappings.common.AddressLines._
 
 final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -52,11 +53,11 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
   def present = Action {
     implicit request => {
-      request.getEncryptedCookie[TraderDetailsModel] match {
+      request.cookies.getModel[TraderDetailsModel] match {
         case (Some(dealerDetails)) =>
           Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
-          request.getEncryptedCookie[VehicleDetailsModel] match {
+          request.cookies.getModel[VehicleDetailsModel] match {
             case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm.fill(), yearsDropdown))
             case _ => Redirect(routes.VehicleLookup.present())
           }
@@ -71,7 +72,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       disposeForm.bindFromRequest.fold(
         formWithErrors =>
           Future {
-            (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[VehicleDetailsModel]) match {
+            (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleDetailsModel]) match {
               case (Some(dealerDetails), Some(vehicleDetails)) =>
                 val disposeViewModel = populateModelFromCachedData(dealerDetails, vehicleDetails)
                 // When the user doesn't select a value from the drop-down then the mapping will fail to match on an Int before
@@ -123,8 +124,8 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         case (httpResponseCode, response) => Logger.debug(s"Dispose micro-service call successful - response = $response")
 
          Some(Redirect(nextPage(httpResponseCode, response))).
-            map(_.withEncryptedCookie(disposeModel)).
-            map(_.withEncryptedCookie(disposeFormModel)).
+            map(_.withCookie(disposeModel)).
+            map(_.withCookie(disposeFormModel)).
             map(storeResponseInCache(response, _)).
             map(transactionTimestamp).
             get
@@ -138,9 +139,9 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     def storeResponseInCache(response: Option[DisposeResponse], nextPage: SimpleResult): SimpleResult = {
       response match {
         case Some(o) =>
-          val nextPageWithTransactionId = if (o.transactionId != "") nextPage.withEncryptedCookie(DisposeFormTransactionIdCacheKey, o.transactionId)
+          val nextPageWithTransactionId = if (o.transactionId != "") nextPage.withCookie(DisposeFormTransactionIdCacheKey, o.transactionId)
             else nextPage
-          if (o.registrationNumber != "") nextPageWithTransactionId.withEncryptedCookie(DisposeFormRegistrationNumberCacheKey, o.registrationNumber)
+          if (o.registrationNumber != "") nextPageWithTransactionId.withCookie(DisposeFormRegistrationNumberCacheKey, o.registrationNumber)
             else nextPageWithTransactionId
         case None => nextPage
       }
@@ -150,7 +151,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       val transactionTimestamp = dateService.today.toDateTime.get
       val formatter = ISODateTimeFormat.dateTime()
       val isoDateTimeString = formatter.print(transactionTimestamp)
-      nextPage.withEncryptedCookie(DisposeFormTimestampIdCacheKey, isoDateTimeString)
+      nextPage.withCookie(DisposeFormTimestampIdCacheKey, isoDateTimeString)
     }
 
     def buildDisposeMicroServiceRequest(disposeModel: DisposeModel, traderDetails: TraderDetailsModel): DisposeRequest = {
@@ -193,7 +194,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       }
     }
 
-    (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[VehicleLookupFormModel]) match {
+    (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleLookupFormModel]) match {
       case (Some(traderDetails), Some(vehicleLookup)) =>  {
         val disposeModel = DisposeModel(referenceNumber = vehicleLookup.referenceNumber,
           registrationNumber = vehicleLookup.registrationNumber,
@@ -213,11 +214,17 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
   private def disposalAddressDto(sourceAddress: AddressViewModel): DisposalAddressDto = {
   // The last two address lines are always post town and postcode
-    val postAddressLines = sourceAddress.address.dropRight(2)
+    val legacyAddressLines = lineLengthCheck(sourceAddress.address.dropRight(2), Nil)
     val postTown = sourceAddress.address.takeRight(2).head
-    val postcode = sourceAddress.address.last
+    val postcode = sourceAddress.address.last.replaceAll(" ","")
 
-    DisposalAddressDto(postAddressLines, Some(postTown), postcode, sourceAddress.uprn)
+    DisposalAddressDto(legacyAddressLines, Some(postTown), postcode, sourceAddress.uprn)
+  }
+
+  def lineLengthCheck(existingAddress: Seq[String], accAddress: Seq[String]) : Seq[String] = {
+    if (existingAddress.isEmpty) accAddress
+    else if (existingAddress.head.size > LineMaxLength) lineLengthCheck(existingAddress.tail, accAddress :+ existingAddress.head.substring(0, LineMaxLength))
+    else lineLengthCheck(existingAddress.tail, accAddress :+ existingAddress.head)
   }
 
 }
