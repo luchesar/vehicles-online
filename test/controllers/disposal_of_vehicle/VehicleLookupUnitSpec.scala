@@ -77,14 +77,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       content should not include registrationNumberValid
     }
 
-//    "redirect to TBD when no csrf token is present in page" in new WithApplication {
-//      val request = FakeCSRFRequest().
-//        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
-//
-//      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
-//
-//    }
-
   }
 
   "submit" should {

@@ -51,6 +51,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       webDriver.manage().getCookieNamed(VehicleLookupResponseCodeCacheKey) should equal(null)
     }
+
   }
 
   "vehicleLookup button" should {
