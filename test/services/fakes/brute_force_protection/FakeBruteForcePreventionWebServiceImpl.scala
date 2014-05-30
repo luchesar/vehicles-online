@@ -10,11 +10,15 @@ import services.fakes.FakeResponse
 
 final class FakeBruteForcePreventionWebServiceImpl() extends BruteForcePreventionWebService {
   override def callBruteForce(vrm: String): Future[Response] = Future {
-    if (vrm == VrmLocked) new FakeResponse(status = FORBIDDEN)
-    else new FakeResponse(status = OK)
+    vrm match {
+      case VrmLocked => new FakeResponse(status = FORBIDDEN)
+      case _ => new FakeResponse(status = OK)
+    }
   }
 }
 
-object FakeBruteForcePreventionWebServiceImpl  {
-  final val VrmLocked = "ST05YYY"
+object FakeBruteForcePreventionWebServiceImpl {
+  final val VrmAttempt1 = "ST05YYA"
+  final val VrmAttempt2 = "ST05YYB"
+  final val VrmLocked = "ST05YYC"
 }
