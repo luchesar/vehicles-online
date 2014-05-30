@@ -1,4 +1,4 @@
-@(businessChooseYourAddressForm: Form[models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel], traderBusinessName: String, traderPostcode: String, dropDownOptions: Seq[(String, String)])(implicit lang: Lang)
+@(businessChooseYourAddressForm: Form[models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel], traderBusinessName: String, traderPostcode: String, dropDownOptions: Seq[(String, String)])(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
 
 @import helper._
 @import utils.helpers.BaseTemplate._
@@ -11,6 +11,8 @@
     @errorsSummary(businessChooseYourAddressForm)
 
     @form(action = controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit) {
+
+    @CSRF.formField
 
         @{/*
         	Removed according to changes 18/3/13

@@ -1,4 +1,4 @@
-@(enterAddressManuallyForm: Form[models.domain.disposal_of_vehicle.EnterAddressManuallyModel])(implicit lang: Lang)
+@(enterAddressManuallyForm: Form[models.domain.disposal_of_vehicle.EnterAddressManuallyModel])(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
 
 @import helper._
 @import mappings.common.AddressAndPostcode.AddressAndPostcodeId
@@ -9,6 +9,8 @@
 
 		<div class="enter-address-manually">
 	    @form(action = controllers.disposal_of_vehicle.routes.EnterAddressManually.submit) {
+
+        @CSRF.formField
 
         @addressAndPostcode(enterAddressManuallyForm(AddressAndPostcodeId))
 

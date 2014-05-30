@@ -228,9 +228,9 @@ disposal_enteraddressmanually.submitbutton = Next
 disposal_enteraddressmanually.backbutton = Back
 addressAndPostcode_addressLines = Address
 address.lines.label = Address
-address.line1.label = Building name or number
-address.line2.label= Street name
-address.line3.label= Area
+address.line1.label = Line 1
+address.line2.label= Line 2
+address.line3.label= Line 3
 address.line4.label= Post town
 address.postcode.label = Postcode
 address.postcode.label.prompt = e.g. SA99 1BD
@@ -337,8 +337,11 @@ disposal_vehiclelookupfailure.button2 = Exit
 vehicle_lookup_vrm_not_found = There is no record for this Vehicle Registration Mark. Please try again, or send a completed V5C/3 to DVLA
 vehicle_lookup_document_reference_mismatch = This is not the latest Document Reference Number for the vehicle. Please try again, or send a completed V5C/3 to DVLA
 
-error.address.line1Required = Address needs at least the building name or number filled in
-addressAndPostcode.addressLines.line1 = Building name or number
+error.address.line1Required = Address needs line 1 filled in
+error.address.line1minLength = Line 1 requires a minimum length of 4 characters
+error.address.line4Required = Address needs post town filled in
+error.address.line4minLength  = Post town requires a minimum length of 3 characters
+addressAndPostcode.addressLines.line1 = Line 1
 error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
 error.address.characterinvalid = Invalid characters are not allowed
 addressAndPostcode.addressLines = Address
@@ -355,11 +358,29 @@ micro_service_error.text=The service is temporarily unavailable. Please try agai
 micro_service_error.back.button=Try again
 micro_service_error.exit.button=Exit
 
+#duplicate-disposal error page
+duplicate_disposal_error.title=We are sorry
+duplicate_disposal_error.text=This vehicle has already been notified as sold. If you think this an error then please call DVLA Customer Enquiries on 0300 790 6802
+duplicate_disposal_error.back.button=Try again
+duplicate_disposal_error.exit.button=Exit
+
 #soap endpoint error page
 soap_endpoint_error.title=We are sorry
 soap_endpoint_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
 soap_endpoint_error.back.button=Back
 soap_endpoint_error.exit.button=Exit
+
+#vrm locked
+vrm_locked.title=Registration mark is locked
+vrm_locked.text1=There have been three attempts to access the vehicle details without success. The vehicle registration mark is now locked for 10 minutes as a safeguard. During this period other vehicles can be processed.
+vrm_locked.text2.1=Locked at
+vrm_locked.text2.2={0}
+vrm_locked.text2.3=(this is the time when the error state commenced)
+vrm_locked.text3.1=If you need assistance to process this vehicle, please call our Contact Centre on
+vrm_locked.text3.2=0300 790 6801
+
+vrm_locked.newdisposalbutton=New disposal
+vrm_locked.exit.button=Exit
 
 # 404 onHandlerNotFound
 onHandlerNotFound.title=This page cannot be found

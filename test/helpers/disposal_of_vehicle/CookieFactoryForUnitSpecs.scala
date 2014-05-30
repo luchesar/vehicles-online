@@ -17,7 +17,7 @@ import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
-import services.fakes.FakeWebServiceImpl._
+import services.fakes.FakeAddressLookupWebServiceImpl._
 import services.fakes.FakeAddressLookupService.postcodeValid
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
@@ -66,15 +66,15 @@ object CookieFactoryForUnitSpecs {
     val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = line1Valid,
       line2 = Some(line2Valid),
       line3 = Some(line3Valid),
-      line4 = Some(line4Valid)),
+      line4 = line4Valid),
       postcode = postcodeValid))
     createCookie(key, value)
   }
 
-  def traderDetailsModel(uprn: Option[Long] = None, line1: String = "my house", traderPostcode: String = postcodeValid) = {
+  def traderDetailsModel(uprn: Option[Long] = None, line1: String = line1Valid, line2: String = line2Valid, line3: String = line3Valid, line4: String = line4Valid, traderPostcode: String = postcodeValid) = {
     val key = TraderDetailsCacheKey
     val value = TraderDetailsModel(traderName = traderBusinessNameValid,
-      traderAddress = AddressViewModel(uprn = uprn, address = Seq(line1, "my street", "my area", "my town", "CM81QJ")))
+      traderAddress = AddressViewModel(uprn = uprn, address = Seq(line1, line2, line3, line4, traderPostcode)))
     createCookie(key, value)
   }
 
@@ -130,4 +130,5 @@ object CookieFactoryForUnitSpecs {
       mileage = mileage)
     createCookie(key, value)
   }
+
 }

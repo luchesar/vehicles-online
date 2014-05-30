@@ -9,7 +9,7 @@ import services.address_lookup.AddressLookupWebService
 final class WebServiceImpl extends AddressLookupWebService {
   private val baseUrl: String = Config.gdsAddressLookupBaseUrl
   private val authorisation: String = Config.gdsAddressLookupAuthorisation
-  private val requestTimeout: Int = Config.gdsAddressLookupRequestTimeout.toInt
+  private val requestTimeout: Int = Config.gdsAddressLookupRequestTimeout
 
   def postcodeWithNoSpaces(postcode: String): String = postcode.filter(_ != ' ')
 

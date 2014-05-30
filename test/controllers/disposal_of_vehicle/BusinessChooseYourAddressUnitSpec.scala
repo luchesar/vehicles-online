@@ -7,11 +7,10 @@ import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import pages.disposal_of_vehicle._
 import play.api.mvc.Cookies
 import play.api.test.Helpers._
-import play.api.test.FakeRequest
 import helpers.WithApplication
 import services.fakes.FakeAddressLookupService.traderBusinessNameValid
-import services.fakes.FakeWebServiceImpl
-import services.fakes.FakeWebServiceImpl._
+import services.fakes.FakeAddressLookupWebServiceImpl
+import services.fakes.FakeAddressLookupWebServiceImpl._
 import common.ClientSideSessionFactory
 import composition.TestComposition.{testInjector => injector}
 import common.CookieHelper._
@@ -19,7 +18,7 @@ import common.CookieHelper._
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
     "display the page if dealer details cached" in new WithApplication {
-      val request = FakeRequest().withSession().withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+      val request = FakeCSRFRequest().withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnFound.present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
@@ -27,7 +26,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "display selected field when cookie exists" in new WithApplication {
-      val request = FakeRequest().withSession().
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress())
       val result = businessChooseYourAddressWithUprnFound.present(request)
@@ -37,7 +36,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "display unselected field when cookie does not exist" in new WithApplication {
-      val request = FakeRequest().withSession().
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnFound.present(request)
       val content = contentAsString(result)
@@ -119,14 +118,14 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
     val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress else responseValidForPostcodeToAddressNotFound
     val responseUprn = if (uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
-    val fakeWebService = new FakeWebServiceImpl(responsePostcode, responseUprn)
+    val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     new BusinessChooseYourAddress(addressLookupService)(clientSideSessionFactory)
   }
 
   private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {
-    FakeRequest().withSession().withFormUrlEncodedBody(
+    FakeCSRFRequest().withFormUrlEncodedBody(
       AddressSelectId -> traderUprn)
   }
 

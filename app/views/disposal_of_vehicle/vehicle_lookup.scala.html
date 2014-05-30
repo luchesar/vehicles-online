@@ -1,4 +1,4 @@
-@(data: models.domain.disposal_of_vehicle.TraderDetailsModel, vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang)
+@(data: models.domain.disposal_of_vehicle.TraderDetailsModel, vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
 
 @import helper._
 @import utils.helpers.BaseTemplate._
@@ -13,6 +13,8 @@
     @errorsSummary(vehicleLookupForm)
 
     @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit) {
+
+    @CSRF.formField
 
 		<div class="two-col clearfix">
 		

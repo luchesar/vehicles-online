@@ -5,13 +5,13 @@ import play.api.data.{FormError, Form}
 import play.api.data.Forms._
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import mappings.disposal_of_vehicle.SetupTradeDetails._
-import common.{ClientSideSessionFactory, EncryptedCookieImplicits}
-import EncryptedCookieImplicits.SimpleResultAdapter
+import common.{ClientSideSessionFactory, CookieImplicits}
+import CookieImplicits.SimpleResultAdapter
 import mappings.common.Postcode._
 import utils.helpers.FormExtensions._
 import com.google.inject.Inject
-import EncryptedCookieImplicits.FormAdapter
-import utils.helpers.{CookieNameHashing, CookieEncryption}
+import CookieImplicits.FormAdapter
+import utils.helpers.CookieNameHashing
 
 final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -37,7 +37,7 @@ final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: Cli
             distinctErrors
           BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors))
         },
-        f => Redirect(routes.BusinessChooseYourAddress.present()).withEncryptedCookie(f)
+        f => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(f)
       )
   }
 }

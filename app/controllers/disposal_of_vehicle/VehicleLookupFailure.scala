@@ -5,14 +5,14 @@ import play.api.mvc._
 import com.google.inject.Inject
 import models.domain.disposal_of_vehicle.{TraderDetailsModel, VehicleLookupFormModel}
 import mappings.disposal_of_vehicle.VehicleLookup._
-import common.{ClientSideSessionFactory, EncryptedCookieImplicits}
-import EncryptedCookieImplicits.RequestAdapter
+import common.{ClientSideSessionFactory, CookieImplicits}
+import CookieImplicits.RequestCookiesAdapter
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   def present = Action { implicit request =>
-    (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[VehicleLookupFormModel]) match {
+    (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleLookupFormModel]) match {
       case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) =>
         displayVehicleLookupFailure(vehicleLookUpFormModelDetails)
       case _ => Redirect(routes.SetUpTradeDetails.present())
@@ -20,7 +20,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
   }
 
   def submit = Action { implicit request =>
-    (request.getEncryptedCookie[TraderDetailsModel], request.getEncryptedCookie[VehicleLookupFormModel]) match {
+    (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleLookupFormModel]) match {
       case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) =>
         Logger.debug("found dealer and vehicle details")
         Redirect(routes.VehicleLookup.present())
@@ -35,7 +35,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
   }
 
   private def encodeResponseCodeErrorMessage(implicit request: Request[AnyContent]): String =
-    request.getCookieNamed(VehicleLookupResponseCodeCacheKey) match {
+    request.cookies.getString(VehicleLookupResponseCodeCacheKey) match {
       case Some(responseCode) => responseCode
       case _ => "disposal_vehiclelookupfailure.p1"
     }

@@ -1,14 +1,14 @@
 package common
 
-import play.api.mvc.{SimpleResult, Request}
+import play.api.mvc.{Cookie, SimpleResult}
 
 trait ClientSideSessionFactory {
-  def newSession(request: Request[_], result: SimpleResult): (SimpleResult, ClientSideSession)
-  def getSession(request: Request[_]): Option[ClientSideSession]
+  def newSession(result: SimpleResult): (SimpleResult, ClientSideSession)
+  def getSession(request: Traversable[Cookie]): Option[ClientSideSession]
 
-  def ensureSession(request: Request[_], result: SimpleResult): (SimpleResult, ClientSideSession) =
+  def ensureSession(request: Traversable[Cookie], result: SimpleResult): (SimpleResult, ClientSideSession) =
     getSession(request)
       .map((result, _))
-      .getOrElse(newSession(request, result))
+      .getOrElse(newSession(result))
 }
 

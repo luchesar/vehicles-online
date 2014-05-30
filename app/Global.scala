@@ -10,7 +10,8 @@ import play.api.Configuration
 import play.api.mvc._
 import play.api.mvc.Results._
 import play.api.Play.current
-import play.filters.gzip._
+//import play.filters.gzip._
+import play.filters.csrf._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.CryptoHelper
