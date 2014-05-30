@@ -10,7 +10,7 @@ import pages.disposal_of_vehicle._
 import services.fakes.FakeAddressLookupService._
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
-  /*"go to page" should {
+  "go to page" should {
     "display the page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
@@ -36,8 +36,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       go to VehicleLookupPage
       page.source should include("input type=\"hidden\" name=\"csrfToken\"")
     }
-
-  }*/
+  }
 
   "findVehicleDetails button" should {
     "go to the next page when correct data is entered" in new WebBrowser {
@@ -48,7 +47,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       page.title should equal(DisposePage.title)
     }
-/*
+
     "display one validation error message when no referenceNumber is entered" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
@@ -118,9 +117,9 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       tryLockedVrm()
       page.title should equal(VrmLockedPage.title)
-    }*/
+    }
   }
-/*
+
   "back" should {
     "display previous page when back link is clicked with uprn present" in new WebBrowser {
       go to BeforeYouStartPage
@@ -144,7 +143,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(EnterAddressManuallyPage.title)
     }
   }
-*/
+
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
       setupTradeDetails().
