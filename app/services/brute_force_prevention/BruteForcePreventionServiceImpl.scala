@@ -11,7 +11,7 @@ import play.api.libs.json.Json
 
 
 final class BruteForcePreventionServiceImpl @Inject()(ws: BruteForcePreventionWebService) extends BruteForcePreventionService {
-  override def vrmLookupPermitted(vrm: String): Future[(Boolean, Int, Int)] =
+  override def vrmLookupPermitted(vrm: String): Future[(Boolean, BruteForcePreventionResponse)] =
     if (Config.bruteForcePreventionEnabled) {
       // TODO US270 this is temporary until we all developers have Redis setup locally.
       ws.callBruteForce(vrm).map {
@@ -22,18 +22,18 @@ final class BruteForcePreventionServiceImpl @Inject()(ws: BruteForcePreventionWe
           val bruteForcePreventionResponse: Option[BruteForcePreventionResponse] = Json.fromJson[BruteForcePreventionResponse](resp.json).asOpt
           bruteForcePreventionResponse match {
             case Some(model) =>
-              (resp.status == play.api.http.Status.OK, model.attempts, model.maxAttempts)
+              (resp.status == play.api.http.Status.OK, model)
             case _ =>
               Logger.error(s"Brute force prevention service returned an unexpected type of Json: ${resp.json}")
-              (false, 0, 0)
+              (false, BruteForcePreventionResponse(attempts = 0, maxAttempts = 0))
           }
       }.recover {
         case e: Throwable =>
           Logger.error(s"Brute force prevention service error: $e")
-          (false, 0, 0)
+          (false, BruteForcePreventionResponse(attempts = 0, maxAttempts = 0))
       }
     }
     else Future {
-      (true, 0, 0)
+      (true, BruteForcePreventionResponse(attempts = 0, maxAttempts = 0))
     }
 }

@@ -14,6 +14,7 @@ import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceI
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
 import play.api.libs.ws.Response
 import scala.Some
+import models.domain.common.BruteForcePreventionResponse
 
 final class BruteForcePreventionServiceImplSpec extends UnitSpec {
   /*
@@ -22,21 +23,21 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
     "return true when response status is 200 OK" in {
       val service = bruteForceServiceImpl(permitted = true)
       whenReady(service.vrmLookupPermitted(registrationNumberValid)) {
-        r => r should equal((true, 0, 3))
+        r => r should equal((true, BruteForcePreventionResponse(0, 3)))
       }
     }
 
     "return false when response status is not 200 OK" in {
       val service = bruteForceServiceImpl(permitted = false)
       whenReady(service.vrmLookupPermitted(registrationNumberValid)) {
-        r => r should equal((false, 0, 3)) // TODO the 2 ints will change values.
+        r => r should equal((false, BruteForcePreventionResponse(0, 3))) // TODO the 2 ints will change values.
       }
     }
 
     "return false when webservice call throws" in {
       val service = bruteForceServiceImpl(permitted = true)
       whenReady(service.vrmLookupPermitted(VrmThrows)) {
-        r => r should equal((false, 0, 0))
+        r => r should equal((false, BruteForcePreventionResponse(0, 0)))
       }
     }
   }
