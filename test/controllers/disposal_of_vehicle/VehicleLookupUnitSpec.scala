@@ -285,7 +285,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to VehicleLookupFailure and display 1st attempt message when document reference number not found and security service returns 1st attempt" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmAttempt1)
+      val request = buildCorrectlyPopulatedRequest(registrationNumber = registrationNumberValid)
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseDocRefNumberNotLatest, bruteForceService = bruteForceServiceImpl(permitted = true)).submit(request)
 
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
@@ -304,9 +304,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
 
     when(bruteForcePreventionWebService.callBruteForce(registrationNumberValid)).thenReturn(Future {
-      new FakeResponse(status = status)
-    })
-    when(bruteForcePreventionWebService.callBruteForce(VrmAttempt1)).thenReturn(Future {
       new FakeResponse (status = play.api.http.Status.OK, fakeJson = Some(Json.parse("""{"attempts": "1", "maxAttempts": "3"}""")))
     })
     when(bruteForcePreventionWebService.callBruteForce(VrmAttempt2)).thenReturn(Future {

@@ -18,7 +18,7 @@ final class FakeBruteForcePreventionWebServiceImpl() extends BruteForcePreventio
 }
 
 object FakeBruteForcePreventionWebServiceImpl {
-  final val VrmAttempt1 = "ST05YYA"
   final val VrmAttempt2 = "ST05YYB"
   final val VrmLocked = "ST05YYC"
+  final val VrmThrows = "ST05YYD"
 }
