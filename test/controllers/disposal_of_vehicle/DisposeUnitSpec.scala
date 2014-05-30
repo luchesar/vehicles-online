@@ -271,20 +271,15 @@ final class DisposeUnitSpec extends UnitSpec {
         registrationNumber = registrationNumberValid,
         referenceNumber = referenceNumberValid,
         traderName = traderBusinessNameValid,
-        traderAddress = DisposalAddressDto(
-          line = Seq(line1Valid, line2Valid, line3Valid),
-          postTown = Some(line4Valid),
-          postCode = postcodeValid,
-          uprn = None),
+        traderAddress = DisposalAddressDto(line = Seq(line1Valid, line2Valid, line3Valid),postTown = Some(line4Valid),postCode = postcodeValid,uprn = None),
         dateOfDisposal = dateValid,
         mileage = Some(mileageValid.toInt),
         transactionTimestamp = dateValid
       )
-
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
 
-    "truncate line1 up to max characters" in new WithApplication {
+    "truncate address lines 1,2 and 3 up to max characters" in new WithApplication {
       val disposeServiceMock = mock[DisposeService]
       when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
       val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
@@ -293,7 +288,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "a" * LineMaxLength + 1)) // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "a" * LineMaxLength + 1, line2 = "b" * LineMaxLength + 1, line3 = "c" * LineMaxLength + 1)) // line1 is longer than maximum
 
       val result = disposeController.submit(request)
 
@@ -301,16 +296,36 @@ final class DisposeUnitSpec extends UnitSpec {
         registrationNumber = registrationNumberValid,
         referenceNumber = referenceNumberValid,
         traderName = traderBusinessNameValid,
-        traderAddress = DisposalAddressDto(
-          line = Seq("a" * LineMaxLength, line2Valid, line3Valid), // line1 now should be truncated up the the maximum
-          postTown = Some(line4Valid),
-          postCode = postcodeValid,
-          uprn = None),
+        traderAddress = DisposalAddressDto(line = Seq("a" * LineMaxLength, "b" * LineMaxLength, "c" * LineMaxLength),postTown = Some(line4Valid),postCode = postcodeValid,uprn = None),
         dateOfDisposal = dateValid,
         mileage = Some(mileageValid.toInt),
         transactionTimestamp = dateValid
       )
+      verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
+    }
 
+    "remove spaces from postcode on submit" in new WithApplication {
+      val disposeServiceMock = mock[DisposeService]
+      when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
+      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val disposeController = new disposal_of_vehicle.Dispose(disposeServiceMock, dateServiceStubbed())(clientSideSessionFactory)
+
+      val request = buildCorrectlyPopulatedRequest.
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(traderPostcode = "CM8 1QJ")) // postcode contains space
+
+      val result = disposeController.submit(request)
+
+      val disposeRequest = DisposeRequest(
+        registrationNumber = registrationNumberValid,
+        referenceNumber = referenceNumberValid,
+        traderName = traderBusinessNameValid,
+        traderAddress = DisposalAddressDto(line = Seq(line1Valid, line2Valid, line3Valid),postTown = Some(line4Valid),postCode = postcodeValid,uprn = None),
+        dateOfDisposal = dateValid,
+        mileage = Some(mileageValid.toInt),
+        transactionTimestamp = dateValid
+      )
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
   }
