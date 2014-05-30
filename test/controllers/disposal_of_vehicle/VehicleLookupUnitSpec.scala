@@ -25,6 +25,7 @@ import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebServic
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import play.api.libs.ws.Response
+import models.domain.common.BruteForcePreventionResponse.BruteForcePreventionResponseCacheKey
 
 final class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {
@@ -75,7 +76,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       content should not include referenceNumberValid
       content should not include registrationNumberValid
     }
-
   }
 
   "submit" should {
@@ -254,7 +254,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain allOf(VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain allOf(BruteForcePreventionResponseCacheKey, VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -264,7 +264,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain allOf(VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain allOf(BruteForcePreventionResponseCacheKey, VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -311,13 +311,13 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
 
       when(bruteForcePreventionWebService.callBruteForce(registrationNumberValid)).thenReturn(Future {
-        new FakeResponse (status = status, fakeJson = attempt1Json)
+        new FakeResponse(status = status, fakeJson = attempt1Json)
       })
       when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmAttempt2)).thenReturn(Future {
-        new FakeResponse (status = status, fakeJson = attempt2Json)
+        new FakeResponse(status = status, fakeJson = attempt2Json)
       })
       when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmLocked)).thenReturn(Future {
-        new FakeResponse (status = status)
+        new FakeResponse(status = status)
       })
       when(bruteForcePreventionWebService.callBruteForce(VrmThrows)).thenReturn(responseThrows)
 
@@ -364,9 +364,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                              registrationNumber: String = registrationNumberValid,
                                              consent: String = consentValid) = {
     FakeCSRFRequest().withFormUrlEncodedBody(
-        ReferenceNumberId -> referenceNumber,
-        RegistrationNumberId -> registrationNumber,
-        ConsentId -> consent)
+      ReferenceNumberId -> referenceNumber,
+      RegistrationNumberId -> registrationNumber,
+      ConsentId -> consent)
   }
-
 }
