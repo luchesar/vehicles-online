@@ -49,6 +49,12 @@ object FakeDisposeWebServiceImpl {
       auditId = "",
       responseCode = Some("ms.vehiclesService.response.unableToProcessApplication"))
 
+  val disposeResponseFailureWithDuplicateDisposal =
+    DisposeResponse(transactionId = transactionIdValid, // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
+      registrationNumber = "",
+      auditId = "",
+      responseCode = Some("ms.vehiclesService.response.duplicateDisposalToTrade"))
+
   val disposeResponseSoapEndpointTimeout =
     DisposeResponse(transactionId = "", // No transactionId because the soap endpoint is down
       registrationNumber = "",
