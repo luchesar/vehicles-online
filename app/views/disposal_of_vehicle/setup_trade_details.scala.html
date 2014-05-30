@@ -11,7 +11,9 @@
 @main(Messages("disposal_setuptradedetails.title")) {
     @errorsSummary(traderLookupForm)
 
-    @form(action = CSRF(controllers.disposal_of_vehicle.routes.SetUpTradeDetails.submit)) {
+    @form(action = controllers.disposal_of_vehicle.routes.SetUpTradeDetails.submit) {
+
+    @CSRF.formField
 
     @{/*
     	Removed following review feedback 18/3/14

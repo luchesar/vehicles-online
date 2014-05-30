@@ -51,6 +51,12 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
       page.source should include("No addresses found for that postcode") // Does not contain the positive message
     }
+
+    "contain the hidden csrfToken field" in new WebBrowser {
+      SetupTradeDetailsPage.happyPath()
+      page.source should include("input type=\"hidden\" name=\"csrfToken\"")
+    }
+
   }
 
   "manualAddress button" should {

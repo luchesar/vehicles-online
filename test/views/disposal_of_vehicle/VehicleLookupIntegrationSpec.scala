@@ -31,6 +31,12 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       page.title should equal(SetupTradeDetailsPage.title)
     }
+
+    "contain the hidden csrfToken field" in new WebBrowser {
+      go to VehicleLookupPage
+      page.source should include("input type=\"hidden\" name=\"csrfToken\"")
+    }
+
   }
 
   "findVehicleDetails button" should {

@@ -15,6 +15,12 @@ final class VrmLockedSpec extends UiSpec with TestHarness {
 
       page.title should equal(VrmLockedPage.title)
     }
+
+    "contain the hidden csrfToken field" in new WebBrowser {
+      go to VrmLockedPage
+      page.source should include("input type=\"hidden\" name=\"csrfToken\"")
+    }
+
   }
 
   "newDisposal button" should {

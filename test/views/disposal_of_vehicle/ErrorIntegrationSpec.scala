@@ -18,6 +18,13 @@ final class ErrorIntegrationSpec extends UiSpec with TestHarness {
 
       page.title should equal(ErrorPage.title)
     }
+    "contain the hidden csrfToken field" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      go to ErrorPage
+      page.source should include("input type=\"hidden\" name=\"csrfToken\"")
+    }
   }
 
   "submit button" should {
