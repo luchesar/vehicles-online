@@ -1,26 +1,31 @@
 package controllers.disposal_of_vehicle
 
-import play.api.test.Helpers._
+import common.ClientSideSessionFactory
+import common.CookieHelper._
+import composition.TestComposition.{testInjector => injector}
 import controllers.disposal_of_vehicle
+import helpers.UnitSpec
+import helpers.WithApplication
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.disposal_of_vehicle.Dispose._
 import models.domain.disposal_of_vehicle._
-import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import org.mockito.Mockito._
 import org.mockito.Matchers._
-import helpers.UnitSpec
-import services.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeService}
-import services.fakes.FakeResponse
-import scala.concurrent.{ExecutionContext, Future}
+import org.mockito.Mockito._
+import pages.disposal_of_vehicle._
 import play.api.libs.json.Json
+import play.api.test.Helpers._
+import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.DateService
+import services.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeService}
+import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
-import common.ClientSideSessionFactory
-import composition.TestComposition.{testInjector => injector}
-import common.CookieHelper._
-import helpers.WithApplication
+import services.fakes.FakeResponse
+import services.fakes.FakeVehicleLookupWebService._
+import scala.Some
+import services.fakes.FakeDisposeWebServiceImpl.consentValid
+import mappings.common.AddressLines.LineMaxLength
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
@@ -74,14 +79,14 @@ final class DisposeUnitSpec extends UnitSpec {
     }
   }
 
-  private def buildCheckboxHtml(widgetName: String, checked: Boolean) : String = {
+  private def buildCheckboxHtml(widgetName: String, checked: Boolean): String = {
     if (checked)
       s"""<inputtype="checkbox"id="$widgetName"name="$widgetName"value="true"checkedaria-required=true>"""
     else
       s"""<inputtype="checkbox"id="$widgetName"name="$widgetName"value="true"aria-required=true>"""
   }
 
-  private def buildSelectedOptionHtml(optionValue: String, optionText: String) : String = {
+  private def buildSelectedOptionHtml(optionValue: String, optionText: String): String = {
     s"""<optionvalue="$optionValue"selected>$optionText</option>"""
   }
 
@@ -92,7 +97,7 @@ final class DisposeUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
 
-        val result = disposeController().submit(request)
+      val result = disposeController().submit(request)
 
       redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
       whenReady(result) {
@@ -215,10 +220,10 @@ final class DisposeUnitSpec extends UnitSpec {
           val cookies = fetchCookiesFromHeaders(r)
           val found = cookies.find(_.name == DisposeFormTimestampIdCacheKey)
           found match {
-            case Some(cookie) => cookie.value should include (CookieFactoryForUnitSpecs.disposeFormTimestamp().value)
+            case Some(cookie) => cookie.value should include(CookieFactoryForUnitSpecs.disposeFormTimestamp().value)
             case _ => fail("Should have found cookie")
           }
-          cookies.map(_.name) should contain allOf (DisposeModelCacheKey, DisposeFormTransactionIdCacheKey, DisposeFormModelCacheKey, DisposeFormTimestampIdCacheKey)
+          cookies.map(_.name) should contain allOf(DisposeModelCacheKey, DisposeFormTransactionIdCacheKey, DisposeFormModelCacheKey, DisposeFormTimestampIdCacheKey)
       }
     }
 
@@ -232,8 +237,68 @@ final class DisposeUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain allOf (DisposeModelCacheKey, DisposeFormTransactionIdCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormModelCacheKey, DisposeFormTimestampIdCacheKey)
+          cookies.map(_.name) should contain allOf(DisposeModelCacheKey, DisposeFormTransactionIdCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormModelCacheKey, DisposeFormTimestampIdCacheKey)
       }
+    }
+
+    "calls DisposeService invoke with the expected DisposeRequest" in new WithApplication {
+      val disposeServiceMock = mock[DisposeService]
+      when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
+      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val disposeController = new disposal_of_vehicle.Dispose(disposeServiceMock, dateServiceStubbed())(clientSideSessionFactory)
+
+      val request = buildCorrectlyPopulatedRequest.
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+
+      val result = disposeController.submit(request)
+
+      val disposeRequest = DisposeRequest(
+        registrationNumber = registrationNumberValid,
+        referenceNumber = referenceNumberValid,
+        traderName = traderBusinessNameValid,
+        traderAddress = DisposalAddressDto(
+          line = Seq("my house", "my street", "my area"), // TODO these hard coded strings should come from the same constants as used in the CookieFactory.
+          postTown = Some("my town"), // TODO these hard coded strings should come from the same constants as used in the CookieFactory.
+          postCode = postcodeValid,
+          uprn = None),
+        dateOfDisposal = "1970-11-25T00:00:00.000+01:00",
+        mileage = Some(20000),
+        transactionTimestamp = s"1970-11-25T00:00:00.000+01:00"
+      )
+
+      verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
+    }
+
+    "truncate line1 up to max characters" in new WithApplication {
+      val disposeServiceMock = mock[DisposeService]
+      when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
+      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val disposeController = new disposal_of_vehicle.Dispose(disposeServiceMock, dateServiceStubbed())(clientSideSessionFactory)
+
+      val request = buildCorrectlyPopulatedRequest.
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "a" * LineMaxLength + 1)) // line1 is longer than maximum
+
+      val result = disposeController.submit(request)
+
+      val disposeRequest = DisposeRequest(
+        registrationNumber = registrationNumberValid,
+        referenceNumber = referenceNumberValid,
+        traderName = traderBusinessNameValid,
+        traderAddress = DisposalAddressDto(
+          line = Seq("a" * LineMaxLength, "my street", "my area"), // line1 now should be truncated up the the maximum
+          postTown = Some("my town"),
+          postCode = postcodeValid,
+          uprn = None),
+        dateOfDisposal = "1970-11-25T00:00:00.000+01:00",
+        mileage = Some(20000),
+        transactionTimestamp = s"1970-11-25T00:00:00.000+01:00"
+      )
+
+      verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
   }
 
@@ -268,6 +333,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val fakeJson = disposeServiceResponse map (Json.toJson(_))
       new FakeResponse(status = disposeServiceStatus, fakeJson = fakeJson) // Any call to a webservice will always return this successful response.
     })
+
     val disposeServiceImpl = new DisposeServiceImpl(ws)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())(clientSideSessionFactory)
