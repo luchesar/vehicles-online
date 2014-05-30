@@ -13,7 +13,7 @@ final class FakeBruteForcePreventionWebServiceImpl() extends BruteForcePreventio
   override def callBruteForce(vrm: String): Future[Response] = Future {
     vrm match {
       case VrmLocked => new FakeResponse(status = FORBIDDEN)
-      case _ => new FakeResponse(status = OK, fakeJson = Some(Json.parse(s"""{"attempts": 0, "maxAttempts": $MaxAttempts}""")))
+      case _ => new FakeResponse(status = OK, fakeJson = attempt1Json)
     }
   }
 }
@@ -23,4 +23,6 @@ object FakeBruteForcePreventionWebServiceImpl {
   final val VrmLocked = "ST05YYC"
   final val VrmThrows = "ST05YYD"
   final val MaxAttempts = 3
+  val attempt1Json = Some(Json.parse(s"""{"attempts": 0, "maxAttempts": $MaxAttempts}"""))
+  val attempt2Json = Some(Json.parse(s"""{"attempts": 1, "maxAttempts": $MaxAttempts}"""))
 }

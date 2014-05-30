@@ -311,10 +311,10 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
 
       when(bruteForcePreventionWebService.callBruteForce(registrationNumberValid)).thenReturn(Future {
-        new FakeResponse (status = status, fakeJson = Some(Json.parse(s"""{"attempts": 0, "maxAttempts": $MaxAttempts}""")))
+        new FakeResponse (status = status, fakeJson = attempt1Json)
       })
       when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmAttempt2)).thenReturn(Future {
-        new FakeResponse (status = status, fakeJson = Some(Json.parse(s"""{"attempts": 1, "maxAttempts": $MaxAttempts}""")))
+        new FakeResponse (status = status, fakeJson = attempt2Json)
       })
       when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmLocked)).thenReturn(Future {
         new FakeResponse (status = status)
