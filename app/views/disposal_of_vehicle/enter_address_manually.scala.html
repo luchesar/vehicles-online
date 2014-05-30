@@ -1,4 +1,4 @@
-@(enterAddressManuallyForm: Form[models.domain.disposal_of_vehicle.EnterAddressManuallyModel])(implicit lang: Lang)
+@(enterAddressManuallyForm: Form[models.domain.disposal_of_vehicle.EnterAddressManuallyModel])(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
 
 @import helper._
 @import mappings.common.AddressAndPostcode.AddressAndPostcodeId
@@ -7,7 +7,7 @@
 @main(Messages("disposal_enteraddressmanually.title")){
     @errorsSummary(enterAddressManuallyForm)
 
-    @form(action = controllers.disposal_of_vehicle.routes.EnterAddressManually.submit) {
+    @form(action = CSRF(controllers.disposal_of_vehicle.routes.EnterAddressManually.submit)) {
 
         @addressAndPostcode(enterAddressManuallyForm(AddressAndPostcodeId))
 

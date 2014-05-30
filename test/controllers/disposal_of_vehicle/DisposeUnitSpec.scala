@@ -1,6 +1,5 @@
 package controllers.disposal_of_vehicle
 
-import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import controllers.disposal_of_vehicle
 import mappings.disposal_of_vehicle.Dispose._
@@ -26,7 +25,7 @@ import helpers.WithApplication
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      val request = FakeRequest().withSession().
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
@@ -37,7 +36,7 @@ final class DisposeUnitSpec extends UnitSpec {
     }
 
     "redirect to setupTradeDetails page when present and previous pages have not been visited" in new WithApplication {
-      val request = FakeRequest().withSession()
+      val request = FakeCSRFRequest()
       val result = disposeController().present(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -45,7 +44,7 @@ final class DisposeUnitSpec extends UnitSpec {
     }
 
     "display populated fields when cookie exists" in new WithApplication {
-      val request = FakeRequest().withSession().
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
@@ -62,7 +61,7 @@ final class DisposeUnitSpec extends UnitSpec {
     }
 
     "display empty fields when cookie does not exist" in new WithApplication {
-      val request = FakeRequest().withSession().
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
@@ -123,7 +122,7 @@ final class DisposeUnitSpec extends UnitSpec {
     }
 
     "return a bad request when no details are entered" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody().
+      val request = FakeCSRFRequest().withFormUrlEncodedBody().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val result = disposeController().submit(request)
@@ -133,7 +132,7 @@ final class DisposeUnitSpec extends UnitSpec {
     }
 
     "redirect to setupTradeDetails page when form submitted with errors and previous pages have not been visited" in new WithApplication {
-      val request = FakeRequest().withSession().withFormUrlEncodedBody()
+      val request = FakeCSRFRequest().withFormUrlEncodedBody()
       val result = disposeController().submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -252,7 +251,7 @@ final class DisposeUnitSpec extends UnitSpec {
 
   private def buildCorrectlyPopulatedRequest = {
     import mappings.common.DayMonthYear._
-    FakeRequest().withSession().withFormUrlEncodedBody(
+    FakeCSRFRequest().withFormUrlEncodedBody(
       MileageId -> mileageValid,
       s"$DateOfDisposalId.$DayId" -> dateOfDisposalDayValid,
       s"$DateOfDisposalId.$MonthId" -> dateOfDisposalMonthValid,
