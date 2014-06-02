@@ -25,7 +25,8 @@ import CookieImplicits.FormAdapter
 import models.domain.common.BruteForcePreventionResponse
 import models.domain.common.BruteForcePreventionResponse._
 
-final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService)
+                                   (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   val vehicleLookupForm = Form(
     mapping(
@@ -76,14 +77,15 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       }
   }
 
-  private def checkPermissionToLookup(model: VehicleLookupFormModel)(lookupVehicleFunc: ((VehicleLookupFormModel, BruteForcePreventionResponse) => Future[SimpleResult]))(implicit request: Request[_]): Future[SimpleResult] =
+  private def checkPermissionToLookup(model: VehicleLookupFormModel)(lookupVehicleFunc: ((VehicleLookupFormModel, BruteForcePreventionViewModel) => Future[SimpleResult]))
+                                     (implicit request: Request[_]): Future[SimpleResult] =
     bruteForceService.isVrmLookupPermitted(model.registrationNumber).map { response =>
       response // TODO US270 @Lawrence please code review the way we are using map, the lambda (I think we could use _ but it looks strange to read) and flatmap
     } flatMap {
       case Some(resp) =>
         // US270: The security micro-service will return a Forbidden (403) message when the vrm is locked, we have hidden that logic as a boolean.
-        val (permitted, bruteForcePreventionResponse) = resp
-        if (permitted) lookupVehicleFunc(model, bruteForcePreventionResponse)
+//        val (permitted, bruteForcePreventionResponse) = resp
+        if (resp.permitted) lookupVehicleFunc(model, resp)
         else Future {
           Logger.warn(s"BruteForceService locked out vrm: ${model.registrationNumber}")
           Redirect(routes.VrmLocked.present())
@@ -97,7 +99,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         Redirect(routes.MicroServiceError.present())
     }
 
-  private def lookupVehicle(model: VehicleLookupFormModel, bruteForcePreventionResponse: BruteForcePreventionResponse)(implicit request: Request[_]): Future[SimpleResult] = {
+  private def lookupVehicle(model: VehicleLookupFormModel, bruteForcePreventionViewModel: BruteForcePreventionViewModel)(implicit request: Request[_]): Future[SimpleResult] = {
     def lookupSuccess(vehicleDetailsDto: VehicleDetailsDto) =
       Redirect(routes.Dispose.present()).
         withCookie(VehicleDetailsModel.fromDto(vehicleDetailsDto))
@@ -134,13 +136,14 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     vehicleLookupService.invoke(vehicleDetailsRequest).map {
       case (responseStatusVehicleLookupMS: Int, response: Option[VehicleDetailsResponse]) =>
         Logger.debug(s"VehicleLookup Web service call successful - response = $response")
+        import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._
         isReponseStatusOk(responseStatusVehicleLookupMS = responseStatusVehicleLookupMS,
           response = response).
           withCookie(model).
-          withCookie(bruteForcePreventionResponse)
+          withCookie(bruteForcePreventionViewModel)
     }.recover {
       case exception: Throwable =>
-        Logger.debug(s"Web service call failed. Exception: $exception")
+        Logger.debug(s"VehicleLookup Web service call failed. Exception: $exception")
         Redirect(routes.MicroServiceError.present())
     }
   }

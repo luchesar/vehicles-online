@@ -25,7 +25,7 @@ import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebServic
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import play.api.libs.ws.Response
-import models.domain.common.BruteForcePreventionResponse.BruteForcePreventionResponseCacheKey
+import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import mappings.common.DocumentReferenceNumber
 
 final class VehicleLookupUnitSpec extends UnitSpec {
@@ -265,7 +265,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain allOf(BruteForcePreventionResponseCacheKey, VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain allOf(BruteForcePreventionViewModelCacheKey, VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -275,7 +275,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain allOf(BruteForcePreventionResponseCacheKey, VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain allOf(BruteForcePreventionViewModelCacheKey, VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
 

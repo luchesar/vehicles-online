@@ -24,7 +24,7 @@ import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
 import common.{ClientSideSessionFactory, CookieFlags, ClearTextClientSideSession}
 import composition.TestComposition.{testInjector => injector}
 import play.api.mvc.Cookie
-import models.domain.common.BruteForcePreventionResponse._
+import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
 
 object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by returning "this" at the end of the defs
@@ -79,9 +79,9 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
     createCookie(key, value)
   }
 
-  def bruteForcePreventionResponse(attempts: Int = 0, maxAttempts: Int = MaxAttempts) = {
-    val key = BruteForcePreventionResponseCacheKey
-    val value = BruteForcePreventionResponse(attempts, maxAttempts)
+  def bruteForcePreventionViewModel(permitted: Boolean = true, attempts: Int = 0, maxAttempts: Int = MaxAttempts) = {
+    val key = BruteForcePreventionViewModelCacheKey
+    val value = BruteForcePreventionViewModel(permitted, attempts, maxAttempts)
     createCookie(key, value)
   }
 
