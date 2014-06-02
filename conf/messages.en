@@ -345,7 +345,7 @@ error.address.characterinvalid = Invalid characters are not allowed
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
 error.validTraderBusinessName = Must be between two and 30 characters and not contain invalid characters
-error.address.line1.invalid = Line 1 requires a minimum length of 4 characters
+error.address.line1.invalid = Line 1 requires a minimum length of four characters
 
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = Your application is being processed and you should receive confirmation letter within four weeks.
