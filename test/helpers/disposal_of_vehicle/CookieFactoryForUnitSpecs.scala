@@ -19,14 +19,15 @@ import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
 import services.fakes.FakeAddressLookupWebServiceImpl._
 import services.fakes.FakeAddressLookupService.postcodeValid
-import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
+import models.domain.common.{BruteForcePreventionResponse, AddressLinesModel, AddressAndPostcodeModel}
 import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
 import common.{CookieFlags, ClearTextClientSideSession}
 import composition.TestComposition.{testInjector => injector}
-import scala.Some
 import play.api.mvc.Cookie
+import models.domain.common.BruteForcePreventionResponse._
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
 
-object CookieFactoryForUnitSpecs {
+object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by returning "this" at the end of the defs
 
   implicit private val cookieFlags = injector.getInstance(classOf[CookieFlags])
   private val session = new ClearTextClientSideSession()
@@ -75,6 +76,12 @@ object CookieFactoryForUnitSpecs {
     val key = TraderDetailsCacheKey
     val value = TraderDetailsModel(traderName = traderBusinessNameValid,
       traderAddress = AddressViewModel(uprn = uprn, address = Seq(line1, line2, line3, line4, traderPostcode)))
+    createCookie(key, value)
+  }
+
+  def bruteForcePreventionResponse(attempts: Int = 0, maxAttempts: Int = MaxAttempts) = {
+    val key = BruteForcePreventionResponseCacheKey
+    val value = BruteForcePreventionResponse(attempts, maxAttempts)
     createCookie(key, value)
   }
 

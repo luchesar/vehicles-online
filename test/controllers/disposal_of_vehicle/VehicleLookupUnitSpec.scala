@@ -23,6 +23,10 @@ import services.fakes.FakeResponse
 import services.fakes.FakeVehicleLookupWebService._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
+import play.api.libs.ws.Response
+import models.domain.common.BruteForcePreventionResponse.BruteForcePreventionResponseCacheKey
+import mappings.common.DocumentReferenceNumber
 
 final class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {
@@ -73,7 +77,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       content should not include referenceNumberValid
       content should not include registrationNumberValid
     }
-
   }
 
   "submit" should {
@@ -141,11 +144,10 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "replace max length error message for document reference number with standard error message (US43)" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (ReferenceNumberLength + 1)).
+      val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (DocumentReferenceNumber.MaxLength + 1)).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
       // check the validation summary text
-      //findAllIn
       "Document reference number - Document reference number must be an 11-digit number".r.findAllIn(contentAsString(result)).length should equal(1)
       // check the form item validation
       "\"error\">Document reference number must be an 11-digit number".r.findAllIn(contentAsString(result)).length should equal(1)
@@ -252,7 +254,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain allOf(VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain allOf(BruteForcePreventionResponseCacheKey, VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -262,7 +264,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain allOf(VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain allOf(BruteForcePreventionResponseCacheKey, VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -285,13 +287,13 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to VehicleLookupFailure and display 1st attempt message when document reference number not found and security service returns 1st attempt" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmAttempt1)
+      val request = buildCorrectlyPopulatedRequest(registrationNumber = registrationNumberValid)
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseDocRefNumberNotLatest, bruteForceService = bruteForceServiceImpl(permitted = true)).submit(request)
 
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
     }
 
-    "redirect to VehicleLookupFailure and display 1st attempt message when document reference number not found and security service returns 2nd attempt" in new WithApplication {
+    "redirect to VehicleLookupFailure and display 2nd attempt message when document reference number not found and security service returns 2nd attempt" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmAttempt2)
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseDocRefNumberNotLatest, bruteForceService = bruteForceServiceImpl(permitted = true)).submit(request)
 
@@ -299,22 +301,28 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
   }
 
-  private def bruteForceServiceImpl(permitted: Boolean): BruteForcePreventionService = {
-    val status = if (permitted) play.api.http.Status.OK else play.api.http.Status.FORBIDDEN
-    val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
+  private def responseThrows: Future[Response] = Future {
+    throw new RuntimeException("This error is generated deliberately by a test")
+  }
 
-    when(bruteForcePreventionWebService.callBruteForce(registrationNumberValid)).thenReturn(Future {
-      new FakeResponse(status = status)
-    })
-    when(bruteForcePreventionWebService.callBruteForce(VrmAttempt1)).thenReturn(Future {
-      new FakeResponse (status = play.api.http.Status.OK, fakeJson = Some(Json.parse("""{"attempts": "1", "maxAttempts": "3"}""")))
-    })
-    when(bruteForcePreventionWebService.callBruteForce(VrmAttempt2)).thenReturn(Future {
-      new FakeResponse (status = play.api.http.Status.OK, fakeJson = Some(Json.parse("""{"attempts": "2", "maxAttempts": "3"}""")))
-    })
-    when(bruteForcePreventionWebService.callBruteForce(VrmLocked)).thenReturn(Future {
-      new FakeResponse (status = play.api.http.Status.FORBIDDEN)
-    })
+  private def bruteForceServiceImpl(permitted: Boolean): BruteForcePreventionService = {
+    def bruteForcePreventionWebService: BruteForcePreventionWebService = {
+      val status = if (permitted) play.api.http.Status.OK else play.api.http.Status.FORBIDDEN
+      val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
+
+      when(bruteForcePreventionWebService.callBruteForce(registrationNumberValid)).thenReturn(Future {
+        new FakeResponse(status = status, fakeJson = attempt1Json)
+      })
+      when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmAttempt2)).thenReturn(Future {
+        new FakeResponse(status = status, fakeJson = attempt2Json)
+      })
+      when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmLocked)).thenReturn(Future {
+        new FakeResponse(status = status)
+      })
+      when(bruteForcePreventionWebService.callBruteForce(VrmThrows)).thenReturn(responseThrows)
+
+      bruteForcePreventionWebService
+    }
 
     new BruteForcePreventionServiceImpl(
       ws = bruteForcePreventionWebService)
@@ -356,9 +364,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                              registrationNumber: String = registrationNumberValid,
                                              consent: String = consentValid) = {
     FakeCSRFRequest().withFormUrlEncodedBody(
-        ReferenceNumberId -> referenceNumber,
-        RegistrationNumberId -> registrationNumber,
-        ConsentId -> consent)
+      DocumentReferenceNumberId -> referenceNumber,
+      VehicleRegistrationNumberId -> registrationNumber,
+      ConsentId -> consent)
   }
-
 }
