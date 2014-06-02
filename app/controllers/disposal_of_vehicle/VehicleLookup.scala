@@ -109,8 +109,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
 
     def lookupHadProblem(responseCode: String) =
       Redirect(routes.VehicleLookupFailure.present()).
-        withCookie(key = VehicleLookupResponseCodeCacheKey, value = responseCode).
-        withCookie(bruteForcePreventionResponse)
+        withCookie(key = VehicleLookupResponseCodeCacheKey, value = responseCode)
 
     def hasResponseCode(vehicleDetailsResponse: VehicleDetailsResponse,
                         bruteForcePreventionResponse: BruteForcePreventionResponse)(implicit request: Request[_]) =
@@ -141,7 +140,8 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         isReponseStatusOk(responseStatusVehicleLookupMS = responseStatusVehicleLookupMS,
           response = response,
           bruteForcePreventionResponse = bruteForcePreventionResponse).
-          withCookie(model)
+          withCookie(model).
+          withCookie(bruteForcePreventionResponse)
     }.recover {
       case exception: Throwable =>
         Logger.debug(s"Web service call failed. Exception: $exception")
