@@ -92,7 +92,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
             }
           },
         f => {
-          Logger.debug(s"Dispose form submitted - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
+          Logger.debug(s"Dispose form submitted - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}, consent=${f.consent}, lossOfRegistrationConsent=${f.lossOfRegistrationConsent}")
           disposeAction(webService, f)
         }
       )
@@ -165,8 +165,8 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         traderAddress = disposalAddressDto(traderDetails.traderAddress),
         dateOfDisposal = isoDateTimeString,
         transactionTimestamp = ISODateTimeFormat.dateTime().print(dateService.today.toDateTime.get),
-        prConsent = true, // TODO : CJR : eplace these with field values
-        keeperConsent = true, // TODO : CJR : eplace these with field values
+        prConsent = disposeModel.lossOfRegistrationConsent.toBoolean,
+        keeperConsent = disposeModel.consent.toBoolean,
         mileage = disposeModel.mileage)
     }
 
@@ -199,7 +199,8 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       case (Some(traderDetails), Some(vehicleLookup)) =>  {
         val disposeModel = DisposeModel(referenceNumber = vehicleLookup.referenceNumber,
           registrationNumber = vehicleLookup.registrationNumber,
-          dateOfDisposal = disposeFormModel.dateOfDisposal, mileage = disposeFormModel.mileage)
+          dateOfDisposal = disposeFormModel.dateOfDisposal, consent = disposeFormModel.consent, lossOfRegistrationConsent = disposeFormModel.lossOfRegistrationConsent,
+          mileage = disposeFormModel.mileage)
         callMicroService(disposeModel, traderDetails)
       }
       case (None, _) => Future {
