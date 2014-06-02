@@ -1,10 +1,12 @@
 package helpers.steps
 
-import cucumber.api.java.en.Then
+import cucumber.api.java.en.{When, Given, Then}
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 import org.openqa.selenium.WebDriver
 import org.scalatest.Matchers
 import pages.common.ErrorPanel
+import common.ClientSideSessionFactory
+import pages.disposal_of_vehicle.BeforeYouStartPage
 
 final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
@@ -29,5 +31,16 @@ final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDS
   @Then( """^a message is displayed "(.*)"$""")
   def a_message_is_displayed(message: String) = {
     page.source should include(message)
+  }
+
+  @Given("^the web site is running$")
+  def `the web site is running`() = {
+    // Does nothing, included just for description purposes
+  }
+
+  @When("^the motor trader goes to the website for the first time$")
+  def `the motor trader goes to the website for the first time`() = {
+    webDriver.manage().getCookieNamed(ClientSideSessionFactory.SessionIdCookieName) should be(null)
+    go to BeforeYouStartPage
   }
 }

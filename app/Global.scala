@@ -1,6 +1,5 @@
-import com.google.inject.{Guice, Injector}
+import com.google.inject.Injector
 import com.typesafe.config.ConfigFactory
-import composition.DevModule
 import controllers.disposal_of_vehicle.routes
 import java.io.File
 import java.util.UUID
@@ -9,9 +8,7 @@ import play.api._
 import play.api.Configuration
 import play.api.mvc._
 import play.api.mvc.Results._
-import play.api.Play.current
 //import play.filters.gzip._
-import play.filters.csrf._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.CryptoHelper
@@ -32,7 +29,7 @@ import composition.Composition._
  * play -Dconfig.file=conf/application.test.conf run
  */
 
-object Global extends WithFilters(filters) with GlobalSettings {
+object Global extends WithFilters(filters: _*) with GlobalSettings {
 
   private lazy val injector: Injector = devInjector
 

@@ -1,8 +1,10 @@
 package common
 
 import org.scalatest.{Matchers, WordSpec}
-import play.api.test.{FakeApplication, WithApplication}
+import play.api.test.FakeApplication
 import utils.helpers._
+import helpers.webbrowser.TestGlobal
+import helpers.WithApplication
 
 final class EncryptedClientSideSessionSpec extends WordSpec with Matchers {
   "nameCookie" should {
@@ -46,5 +48,6 @@ final class EncryptedClientSideSessionSpec extends WordSpec with Matchers {
   implicit val sha1Hashing = new Sha1Hash with CookieNameHashing
 
   private val fakeAppWithConfig = FakeApplication(
+    withGlobal = Some(TestGlobal),
     additionalConfiguration = Map("application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo="))
 }

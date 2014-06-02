@@ -2,6 +2,8 @@ package composition
 
 import com.google.inject.Guice
 import play.api.mvc.EssentialFilter
+import filters.EnsureSessionCreatedFilter
+
 //import play.filters.gzip.GzipFilter
 import play.filters.csrf.CSRFFilter
 
@@ -22,7 +24,7 @@ object Composition {
    */
   lazy val devInjector = Guice.createInjector(DevModule)
 
-  lazy val filters: EssentialFilter = new CSRFFilter()
+  lazy val filters = Array(new CSRFFilter(), devInjector.getInstance(classOf[EnsureSessionCreatedFilter]))
 //  lazy val filters: EssentialFilter = new GzipFilter()
 
 }

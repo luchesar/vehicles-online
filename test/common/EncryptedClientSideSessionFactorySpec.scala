@@ -1,9 +1,8 @@
 package common
 
-import play.api.test.WithApplication
 import utils.helpers._
 import composition.TestComposition.{testInjector => injector}
-import helpers.UnitSpec
+import helpers.{WithApplication, UnitSpec}
 import controllers.disposal_of_vehicle.SetUpTradeDetails
 import common.CookieHelper._
 import common.CookieImplicits.SimpleResultAdapter
@@ -23,7 +22,7 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
         val encryptedClientSideSessionFactory = new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing)
           val (newResult, _) = encryptedClientSideSessionFactory.ensureSession(request.cookies, r)
           val cookiesAfter = fetchCookiesFromHeaders(newResult)
-          cookiesAfter.size should equal(2) // We expect the new result to contain the session secret cookie and the trackingId cookie
+          cookiesAfter.size should equal(2  ) // We expect the new result to contain the session secret cookie and the trackingId cookie
 
           val (trackingId, sessionSecretKeySuffix) = fetchSessionCookies(cookiesAfter)
 
@@ -71,7 +70,7 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
           cookies.size should equal(0)
           val newResult = r.withCookie("key", "value") // Add a cookie to the result. The side effect of this will be to also add the session cookie
           val newResultCookies = fetchCookiesFromHeaders(newResult)
-          newResultCookies.size should equal(2) // We now expect the result to contain the encrypted cookie and the session secret cookie
+          newResultCookies.size should equal(3) // We now expect the result to contain the encrypted cookie, trackingId cookie and the session secret cookie
       }
     }
 
