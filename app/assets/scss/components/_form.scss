@@ -2,6 +2,13 @@
 
 #{$htmlNamespace} {
 
+	body {
+		// Hides all elements with class .js-only if .js-enabled is not applied to <body>
+	  &:not(.js-enabled) .js-only {
+	    disply:none;
+	  }
+	}
+
 	legend {
 		font: {
 			size: 1.9rem;
@@ -9,17 +16,17 @@
 		}
 		line-height: 1.2em;
 	   	padding-bottom: .3em;
-	   	
+
 	   	.ie & {
 		   font-size: 19px;
 	   	}
-		
+
 		.ie7 & {
 	   	   	margin-left: -10px;
 		}
-	
+
 	}
-	
+
 	label {
 		display: block;
 		padding-bottom: .3em;
@@ -29,24 +36,24 @@
 			weight: 400;
 		}
 		line-height: 1.3em;
-	
+
 		.ie & {
 		   	font-size: 19px;
 	   	}
-	
+
 		em {
 		   font-size: 1.4rem;
 		   .ie & {
 			   font-size: 14px;
 		   }
 	   }
-	
+
 	}
-	
-	input[type="text"], 
-	input[type="number"], 
+
+	input[type="text"],
+	input[type="number"],
 	input[type="tel"],
-	input[type="password"], 
+	input[type="password"],
 	input[type="search"],
 	textarea {
 	    background: $form-element-bg;
@@ -58,16 +65,16 @@
 		line-height: 1.31579;
 		padding: 0.25em 0 0.1em 0.4em;
 		width: 28.3rem;
-	
+
 		.ie & {
 			font-size: 19px;
 			width: 283px;
 		}
-	
+
 		.ie7 &, .ie8 & {
 			padding: 0.2em 0 0.4em 0.4em;
 		}
-	
+
 		@media screen and (max-width: $device-small) {
 			width: 100%;
 			@include box-sizing(border-box);
@@ -75,11 +82,11 @@
 				width:97%;
 			}
 		}
-	
+
 		&.postcode {
 			text-transform: uppercase;
 		}
-	
+
 		&.datepicker {
 			cursor: pointer;
 			background: $form-element-bg url(#{$image-path}calendar-icon.png) 97% 50% no-repeat;
@@ -91,19 +98,19 @@
 			}
 		}
 	}
-	
+
 	textarea {
 	   	height: 6em;
 	   	width: 56.6rem;
 	   	@media screen and (max-width: $device-small) {
 	   		width: 96%;
 	   	}
-	
+
 	   	.ie & {
 		   	width: 566px;
 	   	}
 	}
-	
+
 	select {
 	   padding: 5px;
 	   position: relative;
@@ -113,25 +120,25 @@
 	   border:1px inset $form-element-border;
 	   vertical-align: middle;
 	   max-width: 100%;
-	
+
 	   .ie & {
 		   min-width: 150px;
 		   max-width: 293px;
 		   height: auto;
 		   font-size: 15px
 	   }
-	
+
 	   .ie8 & {
 		   min-width: 0;
 	   }
-	
+
 	}
-	
+
 	.form-item {
 		margin:0 0 1.5em 0;
 		padding: 0;
 	}
-	
+
 	// style labels for checkboxes and radio widgets
 	.form-checkbox,
 	.form-radio {
@@ -147,13 +154,13 @@
 			left:0;
 		}
 	}
-	
+
 	.form-declaration {
 		label {
 			font-weight: bold;
 		}
 	}
-	
+
 	// styles form elements in a line
 	.form-inline {
 	   	.form-item {
@@ -167,7 +174,7 @@
 		   		float:left;
 		   	}
 	   	}
-	   	
+
 	   	&.form-date {
 	   		label {
 			   	@include sr-only;
@@ -187,7 +194,7 @@
 	   		}
 	   	}
 	}
-	
+
 	// styles a stacked address widget
 	.form-address-stack {
 	   	label {
@@ -201,19 +208,19 @@
 	   		}
 	   	}
 	}
-	
+
 	// styles a national insurance number widget
 	.form-ni-number {
 		label {
 			@include sr-only;
 		}
-		input[type="text"], 
+		input[type="text"],
 		input[type="tel"] {
 			width: 4.4rem;
 			text-transform: uppercase;
 		}
 	}
-	
+
 	// helper text beneath a form element
 	.helper, .helper-tooltip {
 		font: {
@@ -221,22 +228,22 @@
 			weight:300;
 		}
 	   	margin-top: .4em;
-	
+
 	   	.ie & {
 		   	font-size: 16px;
 	   	}
-	
+
 	   	&.above {
 		   	margin-top: 0;
 	   	}
 	}
-	
+
 	// container for action buttons at the base of a page
 	.form-steps {
 	   margin-top: 2.2em;
 	   clear: both;
 	   @include clearfix;
-	   
+
 	   @media screen and (max-width: $device-small) {
 	   		padding-left: 0;
 	   	}
@@ -255,7 +262,7 @@
 	   	a, input, button {
 	   		display: inline-block;
 	   		vertical-align: middle;
-	   		
+
 	   		@media screen and (max-width: $device-small) {
 	   			display: block;
 	   			width:100%;
@@ -267,9 +274,9 @@
 		   			right:0;
 	   			}
 	   		}
-	   		
+
 	   	}
-	   	
+
 	}
 
 }

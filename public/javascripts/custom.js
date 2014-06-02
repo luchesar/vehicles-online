@@ -14,21 +14,6 @@ require(["jquery", "jquery-migrate", "header-footer-only", "stageprompt"],functi
         $('html').addClass('ie10');
     }
 
-    // Chris' datepicker
-    function datepicker(dateFieldId) {
-        return $(dateFieldId).datepicker({
-            dateFormat: 'dd/mm/yy',
-            showButtonPanel: true,
-            closeText: 'Clear',
-            onClose: function (dateText, inst) {
-                if ($(window.event.srcElement).hasClass('ui-datepicker-close'))
-                {
-                    document.getElementById(this.id).value = '';
-                }
-            }
-        });
-    }
-
     $(function() {
         // view more / view less
         $('.helper-more').click(function(){
@@ -50,6 +35,12 @@ require(["jquery", "jquery-migrate", "header-footer-only", "stageprompt"],functi
 
         // Disabled clicking on disabled buttons
         $('.button-not-implemented').click(function() {
+            return false;
+        });
+
+        // Print button
+        $('.print-button').click(function() {
+            window.print();
             return false;
         });
 
@@ -83,6 +74,7 @@ require(["jquery", "jquery-migrate", "header-footer-only", "stageprompt"],functi
     });
 
 
+
     function areCookiesEnabled(){
         var cookieEnabled = (navigator.cookieEnabled) ? true : false;
 
@@ -103,4 +95,3 @@ require(["jquery", "jquery-migrate", "header-footer-only", "stageprompt"],functi
         else return[v];
     }
 });
-
