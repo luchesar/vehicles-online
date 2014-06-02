@@ -111,25 +111,22 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       Redirect(routes.VehicleLookupFailure.present()).
         withCookie(key = VehicleLookupResponseCodeCacheKey, value = responseCode)
 
-    def hasResponseCode(vehicleDetailsResponse: VehicleDetailsResponse,
-                        bruteForcePreventionResponse: BruteForcePreventionResponse)(implicit request: Request[_]) =
+    def hasResponseCode(vehicleDetailsResponse: VehicleDetailsResponse)(implicit request: Request[_]) =
       vehicleDetailsResponse.responseCode match {
         case Some(responseCode) => lookupHadProblem(responseCode) // There is only a response code when there is a problem.
         case None => hasVehicleDetails(vehicleDetailsResponse.vehicleDetailsDto) // Happy path when there is no response code therefore no problem.
       }
 
-    def hasVehicleDetailsResponse(vehicleDetailsResponse: Option[VehicleDetailsResponse],
-                                  bruteForcePreventionResponse: BruteForcePreventionResponse)(implicit request: Request[_]) =
+    def hasVehicleDetailsResponse(vehicleDetailsResponse: Option[VehicleDetailsResponse])(implicit request: Request[_]) =
       vehicleDetailsResponse match {
-        case Some(response) => hasResponseCode(response, bruteForcePreventionResponse)
+        case Some(response) => hasResponseCode(response)
         case _ => Redirect(routes.MicroServiceError.present()) // TODO write test to achieve code coverage.
       }
 
     def isReponseStatusOk(responseStatusVehicleLookupMS: Int,
-                          response: Option[VehicleDetailsResponse],
-                          bruteForcePreventionResponse: BruteForcePreventionResponse)(implicit request: Request[_]) =
+                          response: Option[VehicleDetailsResponse])(implicit request: Request[_]) =
       responseStatusVehicleLookupMS match {
-        case OK => hasVehicleDetailsResponse(response, bruteForcePreventionResponse)
+        case OK => hasVehicleDetailsResponse(response)
         case _ => Redirect(routes.VehicleLookupFailure.present())
       }
 
@@ -138,8 +135,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       case (responseStatusVehicleLookupMS: Int, response: Option[VehicleDetailsResponse]) =>
         Logger.debug(s"VehicleLookup Web service call successful - response = $response")
         isReponseStatusOk(responseStatusVehicleLookupMS = responseStatusVehicleLookupMS,
-          response = response,
-          bruteForcePreventionResponse = bruteForcePreventionResponse).
+          response = response).
           withCookie(model).
           withCookie(bruteForcePreventionResponse)
     }.recover {
