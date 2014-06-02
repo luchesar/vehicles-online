@@ -17,26 +17,24 @@ import scala.Some
 import models.domain.common.BruteForcePreventionResponse
 
 final class BruteForcePreventionServiceImplSpec extends UnitSpec {
-  /*
-  *     */
-  "vrmLookupPermitted" should {
+  "isVrmLookupPermitted" should {
     "return true when response status is 200 OK" in {
       val service = bruteForceServiceImpl(permitted = true)
-      whenReady(service.vrmLookupPermitted(registrationNumberValid)) {
+      whenReady(service.isVrmLookupPermitted(registrationNumberValid)) {
         r => r should equal(Some((true, BruteForcePreventionResponse(0, 3))))
       }
     }
 
     "return false when response status is not 200 OK" in {
       val service = bruteForceServiceImpl(permitted = false)
-      whenReady(service.vrmLookupPermitted(registrationNumberValid)) {
+      whenReady(service.isVrmLookupPermitted(registrationNumberValid)) {
         r => r should equal(Some((false, BruteForcePreventionResponse(0, 0))))
       }
     }
 
     "return None when webservice call throws" in {
       val service = bruteForceServiceImpl(permitted = true)
-      whenReady(service.vrmLookupPermitted(VrmThrows)) {
+      whenReady(service.isVrmLookupPermitted(VrmThrows)) {
         r => r should equal(None)
       }
     }

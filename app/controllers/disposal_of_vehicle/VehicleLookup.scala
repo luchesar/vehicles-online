@@ -59,7 +59,9 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         f => {
           val registrationNumberWithoutSpaces = f.registrationNumber.replace(" ", "")
           val modelWithoutSpaces = f.copy(registrationNumber = registrationNumberWithoutSpaces) // DE7: Strip spaces from input as it is not allowed in the micro-service.
-          checkPermissionToLookup(modelWithoutSpaces)
+          checkPermissionToLookup(modelWithoutSpaces) {
+            lookupVehicle
+          }
         }
       )
   }
@@ -74,18 +76,17 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       }
   }
 
-  private def checkPermissionToLookup(model: VehicleLookupFormModel)(implicit request: Request[_]): Future[SimpleResult] =
-    bruteForceService.vrmLookupPermitted(model.registrationNumber).map { response =>
+  private def checkPermissionToLookup(model: VehicleLookupFormModel)(lookupVehicleFunc: ((VehicleLookupFormModel, BruteForcePreventionResponse) => Future[SimpleResult]))(implicit request: Request[_]): Future[SimpleResult] =
+    bruteForceService.isVrmLookupPermitted(model.registrationNumber).map { response =>
       response // TODO US270 @Lawrence please code review the way we are using map, the lambda (I think we could use _ but it looks strange to read) and flatmap
     } flatMap {
       case Some(resp) =>
+        // US270: The security micro-service will return a Forbidden (403) message when the vrm is locked, we have hidden that logic as a boolean.
         val (permitted, bruteForcePreventionResponse) = resp
-        if (permitted) lookup(model, bruteForcePreventionResponse)
-        else {
-          Future {
-            Logger.warn(s"BruteForceService locked out vrm: ${model.registrationNumber}")
-            Redirect(routes.VrmLocked.present())
-          }
+        if (permitted) lookupVehicleFunc(model, bruteForcePreventionResponse)
+        else Future {
+          Logger.warn(s"BruteForceService locked out vrm: ${model.registrationNumber}")
+          Redirect(routes.VrmLocked.present())
         }
       case None => Future {
         Redirect(routes.MicroServiceError.present())
@@ -96,63 +97,55 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         Redirect(routes.MicroServiceError.present())
     }
 
-  private def lookup(model: VehicleLookupFormModel, bruteForcePreventionResponse: BruteForcePreventionResponse)(implicit request: Request[_]) = {
-    // US270: The security micro-service will return a Forbidden (403) message when the vrm is locked, we have hidden that logic as a boolean.
-    vehicleLookupService.invoke(buildMicroServiceRequest(model)).map {
+  private def lookupVehicle(model: VehicleLookupFormModel, bruteForcePreventionResponse: BruteForcePreventionResponse)(implicit request: Request[_]): Future[SimpleResult] = {
+    def lookupSuccess(vehicleDetailsDto: VehicleDetailsDto) =
+      Redirect(routes.Dispose.present()).
+        withCookie(VehicleDetailsModel.fromDto(vehicleDetailsDto))
+
+    def hasVehicleDetails(vehicleDetailsDto: Option[VehicleDetailsDto])(implicit request: Request[_]) = vehicleDetailsDto match {
+      case Some(dto) => lookupSuccess(dto)
+      case None => Redirect(routes.MicroServiceError.present())
+    }
+
+    def lookupHadProblem(responseCode: String) =
+      Redirect(routes.VehicleLookupFailure.present()).
+        withCookie(key = VehicleLookupResponseCodeCacheKey, value = responseCode).
+        withCookie(bruteForcePreventionResponse)
+
+    def hasResponseCode(vehicleDetailsResponse: VehicleDetailsResponse,
+                        bruteForcePreventionResponse: BruteForcePreventionResponse)(implicit request: Request[_]) =
+      vehicleDetailsResponse.responseCode match {
+        case Some(responseCode) => lookupHadProblem(responseCode) // There is only a response code when there is a problem.
+        case None => hasVehicleDetails(vehicleDetailsResponse.vehicleDetailsDto) // Happy path when there is no response code therefore no problem.
+      }
+
+    def hasVehicleDetailsResponse(vehicleDetailsResponse: Option[VehicleDetailsResponse],
+                                  bruteForcePreventionResponse: BruteForcePreventionResponse)(implicit request: Request[_]) =
+      vehicleDetailsResponse match {
+        case Some(response) => hasResponseCode(response, bruteForcePreventionResponse)
+        case _ => Redirect(routes.MicroServiceError.present()) // TODO write test to achieve code coverage.
+      }
+
+    def isReponseStatusOk(responseStatusVehicleLookupMS: Int,
+                          response: Option[VehicleDetailsResponse],
+                          bruteForcePreventionResponse: BruteForcePreventionResponse)(implicit request: Request[_]) =
+      responseStatusVehicleLookupMS match {
+        case OK => hasVehicleDetailsResponse(response, bruteForcePreventionResponse)
+        case _ => Redirect(routes.VehicleLookupFailure.present())
+      }
+
+    val vehicleDetailsRequest = VehicleDetailsRequest(referenceNumber = model.referenceNumber, registrationNumber = model.registrationNumber)
+    vehicleLookupService.invoke(vehicleDetailsRequest).map {
       case (responseStatusVehicleLookupMS: Int, response: Option[VehicleDetailsResponse]) =>
         Logger.debug(s"VehicleLookup Web service call successful - response = $response")
-        checkResponseConstruction(responseStatusVehicleLookupMS = responseStatusVehicleLookupMS,
+        isReponseStatusOk(responseStatusVehicleLookupMS = responseStatusVehicleLookupMS,
           response = response,
           bruteForcePreventionResponse = bruteForcePreventionResponse).
           withCookie(model)
     }.recover {
-      case exception: Throwable => throwToMicroServiceError(exception)
+      case exception: Throwable =>
+        Logger.debug(s"Web service call failed. Exception: $exception")
+        Redirect(routes.MicroServiceError.present())
     }
-  }
-
-  private def checkResponseConstruction(responseStatusVehicleLookupMS: Int,
-                                        response: Option[VehicleDetailsResponse],
-                                        bruteForcePreventionResponse: BruteForcePreventionResponse)(implicit request: Request[_]) = {
-    responseStatusVehicleLookupMS match {
-      case OK => okResponseConstruction(response, bruteForcePreventionResponse)
-      case _ => Redirect(routes.VehicleLookupFailure.present())
-    }
-  }
-
-  private def okResponseConstruction(vehicleDetailsResponse: Option[VehicleDetailsResponse],
-                                     bruteForcePreventionResponse: BruteForcePreventionResponse)(implicit request: Request[_]) = {
-    vehicleDetailsResponse match {
-      case Some(response) => responseCodePresent(response, bruteForcePreventionResponse)
-      case _ => Redirect(routes.MicroServiceError.present()) // TODO write test to achieve code coverage.
-    }
-  }
-
-  private def responseCodePresent(response: VehicleDetailsResponse,
-                                  bruteForcePreventionResponse: BruteForcePreventionResponse)(implicit request: Request[_]) = {
-    response.responseCode match {
-      case Some(responseCode) =>
-        Redirect(routes.VehicleLookupFailure.present()).
-          withCookie(key = VehicleLookupResponseCodeCacheKey, value = responseCode).
-          withCookie(bruteForcePreventionResponse) // Save the number of attempts so we can retrieve it on the next page.
-      case None => noResponseCodePresent(response.vehicleDetailsDto)
-    }
-  }
-
-  private def noResponseCodePresent(vehicleDetailsDto: Option[VehicleDetailsDto])(implicit request: Request[_]) = {
-    vehicleDetailsDto match {
-      case Some(dto) =>
-        Redirect(routes.Dispose.present()).
-          withCookie(VehicleDetailsModel.fromDto(dto))
-      case None => Redirect(routes.MicroServiceError.present())
-    }
-  }
-
-  private def buildMicroServiceRequest(formModel: VehicleLookupFormModel): VehicleDetailsRequest = {
-    VehicleDetailsRequest(referenceNumber = formModel.referenceNumber, registrationNumber = formModel.registrationNumber)
-  }
-
-  private def throwToMicroServiceError(exception: Throwable) = {
-    Logger.debug(s"Web service call failed. Exception: $exception")
-    Redirect(routes.MicroServiceError.present())
   }
 }

@@ -11,7 +11,7 @@ import play.api.libs.json.Json
 import play.api.libs.ws.Response
 
 final class BruteForcePreventionServiceImpl @Inject()(ws: BruteForcePreventionWebService) extends BruteForcePreventionService {
-  override def vrmLookupPermitted(vrm: String): Future[Option[(Boolean, BruteForcePreventionResponse)]] =
+  override def isVrmLookupPermitted(vrm: String): Future[Option[(Boolean, BruteForcePreventionResponse)]] =
   // TODO US270 this if-statement is a temporary feature toggle until all developers have Redis setup locally.
     if (Config.bruteForcePreventionEnabled) {
       ws.callBruteForce(vrm).map {
