@@ -274,18 +274,21 @@
 		   			left:0;
 		   			right:0;
 	   			}
-	   			.ie8 & {
-	   				width:auto;
-	   			}
 	   		}
 	   		
 	   	}
+
 	   	//failsafe (predominantly ie)
+	   	.button,
+	   	a {
+	   		.ie8 & {
+	   			float:left;
+	   			width:auto;
+	   			margin-right:.25em;
+	   		}
+			}
 	   	br {
 	   		clear:both;
 	   	}
-
-	   	
 	}
-
 }

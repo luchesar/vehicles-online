@@ -12,9 +12,6 @@
 	.section-content {
 		padding: 1.7em 1em 4em 1em;
       @include clearfix;
-      .ie & {
-      	display:inline-block;
-      }
 	}
 
 	h1 {
@@ -119,6 +116,8 @@
 	// styles two column layout
 	.two-col {
 		@include clearfix;
+		width:100%; //failsafe
+
 		.first-col {
 			@include clearfix;
 			width:47%;
