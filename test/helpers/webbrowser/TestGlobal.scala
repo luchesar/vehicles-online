@@ -31,7 +31,7 @@ import composition.TestComposition._
  * play -Dconfig.file=conf/application.test.conf run
  */
 
-object TestGlobal extends WithFilters(filters) with GlobalSettings {
+object TestGlobal extends WithFilters(filters: _*) with GlobalSettings {
   private lazy val injector: Injector = testInjector
 
   /**

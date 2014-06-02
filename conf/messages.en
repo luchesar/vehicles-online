@@ -178,10 +178,6 @@ error.invalid = Invalid value
 # DISPOSAL OF VEHICLE
 ##
 
-#prototype
-prototype.banner = This is a prototype – your feedback will help us to improve it.
-prototype.link = Find out more
-
 #page 1 - Before You Start
 disposal_beforeyoustart.title = Sell a vehicle into the motor trade
 disposal_beforeyoustart.p1 = Before you start:
@@ -343,7 +339,7 @@ error.address.characterinvalid = Invalid characters are not allowed
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
 error.validTraderBusinessName = Must be between two and 30 characters and not contain invalid characters
-error.address.line1.invalid = Line 1 requires a minimum length of 4 characters
+error.address.line1.invalid = Line 1 requires a minimum length of four characters
 error.address.line4.invalid = Post town requires a minimum length of 3 characters
 error.address.postcode.invalid = Must be between 5 and 8 characters and in a valid format, eg. PR2 8AE or PR28AE
 
