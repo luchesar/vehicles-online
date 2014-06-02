@@ -233,7 +233,9 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val request = FakeCSRFRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$Line1Id" -> "",
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> line4Valid,
-        s"$AddressAndPostcodeId.$PostcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+        s"$AddressAndPostcodeId.$PostcodeId" -> postcodeValid).
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = enterAddressManually.submit(request)
       whenReady(result) {
         r =>
@@ -246,7 +248,9 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val request = FakeCSRFRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$Line1Id" -> line1Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> "",
-        s"$AddressAndPostcodeId.$PostcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+        s"$AddressAndPostcodeId.$PostcodeId" -> postcodeValid).
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = enterAddressManually.submit(request)
       whenReady(result) {
         r =>
@@ -259,7 +263,9 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val request = FakeCSRFRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$Line1Id" -> line1Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> line4Valid,
-        s"$AddressAndPostcodeId.$PostcodeId" -> "").withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+        s"$AddressAndPostcodeId.$PostcodeId" -> "").
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = enterAddressManually.submit(request)
       whenReady(result) {
         r =>

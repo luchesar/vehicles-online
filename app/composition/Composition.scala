@@ -24,7 +24,7 @@ object Composition {
    */
   lazy val devInjector = Guice.createInjector(DevModule)
 
-  lazy val filters = Array(new CSRFFilter(), devInjector.getInstance(classOf[EnsureSessionCreatedFilter]))
+  lazy val filters = new CSRFFilter()
 //  lazy val filters: EssentialFilter = new GzipFilter()
 
 }
