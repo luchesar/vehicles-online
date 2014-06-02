@@ -147,8 +147,8 @@
 			font-size:17px;
 		}
 		.ie6 & {
-			input.checkbox {
-				left:-30px;
+			input {
+				left:-25px;
 			}
 		}
 
@@ -277,6 +277,11 @@
 	   		}
 	   		
 	   	}
+	   	//failsafe (predominantly ie)
+	   	br {
+	   		clear:both;
+	   	}
+
 	   	
 	}
 

@@ -148,7 +148,7 @@
 		.ie6 & {	
 			clear:both;
 		}
-	}	
+	}
 
 	.disposal-form {
 
@@ -165,11 +165,12 @@
 		legend {
 			margin-top:20px;
 		}
-	}
+		.ie6 & {
+			.form-date .form-item {
+				float:left;
+			}
+		}
 
-	/*failsafe (predominantly ie)*/
-	.dispose-success .form-steps br {	
-		clear:both;
 	}
 
 }
