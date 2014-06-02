@@ -26,6 +26,7 @@ import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceI
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import play.api.libs.ws.Response
 import models.domain.common.BruteForcePreventionResponse.BruteForcePreventionResponseCacheKey
+import mappings.common.ReferenceNumber
 
 final class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {
@@ -143,7 +144,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "replace max length error message for document reference number with standard error message (US43)" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (ReferenceNumberLength + 1)).
+      val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (ReferenceNumber.MaxLength + 1)).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
       // check the validation summary text
