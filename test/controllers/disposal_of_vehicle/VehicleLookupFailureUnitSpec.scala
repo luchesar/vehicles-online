@@ -13,7 +13,7 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
     "display the page" in new WithApplication {
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionResponse()).
+        withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
       val result = vehicleLookupFailure.present(request)
       whenReady(result) {

@@ -4,14 +4,14 @@
         maxAttempts: Int)(implicit lang: Lang)
 
 @import helper._
+@import utils.helpers.Config
 @import mappings.disposal_of_vehicle.VehicleLookupFailure._
 @import utils.helpers.Config
 
 @main(Messages("disposal_vehiclelookupfailure.title")){
-
     @if(Config.bruteForcePreventionEnabled){<p>attempts: @attempts maxAttempts: @maxAttempts</p>}
 
-<p>@Messages(responseCodeVehicleLookupMSErrorMessage)</p><br>
+    <p>@Messages(responseCodeVehicleLookupMSErrorMessage)</p><br>
 
     @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
     <div class="form-steps">

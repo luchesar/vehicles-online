@@ -6,13 +6,13 @@ import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.EnterAddressManually._
-import models.domain.common.BruteForcePreventionResponse._
+import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._
 
 object RelatedCacheKeys {
   final val SeenCookieMessageKey = "seen_cookie_message"
 
   val DisposeSet = Set(
-    BruteForcePreventionResponseCacheKey,
+    BruteForcePreventionViewModelCacheKey,
     VehicleLookupDetailsCacheKey,
     VehicleLookupResponseCodeCacheKey,
     VehicleLookupFormModelCacheKey,

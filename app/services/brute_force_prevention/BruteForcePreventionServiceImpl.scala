@@ -9,9 +9,10 @@ import models.domain.common.BruteForcePreventionResponse
 import models.domain.common.BruteForcePreventionResponse.JsonFormat
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
+import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
 
 final class BruteForcePreventionServiceImpl @Inject()(ws: BruteForcePreventionWebService) extends BruteForcePreventionService {
-  override def isVrmLookupPermitted(vrm: String): Future[Option[(Boolean, BruteForcePreventionResponse)]] =
+  override def isVrmLookupPermitted(vrm: String): Future[Option[BruteForcePreventionViewModel]] =
   // TODO US270 this if-statement is a temporary feature toggle until all developers have Redis setup locally.
     if (Config.bruteForcePreventionEnabled) {
       ws.callBruteForce(vrm).map {
@@ -19,13 +20,13 @@ final class BruteForcePreventionServiceImpl @Inject()(ws: BruteForcePreventionWe
           def permitted(resp: Response) = {
             val bruteForcePreventionResponse: Option[BruteForcePreventionResponse] = Json.fromJson[BruteForcePreventionResponse](resp.json).asOpt
             bruteForcePreventionResponse match {
-              case Some(model) => Some((true, model))
+              case Some(model) => Some(BruteForcePreventionViewModel.fromResponse(permitted = true, model))
               case _ =>
                 Logger.error(s"Brute force prevention service returned invalid Json: ${resp.json}")
                 None
             }
           }
-          def notPermitted = Some((false, BruteForcePreventionResponse(attempts = 0, maxAttempts = 0)))
+          def notPermitted = Some(BruteForcePreventionViewModel.fromResponse(permitted = false, BruteForcePreventionResponse(attempts = 0, maxAttempts = 0)))
           def unknownPermission(resp: Response) = {
             Logger.error(s"Brute force prevention service returned status: ${resp.status}")
             None
@@ -43,6 +44,6 @@ final class BruteForcePreventionServiceImpl @Inject()(ws: BruteForcePreventionWe
       }
     }
     else Future {
-      Some((true, BruteForcePreventionResponse(attempts = 0, maxAttempts = 0)))
+      Some(BruteForcePreventionViewModel.fromResponse(permitted = true, BruteForcePreventionResponse(attempts = 0, maxAttempts = 0)))
     }
 }
