@@ -143,7 +143,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
           withCookie(bruteForcePreventionViewModel)
     }.recover {
       case exception: Throwable =>
-        Logger.debug(s"Web service call failed. Exception: $exception")
+        Logger.debug(s"VehicleLookup Web service call failed. Exception: $exception")
         Redirect(routes.MicroServiceError.present())
     }
   }
