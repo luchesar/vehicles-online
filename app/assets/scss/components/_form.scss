@@ -274,6 +274,9 @@
 		   			left:0;
 		   			right:0;
 	   			}
+	   			.ie8 & {
+	   				width:auto;
+	   			}
 	   		}
 	   		
 	   	}
