@@ -13,11 +13,16 @@ object FakeAddressLookupService {
   final val line3Valid = "line3 stub"
   final val line4Valid = "line4 stub"
   final val postcodeValid = "CM81QJ"
-  final val dateValid = "1970-11-25T00:00:00.000+01:00"
+
+
   final val postcodeValidWithSpace = "CM8 1QJ"
   final val postcodeNoResults = "SA99 1DD"
   val fetchedAddresses = Seq(
     traderUprnValid.toString -> addressWithUprn.address.mkString(", "),
     traderUprnValid2.toString -> addressWithUprn.address.mkString(", ")
   )
+
+
+
+
 }
