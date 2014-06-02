@@ -6,5 +6,5 @@ import play.api.libs.ws.Response
 import models.domain.common.BruteForcePreventionResponse
 
 trait BruteForcePreventionService {
-  def vrmLookupPermitted(vrm: String): Future[(Boolean, BruteForcePreventionResponse)]
+  def vrmLookupPermitted(vrm: String): Future[Option[(Boolean, BruteForcePreventionResponse)]]
 }

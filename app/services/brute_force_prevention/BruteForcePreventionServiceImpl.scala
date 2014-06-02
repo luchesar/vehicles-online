@@ -9,31 +9,34 @@ import models.domain.common.BruteForcePreventionResponse
 import models.domain.common.BruteForcePreventionResponse.JsonFormat
 import play.api.libs.json.Json
 
-
 final class BruteForcePreventionServiceImpl @Inject()(ws: BruteForcePreventionWebService) extends BruteForcePreventionService {
-  override def vrmLookupPermitted(vrm: String): Future[(Boolean, BruteForcePreventionResponse)] =
+  override def vrmLookupPermitted(vrm: String): Future[Option[(Boolean, BruteForcePreventionResponse)]] =
     if (Config.bruteForcePreventionEnabled) {
       // TODO US270 this is temporary until we all developers have Redis setup locally.
       ws.callBruteForce(vrm).map {
         resp =>
-          Logger.debug(s"Http response code from Brute force prevention service was: ${resp.status}")
-
-          //(resp.status == play.api.http.Status.OK, 0, 3)
-          val bruteForcePreventionResponse: Option[BruteForcePreventionResponse] = Json.fromJson[BruteForcePreventionResponse](resp.json).asOpt
-          bruteForcePreventionResponse match {
-            case Some(model) =>
-              (resp.status == play.api.http.Status.OK, model)
+          resp.status match {
+            case play.api.http.Status.OK =>
+              val bruteForcePreventionResponse: Option[BruteForcePreventionResponse] = Json.fromJson[BruteForcePreventionResponse](resp.json).asOpt
+              bruteForcePreventionResponse match {
+                case Some(model) =>
+                  Some((true, model))
+                case _ =>
+                  Logger.error(s"Brute force prevention service returned invalid Json: ${resp.json}")
+                  None
+              }
+            case play.api.http.Status.FORBIDDEN => Some((false, BruteForcePreventionResponse(attempts = 0, maxAttempts = 0)))
             case _ =>
-              Logger.error(s"Brute force prevention service returned an unexpected type of Json: ${resp.json}")
-              (false, BruteForcePreventionResponse(attempts = 0, maxAttempts = 0))
+              Logger.error(s"Brute force prevention service returned status: ${resp.status}")
+              None
           }
       }.recover {
         case e: Throwable =>
           Logger.error(s"Brute force prevention service error: $e")
-          (false, BruteForcePreventionResponse(attempts = 0, maxAttempts = 0))
+          None
       }
     }
     else Future {
-      (true, BruteForcePreventionResponse(attempts = 0, maxAttempts = 0))
+      Some((true, BruteForcePreventionResponse(attempts = 0, maxAttempts = 0)))
     }
 }

@@ -23,21 +23,21 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
     "return true when response status is 200 OK" in {
       val service = bruteForceServiceImpl(permitted = true)
       whenReady(service.vrmLookupPermitted(registrationNumberValid)) {
-        r => r should equal((true, BruteForcePreventionResponse(0, 3)))
+        r => r should equal(Some((true, BruteForcePreventionResponse(0, 3))))
       }
     }
 
     "return false when response status is not 200 OK" in {
       val service = bruteForceServiceImpl(permitted = false)
       whenReady(service.vrmLookupPermitted(registrationNumberValid)) {
-        r => r should equal((false, BruteForcePreventionResponse(0, 3))) // TODO the 2 ints will change values.
+        r => r should equal(Some((false, BruteForcePreventionResponse(0, 0))))
       }
     }
 
-    "return false when webservice call throws" in {
+    "return None when webservice call throws" in {
       val service = bruteForceServiceImpl(permitted = true)
       whenReady(service.vrmLookupPermitted(VrmThrows)) {
-        r => r should equal((false, BruteForcePreventionResponse(0, 0)))
+        r => r should equal(None)
       }
     }
   }
