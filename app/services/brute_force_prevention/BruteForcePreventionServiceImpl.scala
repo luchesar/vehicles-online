@@ -38,7 +38,7 @@ final class BruteForcePreventionServiceImpl @Inject()(ws: BruteForcePreventionWe
           }
       }.recover {
         case e: Throwable =>
-          Logger.error(s"Brute force prevention service error: ${e.getStackTraceString}")
+          Logger.error(s"Brute force prevention service throws: ${e.getStackTraceString}")
           None
       }
     }

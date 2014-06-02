@@ -59,7 +59,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         f => {
           val registrationNumberWithoutSpaces = f.registrationNumber.replace(" ", "")
           val modelWithoutSpaces = f.copy(registrationNumber = registrationNumberWithoutSpaces) // DE7: Strip spaces from input as it is not allowed in the micro-service.
-          lookupVehicle(modelWithoutSpaces)
+          checkPermissionToLookup(modelWithoutSpaces)
         }
       )
   }
@@ -74,39 +74,41 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       }
   }
 
-  private def lookupVehicle(model: VehicleLookupFormModel)(implicit request: Request[_]): Future[SimpleResult] =
+  private def checkPermissionToLookup(model: VehicleLookupFormModel)(implicit request: Request[_]): Future[SimpleResult] =
     bruteForceService.vrmLookupPermitted(model.registrationNumber).map { response =>
       response // TODO US270 @Lawrence please code review the way we are using map, the lambda (I think we could use _ but it looks strange to read) and flatmap
     } flatMap {
       case Some(resp) =>
         val (permitted, bruteForcePreventionResponse) = resp
-        if (permitted) {
-          // US270: The security micro-service will return a Forbidden (403) message when the vrm is locked, we have hidden that logic as a boolean.
-          vehicleLookupService.invoke(buildMicroServiceRequest(model)).map {
-            case (responseStatusVehicleLookupMS: Int, response: Option[VehicleDetailsResponse]) =>
-              Logger.debug(s"VehicleLookup Web service call successful - response = $response")
-              checkResponseConstruction(responseStatusVehicleLookupMS = responseStatusVehicleLookupMS,
-                response = response,
-                bruteForcePreventionResponse = bruteForcePreventionResponse).
-                withCookie(model)
-          }.recover {
-            case exception: Throwable => throwToMicroServiceError(exception)
-          }
-        }
+        if (permitted) lookup(model, bruteForcePreventionResponse)
         else {
           Future {
             Logger.warn(s"BruteForceService locked out vrm: ${model.registrationNumber}")
             Redirect(routes.VrmLocked.present())
           }
         }
-      case None => // No response from micro-service
-        Logger.error("Failed to talk to BruteForceService so for safety we won't let anyone through")
-        Future {Redirect(routes.MicroServiceError.present())}
+      case None => Future {
+        Redirect(routes.MicroServiceError.present())
+      }
     } recover {
       case exception: Throwable =>
         Logger.error(s"Exception thrown by BruteForceService so for safety we won't let anyone through. Exception ${exception.getStackTraceString}")
         Redirect(routes.MicroServiceError.present())
     }
+
+  private def lookup(model: VehicleLookupFormModel, bruteForcePreventionResponse: BruteForcePreventionResponse)(implicit request: Request[_]) = {
+    // US270: The security micro-service will return a Forbidden (403) message when the vrm is locked, we have hidden that logic as a boolean.
+    vehicleLookupService.invoke(buildMicroServiceRequest(model)).map {
+      case (responseStatusVehicleLookupMS: Int, response: Option[VehicleDetailsResponse]) =>
+        Logger.debug(s"VehicleLookup Web service call successful - response = $response")
+        checkResponseConstruction(responseStatusVehicleLookupMS = responseStatusVehicleLookupMS,
+          response = response,
+          bruteForcePreventionResponse = bruteForcePreventionResponse).
+          withCookie(model)
+    }.recover {
+      case exception: Throwable => throwToMicroServiceError(exception)
+    }
+  }
 
   private def checkResponseConstruction(responseStatusVehicleLookupMS: Int,
                                         response: Option[VehicleDetailsResponse],
