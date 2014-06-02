@@ -38,8 +38,8 @@ final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: 
             case Some(_) =>
               val updatedFormWithErrors = formWithErrors.
                 replaceError("addressAndPostcode.addressLines.line1", FormError("addressAndPostcode.addressLines", "error.address.line1.invalid")).
-                replaceError("addressAndPostcode.addressLines.line4", "error.required", FormError("addressAndPostcode.addressLines", "error.address.line4Required")).
-                replaceError("addressAndPostcode.addressLines.line4", "error.minLength", FormError("addressAndPostcode.addressLines", "error.address.line4minLength")).
+                replaceError("addressAndPostcode.addressLines.line4", FormError("addressAndPostcode.addressLines", "error.address.line4.invalid")).
+                replaceError("addressAndPostcode.postcode", FormError("addressAndPostcode.postcode", "error.address.postcode.invalid")).
                 distinctErrors
               BadRequest(views.html.disposal_of_vehicle.enter_address_manually(updatedFormWithErrors))
             case None =>

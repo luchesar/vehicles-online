@@ -338,6 +338,9 @@ error.address.characterinvalid = Nid yw nodau annilys chaniateir
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post
 error.validTraderBusinessName = Rhaid iddo fod rhwng dwy a 30 cymeriadau a ydynt yn cynnwys nodau annilys
+error.address.line1.invalid = Llinell 1 yn gofyn o leiaf hyd o 4 cymeriadau
+error.address.line4.invalid = Tref bost yn gofyn am hyd lleiaf o 3 cymeriadau
+error.address.postcode.invalid = Rhaid bod rhwng 5 ac 8 cymeriadau ac mewn fformat dilys, ee. PR2 8AE neu PR28AE
 
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = WELSH Your application is being processed and you should receive confirmation letter within four weeks.
