@@ -10,6 +10,18 @@ import models.domain.common.BruteForcePreventionResponse.JsonFormat
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
 
+
+final case class BruteForcePreventionViewModel(permitted: Boolean, attempts: Int, maxAttempts: Int)
+
+object BruteForcePreventionViewModel {
+  def apply(permitted: Boolean, response: BruteForcePreventionResponse) =
+    BruteForcePreventionViewModel(permitted,
+      attempts = response.attempts + 1,
+      maxAttempts = response.maxAttempts + 1
+    )
+}
+
+
 final class BruteForcePreventionServiceImpl @Inject()(ws: BruteForcePreventionWebService) extends BruteForcePreventionService {
   override def isVrmLookupPermitted(vrm: String): Future[Option[(Boolean, BruteForcePreventionResponse)]] =
   // TODO US270 this if-statement is a temporary feature toggle until all developers have Redis setup locally.
