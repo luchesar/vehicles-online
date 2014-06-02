@@ -36,11 +36,11 @@ final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: 
         formWithErrors =>
           request.cookies.getModel[SetupTradeDetailsModel] match {
             case Some(_) =>
-              val updatedFormWithErrors = formWithErrors
-                .replaceError("addressAndPostcode.addressLines.line1", "error.required", FormError("addressAndPostcode.addressLines", "error.address.line1Required"))
-                .replaceError("addressAndPostcode.addressLines.line1", "error.minLength", FormError("addressAndPostcode.addressLines", "error.address.line1minLength"))
-                .replaceError("addressAndPostcode.addressLines.line4", "error.required", FormError("addressAndPostcode.addressLines", "error.address.line4Required"))
-                .replaceError("addressAndPostcode.addressLines.line4", "error.minLength", FormError("addressAndPostcode.addressLines", "error.address.line4minLength"))
+              val updatedFormWithErrors = formWithErrors.
+                replaceError("addressAndPostcode.addressLines.line1", FormError("addressAndPostcode.addressLines", "error.address.line1.invalid")).
+                replaceError("addressAndPostcode.addressLines.line4", "error.required", FormError("addressAndPostcode.addressLines", "error.address.line4Required")).
+                replaceError("addressAndPostcode.addressLines.line4", "error.minLength", FormError("addressAndPostcode.addressLines", "error.address.line4minLength")).
+                distinctErrors
               BadRequest(views.html.disposal_of_vehicle.enter_address_manually(updatedFormWithErrors))
             case None =>
               Logger.debug("failed to find dealer name in cache for formWithErrors, redirecting...")

@@ -228,6 +228,19 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
           cookies.map(_.name) should contain (TraderDetailsCacheKey)
       }
     }
+
+    "collapse error messages for line1" in new WithApplication {
+      val request = FakeCSRFRequest().withFormUrlEncodedBody(
+        s"$AddressAndPostcodeId.$AddressLinesId.$Line1Id" -> "",
+        s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> line4Valid,
+        s"$AddressAndPostcodeId.$PostcodeId" -> postcodeValid).withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+      val result = enterAddressManually.submit(request)
+      whenReady(result) {
+        r =>
+          val content = contentAsString(result)
+          content should include("Line 1 requires a minimum length of 4 characters")
+      }
+    }
   }
 
   private val enterAddressManually = {
