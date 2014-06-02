@@ -261,13 +261,17 @@
 			   padding: .4em 1em;
 		   }
 	   }
-	   	a, input, button {
+	   	a, 
+	   	input, 
+	   	.button,
+	   	.button-secondary {
 	   		display: inline-block;
 	   		vertical-align: middle;
 	   		
 	   		@media screen and (max-width: $device-small) {
 	   			display: block;
 	   			width:100%;
+	   			float:none;
 	   			margin: {
 		   			right:0;
 	   			}
@@ -279,15 +283,6 @@
 	   		
 	   	}
 
-	   	//failsafe (predominantly ie)
-	   	.button,
-	   	a {
-	   		.ie8 & {
-	   			float:left;
-	   			width:auto;
-	   			margin-right:.25em;
-	   		}
-			}
 	   	br {
 	   		clear:both;
 	   	}

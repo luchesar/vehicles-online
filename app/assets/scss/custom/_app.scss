@@ -10,8 +10,12 @@
    	}
 
 	.section-content {
-		padding: 1.7em 1em 4em 1em;
-      @include clearfix;
+		padding: 1.7em 1em 0 1em;
+		margin-bottom:4em;
+		@include clearfix;
+    .ie7 & {
+    	display:inline-block;
+    }
 	}
 
 	h1 {
