@@ -134,6 +134,8 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
     val value = DisposeModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,
       dateOfDisposal = dateOfDisposal,
+      consent = "true",
+      lossOfRegistrationConsent = "true",
       mileage = mileage)
     createCookie(key, value)
   }

@@ -4,9 +4,9 @@ import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
-import mappings.common.{ReferenceNumber, RegistrationNumber}
-import ReferenceNumber._
-import RegistrationNumber._
+import mappings.common.{DocumentReferenceNumber, VehicleRegistrationNumber}
+import DocumentReferenceNumber._
+import VehicleRegistrationNumber._
 import mappings.disposal_of_vehicle.VehicleLookup._
 import models.domain.disposal_of_vehicle._
 import scala.concurrent.{ExecutionContext, Future}
@@ -30,8 +30,8 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
 
   val vehicleLookupForm = Form(
     mapping(
-      ReferenceNumberId -> referenceNumber,
-      RegistrationNumberId -> registrationNumber
+      DocumentReferenceNumberId -> referenceNumber,
+      VehicleRegistrationNumberId -> registrationNumber
     )(VehicleLookupFormModel.apply)(VehicleLookupFormModel.unapply)
   )
 
@@ -50,8 +50,8 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
           Future {
             request.cookies.getModel[TraderDetailsModel] match {
               case Some(dealerDetails) => val formWithReplacedErrors = formWithErrors.
-                replaceError(RegistrationNumberId, FormError(key = RegistrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
-                replaceError(ReferenceNumberId, FormError(key = ReferenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
+                replaceError(VehicleRegistrationNumberId, FormError(key = VehicleRegistrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
+                replaceError(DocumentReferenceNumberId, FormError(key = DocumentReferenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
                 distinctErrors
                 BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithReplacedErrors))
               case None => Redirect(routes.SetUpTradeDetails.present())
