@@ -21,7 +21,7 @@ import services.fakes.FakeAddressLookupWebServiceImpl._
 import services.fakes.FakeAddressLookupService.postcodeValid
 import models.domain.common.{BruteForcePreventionResponse, AddressLinesModel, AddressAndPostcodeModel}
 import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
-import common.{CookieFlags, ClearTextClientSideSession}
+import common.{ClientSideSessionFactory, CookieFlags, ClearTextClientSideSession}
 import composition.TestComposition.{testInjector => injector}
 import play.api.mvc.Cookie
 import models.domain.common.BruteForcePreventionResponse._
@@ -30,7 +30,7 @@ import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceI
 object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by returning "this" at the end of the defs
 
   implicit private val cookieFlags = injector.getInstance(classOf[CookieFlags])
-  private val session = new ClearTextClientSideSession()
+  private val session = new ClearTextClientSideSession("trackingId")
 
   private def createCookie[A](key: String, value: A)(implicit tjs: Writes[A]): Cookie = {
     val json = Json.toJson(value).toString()
@@ -112,6 +112,10 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
       consent = FakeDisposeWebServiceImpl.consentValid,
       lossOfRegistrationConsent = FakeDisposeWebServiceImpl.consentValid)
     createCookie(key, value)
+  }
+
+  def trackingIdModel(value: String) = {
+    createCookie(ClientSideSessionFactory.SessionIdCookieName, value)
   }
 
   def disposeFormRegistrationNumber(registrationNumber: String = registrationNumberValid) =

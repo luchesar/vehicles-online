@@ -2,7 +2,7 @@ package common
 
 import play.api.mvc.Cookie
 
-class ClearTextClientSideSession()(implicit cookieFlags: CookieFlags) extends ClientSideSession {
+class ClearTextClientSideSession(override val trackingId: String)(implicit cookieFlags: CookieFlags) extends ClientSideSession {
   override def nameCookie(key: String): CookieName =
     CookieName(key)
 

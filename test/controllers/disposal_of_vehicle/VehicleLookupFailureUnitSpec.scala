@@ -14,7 +14,8 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionResponse()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = vehicleLookupFailure.present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
@@ -51,7 +52,8 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
     "redirect to vehiclelookup on submit" in new WithApplication {
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = vehicleLookupFailure.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))

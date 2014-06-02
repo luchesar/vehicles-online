@@ -31,7 +31,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
       val request = FakeCSRFRequest().
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
 
       result.futureValue.header.status should equal(play.api.http.Status.OK)
@@ -47,7 +48,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     "display populated fields when cookie exists" in new WithApplication {
       val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
       val content = contentAsString(result)
       content should include(referenceNumberValid)
@@ -56,7 +58,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "display data captured in previous pages" in new WithApplication {
       val request = FakeCSRFRequest().
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
       val content = contentAsString(result)
 
@@ -128,7 +131,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "return a bad request if dealer details are in cache and no details are entered" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "", registrationNumber = "", consent = "").
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
 
       result.futureValue.header.status should equal(play.api.http.Status.BAD_REQUEST)
@@ -144,7 +148,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "replace max length error message for document reference number with standard error message (US43)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (ReferenceNumberLength + 1)).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
       // check the validation summary text
       //findAllIn
@@ -155,7 +160,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "replace required and min length error messages for document reference number with standard error message (US43)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "").
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
       // check the validation summary text
       "Document reference number - Document reference number must be an 11-digit number".r.findAllIn(contentAsString(result)).length should equal(1)
@@ -165,7 +171,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "replace max length error message for vehicle registration mark with standard error message (US43)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "PJ05YYYX").
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
       val count = "Must be valid format".r.findAllIn(contentAsString(result)).length
 
@@ -174,7 +181,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "replace required and min length error messages for vehicle registration mark with standard error message (US43)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "").
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
       val count = "Must be valid format".r.findAllIn(contentAsString(result)).length
 
@@ -183,7 +191,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to EnterAddressManually when back button is pressed and there is no uprn" in new WithApplication {
       val request = FakeCSRFRequest().withFormUrlEncodedBody().
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).back(request)
 
       result.futureValue.header.headers.get(LOCATION) should equal(Some(EnterAddressManuallyPage.address))
@@ -191,7 +200,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to BusinessChooseYourAddress when back button is pressed and there is a uprn" in new WithApplication {
       val request = FakeCSRFRequest().withFormUrlEncodedBody().
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(uprn = Some(traderUprnValid)))
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(uprn = Some(traderUprnValid))).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).back(request)
 
       result.futureValue.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
@@ -206,7 +216,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails when back button and the user has completed the vehicle lookup form" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest().
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(uprn = Some(traderUprnValid)))
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(uprn = Some(traderUprnValid))).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).back(request)
 
       result.futureValue.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
