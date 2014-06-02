@@ -20,6 +20,7 @@ import services.DateService
 import scala.Some
 import common.ClientSideSessionFactory
 import composition.TestComposition.{testInjector => injector}
+import utils.helpers.Config
 
 final class DisposeFormSpec extends UnitSpec {
   "form" should {
@@ -143,7 +144,7 @@ final class DisposeFormSpec extends UnitSpec {
       import play.api.http.Status.OK
       new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
     })
-    val disposeServiceImpl = new DisposeServiceImpl(ws)
+    val disposeServiceImpl = new DisposeServiceImpl(new Config(), ws)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService)(clientSideSessionFactory)
   }

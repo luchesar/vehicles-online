@@ -159,6 +159,11 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       val formatter = ISODateTimeFormat.dateTime()
       val isoDateTimeString = formatter.print(dateTime)
 
+      val trackingId = clientSideSessionFactory.getSession(request.cookies) match {
+        case Some(session) => session.trackingId
+        case _ => ""
+      }
+
       DisposeRequest(referenceNumber = disposeModel.referenceNumber,
         registrationNumber = disposeModel.registrationNumber,
         traderName = traderDetails.traderName,
@@ -167,6 +172,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         transactionTimestamp = ISODateTimeFormat.dateTime().print(dateService.today.toDateTime.get),
         prConsent = disposeModel.lossOfRegistrationConsent.toBoolean,
         keeperConsent = disposeModel.consent.toBoolean,
+        trackingId = trackingId,
         mileage = disposeModel.mileage)
     }
 

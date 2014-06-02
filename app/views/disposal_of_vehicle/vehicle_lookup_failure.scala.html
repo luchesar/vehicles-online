@@ -9,7 +9,7 @@
 @import utils.helpers.Config
 
 @main(Messages("disposal_vehiclelookupfailure.title")){
-    @if(Config.bruteForcePreventionEnabled){<p>attempts: @attempts maxAttempts: @maxAttempts</p>}
+    @if(new Config().bruteForcePreventionEnabled){<p>attempts: @attempts maxAttempts: @maxAttempts</p>}
 
     <p>@Messages(responseCodeVehicleLookupMSErrorMessage)</p><br>
 

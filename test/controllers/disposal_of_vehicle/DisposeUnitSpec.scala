@@ -27,6 +27,8 @@ import mappings.common.AddressLines.LineMaxLength
 import services.fakes.FakeDateServiceImpl._
 import scala.Some
 import services.fakes.FakeDisposeWebServiceImpl.consentValid
+import org.mockito.ArgumentCaptor
+import utils.helpers.Config
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
@@ -267,6 +269,29 @@ final class DisposeUnitSpec extends UnitSpec {
           cookies.map(_.name) should contain allOf(DisposeModelCacheKey, DisposeFormTransactionIdCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormModelCacheKey, DisposeFormTimestampIdCacheKey)
       }
     }
+
+    "Ensure the DisposeRequest has the tracking ID set" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest.
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
+      val mockDisposeService = mock[DisposeService]
+      when(mockDisposeService.invoke(any(classOf[DisposeRequest]))).thenReturn(Future[(Int, Option[DisposeResponse])] {
+        (200, None)
+      })
+      val invokeCaptor = ArgumentCaptor.forClass(classOf[DisposeRequest])
+      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val dispose = new disposal_of_vehicle.Dispose(mockDisposeService, dateServiceStubbed())(clientSideSessionFactory)
+      val result = dispose.submit(request)
+      whenReady(result) {
+        r =>
+          verify(mockDisposeService).invoke(invokeCaptor.capture())
+          invokeCaptor.getAllValues.size should equal(1)
+
+          invokeCaptor.getValue.trackingId should equal("x" * 20)
+      }
+    }
     //ToDO reimpliment using correct transaction time stamp (currently causing build to fail)
 //    "calls DisposeService invoke with the expected DisposeRequest" in new WithApplication {
 //      val disposeServiceMock = mock[DisposeService]
@@ -401,7 +426,7 @@ final class DisposeUnitSpec extends UnitSpec {
       new FakeResponse(status = disposeServiceStatus, fakeJson = fakeJson) // Any call to a webservice will always return this successful response.
     })
 
-    val disposeServiceImpl = new DisposeServiceImpl(ws)
+    val disposeServiceImpl = new DisposeServiceImpl(new Config(), ws)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())(clientSideSessionFactory)
   }
