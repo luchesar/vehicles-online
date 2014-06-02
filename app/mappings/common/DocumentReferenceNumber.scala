@@ -4,7 +4,7 @@ import play.api.data.Mapping
 import play.api.data.Forms._
 import constraints.NumberOnly
 
-object ReferenceNumber {
+object DocumentReferenceNumber {
   final val MinLength = 11
   final val MaxLength = 11
   final val Pattern = s"\\d{$MinLength,$MaxLength}" // Digits only with specified size.

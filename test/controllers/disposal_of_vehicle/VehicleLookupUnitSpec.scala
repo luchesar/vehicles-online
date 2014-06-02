@@ -26,7 +26,7 @@ import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceI
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import play.api.libs.ws.Response
 import models.domain.common.BruteForcePreventionResponse.BruteForcePreventionResponseCacheKey
-import mappings.common.ReferenceNumber
+import mappings.common.DocumentReferenceNumber
 
 final class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {
@@ -144,11 +144,10 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "replace max length error message for document reference number with standard error message (US43)" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (ReferenceNumber.MaxLength + 1)).
+      val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (DocumentReferenceNumber.MaxLength + 1)).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
       // check the validation summary text
-      //findAllIn
       "Document reference number - Document reference number must be an 11-digit number".r.findAllIn(contentAsString(result)).length should equal(1)
       // check the form item validation
       "\"error\">Document reference number must be an 11-digit number".r.findAllIn(contentAsString(result)).length should equal(1)
@@ -365,8 +364,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                              registrationNumber: String = registrationNumberValid,
                                              consent: String = consentValid) = {
     FakeCSRFRequest().withFormUrlEncodedBody(
-      ReferenceNumberId -> referenceNumber,
-      RegistrationNumberId -> registrationNumber,
+      DocumentReferenceNumberId -> referenceNumber,
+      VehicleRegistrationNumberId -> registrationNumber,
       ConsentId -> consent)
   }
 }
