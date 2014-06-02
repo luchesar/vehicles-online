@@ -96,6 +96,8 @@ object CookieFactoryForUISpecs {
     val value = DisposeModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,
       dateOfDisposal = dateOfDisposal,
+      consent = "true",
+      lossOfRegistrationConsent = "true",
       mileage = mileage)
     addCookie(key, value)
     this
