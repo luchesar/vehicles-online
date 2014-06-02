@@ -4,31 +4,27 @@ import helpers.UnitSpec
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.fakes.{FakeVehicleLookupWebService, FakeResponse}
-import play.api.test.Helpers._
 import org.mockito.Mockito._
-import org.mockito.Matchers._
-import play.api.libs.ws.Response
 import FakeVehicleLookupWebService.registrationNumberValid
-import play.api.libs.json.Json
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
 import play.api.libs.ws.Response
 import scala.Some
-import models.domain.common.BruteForcePreventionResponse
+import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
 
 final class BruteForcePreventionServiceImplSpec extends UnitSpec {
   "isVrmLookupPermitted" should {
     "return true when response status is 200 OK" in {
       val service = bruteForceServiceImpl(permitted = true)
       whenReady(service.isVrmLookupPermitted(registrationNumberValid)) {
-        r => r should equal(Some((true, BruteForcePreventionResponse(0, 3))))
+        r => r should equal(Some(BruteForcePreventionViewModel(true, 1, 3)))
       }
     }
 
     "return false when response status is not 200 OK" in {
       val service = bruteForceServiceImpl(permitted = false)
       whenReady(service.isVrmLookupPermitted(registrationNumberValid)) {
-        r => r should equal(Some((false, BruteForcePreventionResponse(0, 0))))
+        r => r should equal(Some(BruteForcePreventionViewModel(false, 1, 1)))
       }
     }
 
@@ -38,6 +34,7 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
         r => r should equal(None)
       }
     }
+
   }
 
   private def responseThrows: Future[Response] = Future {
