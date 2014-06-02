@@ -92,7 +92,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
             }
           },
         f => {
-          Logger.debug(s"Dispose form submitted - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}")
+          Logger.debug(s"Dispose form submitted - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}, consent=${f.consent}, lossOfRegistrationConsent=${f.lossOfRegistrationConsent}")
           disposeAction(webService, f)
         }
       )
@@ -165,8 +165,9 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         traderAddress = disposalAddressDto(traderDetails.traderAddress),
         dateOfDisposal = isoDateTimeString,
         transactionTimestamp = ISODateTimeFormat.dateTime().print(dateService.today.toDateTime.get),
-        mileage = disposeModel.mileage,
-        ipAddress = None) // TODO : This to be removed when new WSDL is provided
+        prConsent = disposeModel.lossOfRegistrationConsent.toBoolean,
+        keeperConsent = disposeModel.consent.toBoolean,
+        mileage = disposeModel.mileage)
     }
 
     def handleResponseCode(disposeResponseCode: String): Call = {
@@ -198,7 +199,8 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       case (Some(traderDetails), Some(vehicleLookup)) =>  {
         val disposeModel = DisposeModel(referenceNumber = vehicleLookup.referenceNumber,
           registrationNumber = vehicleLookup.registrationNumber,
-          dateOfDisposal = disposeFormModel.dateOfDisposal, mileage = disposeFormModel.mileage)
+          dateOfDisposal = disposeFormModel.dateOfDisposal, consent = disposeFormModel.consent, lossOfRegistrationConsent = disposeFormModel.lossOfRegistrationConsent,
+          mileage = disposeFormModel.mileage)
         callMicroService(disposeModel, traderDetails)
       }
       case (None, _) => Future {
@@ -214,8 +216,15 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
   private def disposalAddressDto(sourceAddress: AddressViewModel): DisposalAddressDto = {
   // The last two address lines are always post town and postcode
-    val legacyAddressLines = lineLengthCheck(sourceAddress.address.dropRight(2), Nil)
-    val postTown = sourceAddress.address.takeRight(2).head
+
+    // confirmed by BAs - substitute address line 1 inserted if not present from OS
+    val sourceAddressToCheck = if (sourceAddress.address.size == 2) Seq("No address line supplied") ++ sourceAddress.address
+                                else sourceAddress.address
+
+    val legacyAddressLines = lineLengthCheck(sourceAddressToCheck.dropRight(2), Nil)
+    val postTownToCheck = sourceAddressToCheck.takeRight(2).head
+    val postTown = if (postTownToCheck.size > LineMaxLength) postTownToCheck.substring(0, LineMaxLength)
+    else postTownToCheck
     val postcode = sourceAddress.address.last.replaceAll(" ","")
 
     DisposalAddressDto(legacyAddressLines, Some(postTown), postcode, sourceAddress.uprn)

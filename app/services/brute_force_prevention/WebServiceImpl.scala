@@ -13,6 +13,7 @@ final class WebServiceImpl extends BruteForcePreventionWebService {
     val endPoint = s"$baseUrl/security"
     Logger.debug(s"Calling brute force prevention on $endPoint with vrm: $vrm")
     WS.url(endPoint).
+      withHeaders("serviceName" -> Config.bruteForcePreventionServiceNameHeader).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
       post(Map("tokenList" -> Seq(vrm)))
   }

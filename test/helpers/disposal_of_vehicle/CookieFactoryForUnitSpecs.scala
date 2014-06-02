@@ -19,17 +19,18 @@ import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
 import services.fakes.FakeAddressLookupWebServiceImpl._
 import services.fakes.FakeAddressLookupService.postcodeValid
-import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
+import models.domain.common.{BruteForcePreventionResponse, AddressLinesModel, AddressAndPostcodeModel}
 import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
-import common.{CookieFlags, ClearTextClientSideSession}
+import common.{ClientSideSessionFactory, CookieFlags, ClearTextClientSideSession}
 import composition.TestComposition.{testInjector => injector}
-import scala.Some
 import play.api.mvc.Cookie
+import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
 
-object CookieFactoryForUnitSpecs {
+object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by returning "this" at the end of the defs
 
   implicit private val cookieFlags = injector.getInstance(classOf[CookieFlags])
-  private val session = new ClearTextClientSideSession()
+  private val session = new ClearTextClientSideSession("trackingId")
 
   private def createCookie[A](key: String, value: A)(implicit tjs: Writes[A]): Cookie = {
     val json = Json.toJson(value).toString()
@@ -78,6 +79,12 @@ object CookieFactoryForUnitSpecs {
     createCookie(key, value)
   }
 
+  def bruteForcePreventionViewModel(permitted: Boolean = true, attempts: Int = 0, maxAttempts: Int = MaxAttempts) = {
+    val key = BruteForcePreventionViewModelCacheKey
+    val value = BruteForcePreventionViewModel(permitted, attempts, maxAttempts)
+    createCookie(key, value)
+  }
+
   def vehicleLookupFormModel(referenceNumber: String = referenceNumberValid,
                              registrationNumber: String = registrationNumberValid) = {
     val key = VehicleLookupFormModelCacheKey
@@ -107,6 +114,10 @@ object CookieFactoryForUnitSpecs {
     createCookie(key, value)
   }
 
+  def trackingIdModel(value: String) = {
+    createCookie(ClientSideSessionFactory.SessionIdCookieName, value)
+  }
+
   def disposeFormRegistrationNumber(registrationNumber: String = registrationNumberValid) =
     createCookie(DisposeFormRegistrationNumberCacheKey, registrationNumber)
 
@@ -127,6 +138,8 @@ object CookieFactoryForUnitSpecs {
     val value = DisposeModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,
       dateOfDisposal = dateOfDisposal,
+      consent = "true",
+      lossOfRegistrationConsent = "true",
       mileage = mileage)
     createCookie(key, value)
   }

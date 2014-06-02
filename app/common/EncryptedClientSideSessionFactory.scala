@@ -9,8 +9,8 @@ import play.api.mvc.Cookie
 import play.api.mvc.SimpleResult
 
 class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: CookieFlags,
-                                                   encryption: CookieEncryption,
-                                                   cookieNameHashing: CookieNameHashing) extends ClientSideSessionFactory {
+                                                    encryption: CookieEncryption,
+                                                    cookieNameHashing: CookieNameHashing) extends ClientSideSessionFactory {
 
   /**
    * Session secret key must not expire before any other cookie that relies on it.
@@ -19,32 +19,44 @@ class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: Cookie
 
   val secureCookies: Boolean = getProperty("secureCookies", default = true)
 
-  override def newSession(result: SimpleResult): (SimpleResult, ClientSideSession) = {
+  override protected def newSession(result: SimpleResult): (SimpleResult, ClientSideSession) = {
     val sessionSecretKey = newSessionSecretKey
-    
-    val cookieName = sessionSecretKeyCookieName
-    val cookieValue = encryption.encrypt(cookieName + sessionSecretKey)
-    
-    val sessionSecretKeyCookie = Cookie(
-      name = cookieName,
-      value = cookieValue,
+
+
+    val sessionSecretKeyPrefixCookieName = ClientSideSessionFactory.SessionIdCookieName
+    val sessionSecretKeyCipherText = encryption.encrypt(sessionSecretKeyCookieName + sessionSecretKey)
+    val (prefixValue, suffixValue) = sessionSecretKeyCipherText.splitAt(20)
+
+    val sessionSecretKeyPrefixCookie = Cookie(
+      name = sessionSecretKeyPrefixCookieName,
+      value = prefixValue,
       secure = secureCookies,
       maxAge = SessionSecretKeyLifetime)
-    
-    val clientSideSession = new EncryptedClientSideSession(sessionSecretKey)
-    val resultWithSessionSecretKeyCookie = result.withCookies(sessionSecretKeyCookie)
+
+    val sessionSecretKeySuffixCookie = Cookie(
+      name = sessionSecretKeyCookieName,
+      value = suffixValue,
+      secure = secureCookies,
+      maxAge = SessionSecretKeyLifetime)
+
+    val clientSideSession = new EncryptedClientSideSession(prefixValue, sessionSecretKey)
+    val resultWithSessionSecretKeyCookie = result.withCookies(sessionSecretKeyPrefixCookie, sessionSecretKeySuffixCookie)
 
     (resultWithSessionSecretKeyCookie, clientSideSession)
   }
 
   override def getSession(request: Traversable[Cookie]): Option[ClientSideSession] = {
     val cookieName = sessionSecretKeyCookieName
-    request.find(_.name == cookieName).map { cookie =>
-      val decrypted = encryption.decrypt(cookie.value)
+
+    for {
+      cookie <- request.find(_.name == cookieName)
+      trackingId <- request.find(_.name == ClientSideSessionFactory.SessionIdCookieName)
+    } yield {
+      val decrypted = encryption.decrypt(trackingId.value + cookie.value)
       val (cookieNameFromPayload, sessionSecretKey) = decrypted.splitAt(cookieName.length)
       assert(cookieName == cookieNameFromPayload, "The cookie name bytes from the payload must match the cookie name")
 
-      new EncryptedClientSideSession(sessionSecretKey)
+      new EncryptedClientSideSession(trackingId.value, sessionSecretKey)
     }
   }
 
