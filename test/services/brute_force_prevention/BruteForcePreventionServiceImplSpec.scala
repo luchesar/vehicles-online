@@ -9,51 +9,63 @@ import org.mockito.Mockito._
 import org.mockito.Matchers._
 import play.api.libs.ws.Response
 import FakeVehicleLookupWebService.registrationNumberValid
+import play.api.libs.json.Json
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
+import play.api.libs.ws.Response
+import scala.Some
+import models.domain.common.BruteForcePreventionResponse
 
 final class BruteForcePreventionServiceImplSpec extends UnitSpec {
+  /*
+  *     */
   "vrmLookupPermitted" should {
     "return true when response status is 200 OK" in {
-      val resp = response(permitted = true)
-      val service = bruteForceServiceImpl(resp)
+      val service = bruteForceServiceImpl(permitted = true)
       whenReady(service.vrmLookupPermitted(registrationNumberValid)) {
-        r => r should equal(true)
+        r => r should equal((true, BruteForcePreventionResponse(0, 3)))
       }
     }
 
     "return false when response status is not 200 OK" in {
-      val resp = response(permitted = false)
-      val service = bruteForceServiceImpl(resp)
+      val service = bruteForceServiceImpl(permitted = false)
       whenReady(service.vrmLookupPermitted(registrationNumberValid)) {
-        r => r should equal(false)
+        r => r should equal((false, BruteForcePreventionResponse(0, 3))) // TODO the 2 ints will change values.
       }
     }
 
     "return false when webservice call throws" in {
-      val resp = responseThrows
-      val service = bruteForceServiceImpl(resp)
-      whenReady(service.vrmLookupPermitted(registrationNumberValid)) {
-        r => r should equal(false)
+      val service = bruteForceServiceImpl(permitted = true)
+      whenReady(service.vrmLookupPermitted(VrmThrows)) {
+        r => r should equal((false, BruteForcePreventionResponse(0, 0)))
       }
     }
-  }
-
-  private def response(permitted: Boolean): Future[Response] = Future {
-    val status = if (permitted) OK else FORBIDDEN
-    new FakeResponse(status = status)
   }
 
   private def responseThrows: Future[Response] = Future {
     throw new RuntimeException("This error is generated deliberately by a test")
   }
 
-  private def bruteForceServiceImpl(resp: Future[Response]): BruteForcePreventionService = {
-    def bruteForcePreventionWebService(resp: Future[Response]): BruteForcePreventionWebService = {
+  private def bruteForceServiceImpl(permitted: Boolean): BruteForcePreventionService = {
+    def bruteForcePreventionWebService: BruteForcePreventionWebService = {
+      val status = if (permitted) play.api.http.Status.OK else play.api.http.Status.FORBIDDEN
       val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
-      when(bruteForcePreventionWebService.callBruteForce(anyString())).thenReturn(resp)
+
+      when(bruteForcePreventionWebService.callBruteForce(registrationNumberValid)).thenReturn(Future {
+        new FakeResponse (status = status, fakeJson = attempt1Json)
+      })
+      when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmAttempt2)).thenReturn(Future {
+        new FakeResponse (status = status, fakeJson = attempt2Json)
+      })
+      when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmLocked)).thenReturn(Future {
+        new FakeResponse (status = status)
+      })
+      when(bruteForcePreventionWebService.callBruteForce(VrmThrows)).thenReturn(responseThrows)
+
       bruteForcePreventionWebService
     }
 
     new BruteForcePreventionServiceImpl(
-      ws = bruteForcePreventionWebService(resp))
+      ws = bruteForcePreventionWebService)
   }
 }

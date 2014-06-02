@@ -22,7 +22,8 @@ import common.{ClientSideSessionFactory, CookieImplicits}
 import CookieImplicits.RequestCookiesAdapter
 import CookieImplicits.SimpleResultAdapter
 import CookieImplicits.FormAdapter
-import utils.helpers.Config
+import models.domain.common.BruteForcePreventionResponse
+import models.domain.common.BruteForcePreventionResponse._
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -74,14 +75,17 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
   }
 
   private def lookupVehicle(model: VehicleLookupFormModel)(implicit request: Request[_]): Future[SimpleResult] =
-    bruteForceService.vrmLookupPermitted(model.registrationNumber).map { permitted =>
-        permitted // TODO US270 @Lawrence please code review the way we are using map, the lambda (I think we could use _ but it looks strange to read) and flatmap
-    } flatMap { permitted =>
-      if (permitted) {
+    bruteForceService.vrmLookupPermitted(model.registrationNumber).map { resp =>
+      resp // TODO US270 @Lawrence please code review the way we are using map, the lambda (I think we could use _ but it looks strange to read) and flatmap
+    } flatMap { resp =>
+      val (permitted, bruteForcePreventionResponse) = resp
+      if (permitted) {  // US270: The security micro-service will return a Forbidden (403) message when the vrm is locked, we have hidden that logic as a boolean.
         vehicleLookupService.invoke(buildMicroServiceRequest(model)).map {
-          case (responseStatus: Int, response: Option[VehicleDetailsResponse]) =>
+          case (responseStatusVehicleLookupMS: Int, response: Option[VehicleDetailsResponse]) =>
             Logger.debug(s"VehicleLookup Web service call successful - response = $response")
-            checkResponseConstruction(responseStatus, response).
+            checkResponseConstruction(responseStatusVehicleLookupMS = responseStatusVehicleLookupMS,
+              response = response,
+              bruteForcePreventionResponse = bruteForcePreventionResponse).
               withCookie(model)
         }.recover {
           case exception: Throwable => throwToMicroServiceError(exception)
@@ -99,25 +103,30 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         Redirect(routes.MicroServiceError.present())
     }
 
-  private def checkResponseConstruction(responseStatus: Int, response: Option[VehicleDetailsResponse])(implicit request: Request[_]) = {
-    responseStatus match {
-      case OK => okResponseConstruction(response)
+  private def checkResponseConstruction(responseStatusVehicleLookupMS: Int,
+                                        response: Option[VehicleDetailsResponse],
+                                        bruteForcePreventionResponse: BruteForcePreventionResponse)(implicit request: Request[_]) = {
+    responseStatusVehicleLookupMS match {
+      case OK => okResponseConstruction(response, bruteForcePreventionResponse)
       case _ => Redirect(routes.VehicleLookupFailure.present())
     }
   }
 
-  private def okResponseConstruction(vehicleDetailsResponse: Option[VehicleDetailsResponse])(implicit request: Request[_]) = {
+  private def okResponseConstruction(vehicleDetailsResponse: Option[VehicleDetailsResponse],
+                                     bruteForcePreventionResponse: BruteForcePreventionResponse)(implicit request: Request[_]) = {
     vehicleDetailsResponse match {
-      case Some(response) => responseCodePresent(response)
+      case Some(response) => responseCodePresent(response, bruteForcePreventionResponse)
       case _ => Redirect(routes.MicroServiceError.present()) // TODO write test to achieve code coverage.
     }
   }
 
-  private def responseCodePresent(response: VehicleDetailsResponse)(implicit request: Request[_]) = {
+  private def responseCodePresent(response: VehicleDetailsResponse,
+                                  bruteForcePreventionResponse: BruteForcePreventionResponse)(implicit request: Request[_]) = {
     response.responseCode match {
       case Some(responseCode) =>
         Redirect(routes.VehicleLookupFailure.present()).
-          withCookie(key = VehicleLookupResponseCodeCacheKey, value = responseCode)
+          withCookie(key = VehicleLookupResponseCodeCacheKey, value = responseCode).
+          withCookie(bruteForcePreventionResponse) // Save the number of attempts so we can retrieve it on the next page.
       case None => noResponseCodePresent(response.vehicleDetailsDto)
     }
   }
@@ -137,7 +146,6 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
 
   private def throwToMicroServiceError(exception: Throwable) = {
     Logger.debug(s"Web service call failed. Exception: $exception")
-    BadRequest("The remote server didn't like the request.")
     Redirect(routes.MicroServiceError.present())
   }
 }

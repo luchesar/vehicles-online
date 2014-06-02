@@ -22,10 +22,10 @@ import services.fakes.FakeAddressLookupWebServiceImpl._
 import services.fakes.FakeResponse
 import services.fakes.FakeVehicleLookupWebService._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
-import play.api.test.FakeRequest
-import scala.Some
-import scala.Some
-import scala.Some
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
+import play.api.libs.ws.Response
+import models.domain.common.BruteForcePreventionResponse.BruteForcePreventionResponseCacheKey
 
 final class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {
@@ -34,7 +34,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
 
-      result.futureValue.header.status should equal(OK)
+      result.futureValue.header.status should equal(play.api.http.Status.OK)
     }
 
     "redirect to setupTradeDetails page when user has not set up a trader for disposal" in new WithApplication {
@@ -76,15 +76,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       content should not include referenceNumberValid
       content should not include registrationNumberValid
     }
-
-//    "redirect to TBD when no csrf token is present in page" in new WithApplication {
-//      val request = FakeCSRFRequest().
-//        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
-//
-//      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
-//
-//    }
-
   }
 
   "submit" should {
@@ -140,7 +131,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
 
-      result.futureValue.header.status should equal(BAD_REQUEST)
+      result.futureValue.header.status should equal(play.api.http.Status.BAD_REQUEST)
     }
 
     "redirect to setupTradeDetails page if dealer details are not in cache and no details are entered" in new WithApplication {
@@ -263,7 +254,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain allOf(VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain allOf(BruteForcePreventionResponseCacheKey, VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -273,7 +264,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain allOf(VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
+          cookies.map(_.name) should contain allOf(BruteForcePreventionResponseCacheKey, VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
       }
     }
 
@@ -290,26 +281,54 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to vrm locked when valid submit and brute force prevention returns not permitted" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest()
-      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess, permitted = false).submit(request)
+      val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmLocked)
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseDocRefNumberNotLatest, bruteForceService = bruteForceServiceImpl(permitted = false)).submit(request)
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VrmLockedPage.address))
     }
 
+    "redirect to VehicleLookupFailure and display 1st attempt message when document reference number not found and security service returns 1st attempt" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(registrationNumber = registrationNumberValid)
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseDocRefNumberNotLatest, bruteForceService = bruteForceServiceImpl(permitted = true)).submit(request)
+
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+    }
+
+    "redirect to VehicleLookupFailure and display 2nd attempt message when document reference number not found and security service returns 2nd attempt" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmAttempt2)
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseDocRefNumberNotLatest, bruteForceService = bruteForceServiceImpl(permitted = true)).submit(request)
+
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+    }
+  }
+
+  private def responseThrows: Future[Response] = Future {
+    throw new RuntimeException("This error is generated deliberately by a test")
   }
 
   private def bruteForceServiceImpl(permitted: Boolean): BruteForcePreventionService = {
-    val status = if (permitted) OK else FORBIDDEN
-    val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
-    when(bruteForcePreventionWebService.callBruteForce(anyString())).thenReturn(Future {
-      new FakeResponse(status = status)
+    def bruteForcePreventionWebService: BruteForcePreventionWebService = {
+      val status = if (permitted) play.api.http.Status.OK else play.api.http.Status.FORBIDDEN
+      val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
+
+      when(bruteForcePreventionWebService.callBruteForce(registrationNumberValid)).thenReturn(Future {
+        new FakeResponse(status = status, fakeJson = attempt1Json)
+      })
+      when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmAttempt2)).thenReturn(Future {
+        new FakeResponse(status = status, fakeJson = attempt2Json)
+      })
+      when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmLocked)).thenReturn(Future {
+        new FakeResponse(status = status)
+      })
+      when(bruteForcePreventionWebService.callBruteForce(VrmThrows)).thenReturn(responseThrows)
+
+      bruteForcePreventionWebService
     }
-    )
 
     new BruteForcePreventionServiceImpl(
       ws = bruteForcePreventionWebService)
   }
 
-  private def vehicleLookupResponseGenerator(fullResponse: (Int, Option[VehicleDetailsResponse]), permitted: Boolean = true) = {
+  private def vehicleLookupResponseGenerator(fullResponse: (Int, Option[VehicleDetailsResponse]), bruteForceService: BruteForcePreventionService = bruteForceServiceImpl(permitted = true)) = {
     val (status, vehicleDetailsResponse) = fullResponse
     val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
     when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
@@ -323,7 +342,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
 
     new disposal_of_vehicle.VehicleLookup(
-      bruteForceService = bruteForceServiceImpl(permitted = permitted),
+      bruteForceService = bruteForceService,
       vehicleLookupService = vehicleLookupServiceImpl)(clientSideSessionFactory)
   }
 
@@ -345,9 +364,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                              registrationNumber: String = registrationNumberValid,
                                              consent: String = consentValid) = {
     FakeCSRFRequest().withFormUrlEncodedBody(
-        ReferenceNumberId -> referenceNumber,
-        RegistrationNumberId -> registrationNumber,
-        ConsentId -> consent)
+      ReferenceNumberId -> referenceNumber,
+      RegistrationNumberId -> registrationNumber,
+      ConsentId -> consent)
   }
-
 }

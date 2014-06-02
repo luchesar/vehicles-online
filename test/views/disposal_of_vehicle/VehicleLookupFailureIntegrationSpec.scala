@@ -51,6 +51,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       webDriver.manage().getCookieNamed(VehicleLookupResponseCodeCacheKey) should equal(null)
     }
+
   }
 
   "vehicleLookup button" should {
@@ -80,5 +81,6 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
       dealerDetails().
+      bruteForcePreventionResponse().
       vehicleLookupFormModel()
 }
