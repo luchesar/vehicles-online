@@ -278,14 +278,14 @@ disposal_disposeconfirmation.noMileageEntered = Naddo milltiroedd gofnodi
 disposal_disposeconfirmation.exitbutton = Gadael
 disposal_disposeconfirmation.survey = Arolwg
 
-disposal_vehiclelookupfailure.title = Cael gwared cerbyd i mewn i''r fasnach foduron: methiant Gwrthdro-edrych gerbyd
+disposal_vehiclelookupfailure.title = Edrych i fyny yn aflwyddiannus
 disposal_vehiclelookupfailure.name = Methiant
-disposal_vehiclelookupfailure.p1 = WELSH The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
+disposal_vehiclelookupfailure.p1 = Mae'r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
 disposal_vehiclelookupfailure.button = Am-edrych gerbyd
 disposal_disposefailure.button2 = Setup Newydd Manylion Masnachwr
 disposal_disposefailure.transactionid = {0}
-vehicle_lookup_vrm_not_found = WELSH There is no record for this Vehicle Registration Mark. Please try again, or send a completed V5C/3 to DVLA
-vehicle_lookup_document_reference_mismatch = WELSH This is not the latest Document Reference Number for the vehicle. Please try again, or send a completed V5C/3 to DVLA
+vehicle_lookup_vrm_not_found = Rhif Cyfeirnod y Ddogfen gofnodi naill ai ddilys neu os nad yw'n dod o V5C mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn. Gwnewch yn siŵr eich bod yn cael y V5C mwyaf diweddar a cheisiwch eto. Ar gyfer pob rhif cofrestru cerbyd, bydd tair ymgais i adfer y manylion y cerbyd.
+vehicle_lookup_document_reference_mismatch = Rhif Cyfeirnod y Ddogfen gofnodi naill ai ddilys neu os nad yw'n dod o V5C mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn. Gwnewch yn siŵr eich bod yn cael y V5C mwyaf diweddar a cheisiwch eto. Ar gyfer pob rhif cofrestru cerbyd, bydd tair ymgais i adfer y manylion y cerbyd.
 
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda

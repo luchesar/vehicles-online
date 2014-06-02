@@ -7,7 +7,7 @@ import mappings.disposal_of_vehicle.VehicleLookupFailure._
 object VehicleLookupFailurePage extends Page with WebBrowserDSL {
   final val address = "/disposal-of-vehicle/vehicle-lookup-failure"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  final override val title: String = "Dispose a vehicle into the motor trade: vehicle lookup failure"
+  final override val title: String = "Look-up was unsuccessful"
 
   def beforeYouStart(implicit driver: WebDriver): Element = find(id(BeforeYouStartId)).get
 
