@@ -1,12 +1,10 @@
-// config file - trying to centralise application SASS configuration
+// config file
 
 // include the '.' or '#' for the class/id
-// the wrapper class in the html should match
+// the html class needs to match
 $htmlNamespace: ".vehicles-online";
 
 // device widths
-
-
 $device-x-small: 350px;
 $device-small: 640px;
 $device-medium: 767px;
