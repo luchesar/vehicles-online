@@ -230,49 +230,38 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     val line2Empty: Boolean = if (sourceAddressToCheck(line2) == emptyString) true else false
     val line3Empty: Boolean = if (sourceAddressToCheck(line3) == emptyString) true else false
 
-
-
-
-
-    val sourceAddressLine1Checked: String = if (sourceAddressToCheck(line1).size > LineMaxLength) sourceAddressToCheck(line1).substring(0, LineMaxLength)
-                                            else sourceAddressToCheck(line1)
-
-    val additionalLine1Chars: String = if (sourceAddressToCheck(line1).size > LineMaxLength) sourceAddressToCheck(line1).substring(LineMaxLength)
-                                       else emptyString
-
-    //println(s"Line 1 trimmed to 30 chars is $sourceAddressLine1Checked" )
-    //println(s"Line 1 extra is $additionalLine1Chars" )
+    val (sourceAddressLine1Checked, additionalLine1Chars) = checkForMaxChars(sourceAddressToCheck, line1)
 
     val sourceAddressLine1Updated: Seq[String] = if (line2Empty == true) Seq(sourceAddressLine1Checked) ++ Seq(additionalLine1Chars) ++ sourceAddressToCheck.tail.tail
                                                  else Seq(sourceAddressLine1Checked) ++ sourceAddressToCheck.tail
 
-
-
-    val sourceAddressLine2Checked: String = if (sourceAddressLine1Updated(line2).size > LineMaxLength) sourceAddressLine1Updated(line2).substring(0, LineMaxLength)
-                                            else sourceAddressLine1Updated(line2)
-
-    val additionalLine2Chars: String = if (sourceAddressLine1Updated(line2).size > LineMaxLength) sourceAddressLine1Updated(line2).substring(LineMaxLength)
-                                       else emptyString
-
-    //println(s"Line 2 trimmed to 30 chars is $sourceAddressLine2Checked" )
-    //println(s"Line 2 extra is $additionalLine2Chars" )
+    val (sourceAddressLine2Checked, additionalLine2Chars) = checkForMaxChars(sourceAddressLine1Updated, line2)
 
     val sourceAddressLine2Updated: Seq[String] = if (line3Empty == true) Seq(sourceAddressLine1Updated(line1)) ++ Seq(sourceAddressLine2Checked) ++ Seq(additionalLine2Chars) ++ sourceAddressLine1Updated.tail.tail.tail
                                                  else Seq(sourceAddressLine1Updated(line1)) ++ Seq(sourceAddressLine2Checked) ++ sourceAddressLine1Updated.tail.tail
 
-    //println(s"Line 2 once checked is $sourceAddressLine2Updated")
-
     val legacyAddressLines = lineLengthCheck(sourceAddressLine2Updated.dropRight(2), Nil)
     val postTownToCheck = sourceAddressToCheck.takeRight(2).head
     val postTown = if (postTownToCheck.size > LineMaxLength) postTownToCheck.substring(0, LineMaxLength)
-    else postTownToCheck
+                   else postTownToCheck
     val postcode = sourceAddress.address.last.replaceAll(" ","")
 
     DisposalAddressDto(legacyAddressLines, Some(postTown), postcode, sourceAddress.uprn)
   }
+  
+  private def checkForMaxChars(sourceAddressToCheck: Seq[String], line: Int): (String, String) = {
+
+    val addressLineChecked = if (sourceAddressToCheck(line).size > LineMaxLength) sourceAddressToCheck(line).substring(0, LineMaxLength)
+                             else sourceAddressToCheck(line)
+
+    val additionalLineChars = if (sourceAddressToCheck(line).size > LineMaxLength) sourceAddressToCheck(line).substring(LineMaxLength)
+                              else ""
+    (addressLineChecked, additionalLineChars)
+  }
 
   @tailrec
   private def lineLengthCheck(existingAddress: Seq[String], accAddress: Seq[String]) : Seq[String] = {
+
     if (existingAddress.isEmpty) accAddress
     else if (existingAddress.head.size > LineMaxLength) lineLengthCheck(existingAddress.tail, accAddress :+ existingAddress.head.substring(0, LineMaxLength))
     else lineLengthCheck(existingAddress.tail, accAddress :+ existingAddress.head)
