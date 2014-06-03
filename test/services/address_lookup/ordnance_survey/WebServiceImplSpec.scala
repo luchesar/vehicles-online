@@ -10,6 +10,8 @@ import com.github.tomakehurst.wiremock.http.{Response, Request, RequestListener}
 import common.{NoCookieFlags, ClearTextClientSideSession, ClientSideSession, ClientSideSessionFactory}
 import scala.collection.mutable
 import java.net.ServerSocket
+import org.scalatest.time.SpanSugar._
+import org.scalatest.concurrent.PatienceConfiguration.{Interval, Timeout}
 
 final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
 
@@ -20,8 +22,12 @@ final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
     finally serverSocket.close()
   }
 
+  println(s"Opening wire mock on port $wireMockPort")
+
   val wireMockServer = new WireMockServer(wireMockConfig().port(wireMockPort))
   val trackingIdValue = "trackingIdValue"
+  val timeout = Timeout(5 seconds)
+  val interval = Interval(50 millis)
 
   implicit val noCookieFlags = new NoCookieFlags
   implicit val clientSideSession: ClientSideSession = new ClearTextClientSideSession(trackingIdValue)
@@ -63,7 +69,7 @@ final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
 
       val futureResult = addressLookupService.callPostcodeWebService(postCode)(Some(clientSideSession))
 
-      whenReady(futureResult) { result =>
+      whenReady(futureResult, timeout, interval) { result =>
         sentRequestsUrls should have size 1
         println(sentRequestsUrls(0))
         sentRequestsUrls(0) should include(s"?postcode=$postCode")
@@ -78,7 +84,7 @@ final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
 
       val futureResult = addressLookupService.callPostcodeWebService(postCode)(None)
 
-      whenReady(futureResult) { result =>
+      whenReady(futureResult, timeout, interval) { result =>
         sentRequestsUrls should have size 1
         println(sentRequestsUrls(0))
         sentRequestsUrls(0) should include(s"?postcode=$postCode")
@@ -93,7 +99,7 @@ final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
 
       val futureResult = addressLookupService.callUprnWebService(postCode)(Some(clientSideSession))
 
-      whenReady(futureResult) { result =>
+      whenReady(futureResult, timeout, interval) { result =>
         sentRequestsUrls should have size 1
         println(sentRequestsUrls(0))
         sentRequestsUrls(0) should include(s"?uprn=$postCode")

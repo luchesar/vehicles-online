@@ -4,7 +4,8 @@ import play.api.libs.json.Json
 
 final case class VehicleDetailsRequest(referenceNumber: String,
                                        registrationNumber: String,
-                                       trackingId: String)
+                                       trackingId: String,
+                                       userName: String)
 
 object VehicleDetailsRequest {
   implicit val JsonFormat = Json.format[VehicleDetailsRequest]
