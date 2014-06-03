@@ -8,7 +8,7 @@ import pages.disposal_of_vehicle._
 import play.api.mvc.Cookies
 import play.api.test.Helpers._
 import helpers.WithApplication
-import services.fakes.FakeAddressLookupService.traderBusinessNameValid
+import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
 import services.fakes.FakeAddressLookupWebServiceImpl
 import services.fakes.FakeAddressLookupWebServiceImpl._
 import common.ClientSideSessionFactory
@@ -34,7 +34,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = businessChooseYourAddressWithUprnFound.present(request)
       val content = contentAsString(result)
-      content should include(traderBusinessNameValid)
+      content should include(TraderBusinessNameValid)
       content should include( s"""<option value="$traderUprnValid" selected>""")
     }
 
@@ -44,7 +44,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = businessChooseYourAddressWithUprnFound.present(request)
       val content = contentAsString(result)
-      content should include(traderBusinessNameValid)
+      content should include(TraderBusinessNameValid)
       content should not include "selected"
     }
 

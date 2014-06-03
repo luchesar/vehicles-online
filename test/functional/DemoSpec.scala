@@ -29,10 +29,10 @@ final class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with B
           click on BeforeYouStartPage.startNow
 
           And("I enter \"Car Giant\" in the business name field")
-          SetupTradeDetailsPage.traderName enter traderBusinessNameValid
+          SetupTradeDetailsPage.traderName enter TraderBusinessNameValid
 
           And("I enter \"CM8 1QJ\" in the business postcode field")
-          SetupTradeDetailsPage.traderPostcode enter postcodeValidWithSpace
+          SetupTradeDetailsPage.traderPostcode enter PostcodeValidWithSpace
 
           And("I click the Look-up button")
           click on SetupTradeDetailsPage.lookup

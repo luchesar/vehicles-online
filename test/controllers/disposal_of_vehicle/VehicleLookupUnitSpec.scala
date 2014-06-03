@@ -66,12 +66,12 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
       val content = contentAsString(result)
 
-      content should include(traderBusinessNameValid)
-      content should include(line1Valid)
-      content should include(line2Valid)
-      content should include(line3Valid)
-      content should include(line4Valid)
-      content should include(services.fakes.FakeAddressLookupService.postcodeValid)
+      content should include(TraderBusinessNameValid)
+      content should include(Line1Valid)
+      content should include(Line2Valid)
+      content should include(Line3Valid)
+      content should include(Line4Valid)
+      content should include(services.fakes.FakeAddressLookupService.PostcodeValid)
     }
 
     "display empty fields when cookie does not exist" in new WithApplication {

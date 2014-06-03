@@ -8,7 +8,7 @@ import models.domain.disposal_of_vehicle._
 import org.openqa.selenium.{WebDriver, Cookie}
 import play.api.libs.json.{Writes, Json}
 import services.fakes.FakeAddressLookupService._
-import services.fakes.FakeAddressLookupService.postcodeValid
+import services.fakes.FakeAddressLookupService.PostcodeValid
 import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeAddressLookupWebServiceImpl._
@@ -26,9 +26,9 @@ object CookieFactoryForUISpecs {
     manage.addCookie(cookie)
   }
 
-  def setupTradeDetails(traderPostcode: String = postcodeValid)(implicit webDriver: WebDriver) = {
+  def setupTradeDetails(traderPostcode: String = PostcodeValid)(implicit webDriver: WebDriver) = {
     val key = SetupTradeDetailsCacheKey
-    val value = SetupTradeDetailsModel(traderBusinessName = traderBusinessNameValid,
+    val value = SetupTradeDetailsModel(traderBusinessName = TraderBusinessNameValid,
       traderPostcode = traderPostcode)
     addCookie(key, value)
     this
@@ -43,18 +43,18 @@ object CookieFactoryForUISpecs {
 
   def enterAddressManually()(implicit webDriver: WebDriver) = {
     val key = EnterAddressManuallyCacheKey
-    val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = line1Valid,
-      line2 = Some(line2Valid),
-      line3 = Some(line3Valid),
-      line4 = line4Valid),
-      postcode = postcodeValid))
+    val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = Line1Valid,
+      line2 = Some(Line2Valid),
+      line3 = Some(Line3Valid),
+      line4 = Line4Valid),
+      postcode = PostcodeValid))
     addCookie(key, value)
     this
   }
 
   def dealerDetails(address: AddressViewModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
     val key = TraderDetailsCacheKey
-    val value = TraderDetailsModel(traderName = traderBusinessNameValid, traderAddress = address)
+    val value = TraderDetailsModel(traderName = TraderBusinessNameValid, traderAddress = address)
     addCookie(key, value)
     this
   }

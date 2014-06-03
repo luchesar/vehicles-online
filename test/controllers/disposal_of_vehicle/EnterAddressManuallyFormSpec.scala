@@ -11,18 +11,18 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
   "form" should {
     "accept if form is valid with all fields filled in" in {
       val model = formWithValidDefaults().get.addressAndPostcodeModel
-      model.addressLinesModel.line1 should equal(line1Valid)
+      model.addressLinesModel.line1 should equal(Line1Valid)
 
-      model.addressLinesModel.line2 should equal(Some(line2Valid))
-      model.addressLinesModel.line3 should equal(Some(line3Valid))
-      model.addressLinesModel.line4 should equal(line4Valid)
-      model.postcode should equal(postcodeValid)
+      model.addressLinesModel.line2 should equal(Some(Line2Valid))
+      model.addressLinesModel.line3 should equal(Some(Line3Valid))
+      model.addressLinesModel.line4 should equal(Line4Valid)
+      model.postcode should equal(PostcodeValid)
     }
 
     "accept if form is valid with only mandatory filled in" in {
       val model = formWithValidDefaults(line2 = "", line3 = "").get.addressAndPostcodeModel
-      model.addressLinesModel.line1 should equal(line1Valid)
-      model.postcode should equal(postcodeValid)
+      model.addressLinesModel.line1 should equal(Line1Valid)
+      model.postcode should equal(PostcodeValid)
     }
   }
 
@@ -53,11 +53,11 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     }
 
     "reject if line1 is less than min length" in {
-      formWithValidDefaults(line1 = "abc", line2 = "", line3 = "", line4 = line4Valid).errors should have length 1
+      formWithValidDefaults(line1 = "abc", line2 = "", line3 = "", line4 = Line4Valid).errors should have length 1
     }
 
     "reject if line1 is more than max length" in {
-      formWithValidDefaults(line1 = "a" * (LineMaxLength + 1), line2 = "", line3 = "", line4 = line4Valid).errors should have length 1
+      formWithValidDefaults(line1 = "a" * (LineMaxLength + 1), line2 = "", line3 = "", line4 = Line4Valid).errors should have length 1
     }
 
     "reject if line1 is greater than max length" in {
@@ -69,11 +69,11 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     }
 
     "reject if line2 is more than max length" in {
-      formWithValidDefaults(line2 = "a" * (LineMaxLength + 1), line3 = "", line4 = line4Valid).errors should have length 1
+      formWithValidDefaults(line2 = "a" * (LineMaxLength + 1), line3 = "", line4 = Line4Valid).errors should have length 1
     }
 
     "reject if line3 is more than max length" in {
-      formWithValidDefaults(line2 = "", line3 = "a" * (LineMaxLength + 1), line4 = line4Valid).errors should have length 1
+      formWithValidDefaults(line2 = "", line3 = "a" * (LineMaxLength + 1), line4 = Line4Valid).errors should have length 1
     }
 
     "reject if line4 is more than max length" in {
@@ -122,11 +122,11 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     }
   }
 
-  private def formWithValidDefaults(line1: String = line1Valid,
-                                    line2: String = line2Valid,
-                                    line3: String = line3Valid,
-                                    line4: String = line4Valid,
-                                    postcode: String = postcodeValid) = {
+  private def formWithValidDefaults(line1: String = Line1Valid,
+                                    line2: String = Line2Valid,
+                                    line3: String = Line3Valid,
+                                    line4: String = Line4Valid,
+                                    postcode: String = PostcodeValid) = {
     injector.getInstance(classOf[EnterAddressManually]).form.bind(
       Map(
         s"$AddressAndPostcodeId.$AddressLinesId.$Line1Id" -> line1,

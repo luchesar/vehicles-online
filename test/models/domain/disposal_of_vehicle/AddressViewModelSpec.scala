@@ -10,28 +10,28 @@ import AddressViewModel.JsonFormat
 final class AddressViewModelSpec extends UnitSpec {
   "from" should {
     "translate correctly" in {
-      val addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = line1Valid,
-        line2 = Some(line2Valid),
-        line3 = Some(line3Valid),
-        line4 = line4Valid),
-        postcode = postcodeValid)
+      val addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = Line1Valid,
+        line2 = Some(Line2Valid),
+        line3 = Some(Line3Valid),
+        line4 = Line4Valid),
+        postcode = PostcodeValid)
 
       val result = AddressViewModel.from(addressAndPostcodeModel)
 
       result.uprn should equal(None)
-      result.address should equal(Seq(line1Valid, line2Valid, line3Valid, line4Valid, postcodeValid))
+      result.address should equal(Seq(Line1Valid, Line2Valid, Line3Valid, Line4Valid, PostcodeValid))
     }
   }
 
   "format" should {
     "serialize to json" in {
-      val address = AddressViewModel(uprn = Some(keeperUprnValid), address = Seq(line1Valid, line2Valid, line3Valid, line4Valid, postcodeValid))
+      val address = AddressViewModel(uprn = Some(keeperUprnValid), address = Seq(Line1Valid, Line2Valid, Line3Valid, Line4Valid, PostcodeValid))
       Json.toJson(address) should equal(asJson)
     }
 
     "deserialize from json" in {
       val fromJson =  Json.fromJson[AddressViewModel](asJson)
-      val expected = AddressViewModel(uprn = Some(keeperUprnValid), address = Seq(line1Valid, line2Valid, line3Valid, line4Valid, postcodeValid))
+      val expected = AddressViewModel(uprn = Some(keeperUprnValid), address = Seq(Line1Valid, Line2Valid, Line3Valid, Line4Valid, PostcodeValid))
       fromJson.asOpt should equal(Some(expected))
     }
   }

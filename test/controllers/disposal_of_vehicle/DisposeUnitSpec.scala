@@ -281,8 +281,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val disposeRequest = DisposeRequest(
         referenceNumber = referenceNumberValid,
         registrationNumber = registrationNumberValid,
-        traderName = traderBusinessNameValid,
-        traderAddress = DisposalAddressDto(line = Seq(line1Valid, line2Valid, line3Valid),postTown = Some(line4Valid),postCode = postcodeValid,uprn = None),
+        traderName = TraderBusinessNameValid,
+        traderAddress = DisposalAddressDto(line = Seq(Line1Valid, Line2Valid, Line3Valid),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
         transactionTimestamp = dateValid,
         prConsent = consentValid.toBoolean,
@@ -334,8 +334,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val disposeRequest = DisposeRequest(
         registrationNumber = registrationNumberValid,
         referenceNumber = referenceNumberValid,
-        traderName = traderBusinessNameValid,
-        traderAddress = DisposalAddressDto(line = Seq("a" * LineMaxLength, "b" * LineMaxLength, "c" * LineMaxLength),postTown = Some(line4Valid),postCode = postcodeValid,uprn = None),
+        traderName = TraderBusinessNameValid,
+        traderAddress = DisposalAddressDto(line = Seq("a" * LineMaxLength, "b" * LineMaxLength, "c" * LineMaxLength),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
         transactionTimestamp = dateValid,
         prConsent = consentValid.toBoolean,
@@ -363,8 +363,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val disposeRequest = DisposeRequest(
         registrationNumber = registrationNumberValid,
         referenceNumber = referenceNumberValid,
-        traderName = traderBusinessNameValid,
-        traderAddress = DisposalAddressDto(line = Seq(line1Valid, line2Valid , line3Valid),postTown = Some("a" * LineMaxLength),postCode = postcodeValid,uprn = None),
+        traderName = TraderBusinessNameValid,
+        traderAddress = DisposalAddressDto(line = Seq(Line1Valid, Line2Valid , Line3Valid),postTown = Some("a" * LineMaxLength),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
         transactionTimestamp = dateValid,
         prConsent = consentValid.toBoolean,
@@ -392,8 +392,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val disposeRequest = DisposeRequest(
         registrationNumber = registrationNumberValid,
         referenceNumber = referenceNumberValid,
-        traderName = traderBusinessNameValid,
-        traderAddress = DisposalAddressDto(line = Seq(line1Valid, line2Valid, line3Valid),postTown = Some(line4Valid),postCode = postcodeValid,uprn = None),
+        traderName = TraderBusinessNameValid,
+        traderAddress = DisposalAddressDto(line = Seq(Line1Valid, Line2Valid, Line3Valid),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
         transactionTimestamp = dateValid,
         prConsent = consentValid.toBoolean,

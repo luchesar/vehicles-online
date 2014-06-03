@@ -33,6 +33,6 @@ final class TraderDetailsSteps(webBrowserDriver:WebBrowserDriver) extends WebBro
   private def checkTraderName(traderName: String) {
     go to SetupTradeDetailsPage
     SetupTradeDetailsPage.traderName enter traderName
-    SetupTradeDetailsPage.traderPostcode enter postcodeValid
+    SetupTradeDetailsPage.traderPostcode enter PostcodeValid
   }
 }

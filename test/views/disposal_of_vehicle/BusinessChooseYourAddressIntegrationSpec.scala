@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver
 import pages.common.ErrorPanel
 import pages.disposal_of_vehicle.BusinessChooseYourAddressPage.{sadPath, happyPath, manualAddress, back}
 import pages.disposal_of_vehicle._
-import services.fakes.FakeAddressLookupService.postcodeValid
+import services.fakes.FakeAddressLookupService.PostcodeValid
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import mappings.disposal_of_vehicle.EnterAddressManually._
 import services.fakes.FakeAddressLookupService
@@ -34,16 +34,16 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
     "should display the postcode entered in the previous page" in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
-      page.source.contains(FakeAddressLookupService.postcodeValid) should equal(true)
+      page.source.contains(FakeAddressLookupService.PostcodeValid) should equal(true)
     }
 
     "display expected addresses in dropdown when address service returns addresses" in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
 
       BusinessChooseYourAddressPage.getListCount should equal(4) // The first option is the "Please select..." and the other options are the addresses.
-      page.source should include(s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $postcodeValid")
-      page.source should include(s"presentationProperty stub, 456, property stub, street stub, town stub, area stub, $postcodeValid")
-      page.source should include(s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $postcodeValid")
+      page.source should include(s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $PostcodeValid")
+      page.source should include(s"presentationProperty stub, 456, property stub, street stub, town stub, area stub, $PostcodeValid")
+      page.source should include(s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $PostcodeValid")
     }
 
     "display 'No addresses found' message when address service returns no addresses" in new WebBrowser {

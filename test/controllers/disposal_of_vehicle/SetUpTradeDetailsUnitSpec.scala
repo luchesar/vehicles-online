@@ -26,16 +26,16 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = setUpTradeDetails.present(request)
       val content = contentAsString(result)
-      content should include(traderBusinessNameValid)
-      content should include(postcodeValid)
+      content should include(TraderBusinessNameValid)
+      content should include(PostcodeValid)
     }
 
     "display empty fields when cookie does not exist" in new WithApplication {
       val request = FakeCSRFRequest()
       val result = setUpTradeDetails.present(request)
       val content = contentAsString(result)
-      content should not include traderBusinessNameValid
-      content should not include postcodeValid
+      content should not include TraderBusinessNameValid
+      content should not include PostcodeValid
     }
   }
 
@@ -82,7 +82,7 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
     }
   }
 
-  private def buildCorrectlyPopulatedRequest(dealerName: String = traderBusinessNameValid, dealerPostcode: String = postcodeValid) = {
+  private def buildCorrectlyPopulatedRequest(dealerName: String = TraderBusinessNameValid, dealerPostcode: String = PostcodeValid) = {
     FakeCSRFRequest().withFormUrlEncodedBody(
       TraderNameId -> dealerName,
       TraderPostcodeId -> dealerPostcode)
