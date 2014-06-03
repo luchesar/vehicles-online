@@ -11,9 +11,9 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Find vehicle details"
 
-  def vehicleRegistrationNumber(implicit driver: WebDriver): TextField = textField(id(RegistrationNumberId))
+  def vehicleRegistrationNumber(implicit driver: WebDriver): TextField = textField(id(VehicleRegistrationNumberId))
 
-  def documentReferenceNumber(implicit driver: WebDriver): TextField = textField(id(ReferenceNumberId))
+  def documentReferenceNumber(implicit driver: WebDriver): TextField = textField(id(DocumentReferenceNumberId))
 
   def back(implicit driver: WebDriver): Element = find(id(BackId)).get
 

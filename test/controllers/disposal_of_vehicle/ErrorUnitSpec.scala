@@ -1,9 +1,8 @@
 package controllers.disposal_of_vehicle
 
-import helpers.UnitSpec
+import helpers.{WithApplication, UnitSpec}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import play.api.test.Helpers._
-import play.api.test.WithApplication
 import composition.TestComposition.{testInjector => injector}
 
 final class ErrorUnitSpec extends UnitSpec {

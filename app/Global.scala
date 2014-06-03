@@ -1,7 +1,7 @@
-import com.google.inject.{Guice, Injector}
+import com.google.inject.Injector
 import com.typesafe.config.ConfigFactory
-import composition.DevModule
 import controllers.disposal_of_vehicle.routes
+import filters.EnsureSessionCreatedFilter
 import java.io.File
 import java.util.UUID
 import javax.crypto.BadPaddingException
@@ -9,9 +9,7 @@ import play.api._
 import play.api.Configuration
 import play.api.mvc._
 import play.api.mvc.Results._
-import play.api.Play.current
 //import play.filters.gzip._
-import play.filters.csrf._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.CryptoHelper
@@ -69,6 +67,10 @@ object Global extends WithFilters(filters) with GlobalSettings {
   override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] = ex.getCause match {
     case _: BadPaddingException  => CryptoHelper.handleApplicationSecretChange(request)
     case _ => Future(Redirect(routes.Error.present()))
+  }
+
+  override def doFilter(a: EssentialAction): EssentialAction = {
+    Filters(super.doFilter(a), devInjector.getInstance(classOf[EnsureSessionCreatedFilter]))
   }
 }
 

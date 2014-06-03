@@ -8,6 +8,7 @@ import models.domain.disposal_of_vehicle.TraderDetailsModel
 import common.ClientSideSessionFactory
 import com.google.inject.Inject
 import services.DateService
+import mappings.disposal_of_vehicle.VrmLocked._
 
 final class VrmLocked @Inject()(dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -22,9 +23,9 @@ final class VrmLocked @Inject()(dateService: DateService)(implicit clientSideSes
     val formData = request.body.asFormUrlEncoded.getOrElse(Map.empty[String, Seq[String]])
     val actionValue = formData.get("action").flatMap(_.headOption)
     actionValue match {
-      case Some("newDisposal") =>
+      case Some(NewDisposalAction) =>
         newDisposal
-      case Some("exit") =>
+      case Some(ExitAction) =>
         exit
       case _ =>
         BadRequest("This action is not allowed") // TODO redirect to error page ?

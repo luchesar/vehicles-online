@@ -18,6 +18,13 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       page.title should equal(EnterAddressManuallyPage.title)
     }
+    "contain the hidden csrfToken field" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      go to EnterAddressManuallyPage
+      page.source should include("input type=\"hidden\" name=\"csrfToken\"")
+    }
   }
 
   "next button" should {
@@ -45,7 +52,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       sadPath
 
-      ErrorPanel.numberOfErrors should equal(7)
+      ErrorPanel.numberOfErrors should equal(3)
     }
 
     "display validation error messages when a blank postcode is entered" in new WebBrowser {
@@ -54,7 +61,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       happyPath(postcode = "")
 
-      ErrorPanel.numberOfErrors should equal(3)
+      ErrorPanel.numberOfErrors should equal(1)
     }
   }
 

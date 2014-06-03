@@ -13,7 +13,9 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
     "display the page" in new WithApplication {
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
+        withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = vehicleLookupFailure.present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
@@ -38,7 +40,8 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
 
     "redirect to setuptraderdetails on if only VehicleLookupFormModelCache is populated" in new WithApplication {
       val request = FakeRequest().withSession().
-        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = vehicleLookupFailure.present(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -50,7 +53,8 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
     "redirect to vehiclelookup on submit" in new WithApplication {
       val request = FakeRequest().withSession().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = vehicleLookupFailure.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))

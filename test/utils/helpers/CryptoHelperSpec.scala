@@ -8,6 +8,7 @@ import play.api.test.{FakeApplication, FakeRequest}
 import pages.disposal_of_vehicle.BeforeYouStartPage
 import common.CookieHelper._
 import helpers.WithApplication
+import helpers.webbrowser.TestGlobal
 
 final class CryptoHelperSpec extends UnitSpec {
   "handleApplicationSecretChange" should {
@@ -56,5 +57,6 @@ final class CryptoHelperSpec extends UnitSpec {
   }
 
   private val appWithCryptpConfig = FakeApplication(
+    withGlobal = Some(TestGlobal),
     additionalConfiguration = Map("application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo="))
 }

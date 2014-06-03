@@ -15,6 +15,8 @@ import services.fakes.FakeAddressLookupWebServiceImpl._
 import services.fakes.{FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
 import mappings.disposal_of_vehicle.EnterAddressManually._
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
+import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 
 object CookieFactoryForUISpecs {
   private def addCookie[A](key: String, value: A)(implicit tjs: Writes[A], webDriver: WebDriver): Unit = {
@@ -53,6 +55,13 @@ object CookieFactoryForUISpecs {
   def dealerDetails(address: AddressViewModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
     val key = TraderDetailsCacheKey
     val value = TraderDetailsModel(traderName = traderBusinessNameValid, traderAddress = address)
+    addCookie(key, value)
+    this
+  }
+
+  def bruteForcePreventionViewModel(permitted: Boolean = true, attempts: Int = 0, maxAttempts: Int = MaxAttempts)(implicit webDriver: WebDriver) = {
+    val key = BruteForcePreventionViewModelCacheKey
+    val value = BruteForcePreventionViewModel(permitted, attempts, maxAttempts)
     addCookie(key, value)
     this
   }
@@ -96,6 +105,8 @@ object CookieFactoryForUISpecs {
     val value = DisposeModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,
       dateOfDisposal = dateOfDisposal,
+      consent = "true",
+      lossOfRegistrationConsent = "true",
       mileage = mileage)
     addCookie(key, value)
     this
