@@ -28,6 +28,7 @@ import play.api.libs.ws.Response
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import mappings.common.DocumentReferenceNumber
 import utils.helpers.Config
+import org.mockito.ArgumentCaptor
 
 final class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {
@@ -310,6 +311,57 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseDocRefNumberNotLatest, bruteForceService = bruteForceServiceImpl(permitted = true)).submit(request)
 
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+    }
+
+    "Send the request with a correct trackingId within" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
+      val mockVehiclesLookupService = mock[VehicleLookupWebService]
+      when(mockVehiclesLookupService.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
+        new FakeResponse(status = 200, fakeJson = Some(Json.toJson(vehicleDetailsResponseSuccess._2.get)))
+      })
+      val invokeCaptor = ArgumentCaptor.forClass(classOf[VehicleDetailsRequest])
+      val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
+      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
+        bruteForceServiceImpl(permitted = true),
+        vehicleLookupServiceImpl)(clientSideSessionFactory
+      )
+      val result = vehiclesLookup.submit(request)
+
+      whenReady(result) {
+        r =>
+          verify(mockVehiclesLookupService).callVehicleLookupService(invokeCaptor.capture())
+          invokeCaptor.getAllValues.size should equal(1)
+
+          invokeCaptor.getValue.trackingId should be("x" * 20)
+      }
+    }
+
+    "Send the request without a trackingId if session is not present" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+      val mockVehiclesLookupService = mock[VehicleLookupWebService]
+      when(mockVehiclesLookupService.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
+        new FakeResponse(status = 200, fakeJson = Some(Json.toJson(vehicleDetailsResponseSuccess._2.get)))
+      })
+      val invokeCaptor = ArgumentCaptor.forClass(classOf[VehicleDetailsRequest])
+      val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
+      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
+        bruteForceServiceImpl(permitted = true),
+        vehicleLookupServiceImpl)(clientSideSessionFactory
+        )
+      val result = vehiclesLookup.submit(request)
+
+      whenReady(result) {
+        r =>
+          verify(mockVehiclesLookupService).callVehicleLookupService(invokeCaptor.capture())
+          invokeCaptor.getAllValues.size should equal(1)
+
+          invokeCaptor.getValue.trackingId should be(empty)
+      }
     }
   }
 

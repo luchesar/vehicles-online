@@ -22,7 +22,6 @@ import common.{ClientSideSessionFactory, CookieImplicits}
 import CookieImplicits.RequestCookiesAdapter
 import CookieImplicits.SimpleResultAdapter
 import CookieImplicits.FormAdapter
-import models.domain.common.BruteForcePreventionResponse
 import models.domain.common.BruteForcePreventionResponse._
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService)
@@ -132,7 +131,11 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         case _ => Redirect(routes.VehicleLookupFailure.present())
       }
 
-    val vehicleDetailsRequest = VehicleDetailsRequest(referenceNumber = model.referenceNumber, registrationNumber = model.registrationNumber)
+    val vehicleDetailsRequest = VehicleDetailsRequest(
+      referenceNumber = model.referenceNumber,
+      registrationNumber = model.registrationNumber,
+      trackingId = request.cookies.trackingId()
+    )
     vehicleLookupService.invoke(vehicleDetailsRequest).map {
       case (responseStatusVehicleLookupMS: Int, response: Option[VehicleDetailsResponse]) =>
         Logger.debug(s"VehicleLookup Web service call successful - response = $response")
