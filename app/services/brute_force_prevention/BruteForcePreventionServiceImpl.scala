@@ -10,8 +10,9 @@ import models.domain.common.BruteForcePreventionResponse.JsonFormat
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
+import services.DateService
 
-final class BruteForcePreventionServiceImpl @Inject()(config: Config, ws: BruteForcePreventionWebService) extends BruteForcePreventionService {
+final class BruteForcePreventionServiceImpl @Inject()(config: Config, ws: BruteForcePreventionWebService, dateService: DateService) extends BruteForcePreventionService {
   override def isVrmLookupPermitted(vrm: String): Future[Option[BruteForcePreventionViewModel]] =
   // TODO US270 this if-statement is a temporary feature toggle until all developers have Redis setup locally.
     if (config.bruteForcePreventionEnabled) {
@@ -20,18 +21,17 @@ final class BruteForcePreventionServiceImpl @Inject()(config: Config, ws: BruteF
           def permitted(resp: Response) = {
             val bruteForcePreventionResponse: Option[BruteForcePreventionResponse] = Json.fromJson[BruteForcePreventionResponse](resp.json).asOpt
             bruteForcePreventionResponse match {
-              case Some(model) => Some(BruteForcePreventionViewModel.fromResponse(permitted = true, model))
+              case Some(model) => Some(BruteForcePreventionViewModel.fromResponse(permitted = true, model, dateService))
               case _ =>
                 Logger.error(s"Brute force prevention service returned invalid Json: ${resp.json}")
                 None
             }
           }
-          def notPermitted = Some(BruteForcePreventionViewModel.fromResponse(permitted = false, BruteForcePreventionResponse(attempts = 0, maxAttempts = 0)))
+          def notPermitted = Some(BruteForcePreventionViewModel.fromResponse(permitted = false, BruteForcePreventionResponse(attempts = 0, maxAttempts = 0), dateService))
           def unknownPermission(resp: Response) = {
             Logger.error(s"Brute force prevention service returned status: ${resp.status}")
             None
           }
-
           resp.status match {
             case play.api.http.Status.OK => permitted(resp)
             case play.api.http.Status.FORBIDDEN => notPermitted
@@ -44,6 +44,6 @@ final class BruteForcePreventionServiceImpl @Inject()(config: Config, ws: BruteF
       }
     }
     else Future {
-      Some(BruteForcePreventionViewModel.fromResponse(permitted = true, BruteForcePreventionResponse(attempts = 0, maxAttempts = 0)))
+      Some(BruteForcePreventionViewModel.fromResponse(permitted = true, BruteForcePreventionResponse(attempts = 0, maxAttempts = 0), dateService))
     }
 }

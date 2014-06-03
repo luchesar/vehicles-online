@@ -11,7 +11,7 @@ import models.domain.disposal_of_vehicle._
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import play.api.libs.json.{JsValue, Json}
-import services.fakes.FakeResponse
+import services.fakes.{FakeDateServiceImpl, FakeResponse}
 import services.fakes.FakeVehicleLookupWebService._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import common.ClientSideSessionFactory
@@ -101,7 +101,11 @@ final class VehicleLookupFormSpec extends UnitSpec {
     }
     )
 
-    new BruteForcePreventionServiceImpl(new Config(), bruteForcePreventionWebService)
+    new BruteForcePreventionServiceImpl(
+      config = new Config(),
+      ws = bruteForcePreventionWebService,
+      dateService = new FakeDateServiceImpl
+    )
   }
 
   private def vehicleLookupResponseGenerator(fullResponse:(Int, Option[VehicleDetailsResponse])) = {
