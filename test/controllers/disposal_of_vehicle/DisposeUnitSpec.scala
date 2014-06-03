@@ -27,6 +27,7 @@ import mappings.common.AddressLines.LineMaxLength
 import services.fakes.FakeDateServiceImpl._
 import scala.Some
 import services.fakes.FakeDisposeWebServiceImpl.consentValid
+import models.DayMonthYear
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
@@ -34,7 +35,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = disposeController().present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
@@ -54,7 +56,8 @@ final class DisposeUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeFormModel())
+        withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = disposeController().present(request)
       val content = contentAsString(result)
       val contentWithCarriageReturnsAndSpacesRemoved = content.replaceAll("[\n\r]", "").replaceAll(emptySpace, "")
@@ -70,7 +73,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = disposeController().present(request)
       val content = contentAsString(result)
       val contentWithCarriageReturnsAndSpacesRemoved = content.replaceAll("[\n\r]", "").replaceAll(emptySpace, "")
@@ -96,7 +100,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
       val result = disposeController().submit(request)
 
@@ -111,7 +116,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val disposeFailure = disposeController(disposeServiceStatus = INTERNAL_SERVER_ERROR, disposeServiceResponse = None)
       val result = disposeFailure.submit(request)
       whenReady(result) {
@@ -123,7 +129,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val disposeFailure = disposeController(disposeServiceStatus = OK, disposeServiceResponse = Some(disposeResponseFailureWithDuplicateDisposal))
       val result = disposeFailure.submit(request)
       whenReady(result) {
@@ -142,7 +149,8 @@ final class DisposeUnitSpec extends UnitSpec {
     "return a bad request when no details are entered" in new WithApplication {
       val request = FakeCSRFRequest().withFormUrlEncodedBody().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = disposeController().submit(request)
       whenReady(result) {
         r => r.header.status should equal(BAD_REQUEST)
@@ -161,7 +169,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val disposeResponseThrows = mock[(Int, Option[DisposeResponse])]
       val mockWebServiceThrows = mock[DisposeService]
       when(mockWebServiceThrows.invoke(any[DisposeRequest])).thenReturn(Future.failed(new RuntimeException))
@@ -177,7 +186,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val disposeFailure = disposeController(disposeServiceStatus = SERVICE_UNAVAILABLE, disposeServiceResponse = None)
       val result = disposeFailure.submit(request)
       whenReady(result) {
@@ -189,7 +199,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val disposeSuccess = disposeController(disposeServiceResponse = Some(disposeResponseApplicationBeingProcessed))
       val result = disposeSuccess.submit(request)
       redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
@@ -199,7 +210,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val disposeFailure = disposeController(disposeServiceResponse = Some(disposeResponseUnableToProcessApplication))
       val result = disposeFailure.submit(request)
       whenReady(result) {
@@ -213,7 +225,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val disposeFailure = disposeController(disposeServiceResponse = Some(disposeResponseUndefinedError))
       val result = disposeFailure.submit(request)
 
@@ -226,7 +239,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = disposeController().submit(request)
       whenReady(result) {
         r =>
@@ -244,7 +258,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val disposeSuccess = disposeController(disposeServiceResponse = Some(disposeResponseApplicationBeingProcessed))
       val result = disposeSuccess.submit(request)
       whenReady(result) {
@@ -253,107 +268,119 @@ final class DisposeUnitSpec extends UnitSpec {
           cookies.map(_.name) should contain allOf(DisposeModelCacheKey, DisposeFormTransactionIdCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormModelCacheKey, DisposeFormTimestampIdCacheKey)
       }
     }
-    //ToDO reimpliment using correct transaction time stamp (currently causing build to fail)
-//    "calls DisposeService invoke with the expected DisposeRequest" in new WithApplication {
-//      val disposeServiceMock = mock[DisposeService]
-//      when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
-//      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-//      val disposeController = new disposal_of_vehicle.Dispose(disposeServiceMock, dateServiceStubbed())(clientSideSessionFactory)
-//
-//      val request = buildCorrectlyPopulatedRequest.
-//        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
-//        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-//        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
-//
-//      val result = disposeController.submit(request)
-//
-//      val disposeRequest = DisposeRequest(
-//        registrationNumber = registrationNumberValid,
-//        referenceNumber = referenceNumberValid,
-//        traderName = traderBusinessNameValid,
-//        traderAddress = DisposalAddressDto(line = Seq(line1Valid, line2Valid, line3Valid),postTown = Some(line4Valid),postCode = postcodeValid,uprn = None),
-//        dateOfDisposal = dateValid,
-//        mileage = Some(mileageValid.toInt),
-//        transactionTimestamp = dateValid
-//      )
-//      verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
-//    }
-//
-//    "truncate address lines 1,2 and 3 up to max characters" in new WithApplication {
-//      val disposeServiceMock = mock[DisposeService]
-//      when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
-//      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-//      val disposeController = new disposal_of_vehicle.Dispose(disposeServiceMock, dateServiceStubbed())(clientSideSessionFactory)
-//
-//      val request = buildCorrectlyPopulatedRequest.
-//        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
-//        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-//        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "a" * LineMaxLength + 1, line2 = "b" * LineMaxLength + 1, line3 = "c" * LineMaxLength + 1)) // line1 is longer than maximum
-//
-//      val result = disposeController.submit(request)
-//
-//      val disposeRequest = DisposeRequest(
-//        registrationNumber = registrationNumberValid,
-//        referenceNumber = referenceNumberValid,
-//        traderName = traderBusinessNameValid,
-//        traderAddress = DisposalAddressDto(line = Seq("a" * LineMaxLength, "b" * LineMaxLength, "c" * LineMaxLength),postTown = Some(line4Valid),postCode = postcodeValid,uprn = None),
-//        dateOfDisposal = dateValid,
-//        mileage = Some(mileageValid.toInt),
-//        transactionTimestamp = dateValid
-//      )
-//      verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
-//    }
-//
-//    "truncate post town up to max characters" in new WithApplication {
-//      val disposeServiceMock = mock[DisposeService]
-//      when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
-//      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-//      val disposeController = new disposal_of_vehicle.Dispose(disposeServiceMock, dateServiceStubbed())(clientSideSessionFactory)
-//
-//      val request = buildCorrectlyPopulatedRequest.
-//        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
-//        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-//        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line4 = "a" * LineMaxLength + 1)) // line1 is longer than maximum
-//
-//      val result = disposeController.submit(request)
-//
-//      val disposeRequest = DisposeRequest(
-//        registrationNumber = registrationNumberValid,
-//        referenceNumber = referenceNumberValid,
-//        traderName = traderBusinessNameValid,
-//        traderAddress = DisposalAddressDto(line = Seq(line1Valid, line2Valid , line3Valid),postTown = Some("a" * LineMaxLength),postCode = postcodeValid,uprn = None),
-//        dateOfDisposal = dateValid,
-//        mileage = Some(mileageValid.toInt),
-//        transactionTimestamp = dateValid
-//      )
-//      verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
-//    }
-//
-//    "remove spaces from postcode on submit" in new WithApplication {
-//      val disposeServiceMock = mock[DisposeService]
-//      when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
-//      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-//      val disposeController = new disposal_of_vehicle.Dispose(disposeServiceMock, dateServiceStubbed())(clientSideSessionFactory)
-//
-//      val request = buildCorrectlyPopulatedRequest.
-//        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
-//        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-//        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(traderPostcode = "CM8 1QJ")) // postcode contains space
-//
-//      val result = disposeController.submit(request)
-//
-//      val disposeRequest = DisposeRequest(
-//        registrationNumber = registrationNumberValid,
-//        referenceNumber = referenceNumberValid,
-//        traderName = traderBusinessNameValid,
-//        traderAddress = DisposalAddressDto(line = Seq(line1Valid, line2Valid, line3Valid),postTown = Some(line4Valid),postCode = postcodeValid,uprn = None),
-//        dateOfDisposal = dateValid,
-//        mileage = Some(mileageValid.toInt),
-//        transactionTimestamp = dateValid
-//      )
-//      verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
-//    }
+ 
+    "calls DisposeService invoke with the expected DisposeRequest" in new WithApplication {
+      val disposeServiceMock = mock[DisposeService]
+      when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
+      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val disposeController = new disposal_of_vehicle.Dispose(disposeServiceMock, dateServiceStubbed())(clientSideSessionFactory)
+
+      val request = buildCorrectlyPopulatedRequest.
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+
+      val result = disposeController.submit(request)
+
+
+      val disposeRequest = DisposeRequest(
+        referenceNumber = referenceNumberValid,
+        registrationNumber = registrationNumberValid,
+        traderName = traderBusinessNameValid,
+        traderAddress = DisposalAddressDto(line = Seq(line1Valid, line2Valid, line3Valid),postTown = Some(line4Valid),postCode = postcodeValid,uprn = None),
+        dateOfDisposal = dateValid,
+        transactionTimestamp = dateValid,
+        prConsent = consentValid.toBoolean,
+        keeperConsent = consentValid.toBoolean,
+        mileage = Some(mileageValid.toInt)
+      )
+
+      verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
+    }
+
+    "truncate address lines 1,2 and 3 up to max characters" in new WithApplication {
+      val disposeServiceMock = mock[DisposeService]
+      when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
+      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val disposeController = new disposal_of_vehicle.Dispose(disposeServiceMock, dateServiceStubbed())(clientSideSessionFactory)
+
+      val request = buildCorrectlyPopulatedRequest.
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "a" * LineMaxLength + 1, line2 = "b" * LineMaxLength + 1, line3 = "c" * LineMaxLength + 1)) // line1 is longer than maximum
+
+      val result = disposeController.submit(request)
+
+      val disposeRequest = DisposeRequest(
+        registrationNumber = registrationNumberValid,
+        referenceNumber = referenceNumberValid,
+        traderName = traderBusinessNameValid,
+        traderAddress = DisposalAddressDto(line = Seq("a" * LineMaxLength, "b" * LineMaxLength, "c" * LineMaxLength),postTown = Some(line4Valid),postCode = postcodeValid,uprn = None),
+        dateOfDisposal = dateValid,
+        transactionTimestamp = dateValid,
+        prConsent = consentValid.toBoolean,
+        keeperConsent = consentValid.toBoolean,
+        mileage = Some(mileageValid.toInt)
+      )
+      verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
+    }
+
+    "truncate post town up to max characters" in new WithApplication {
+      val disposeServiceMock = mock[DisposeService]
+      when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
+      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val disposeController = new disposal_of_vehicle.Dispose(disposeServiceMock, dateServiceStubbed())(clientSideSessionFactory)
+
+      val request = buildCorrectlyPopulatedRequest.
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line4 = "a" * LineMaxLength + 1)) // line1 is longer than maximum
+
+      val result = disposeController.submit(request)
+
+      val disposeRequest = DisposeRequest(
+        registrationNumber = registrationNumberValid,
+        referenceNumber = referenceNumberValid,
+        traderName = traderBusinessNameValid,
+        traderAddress = DisposalAddressDto(line = Seq(line1Valid, line2Valid , line3Valid),postTown = Some("a" * LineMaxLength),postCode = postcodeValid,uprn = None),
+        dateOfDisposal = dateValid,
+        transactionTimestamp = dateValid,
+        prConsent = consentValid.toBoolean,
+        keeperConsent = consentValid.toBoolean,
+        mileage = Some(mileageValid.toInt)
+      )
+      verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
+    }
+
+    "remove spaces from postcode on submit" in new WithApplication {
+      val disposeServiceMock = mock[DisposeService]
+      when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
+      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val disposeController = new disposal_of_vehicle.Dispose(disposeServiceMock, dateServiceStubbed())(clientSideSessionFactory)
+
+      val request = buildCorrectlyPopulatedRequest.
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(traderPostcode = "CM8 1QJ")) // postcode contains space
+
+      val result = disposeController.submit(request)
+
+      val disposeRequest = DisposeRequest(
+        registrationNumber = registrationNumberValid,
+        referenceNumber = referenceNumberValid,
+        traderName = traderBusinessNameValid,
+        traderAddress = DisposalAddressDto(line = Seq(line1Valid, line2Valid, line3Valid),postTown = Some(line4Valid),postCode = postcodeValid,uprn = None),
+        dateOfDisposal = dateValid,
+        transactionTimestamp = dateValid,
+        prConsent = consentValid.toBoolean,
+        keeperConsent = consentValid.toBoolean,
+        mileage = Some(mileageValid.toInt)
+      )
+      verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
+    }
   }
+
+  private val dateValid: String =  DayMonthYear(dateOfDisposalDayValid.toInt, dateOfDisposalMonthValid.toInt, dateOfDisposalYearValid.toInt).toDateTime.get.toString
 
   private val emptySpace = " "
 

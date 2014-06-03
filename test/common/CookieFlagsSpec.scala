@@ -5,6 +5,7 @@ import play.api.test.{FakeApplication, WithApplication}
 import play.api.mvc.Cookie
 import scala.concurrent.duration._
 import scala.language.postfixOps
+import helpers.webbrowser.TestGlobal
 
 final class CookieFlagsSpec extends WordSpec with Matchers {
   "CookieFlagsFromConfig" should {
@@ -24,5 +25,6 @@ final class CookieFlagsSpec extends WordSpec with Matchers {
   private final val TenMinutesInSeconds = (10 minutes).toSeconds.toInt
 
   private val fakeAppWithCookieConfig = FakeApplication(
+    withGlobal = Some(TestGlobal),
     additionalConfiguration = Map("secureCookies" -> true, "cookieMaxAge" -> TenMinutesInSeconds))
 }

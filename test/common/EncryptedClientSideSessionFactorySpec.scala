@@ -1,12 +1,13 @@
 package common
 
-import play.api.test.WithApplication
 import utils.helpers._
 import composition.TestComposition.{testInjector => injector}
-import helpers.UnitSpec
+import helpers.{WithApplication, UnitSpec}
 import controllers.disposal_of_vehicle.SetUpTradeDetails
 import common.CookieHelper._
 import common.CookieImplicits.SimpleResultAdapter
+import play.api.mvc.{Cookies, Cookie}
+import play.api.http.HeaderNames
 
 final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
   "newSession" should {
@@ -18,14 +19,19 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
         r =>
           val cookiesBefore = fetchCookiesFromHeaders(r)
           cookiesBefore.size should equal(0) // There should be no cookies in the result before we call the factory
-          val encryptedClientSideSessionFactory = new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing)
-          val (newResult, _) = encryptedClientSideSessionFactory.newSession(r)
+        val encryptedClientSideSessionFactory = new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing)
+          val (newResult, _) = encryptedClientSideSessionFactory.ensureSession(request.cookies, r)
           val cookiesAfter = fetchCookiesFromHeaders(newResult)
-          cookiesAfter.size should equal(1) // We expect the new result to contain the session secret cookie
+          cookiesAfter.size should equal(2  ) // We expect the new result to contain the session secret cookie and the trackingId cookie
 
-          val sessionSecretKeyCookie = cookiesAfter.head
-          val cookieNameExtractedFromValue = sessionSecretKeyCookie.value.substring(0, sessionSecretKeyCookie.name.length)
-          cookieNameExtractedFromValue should equal(sessionSecretKeyCookie.name)
+          val (trackingId, sessionSecretKeySuffix) = fetchSessionCookies(cookiesAfter)
+
+          trackingId.value should have size 20
+
+          val sessionSecretKey = trackingId.value + sessionSecretKeySuffix.value
+          val cookieNameExtractedFromValue = sessionSecretKey.substring(0, sessionSecretKeySuffix.name.length)
+          cookieNameExtractedFromValue should equal(sessionSecretKeySuffix.name)
+
       }
     }
 
@@ -36,10 +42,13 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
       whenReady(result) {
         r =>
           val encryptedClientSideSessionFactory = new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing)
-          val (newResult, session) = encryptedClientSideSessionFactory.newSession(r)
-          val cookiesAfter = fetchCookiesFromHeaders(newResult)
-          val sessionSecretKeyCookie = cookiesAfter.head
-          session.getCookieValue(sessionSecretKeyCookie) should not equal ""
+          val (result, session1) = encryptedClientSideSessionFactory.ensureSession(request.cookies, r)
+          result.withSession()
+          val cookies = Cookies.decode(result.header.headers(HeaderNames.SET_COOKIE))
+          val newRequestCookies = request.cookies ++ cookies
+          val (_, session2) = encryptedClientSideSessionFactory.ensureSession(newRequestCookies, result)
+
+          session1 should equal(session2)
       }
     }
 
@@ -61,10 +70,16 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
           cookies.size should equal(0)
           val newResult = r.withCookie("key", "value") // Add a cookie to the result. The side effect of this will be to also add the session cookie
           val newResultCookies = fetchCookiesFromHeaders(newResult)
-          newResultCookies.size should equal(2) // We now expect the result to contain the encrypted cookie and the session secret cookie
+          newResultCookies.size should equal(3) // We now expect the result to contain the encrypted cookie, trackingId cookie and the session secret cookie
       }
     }
 
+  }
+
+  private def fetchSessionCookies(cookies: Seq[Cookie]): (Cookie, Cookie) = {
+    val trackingId = cookies.find(_.name == "tracking-id").get
+    val sessionSecretKeySuffix = cookies.find(_ != trackingId).get
+    (trackingId, sessionSecretKeySuffix)
   }
 
   implicit val noCookieFlags = new NoCookieFlags

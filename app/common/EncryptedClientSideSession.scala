@@ -3,7 +3,7 @@ package common
 import utils.helpers.{CookieNameHashing, CookieEncryption}
 import play.api.mvc.Cookie
 
-class EncryptedClientSideSession(sessionSecretKey: String)(implicit cookieFlags: CookieFlags,
+class EncryptedClientSideSession(override val trackingId: String, val sessionSecretKey: String)(implicit cookieFlags: CookieFlags,
                                                                     encryption: CookieEncryption,
                                                                     cookieNameHashing: CookieNameHashing) extends ClientSideSession {
 
@@ -26,4 +26,12 @@ class EncryptedClientSideSession(sessionSecretKey: String)(implicit cookieFlags:
     assert(cookieName == cookieNameFromPayload, "The cookie name bytes from the payload must match the cookie name")
     value
   }
+
+  override def equals(other: Any): Boolean = other match {
+    case o: EncryptedClientSideSession if this eq o => true
+    case o: EncryptedClientSideSession => this.sessionSecretKey == o.sessionSecretKey
+    case _ => false
+  }
+
+  override def hashCode(): Int = this.sessionSecretKey.hashCode
 }
