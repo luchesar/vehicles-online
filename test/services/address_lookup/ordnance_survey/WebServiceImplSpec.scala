@@ -9,10 +9,17 @@ import com.github.tomakehurst.wiremock.core.WireMockConfiguration._
 import com.github.tomakehurst.wiremock.http.{Response, Request, RequestListener}
 import common.{NoCookieFlags, ClearTextClientSideSession, ClientSideSession, ClientSideSessionFactory}
 import scala.collection.mutable
+import java.net.ServerSocket
 
 final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
 
-  val wireMockPort = 36745
+  val wireMockPort: Int = {
+    val serverSocket = new ServerSocket(0)
+    try serverSocket.getLocalPort
+    catch{ case e:Exception => 51987}
+    finally serverSocket.close()
+  }
+
   val wireMockServer = new WireMockServer(wireMockConfig().port(wireMockPort))
   val trackingIdValue = "trackingIdValue"
 
