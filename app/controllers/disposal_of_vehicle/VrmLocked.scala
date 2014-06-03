@@ -14,9 +14,7 @@ final class VrmLocked @Inject()(dateService: DateService)(implicit clientSideSes
 
   def present = Action { implicit request =>
     Logger.debug(s"VrmLocked - displaying the vrm locked error page")
-    val today = dateService.today
-    val formattedTime = today.`HH:mm`
-    Ok(views.html.disposal_of_vehicle.vrm_locked(formattedTime))
+    Ok(views.html.disposal_of_vehicle.vrm_locked(org.joda.time.DateTime.now().toString))
   }
 
   def submit = Action { implicit request =>

@@ -5,9 +5,9 @@
 
 @main(Messages("vrm_locked.title")){
     <p>@Messages("vrm_locked.text1")</p>
-    <p>@Messages("vrm_locked.text2.1")&nbsp;<strong>@Messages("vrm_locked.text2.2", timeString)</strong>&nbsp;@Messages("vrm_locked.text2.3")</p>
+    <p>@Messages("vrm_locked.text2.1")&nbsp;<span id='localTimeOfVrmLock' ></span>&nbsp;@Messages("vrm_locked.text2.3")</p>
     <p>@Messages("vrm_locked.text3.1")&nbsp;<strong>@Messages("vrm_locked.text3.2")</strong></p>
-
+    <span id='ct' ></span>
     @form(action = controllers.disposal_of_vehicle.routes.VrmLocked.submit) {
 
         @CSRF.formField
@@ -18,3 +18,13 @@
         </div>
     }
 }
+
+<script type="text/javascript">
+    function localize(dateTimeISOChronology)
+    {
+        var localTime =new Date(dateTimeISOChronology).toLocaleTimeString();
+        document.getElementById('localTimeOfVrmLock').innerHTML = localTime;
+    }
+
+    localize("@timeString");
+</script>

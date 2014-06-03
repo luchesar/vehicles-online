@@ -358,7 +358,6 @@ soap_endpoint_error.exit.button=Gadael
 vrm_locked.title = marc cofrestru yn gloi
 vrm_locked.text1 = Cafwyd tri chynnig i gael mynediad i''r manylion y cerbyd heb lwyddiant. Y marc cofrestru cerbyd bellach yn cael ei gloi am 10 munud fel dull diogelu. Yn ystod y cyfnod hwn y gellir ei brosesu gerbydau eraill.
 vrm_locked.text2.1 = glo yn
-vrm_locked.text2.2 = {0}
 vrm_locked.text2.3 = (dyma''r amser pan ddechreuodd y gwall wladwriaeth)
 vrm_locked.text3.1 = Os ydych angen cymorth i brosesu cerbyd hwn, ffoniwch ein Canolfan Gyswllt ar
 vrm_locked.text3.2 = 0300 790 6801
