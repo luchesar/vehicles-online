@@ -279,6 +279,7 @@ disposal_disposeconfirmation.exitbutton = Gadael
 disposal_disposeconfirmation.survey = Arolwg
 
 disposal_vehiclelookupfailure.title = Edrych i fyny yn aflwyddiannus
+disposal_vehiclelookupfailure.title.greaterThanOneAttempt = Edrych i fyny yn aflwyddiannus ({0} o {1})
 disposal_vehiclelookupfailure.name = Methiant
 disposal_vehiclelookupfailure.p1 = Mae'r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
 disposal_vehiclelookupfailure.button = Am-edrych gerbyd
@@ -286,6 +287,7 @@ disposal_disposefailure.button2 = Setup Newydd Manylion Masnachwr
 disposal_disposefailure.transactionid = {0}
 vehicle_lookup_vrm_not_found = Rhif Cyfeirnod y Ddogfen gofnodi naill ai ddilys neu os nad yw'n dod o V5C mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn. Gwnewch yn siŵr eich bod yn cael y V5C mwyaf diweddar a cheisiwch eto. Ar gyfer pob rhif cofrestru cerbyd, bydd tair ymgais i adfer y manylion y cerbyd.
 vehicle_lookup_document_reference_mismatch = Rhif Cyfeirnod y Ddogfen gofnodi naill ai ddilys neu os nad yw'n dod o V5C mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn. Gwnewch yn siŵr eich bod yn cael y V5C mwyaf diweddar a cheisiwch eto. Ar gyfer pob rhif cofrestru cerbyd, bydd tair ymgais i adfer y manylion y cerbyd.
+disposal_vehiclelookupfailure.warnAboutLockout = Ar ôl trydydd ymgais aflwyddiannus y system yn atal ymdrechion pellach i gael mynediad at y cofnodion cerbydau am 10 munud. Mae hyn er mwyn diogelu cofnodion cerbydau. Gall cerbydau eraill yn cael ei brosesu gan ddefnyddio'r gwasanaeth hwn yn ystod y cyfnod hwn.
 
 #widget messages
 errorsummary.title = Gwiriwch y ffurflen os gwelwch yn dda

@@ -47,10 +47,10 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
       val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
 
       when(bruteForcePreventionWebService.callBruteForce(registrationNumberValid)).thenReturn(Future {
-        new FakeResponse (status = status, fakeJson = attempt1Json)
+        new FakeResponse (status = status, fakeJson = responseFirstAttempt)
       })
       when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmAttempt2)).thenReturn(Future {
-        new FakeResponse (status = status, fakeJson = attempt2Json)
+        new FakeResponse (status = status, fakeJson = responseSecondAttempt)
       })
       when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmLocked)).thenReturn(Future {
         new FakeResponse (status = status)

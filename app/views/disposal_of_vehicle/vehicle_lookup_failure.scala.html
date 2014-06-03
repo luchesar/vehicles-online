@@ -8,10 +8,21 @@
 @import mappings.disposal_of_vehicle.VehicleLookupFailure._
 @import utils.helpers.Config
 
-@main(Messages("disposal_vehiclelookupfailure.title")){
-    @if(Config.bruteForcePreventionEnabled){<p>attempts: @attempts maxAttempts: @maxAttempts</p>}
+@main(
+    if(attempts <= 1) {
+        Messages("disposal_vehiclelookupfailure.title")
+    } else {
+        Messages("disposal_vehiclelookupfailure.title.greaterThanOneAttempt", attempts, maxAttempts)
+    }
+) {
+    <p>@Messages(responseCodeVehicleLookupMSErrorMessage)</p>
 
-    <p>@Messages(responseCodeVehicleLookupMSErrorMessage)</p><br>
+    @if(attempts <= 1) {
+    } else {
+        <p>@Messages("disposal_vehiclelookupfailure.warnAboutLockout")</p>
+    }
+
+    <br>
 
     @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
     <div class="form-steps">
