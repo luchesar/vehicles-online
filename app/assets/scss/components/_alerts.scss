@@ -149,8 +149,11 @@
 	    border-left: 3px solid $mellow-red;
 	    position: relative;
 	    margin-bottom:5px;
-	    .ie7 &, .ie8 & {
+	    .ie8 & {
 	        margin-left: -15px;
+	    }
+	    .ie7 & {
+	    	margin-left:0;
 	    }
 	    .ie6 & {
 	        zoom: 1;

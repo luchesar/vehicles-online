@@ -168,6 +168,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         transactionTimestamp = ISODateTimeFormat.dateTime().print(dateService.today.toDateTime.get),
         prConsent = disposeModel.lossOfRegistrationConsent.toBoolean,
         keeperConsent = disposeModel.consent.toBoolean,
+        trackingId = request.cookies.trackingId(),
         mileage = disposeModel.mileage)
     }
 

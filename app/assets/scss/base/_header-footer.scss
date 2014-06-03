@@ -252,6 +252,9 @@ input:focus, textarea:focus, select:focus {
         clear: both;
       }
     }
+    .ie6 & {
+      margin-bottom:15px;
+    }
   }
   form#search .content:after, .header-proposition #proposition-links:after {
     content: "";

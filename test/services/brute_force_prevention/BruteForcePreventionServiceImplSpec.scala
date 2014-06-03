@@ -11,6 +11,7 @@ import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceI
 import play.api.libs.ws.Response
 import scala.Some
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
+import utils.helpers.Config
 
 final class BruteForcePreventionServiceImplSpec extends UnitSpec {
   "isVrmLookupPermitted" should {
@@ -61,6 +62,8 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
     }
 
     new BruteForcePreventionServiceImpl(
-      ws = bruteForcePreventionWebService)
+      new Config,
+      ws = bruteForcePreventionWebService
+    )
   }
 }
