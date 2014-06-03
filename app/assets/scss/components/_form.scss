@@ -4,7 +4,7 @@
 
 	body:not(.js-enabled) &  .js-only {
 		// Hides .js-only if .js-enabled not applied to <body>
-	    disply:none;
+	    display:none;
 	}
 
 	legend {
