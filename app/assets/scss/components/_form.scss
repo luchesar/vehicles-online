@@ -2,11 +2,9 @@
 
 #{$htmlNamespace} {
 
-	body {
-		// Hides all elements with class .js-only if .js-enabled is not applied to <body>
-	  &:not(.js-enabled) .js-only {
+	body:not(.js-enabled) &  .js-only {
+		// Hides .js-only if .js-enabled not applied to <body>
 	    disply:none;
-	  }
 	}
 
 	legend {
