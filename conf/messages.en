@@ -324,7 +324,7 @@ disposal_disposefailure.transactionid = {0}
 
 #page 8 - vehicle lookup failure
 disposal_vehiclelookupfailure.title = Look-up was unsuccessful
-disposal_vehiclelookupfailure.title.greaterThanOneAttempt = Look-up was unsuccessful ({0} of {1})
+disposal_vehiclelookupfailure.title.greaterThanOneAttempt = ({0} of {1})
 disposal_vehiclelookupfailure.name = Failure
 disposal_vehiclelookupfailure.p1 = The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
 #disposal_vehiclelookupfailure.button = Vehicle Lookup

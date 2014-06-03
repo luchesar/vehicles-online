@@ -12,7 +12,7 @@
     if(attempts <= 1) {
         Messages("disposal_vehiclelookupfailure.title")
     } else {
-        Messages("disposal_vehiclelookupfailure.title.greaterThanOneAttempt", attempts, maxAttempts)
+        s"""${Messages("disposal_vehiclelookupfailure.title")} ${Messages("disposal_vehiclelookupfailure.title.greaterThanOneAttempt", attempts, maxAttempts)}"""
     }
 ) {
     <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
