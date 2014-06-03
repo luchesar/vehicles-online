@@ -240,7 +240,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val content = contentAsString(result)
-          content should include("Line 1 requires a minimum length of four characters")
+          content should include("Line 1 - Must contain a minimum of four characters")
       }
     }
 
@@ -255,7 +255,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val content = contentAsString(result)
-          content should include("Post town requires a minimum length of 3 characters")
+          content should include("Post town - Requires a minimum length of three characters")
       }
     }
 
