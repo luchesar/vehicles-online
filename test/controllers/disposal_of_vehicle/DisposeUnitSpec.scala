@@ -28,6 +28,8 @@ import services.fakes.FakeDateServiceImpl._
 import scala.Some
 import services.fakes.FakeDisposeWebServiceImpl.consentValid
 import models.DayMonthYear
+import org.mockito.ArgumentCaptor
+import utils.helpers.Config
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
@@ -278,7 +280,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
       val result = disposeController.submit(request)
 
@@ -292,11 +295,35 @@ final class DisposeUnitSpec extends UnitSpec {
         transactionTimestamp = dateValid,
         prConsent = consentValid.toBoolean,
         keeperConsent = consentValid.toBoolean,
+        trackingId = "x" * 20,
         mileage = Some(mileageValid.toInt)
       )
 
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
+
+//    "Ensure the DisposeRequest has the tracking ID set" in new WithApplication {
+//      val request = buildCorrectlyPopulatedRequest.
+//        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+//        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+//        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+//        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
+//      val mockDisposeService = mock[DisposeService]
+//      when(mockDisposeService.invoke(any(classOf[DisposeRequest]))).thenReturn(Future[(Int, Option[DisposeResponse])] {
+//        (200, None)
+//      })
+//      val invokeCaptor = ArgumentCaptor.forClass(classOf[DisposeRequest])
+//      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+//      val dispose = new disposal_of_vehicle.Dispose(mockDisposeService, dateServiceStubbed())(clientSideSessionFactory)
+//      val result = dispose.submit(request)
+//      whenReady(result) {
+//        r =>
+//          verify(mockDisposeService).invoke(invokeCaptor.capture())
+//          invokeCaptor.getAllValues.size should equal(1)
+//
+//          invokeCaptor.getValue.trackingId should equal("x" * 20)
+//      }
+//    }
 
     "truncate address lines 1,2 and 3 up to max characters" in new WithApplication {
       val disposeServiceMock = mock[DisposeService]
@@ -307,7 +334,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "a" * LineMaxLength + 1, line2 = "b" * LineMaxLength + 1, line3 = "c" * LineMaxLength + 1)) // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "a" * LineMaxLength + 1, line2 = "b" * LineMaxLength + 1, line3 = "c" * LineMaxLength + 1)). // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
       val result = disposeController.submit(request)
 
@@ -320,6 +348,7 @@ final class DisposeUnitSpec extends UnitSpec {
         transactionTimestamp = dateValid,
         prConsent = consentValid.toBoolean,
         keeperConsent = consentValid.toBoolean,
+        trackingId = "x" * 20,
         mileage = Some(mileageValid.toInt)
       )
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
@@ -334,7 +363,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line4 = "a" * LineMaxLength + 1)) // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line4 = "a" * LineMaxLength + 1)). // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
       val result = disposeController.submit(request)
 
@@ -347,6 +377,7 @@ final class DisposeUnitSpec extends UnitSpec {
         transactionTimestamp = dateValid,
         prConsent = consentValid.toBoolean,
         keeperConsent = consentValid.toBoolean,
+        trackingId = "x" * 20,
         mileage = Some(mileageValid.toInt)
       )
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
@@ -361,7 +392,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(traderPostcode = "CM8 1QJ")) // postcode contains space
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(traderPostcode = "CM8 1QJ")). // postcode contains space
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
       val result = disposeController.submit(request)
 
@@ -374,6 +406,7 @@ final class DisposeUnitSpec extends UnitSpec {
         transactionTimestamp = dateValid,
         prConsent = consentValid.toBoolean,
         keeperConsent = consentValid.toBoolean,
+        trackingId = "x" * 20,
         mileage = Some(mileageValid.toInt)
       )
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
@@ -414,7 +447,7 @@ final class DisposeUnitSpec extends UnitSpec {
       new FakeResponse(status = disposeServiceStatus, fakeJson = fakeJson) // Any call to a webservice will always return this successful response.
     })
 
-    val disposeServiceImpl = new DisposeServiceImpl(ws)
+    val disposeServiceImpl = new DisposeServiceImpl(new Config(), ws)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())(clientSideSessionFactory)
   }

@@ -5,7 +5,7 @@ import scala.concurrent.duration._
 import scala.language.postfixOps
 import play.api.Logger
 
-object Config {
+class Config {
   // Micro-service config
   val vehicleLookupMicroServiceBaseUrl: String = getProperty("vehicleLookupMicroServiceUrlBase", "NOT FOUND")
   val disposeVehicleMicroServiceBaseUrl: String = getProperty("disposeVehicleMicroServiceUrlBase", "NOT FOUND")
