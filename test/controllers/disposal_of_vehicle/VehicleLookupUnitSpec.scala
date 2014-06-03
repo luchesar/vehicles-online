@@ -129,7 +129,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupResponseGenerator(vehicleDetailsServerDown).submit(request)
 
-      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
     }
 
     "return a bad request if dealer details are in cache and no details are entered" in new WithApplication {

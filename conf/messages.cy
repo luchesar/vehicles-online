@@ -222,7 +222,7 @@ disposal_vehiclelookup.button = Dod o hyd i
 disposal_vehiclelookup.button2 = Golygu
 disposal_vehiclelookup.tradernamelabel = Enw masnachwr
 disposal_vehiclelookup.traderaddresslabel = Gyfeiriad masnachwr
-error.validDocumentReferenceNumber = WELSH Document reference number must be an 11-digit number
+error.validDocumentReferenceNumber = Rhaid rhif cyfeirnod y ddogfen fod yn rhif 11-digid
 
 #page 5 - confirm disposal
 disposal_dispose.title = Cwblhau & gadarnhau
@@ -267,7 +267,7 @@ disposal_disposeconfirmation.exkeeper = Bydd llythyr yn cadarnhau''r gwaredu yn 
 disposal_disposeconfirmation.sendbutton = Anfon
 disposal_disposeconfirmation.transactionid = {0}
 disposal_disposeconfirmation.transactionid_label = Trafodiad yn
-disposal_disposeconfirmation.transactionid_message = WELSH Transaction message goes here
+disposal_disposeconfirmation.transactionid_message = Neges trafodiad yn mynd yma
 disposal_disposeconfirmation.registrationNumber = {0}
 disposal_disposeconfirmation.registrationNumber_label = Cofrestru
 disposal_disposeconfirmation.backbutton = Holau
@@ -328,25 +328,25 @@ error.address.characterinvalid = Nid yw nodau annilys chaniateir
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post
 error.validTraderBusinessName = Rhaid iddo fod rhwng dwy a 30 cymeriadau a ydynt yn cynnwys nodau annilys
-error.address.line1.invalid = Llinell 1 yn gofyn o leiaf hyd o bedwar cymeriad
-error.address.line4.invalid = Tref bost yn gofyn am hyd lleiaf o 3 cymeriadau
+error.address.line1.invalid = Llinell 1 - Rhaid iddo gynnwys o leiaf bedwar cymeriad
+error.address.line4.invalid = Postiwch y dref - Angen hyd lleiaf o tri chymeriad
 error.address.postcode.invalid = Rhaid bod rhwng 5 ac 8 cymeriadau ac mewn fformat dilys, ee. PR2 8AE neu PR28AE
 
 # micro-service response codes
-ms.vehiclesService.response.applicationBeingProcessed = WELSH Your application is being processed and you should receive confirmation letter within four weeks.
-ms.vehiclesService.response.unableToProcessApplication = WELSH We are not able to process your application at this time. Please send the V5C/3 to the following address; DVLA, Longview Road, Morriston, Swansea, SA6 7JL
+ms.vehiclesService.response.applicationBeingProcessed = Mae eich cais yn cael ei brosesu a dylech dderbyn llythyr cadarnhad o fewn pedair wythnos.
+ms.vehiclesService.response.unableToProcessApplication = We are not able to process your application at this time. Please send the V5C/3 to the following address; DVLA, Longview Road, Morriston, Swansea, SA6 7JL
 
 #micro-service error page
 micro_service_error.title=Mae''n ddrwg gennym
 micro_service_error.text=Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
-micro_service_error.back.button=WELSH Try again
+micro_service_error.back.button=Ceisiwch eto
 micro_service_error.exit.button=Gadael
 
 #duplicate-disposal error page
-duplicate_disposal_error.title=WELSH We are sorry
-duplicate_disposal_error.text=WELSH This vehicle has already been notified as sold. If you think this an error then please call DVLA Customer Enquiries on 0300 790 6802
-duplicate_disposal_error.back.button=WELSH Try again
-duplicate_disposal_error.exit.button=WELSH Exit
+duplicate_disposal_error.title=Mae'n ddrwg gennym
+duplicate_disposal_error.text=Mae'r cerbyd wedi cael ei ddwyn yn ei werthu. Os credwch fod hyn yn gamgymeriad, yna ffoniwch Ymholiadau Cwsmeriaid DVLA ar 0300 790 6802
+duplicate_disposal_error.back.button=Ceisiwch eto
+duplicate_disposal_error.exit.button=Gadael
 
 #soap endpoint error page
 soap_endpoint_error.title=Mae''n ddrwg gennym

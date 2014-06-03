@@ -1,17 +1,17 @@
 package controllers.disposal_of_vehicle
 
-import mappings.common.Postcode._
+import common.CookieHelper._
+import composition.TestComposition.{testInjector => injector}
 import helpers.UnitSpec
+import helpers.WithApplication
 import helpers.disposal_of_vehicle._
 import mappings.common.AddressAndPostcode._
 import mappings.common.AddressLines._
+import mappings.common.Postcode._
+import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
 import services.fakes.FakeAddressLookupService._
-import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
-import composition.TestComposition.{testInjector => injector}
-import common.CookieHelper._
-import helpers.WithApplication
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
   "present" should {
@@ -66,7 +66,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
-      val result =  enterAddressManually.submit(request)
+      val result = enterAddressManually.submit(request)
       whenReady(result) {
         r => r.header.status should equal(BAD_REQUEST)
       }
@@ -88,7 +88,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "return bad request a valid postcode is entered without an address" in new WithApplication {
       val request = FakeCSRFRequest().withFormUrlEncodedBody(
-          s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
+        s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = enterAddressManually.submit(request)
@@ -114,9 +114,9 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "redirect to Dispose after a valid submission of mandatory fields only" in new WithApplication {
       val request = FakeCSRFRequest().withFormUrlEncodedBody(
-          s"$AddressAndPostcodeId.$AddressLinesId.$Line1Id" -> Line1Valid,
-          s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> Line4Valid,
-          s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
+        s"$AddressAndPostcodeId.$AddressLinesId.$Line1Id" -> Line1Valid,
+        s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> Line4Valid,
+        s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = enterAddressManually.submit(request)
@@ -138,7 +138,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain (TraderDetailsCacheKey)
+          cookies.map(_.name) should contain(TraderDetailsCacheKey)
       }
     }
 
@@ -155,7 +155,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain (TraderDetailsCacheKey)
+          cookies.map(_.name) should contain(TraderDetailsCacheKey)
       }
     }
 
@@ -173,7 +173,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
           cookies.find(_.name == TraderDetailsCacheKey) match {
-            case Some(cookie) => cookie.value should include ("my house 1.1")
+            case Some(cookie) => cookie.value should include("my house 1.1")
             case _ => fail("should have found some cookie")
           }
       }
@@ -225,7 +225,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain (TraderDetailsCacheKey)
+          cookies.map(_.name) should contain(TraderDetailsCacheKey)
       }
     }
 
@@ -237,11 +237,8 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = enterAddressManually.submit(request)
-      whenReady(result) {
-        r =>
-          val content = contentAsString(result)
-          content should include("Line 1 requires a minimum length of four characters")
-      }
+      val content = contentAsString(result)
+      content should include("Line 1 - Must contain a minimum of four characters")
     }
 
     "collapse error messages for post town" in new WithApplication {
@@ -252,11 +249,8 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = enterAddressManually.submit(request)
-      whenReady(result) {
-        r =>
-          val content = contentAsString(result)
-          content should include("Post town requires a minimum length of 3 characters")
-      }
+      val content = contentAsString(result)
+      content should include("Post town - Requires a minimum length of three characters")
     }
 
     "collapse error messages for post code" in new WithApplication {
@@ -267,11 +261,8 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = enterAddressManually.submit(request)
-      whenReady(result) {
-        r =>
-          val content = contentAsString(result)
-          content should include("Must be between 5 and 8 characters and in a valid format, eg. PR2 8AE or PR28AE")
-      }
+      val content = contentAsString(result)
+      content should include("Must be between 5 and 8 characters and in a valid format, eg. PR2 8AE or PR28AE")
     }
   }
 
