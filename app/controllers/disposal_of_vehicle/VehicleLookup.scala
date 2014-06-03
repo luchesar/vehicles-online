@@ -128,7 +128,9 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
                           response: Option[VehicleDetailsResponse])(implicit request: Request[_]) =
       responseStatusVehicleLookupMS match {
         case OK => hasVehicleDetailsResponse(response)
-        case _ => Redirect(routes.VehicleLookupFailure.present())
+        case _ =>
+          Logger.error(s"VehicleLookup web service call http status not OK, it was: $responseStatusVehicleLookupMS. Problem may come from either vehicle-lookup micro-service or the VSS")
+          Redirect(routes.MicroServiceError.present())
       }
 
     val vehicleDetailsRequest = VehicleDetailsRequest(
