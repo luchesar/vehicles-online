@@ -19,7 +19,7 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
 
   def findVehicleDetails(implicit driver: WebDriver): Element = find(id(SubmitId)).get
 
-  def happyPath(referenceNumber: String = referenceNumberValid, registrationNumber: String = registrationNumberValid)(implicit driver: WebDriver) = {
+  def happyPath(referenceNumber: String = ReferenceNumberValid, registrationNumber: String = RegistrationNumberValid)(implicit driver: WebDriver) = {
     go to VehicleLookupPage
     documentReferenceNumber.value = referenceNumber
     VehicleLookupPage.vehicleRegistrationNumber.value = registrationNumber
@@ -28,7 +28,7 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
 
   def tryLockedVrm()(implicit driver: WebDriver) = {
     go to VehicleLookupPage
-    documentReferenceNumber.value = referenceNumberValid
+    documentReferenceNumber.value = ReferenceNumberValid
     VehicleLookupPage.vehicleRegistrationNumber.value = FakeBruteForcePreventionWebServiceImpl.VrmLocked
     click on findVehicleDetails
   }

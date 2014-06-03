@@ -66,8 +66,8 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def vehicleLookupFormModel(referenceNumber: String = referenceNumberValid,
-                                        registrationNumber: String = registrationNumberValid)(implicit webDriver: WebDriver) = {
+  def vehicleLookupFormModel(referenceNumber: String = ReferenceNumberValid,
+                                        registrationNumber: String = RegistrationNumberValid)(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
     val value = VehicleLookupFormModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber)
@@ -75,10 +75,10 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def vehicleDetailsModel(registrationNumber: String = registrationNumberValid,
-                                     vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid,
-                                     vehicleModel: String = vehicleModelValid,
-                                     keeperName: String = keeperNameValid)(implicit webDriver: WebDriver) = {
+  def vehicleDetailsModel(registrationNumber: String = RegistrationNumberValid,
+                                     vehicleMake: String = FakeVehicleLookupWebService.VehicleMakeValid,
+                                     vehicleModel: String = VehicleModelValid,
+                                     keeperName: String = KeeperNameValid)(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupDetailsCacheKey
     val value = VehicleDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
@@ -97,8 +97,8 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def disposeModel(referenceNumber: String = referenceNumberValid,
-                              registrationNumber: String = registrationNumberValid,
+  def disposeModel(referenceNumber: String = ReferenceNumberValid,
+                              registrationNumber: String = RegistrationNumberValid,
                               dateOfDisposal: DayMonthYear = DayMonthYear.today,
                               mileage: Option[Int] = None)(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey
@@ -121,7 +121,7 @@ object CookieFactoryForUISpecs {
 
   def vehicleRegistrationNumber()(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
-    val value = registrationNumberValid
+    val value = RegistrationNumberValid
     addCookie(key, value)
     this
   }

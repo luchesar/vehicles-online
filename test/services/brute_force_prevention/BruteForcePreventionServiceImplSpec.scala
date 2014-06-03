@@ -5,7 +5,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.fakes.{FakeVehicleLookupWebService, FakeResponse}
 import org.mockito.Mockito._
-import FakeVehicleLookupWebService.registrationNumberValid
+import FakeVehicleLookupWebService.RegistrationNumberValid
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
 import play.api.libs.ws.Response
@@ -17,14 +17,14 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
   "isVrmLookupPermitted" should {
     "return true when response status is 200 OK" in {
       val service = bruteForceServiceImpl(permitted = true)
-      whenReady(service.isVrmLookupPermitted(registrationNumberValid)) {
+      whenReady(service.isVrmLookupPermitted(RegistrationNumberValid)) {
         r => r should equal(Some(BruteForcePreventionViewModel(true, 1, 3)))
       }
     }
 
     "return false when response status is not 200 OK" in {
       val service = bruteForceServiceImpl(permitted = false)
-      whenReady(service.isVrmLookupPermitted(registrationNumberValid)) {
+      whenReady(service.isVrmLookupPermitted(RegistrationNumberValid)) {
         r => r should equal(Some(BruteForcePreventionViewModel(false, 1, 1)))
       }
     }
@@ -47,7 +47,7 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
       val status = if (permitted) play.api.http.Status.OK else play.api.http.Status.FORBIDDEN
       val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
 
-      when(bruteForcePreventionWebService.callBruteForce(registrationNumberValid)).thenReturn(Future {
+      when(bruteForcePreventionWebService.callBruteForce(RegistrationNumberValid)).thenReturn(Future {
         new FakeResponse (status = status, fakeJson = responseFirstAttempt)
       })
       when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmAttempt2)).thenReturn(Future {

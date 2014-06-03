@@ -44,10 +44,10 @@ final class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with B
           click on BusinessChooseYourAddressPage.select
 
           And("I enter \"A1\" in the vehicle registration number field")
-          VehicleLookupPage.vehicleRegistrationNumber enter registrationNumberValid
+          VehicleLookupPage.vehicleRegistrationNumber enter RegistrationNumberValid
 
           And("I enter \"12345678910\" in the V5C document reference number field")
-          VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
+          VehicleLookupPage.documentReferenceNumber enter ReferenceNumberValid
 
           And("I click the find vehicle details button")
           click on VehicleLookupPage.findVehicleDetails

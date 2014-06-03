@@ -25,13 +25,13 @@ final class AddressViewModelSpec extends UnitSpec {
 
   "format" should {
     "serialize to json" in {
-      val address = AddressViewModel(uprn = Some(keeperUprnValid), address = Seq(Line1Valid, Line2Valid, Line3Valid, Line4Valid, PostcodeValid))
+      val address = AddressViewModel(uprn = Some(KeeperUprnValid), address = Seq(Line1Valid, Line2Valid, Line3Valid, Line4Valid, PostcodeValid))
       Json.toJson(address) should equal(asJson)
     }
 
     "deserialize from json" in {
       val fromJson =  Json.fromJson[AddressViewModel](asJson)
-      val expected = AddressViewModel(uprn = Some(keeperUprnValid), address = Seq(Line1Valid, Line2Valid, Line3Valid, Line4Valid, PostcodeValid))
+      val expected = AddressViewModel(uprn = Some(KeeperUprnValid), address = Seq(Line1Valid, Line2Valid, Line3Valid, Line4Valid, PostcodeValid))
       fromJson.asOpt should equal(Some(expected))
     }
   }

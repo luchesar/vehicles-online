@@ -279,8 +279,8 @@ final class DisposeUnitSpec extends UnitSpec {
 
 
       val disposeRequest = DisposeRequest(
-        referenceNumber = referenceNumberValid,
-        registrationNumber = registrationNumberValid,
+        referenceNumber = ReferenceNumberValid,
+        registrationNumber = RegistrationNumberValid,
         traderName = TraderBusinessNameValid,
         traderAddress = DisposalAddressDto(line = Seq(Line1Valid, Line2Valid, Line3Valid),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
@@ -332,8 +332,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val result = disposeController.submit(request)
 
       val disposeRequest = DisposeRequest(
-        registrationNumber = registrationNumberValid,
-        referenceNumber = referenceNumberValid,
+        registrationNumber = RegistrationNumberValid,
+        referenceNumber = ReferenceNumberValid,
         traderName = TraderBusinessNameValid,
         traderAddress = DisposalAddressDto(line = Seq("a" * LineMaxLength, "b" * LineMaxLength, "c" * LineMaxLength),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
@@ -361,8 +361,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val result = disposeController.submit(request)
 
       val disposeRequest = DisposeRequest(
-        registrationNumber = registrationNumberValid,
-        referenceNumber = referenceNumberValid,
+        registrationNumber = RegistrationNumberValid,
+        referenceNumber = ReferenceNumberValid,
         traderName = TraderBusinessNameValid,
         traderAddress = DisposalAddressDto(line = Seq(Line1Valid, Line2Valid , Line3Valid),postTown = Some("a" * LineMaxLength),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
@@ -390,8 +390,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val result = disposeController.submit(request)
 
       val disposeRequest = DisposeRequest(
-        registrationNumber = registrationNumberValid,
-        referenceNumber = referenceNumberValid,
+        registrationNumber = RegistrationNumberValid,
+        referenceNumber = ReferenceNumberValid,
         traderName = TraderBusinessNameValid,
         traderAddress = DisposalAddressDto(line = Seq(Line1Valid, Line2Valid, Line3Valid),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,

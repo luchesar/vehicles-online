@@ -24,8 +24,8 @@ final class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowser
     click on SetupTradeDetailsPage.lookup
     BusinessChooseYourAddressPage.chooseAddress.value = traderUprnValid.toString
     click on BusinessChooseYourAddressPage.select
-    VehicleLookupPage.vehicleRegistrationNumber enter registrationNumberValid
-    VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
+    VehicleLookupPage.vehicleRegistrationNumber enter RegistrationNumberValid
+    VehicleLookupPage.documentReferenceNumber enter ReferenceNumberValid
     click on VehicleLookupPage.findVehicleDetails
   }
 
@@ -63,7 +63,7 @@ final class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowser
   @Then("""^the information entered is presented back to the motor trader$""")
   def the_information_entered_is_presented_back_to_the_motor_trader() = {
     page.text should include(TraderBusinessNameValid)
-    page.text should include(registrationNumberValid)
+    page.text should include(RegistrationNumberValid)
     enterValidManualAddress
     DisposePage.consent.isDisplayed should equal(true)
     DisposePage.lossOfRegistrationConsent.isDisplayed should equal(true)

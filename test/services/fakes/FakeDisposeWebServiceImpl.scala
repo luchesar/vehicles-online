@@ -34,7 +34,7 @@ object FakeDisposeWebServiceImpl {
 
   val disposeResponseSuccess =
     DisposeResponse(transactionId = TransactionIdValid,
-      registrationNumber = registrationNumberValid,
+      registrationNumber = RegistrationNumberValid,
       auditId = AuditIdValid)
 
   val disposeResponseSoapEndpointFailure =
@@ -63,7 +63,7 @@ object FakeDisposeWebServiceImpl {
 
   val disposeResponseApplicationBeingProcessed =
     DisposeResponse(transactionId = TransactionIdValid,
-      registrationNumber = registrationNumberValid,
+      registrationNumber = RegistrationNumberValid,
       auditId = AuditIdValid,
       responseCode = None)
 

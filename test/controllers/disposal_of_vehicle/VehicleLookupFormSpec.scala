@@ -24,8 +24,8 @@ import utils.helpers.Config
 final class VehicleLookupFormSpec extends UnitSpec {
   "form" should {
     "accept when all fields contain valid responses" in {
-      formWithValidDefaults().get.referenceNumber should equal(referenceNumberValid)
-      formWithValidDefaults().get.registrationNumber should equal(registrationNumberValid)
+      formWithValidDefaults().get.referenceNumber should equal(ReferenceNumberValid)
+      formWithValidDefaults().get.registrationNumber should equal(RegistrationNumberValid)
     }
   }
 
@@ -68,7 +68,7 @@ final class VehicleLookupFormSpec extends UnitSpec {
     }
 
     "accept if valid" in {
-      formWithValidDefaults(registrationNumber = registrationNumberValid).get.referenceNumber should equal(referenceNumberValid)
+      formWithValidDefaults(registrationNumber = RegistrationNumberValid).get.referenceNumber should equal(ReferenceNumberValid)
     }
   }
 
@@ -120,9 +120,9 @@ final class VehicleLookupFormSpec extends UnitSpec {
       vehicleLookupService = vehicleLookupServiceImpl)(clientSideSessionFactory)
   }
 
-  private def formWithValidDefaults(referenceNumber: String = referenceNumberValid,
-                                    registrationNumber: String = registrationNumberValid,
-                                    consent: String = consentValid) = {
+  private def formWithValidDefaults(referenceNumber: String = ReferenceNumberValid,
+                                    registrationNumber: String = RegistrationNumberValid,
+                                    consent: String = ConsentValid) = {
     vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).vehicleLookupForm.bind(
       Map(
         DocumentReferenceNumberId -> referenceNumber,

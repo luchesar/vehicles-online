@@ -55,8 +55,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
       val content = contentAsString(result)
-      content should include(referenceNumberValid)
-      content should include(registrationNumberValid)
+      content should include(ReferenceNumberValid)
+      content should include(RegistrationNumberValid)
     }
 
     "display data captured in previous pages" in new WithApplication {
@@ -79,8 +79,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
       val content = contentAsString(result)
-      content should not include referenceNumberValid
-      content should not include registrationNumberValid
+      content should not include ReferenceNumberValid
+      content should not include RegistrationNumberValid
     }
   }
 
@@ -94,7 +94,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "submit removes spaces from registrationNumber" in new WithApplication {
       // DE7 Spaces should be stripped
-      val request = buildCorrectlyPopulatedRequest(registrationNumber = registrationNumberWithSpaceValid)
+      val request = buildCorrectlyPopulatedRequest(registrationNumber = RegistrationNumberWithSpaceValid)
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
 
       whenReady(result) {
@@ -300,7 +300,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to VehicleLookupFailure and display 1st attempt message when document reference number not found and security service returns 1st attempt" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(registrationNumber = registrationNumberValid)
+      val request = buildCorrectlyPopulatedRequest(registrationNumber = RegistrationNumberValid)
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseDocRefNumberNotLatest, bruteForceService = bruteForceServiceImpl(permitted = true)).submit(request)
 
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
@@ -374,7 +374,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val status = if (permitted) play.api.http.Status.OK else play.api.http.Status.FORBIDDEN
       val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
 
-      when(bruteForcePreventionWebService.callBruteForce(registrationNumberValid)).thenReturn(Future {
+      when(bruteForcePreventionWebService.callBruteForce(RegistrationNumberValid)).thenReturn(Future {
         new FakeResponse(status = status, fakeJson = responseFirstAttempt)
       })
       when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmAttempt2)).thenReturn(Future {
@@ -424,9 +424,9 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       vehicleLookupService = vehicleLookupServiceImpl)(clientSideSessionFactory)
   }
 
-  private def buildCorrectlyPopulatedRequest(referenceNumber: String = referenceNumberValid,
-                                             registrationNumber: String = registrationNumberValid,
-                                             consent: String = consentValid) = {
+  private def buildCorrectlyPopulatedRequest(referenceNumber: String = ReferenceNumberValid,
+                                             registrationNumber: String = RegistrationNumberValid,
+                                             consent: String = ConsentValid) = {
     FakeCSRFRequest().withFormUrlEncodedBody(
       DocumentReferenceNumberId -> referenceNumber,
       VehicleRegistrationNumberId -> registrationNumber,
