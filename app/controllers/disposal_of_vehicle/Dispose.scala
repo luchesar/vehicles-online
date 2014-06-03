@@ -221,42 +221,32 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     val line1 = 0
     val line2 = 1
     val line3 = 2
-    val emptyString = ""
 
     // confirmed by BAs - substitute address line 1 inserted if not present from OS
-    val sourceAddressToCheck: Seq[String] = if (sourceAddress.address.size == 2) Seq("No address line supplied") ++ sourceAddress.address
-                                else sourceAddress.address
+    val sourceAddressToCheck = if (sourceAddress.address.size == 2) Seq("No address line supplied") ++ sourceAddress.address else sourceAddress.address
 
-    val line2Empty: Boolean = if (sourceAddressToCheck(line2) == emptyString) true else false
-    val line3Empty: Boolean = if (sourceAddressToCheck(line3) == emptyString) true else false
+    val line2Empty = if (sourceAddressToCheck(line2) == "") true else false
+    val line3Empty = if (sourceAddressToCheck(line3) == "") true else false
+    val line1OverMax = if (sourceAddressToCheck(line1).size > LineMaxLength) true else false
+    val line2OverMax = if (sourceAddressToCheck(line2).size > LineMaxLength) true else false
 
-    val (sourceAddressLine1Checked, additionalLine1Chars) = checkForMaxChars(sourceAddressToCheck, line1)
+    //moving address lines (if applicable) to make best use of lines 1,2,3 if lines are over max length
+    val sourceAddressAmendedLines =
+      (line1OverMax, line2OverMax, line2Empty, line3Empty) match {
+      case (true, _, true, _) => Seq(sourceAddressToCheck(line1).substring(0, LineMaxLength)) ++ Seq(sourceAddressToCheck(line1).substring(LineMaxLength)) ++ sourceAddressToCheck.tail.tail
+      case (true, _, false, true) => Seq(sourceAddressToCheck(line1).substring(0, LineMaxLength)) ++ Seq(sourceAddressToCheck(line1).substring(LineMaxLength)) ++ Seq(sourceAddressToCheck(line2)) ++ sourceAddressToCheck.tail.tail.tail
+      case (false, true, false, true) => Seq(sourceAddressToCheck(line1)) ++ Seq(sourceAddressToCheck(line2).substring(0, LineMaxLength)) ++ Seq(sourceAddressToCheck(line2).substring(LineMaxLength)) ++ sourceAddressToCheck.tail.tail.tail
+      case (_) => sourceAddressToCheck
+    }
 
-    val sourceAddressLine1Updated: Seq[String] = if (line2Empty == true) Seq(sourceAddressLine1Checked) ++ Seq(additionalLine1Chars) ++ sourceAddressToCheck.tail.tail
-                                                 else Seq(sourceAddressLine1Checked) ++ sourceAddressToCheck.tail
-
-    val (sourceAddressLine2Checked, additionalLine2Chars) = checkForMaxChars(sourceAddressLine1Updated, line2)
-
-    val sourceAddressLine2Updated: Seq[String] = if (line3Empty == true) Seq(sourceAddressLine1Updated(line1)) ++ Seq(sourceAddressLine2Checked) ++ Seq(additionalLine2Chars) ++ sourceAddressLine1Updated.tail.tail.tail
-                                                 else Seq(sourceAddressLine1Updated(line1)) ++ Seq(sourceAddressLine2Checked) ++ sourceAddressLine1Updated.tail.tail
-
-    val legacyAddressLines = lineLengthCheck(sourceAddressLine2Updated.dropRight(2), Nil)
+    val legacyAddressLines = lineLengthCheck(sourceAddressAmendedLines.dropRight(2), Nil)
     val postTownToCheck = sourceAddressToCheck.takeRight(2).head
     val postTown = if (postTownToCheck.size > LineMaxLength) postTownToCheck.substring(0, LineMaxLength)
                    else postTownToCheck
     val postcode = sourceAddress.address.last.replaceAll(" ","")
 
+    //Logger.debug("DisposalAddressDto is " + legacyAddressLines + ", " + Some(postTown) + ", " + postcode + ", " + sourceAddress.uprn)
     DisposalAddressDto(legacyAddressLines, Some(postTown), postcode, sourceAddress.uprn)
-  }
-  
-  private def checkForMaxChars(sourceAddressToCheck: Seq[String], line: Int): (String, String) = {
-
-    val addressLineChecked = if (sourceAddressToCheck(line).size > LineMaxLength) sourceAddressToCheck(line).substring(0, LineMaxLength)
-                             else sourceAddressToCheck(line)
-
-    val additionalLineChars = if (sourceAddressToCheck(line).size > LineMaxLength) sourceAddressToCheck(line).substring(LineMaxLength)
-                              else ""
-    (addressLineChecked, additionalLineChars)
   }
 
   @tailrec
