@@ -88,6 +88,7 @@
 			text-transform: uppercase;
 		}
 
+		/*
 		&.datepicker {
 			cursor: pointer;
 			background: $form-element-bg url(#{$image-path}calendar-icon.png) 97% 50% no-repeat;
@@ -98,6 +99,7 @@
 				background: $form-element-bg;
 			}
 		}
+		*/
 	}
 
 	textarea {
@@ -154,8 +156,8 @@
 			font-size:17px;
 		}
 		.ie6 & {
-			input.checkbox {
-				left:-30px;
+			input {
+				left:-25px;
 			}
 		}
 
@@ -267,13 +269,17 @@
 			   padding: .4em 1em;
 		   }
 	   }
-	   	a, input, button {
+	   	a, 
+	   	input, 
+	   	.button,
+	   	.button-secondary {
 	   		display: inline-block;
 	   		vertical-align: middle;
 
 	   		@media screen and (max-width: $device-small) {
 	   			display: block;
 	   			width:100%;
+	   			float:none;
 	   			margin: {
 		   			right:0;
 	   			}
@@ -285,6 +291,8 @@
 
 	   	}
 
+	   	br {
+	   		clear:both;
+	   	}
 	}
-
 }

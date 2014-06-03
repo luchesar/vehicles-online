@@ -10,11 +10,12 @@
    	}
 
 	.section-content {
-		padding: 1.7em 1em 4em 1em;
-      @include clearfix;
-      .ie & {
-      	display:inline-block;
-      }
+		padding: 1.7em 1em 0 1em;
+		margin-bottom:4em;
+		@include clearfix;
+    .ie7 & {
+    	display:inline-block;
+    }
 	}
 
 	h1 {
@@ -119,6 +120,8 @@
 	// styles two column layout
 	.two-col {
 		@include clearfix;
+		width:100%; //failsafe
+
 		.first-col {
 			@include clearfix;
 			width:47%;
@@ -148,7 +151,7 @@
 		.ie6 & {	
 			clear:both;
 		}
-	}	
+	}
 
 	.disposal-form {
 
@@ -165,11 +168,12 @@
 		legend {
 			margin-top:20px;
 		}
-	}
+		.ie6 & {
+			.form-date .form-item {
+				float:left;
+			}
+		}
 
-	/*failsafe (predominantly ie)*/
-	.dispose-success .form-steps br {	
-		clear:both;
 	}
 
 }
