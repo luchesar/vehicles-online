@@ -84,16 +84,6 @@ final class DisposeUnitSpec extends UnitSpec {
     }
   }
 
-  private def buildCheckboxHtml(widgetName: String, checked: Boolean): String = {
-    if (checked)
-      s"""<inputtype="checkbox"id="$widgetName"name="$widgetName"value="true"checkedaria-required=true>"""
-    else
-      s"""<inputtype="checkbox"id="$widgetName"name="$widgetName"value="true"aria-required=true>"""
-  }
-
-  private def buildSelectedOptionHtml(optionValue: String, optionText: String): String = {
-    s"""<optionvalue="$optionValue"selected>$optionText</option>"""
-  }
 
   "submit" should {
     "redirect to dispose success when a success message is returned by the fake microservice" in new WithApplication {
@@ -268,7 +258,7 @@ final class DisposeUnitSpec extends UnitSpec {
           cookies.map(_.name) should contain allOf(DisposeModelCacheKey, DisposeFormTransactionIdCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormModelCacheKey, DisposeFormTimestampIdCacheKey)
       }
     }
- 
+
     "calls DisposeService invoke with the expected DisposeRequest" in new WithApplication {
       val disposeServiceMock = mock[DisposeService]
       when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
@@ -276,6 +266,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val disposeController = new disposal_of_vehicle.Dispose(disposeServiceMock, dateServiceStubbed())(clientSideSessionFactory)
 
       val request = buildCorrectlyPopulatedRequest.
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20)).
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
@@ -307,7 +299,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "a" * LineMaxLength + 1, line2 = "b" * LineMaxLength + 1, line3 = "c" * LineMaxLength + 1)) // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "a" * LineMaxLength + 1, line2 = "b" * LineMaxLength + 1, line3 = "c" * LineMaxLength + 1)). // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
       val result = disposeController.submit(request)
 
@@ -334,7 +327,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line4 = "a" * LineMaxLength + 1)) // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line4 = "a" * LineMaxLength + 1)). // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
       val result = disposeController.submit(request)
 
@@ -361,7 +355,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(traderPostcode = "CM8 1QJ")) // postcode contains space
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(traderPostcode = "CM8 1QJ")). // postcode contains space
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
       val result = disposeController.submit(request)
 
@@ -376,11 +371,12 @@ final class DisposeUnitSpec extends UnitSpec {
         keeperConsent = consentValid.toBoolean,
         mileage = Some(mileageValid.toInt)
       )
+
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
   }
 
-  private val dateValid: String =  DayMonthYear(dateOfDisposalDayValid.toInt, dateOfDisposalMonthValid.toInt, dateOfDisposalYearValid.toInt).toDateTime.get.toString
+  private val dateValid: String = DayMonthYear(dateOfDisposalDayValid.toInt, dateOfDisposalMonthValid.toInt, dateOfDisposalYearValid.toInt).toDateTime.get.toString
 
   private val emptySpace = " "
 
@@ -419,4 +415,15 @@ final class DisposeUnitSpec extends UnitSpec {
     new disposal_of_vehicle.Dispose(disposeServiceImpl, dateServiceStubbed())(clientSideSessionFactory)
   }
 
+
+  private def buildCheckboxHtml(widgetName: String, checked: Boolean): String = {
+    if (checked)
+      s"""<inputtype="checkbox"id="$widgetName"name="$widgetName"value="true"checkedaria-required=true>"""
+    else
+      s"""<inputtype="checkbox"id="$widgetName"name="$widgetName"value="true"aria-required=true>"""
+  }
+
+  private def buildSelectedOptionHtml(optionValue: String, optionText: String): String = {
+    s"""<optionvalue="$optionValue"selected>$optionText</option>"""
+  }
 }
