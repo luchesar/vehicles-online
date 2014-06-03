@@ -21,9 +21,9 @@ final class VrmLockedUnitSpec extends UnitSpec {
     }
   }
 
-  private def dateServiceStubbed(day: Int = dateOfDisposalDayValid.toInt,
-                                 month: Int = dateOfDisposalMonthValid.toInt,
-                                 year: Int = dateOfDisposalYearValid.toInt) = {
+  private def dateServiceStubbed(day: Int = DateOfDisposalDayValid.toInt,
+                                 month: Int = DateOfDisposalMonthValid.toInt,
+                                 year: Int = DateOfDisposalYearValid.toInt) = {
     val dateService = mock[DateService]
     when(dateService.today).thenReturn(new models.DayMonthYear(day = day,
       month = month,

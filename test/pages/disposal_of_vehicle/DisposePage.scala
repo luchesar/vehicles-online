@@ -31,9 +31,9 @@ object DisposePage extends Page with WebBrowserDSL {
   def happyPath(implicit driver: WebDriver) = {
     go to DisposePage
     mileage enter mileageValid
-    dateOfDisposalDay select dateOfDisposalDayValid
-    dateOfDisposalMonth select dateOfDisposalMonthValid
-    dateOfDisposalYear select dateOfDisposalYearValid
+    dateOfDisposalDay select DateOfDisposalDayValid
+    dateOfDisposalMonth select DateOfDisposalMonthValid
+    dateOfDisposalYear select DateOfDisposalYearValid
     click on consent
     click on lossOfRegistrationConsent
     click on dispose

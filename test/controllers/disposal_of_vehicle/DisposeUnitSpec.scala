@@ -406,13 +406,13 @@ final class DisposeUnitSpec extends UnitSpec {
     }
   }
 
-  private val dateValid: String = DayMonthYear(dateOfDisposalDayValid.toInt, dateOfDisposalMonthValid.toInt, dateOfDisposalYearValid.toInt).toDateTime.get.toString
+  private val dateValid: String = DayMonthYear(DateOfDisposalDayValid.toInt, DateOfDisposalMonthValid.toInt, DateOfDisposalYearValid.toInt).toDateTime.get.toString
 
   private val emptySpace = " "
 
-  private def dateServiceStubbed(day: Int = dateOfDisposalDayValid.toInt,
-                                 month: Int = dateOfDisposalMonthValid.toInt,
-                                 year: Int = dateOfDisposalYearValid.toInt) = {
+  private def dateServiceStubbed(day: Int = DateOfDisposalDayValid.toInt,
+                                 month: Int = DateOfDisposalMonthValid.toInt,
+                                 year: Int = DateOfDisposalYearValid.toInt) = {
     val dateService = mock[DateService]
     when(dateService.today).thenReturn(new models.DayMonthYear(day = day,
       month = month,
@@ -424,9 +424,9 @@ final class DisposeUnitSpec extends UnitSpec {
     import mappings.common.DayMonthYear._
     FakeCSRFRequest().withFormUrlEncodedBody(
       MileageId -> mileageValid,
-      s"$DateOfDisposalId.$DayId" -> dateOfDisposalDayValid,
-      s"$DateOfDisposalId.$MonthId" -> dateOfDisposalMonthValid,
-      s"$DateOfDisposalId.$YearId" -> dateOfDisposalYearValid,
+      s"$DateOfDisposalId.$DayId" -> DateOfDisposalDayValid,
+      s"$DateOfDisposalId.$MonthId" -> DateOfDisposalMonthValid,
+      s"$DateOfDisposalId.$YearId" -> DateOfDisposalYearValid,
       ConsentId -> consentValid,
       LossOfRegistrationConsentId -> consentValid
     )

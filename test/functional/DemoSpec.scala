@@ -56,13 +56,13 @@ final class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with B
           DisposePage.mileage enter mileageValid
 
           And("I select \"01\" from the date of disposal day dropdown")
-          DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
+          DisposePage.dateOfDisposalDay select DateOfDisposalDayValid
 
           And("I select \"March\" from the date of disposal month dropdown")
-          DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
+          DisposePage.dateOfDisposalMonth select DateOfDisposalMonthValid
 
           And("I enter \"2014\" in the date of disposal year field")
-          DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
+          DisposePage.dateOfDisposalYear select DateOfDisposalYearValid
 
           And("I select \"I have the consent of the current keeper to dispose of this vehicle\"")
           click on DisposePage.consent

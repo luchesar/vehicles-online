@@ -105,9 +105,9 @@ final class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
   }
 
   private def enterValidDisposalDate() {
-    DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
-    DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
-    DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
+    DisposePage.dateOfDisposalDay select DateOfDisposalDayValid
+    DisposePage.dateOfDisposalMonth select DateOfDisposalMonthValid
+    DisposePage.dateOfDisposalYear select DateOfDisposalYearValid
   }
 
   private def buildDisposeSetup(){

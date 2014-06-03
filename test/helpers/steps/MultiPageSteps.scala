@@ -35,9 +35,9 @@ final class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowser
     DisposePage.mileage enter "10000"
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
-    DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
-    DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
-    DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
+    DisposePage.dateOfDisposalDay select DateOfDisposalDayValid
+    DisposePage.dateOfDisposalMonth select DateOfDisposalMonthValid
+    DisposePage.dateOfDisposalYear select DateOfDisposalYearValid
     click on DisposePage.dispose
     page.title should equal(DisposeSuccessPage.title)
   }
@@ -79,7 +79,7 @@ final class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowser
       getCookieNamed(DisposeFormTimestampIdCacheKey).
       getValue
 
-    timestamp should include(s"""$dateOfDisposalYearValid-$dateOfDisposalMonthValid-${dateOfDisposalDayValid}""")
+    timestamp should include(s"""$DateOfDisposalYearValid-$DateOfDisposalMonthValid-${DateOfDisposalDayValid}""")
   }
 
   private def enterValidManualAddress() {

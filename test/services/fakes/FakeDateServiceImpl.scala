@@ -1,15 +1,15 @@
 package services.fakes
 
+import FakeDateServiceImpl._
 import models.DayMonthYear
 import services.DateService
 
 final class FakeDateServiceImpl extends DateService {
-  import FakeDateServiceImpl._
-  override def today = DayMonthYear(dateOfDisposalDayValid.toInt, dateOfDisposalMonthValid.toInt, dateOfDisposalYearValid.toInt)
+  override def today = DayMonthYear(DateOfDisposalDayValid.toInt, DateOfDisposalMonthValid.toInt, DateOfDisposalYearValid.toInt)
 }
 
 object FakeDateServiceImpl {
-  final val dateOfDisposalDayValid = "25"
-  final val dateOfDisposalMonthValid = "11"
-  final val dateOfDisposalYearValid = "1970"
+  final val DateOfDisposalDayValid = "25"
+  final val DateOfDisposalMonthValid = "11"
+  final val DateOfDisposalYearValid = "1970"
 }

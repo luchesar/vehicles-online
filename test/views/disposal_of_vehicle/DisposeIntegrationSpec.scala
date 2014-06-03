@@ -78,8 +78,8 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposePage
-      dateOfDisposalMonth select dateOfDisposalMonthValid
-      dateOfDisposalYear select dateOfDisposalYearValid
+      dateOfDisposalMonth select DateOfDisposalMonthValid
+      dateOfDisposalYear select DateOfDisposalYearValid
 
       click on consent
       click on lossOfRegistrationConsent
@@ -92,8 +92,8 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposePage
-      dateOfDisposalDay select dateOfDisposalDayValid
-      dateOfDisposalYear select dateOfDisposalYearValid
+      dateOfDisposalDay select DateOfDisposalDayValid
+      dateOfDisposalYear select DateOfDisposalYearValid
 
       click on consent
       click on lossOfRegistrationConsent
@@ -106,8 +106,8 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposePage
-      dateOfDisposalDay select dateOfDisposalDayValid
-      dateOfDisposalMonth select dateOfDisposalMonthValid
+      dateOfDisposalDay select DateOfDisposalDayValid
+      dateOfDisposalMonth select DateOfDisposalMonthValid
 
       click on consent
       click on lossOfRegistrationConsent
