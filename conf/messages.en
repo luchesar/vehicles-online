@@ -178,10 +178,6 @@ error.invalid = Invalid value
 # DISPOSAL OF VEHICLE
 ##
 
-#prototype
-prototype.banner = This is a prototype – your feedback will help us to improve it.
-prototype.link = Find out more
-
 #page 1 - Before You Start
 disposal_beforeyoustart.title = Sell a vehicle into the motor trade
 disposal_beforeyoustart.p1 = Before you start:
@@ -261,8 +257,8 @@ disposal_vehiclelookup.button = Next
 disposal_vehiclelookup.button2 = Edit
 disposal_vehiclelookup.tradernamelabel = Trader name
 disposal_vehiclelookup.traderaddresslabel = Trader address
-registrationNumber = Vehicle registration mark
-referenceNumber = Document reference number
+vehicleRegistrationNumber = Vehicle registration mark
+documentReferenceNumber = Document reference number
 error.validDocumentReferenceNumber = Document reference number must be an 11-digit number
 
 #page 5 - confirm disposal
@@ -327,26 +323,27 @@ disposal_disposefailure.button2 = Setup New Trader Details
 disposal_disposefailure.transactionid = {0}
 
 #page 8 - vehicle lookup failure
-disposal_vehiclelookupfailure.title = Dispose a vehicle into the motor trade: vehicle lookup failure
+disposal_vehiclelookupfailure.title = Look-up was unsuccessful
+disposal_vehiclelookupfailure.title.greaterThanOneAttempt = Look-up was unsuccessful ({0} of {1})
 disposal_vehiclelookupfailure.name = Failure
 disposal_vehiclelookupfailure.p1 = The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
 #disposal_vehiclelookupfailure.button = Vehicle Lookup
 disposal_vehiclelookupfailure.button = Try again
 #disposal_vehiclelookupfailure.button2 = Setup New Trader Details
 disposal_vehiclelookupfailure.button2 = Exit
-vehicle_lookup_vrm_not_found = There is no record for this Vehicle Registration Mark. Please try again, or send a completed V5C/3 to DVLA
-vehicle_lookup_document_reference_mismatch = This is not the latest Document Reference Number for the vehicle. Please try again, or send a completed V5C/3 to DVLA
+vehicle_lookup_vrm_not_found = The Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle. Please make sure you have the most recent V5C and try again. For each vehicle registration mark, there will be three attempts to retrieve the vehicle details.
+vehicle_lookup_document_reference_mismatch = The Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle. Please make sure you have the most recent V5C and try again. For each vehicle registration mark, there will be three attempts to retrieve the vehicle details.
+disposal_vehiclelookupfailure.warnAboutLockout = After a third unsuccessful attempt the system prevents further attempts to access the the vehicles records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.
 
-error.address.line1Required = Address needs line 1 filled in
-error.address.line1minLength = Line 1 requires a minimum length of 4 characters
-error.address.line4Required = Address needs post town filled in
-error.address.line4minLength  = Post town requires a minimum length of 3 characters
 addressAndPostcode.addressLines.line1 = Line 1
 error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
 error.address.characterinvalid = Invalid characters are not allowed
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
 error.validTraderBusinessName = Must be between two and 30 characters and not contain invalid characters
+error.address.line1.invalid = Line 1 requires a minimum length of four characters
+error.address.line4.invalid = Post town requires a minimum length of 3 characters
+error.address.postcode.invalid = Must be between 5 and 8 characters and in a valid format, eg. PR2 8AE or PR28AE
 
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = Your application is being processed and you should receive confirmation letter within four weeks.

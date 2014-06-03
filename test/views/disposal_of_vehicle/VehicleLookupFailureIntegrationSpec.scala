@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.VehicleLookupFailurePage._
 import pages.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.VehicleLookup._
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttemptsOneBased
 
 final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -52,6 +53,33 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       webDriver.manage().getCookieNamed(VehicleLookupResponseCodeCacheKey) should equal(null)
     }
 
+    "not display greaterThanOneAttempt and warnAboutLockout messages when 1 attempt has been made" in new WebBrowser {
+      val notExpectedAttempts = 2
+      val notExpectedMaxAttempts = MaxAttemptsOneBased
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      go to VehicleLookupFailurePage
+
+      page.source should not include s"Look-up was unsuccessful ($notExpectedAttempts of $notExpectedMaxAttempts)"
+      page.source should not include "After a third unsuccessful attempt the system prevents further attempts to access the the vehicles records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period."
+    }
+
+    "display greaterThanOneAttempt and warnAboutLockout messages when 2 attempts have been made" in new WebBrowser {
+      val expectedAttempts = 2
+      val expectedMaxAttempts = MaxAttemptsOneBased
+      go to BeforeYouStartPage
+
+      CookieFactoryForUISpecs.
+        dealerDetails().
+        bruteForcePreventionViewModel(attempts = expectedAttempts, maxAttempts = expectedMaxAttempts).
+        vehicleLookupFormModel()
+
+      go to VehicleLookupFailurePage
+
+      page.source should include(s"Look-up was unsuccessful ($expectedAttempts of $expectedMaxAttempts)")
+      page.source should include("After a third unsuccessful attempt the system prevents further attempts to access the the vehicles records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.")
+    }
   }
 
   "vehicleLookup button" should {
@@ -81,6 +109,6 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
       dealerDetails().
-      bruteForcePreventionResponse().
+      bruteForcePreventionViewModel().
       vehicleLookupFormModel()
 }

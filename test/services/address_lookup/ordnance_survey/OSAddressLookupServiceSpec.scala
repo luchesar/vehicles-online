@@ -21,7 +21,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     "return seq when response status is 200 OK and returns results" in {
       val service = addressServiceMock(responseValidForPostcodeToAddress)
 
-      val result = service.fetchAddressesForPostcode(postcodeValid)
+      val result = service.fetchAddressesForPostcode(postcodeValid)(None)
 
       whenReady(result, timeout) {
         r =>
@@ -33,7 +33,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     "return empty seq when response status is Ok but results is empty" in {
       val service = addressServiceMock(responsePostcode(OK, PostcodeToAddressResponse(addresses = Seq.empty)))
 
-      val result = service.fetchAddressesForPostcode(postcodeValid)
+      val result = service.fetchAddressesForPostcode(postcodeValid)(None)
 
       whenReady(result, timeout) {
         _ shouldBe empty
@@ -43,7 +43,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     "return empty seq when response status is not 200 OK" in {
       val service = addressServiceMock(responsePostcode(NOT_FOUND))
 
-      val result = service.fetchAddressesForPostcode(postcodeValid)
+      val result = service.fetchAddressesForPostcode(postcodeValid)(None)
 
       whenReady(result, timeout) {
         _ shouldBe empty
@@ -53,7 +53,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     "return empty seq when response throws" in {
       val addressLookupService = addressServiceMock(responseThrows)
 
-      val result = addressLookupService.fetchAddressesForPostcode(postcodeValid)
+      val result = addressLookupService.fetchAddressesForPostcode(postcodeValid)(None)
 
       whenReady(result, timeout) {
         _ shouldBe empty
@@ -64,7 +64,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
       val inputAsJson = Json.obj("addresses" -> "INVALID")
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressesForPostcode(postcodeValid)
+      val result = service.fetchAddressesForPostcode(postcodeValid)(None)
 
       whenReady(result, timeout) {
         _ shouldBe empty
@@ -76,7 +76,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     "return AddressViewModel when response status is 200 OK" in {
       val service = addressServiceMock(responseValidForUprnToAddress)
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)(None)
 
       whenReady(result, timeout) {
         case Some(addressViewModel) =>
@@ -89,7 +89,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     "return None when response statuss not 200 OK" in {
       val service = addressServiceMock(responseUprn(NOT_FOUND, UprnToAddressResponse(addressViewModel = None)))
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)(None)
 
       whenReady(result, timeout) {
         _ should equal(None)
@@ -99,7 +99,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     "return none when response status is 200 OK but results is empty" in {
       val service = addressServiceMock(responseUprn(OK, UprnToAddressResponse(addressViewModel = None)))
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)(None)
 
       whenReady(result, timeout) {
         _ should equal(None)
@@ -109,7 +109,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     "return none when web service throws an exception" in {
       val addressLookupService = addressServiceMock(responseThrows)
 
-      val result = addressLookupService.fetchAddressForUprn(traderUprnValid.toString)
+      val result = addressLookupService.fetchAddressForUprn(traderUprnValid.toString)(None)
 
       whenReady(result) {
         _ should equal(None)
@@ -120,7 +120,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
       val inputAsJson = Json.obj("addressViewModel" -> "INVALID")
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressForUprn(postcodeValid)
+      val result = service.fetchAddressForUprn(postcodeValid)(None)
 
       whenReady(result, timeout) {
         _ shouldBe empty
@@ -132,7 +132,9 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
 
   private def addressServiceMock(response: Future[Response]): AddressLookupService = {
     // Using the real address lookup service but passing in a fake web service that returns the responses we specify.
-    new ordnance_survey.AddressLookupServiceImpl(new FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService = response, responseOfUprnWebService = response))
+    new ordnance_survey.AddressLookupServiceImpl(
+      new FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService = response, responseOfUprnWebService = response)
+    )
   }
 
   private def response(statusCode: Int, inputAsJson: JsValue): Future[Response] = Future {

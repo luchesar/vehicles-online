@@ -1,7 +1,6 @@
 package services.address_lookup.gds
 
-import models.domain.disposal_of_vehicle.{PostcodeToAddressResponse, AddressViewModel}
-import utils.helpers.Config
+import models.domain.disposal_of_vehicle.AddressViewModel
 import play.api.Logger
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
@@ -10,8 +9,11 @@ import play.api.libs.ws.Response
 import services.address_lookup.gds.domain.Address
 import services.address_lookup.gds.domain.JsonFormats.addressFormat
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
+import common.ClientSideSession
 
-final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends AddressLookupService {
+final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
+  extends AddressLookupService {
+
   private def extractFromJson(resp: Response): Seq[Address] = {
     try resp.json.as[Seq[Address]]
     catch {
@@ -19,7 +21,8 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
     }
   }
 
-  override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = {
+  override def fetchAddressesForPostcode(postcode: String)
+                                        (implicit session: Option[ClientSideSession]): Future[Seq[(String, String)]] = {
     def sort(addresses: Seq[Address]) = {
       addresses.sortBy(addressDpa => {
         val buildingNumber = addressDpa.houseNumber.getOrElse("0")
@@ -45,7 +48,8 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
     }
   }
 
-  override def fetchAddressForUprn(uprn: String): Future[Option[AddressViewModel]] = {
+  override def fetchAddressForUprn(uprn: String)
+                                  (implicit session: Option[ClientSideSession]): Future[Option[AddressViewModel]] = {
     def toViewModel(resp: Response) = {
       val addresses = extractFromJson(resp)
       require(addresses.length >= 1, s"Should be at least one address for the UPRN: $uprn")

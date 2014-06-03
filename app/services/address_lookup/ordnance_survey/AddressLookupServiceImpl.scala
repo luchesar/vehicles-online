@@ -7,9 +7,11 @@ import ExecutionContext.Implicits.global
 import javax.inject.Inject
 import play.api.libs.ws.Response
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
+import common.ClientSideSession
 
 final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends AddressLookupService {
-  override def fetchAddressesForPostcode(postcode: String): Future[Seq[(String, String)]] = {
+  override def fetchAddressesForPostcode(postcode: String)
+                                        (implicit session: Option[ClientSideSession]): Future[Seq[(String, String)]] = {
     def extractFromJson(resp: Response): Option[PostcodeToAddressResponse] = {
       resp.json.asOpt[PostcodeToAddressResponse]
     }
@@ -26,7 +28,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
           Seq.empty
       }
 
-    ws.callPostcodeWebService(postcode).map {
+    ws.callPostcodeWebService(postcode)(session).map {
       resp =>
         //Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}")
         if (resp.status == play.api.http.Status.OK) toDropDown(resp)
@@ -38,7 +40,8 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
     }
   }
 
-  override def fetchAddressForUprn(uprn: String): Future[Option[AddressViewModel]] = {
+  override def fetchAddressForUprn(uprn: String)
+                                  (implicit session: Option[ClientSideSession]): Future[Option[AddressViewModel]] = {
     // Extract result from response and return as a view model.
     def extractFromJson(resp: Response): Option[UprnToAddressResponse] = {
       resp.json.asOpt[UprnToAddressResponse]

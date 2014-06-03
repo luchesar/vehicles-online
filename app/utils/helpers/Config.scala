@@ -3,8 +3,9 @@ package utils.helpers
 import app.ConfigProperties._
 import scala.concurrent.duration._
 import scala.language.postfixOps
+import play.api.Logger
 
-object Config {
+class Config {
   // Micro-service config
   val vehicleLookupMicroServiceBaseUrl: String = getProperty("vehicleLookupMicroServiceUrlBase", "NOT FOUND")
   val disposeVehicleMicroServiceBaseUrl: String = getProperty("disposeVehicleMicroServiceUrlBase", "NOT FOUND")
@@ -24,5 +25,10 @@ object Config {
   // Brute force prevention config
   val bruteForcePreventionMicroServiceBaseUrl: String = getProperty("bruteForcePreventionMicroServiceBase", "NOT FOUND")
   val bruteForcePreventionTimeout: Int = getProperty("bruteForcePrevention.requesttimeout", (5 seconds).toMillis.toInt)
-  val bruteForcePreventionEnabled: Boolean = getProperty("bruteForcePrevention.enabled", default = true)
+  val bruteForcePreventionEnabled: Boolean = {
+    val enabled = getProperty("bruteForcePrevention.enabled", default = true)
+    Logger.debug(s"bruteForcePreventionEnabled = $enabled")
+    enabled
+  }
+  val bruteForcePreventionServiceNameHeader: String = getProperty("bruteForcePrevention.headers.serviceName", "")
 }

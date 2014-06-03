@@ -8,6 +8,8 @@ import models.domain.common.CacheKey
 final case class DisposeModel(referenceNumber: String,
                         registrationNumber: String,
                         dateOfDisposal: DayMonthYear,
+                        consent: String,
+                        lossOfRegistrationConsent: String,
                         mileage: Option[Int])
 
 object DisposeModel {

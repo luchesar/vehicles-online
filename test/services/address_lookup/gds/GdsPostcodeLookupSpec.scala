@@ -28,7 +28,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
     "return empty seq when cannot connect to micro-service" in {
       val service = addressServiceMock(responseTimeout)
 
-      val result = service.fetchAddressesForPostcode(postcodeValid)
+      val result = service.fetchAddressesForPostcode(postcodeValid)(None)
 
       whenReady(result, Timeout(Span(1, Second))) { _ shouldBe empty }
     }
@@ -36,7 +36,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
     "return empty seq when response throws" in {
       val service = addressServiceMock(responseThrows)
 
-      val result = service.fetchAddressesForPostcode(postcodeValid)
+      val result = service.fetchAddressesForPostcode(postcodeValid)(None)
 
       whenReady(result, Timeout(Span(1, Second))) { _ shouldBe empty }
     }
@@ -45,7 +45,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson("INVALID")
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressesForPostcode(postcodeValid)
+      val result = service.fetchAddressesForPostcode(postcodeValid)(None)
 
       whenReady(result) { _ shouldBe empty }
     }
@@ -55,7 +55,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(NOT_FOUND, inputAsJson))
 
-      val result = service.fetchAddressesForPostcode(postcodeValid)
+      val result = service.fetchAddressesForPostcode(postcodeValid)(None)
 
       whenReady(result) { _ shouldBe empty }
     }
@@ -66,7 +66,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(expectedResults)
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressesForPostcode(postcodeValid)
+      val result = service.fetchAddressesForPostcode(postcodeValid)(None)
 
       whenReady(result) { _ shouldBe empty }
     }
@@ -77,7 +77,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressesForPostcode(postcodeValid)
+      val result = service.fetchAddressesForPostcode(postcodeValid)(None)
 
       whenReady(result) { _ shouldBe Seq(expected) }
     }
@@ -88,7 +88,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressesForPostcode(postcodeValid)
+      val result = service.fetchAddressesForPostcode(postcodeValid)(None)
 
       whenReady(result) { _ shouldBe Seq(expected, expected, expected) }
     }
@@ -107,7 +107,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressesForPostcode(postcodeValid)
+      val result = service.fetchAddressesForPostcode(postcodeValid)(None)
 
       whenReady(result) { _ shouldBe expected }
     }
@@ -126,7 +126,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressesForPostcode(postcodeValid)
+      val result = service.fetchAddressesForPostcode(postcodeValid)(None)
 
       whenReady(result) { _ shouldBe expected }
     }
@@ -136,7 +136,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
     "return None when cannot connect to micro-service" in {
       val service = addressServiceMock(responseTimeout)
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)(None)
 
       whenReady(result) { _ shouldBe None }
     }
@@ -144,7 +144,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
     "return None when response throws" in {
       val service = addressServiceMock(responseThrows)
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)(None)
 
       whenReady(result) { _ shouldBe None }
     }
@@ -153,7 +153,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson("INVALID")
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)(None)
 
       whenReady(result) { _ shouldBe None }
     }
@@ -163,7 +163,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(NOT_FOUND, inputAsJson))
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)(None)
 
       whenReady(result) { _ shouldBe None }
     }
@@ -172,7 +172,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(Seq.empty)
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)(None)
 
       whenReady(result) { _ shouldBe None }
     }
@@ -183,7 +183,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)(None)
 
       whenReady(result) {
         case Some(addressViewModel) =>
@@ -199,7 +199,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString)(None)
 
       whenReady(result) {
         case Some(addressViewModel) =>

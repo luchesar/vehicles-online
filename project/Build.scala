@@ -21,10 +21,12 @@ object ApplicationBuild extends Build {
     "info.cukes" % "cucumber-picocontainer" % "1.1.5" % "test" withSources() withJavadoc(),
     "org.specs2" %% "specs2" % "2.3.10" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
+    "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc(),
     "org.scalatest" % "scalatest_2.10" % "2.1.1" % "test" withSources() withJavadoc(),
     "com.google.inject" % "guice" % "4.0-beta" withSources() withJavadoc(),
     "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
-    "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc()
+    "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
+    "org.apache.httpcomponents" % "httpclient" % "4.3.1" withSources() withJavadoc()
   )
 
   val jsModulesToOptimise = Seq("custom.js")

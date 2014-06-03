@@ -3,6 +3,8 @@ package composition
 import com.google.inject.Guice
 import play.api.mvc.{Session, RequestHeader, EssentialFilter}
 import play.filters.csrf.CSRF._
+import play.api.mvc.EssentialFilter
+import filters.EnsureSessionCreatedFilter
 import play.filters.csrf.CSRFFilter
 import java.security.SecureRandom
 import org.apache.commons.codec.binary.Hex

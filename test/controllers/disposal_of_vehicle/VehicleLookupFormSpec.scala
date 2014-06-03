@@ -19,6 +19,7 @@ import composition.TestComposition.{testInjector => injector}
 import services.brute_force_prevention.{BruteForcePreventionServiceImpl, BruteForcePreventionWebService, BruteForcePreventionService}
 import play.api.http.Status._
 import scala.Some
+import utils.helpers.Config
 
 final class VehicleLookupFormSpec extends UnitSpec {
   "form" should {
@@ -39,7 +40,7 @@ final class VehicleLookupFormSpec extends UnitSpec {
 
     "reject if blank" in {
       val vehicleLookupFormError = formWithValidDefaults(referenceNumber = "").errors
-      val expectedKey = ReferenceNumberId
+      val expectedKey = DocumentReferenceNumberId
       
       vehicleLookupFormError should have length 3
       vehicleLookupFormError(0).key should equal(expectedKey)
@@ -100,7 +101,7 @@ final class VehicleLookupFormSpec extends UnitSpec {
     }
     )
 
-    new BruteForcePreventionServiceImpl(bruteForcePreventionWebService)
+    new BruteForcePreventionServiceImpl(new Config(), bruteForcePreventionWebService)
   }
 
   private def vehicleLookupResponseGenerator(fullResponse:(Int, Option[VehicleDetailsResponse])) = {
@@ -124,8 +125,8 @@ final class VehicleLookupFormSpec extends UnitSpec {
                                     consent: String = consentValid) = {
     vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).vehicleLookupForm.bind(
       Map(
-        ReferenceNumberId -> referenceNumber,
-        RegistrationNumberId -> registrationNumber
+        DocumentReferenceNumberId -> referenceNumber,
+        VehicleRegistrationNumberId -> registrationNumber
       )
     )
   }
