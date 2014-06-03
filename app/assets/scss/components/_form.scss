@@ -255,6 +255,18 @@
 	   @media screen and (max-width: $device-small) {
 	   		padding-left: 0;
 	   	}
+
+	   	.step {
+	   		display:inline-block;
+	   		@media screen and (max-width: $device-small) {
+	   			display:block;
+	   			width:100%;
+	   		}
+	   		.ie7 &,
+	   		.ie6 & {
+	   			display:inline;
+	   		}
+	   	}
 	   p {
 		   padding-bottom: 0.2em;
 		   clear: both;

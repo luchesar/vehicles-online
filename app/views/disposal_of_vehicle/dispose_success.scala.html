@@ -84,12 +84,15 @@
             @CSRF.formField
 
             <div class="form-steps">
-                <button id="@NewDisposalId" type="submit" name="action" value="newDisposal" class="button">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
-                <button id="@ExitDisposalId" type="submit" name="action" value="exit" class="button">@Messages("disposal_disposeconfirmation.exitbutton")</button>
-
-                @{/* TODO implemented JS and SCSS only. May need Scala work for unique ID? */}
-                <button id="printDisposalSuccess" type="button" name="action" value="printDisposalSuccess" class="button js-only print-button">@Messages("global.buttonnavprint")</button>
-
+                <div class="step">
+                    <button id="@NewDisposalId" type="submit" name="action" value="newDisposal" class="button">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
+                </div>
+                <div class="step">
+                    <button id="@ExitDisposalId" type="submit" name="action" value="exit" class="button">@Messages("disposal_disposeconfirmation.exitbutton")</button>
+                </div>
+                <div class="step">
+                    <button id="printDisposalSuccess" type="button" name="action" value="printDisposalSuccess" class="button js-only print-button">@Messages("global.buttonnavprint")</button>
+                </div>
                 <br />
 
                 @{/* TODO URL tbc */}
