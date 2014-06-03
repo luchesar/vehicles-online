@@ -218,12 +218,51 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
   private def disposalAddressDto(sourceAddress: AddressViewModel): DisposalAddressDto = {
   // The last two address lines are always post town and postcode
+    val line1 = 0
+    val line2 = 1
+    val line3 = 2
+    val emptyString = ""
 
     // confirmed by BAs - substitute address line 1 inserted if not present from OS
-    val sourceAddressToCheck = if (sourceAddress.address.size == 2) Seq("No address line supplied") ++ sourceAddress.address
+    val sourceAddressToCheck: Seq[String] = if (sourceAddress.address.size == 2) Seq("No address line supplied") ++ sourceAddress.address
                                 else sourceAddress.address
 
-    val legacyAddressLines = lineLengthCheck(sourceAddressToCheck.dropRight(2), Nil)
+    val line2Empty: Boolean = if (sourceAddressToCheck(line2) == emptyString) true else false
+    val line3Empty: Boolean = if (sourceAddressToCheck(line3) == emptyString) true else false
+
+
+
+
+
+    val sourceAddressLine1Checked: String = if (sourceAddressToCheck(line1).size > LineMaxLength) sourceAddressToCheck(line1).substring(0, LineMaxLength)
+                                            else sourceAddressToCheck(line1)
+
+    val additionalLine1Chars: String = if (sourceAddressToCheck(line1).size > LineMaxLength) sourceAddressToCheck(line1).substring(LineMaxLength)
+                                       else emptyString
+
+    //println(s"Line 1 trimmed to 30 chars is $sourceAddressLine1Checked" )
+    //println(s"Line 1 extra is $additionalLine1Chars" )
+
+    val sourceAddressLine1Updated: Seq[String] = if (line2Empty == true) Seq(sourceAddressLine1Checked) ++ Seq(additionalLine1Chars) ++ sourceAddressToCheck.tail.tail
+                                                 else Seq(sourceAddressLine1Checked) ++ sourceAddressToCheck.tail
+
+
+
+    val sourceAddressLine2Checked: String = if (sourceAddressLine1Updated(line2).size > LineMaxLength) sourceAddressLine1Updated(line2).substring(0, LineMaxLength)
+                                            else sourceAddressLine1Updated(line2)
+
+    val additionalLine2Chars: String = if (sourceAddressLine1Updated(line2).size > LineMaxLength) sourceAddressLine1Updated(line2).substring(LineMaxLength)
+                                       else emptyString
+
+    //println(s"Line 2 trimmed to 30 chars is $sourceAddressLine2Checked" )
+    //println(s"Line 2 extra is $additionalLine2Chars" )
+
+    val sourceAddressLine2Updated: Seq[String] = if (line3Empty == true) Seq(sourceAddressLine1Updated(line1)) ++ Seq(sourceAddressLine2Checked) ++ Seq(additionalLine2Chars) ++ sourceAddressLine1Updated.tail.tail.tail
+                                                 else Seq(sourceAddressLine1Updated(line1)) ++ Seq(sourceAddressLine2Checked) ++ sourceAddressLine1Updated.tail.tail
+
+    //println(s"Line 2 once checked is $sourceAddressLine2Updated")
+
+    val legacyAddressLines = lineLengthCheck(sourceAddressLine2Updated.dropRight(2), Nil)
     val postTownToCheck = sourceAddressToCheck.takeRight(2).head
     val postTown = if (postTownToCheck.size > LineMaxLength) postTownToCheck.substring(0, LineMaxLength)
     else postTownToCheck
