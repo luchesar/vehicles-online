@@ -21,7 +21,7 @@ import scala.Some
 import common.ClientSideSessionFactory
 import composition.TestComposition.{testInjector => injector}
 import utils.helpers.Config
-
+ 
 final class DisposeFormSpec extends UnitSpec {
   "form" should {
     "accept when all fields contain valid responses" in {
