@@ -1,13 +1,13 @@
 package services.fakes.brute_force_protection
 
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
 import FakeBruteForcePreventionWebServiceImpl._
 import play.api.http.Status._
+import play.api.libs.json.Json
 import play.api.libs.ws.Response
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import services.brute_force_prevention.BruteForcePreventionWebService
 import services.fakes.FakeResponse
-import play.api.libs.json.Json
 
 final class FakeBruteForcePreventionWebServiceImpl() extends BruteForcePreventionWebService {
   override def callBruteForce(vrm: String): Future[Response] = Future {
@@ -24,6 +24,6 @@ object FakeBruteForcePreventionWebServiceImpl {
   final val VrmThrows = "ST05YYD"
   final val MaxAttemptsZeroBased = 2
   final val MaxAttemptsOneBased = MaxAttemptsZeroBased + 1
-  lazy val responseFirstAttempt = Some(Json.parse(s"""{"attempts": 0, "maxAttempts": $MaxAttemptsZeroBased}"""))
-  lazy val responseSecondAttempt = Some(Json.parse(s"""{"attempts": 1, "maxAttempts": $MaxAttemptsZeroBased}"""))
+  lazy val responseFirstAttempt = Some(Json.parse( s"""{"attempts": 0, "maxAttempts": $MaxAttemptsZeroBased}"""))
+  lazy val responseSecondAttempt = Some(Json.parse( s"""{"attempts": 1, "maxAttempts": $MaxAttemptsZeroBased}"""))
 }

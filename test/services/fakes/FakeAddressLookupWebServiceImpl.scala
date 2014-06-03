@@ -1,21 +1,21 @@
 package services.fakes
 
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
+import common.ClientSideSession
 import models.domain.disposal_of_vehicle.{AddressViewModel, UprnToAddressResponse, UprnAddressPair, PostcodeToAddressResponse}
 import play.api.http.Status._
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import services.address_lookup.AddressLookupWebService
 import services.address_lookup.gds.domain.Address
 import services.address_lookup.gds.domain.Details
 import services.address_lookup.gds.domain.Location
 import services.address_lookup.gds.domain.Presentation
 import services.fakes.FakeAddressLookupService.PostcodeInvalid
-import common.ClientSideSession
 
 final class FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService: Future[Response],
-                         responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
+                                            responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
   override def callPostcodeWebService(postcode: String)
                                      (implicit session: Option[ClientSideSession]): Future[Response] =
     if (postcode == PostcodeInvalid) Future {

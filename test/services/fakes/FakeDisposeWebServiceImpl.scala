@@ -7,8 +7,8 @@ import play.api.Logger
 import play.api.http.Status._
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import services.dispose_service.DisposeWebService
 
 final class FakeDisposeWebServiceImpl extends DisposeWebService {
