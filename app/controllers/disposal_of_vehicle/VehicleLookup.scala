@@ -134,7 +134,11 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     val vehicleDetailsRequest = VehicleDetailsRequest(
       referenceNumber = model.referenceNumber,
       registrationNumber = model.registrationNumber,
-      trackingId = request.cookies.trackingId()
+      trackingId = request.cookies.trackingId(),
+      userName = request.cookies.getModel[TraderDetailsModel] match {
+        case Some(traderDetails) => traderDetails.traderName
+        case _ => ""
+      }
     )
     vehicleLookupService.invoke(vehicleDetailsRequest).map {
       case (responseStatusVehicleLookupMS: Int, response: Option[VehicleDetailsResponse]) =>
