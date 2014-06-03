@@ -79,7 +79,7 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
     createCookie(key, value)
   }
 
-  def bruteForcePreventionViewModel(permitted: Boolean = true, attempts: Int = 0, maxAttempts: Int = MaxAttempts) = {
+  def bruteForcePreventionViewModel(permitted: Boolean = true, attempts: Int = 0, maxAttempts: Int = MaxAttemptsOneBased) = {
     val key = BruteForcePreventionViewModelCacheKey
     val value = BruteForcePreventionViewModel(permitted, attempts, maxAttempts)
     createCookie(key, value)

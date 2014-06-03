@@ -32,6 +32,13 @@ object CookieImplicits {
         cookieName <- Some(session.nameCookie(key).value)
         cookie <- requestCookies.find(_.name == cookieName)
       } yield session.getCookieValue(cookie)
+
+    def trackingId()
+    (implicit clientSideSessionFactory: ClientSideSessionFactory): String =
+      clientSideSessionFactory.getSession(requestCookies) match {
+        case Some(s) => s.trackingId
+        case _ => ""
+    }
   }
 
   implicit class SimpleResultAdapter(val inner: SimpleResult) extends AnyVal {

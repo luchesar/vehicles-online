@@ -12,16 +12,19 @@ import services.address_lookup.gds.domain.Details
 import services.address_lookup.gds.domain.Location
 import services.address_lookup.gds.domain.Presentation
 import services.fakes.FakeAddressLookupService.postcodeInvalid
+import common.ClientSideSession
 
 final class FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                          responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
-  override def callPostcodeWebService(postcode: String): Future[Response] =
+  override def callPostcodeWebService(postcode: String)
+                                     (implicit session: Option[ClientSideSession]): Future[Response] =
     if (postcode == postcodeInvalid) Future {
       FakeResponse(status = OK, fakeJson = None)
     }
     else responseOfPostcodeWebService
 
-  override def callUprnWebService(uprn: String): Future[Response] = responseOfUprnWebService
+  override def callUprnWebService(uprn: String)
+                                 (implicit session: Option[ClientSideSession]): Future[Response] = responseOfUprnWebService
 }
 
 object FakeAddressLookupWebServiceImpl {

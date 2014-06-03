@@ -2,9 +2,14 @@ package services.address_lookup
 
 import scala.concurrent.Future
 import play.api.libs.ws.Response
+import common.ClientSideSession
 
 // Wrapper around our webservice call so that we can IoC fake versions for testing or use the real version.
 trait AddressLookupWebService {
-  def callPostcodeWebService(postcode: String): Future[Response]
-  def callUprnWebService(uprn: String): Future[Response]
+
+  def callPostcodeWebService(postcode: String)
+                            (implicit session: Option[ClientSideSession]): Future[Response]
+
+  def callUprnWebService(uprn: String)
+                        (implicit session: Option[ClientSideSession]): Future[Response]
 }

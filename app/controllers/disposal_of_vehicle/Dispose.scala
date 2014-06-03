@@ -35,6 +35,7 @@ import models.domain.disposal_of_vehicle.DisposeViewModel
 import play.api.data.FormError
 import play.api.mvc.Call
 import mappings.common.AddressLines._
+import scala.annotation.tailrec
 
 final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -167,6 +168,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         transactionTimestamp = ISODateTimeFormat.dateTime().print(dateService.today.toDateTime.get),
         prConsent = disposeModel.lossOfRegistrationConsent.toBoolean,
         keeperConsent = disposeModel.consent.toBoolean,
+        trackingId = request.cookies.trackingId(),
         mileage = disposeModel.mileage)
     }
 
@@ -230,7 +232,8 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     DisposalAddressDto(legacyAddressLines, Some(postTown), postcode, sourceAddress.uprn)
   }
 
-  def lineLengthCheck(existingAddress: Seq[String], accAddress: Seq[String]) : Seq[String] = {
+  @tailrec
+  private def lineLengthCheck(existingAddress: Seq[String], accAddress: Seq[String]) : Seq[String] = {
     if (existingAddress.isEmpty) accAddress
     else if (existingAddress.head.size > LineMaxLength) lineLengthCheck(existingAddress.tail, accAddress :+ existingAddress.head.substring(0, LineMaxLength))
     else lineLengthCheck(existingAddress.tail, accAddress :+ existingAddress.head)

@@ -2,6 +2,7 @@ package services.address_lookup.gds
 
 import helpers.UnitSpec
 import services.fakes.FakeAddressLookupService._
+import utils.helpers.Config
 
 final class WebServiceImplSpec extends UnitSpec {
   "postcodeWithNoSpaces" should {
@@ -18,5 +19,5 @@ final class WebServiceImplSpec extends UnitSpec {
     }
   }
 
-  private val addressLookupService = new services.address_lookup.gds.WebServiceImpl()
+  private val addressLookupService = new services.address_lookup.gds.WebServiceImpl(new Config())
 }

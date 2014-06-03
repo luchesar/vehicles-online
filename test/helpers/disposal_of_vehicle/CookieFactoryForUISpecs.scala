@@ -59,7 +59,7 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def bruteForcePreventionViewModel(permitted: Boolean = true, attempts: Int = 0, maxAttempts: Int = MaxAttempts)(implicit webDriver: WebDriver) = {
+  def bruteForcePreventionViewModel(permitted: Boolean = true, attempts: Int = 0, maxAttempts: Int = MaxAttemptsOneBased)(implicit webDriver: WebDriver) = {
     val key = BruteForcePreventionViewModelCacheKey
     val value = BruteForcePreventionViewModel(permitted, attempts, maxAttempts)
     addCookie(key, value)
