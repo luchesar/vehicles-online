@@ -27,14 +27,14 @@ final class DisposeFormSpec extends UnitSpec {
     "accept when all fields contain valid responses" in {
       val model = formWithValidDefaults().get
 
-      model.mileage.get should equal(mileageValid.toInt)
+      model.mileage.get should equal(MileageValid.toInt)
       model.dateOfDisposal should equal(DayMonthYear(
         DateOfDisposalDayValid.toInt,
         DateOfDisposalMonthValid.toInt,
         DateOfDisposalYearValid.toInt)
       )
-      model.consent should equal(consentValid)
-      model.lossOfRegistrationConsent should equal(consentValid)
+      model.consent should equal(ConsentValid)
+      model.lossOfRegistrationConsent should equal(ConsentValid)
     }
 
     "accept when all mandatory fields contain valid responses" in {
@@ -149,12 +149,12 @@ final class DisposeFormSpec extends UnitSpec {
     new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService)(clientSideSessionFactory)
   }
 
-  private def formWithValidDefaults(mileage: String = mileageValid,
+  private def formWithValidDefaults(mileage: String = MileageValid,
                                     dayOfDispose: String = DateOfDisposalDayValid,
                                     monthOfDispose: String = DateOfDisposalMonthValid,
                                     yearOfDispose: String = DateOfDisposalYearValid,
-                                    consent: String = consentValid,
-                                    lossOfRegistrationConsent: String = consentValid,
+                                    consent: String = ConsentValid,
+                                    lossOfRegistrationConsent: String = ConsentValid,
                                     disposeController: Dispose = dispose()) = {
 
     disposeController.disposeForm.bind(

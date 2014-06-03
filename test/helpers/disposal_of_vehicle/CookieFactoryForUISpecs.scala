@@ -91,8 +91,8 @@ object CookieFactoryForUISpecs {
     val key = mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
     val value = DisposeFormModel(mileage = None,
       dateOfDisposal = DayMonthYear.today,
-      consent = FakeDisposeWebServiceImpl.consentValid,
-      lossOfRegistrationConsent = FakeDisposeWebServiceImpl.consentValid)
+      consent = FakeDisposeWebServiceImpl.ConsentValid,
+      lossOfRegistrationConsent = FakeDisposeWebServiceImpl.ConsentValid)
     addCookie(key, value)
     this
   }
@@ -112,7 +112,7 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def disposeTransactionId(transactionId: String = transactionIdValid)(implicit webDriver: WebDriver) = {
+  def disposeTransactionId(transactionId: String = TransactionIdValid)(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
     val value = transactionId
     addCookie(key, value)

@@ -30,7 +30,7 @@ object DisposePage extends Page with WebBrowserDSL {
 
   def happyPath(implicit driver: WebDriver) = {
     go to DisposePage
-    mileage enter mileageValid
+    mileage enter MileageValid
     dateOfDisposalDay select DateOfDisposalDayValid
     dateOfDisposalMonth select DateOfDisposalMonthValid
     dateOfDisposalYear select DateOfDisposalYearValid

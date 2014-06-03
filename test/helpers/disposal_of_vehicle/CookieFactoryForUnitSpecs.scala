@@ -109,8 +109,8 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
     val value = DisposeFormModel(mileage = None,
       dateOfDisposal = DayMonthYear(FakeDateServiceImpl.DateOfDisposalDayValid.toInt,
         FakeDateServiceImpl.DateOfDisposalMonthValid.toInt, FakeDateServiceImpl.DateOfDisposalYearValid.toInt),
-      consent = FakeDisposeWebServiceImpl.consentValid,
-      lossOfRegistrationConsent = FakeDisposeWebServiceImpl.consentValid)
+      consent = FakeDisposeWebServiceImpl.ConsentValid,
+      lossOfRegistrationConsent = FakeDisposeWebServiceImpl.ConsentValid)
     createCookie(key, value)
   }
 
@@ -124,7 +124,7 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
   def disposeFormTimestamp(timestamp: String = s"$DateOfDisposalYearValid-$DateOfDisposalMonthValid-${DateOfDisposalDayValid}") =
     createCookie(DisposeFormTimestampIdCacheKey, timestamp)
 
-  def disposeTransactionId(transactionId: String = transactionIdValid) =
+  def disposeTransactionId(transactionId: String = TransactionIdValid) =
     createCookie(DisposeFormTransactionIdCacheKey, transactionId)
 
   def vehicleRegistrationNumber(registrationNumber: String = registrationNumberValid) =

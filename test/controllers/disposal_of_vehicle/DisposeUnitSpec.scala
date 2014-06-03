@@ -26,7 +26,7 @@ import services.fakes.FakeVehicleLookupWebService._
 import mappings.common.AddressLines.LineMaxLength
 import services.fakes.FakeDateServiceImpl._
 import scala.Some
-import services.fakes.FakeDisposeWebServiceImpl.consentValid
+import services.fakes.FakeDisposeWebServiceImpl.ConsentValid
 import models.DayMonthYear
 import org.mockito.ArgumentCaptor
 import utils.helpers.Config
@@ -285,10 +285,10 @@ final class DisposeUnitSpec extends UnitSpec {
         traderAddress = DisposalAddressDto(line = Seq(Line1Valid, Line2Valid, Line3Valid),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
         transactionTimestamp = dateValid,
-        prConsent = consentValid.toBoolean,
-        keeperConsent = consentValid.toBoolean,
+        prConsent = ConsentValid.toBoolean,
+        keeperConsent = ConsentValid.toBoolean,
         trackingId = "x" * 20,
-        mileage = Some(mileageValid.toInt)
+        mileage = Some(MileageValid.toInt)
       )
 
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
@@ -338,10 +338,10 @@ final class DisposeUnitSpec extends UnitSpec {
         traderAddress = DisposalAddressDto(line = Seq("a" * LineMaxLength, "b" * LineMaxLength, "c" * LineMaxLength),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
         transactionTimestamp = dateValid,
-        prConsent = consentValid.toBoolean,
-        keeperConsent = consentValid.toBoolean,
+        prConsent = ConsentValid.toBoolean,
+        keeperConsent = ConsentValid.toBoolean,
         trackingId = "x" * 20,
-        mileage = Some(mileageValid.toInt)
+        mileage = Some(MileageValid.toInt)
       )
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
@@ -367,10 +367,10 @@ final class DisposeUnitSpec extends UnitSpec {
         traderAddress = DisposalAddressDto(line = Seq(Line1Valid, Line2Valid , Line3Valid),postTown = Some("a" * LineMaxLength),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
         transactionTimestamp = dateValid,
-        prConsent = consentValid.toBoolean,
-        keeperConsent = consentValid.toBoolean,
+        prConsent = ConsentValid.toBoolean,
+        keeperConsent = ConsentValid.toBoolean,
         trackingId = "x" * 20,
-        mileage = Some(mileageValid.toInt)
+        mileage = Some(MileageValid.toInt)
       )
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
@@ -396,10 +396,10 @@ final class DisposeUnitSpec extends UnitSpec {
         traderAddress = DisposalAddressDto(line = Seq(Line1Valid, Line2Valid, Line3Valid),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
         transactionTimestamp = dateValid,
-        prConsent = consentValid.toBoolean,
-        keeperConsent = consentValid.toBoolean,
+        prConsent = ConsentValid.toBoolean,
+        keeperConsent = ConsentValid.toBoolean,
         trackingId = "x" * 20,
-        mileage = Some(mileageValid.toInt)
+        mileage = Some(MileageValid.toInt)
       )
 
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
@@ -423,12 +423,12 @@ final class DisposeUnitSpec extends UnitSpec {
   private def buildCorrectlyPopulatedRequest = {
     import mappings.common.DayMonthYear._
     FakeCSRFRequest().withFormUrlEncodedBody(
-      MileageId -> mileageValid,
+      MileageId -> MileageValid,
       s"$DateOfDisposalId.$DayId" -> DateOfDisposalDayValid,
       s"$DateOfDisposalId.$MonthId" -> DateOfDisposalMonthValid,
       s"$DateOfDisposalId.$YearId" -> DateOfDisposalYearValid,
-      ConsentId -> consentValid,
-      LossOfRegistrationConsentId -> consentValid
+      ConsentId -> ConsentValid,
+      LossOfRegistrationConsentId -> ConsentValid
     )
   }
 

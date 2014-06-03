@@ -53,7 +53,7 @@ final class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with B
           click on VehicleLookupPage.findVehicleDetails
 
           And("I enter \"10000\" in the vehicle mileage field")
-          DisposePage.mileage enter mileageValid
+          DisposePage.mileage enter MileageValid
 
           And("I select \"01\" from the date of disposal day dropdown")
           DisposePage.dateOfDisposalDay select DateOfDisposalDayValid
