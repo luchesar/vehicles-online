@@ -22,7 +22,7 @@ import CookieImplicits.FormAdapter
 
 final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
-  val form = Form(
+  private[disposal_of_vehicle] val form = Form(
     mapping(
       /* We cannot apply constraints to this drop down as it is populated by web call to an address lookup service.
       We would need the request here to get the cookie.

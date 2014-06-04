@@ -15,7 +15,7 @@ import utils.helpers.CookieNameHashing
 
 final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
-  val form = Form(
+  private[disposal_of_vehicle] val form = Form(
     mapping(
       TraderNameId -> traderBusinessName(),
       TraderPostcodeId -> postcode
