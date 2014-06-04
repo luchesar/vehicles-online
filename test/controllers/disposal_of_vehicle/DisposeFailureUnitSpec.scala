@@ -14,8 +14,7 @@ final class DisposeFailureUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeTransactionId()).
-        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
+        withCookies(CookieFactoryForUnitSpecs.disposeTransactionId())
       val result = injector.getInstance(classOf[DisposeFailure]).present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)

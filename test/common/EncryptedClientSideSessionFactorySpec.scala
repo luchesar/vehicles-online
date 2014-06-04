@@ -35,6 +35,23 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
       }
     }
 
+    "not create session again if the session is already present in the Request cookies" in new WithApplication {
+      val request = FakeCSRFRequest()
+      val result = setUpTradeDetails.present(request)
+
+      whenReady(result) {
+        r =>
+          val encryptedClientSideSessionFactory = new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing)
+          val (simpleResult, session1) = encryptedClientSideSessionFactory.ensureSession(request.cookies, r)
+          val sessionCookiesCreatedForSession1 = simpleResult.header.headers.get(HeaderNames.SET_COOKIE).
+            fold(Seq.empty[Cookie])(Cookies.decode)
+          val resultWithNoCookies = simpleResult.copy(header = simpleResult.header.copy(headers = Map.empty[String, String]))
+          val (_, session2) = encryptedClientSideSessionFactory.ensureSession(sessionCookiesCreatedForSession1, resultWithNoCookies)
+
+          session1 should equal(session2)
+      }
+    }
+
     "not create session again if the session is already created in the SimpleResult" in new WithApplication {
       val request = FakeCSRFRequest()
       val result = setUpTradeDetails.present(request)
@@ -42,12 +59,8 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
       whenReady(result) {
         r =>
           val encryptedClientSideSessionFactory = new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing)
-          val (result, session1) = encryptedClientSideSessionFactory.ensureSession(request.cookies, r)
-          result.withSession()
-          val cookies = Cookies.decode(result.header.headers(HeaderNames.SET_COOKIE))
-          val newRequestCookies = request.cookies ++ cookies
-          val (_, session2) = encryptedClientSideSessionFactory.ensureSession(newRequestCookies, result)
-
+          val (simpleResult, session1) = encryptedClientSideSessionFactory.ensureSession(request.cookies, r)
+          val (_, session2) = encryptedClientSideSessionFactory.ensureSession(request.cookies, simpleResult)
 
           session1 should equal(session2)
       }
