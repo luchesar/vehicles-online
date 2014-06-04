@@ -8,7 +8,7 @@ object FakeAddressLookupService {
   final val PostcodeInvalid = "xx99xx"
   val addressWithoutUprn = AddressViewModel(address = Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
   val addressWithUprn = AddressViewModel(uprn = Some(traderUprnValid), address = Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
-  final val Line1Valid = "1234"
+  final val BuildingNameOrNumberValid = "1234"
   final val Line2Valid = "line2 stub"
   final val Line3Valid = "line3 stub"
   final val Line4Valid = "line4 stub"

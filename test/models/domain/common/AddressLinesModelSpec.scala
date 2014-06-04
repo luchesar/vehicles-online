@@ -6,15 +6,15 @@ import services.fakes.FakeAddressLookupService._
 final class AddressLinesModelSpec extends UnitSpec {
   "toViewFormat" should {
     "return all lines when all lines are set to a value" in {
-      AddressLinesModel(buildingNameOrNumber = Line1Valid,
+      AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
         line2 = Some(Line2Valid),
         line3 = Some(Line3Valid),
-        line4 = Line4Valid).toViewFormat should equal(Seq(Line1Valid, Line2Valid, Line3Valid, Line4Valid))
+        line4 = Line4Valid).toViewFormat should equal(Seq(BuildingNameOrNumberValid, Line2Valid, Line3Valid, Line4Valid))
     }
 
     "remove unset fields so there are no gaps" in {
-      AddressLinesModel(buildingNameOrNumber = Line1Valid,
-        line4 = Line4Valid).toViewFormat should equal(Seq(Line1Valid, Line4Valid))
+      AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
+        line4 = Line4Valid).toViewFormat should equal(Seq(BuildingNameOrNumberValid, Line4Valid))
     }
   }
 
@@ -24,21 +24,21 @@ final class AddressLinesModelSpec extends UnitSpec {
     }
 
     "return expected length when only mandatory fields are filled" in {
-      AddressLinesModel(buildingNameOrNumber = Line1Valid, line4 = Line4Valid).totalCharacters should equal(Line1Valid.length + Line4Valid.length)
+      AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid, line4 = Line4Valid).totalCharacters should equal(BuildingNameOrNumberValid.length + Line4Valid.length)
     }
 
     "return expected length when some fields are not filled" in {
-      AddressLinesModel(buildingNameOrNumber = Line1Valid,
+      AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
         line2 = None,
         line3 = None,
-        line4 = Line4Valid).totalCharacters should equal(Line1Valid.length + Line4Valid.length)
+        line4 = Line4Valid).totalCharacters should equal(BuildingNameOrNumberValid.length + Line4Valid.length)
     }
 
     "return expected length when all fields are filled" in {
-      AddressLinesModel(buildingNameOrNumber = Line1Valid,
+      AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
         line2 = Some(Line2Valid),
         line3 = Some(Line3Valid),
-        line4 = Line4Valid).totalCharacters should equal(Line1Valid.length + Line2Valid.length + Line3Valid.length + Line4Valid.length)
+        line4 = Line4Valid).totalCharacters should equal(BuildingNameOrNumberValid.length + Line2Valid.length + Line3Valid.length + Line4Valid.length)
     }
   }
 }

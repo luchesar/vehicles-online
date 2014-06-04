@@ -64,7 +64,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val content = contentAsString(result)
 
       content should include(TraderBusinessNameValid)
-      content should include(Line1Valid)
+      content should include(BuildingNameOrNumberValid)
       content should include(Line2Valid)
       content should include(Line3Valid)
       content should include(Line4Valid)

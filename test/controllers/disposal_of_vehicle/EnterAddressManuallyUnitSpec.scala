@@ -38,7 +38,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.enterAddressManually())
       val result = enterAddressManually.present(request)
       val content = contentAsString(result)
-      content should include(Line1Valid)
+      content should include(BuildingNameOrNumberValid)
       content should include(Line2Valid)
       content should include(Line3Valid)
       content should include(Line4Valid)
@@ -50,7 +50,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually.present(request)
       val content = contentAsString(result)
-      content should not include Line1Valid
+      content should not include BuildingNameOrNumberValid
       content should not include Line2Valid
       content should not include Line3Valid
       content should not include Line4Valid
@@ -71,7 +71,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "return bad request when a valid address is entered without a postcode" in new WithApplication {
       val request = FakeCSRFRequest().withFormUrlEncodedBody(
-        s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> Line1Valid,
+        s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> Line2Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> Line3Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> Line4Valid).
@@ -94,7 +94,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "redirect to Dispose after a valid submission of all fields" in new WithApplication {
       val request = FakeCSRFRequest().withFormUrlEncodedBody(
-        s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> Line1Valid,
+        s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> Line2Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> Line3Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> Line4Valid,
@@ -108,7 +108,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "redirect to Dispose after a valid submission of mandatory fields only" in new WithApplication {
       val request = FakeCSRFRequest().withFormUrlEncodedBody(
-        s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> Line1Valid,
+        s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> Line4Valid,
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
@@ -182,7 +182,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "redirect to SetupTraderDetails page when valid submit with no dealer name cached" in new WithApplication {
       val request = FakeCSRFRequest().withFormUrlEncodedBody(
-        s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> Line1Valid,
+        s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> Line2Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> Line3Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> Line4Valid,
@@ -203,7 +203,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "write cookie after a valid submission of all fields" in new WithApplication {
       val request = FakeCSRFRequest().withFormUrlEncodedBody(
-        s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> Line1Valid,
+        s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> Line2Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> Line3Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> Line4Valid,
@@ -230,7 +230,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "collapse error messages for post town" in new WithApplication {
       val request = FakeCSRFRequest().withFormUrlEncodedBody(
-        s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> Line1Valid,
+        s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> "",
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
@@ -241,7 +241,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "collapse error messages for post code" in new WithApplication {
       val request = FakeCSRFRequest().withFormUrlEncodedBody(
-        s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> Line1Valid,
+        s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> Line4Valid,
         s"$AddressAndPostcodeId.$PostcodeId" -> "").
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
