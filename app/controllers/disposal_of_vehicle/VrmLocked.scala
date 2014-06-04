@@ -33,17 +33,13 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
     }
   }
 
-  private def newDisposal(implicit request: Request[AnyContent]): SimpleResult = {
+  private def newDisposal(implicit request: Request[AnyContent]): SimpleResult =
     request.cookies.getModel[TraderDetailsModel] match {
-      case (Some(traderDetails)) =>
-        Redirect(routes.VehicleLookup.present()).discardingCookies(RelatedCacheKeys.DisposeSet)
-      case _ =>
-        Redirect(routes.SetUpTradeDetails.present())
+      case (Some(traderDetails)) =>Redirect(routes.VehicleLookup.present()).discardingCookies(RelatedCacheKeys.DisposeSet)
+      case _ =>Redirect(routes.SetUpTradeDetails.present())
     }
-  }
 
-  private def exit(implicit request: Request[AnyContent]): SimpleResult = {
+  private def exit(implicit request: Request[AnyContent]): SimpleResult =
     Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
-  }
 }
 
