@@ -46,7 +46,7 @@ object CookieFactoryForUISpecs {
     val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
       line2 = Some(Line2Valid),
       line3 = Some(Line3Valid),
-      line4 = Line4Valid),
+      postTown = postTownValid),
       postcode = PostcodeValid))
     addCookie(key, value)
     this

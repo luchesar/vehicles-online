@@ -22,11 +22,11 @@ final case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPo
     require(buildingNameOrNumber.isDefined, "Address buildingNameOrNumber must have content")
     val line2 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line2)
     val line3 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line3)
-    val line4 = stripEndOfLine(Some(addressAndPostcodeModel.addressLinesModel.line4))
-    require(line4.isDefined, "Address line4 must have content")
+    val postTown = stripEndOfLine(Some(addressAndPostcodeModel.addressLinesModel.postTown))
+    require(postTown.isDefined, "Address postTown must have content")
 
     //TODO: Revisit Get - should this be used?
-    copy(addressAndPostcodeModel = addressAndPostcodeModel.copy(addressLinesModel = AddressLinesModel(buildingNameOrNumber.get, line2, line3, line4.get)))
+    copy(addressAndPostcodeModel = addressAndPostcodeModel.copy(addressLinesModel = AddressLinesModel(buildingNameOrNumber.get, line2, line3, postTown.get)))
   }
 }
 

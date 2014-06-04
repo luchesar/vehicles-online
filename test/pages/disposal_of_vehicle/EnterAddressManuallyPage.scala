@@ -19,7 +19,7 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 
   def addressLine3(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line3Id"))
 
-  def addressLine4(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line4Id"))
+  def addressPostTown(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$postTownId"))
 
   def postcode(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_$PostcodeId"))
 
@@ -27,20 +27,20 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 
   def back(implicit driver: WebDriver): Element = find(id(BackId)).get
 
-  def happyPath(buildingNameOrNumber: String = BuildingNameOrNumberValid, line2: String = Line2Valid, line3: String = Line3Valid, line4:String = Line4Valid, postcode:String = PostcodeValid)(implicit driver: WebDriver) ={
+  def happyPath(buildingNameOrNumber: String = BuildingNameOrNumberValid, line2: String = Line2Valid, line3: String = Line3Valid, postTown:String = postTownValid, postcode:String = PostcodeValid)(implicit driver: WebDriver) ={
     go to EnterAddressManuallyPage
     addressBuildingNameOrNumber.value = buildingNameOrNumber
     addressLine2.value = line2
     addressLine3.value = line3
-    addressLine4.value = line4
+    addressPostTown.value = postTown
     EnterAddressManuallyPage.postcode.value = postcode
     click on next
   }
 
-  def happyPathMandatoryFieldsOnly(buildingNameOrNumber: String = BuildingNameOrNumberValid, line4: String = Line4Valid, postcode:String = PostcodeValid)(implicit driver: WebDriver) ={
+  def happyPathMandatoryFieldsOnly(buildingNameOrNumber: String = BuildingNameOrNumberValid, postTown: String = postTownValid, postcode:String = PostcodeValid)(implicit driver: WebDriver) ={
     go to EnterAddressManuallyPage
     addressBuildingNameOrNumber.value = buildingNameOrNumber
-    addressLine4.value = line4
+    addressPostTown.value = postTown
     EnterAddressManuallyPage.postcode.value = postcode
     click on next
   }

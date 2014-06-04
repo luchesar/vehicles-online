@@ -266,7 +266,7 @@ final class DisposeUnitSpec extends UnitSpec {
         referenceNumber = ReferenceNumberValid,
         registrationNumber = RegistrationNumberValid,
         traderName = TraderBusinessNameValid,
-        traderAddress = DisposalAddressDto(line = Seq(BuildingNameOrNumberValid, Line2Valid, Line3Valid),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
+        traderAddress = DisposalAddressDto(line = Seq(BuildingNameOrNumberValid, Line2Valid, Line3Valid),postTown = Some(postTownValid),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
         transactionTimestamp = dateValid,
         prConsent = ConsentValid.toBoolean,
@@ -309,7 +309,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(buildingNameOrNumber = "a" * LineMaxLength + 1, line2 = "b" * LineMaxLength + 1, line3 = "c" * LineMaxLength + 1, line4 = "d" * LineMaxLength + 1)) // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(buildingNameOrNumber = "a" * LineMaxLength + 1, line2 = "b" * LineMaxLength + 1, line3 = "c" * LineMaxLength + 1, postTown = "d" * LineMaxLength + 1)) // line1 is longer than maximum
 
       val result = disposeController.submit(request)
 
@@ -337,7 +337,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line4 = "a" * LineMaxLength + 1)) // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(postTown = "a" * LineMaxLength + 1)) // line1 is longer than maximum
 
       val result = disposeController.submit(request)
 
@@ -373,7 +373,7 @@ final class DisposeUnitSpec extends UnitSpec {
         registrationNumber = RegistrationNumberValid,
         referenceNumber = ReferenceNumberValid,
         traderName = TraderBusinessNameValid,
-        traderAddress = DisposalAddressDto(line = Seq(BuildingNameOrNumberValid, Line2Valid, Line3Valid),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
+        traderAddress = DisposalAddressDto(line = Seq(BuildingNameOrNumberValid, Line2Valid, Line3Valid),postTown = Some(postTownValid),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
         transactionTimestamp = dateValid,
         prConsent = ConsentValid.toBoolean,
@@ -402,7 +402,7 @@ final class DisposeUnitSpec extends UnitSpec {
         registrationNumber = RegistrationNumberValid,
         referenceNumber = ReferenceNumberValid,
         traderName = TraderBusinessNameValid,
-        traderAddress = DisposalAddressDto(line = Seq("a" * 30, "a" * 10, Line3Valid),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
+        traderAddress = DisposalAddressDto(line = Seq("a" * 30, "a" * 10, Line3Valid),postTown = Some(postTownValid),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
         transactionTimestamp = dateValid,
         prConsent = ConsentValid.toBoolean,
@@ -431,7 +431,7 @@ final class DisposeUnitSpec extends UnitSpec {
         registrationNumber = RegistrationNumberValid,
         referenceNumber = ReferenceNumberValid,
         traderName = TraderBusinessNameValid,
-        traderAddress = DisposalAddressDto(line = Seq(BuildingNameOrNumberValid, "b" * 30, "b" * 10),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
+        traderAddress = DisposalAddressDto(line = Seq(BuildingNameOrNumberValid, "b" * 30, "b" * 10),postTown = Some(postTownValid),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
         transactionTimestamp = dateValid,
         prConsent = ConsentValid.toBoolean,
@@ -459,7 +459,7 @@ final class DisposeUnitSpec extends UnitSpec {
         registrationNumber = RegistrationNumberValid,
         referenceNumber = ReferenceNumberValid,
         traderName = TraderBusinessNameValid,
-        traderAddress = DisposalAddressDto(line = Seq("a" * 30, "a" * 10, "b" * 30),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
+        traderAddress = DisposalAddressDto(line = Seq("a" * 30, "a" * 10, "b" * 30),postTown = Some(postTownValid),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
         transactionTimestamp = dateValid,
         prConsent = ConsentValid.toBoolean,
@@ -487,7 +487,7 @@ final class DisposeUnitSpec extends UnitSpec {
         registrationNumber = RegistrationNumberValid,
         referenceNumber = ReferenceNumberValid,
         traderName = TraderBusinessNameValid,
-        traderAddress = DisposalAddressDto(line = Seq("c" * 30, "c" * 10, Line2Valid),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
+        traderAddress = DisposalAddressDto(line = Seq("c" * 30, "c" * 10, Line2Valid),postTown = Some(postTownValid),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
         transactionTimestamp = dateValid,
         prConsent = ConsentValid.toBoolean,
@@ -508,7 +508,7 @@ final class DisposeUnitSpec extends UnitSpec {
     val request = buildCorrectlyPopulatedRequest.
       withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
       withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-      withCookies(CookieFactoryForUnitSpecs.traderDetailsModelBuildingNameOrNumber(buildingNameOrNumber = "a" * LineMaxLength + "a", line4 = Line4Valid)). // line1 is longer than maximum
+      withCookies(CookieFactoryForUnitSpecs.traderDetailsModelBuildingNameOrNumber(buildingNameOrNumber = "a" * LineMaxLength + "a", postTown = postTownValid)). // line1 is longer than maximum
       withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
     val result = disposeController.submit(request)
@@ -517,7 +517,7 @@ final class DisposeUnitSpec extends UnitSpec {
       registrationNumber = RegistrationNumberValid,
       referenceNumber = ReferenceNumberValid,
       traderName = TraderBusinessNameValid,
-      traderAddress = DisposalAddressDto(line = Seq("a" * LineMaxLength, "a"),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
+      traderAddress = DisposalAddressDto(line = Seq("a" * LineMaxLength, "a"),postTown = Some(postTownValid),postCode = PostcodeValid,uprn = None),
       dateOfDisposal = dateValid,
       transactionTimestamp = dateValid,
       prConsent = ConsentValid.toBoolean,
@@ -537,7 +537,7 @@ final class DisposeUnitSpec extends UnitSpec {
     val request = buildCorrectlyPopulatedRequest.
       withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
       withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-      withCookies(CookieFactoryForUnitSpecs.traderDetailsModelLine2(line2 = "b" * LineMaxLength + "b", line4 = Line4Valid)).
+      withCookies(CookieFactoryForUnitSpecs.traderDetailsModelLine2(line2 = "b" * LineMaxLength + "b", postTown = postTownValid)).
       withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
     val result = disposeController.submit(request)
@@ -546,7 +546,7 @@ final class DisposeUnitSpec extends UnitSpec {
       registrationNumber = RegistrationNumberValid,
       referenceNumber = ReferenceNumberValid,
       traderName = TraderBusinessNameValid,
-      traderAddress = DisposalAddressDto(line = Seq(BuildingNameOrNumberValid, "b" * LineMaxLength, "b"),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
+      traderAddress = DisposalAddressDto(line = Seq(BuildingNameOrNumberValid, "b" * LineMaxLength, "b"),postTown = Some(postTownValid),postCode = PostcodeValid,uprn = None),
       dateOfDisposal = dateValid,
       transactionTimestamp = dateValid,
       prConsent = ConsentValid.toBoolean,
@@ -566,7 +566,7 @@ final class DisposeUnitSpec extends UnitSpec {
     val request = buildCorrectlyPopulatedRequest.
       withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
       withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-      withCookies(CookieFactoryForUnitSpecs.traderDetailsModelLine2(buildingNameOrNumber = "a" * LineMaxLength + "a", line2 = "b" * LineMaxLength + "b", line4 = Line4Valid)).
+      withCookies(CookieFactoryForUnitSpecs.traderDetailsModelLine2(buildingNameOrNumber = "a" * LineMaxLength + "a", line2 = "b" * LineMaxLength + "b", postTown = postTownValid)).
       withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
     val result = disposeController.submit(request)
@@ -575,7 +575,7 @@ final class DisposeUnitSpec extends UnitSpec {
       registrationNumber = RegistrationNumberValid,
       referenceNumber = ReferenceNumberValid,
       traderName = TraderBusinessNameValid,
-      traderAddress = DisposalAddressDto(line = Seq("a" * LineMaxLength, "a", "b" * LineMaxLength),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
+      traderAddress = DisposalAddressDto(line = Seq("a" * LineMaxLength, "a", "b" * LineMaxLength),postTown = Some(postTownValid),postCode = PostcodeValid,uprn = None),
       dateOfDisposal = dateValid,
       transactionTimestamp = dateValid,
       prConsent = ConsentValid.toBoolean,
@@ -595,7 +595,7 @@ final class DisposeUnitSpec extends UnitSpec {
     val request = buildCorrectlyPopulatedRequest.
       withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
       withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-      withCookies(CookieFactoryForUnitSpecs.traderDetailsModelLine4(line4 = Line4Valid)).
+      withCookies(CookieFactoryForUnitSpecs.traderDetailsModelPostTown(postTown = postTownValid)).
       withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
     val result = disposeController.submit(request)
@@ -604,7 +604,7 @@ final class DisposeUnitSpec extends UnitSpec {
       registrationNumber = RegistrationNumberValid,
       referenceNumber = ReferenceNumberValid,
       traderName = TraderBusinessNameValid,
-      traderAddress = DisposalAddressDto(line = Seq(BuildingNameOrNumberHolder),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
+      traderAddress = DisposalAddressDto(line = Seq(BuildingNameOrNumberHolder),postTown = Some(postTownValid),postCode = PostcodeValid,uprn = None),
       dateOfDisposal = dateValid,
       transactionTimestamp = dateValid,
       prConsent = ConsentValid.toBoolean,
