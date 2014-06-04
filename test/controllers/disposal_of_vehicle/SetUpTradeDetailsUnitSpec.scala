@@ -22,8 +22,7 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
     "display populated fields when cookie exists" in new WithApplication {
       val request = FakeCSRFRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
-        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = setUpTradeDetails.present(request)
       val content = contentAsString(result)
       content should include(TraderBusinessNameValid)

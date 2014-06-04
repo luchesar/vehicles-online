@@ -4,6 +4,11 @@ import play.api.mvc.{Cookie, SimpleResult}
 import com.google.inject.Inject
 import java.util.UUID
 
+
+object ClearTextClientSideSessionFactory {
+  final val DefaultTrackingId = "default-test-tracking-id"
+}
+
 class ClearTextClientSideSessionFactory @Inject()(implicit cookieFlags: CookieFlags) extends ClientSideSessionFactory {
 
   override protected def newSession(result: SimpleResult): (SimpleResult, ClientSideSession) = {
@@ -18,6 +23,7 @@ class ClearTextClientSideSessionFactory @Inject()(implicit cookieFlags: CookieFl
   }
 
   override def getSession(request: Traversable[Cookie]): Option[ClientSideSession] =
-    getTrackingId(request).map(trackingId => new ClearTextClientSideSession(trackingId))
-  //    Some(new ClearTextClientSideSession(getTrackingId(request).getOrElse("defaultTrackingId")))
+    getTrackingId(request).
+      map(trackingId => new ClearTextClientSideSession(trackingId)).
+      orElse(Some(new ClearTextClientSideSession(ClearTextClientSideSessionFactory.DefaultTrackingId)))
 }

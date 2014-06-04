@@ -17,8 +17,10 @@ trait ClientSideSessionFactory {
   }
 
   def ensureSession(request: Traversable[Cookie], result: SimpleResult): (SimpleResult, ClientSideSession) = {
-//    val allCookies = result.header.headers.get(HeaderNames.SET_COOKIE).fold(request)(Cookies.decode)
-    getSession(request).fold(newSession(result))((result, _))
+    val allCookies = result.header.headers.get(HeaderNames.SET_COOKIE).fold(request) {
+      request ++ Cookies.decode(_)
+    }
+    getSession(allCookies).fold(newSession(result))((result, _))
   }
 }
 
