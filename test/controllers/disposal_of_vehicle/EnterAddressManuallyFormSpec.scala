@@ -129,7 +129,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
                                     postcode: String = PostcodeValid) = {
     injector.getInstance(classOf[EnterAddressManually]).form.bind(
       Map(
-        s"$AddressAndPostcodeId.$AddressLinesId.$AddressOrBuildingNumberId" -> line1,
+        s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> line1,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> line2,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> line3,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> line4,

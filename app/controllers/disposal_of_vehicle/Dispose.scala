@@ -236,7 +236,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
   private def assignEmptyLines(sourceAddress: Seq[String]) : Seq[String] = {
     sourceAddress.size match { //every address returned by OS contains at least one address line and a postcode
-      case 2 => Seq(AddressLine1Holder) ++ sourceAddress
+      case 2 => Seq(BuildingNameOrNumberHolder) ++ sourceAddress
       case 3 => Seq(sourceAddress(Line1)) ++ Seq(emptyLine) ++ sourceAddress.tail
       case 4 => Seq(sourceAddress(Line1)) ++ Seq(sourceAddress(Line2)) ++ Seq(emptyLine) ++ sourceAddress.tail.tail
       case _ => sourceAddress

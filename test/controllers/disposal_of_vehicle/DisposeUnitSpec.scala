@@ -29,7 +29,7 @@ import scala.Some
 import services.fakes.FakeDisposeWebServiceImpl.ConsentValid
 import models.DayMonthYear
 import utils.helpers.Config
-import mappings.common.AddressLines.AddressLine1Holder
+import mappings.common.AddressLines.BuildingNameOrNumberHolder
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
@@ -604,7 +604,7 @@ final class DisposeUnitSpec extends UnitSpec {
       registrationNumber = RegistrationNumberValid,
       referenceNumber = ReferenceNumberValid,
       traderName = TraderBusinessNameValid,
-      traderAddress = DisposalAddressDto(line = Seq(AddressLine1Holder),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
+      traderAddress = DisposalAddressDto(line = Seq(BuildingNameOrNumberHolder),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
       dateOfDisposal = dateValid,
       transactionTimestamp = dateValid,
       prConsent = ConsentValid.toBoolean,
