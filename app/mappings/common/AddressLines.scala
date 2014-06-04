@@ -9,7 +9,7 @@ object AddressLines {
   final val BuildingNameOrNumberId = "buildingNameOrNumber"
   final val Line2Id = "line2"
   final val Line3Id = "line3"
-  final val postTownId = "line4"
+  final val postTownId = "postTown"
   final val BuildingNameOrNumberMinLength = 4
   final val PostTownMinLength = 3
   final val LineMaxLength = 30

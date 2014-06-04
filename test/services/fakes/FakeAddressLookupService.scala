@@ -11,7 +11,7 @@ object FakeAddressLookupService {
   final val BuildingNameOrNumberValid = "1234"
   final val Line2Valid = "line2 stub"
   final val Line3Valid = "line3 stub"
-  final val postTownValid = "line4 stub"
+  final val postTownValid = "postTown stub"
   final val PostcodeValid = "CM81QJ"
 
   final val PostcodeValidWithSpace = "CM8 1QJ"

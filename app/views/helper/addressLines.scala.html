@@ -43,8 +43,8 @@
         <div class="form-item">
         @valtechInputText(field(mappings.common.AddressLines.postTownId),
             args = Map(
-                '_label -> Messages("address.line4.label"),
-                'placeholder -> Messages("address.line4.label"),
+                '_label -> Messages("address.postTown.label"),
+                'placeholder -> Messages("address.postTown.label"),
                 '_showConstraints -> false,
                 'maxLength -> mappings.common.AddressLines.LineMaxLength.toString, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                 //'title -> Messages("address.buildingNameOrNumber.label"),
