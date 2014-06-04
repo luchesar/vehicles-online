@@ -157,7 +157,7 @@ final class DisposeFormSpec extends UnitSpec {
                                     lossOfRegistrationConsent: String = ConsentValid,
                                     disposeController: Dispose = dispose()) = {
 
-    disposeController.disposeForm.bind(
+    disposeController.form.bind(
       Map(
         MileageId -> mileage,
         s"$DateOfDisposalId.$DayId" -> dayOfDispose,

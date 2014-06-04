@@ -39,7 +39,7 @@ import scala.annotation.tailrec
 
 final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
-  val disposeForm = Form(
+  val form = Form(
     mapping(
       MileageId -> mileage(),
       DateOfDisposalId -> dayMonthYear.verifying(validDate(),
@@ -59,7 +59,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
           Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
           request.cookies.getModel[VehicleDetailsModel] match {
-            case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm.fill(), yearsDropdown))
+            case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), form.fill(), yearsDropdown))
             case _ => Redirect(routes.VehicleLookup.present())
           }
         case _ => Redirect(routes.SetUpTradeDetails.present())
@@ -70,7 +70,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
   def submit = Action.async {
     implicit request =>
       Logger.debug("Submitted dispose form...")
-      disposeForm.bindFromRequest.fold(
+      form.bindFromRequest.fold(
         formWithErrors =>
           Future {
             (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleDetailsModel]) match {
