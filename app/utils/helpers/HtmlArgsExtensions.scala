@@ -1,6 +1,5 @@
 package utils.helpers
 
-import controllers.Mappings
 import play.api.Play
 import play.api.Play.current
 import scala.language.implicitConversions
@@ -10,6 +9,8 @@ import scala.language.implicitConversions
 object HtmlArgsExtensions {
 
   final class RichHtmlArgs(htmlArgs: Map[Symbol, Any], validationOff: Boolean = Play.isTest) {
+    private final val DefaultMaxLength = 60
+
     // Always have a maxLength on production, so if you forgot to add one then the default is used.
     // We need to be able to override this behaviour when running integration tests that check that
     // server-side error messages are shown in non-html5 browser
@@ -20,7 +21,7 @@ object HtmlArgsExtensions {
         case (false, true) => htmlArgs // No change
         case (false, false) => {
           // On production we should have a maxLength, so if you forgot to add one then the default is used.
-          htmlArgs + ('maxLength -> Mappings.sixty)
+          htmlArgs + ('maxLength -> DefaultMaxLength)
         }
       }
     }

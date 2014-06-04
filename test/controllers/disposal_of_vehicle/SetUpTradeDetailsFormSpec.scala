@@ -8,9 +8,9 @@ import composition.TestComposition.{testInjector => injector}
 final class SetUpTradeDetailsFormSpec extends UnitSpec {
   "form" should {
     "accept if form is valid with all fields filled in" in {
-      val model = formWithValidDefaults(traderBusinessName = traderBusinessNameValid, traderPostcode = postcodeValid).get
-      model.traderBusinessName should equal(traderBusinessNameValid)
-      model.traderPostcode should equal(postcodeValid)
+      val model = formWithValidDefaults(traderBusinessName = TraderBusinessNameValid, traderPostcode = PostcodeValid).get
+      model.traderBusinessName should equal(TraderBusinessNameValid)
+      model.traderPostcode should equal(PostcodeValid)
     }
   }
 
@@ -36,8 +36,8 @@ final class SetUpTradeDetailsFormSpec extends UnitSpec {
     }
 
     "accept if trader business name is valid" in {
-      formWithValidDefaults(traderBusinessName = traderBusinessNameValid, traderPostcode = postcodeValid).
-        get.traderBusinessName should equal(traderBusinessNameValid)
+      formWithValidDefaults(traderBusinessName = TraderBusinessNameValid, traderPostcode = PostcodeValid).
+        get.traderBusinessName should equal(TraderBusinessNameValid)
     }
   }
 
@@ -71,11 +71,11 @@ final class SetUpTradeDetailsFormSpec extends UnitSpec {
     }
   }
 
-  private def formWithValidDefaults(traderBusinessName: String = traderBusinessNameValid,
-                                    traderPostcode: String = postcodeValid) = {
+  private def formWithValidDefaults(traderBusinessName: String = TraderBusinessNameValid,
+                                    traderPostcode: String = PostcodeValid) = {
 
     injector.getInstance(classOf[SetUpTradeDetails])
-      .traderLookupForm.bind(
+      .form.bind(
       Map(
         TraderNameId -> traderBusinessName,
         TraderPostcodeId -> traderPostcode

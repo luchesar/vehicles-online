@@ -8,7 +8,7 @@ import models.domain.disposal_of_vehicle._
 import org.openqa.selenium.{WebDriver, Cookie}
 import play.api.libs.json.{Writes, Json}
 import services.fakes.FakeAddressLookupService._
-import services.fakes.FakeAddressLookupService.postcodeValid
+import services.fakes.FakeAddressLookupService.PostcodeValid
 import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeAddressLookupWebServiceImpl._
@@ -26,9 +26,9 @@ object CookieFactoryForUISpecs {
     manage.addCookie(cookie)
   }
 
-  def setupTradeDetails(traderPostcode: String = postcodeValid)(implicit webDriver: WebDriver) = {
+  def setupTradeDetails(traderPostcode: String = PostcodeValid)(implicit webDriver: WebDriver) = {
     val key = SetupTradeDetailsCacheKey
-    val value = SetupTradeDetailsModel(traderBusinessName = traderBusinessNameValid,
+    val value = SetupTradeDetailsModel(traderBusinessName = TraderBusinessNameValid,
       traderPostcode = traderPostcode)
     addCookie(key, value)
     this
@@ -43,31 +43,39 @@ object CookieFactoryForUISpecs {
 
   def enterAddressManually()(implicit webDriver: WebDriver) = {
     val key = EnterAddressManuallyCacheKey
-    val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = line1Valid,
-      line2 = Some(line2Valid),
-      line3 = Some(line3Valid),
-      line4 = line4Valid),
-      postcode = postcodeValid))
+    val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = Line1Valid,
+      line2 = Some(Line2Valid),
+      line3 = Some(Line3Valid),
+      line4 = Line4Valid),
+      postcode = PostcodeValid))
     addCookie(key, value)
     this
   }
 
   def dealerDetails(address: AddressViewModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
     val key = TraderDetailsCacheKey
-    val value = TraderDetailsModel(traderName = traderBusinessNameValid, traderAddress = address)
+    val value = TraderDetailsModel(traderName = TraderBusinessNameValid, traderAddress = address)
     addCookie(key, value)
     this
   }
 
-  def bruteForcePreventionViewModel(permitted: Boolean = true, attempts: Int = 0, maxAttempts: Int = MaxAttemptsOneBased)(implicit webDriver: WebDriver) = {
+  def bruteForcePreventionViewModel(permitted: Boolean = true,
+                                    attempts: Int = 0,
+                                    maxAttempts: Int = MaxAttemptsOneBased,
+                                    dateTimeISOChronology: String = org.joda.time.DateTime.now().toString)(implicit webDriver: WebDriver) = {
     val key = BruteForcePreventionViewModelCacheKey
-    val value = BruteForcePreventionViewModel(permitted, attempts, maxAttempts)
+    val value = BruteForcePreventionViewModel(
+      permitted,
+      attempts,
+      maxAttempts,
+      dateTimeISOChronology
+    )
     addCookie(key, value)
     this
   }
 
-  def vehicleLookupFormModel(referenceNumber: String = referenceNumberValid,
-                                        registrationNumber: String = registrationNumberValid)(implicit webDriver: WebDriver) = {
+  def vehicleLookupFormModel(referenceNumber: String = ReferenceNumberValid,
+                                        registrationNumber: String = RegistrationNumberValid)(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
     val value = VehicleLookupFormModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber)
@@ -75,10 +83,10 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def vehicleDetailsModel(registrationNumber: String = registrationNumberValid,
-                                     vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid,
-                                     vehicleModel: String = vehicleModelValid,
-                                     keeperName: String = keeperNameValid)(implicit webDriver: WebDriver) = {
+  def vehicleDetailsModel(registrationNumber: String = RegistrationNumberValid,
+                                     vehicleMake: String = FakeVehicleLookupWebService.VehicleMakeValid,
+                                     vehicleModel: String = VehicleModelValid,
+                                     keeperName: String = KeeperNameValid)(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupDetailsCacheKey
     val value = VehicleDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
@@ -91,14 +99,14 @@ object CookieFactoryForUISpecs {
     val key = mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
     val value = DisposeFormModel(mileage = None,
       dateOfDisposal = DayMonthYear.today,
-      consent = FakeDisposeWebServiceImpl.consentValid,
-      lossOfRegistrationConsent = FakeDisposeWebServiceImpl.consentValid)
+      consent = FakeDisposeWebServiceImpl.ConsentValid,
+      lossOfRegistrationConsent = FakeDisposeWebServiceImpl.ConsentValid)
     addCookie(key, value)
     this
   }
 
-  def disposeModel(referenceNumber: String = referenceNumberValid,
-                              registrationNumber: String = registrationNumberValid,
+  def disposeModel(referenceNumber: String = ReferenceNumberValid,
+                              registrationNumber: String = RegistrationNumberValid,
                               dateOfDisposal: DayMonthYear = DayMonthYear.today,
                               mileage: Option[Int] = None)(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey
@@ -112,7 +120,7 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def disposeTransactionId(transactionId: String = transactionIdValid)(implicit webDriver: WebDriver) = {
+  def disposeTransactionId(transactionId: String = TransactionIdValid)(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
     val value = transactionId
     addCookie(key, value)
@@ -121,7 +129,7 @@ object CookieFactoryForUISpecs {
 
   def vehicleRegistrationNumber()(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
-    val value = registrationNumberValid
+    val value = RegistrationNumberValid
     addCookie(key, value)
     this
   }

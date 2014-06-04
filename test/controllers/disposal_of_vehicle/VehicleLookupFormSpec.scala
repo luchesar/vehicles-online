@@ -11,7 +11,7 @@ import models.domain.disposal_of_vehicle._
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import play.api.libs.json.{JsValue, Json}
-import services.fakes.FakeResponse
+import services.fakes.{FakeDateServiceImpl, FakeResponse}
 import services.fakes.FakeVehicleLookupWebService._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import common.ClientSideSessionFactory
@@ -24,8 +24,8 @@ import utils.helpers.Config
 final class VehicleLookupFormSpec extends UnitSpec {
   "form" should {
     "accept when all fields contain valid responses" in {
-      formWithValidDefaults().get.referenceNumber should equal(referenceNumberValid)
-      formWithValidDefaults().get.registrationNumber should equal(registrationNumberValid)
+      formWithValidDefaults().get.referenceNumber should equal(ReferenceNumberValid)
+      formWithValidDefaults().get.registrationNumber should equal(RegistrationNumberValid)
     }
   }
 
@@ -68,7 +68,7 @@ final class VehicleLookupFormSpec extends UnitSpec {
     }
 
     "accept if valid" in {
-      formWithValidDefaults(registrationNumber = registrationNumberValid).get.referenceNumber should equal(referenceNumberValid)
+      formWithValidDefaults(registrationNumber = RegistrationNumberValid).get.referenceNumber should equal(ReferenceNumberValid)
     }
   }
 
@@ -101,7 +101,11 @@ final class VehicleLookupFormSpec extends UnitSpec {
     }
     )
 
-    new BruteForcePreventionServiceImpl(new Config(), bruteForcePreventionWebService)
+    new BruteForcePreventionServiceImpl(
+      config = new Config(),
+      ws = bruteForcePreventionWebService,
+      dateService = new FakeDateServiceImpl
+    )
   }
 
   private def vehicleLookupResponseGenerator(fullResponse:(Int, Option[VehicleDetailsResponse])) = {
@@ -120,10 +124,10 @@ final class VehicleLookupFormSpec extends UnitSpec {
       vehicleLookupService = vehicleLookupServiceImpl)(clientSideSessionFactory)
   }
 
-  private def formWithValidDefaults(referenceNumber: String = referenceNumberValid,
-                                    registrationNumber: String = registrationNumberValid,
-                                    consent: String = consentValid) = {
-    vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).vehicleLookupForm.bind(
+  private def formWithValidDefaults(referenceNumber: String = ReferenceNumberValid,
+                                    registrationNumber: String = RegistrationNumberValid,
+                                    consent: String = ConsentValid) = {
+    vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).form.bind(
       Map(
         DocumentReferenceNumberId -> referenceNumber,
         VehicleRegistrationNumberId -> registrationNumber

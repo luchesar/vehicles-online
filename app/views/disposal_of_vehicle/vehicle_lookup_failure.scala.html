@@ -12,14 +12,17 @@
     if(attempts <= 1) {
         Messages("disposal_vehiclelookupfailure.title")
     } else {
-        Messages("disposal_vehiclelookupfailure.title.greaterThanOneAttempt", attempts, maxAttempts)
+        s"""${Messages("disposal_vehiclelookupfailure.title")} ${Messages("disposal_vehiclelookupfailure.title.greaterThanOneAttempt", attempts, maxAttempts)}"""
     }
 ) {
-    <p>@Messages(responseCodeVehicleLookupMSErrorMessage)</p>
+    <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
+    <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2")</p>
+
 
     @if(attempts <= 1) {
+        <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3")</p>
     } else {
-        <p>@Messages("disposal_vehiclelookupfailure.warnAboutLockout")</p>
+        <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3") @Messages("disposal_vehiclelookupfailure.warnAboutLockout")</p>
     }
 
     <br>

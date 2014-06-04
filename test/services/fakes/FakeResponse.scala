@@ -17,7 +17,7 @@ final class FakeResponse(
 
   override lazy val body: String = fakeBody.getOrElse("")
   override lazy val xml: Elem = fakeXml.get
-  override lazy val json: JsValue = fakeJson.get
+  override lazy val json: JsValue = fakeJson.get // Beware that if you constructed with the default then calling this will throw an exception.
 }
 
 object FakeResponse {

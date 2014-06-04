@@ -21,34 +21,34 @@ import scala.Some
 import common.ClientSideSessionFactory
 import composition.TestComposition.{testInjector => injector}
 import utils.helpers.Config
-
+ 
 final class DisposeFormSpec extends UnitSpec {
   "form" should {
     "accept when all fields contain valid responses" in {
       val model = formWithValidDefaults().get
 
-      model.mileage.get should equal(mileageValid.toInt)
+      model.mileage.get should equal(MileageValid.toInt)
       model.dateOfDisposal should equal(DayMonthYear(
-        dateOfDisposalDayValid.toInt,
-        dateOfDisposalMonthValid.toInt,
-        dateOfDisposalYearValid.toInt)
+        DateOfDisposalDayValid.toInt,
+        DateOfDisposalMonthValid.toInt,
+        DateOfDisposalYearValid.toInt)
       )
-      model.consent should equal(consentValid)
-      model.lossOfRegistrationConsent should equal(consentValid)
+      model.consent should equal(ConsentValid)
+      model.lossOfRegistrationConsent should equal(ConsentValid)
     }
 
     "accept when all mandatory fields contain valid responses" in {
       val model = formWithValidDefaults(
         mileage = "",
-        dayOfDispose = dateOfDisposalDayValid,
-        monthOfDispose = dateOfDisposalMonthValid,
-        yearOfDispose = dateOfDisposalYearValid).get
+        dayOfDispose = DateOfDisposalDayValid,
+        monthOfDispose = DateOfDisposalMonthValid,
+        yearOfDispose = DateOfDisposalYearValid).get
 
       model.mileage should equal(None)
       model.dateOfDisposal should equal(DayMonthYear(
-        dateOfDisposalDayValid.toInt,
-        dateOfDisposalMonthValid.toInt,
-        dateOfDisposalYearValid.toInt))
+        DateOfDisposalDayValid.toInt,
+        DateOfDisposalMonthValid.toInt,
+        DateOfDisposalYearValid.toInt))
     }
   }
 
@@ -72,7 +72,7 @@ final class DisposeFormSpec extends UnitSpec {
     }
 
     "reject if date is in the future" in {
-      val dayToday: Int = dateOfDisposalDayValid.toInt
+      val dayToday: Int = DateOfDisposalDayValid.toInt
       val dayOfDispose = (dayToday + 1).toString
 
       // Attempting to dispose with a date 1 day into the future.
@@ -85,8 +85,8 @@ final class DisposeFormSpec extends UnitSpec {
     }
 
     "reject if date is more than 2 years in the past" in {
-      val dayToday: Int = dateOfDisposalDayValid.toInt
-      val yearToday: Int = dateOfDisposalYearValid.toInt
+      val dayToday: Int = DateOfDisposalDayValid.toInt
+      val yearToday: Int = DateOfDisposalYearValid.toInt
       val dayOfDispose = (dayToday - 1).toString
       val yearOfDispose = (yearToday - 2).toString
 
@@ -126,9 +126,9 @@ final class DisposeFormSpec extends UnitSpec {
     }
   }
 
-  private def dateServiceStub(dayToday: Int = dateOfDisposalDayValid.toInt,
-                              monthToday: Int = dateOfDisposalMonthValid.toInt,
-                              yearToday: Int = dateOfDisposalYearValid.toInt) = {
+  private def dateServiceStub(dayToday: Int = DateOfDisposalDayValid.toInt,
+                              monthToday: Int = DateOfDisposalMonthValid.toInt,
+                              yearToday: Int = DateOfDisposalYearValid.toInt) = {
     val dayMonthYearStub = new models.DayMonthYear(day = dayToday,
       month = monthToday,
       year = yearToday)
@@ -149,15 +149,15 @@ final class DisposeFormSpec extends UnitSpec {
     new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService)(clientSideSessionFactory)
   }
 
-  private def formWithValidDefaults(mileage: String = mileageValid,
-                                    dayOfDispose: String = dateOfDisposalDayValid,
-                                    monthOfDispose: String = dateOfDisposalMonthValid,
-                                    yearOfDispose: String = dateOfDisposalYearValid,
-                                    consent: String = consentValid,
-                                    lossOfRegistrationConsent: String = consentValid,
+  private def formWithValidDefaults(mileage: String = MileageValid,
+                                    dayOfDispose: String = DateOfDisposalDayValid,
+                                    monthOfDispose: String = DateOfDisposalMonthValid,
+                                    yearOfDispose: String = DateOfDisposalYearValid,
+                                    consent: String = ConsentValid,
+                                    lossOfRegistrationConsent: String = ConsentValid,
                                     disposeController: Dispose = dispose()) = {
 
-    disposeController.disposeForm.bind(
+    disposeController.form.bind(
       Map(
         MileageId -> mileage,
         s"$DateOfDisposalId.$DayId" -> dayOfDispose,

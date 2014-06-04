@@ -5,7 +5,7 @@ import cucumber.api.java.en.{Then, When, Given}
 import org.scalatest.Matchers
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
-import services.fakes.FakeAddressLookupService.traderBusinessNameValid
+import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
 
 final class PostCodeLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
@@ -33,7 +33,7 @@ final class PostCodeLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBr
 
   private def checkTraderPostcode(testedPostcode: String) {
     go to SetupTradeDetailsPage
-    SetupTradeDetailsPage.traderName enter traderBusinessNameValid
+    SetupTradeDetailsPage.traderName enter TraderBusinessNameValid
     SetupTradeDetailsPage.traderPostcode enter testedPostcode
   }
 }

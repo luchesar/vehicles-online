@@ -16,7 +16,7 @@ object SetupTradeDetailsPage extends Page with WebBrowserDSL {
 
   def lookup(implicit driver: WebDriver): Element = find(id(SubmitId)).get
 
-  def happyPath(traderBusinessName: String = traderBusinessNameValid, traderBusinessPostcode: String = postcodeValid)(implicit driver: WebDriver) = {
+  def happyPath(traderBusinessName: String = TraderBusinessNameValid, traderBusinessPostcode: String = PostcodeValid)(implicit driver: WebDriver) = {
     go to SetupTradeDetailsPage
     traderName enter traderBusinessName
     traderPostcode enter traderBusinessPostcode
@@ -25,8 +25,8 @@ object SetupTradeDetailsPage extends Page with WebBrowserDSL {
 
   def submitInvalidPostcode(implicit driver: WebDriver) = {
     go to SetupTradeDetailsPage
-    traderName enter traderBusinessNameValid
-    traderPostcode enter postcodeInvalid
+    traderName enter TraderBusinessNameValid
+    traderPostcode enter PostcodeInvalid
     click on lookup
   }
 }

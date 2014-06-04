@@ -17,8 +17,8 @@ final class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBro
   def a_motor_trader_has_entered_a_doc_ref_number_in_a_valid_format() = {
     buildVehicleLookupSetup
 
-    VehicleLookupPage.vehicleRegistrationNumber enter registrationNumberValid
-    VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
+    VehicleLookupPage.vehicleRegistrationNumber enter RegistrationNumberValid
+    VehicleLookupPage.documentReferenceNumber enter ReferenceNumberValid
   }
 
   @Given("""^a motor trader has (.*) a VRM in a valid format$""")
@@ -26,7 +26,7 @@ final class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBro
     buildVehicleLookupSetup
 
     VehicleLookupPage.vehicleRegistrationNumber enter vrm
-    VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
+    VehicleLookupPage.documentReferenceNumber enter ReferenceNumberValid
   }
 
   @Given("""^a motor trader has (.*) a VRM in an invalid format$""")
@@ -34,14 +34,14 @@ final class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBro
     buildVehicleLookupSetup
 
     VehicleLookupPage.vehicleRegistrationNumber enter vrm
-    VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
+    VehicleLookupPage.documentReferenceNumber enter ReferenceNumberValid
   }
 
   @Given("""^a motor trader has (.*) a doc ref number in an invalid format$""")
   def a_motor_trader_has_entered_a_doc_ref_number_in_an_invalid_format(invalidDocRef:String) = {
     buildVehicleLookupSetup
 
-    VehicleLookupPage.vehicleRegistrationNumber enter registrationNumberValid
+    VehicleLookupPage.vehicleRegistrationNumber enter RegistrationNumberValid
     VehicleLookupPage.documentReferenceNumber enter invalidDocRef
   }
 
@@ -61,12 +61,12 @@ final class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBro
       getCookieNamed(VehicleLookupFormModelCacheKey).
       getValue
 
-    vrn should include(referenceNumberValid)
+    vrn should include(ReferenceNumberValid)
   }
 
   @Then("""^the VRM is retained$""")
   def the_vrm_is_retained() = {
-    page.text should include(registrationNumberValid)
+    page.text should include(RegistrationNumberValid)
   }
 
   private def buildVehicleLookupSetup() {

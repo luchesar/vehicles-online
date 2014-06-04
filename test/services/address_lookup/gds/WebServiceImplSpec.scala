@@ -7,15 +7,15 @@ import utils.helpers.Config
 final class WebServiceImplSpec extends UnitSpec {
   "postcodeWithNoSpaces" should {
     "return the same string if no spaces present" in {
-      val result = addressLookupService.postcodeWithNoSpaces(postcodeValid)
+      val result = addressLookupService.postcodeWithNoSpaces(PostcodeValid)
 
-      result should equal(postcodeValid)
+      result should equal(PostcodeValid)
     }
 
     "remove spaces when present" in {
-      val result = addressLookupService.postcodeWithNoSpaces(postcodeValidWithSpace)
+      val result = addressLookupService.postcodeWithNoSpaces(PostcodeValidWithSpace)
 
-      result should equal(postcodeValid)
+      result should equal(PostcodeValid)
     }
   }
 

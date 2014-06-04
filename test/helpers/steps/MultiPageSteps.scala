@@ -19,13 +19,13 @@ final class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowser
   def that_the_user_has_entered_all_required_information() = {
     go to BeforeYouStartPage
     click on BeforeYouStartPage.startNow
-    SetupTradeDetailsPage.traderName enter traderBusinessNameValid
-    SetupTradeDetailsPage.traderPostcode enter postcodeValid
+    SetupTradeDetailsPage.traderName enter TraderBusinessNameValid
+    SetupTradeDetailsPage.traderPostcode enter PostcodeValid
     click on SetupTradeDetailsPage.lookup
     BusinessChooseYourAddressPage.chooseAddress.value = traderUprnValid.toString
     click on BusinessChooseYourAddressPage.select
-    VehicleLookupPage.vehicleRegistrationNumber enter registrationNumberValid
-    VehicleLookupPage.documentReferenceNumber enter referenceNumberValid
+    VehicleLookupPage.vehicleRegistrationNumber enter RegistrationNumberValid
+    VehicleLookupPage.documentReferenceNumber enter ReferenceNumberValid
     click on VehicleLookupPage.findVehicleDetails
   }
 
@@ -35,9 +35,9 @@ final class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowser
     DisposePage.mileage enter "10000"
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
-    DisposePage.dateOfDisposalDay select dateOfDisposalDayValid
-    DisposePage.dateOfDisposalMonth select dateOfDisposalMonthValid
-    DisposePage.dateOfDisposalYear select dateOfDisposalYearValid
+    DisposePage.dateOfDisposalDay select DateOfDisposalDayValid
+    DisposePage.dateOfDisposalMonth select DateOfDisposalMonthValid
+    DisposePage.dateOfDisposalYear select DateOfDisposalYearValid
     click on DisposePage.dispose
     page.title should equal(DisposeSuccessPage.title)
   }
@@ -55,15 +55,15 @@ final class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowser
   @Then("""^the trader name and address details are pre populated$""")
   def the_trader_name_and_address_details_are_pre_populated() = {
     page.title should equal(VehicleLookupPage.title)
-    page.text should include(traderBusinessNameValid)
+    page.text should include(TraderBusinessNameValid)
     enterValidManualAddress
 
   }
 
   @Then("""^the information entered is presented back to the motor trader$""")
   def the_information_entered_is_presented_back_to_the_motor_trader() = {
-    page.text should include(traderBusinessNameValid)
-    page.text should include(registrationNumberValid)
+    page.text should include(TraderBusinessNameValid)
+    page.text should include(RegistrationNumberValid)
     enterValidManualAddress
     DisposePage.consent.isDisplayed should equal(true)
     DisposePage.lossOfRegistrationConsent.isDisplayed should equal(true)
@@ -79,7 +79,7 @@ final class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowser
       getCookieNamed(DisposeFormTimestampIdCacheKey).
       getValue
 
-    timestamp should include(s"""$dateOfDisposalYearValid-$dateOfDisposalMonthValid-${dateOfDisposalDayValid}""")
+    timestamp should include(s"""$DateOfDisposalYearValid-$DateOfDisposalMonthValid-${DateOfDisposalDayValid}""")
   }
 
   private def enterValidManualAddress() {
@@ -88,6 +88,6 @@ final class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowser
     page.text should include("street stub")
     page.text should include("town stub")
     page.text should include("area stub")
-    page.text should include(postcodeValid)
+    page.text should include(PostcodeValid)
   }
 }

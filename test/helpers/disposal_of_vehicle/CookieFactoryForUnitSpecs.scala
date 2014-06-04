@@ -18,7 +18,7 @@ import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
 import services.fakes.FakeAddressLookupWebServiceImpl._
-import services.fakes.FakeAddressLookupService.postcodeValid
+import services.fakes.FakeAddressLookupService.PostcodeValid
 import models.domain.common.{BruteForcePreventionResponse, AddressLinesModel, AddressAndPostcodeModel}
 import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
 import common.{ClientSideSessionFactory, CookieFlags, ClearTextClientSideSession}
@@ -49,9 +49,9 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
     createCookie(key, value)
   }
 
-  def setupTradeDetails(traderPostcode: String = postcodeValid) = {
+  def setupTradeDetails(traderPostcode: String = PostcodeValid) = {
     val key = SetupTradeDetailsCacheKey
-    val value = SetupTradeDetailsModel(traderBusinessName = traderBusinessNameValid,
+    val value = SetupTradeDetailsModel(traderBusinessName = TraderBusinessNameValid,
       traderPostcode = traderPostcode)
     createCookie(key, value)
   }
@@ -64,39 +64,45 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
 
   def enterAddressManually() = {
     val key = EnterAddressManuallyCacheKey
-    val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = line1Valid,
-      line2 = Some(line2Valid),
-      line3 = Some(line3Valid),
-      line4 = line4Valid),
-      postcode = postcodeValid))
+    val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = Line1Valid,
+      line2 = Some(Line2Valid),
+      line3 = Some(Line3Valid),
+      line4 = Line4Valid),
+      postcode = PostcodeValid))
     createCookie(key, value)
   }
 
-  def traderDetailsModel(uprn: Option[Long] = None, line1: String = line1Valid, line2: String = line2Valid, line3: String = line3Valid, line4: String = line4Valid, traderPostcode: String = postcodeValid) = {
+  def traderDetailsModel(uprn: Option[Long] = None, line1: String = Line1Valid, line2: String = Line2Valid, line3: String = Line3Valid, line4: String = Line4Valid, traderPostcode: String = PostcodeValid) = {
     val key = TraderDetailsCacheKey
-    val value = TraderDetailsModel(traderName = traderBusinessNameValid,
+    val value = TraderDetailsModel(traderName = TraderBusinessNameValid,
       traderAddress = AddressViewModel(uprn = uprn, address = Seq(line1, line2, line3, line4, traderPostcode)))
     createCookie(key, value)
   }
 
-  def bruteForcePreventionViewModel(permitted: Boolean = true, attempts: Int = 0, maxAttempts: Int = MaxAttemptsOneBased) = {
+  def bruteForcePreventionViewModel(permitted: Boolean = true,
+                                    attempts: Int = 0,
+                                    maxAttempts: Int = MaxAttemptsOneBased,
+                                    dateTimeISOChronology: String = org.joda.time.DateTime.now().toString) = {
     val key = BruteForcePreventionViewModelCacheKey
-    val value = BruteForcePreventionViewModel(permitted, attempts, maxAttempts)
+    val value = BruteForcePreventionViewModel(permitted,
+      attempts,
+      maxAttempts,
+      dateTimeISOChronology = dateTimeISOChronology)
     createCookie(key, value)
   }
 
-  def vehicleLookupFormModel(referenceNumber: String = referenceNumberValid,
-                             registrationNumber: String = registrationNumberValid) = {
+  def vehicleLookupFormModel(referenceNumber: String = ReferenceNumberValid,
+                             registrationNumber: String = RegistrationNumberValid) = {
     val key = VehicleLookupFormModelCacheKey
     val value = VehicleLookupFormModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber)
     createCookie(key, value)
   }
 
-  def vehicleDetailsModel(registrationNumber: String = registrationNumberValid,
-                          vehicleMake: String = FakeVehicleLookupWebService.vehicleMakeValid,
-                          vehicleModel: String = vehicleModelValid,
-                          keeperName: String = keeperNameValid) = {
+  def vehicleDetailsModel(registrationNumber: String = RegistrationNumberValid,
+                          vehicleMake: String = FakeVehicleLookupWebService.VehicleMakeValid,
+                          vehicleModel: String = VehicleModelValid,
+                          keeperName: String = KeeperNameValid) = {
     val key = VehicleLookupDetailsCacheKey
     val value = VehicleDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
@@ -107,10 +113,10 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
   def disposeFormModel() = {
     val key = DisposeFormModelCacheKey
     val value = DisposeFormModel(mileage = None,
-      dateOfDisposal = DayMonthYear(FakeDateServiceImpl.dateOfDisposalDayValid.toInt,
-        FakeDateServiceImpl.dateOfDisposalMonthValid.toInt, FakeDateServiceImpl.dateOfDisposalYearValid.toInt),
-      consent = FakeDisposeWebServiceImpl.consentValid,
-      lossOfRegistrationConsent = FakeDisposeWebServiceImpl.consentValid)
+      dateOfDisposal = DayMonthYear(FakeDateServiceImpl.DateOfDisposalDayValid.toInt,
+        FakeDateServiceImpl.DateOfDisposalMonthValid.toInt, FakeDateServiceImpl.DateOfDisposalYearValid.toInt),
+      consent = FakeDisposeWebServiceImpl.ConsentValid,
+      lossOfRegistrationConsent = FakeDisposeWebServiceImpl.ConsentValid)
     createCookie(key, value)
   }
 
@@ -118,20 +124,20 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
     createCookie(ClientSideSessionFactory.SessionIdCookieName, value)
   }
 
-  def disposeFormRegistrationNumber(registrationNumber: String = registrationNumberValid) =
+  def disposeFormRegistrationNumber(registrationNumber: String = RegistrationNumberValid) =
     createCookie(DisposeFormRegistrationNumberCacheKey, registrationNumber)
 
-  def disposeFormTimestamp(timestamp: String = s"$dateOfDisposalYearValid-$dateOfDisposalMonthValid-${dateOfDisposalDayValid}") =
+  def disposeFormTimestamp(timestamp: String = s"$DateOfDisposalYearValid-$DateOfDisposalMonthValid-${DateOfDisposalDayValid}") =
     createCookie(DisposeFormTimestampIdCacheKey, timestamp)
 
-  def disposeTransactionId(transactionId: String = transactionIdValid) =
+  def disposeTransactionId(transactionId: String = TransactionIdValid) =
     createCookie(DisposeFormTransactionIdCacheKey, transactionId)
 
-  def vehicleRegistrationNumber(registrationNumber: String = registrationNumberValid) =
+  def vehicleRegistrationNumber(registrationNumber: String = RegistrationNumberValid) =
     createCookie(DisposeFormRegistrationNumberCacheKey, registrationNumber)
 
-  def disposeModel(referenceNumber: String = referenceNumberValid,
-                   registrationNumber: String = registrationNumberValid,
+  def disposeModel(referenceNumber: String = ReferenceNumberValid,
+                   registrationNumber: String = RegistrationNumberValid,
                    dateOfDisposal: DayMonthYear = DayMonthYear.today,
                    mileage: Option[Int] = None) = {
     val key = mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey

@@ -1,7 +1,5 @@
 package services.fakes
 
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
 import FakeDisposeWebServiceImpl._
 import FakeVehicleLookupWebService._
 import models.domain.disposal_of_vehicle._
@@ -9,14 +7,16 @@ import play.api.Logger
 import play.api.http.Status._
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import services.dispose_service.DisposeWebService
 
 final class FakeDisposeWebServiceImpl extends DisposeWebService {
   override def callDisposeService(request: DisposeRequest): Future[Response] = Future {
     val disposeResponse: DisposeResponse = {
       request.referenceNumber match {
-        case `simulateMicroServiceUnavailable` => throw new RuntimeException("simulateMicroServiceUnavailable")
-        case `simulateSoapEndpointFailure` => disposeResponseSoapEndpointFailure
+        case SimulateMicroServiceUnavailable => throw new RuntimeException("simulateMicroServiceUnavailable")
+        case SimulateSoapEndpointFailure => disposeResponseSoapEndpointFailure
         case _ => disposeResponseSuccess
       }
     }
@@ -27,15 +27,15 @@ final class FakeDisposeWebServiceImpl extends DisposeWebService {
 }
 
 object FakeDisposeWebServiceImpl {
-  final val transactionIdValid = "1234"
-  private final val auditIdValid = "7575"
-  private final val simulateMicroServiceUnavailable = "8" * 11
-  private final val simulateSoapEndpointFailure = "9" * 11
+  final val TransactionIdValid = "1234"
+  private final val AuditIdValid = "7575"
+  private final val SimulateMicroServiceUnavailable = "8" * 11
+  private final val SimulateSoapEndpointFailure = "9" * 11
 
   val disposeResponseSuccess =
-    DisposeResponse(transactionId = transactionIdValid,
-      registrationNumber = registrationNumberValid,
-      auditId = auditIdValid)
+    DisposeResponse(transactionId = TransactionIdValid,
+      registrationNumber = RegistrationNumberValid,
+      auditId = AuditIdValid)
 
   val disposeResponseSoapEndpointFailure =
     DisposeResponse(transactionId = "", // No transactionId because the soap endpoint is down
@@ -44,13 +44,13 @@ object FakeDisposeWebServiceImpl {
       responseCode = None)
 
   val disposeResponseFailureWithResponseCode =
-    DisposeResponse(transactionId = transactionIdValid, // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
+    DisposeResponse(transactionId = TransactionIdValid, // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
       registrationNumber = "",
       auditId = "",
       responseCode = Some("ms.vehiclesService.response.unableToProcessApplication"))
 
   val disposeResponseFailureWithDuplicateDisposal =
-    DisposeResponse(transactionId = transactionIdValid, // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
+    DisposeResponse(transactionId = TransactionIdValid, // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
       registrationNumber = "",
       auditId = "",
       responseCode = Some("ms.vehiclesService.response.duplicateDisposalToTrade"))
@@ -62,9 +62,9 @@ object FakeDisposeWebServiceImpl {
       responseCode = None)
 
   val disposeResponseApplicationBeingProcessed =
-    DisposeResponse(transactionId = transactionIdValid,
-      registrationNumber = registrationNumberValid,
-      auditId = auditIdValid,
+    DisposeResponse(transactionId = TransactionIdValid,
+      registrationNumber = RegistrationNumberValid,
+      auditId = AuditIdValid,
       responseCode = None)
 
   val disposeResponseUnableToProcessApplication =
@@ -80,6 +80,6 @@ object FakeDisposeWebServiceImpl {
       responseCode = Some("undefined"))
 
 
-  final val consentValid = "true"
-  final val mileageValid = "20000"
+  final val ConsentValid = "true"
+  final val MileageValid = "20000"
 }

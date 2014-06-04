@@ -39,7 +39,7 @@ import scala.annotation.tailrec
 
 final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
-  val disposeForm = Form(
+  private[disposal_of_vehicle] val form = Form(
     mapping(
       MileageId -> mileage(),
       DateOfDisposalId -> dayMonthYear.verifying(validDate(),
@@ -59,7 +59,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
           Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
           request.cookies.getModel[VehicleDetailsModel] match {
-            case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), disposeForm.fill(), yearsDropdown))
+            case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), form.fill(), yearsDropdown))
             case _ => Redirect(routes.VehicleLookup.present())
           }
         case _ => Redirect(routes.SetUpTradeDetails.present())
@@ -70,7 +70,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
   def submit = Action.async {
     implicit request =>
       Logger.debug("Submitted dispose form...")
-      disposeForm.bindFromRequest.fold(
+      form.bindFromRequest.fold(
         formWithErrors =>
           Future {
             (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleDetailsModel]) match {
@@ -218,25 +218,47 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
   private def disposalAddressDto(sourceAddress: AddressViewModel): DisposalAddressDto = {
   // The last two address lines are always post town and postcode
+    val line1 = 0
+    val line2 = 1
+    val line3 = 2
 
     // confirmed by BAs - substitute address line 1 inserted if not present from OS
-    val sourceAddressToCheck = if (sourceAddress.address.size == 2) Seq("No address line supplied") ++ sourceAddress.address
-                                else sourceAddress.address
+    val sourceAddressToCheck = if (sourceAddress.address.size == 2) Seq("No address line supplied") ++ sourceAddress.address else sourceAddress.address
 
-    val legacyAddressLines = lineLengthCheck(sourceAddressToCheck.dropRight(2), Nil)
+    val line2Empty = sourceAddressToCheck(line2) == ""
+    val line3Empty = sourceAddressToCheck(line3) == ""
+    val line1OverMax = sourceAddressToCheck(line1).size > LineMaxLength
+    val line2OverMax = sourceAddressToCheck(line2).size > LineMaxLength
+
+    //moving address lines (if applicable) to make best use of lines 1,2,3 if lines are over max length
+    val sourceAddressAmendedLines =
+      (line1OverMax, line2OverMax, line2Empty, line3Empty) match {
+      case (true, _, true, _) => Seq(sourceAddressToCheck(line1).substring(0, LineMaxLength)) ++
+                                 Seq(sourceAddressToCheck(line1).substring(LineMaxLength)) ++ sourceAddressToCheck.tail.tail
+      case (true, _, false, true) => Seq(sourceAddressToCheck(line1).substring(0, LineMaxLength)) ++
+                                     Seq(sourceAddressToCheck(line1).substring(LineMaxLength)) ++
+                                     Seq(sourceAddressToCheck(line2)) ++ sourceAddressToCheck.tail.tail.tail
+      case (false, true, false, true) => Seq(sourceAddressToCheck(line1)) ++
+                                         Seq(sourceAddressToCheck(line2).substring(0, LineMaxLength)) ++
+                                         Seq(sourceAddressToCheck(line2).substring(LineMaxLength)) ++ sourceAddressToCheck.tail.tail.tail
+      case (_) => sourceAddressToCheck
+    }
+
+    val legacyAddressLines = lineLengthCheck(sourceAddressAmendedLines.dropRight(2), Nil)
     val postTownToCheck = sourceAddressToCheck.takeRight(2).head
     val postTown = if (postTownToCheck.size > LineMaxLength) postTownToCheck.substring(0, LineMaxLength)
-    else postTownToCheck
+                   else postTownToCheck
     val postcode = sourceAddress.address.last.replaceAll(" ","")
 
+    //Logger.debug("DisposalAddressDto is " + legacyAddressLines + ", " + Some(postTown) + ", " + postcode + ", " + sourceAddress.uprn)
     DisposalAddressDto(legacyAddressLines, Some(postTown), postcode, sourceAddress.uprn)
   }
 
   @tailrec
   private def lineLengthCheck(existingAddress: Seq[String], accAddress: Seq[String]) : Seq[String] = {
+
     if (existingAddress.isEmpty) accAddress
     else if (existingAddress.head.size > LineMaxLength) lineLengthCheck(existingAddress.tail, accAddress :+ existingAddress.head.substring(0, LineMaxLength))
     else lineLengthCheck(existingAddress.tail, accAddress :+ existingAddress.head)
   }
-
 }
