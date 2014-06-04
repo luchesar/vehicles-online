@@ -27,7 +27,7 @@ Feature: US161: Disposal to Trade - Postcode Lookup Error Message
   Scenario Outline:
     Given the motor trader has <entered> a postcode which does not conform to business rules
     When they attempt to submit the postcode in addition to other required information
-    Then a single error message is displayed "Postcode - Must be between 5 and 8 characters and in a valid format, eg. PR2 8AE or PR28AE"
+    Then a single error message is displayed "Postcode - Must be between five and eight characters and in a valid format, eg. PR2 8AE or PR28AE"
     And they remain on the "Provide your trader details" page
 
   Examples:

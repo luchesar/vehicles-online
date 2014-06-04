@@ -19,7 +19,7 @@ import ExecutionContext.Implicits.global
 import services.brute_force_prevention.{BruteForcePreventionServiceImpl, BruteForcePreventionService, BruteForcePreventionWebService}
 import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeAddressLookupWebServiceImpl._
-import services.fakes.FakeResponse
+import services.fakes.{FakeDateServiceImpl, FakeResponse}
 import services.fakes.FakeVehicleLookupWebService._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
@@ -377,8 +377,11 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       bruteForcePreventionWebService
     }
 
-    new BruteForcePreventionServiceImpl(new Config(),
-      ws = bruteForcePreventionWebService)
+    new BruteForcePreventionServiceImpl(
+      config = new Config(),
+      ws = bruteForcePreventionWebService,
+      dateService = new FakeDateServiceImpl
+    )
   }
 
   private def vehicleLookupResponseGenerator(fullResponse: (Int, Option[VehicleDetailsResponse]), bruteForceService: BruteForcePreventionService = bruteForceServiceImpl(permitted = true)) = {

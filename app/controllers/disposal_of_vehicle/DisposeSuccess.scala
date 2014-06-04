@@ -23,28 +23,17 @@ final class DisposeSuccess @Inject()()(implicit clientSideSessionFactory: Client
       }
   }
 
-  def submit = Action { implicit request =>
-    val formData = request.body.asFormUrlEncoded.getOrElse(Map.empty[String, Seq[String]])
-    val actionValue = formData.get("action").flatMap(_.headOption)
-    actionValue match {
-      case Some("newDisposal") =>
-        newDisposal
-      case Some("exit") =>
-        exit
-      case _ => BadRequest("This action is not allowed") // TODO redirect to error page ?
-    }
-  }
-
-  private def newDisposal(implicit request: Request[AnyContent]): SimpleResult =
+  def newDisposal = Action { implicit request =>
     (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[DisposeFormModel],
       request.cookies.getModel[VehicleDetailsModel]) match {
       case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present()).
         discardingCookies(RelatedCacheKeys.DisposeSet)
       case _ => Redirect(routes.SetUpTradeDetails.present())
     }
+  }
 
-  private def exit(implicit request: Request[AnyContent]): SimpleResult = {
-      Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
+  def exit = Action { implicit request =>
+    Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
   }
 
   private def fetchData(dealerDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel, transactionId: Option[String],

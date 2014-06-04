@@ -247,7 +247,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually.submit(request)
       val content = contentAsString(result)
-      content should include("Must be between 5 and 8 characters and in a valid format, eg. PR2 8AE or PR28AE")
+      content should include("Must be between five and eight characters and in a valid format, eg. PR2 8AE or PR28AE")
     }
   }
 

@@ -79,9 +79,36 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
     createCookie(key, value)
   }
 
-  def bruteForcePreventionViewModel(permitted: Boolean = true, attempts: Int = 0, maxAttempts: Int = MaxAttemptsOneBased) = {
+  def traderDetailsModelLine1(uprn: Option[Long] = None, line1: String = Line1Valid, line4: String = Line4Valid, traderPostcode: String = PostcodeValid) = {
+    val key = TraderDetailsCacheKey
+    val value = TraderDetailsModel(traderName = TraderBusinessNameValid,
+      traderAddress = AddressViewModel(uprn = uprn, address = Seq(line1, line4, traderPostcode)))
+    createCookie(key, value)
+  }
+
+  def traderDetailsModelLine2(uprn: Option[Long] = None, line1: String = Line1Valid, line2: String = Line2Valid, line4: String = Line4Valid, traderPostcode: String = PostcodeValid) = {
+    val key = TraderDetailsCacheKey
+    val value = TraderDetailsModel(traderName = TraderBusinessNameValid,
+      traderAddress = AddressViewModel(uprn = uprn, address = Seq(line1, line2, line4, traderPostcode)))
+    createCookie(key, value)
+  }
+
+  def traderDetailsModelLine4(uprn: Option[Long] = None, line4: String = Line4Valid, traderPostcode: String = PostcodeValid) = {
+    val key = TraderDetailsCacheKey
+    val value = TraderDetailsModel(traderName = TraderBusinessNameValid,
+      traderAddress = AddressViewModel(uprn = uprn, address = Seq(line4, traderPostcode)))
+    createCookie(key, value)
+  }
+
+  def bruteForcePreventionViewModel(permitted: Boolean = true,
+                                    attempts: Int = 0,
+                                    maxAttempts: Int = MaxAttemptsOneBased,
+                                    dateTimeISOChronology: String = org.joda.time.DateTime.now().toString) = {
     val key = BruteForcePreventionViewModelCacheKey
-    val value = BruteForcePreventionViewModel(permitted, attempts, maxAttempts)
+    val value = BruteForcePreventionViewModel(permitted,
+      attempts,
+      maxAttempts,
+      dateTimeISOChronology = dateTimeISOChronology)
     createCookie(key, value)
   }
 

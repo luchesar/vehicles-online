@@ -59,9 +59,17 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def bruteForcePreventionViewModel(permitted: Boolean = true, attempts: Int = 0, maxAttempts: Int = MaxAttemptsOneBased)(implicit webDriver: WebDriver) = {
+  def bruteForcePreventionViewModel(permitted: Boolean = true,
+                                    attempts: Int = 0,
+                                    maxAttempts: Int = MaxAttemptsOneBased,
+                                    dateTimeISOChronology: String = org.joda.time.DateTime.now().toString)(implicit webDriver: WebDriver) = {
     val key = BruteForcePreventionViewModelCacheKey
-    val value = BruteForcePreventionViewModel(permitted, attempts, maxAttempts)
+    val value = BruteForcePreventionViewModel(
+      permitted,
+      attempts,
+      maxAttempts,
+      dateTimeISOChronology
+    )
     addCookie(key, value)
     this
   }
