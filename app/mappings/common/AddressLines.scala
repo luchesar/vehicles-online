@@ -18,9 +18,9 @@ object AddressLines {
   final val AddressLinesCacheKey = "addressLines"
   final val BuildingNameOrNumberHolder = "No building name/num supplied"
 
-  final val Line1 = 0
-  final val Line2 = 1
-  final val Line3 = 2
+  final val BuildingNameOrNumberIndex = 0
+  final val Line2Index = 1
+  final val Line3Index = 2
   final val emptyLine = ""
 
   def addressLines: Mapping[AddressLinesModel] = mapping(
