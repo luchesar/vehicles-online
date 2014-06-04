@@ -294,6 +294,8 @@ lossOfRegistrationConsent = Loss of registration consent
 
 #page 6 - summary
 disposal_disposeconfirmation.title = Dispose a vehicle into the motor trade: summary
+disposal_disposeconfirmation.disposalComplete = Disposal complete
+disposal_disposeconfirmation.yourTransactionId = Your transaction ID is
 disposal_disposeconfirmation.disposaldetails = Disposal details
 disposal_disposeconfirmation.vehiclemake = Make
 disposal_disposeconfirmation.vehiclemodel = Model
