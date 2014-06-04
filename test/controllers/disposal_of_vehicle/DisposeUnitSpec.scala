@@ -317,7 +317,7 @@ final class DisposeUnitSpec extends UnitSpec {
 //      }
 //    }
 
-    "truncate address lines 1,2 and 3 up to max characters" in new WithApplication {
+    "truncate address lines 1,2,3 and 4 up to max characters" in new WithApplication {
       val disposeServiceMock = mock[DisposeService]
       when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
       val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
@@ -326,7 +326,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "a" * LineMaxLength + 1, line2 = "b" * LineMaxLength + 1, line3 = "c" * LineMaxLength + 1)). // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "a" * LineMaxLength + 1, line2 = "b" * LineMaxLength + 1, line3 = "c" * LineMaxLength + 1, line4 = "d" * LineMaxLength + 1)). // line1 is longer than maximum
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
       val result = disposeController.submit(request)
@@ -335,7 +335,7 @@ final class DisposeUnitSpec extends UnitSpec {
         registrationNumber = RegistrationNumberValid,
         referenceNumber = ReferenceNumberValid,
         traderName = TraderBusinessNameValid,
-        traderAddress = DisposalAddressDto(line = Seq("a" * LineMaxLength, "b" * LineMaxLength, "c" * LineMaxLength),postTown = Some(Line4Valid),postCode = PostcodeValid,uprn = None),
+        traderAddress = DisposalAddressDto(line = Seq("a" * LineMaxLength, "b" * LineMaxLength, "c" * LineMaxLength),postTown = Some("d" * LineMaxLength),postCode = PostcodeValid,uprn = None),
         dateOfDisposal = dateValid,
         transactionTimestamp = dateValid,
         prConsent = ConsentValid.toBoolean,

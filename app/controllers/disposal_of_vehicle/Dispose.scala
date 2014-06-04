@@ -225,17 +225,22 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     // confirmed by BAs - substitute address line 1 inserted if not present from OS
     val sourceAddressToCheck = if (sourceAddress.address.size == 2) Seq("No address line supplied") ++ sourceAddress.address else sourceAddress.address
 
-    val line2Empty = if (sourceAddressToCheck(line2) == "") true else false
-    val line3Empty = if (sourceAddressToCheck(line3) == "") true else false
-    val line1OverMax = if (sourceAddressToCheck(line1).size > LineMaxLength) true else false
-    val line2OverMax = if (sourceAddressToCheck(line2).size > LineMaxLength) true else false
+    val line2Empty = sourceAddressToCheck(line2) == ""
+    val line3Empty = sourceAddressToCheck(line3) == ""
+    val line1OverMax = sourceAddressToCheck(line1).size > LineMaxLength
+    val line2OverMax = sourceAddressToCheck(line2).size > LineMaxLength
 
     //moving address lines (if applicable) to make best use of lines 1,2,3 if lines are over max length
     val sourceAddressAmendedLines =
       (line1OverMax, line2OverMax, line2Empty, line3Empty) match {
-      case (true, _, true, _) => Seq(sourceAddressToCheck(line1).substring(0, LineMaxLength)) ++ Seq(sourceAddressToCheck(line1).substring(LineMaxLength)) ++ sourceAddressToCheck.tail.tail
-      case (true, _, false, true) => Seq(sourceAddressToCheck(line1).substring(0, LineMaxLength)) ++ Seq(sourceAddressToCheck(line1).substring(LineMaxLength)) ++ Seq(sourceAddressToCheck(line2)) ++ sourceAddressToCheck.tail.tail.tail
-      case (false, true, false, true) => Seq(sourceAddressToCheck(line1)) ++ Seq(sourceAddressToCheck(line2).substring(0, LineMaxLength)) ++ Seq(sourceAddressToCheck(line2).substring(LineMaxLength)) ++ sourceAddressToCheck.tail.tail.tail
+      case (true, _, true, _) => Seq(sourceAddressToCheck(line1).substring(0, LineMaxLength)) ++
+                                 Seq(sourceAddressToCheck(line1).substring(LineMaxLength)) ++ sourceAddressToCheck.tail.tail
+      case (true, _, false, true) => Seq(sourceAddressToCheck(line1).substring(0, LineMaxLength)) ++
+                                     Seq(sourceAddressToCheck(line1).substring(LineMaxLength)) ++
+                                     Seq(sourceAddressToCheck(line2)) ++ sourceAddressToCheck.tail.tail.tail
+      case (false, true, false, true) => Seq(sourceAddressToCheck(line1)) ++
+                                         Seq(sourceAddressToCheck(line2).substring(0, LineMaxLength)) ++
+                                         Seq(sourceAddressToCheck(line2).substring(LineMaxLength)) ++ sourceAddressToCheck.tail.tail.tail
       case (_) => sourceAddressToCheck
     }
 
@@ -256,5 +261,4 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     else if (existingAddress.head.size > LineMaxLength) lineLengthCheck(existingAddress.tail, accAddress :+ existingAddress.head.substring(0, LineMaxLength))
     else lineLengthCheck(existingAddress.tail, accAddress :+ existingAddress.head)
   }
-
 }

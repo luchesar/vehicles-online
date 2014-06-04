@@ -35,7 +35,7 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
       }
     }
 
-    "return session containing a populated new session secret cookie" in new WithApplication {
+    "not create session again if the session is already created in the SimpleResult" in new WithApplication {
       val request = FakeCSRFRequest()
       val result = setUpTradeDetails.present(request)
 
@@ -47,6 +47,7 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
           val cookies = Cookies.decode(result.header.headers(HeaderNames.SET_COOKIE))
           val newRequestCookies = request.cookies ++ cookies
           val (_, session2) = encryptedClientSideSessionFactory.ensureSession(newRequestCookies, result)
+
 
           session1 should equal(session2)
       }
