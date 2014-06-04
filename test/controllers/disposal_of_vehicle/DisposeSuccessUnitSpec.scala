@@ -96,7 +96,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
 
   "submit" should {
     "redirect to correct next page after the new disposal button is clicked" in new WithApplication {
-      val request = FakeCSRFRequest().withFormUrlEncodedBody("action" -> mappings.disposal_of_vehicle.DisposeSuccess.NewDisposalAction).
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
@@ -112,7 +112,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "redirect to correct next page after the exit button is clicked" in new WithApplication {
-      val request = FakeCSRFRequest().withFormUrlEncodedBody("action" -> mappings.disposal_of_vehicle.DisposeSuccess.ExitAction).
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
@@ -127,7 +127,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "redirect to SetUpTradeDetails on submit when cache is empty" in new WithApplication {
-      val request = FakeCSRFRequest().withFormUrlEncodedBody("action" -> mappings.disposal_of_vehicle.DisposeSuccess.NewDisposalAction)
+      val request = FakeCSRFRequest()
       val result = disposeSuccess.newDisposal(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -135,7 +135,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "redirect to SetUpTradeDetails on submit when only DealerDetails are cached" in new WithApplication {
-      val request = FakeCSRFRequest().withFormUrlEncodedBody("action" -> mappings.disposal_of_vehicle.DisposeSuccess.NewDisposalAction).
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = disposeSuccess.newDisposal(request)
       whenReady(result) {
@@ -144,7 +144,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "redirect to SetUpTradeDetails on submit when only VehicleDetails are cached" in new WithApplication {
-      val request = FakeCSRFRequest().withFormUrlEncodedBody("action" -> mappings.disposal_of_vehicle.DisposeSuccess.NewDisposalAction).
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val result = disposeSuccess.newDisposal(request)
       whenReady(result) {
@@ -153,7 +153,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "redirect to SetUpTradeDetails on submit when only DisposeDetails are cached" in new WithApplication {
-      val request = FakeCSRFRequest().withFormUrlEncodedBody("action" -> mappings.disposal_of_vehicle.DisposeSuccess.NewDisposalAction).
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.disposeModel())
       val result = disposeSuccess.newDisposal(request)
       whenReady(result) {
@@ -162,7 +162,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "redirect to SetUpTradeDetails on submit when only VehicleDetails and DisposeDetails are cached" in new WithApplication {
-      val request = FakeCSRFRequest().withFormUrlEncodedBody("action" -> mappings.disposal_of_vehicle.DisposeSuccess.NewDisposalAction).
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeFormModel())
       val result = disposeSuccess.newDisposal(request)
@@ -172,7 +172,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "redirect to SetUpTradeDetails on submit when only VehicleDetails and DealerDetails are cached" in new WithApplication {
-      val request = FakeCSRFRequest().withFormUrlEncodedBody("action" -> mappings.disposal_of_vehicle.DisposeSuccess.NewDisposalAction).
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val result = disposeSuccess.newDisposal(request)
       whenReady(result) {
@@ -181,7 +181,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "redirect to SetUpTradeDetails on submit when only DisposeDetails and DealerDetails are cached" in new WithApplication {
-      val request = FakeCSRFRequest().withFormUrlEncodedBody("action" -> mappings.disposal_of_vehicle.DisposeSuccess.NewDisposalAction).
+      val request = FakeCSRFRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeModel())
@@ -191,8 +191,6 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
       }
     }
   }
-
-  private final val ActionNotAllowedMessage = "This action is not allowed"
 
   private val disposeSuccess = injector.getInstance(classOf[DisposeSuccess])
 }
