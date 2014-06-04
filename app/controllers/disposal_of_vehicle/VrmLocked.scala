@@ -5,10 +5,10 @@ import common.ClientSideSessionFactory
 import common.CookieImplicits.{RequestCookiesAdapter, SimpleResultAdapter}
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import mappings.disposal_of_vehicle.VrmLocked._
+import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._
 import models.domain.disposal_of_vehicle.{BruteForcePreventionViewModel, TraderDetailsModel}
 import play.api.Logger
 import play.api.mvc._
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
   def present = Action {
@@ -27,12 +27,9 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
     val formData = request.body.asFormUrlEncoded.getOrElse(Map.empty[String, Seq[String]])
     val actionValue = formData.get("action").flatMap(_.headOption)
     actionValue match {
-      case Some(NewDisposalAction) =>
-        newDisposal
-      case Some(ExitAction) =>
-        exit
-      case _ =>
-        BadRequest("This action is not allowed") // TODO redirect to error page ?
+      case Some(NewDisposalAction) => newDisposal
+      case Some(ExitAction) => exit
+      case _ => BadRequest("This action is not allowed") // TODO redirect to error page ?
     }
   }
 
