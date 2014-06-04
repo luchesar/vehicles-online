@@ -217,30 +217,31 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
   }
 
   private def disposalAddressDto(sourceAddress: AddressViewModel): DisposalAddressDto = {
-  // The last two address lines are always post town and postcode
-    val line1 = 0
-    val line2 = 1
-    val line3 = 2
 
-    // confirmed by BAs - substitute address line 1 inserted if not present from OS
-    val sourceAddressToCheck = if (sourceAddress.address.size == 2) Seq("No address line supplied") ++ sourceAddress.address else sourceAddress.address
+    val sourceAddressToCheck =
+    sourceAddress.address.size match {
+      case 2 => Seq(AddressLine1Holder) ++ sourceAddress.address
+      case 3 => Seq(sourceAddress.address(Line1)) ++ Seq(emptyLine) ++ sourceAddress.address.tail
+      case 4 => Seq(sourceAddress.address(Line1)) ++ Seq(sourceAddress.address(Line2)) ++ Seq(emptyLine) ++ sourceAddress.address.tail.tail
+      case _ => sourceAddress.address
+    }
 
-    val line2Empty = sourceAddressToCheck(line2) == ""
-    val line3Empty = sourceAddressToCheck(line3) == ""
-    val line1OverMax = sourceAddressToCheck(line1).size > LineMaxLength
-    val line2OverMax = sourceAddressToCheck(line2).size > LineMaxLength
+    val line2Empty = sourceAddressToCheck(Line2) == emptyLine
+    val line3Empty = sourceAddressToCheck(Line3) == emptyLine
+    val line1OverMax = sourceAddressToCheck(Line1).size > LineMaxLength
+    val line2OverMax = sourceAddressToCheck(Line2).size > LineMaxLength
 
     //moving address lines (if applicable) to make best use of lines 1,2,3 if lines are over max length
     val sourceAddressAmendedLines =
       (line1OverMax, line2OverMax, line2Empty, line3Empty) match {
-      case (true, _, true, _) => Seq(sourceAddressToCheck(line1).substring(0, LineMaxLength)) ++
-                                 Seq(sourceAddressToCheck(line1).substring(LineMaxLength)) ++ sourceAddressToCheck.tail.tail
-      case (true, _, false, true) => Seq(sourceAddressToCheck(line1).substring(0, LineMaxLength)) ++
-                                     Seq(sourceAddressToCheck(line1).substring(LineMaxLength)) ++
-                                     Seq(sourceAddressToCheck(line2)) ++ sourceAddressToCheck.tail.tail.tail
-      case (false, true, false, true) => Seq(sourceAddressToCheck(line1)) ++
-                                         Seq(sourceAddressToCheck(line2).substring(0, LineMaxLength)) ++
-                                         Seq(sourceAddressToCheck(line2).substring(LineMaxLength)) ++ sourceAddressToCheck.tail.tail.tail
+      case (true, _, true, _) => Seq(sourceAddressToCheck(Line1).substring(0, LineMaxLength)) ++
+                                 Seq(sourceAddressToCheck(Line1).substring(LineMaxLength)) ++ sourceAddressToCheck.tail.tail
+      case (true, _, false, true) => Seq(sourceAddressToCheck(Line1).substring(0, LineMaxLength)) ++
+                                     Seq(sourceAddressToCheck(Line1).substring(LineMaxLength)) ++
+                                     Seq(sourceAddressToCheck(Line2)) ++ sourceAddressToCheck.tail.tail.tail
+      case (false, true, false, true) => Seq(sourceAddressToCheck(Line1)) ++
+                                         Seq(sourceAddressToCheck(Line2).substring(0, LineMaxLength)) ++
+                                         Seq(sourceAddressToCheck(Line2).substring(LineMaxLength)) ++ sourceAddressToCheck.tail.tail.tail
       case (_) => sourceAddressToCheck
     }
 
