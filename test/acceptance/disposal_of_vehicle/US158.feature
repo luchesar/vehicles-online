@@ -26,37 +26,37 @@ Feature: US158: Disposal to Trade: Business Name - Error Messages
   Scenario Outline:
     Given the motor trader has <entered> a business name which does not conform to business rules
     When they attempt to submit the business name in addition to other required information
-    Then a single error message is displayed "Trader name - Must be between two and 30 characters and not contain invalid characters"
+    Then a single error message is displayed "Trader name - Must be between two and 58 characters and not contain invalid characters"
     And they remain on the "Provide your trader details" page
 
   Examples:
-    | entered                         |
-    |                                 |
-    | a                               |
-    | abcdefghijklmnopqrstuvwxyzabcde |
-    | 1                               |
-    | 1234567890123456789012345678901 |
-    | ..                              |
-    | Exclamation!                    |
-    | Quote”                          |
-    | Pound£                          |
-    | Dollar$                         |
-    | Percentage%                     |
-    | Caret^                          |
-    | Underscore_                     |
-    | Equal=                          |
-    | ClosingBracket]                 |
-    | OpeningBracket[                 |
-    | OpeneingBrace{                  |
-    | ClosignBrace}                   |
-    | Hash#                           |
-    | Tilde~                          |
-    | Semicolon;                      |
-    | Colon:                          |
-    | Forwardslash/                   |
-    | Questionmark?                   |
-    | GreaterThan>                    |
-    | LessThan<                       |
-    | Backslash\                      |
-    | Backtick`                       |
-    | Thing¬                          |
+    | entered                                                     |
+    |                                                             |
+    | a                                                           |
+    | abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg |
+    | 1                                                           |
+    | 12345678901234567890123456789012345678901234567890123456789 |
+    | ..                                                          |
+    | Exclamation!                                                |
+    | Quote”                                                      |
+    | Pound£                                                      |
+    | Dollar$                                                     |
+    | Percentage%                                                 |
+    | Caret^                                                      |
+    | Underscore_                                                 |
+    | Equal=                                                      |
+    | ClosingBracket]                                             |
+    | OpeningBracket[                                             |
+    | OpeneingBrace{                                              |
+    | ClosignBrace}                                               |
+    | Hash#                                                       |
+    | Tilde~                                                      |
+    | Semicolon;                                                  |
+    | Colon:                                                      |
+    | Forwardslash/                                               |
+    | Questionmark?                                               |
+    | GreaterThan>                                                |
+    | LessThan<                                                   |
+    | Backslash\                                                  |
+    | Backtick`                                                   |
+    | Thing¬                                                      |

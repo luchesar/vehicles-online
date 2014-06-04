@@ -5,7 +5,7 @@ import play.api.data.Mapping
 import play.api.data.Forms._
 
 object SetupTradeDetails {
-  final val TraderNameMaxLength = 30
+  final val TraderNameMaxLength = 58
   final val TraderNameMinLength = 2
   final val TraderNameId = "traderName"
 
