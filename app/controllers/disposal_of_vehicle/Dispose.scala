@@ -39,7 +39,7 @@ import scala.annotation.tailrec
 
 final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
-  val form = Form(
+  private[disposal_of_vehicle] val form = Form(
     mapping(
       MileageId -> mileage(),
       DateOfDisposalId -> dayMonthYear.verifying(validDate(),

@@ -40,7 +40,8 @@ GET         /disposal-of-vehicle/dispose                        @controllers.dis
 POST        /disposal-of-vehicle/dispose                        @controllers.disposal_of_vehicle.Dispose.submit
 
 GET         /disposal-of-vehicle/dispose-success                @controllers.disposal_of_vehicle.DisposeSuccess.present
-POST        /disposal-of-vehicle/dispose-success                @controllers.disposal_of_vehicle.DisposeSuccess.submit
+POST        /disposal-of-vehicle/dispose-success/new-disposal   @controllers.disposal_of_vehicle.DisposeSuccess.newDisposal
+POST        /disposal-of-vehicle/dispose-success/exit           @controllers.disposal_of_vehicle.DisposeSuccess.exit
 
 GET         /disposal-of-vehicle/dispose-failure                @controllers.disposal_of_vehicle.DisposeFailure.present
 
@@ -53,7 +54,8 @@ GET         /disposal-of-vehicle/duplicate-disposal-error       @controllers.dis
 GET         /disposal-of-vehicle/micro-service-error            @controllers.disposal_of_vehicle.MicroServiceError.present
 GET         /disposal-of-vehicle/soap-endpoint-error            @controllers.disposal_of_vehicle.SoapEndpointError.present
 GET         /disposal-of-vehicle/vrm-locked                     @controllers.disposal_of_vehicle.VrmLocked.present
-POST        /disposal-of-vehicle/vrm-locked                     @controllers.disposal_of_vehicle.VrmLocked.submit
+POST        /disposal-of-vehicle/vrm-locked/new-disposal        @controllers.disposal_of_vehicle.VrmLocked.newDisposal
+POST        /disposal-of-vehicle/vrm-locked/exit                @controllers.disposal_of_vehicle.VrmLocked.exit
 
 GET         /disposal-of-vehicle/error                          @controllers.disposal_of_vehicle.Error.present
 POST        /disposal-of-vehicle/error                          @controllers.disposal_of_vehicle.Error.submit

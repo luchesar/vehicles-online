@@ -15,7 +15,7 @@ import CookieImplicits.FormAdapter
 
 final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
-  val form = Form(
+  private[disposal_of_vehicle] val form = Form(
     mapping(
       AddressAndPostcodeId -> addressAndPostcode
     )(EnterAddressManuallyModel.apply)(EnterAddressManuallyModel.unapply)

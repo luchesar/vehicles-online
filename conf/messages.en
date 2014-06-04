@@ -153,7 +153,7 @@ widget.optional = (optional)
 #customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
 error.restricted.validVRNOnly = Must be valid format
-error.restricted.validPostcode = Must be between 5 and 8 characters and in a valid format, eg. PR2 8AE or PR28AE
+error.restricted.validPostcode = Must be between five and eight characters and in a valid format, eg. PR2 8AE or PR28AE
 
 datePlaceholder.day=Day
 datePlaceholder.month=Month
@@ -294,6 +294,8 @@ lossOfRegistrationConsent = Loss of registration consent
 
 #page 6 - summary
 disposal_disposeconfirmation.title = Dispose a vehicle into the motor trade: summary
+disposal_disposeconfirmation.disposalComplete = Disposal complete
+disposal_disposeconfirmation.yourTransactionId = Your transaction ID is
 disposal_disposeconfirmation.disposaldetails = Disposal details
 disposal_disposeconfirmation.vehiclemake = Make
 disposal_disposeconfirmation.vehiclemodel = Model
