@@ -24,7 +24,6 @@ final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
 
   val wireMockServer = new WireMockServer(wireMockConfig().port(wireMockPort))
   val trackingIdValue = "trackingIdValue"
-  val timeout = Timeout(5 seconds)
   val interval = Interval(50 millis)
 
   implicit val noCookieFlags = new NoCookieFlags

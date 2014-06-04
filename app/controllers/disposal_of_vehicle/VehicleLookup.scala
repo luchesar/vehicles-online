@@ -76,18 +76,18 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       }
   }
 
-  private def checkPermissionToLookup(model: VehicleLookupFormModel)(lookupVehicleFunc: ((VehicleLookupFormModel, BruteForcePreventionViewModel) => Future[SimpleResult]))
+  private def checkPermissionToLookup(formModel: VehicleLookupFormModel)(lookupVehicleFunc: ((VehicleLookupFormModel, BruteForcePreventionViewModel) => Future[SimpleResult]))
                                      (implicit request: Request[_]): Future[SimpleResult] =
-    bruteForceService.isVrmLookupPermitted(model.registrationNumber).map { response =>
+    bruteForceService.isVrmLookupPermitted(formModel.registrationNumber).map { response =>
       response // TODO US270 @Lawrence please code review the way we are using map, the lambda (I think we could use _ but it looks strange to read) and flatmap
     } flatMap {
-      case Some(resp) =>
+      case Some(bruteForcePreventionViewModel) =>
         // US270: The security micro-service will return a Forbidden (403) message when the vrm is locked, we have hidden that logic as a boolean.
-//        val (permitted, bruteForcePreventionResponse) = resp
-        if (resp.permitted) lookupVehicleFunc(model, resp)
+        if (bruteForcePreventionViewModel.permitted) lookupVehicleFunc(formModel, bruteForcePreventionViewModel)
         else Future {
-          Logger.warn(s"BruteForceService locked out vrm: ${model.registrationNumber}")
-          Redirect(routes.VrmLocked.present())
+          Logger.warn(s"BruteForceService locked out vrm: ${formModel.registrationNumber}")
+          Redirect(routes.VrmLocked.present()).
+            withCookie(bruteForcePreventionViewModel)
         }
       case None => Future {
         Redirect(routes.MicroServiceError.present())
@@ -108,9 +108,11 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       case None => Redirect(routes.MicroServiceError.present())
     }
 
-    def lookupHadProblem(responseCode: String) =
+    def lookupHadProblem(responseCode: String) = {
+      Logger.debug("VehicleLookup - lookupHadProblem so redirect to VehicleLookupFailure")
       Redirect(routes.VehicleLookupFailure.present()).
         withCookie(key = VehicleLookupResponseCodeCacheKey, value = responseCode)
+    }
 
     def hasResponseCode(vehicleDetailsResponse: VehicleDetailsResponse)(implicit request: Request[_]) =
       vehicleDetailsResponse.responseCode match {

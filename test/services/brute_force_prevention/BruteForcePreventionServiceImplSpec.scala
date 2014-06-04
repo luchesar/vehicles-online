@@ -41,8 +41,6 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
 
   }
 
-  private val timeout = Timeout(Span(1, Second))
-
   private def responseThrows: Future[Response] = Future {
     throw new RuntimeException("This error is generated deliberately by a test")
   }
