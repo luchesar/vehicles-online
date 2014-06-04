@@ -225,7 +225,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually.submit(request)
       val content = contentAsString(result)
-      content should include("Line 1 - Must contain a minimum of four characters")
+      content should include("Building name or number - Must contain a minimum of four characters")
     }
 
     "collapse error messages for post town" in new WithApplication {
