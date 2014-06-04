@@ -64,7 +64,7 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
 
   def enterAddressManually() = {
     val key = EnterAddressManuallyCacheKey
-    val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = Line1Valid,
+    val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(buildingNameOrNumber = Line1Valid,
       line2 = Some(Line2Valid),
       line3 = Some(Line3Valid),
       line4 = Line4Valid),

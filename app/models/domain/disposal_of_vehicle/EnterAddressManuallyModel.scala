@@ -18,7 +18,7 @@ final case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPo
       case _ => None
     }
 
-    val line1 = stripEndOfLine(Some(addressAndPostcodeModel.addressLinesModel.line1))
+    val line1 = stripEndOfLine(Some(addressAndPostcodeModel.addressLinesModel.buildingNameOrNumber))
     require(line1.isDefined, "Address line1 must have content")
     val line2 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line2)
     val line3 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line3)

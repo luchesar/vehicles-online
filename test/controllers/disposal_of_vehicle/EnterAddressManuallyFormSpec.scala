@@ -11,7 +11,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
   "form" should {
     "accept if form is valid with all fields filled in" in {
       val model = formWithValidDefaults().get.addressAndPostcodeModel
-      model.addressLinesModel.line1 should equal(Line1Valid)
+      model.addressLinesModel.buildingNameOrNumber should equal(Line1Valid)
 
       model.addressLinesModel.line2 should equal(Some(Line2Valid))
       model.addressLinesModel.line3 should equal(Some(Line3Valid))
@@ -21,7 +21,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
 
     "accept if form is valid with only mandatory filled in" in {
       val model = formWithValidDefaults(line2 = "", line3 = "").get.addressAndPostcodeModel
-      model.addressLinesModel.line1 should equal(Line1Valid)
+      model.addressLinesModel.buildingNameOrNumber should equal(Line1Valid)
       model.postcode should equal(PostcodeValid)
     }
   }
@@ -38,7 +38,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
         line3 = line3Hypthens,
         line4 = line4Hypthens).get.addressAndPostcodeModel
 
-      model.addressLinesModel.line1 should equal(line1Hypthens)
+      model.addressLinesModel.buildingNameOrNumber should equal(line1Hypthens)
       model.addressLinesModel.line2 should equal(Some(line2Hypthens))
       model.addressLinesModel.line3 should equal(Some(line3Hypthens))
       model.addressLinesModel.line4 should equal(line4Hypthens)
@@ -129,7 +129,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
                                     postcode: String = PostcodeValid) = {
     injector.getInstance(classOf[EnterAddressManually]).form.bind(
       Map(
-        s"$AddressAndPostcodeId.$AddressLinesId.$Line1Id" -> line1,
+        s"$AddressAndPostcodeId.$AddressLinesId.$AddressOrBuildingNumberId" -> line1,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> line2,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> line3,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> line4,
