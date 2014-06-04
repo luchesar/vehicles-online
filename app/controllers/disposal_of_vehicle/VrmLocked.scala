@@ -1,22 +1,26 @@
 package controllers.disposal_of_vehicle
 
-import play.api.mvc._
-import play.api.Logger
+import com.google.inject.Inject
+import common.ClientSideSessionFactory
 import common.CookieImplicits.{RequestCookiesAdapter, SimpleResultAdapter}
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import models.domain.disposal_of_vehicle.TraderDetailsModel
-import common.ClientSideSessionFactory
-import com.google.inject.Inject
-import services.DateService
 import mappings.disposal_of_vehicle.VrmLocked._
+import models.domain.disposal_of_vehicle.{BruteForcePreventionViewModel, TraderDetailsModel}
+import play.api.Logger
+import play.api.mvc._
+import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._
 
-final class VrmLocked @Inject()(dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
-
-  def present = Action { implicit request =>
-    Logger.debug(s"VrmLocked - displaying the vrm locked error page")
-    val today = dateService.today
-    val formattedTime = today.`HH:mm`
-    Ok(views.html.disposal_of_vehicle.vrm_locked(formattedTime))
+final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+  def present = Action {
+    implicit request =>
+      request.cookies.getModel[BruteForcePreventionViewModel] match {
+        case Some(viewModel) =>
+          Logger.debug(s"VrmLocked - displaying the vrm locked error page")
+          Ok(views.html.disposal_of_vehicle.vrm_locked(viewModel.dateTimeISOChronology))
+        case None =>
+          Logger.debug("VrmLocked - can't find cookie for BruteForcePreventionViewModel")
+          Redirect(routes.VehicleLookup.present())
+      }
   }
 
   def submit = Action { implicit request =>

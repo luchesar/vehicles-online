@@ -44,7 +44,10 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
           val encryptedClientSideSessionFactory = new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing)
           val (result, session1) = encryptedClientSideSessionFactory.ensureSession(request.cookies, r)
           result.withSession()
-          val (_, session2) = encryptedClientSideSessionFactory.ensureSession(request.cookies, result)
+          val cookies = Cookies.decode(result.header.headers(HeaderNames.SET_COOKIE))
+          val newRequestCookies = request.cookies ++ cookies
+          val (_, session2) = encryptedClientSideSessionFactory.ensureSession(newRequestCookies, result)
+
 
           session1 should equal(session2)
       }

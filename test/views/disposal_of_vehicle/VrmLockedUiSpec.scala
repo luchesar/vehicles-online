@@ -8,9 +8,11 @@ import org.openqa.selenium.WebDriver
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 
-final class VrmLockedSpec extends UiSpec with TestHarness {
+final class VrmLockedUiSpec extends UiSpec with TestHarness {
   "go to page" should {
     "display the page" in new WebBrowser {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs.bruteForcePreventionViewModel()
       go to VrmLockedPage
 
       page.title should equal(VrmLockedPage.title)
@@ -34,7 +36,9 @@ final class VrmLockedSpec extends UiSpec with TestHarness {
       page.title should equal(VehicleLookupPage.title)
     }
 
-    "redirect to setuptradedetails when no details are cached" in new WebBrowser {
+    "redirect to setuptradedetails when no trade details are cached" in new WebBrowser {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs.bruteForcePreventionViewModel()
       go to VrmLockedPage
 
       click on newDisposal
@@ -84,5 +88,6 @@ final class VrmLockedSpec extends UiSpec with TestHarness {
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
       setupTradeDetails().
-      dealerDetails()
+      dealerDetails().
+      bruteForcePreventionViewModel()
 }

@@ -24,7 +24,6 @@ final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
 
   val wireMockServer = new WireMockServer(wireMockConfig().port(wireMockPort))
   val trackingIdValue = "trackingIdValue"
-  val timeout = Timeout(5 seconds)
   val interval = Interval(50 millis)
 
   implicit val noCookieFlags = new NoCookieFlags
@@ -69,7 +68,6 @@ final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
 
       whenReady(futureResult, timeout, interval) { result =>
         sentRequestsUrls should have size 1
-        println(sentRequestsUrls(0))
         sentRequestsUrls(0) should include(s"?postcode=$postCode")
         sentRequestsUrls(0) should include(s"&tracking-id=$trackingIdValue")
       }
@@ -84,7 +82,6 @@ final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
 
       whenReady(futureResult, timeout, interval) { result =>
         sentRequestsUrls should have size 1
-        println(sentRequestsUrls(0))
         sentRequestsUrls(0) should include(s"?postcode=$postCode")
         sentRequestsUrls(0) should not include(s"&tracking-id=$trackingIdValue")
       }
@@ -99,7 +96,6 @@ final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
 
       whenReady(futureResult, timeout, interval) { result =>
         sentRequestsUrls should have size 1
-        println(sentRequestsUrls(0))
         sentRequestsUrls(0) should include(s"?uprn=$postCode")
         sentRequestsUrls(0) should include(s"&tracking-id=$trackingIdValue")
       }

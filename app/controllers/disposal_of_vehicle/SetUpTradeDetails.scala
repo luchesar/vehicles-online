@@ -15,7 +15,7 @@ import utils.helpers.CookieNameHashing
 
 final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
-  val traderLookupForm = Form(
+  val form = Form(
     mapping(
       TraderNameId -> traderBusinessName(),
       TraderPostcodeId -> postcode
@@ -24,12 +24,12 @@ final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: Cli
 
   def present = Action {
     implicit request =>
-      Ok(views.html.disposal_of_vehicle.setup_trade_details(traderLookupForm.fill()))
+      Ok(views.html.disposal_of_vehicle.setup_trade_details(form.fill()))
   }
 
   def submit = Action {
     implicit request =>
-      traderLookupForm.bindFromRequest.fold(
+      form.bindFromRequest.fold(
         formWithErrors => {
           val formWithReplacedErrors = formWithErrors.
             replaceError(TraderNameId, FormError(key = TraderNameId, message = "error.validTraderBusinessName", args = Seq.empty)).

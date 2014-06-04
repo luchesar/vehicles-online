@@ -75,7 +75,7 @@ final class SetUpTradeDetailsFormSpec extends UnitSpec {
                                     traderPostcode: String = PostcodeValid) = {
 
     injector.getInstance(classOf[SetUpTradeDetails])
-      .traderLookupForm.bind(
+      .form.bind(
       Map(
         TraderNameId -> traderBusinessName,
         TraderPostcodeId -> traderPostcode

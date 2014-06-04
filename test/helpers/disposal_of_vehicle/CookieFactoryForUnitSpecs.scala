@@ -79,9 +79,15 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
     createCookie(key, value)
   }
 
-  def bruteForcePreventionViewModel(permitted: Boolean = true, attempts: Int = 0, maxAttempts: Int = MaxAttemptsOneBased) = {
+  def bruteForcePreventionViewModel(permitted: Boolean = true,
+                                    attempts: Int = 0,
+                                    maxAttempts: Int = MaxAttemptsOneBased,
+                                    dateTimeISOChronology: String = org.joda.time.DateTime.now().toString) = {
     val key = BruteForcePreventionViewModelCacheKey
-    val value = BruteForcePreventionViewModel(permitted, attempts, maxAttempts)
+    val value = BruteForcePreventionViewModel(permitted,
+      attempts,
+      maxAttempts,
+      dateTimeISOChronology = dateTimeISOChronology)
     createCookie(key, value)
   }
 

@@ -128,8 +128,6 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     }
   }
 
-  private val timeout = Timeout(Span(1, Second))
-
   private def addressServiceMock(response: Future[Response]): AddressLookupService = {
     // Using the real address lookup service but passing in a fake web service that returns the responses we specify.
     new ordnance_survey.AddressLookupServiceImpl(

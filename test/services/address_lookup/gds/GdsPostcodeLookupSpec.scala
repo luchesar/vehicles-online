@@ -47,7 +47,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(PostcodeValid)(None)
 
-      whenReady(result) { _ shouldBe empty }
+      whenReady(result, timeout) { _ shouldBe empty }
     }
 
     "return empty seq when micro-service response status is not 200 (OK)" in {

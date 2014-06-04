@@ -7,11 +7,12 @@ import play.api.mvc.DiscardingCookie
 import models.domain.common.CacheKey
 import scala.Some
 import play.api.mvc.SimpleResult
+import play.api.Logger
 
 object CookieImplicits {
 
   implicit class RequestCookiesAdapter[A](val requestCookies: Traversable[Cookie]) extends AnyVal {
-    def getModel[B](implicit fjs: Reads[B], cacheKey: CacheKey[B], clientSideSessionFactory: ClientSideSessionFactory): Option[B] =
+    def getModel[B](implicit fjs: Reads[B], cacheKey: CacheKey[B], clientSideSessionFactory: ClientSideSessionFactory): Option[B] = {
       for {
         session <- clientSideSessionFactory.getSession(requestCookies)
         cookieName <- Some(session.nameCookie(cacheKey.value).value)
@@ -21,10 +22,13 @@ object CookieImplicits {
         val parsed = Json.parse(json)
         val fromJson = Json.fromJson[B](parsed)
         fromJson.asEither match {
-          case Left(errors) => throw JsonValidationException(errors)
-          case Right(model) => model
+          case Left(errors) =>
+            throw JsonValidationException(errors)
+          case Right(model) =>
+            model
         }
       }
+    }
 
     def getString(key: String)(implicit clientSideSessionFactory: ClientSideSessionFactory): Option[String] =
       for {
