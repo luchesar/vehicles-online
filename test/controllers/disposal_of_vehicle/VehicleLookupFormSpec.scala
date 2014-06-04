@@ -127,7 +127,7 @@ final class VehicleLookupFormSpec extends UnitSpec {
   private def formWithValidDefaults(referenceNumber: String = ReferenceNumberValid,
                                     registrationNumber: String = RegistrationNumberValid,
                                     consent: String = ConsentValid) = {
-    vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).vehicleLookupForm.bind(
+    vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).form.bind(
       Map(
         DocumentReferenceNumberId -> referenceNumber,
         VehicleRegistrationNumberId -> registrationNumber

@@ -27,7 +27,7 @@ import models.domain.common.BruteForcePreventionResponse._
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
-  val vehicleLookupForm = Form(
+  val form = Form(
     mapping(
       DocumentReferenceNumberId -> referenceNumber,
       VehicleRegistrationNumberId -> registrationNumber
@@ -37,14 +37,14 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
   def present = Action {
     implicit request =>
       request.cookies.getModel[TraderDetailsModel] match {
-        case Some(traderDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, vehicleLookupForm.fill()))
+        case Some(traderDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, form.fill()))
         case None => Redirect(routes.SetUpTradeDetails.present())
       }
   }
 
   def submit = Action.async {
     implicit request =>
-      vehicleLookupForm.bindFromRequest.fold(
+      form.bindFromRequest.fold(
         formWithErrors =>
           Future {
             request.cookies.getModel[TraderDetailsModel] match {
