@@ -221,9 +221,9 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     val sourceAddressToCheck = assignEmptyLines(sourceAddress.address)
 
     val (line2Empty, line3Empty) = (sourceAddressToCheck(Line2Index) == emptyLine, sourceAddressToCheck(Line3Index) == emptyLine)
-    val (line1OverMax, line2OverMax) = (sourceAddressToCheck(BuildingNameOrNumberIndex).size > LineMaxLength, sourceAddressToCheck(Line2Index).size > LineMaxLength)
+    val (buildingNameOrNumberOverMax, line2OverMax) = (sourceAddressToCheck(BuildingNameOrNumberIndex).size > LineMaxLength, sourceAddressToCheck(Line2Index).size > LineMaxLength)
 
-    val sourceAddressAmendedLines = addressLinesOverMaxToEmptyLines(line1OverMax, line2OverMax, line2Empty, line3Empty, sourceAddressToCheck)
+    val sourceAddressAmendedLines = addressLinesOverMaxToEmptyLines(buildingNameOrNumberOverMax, line2OverMax, line2Empty, line3Empty, sourceAddressToCheck)
 
     val legacyAddressLines = lineLengthCheck(sourceAddressAmendedLines.dropRight(2), Nil)
     val postTownToCheck = sourceAddressToCheck.takeRight(2).head
@@ -243,8 +243,8 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     }
   }
 
-  private def addressLinesOverMaxToEmptyLines(line1OverMax: Boolean, line2OverMax: Boolean, line2Empty: Boolean, line3Empty: Boolean, sourceAddressToCheck: Seq[String]) : Seq[String]= {
-    (line1OverMax, line2OverMax, line2Empty, line3Empty) match {
+  private def addressLinesOverMaxToEmptyLines(buildingNameOrNumberOverMax: Boolean, line2OverMax: Boolean, line2Empty: Boolean, line3Empty: Boolean, sourceAddressToCheck: Seq[String]) : Seq[String]= {
+    (buildingNameOrNumberOverMax, line2OverMax, line2Empty, line3Empty) match {
       case (true, _, true, _) => Seq(sourceAddressToCheck(BuildingNameOrNumberIndex).substring(0, LineMaxLength)) ++
                                  Seq(sourceAddressToCheck(BuildingNameOrNumberIndex).substring(LineMaxLength)) ++
                                  sourceAddressToCheck.tail.tail
