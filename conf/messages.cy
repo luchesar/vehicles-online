@@ -285,7 +285,6 @@ disposal_vehiclelookupfailure.p1 = Mae'r gwasanaeth ar gael dros dro. Os gwelwch
 disposal_vehiclelookupfailure.button = Am-edrych gerbyd
 disposal_disposefailure.button2 = Setup Newydd Manylion Masnachwr
 disposal_disposefailure.transactionid = {0}
-vehicle_lookup_vrm_not_found = Rhif Cyfeirnod y Ddogfen gofnodi naill ai ddilys neu os nad yw'n dod o V5C mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn. Gwnewch yn siŵr eich bod yn cael y V5C mwyaf diweddar a cheisiwch eto. Ar gyfer pob rhif cofrestru cerbyd, bydd tair ymgais i adfer y manylion y cerbyd.
 vehicle_lookup_document_reference_mismatch = Rhif Cyfeirnod y Ddogfen gofnodi naill ai ddilys neu os nad yw'n dod o V5C mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn. Gwnewch yn siŵr eich bod yn cael y V5C mwyaf diweddar a cheisiwch eto. Ar gyfer pob rhif cofrestru cerbyd, bydd tair ymgais i adfer y manylion y cerbyd.
 disposal_vehiclelookupfailure.warnAboutLockout = Ar ôl trydydd ymgais aflwyddiannus y system yn atal ymdrechion pellach i gael mynediad at y cofnodion cerbydau am 10 munud. Mae hyn er mwyn diogelu cofnodion cerbydau. Gall cerbydau eraill yn cael ei brosesu gan ddefnyddio'r gwasanaeth hwn yn ystod y cyfnod hwn.
 
@@ -297,7 +296,7 @@ widget.optional = (dewisol)
 #customer validation messages
 error.restricted.validNumberOnly = Mae''r maes hwn yn derbyn rhifau yn unig 
 error.restricted.validVRNOnly = Rhaid bod fformat dilys
-error.restricted.validPostcode = Rhaid bod rhwng 5 ac 8 cymeriadau ac mewn fformat dilys, ee. PR2 8AE neu PR28AE
+error.restricted.validPostcode = Rhaid bod rhwng pump ac wyth cymeriadau ac mewn fformat dilys, ee. PR2 8AE neu PR28AE
 
 datePlaceholder.day = Dydd
 datePlaceholder.month = Mis
@@ -320,8 +319,6 @@ datePlaceholder.December = Rhagfyr
 select_default = Dewiswch
 
 
-error.address.line4Required = Mae angen ar ôl tref llenwi gyfeiriad
-error.address.line4minLength = Llinell 4 yn gofyn o leiaf hyd o 3 cymeriadau
 addressAndPostcode.addressLines.line1 = Llinell 1
 error.address.maxLengthOfLinesConcatenated = Gall gyfeiriad gael mwy na 120 o gymeriadau
 error.address.characterinvalid = Nid yw nodau annilys chaniateir
@@ -380,3 +377,6 @@ vrm_locked.newdisposalbutton=Gwaredu newydd
 vrm_locked.exit.button=Gadael
 
 error.invalid = Gwerth annilys
+vehicle_lookup_vrm_not_found.p1=Rhif Cyfeirnod y Ddogfen gofnodi naill ai ddilys neu os nad yw'n dod o V5C mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
+vehicle_lookup_vrm_not_found.p2=Gwnewch yn siŵr eich bod yn cael y V5C mwyaf diweddar a cheisiwch eto.
+vehicle_lookup_vrm_not_found.p3=Ar gyfer pob rhif cofrestru cerbyd, bydd tair ymgais i adfer y manylion y cerbyd.
