@@ -347,7 +347,7 @@ addressAndPostcode.postcode = Postcode
 error.validTraderBusinessName = Must be between two and 30 characters and not contain invalid characters
 error.address.line1.invalid = Line 1 - Must contain a minimum of four characters
 error.address.line4.invalid = Post town - Requires a minimum length of three characters
-error.address.postcode.invalid = Must be between 5 and 8 characters and in a valid format, eg. PR2 8AE or PR28AE
+error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. PR2 8AE or PR28AE
 
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = Your application is being processed and you should receive confirmation letter within four weeks.
