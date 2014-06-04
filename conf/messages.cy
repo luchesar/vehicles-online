@@ -382,3 +382,6 @@ error.invalid = Gwerth annilys
 vehicle_lookup_vrm_not_found.p1=Rhif Cyfeirnod y Ddogfen gofnodi naill ai ddilys neu os nad yw''n dod o V5C mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
 vehicle_lookup_vrm_not_found.p2=Gwnewch yn siŵr eich bod yn cael y V5C mwyaf diweddar a cheisiwch eto.
 vehicle_lookup_vrm_not_found.p3=Ar gyfer pob rhif cofrestru cerbyd, bydd tair ymgais i adfer y manylion y cerbyd.
+vehicle_lookup_document_reference_mismatch.p1=Rhif Cyfeirnod y Ddogfen gofnodi naill ai ddilys neu os nad yw''n dod o V5C mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
+vehicle_lookup_document_reference_mismatch.p2=Gwnewch yn siŵr eich bod yn cael y V5C mwyaf diweddar a cheisiwch eto.
+vehicle_lookup_document_reference_mismatch.p3=Ar gyfer pob rhif cofrestru cerbyd, bydd tair ymgais i adfer y manylion y cerbyd.
