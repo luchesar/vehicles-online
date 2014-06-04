@@ -309,7 +309,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "a" * LineMaxLength + 1, line2 = "b" * LineMaxLength + 1, line3 = "c" * LineMaxLength + 1, line4 = "d" * LineMaxLength + 1)) // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(buildingNameOrNumber = "a" * LineMaxLength + 1, line2 = "b" * LineMaxLength + 1, line3 = "c" * LineMaxLength + 1, line4 = "d" * LineMaxLength + 1)) // line1 is longer than maximum
 
       val result = disposeController.submit(request)
 
@@ -394,7 +394,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "a" * 40, line2 = "")) // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(buildingNameOrNumber = "a" * 40, line2 = "")) // line1 is longer than maximum
 
       val result = disposeController.submit(request)
 
@@ -451,7 +451,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line1= "a" * 40, line2 = "b" * 40, line3 = ""))
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(buildingNameOrNumber= "a" * 40, line2 = "b" * 40, line3 = ""))
 
       val result = disposeController.submit(request)
 
@@ -479,7 +479,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(line1 = "c" * 40, line3 = "")) // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(buildingNameOrNumber = "c" * 40, line3 = "")) // line1 is longer than maximum
 
       val result = disposeController.submit(request)
 
@@ -508,7 +508,7 @@ final class DisposeUnitSpec extends UnitSpec {
     val request = buildCorrectlyPopulatedRequest.
       withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
       withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-      withCookies(CookieFactoryForUnitSpecs.traderDetailsModelLine1(line1 = "a" * LineMaxLength + "a", line4 = Line4Valid)). // line1 is longer than maximum
+      withCookies(CookieFactoryForUnitSpecs.traderDetailsModelLine1(buildingNameOrNumber = "a" * LineMaxLength + "a", line4 = Line4Valid)). // line1 is longer than maximum
       withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
     val result = disposeController.submit(request)
@@ -566,7 +566,7 @@ final class DisposeUnitSpec extends UnitSpec {
     val request = buildCorrectlyPopulatedRequest.
       withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
       withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-      withCookies(CookieFactoryForUnitSpecs.traderDetailsModelLine2(line1 = "a" * LineMaxLength + "a", line2 = "b" * LineMaxLength + "b", line4 = Line4Valid)).
+      withCookies(CookieFactoryForUnitSpecs.traderDetailsModelLine2(buildingNameOrNumber = "a" * LineMaxLength + "a", line2 = "b" * LineMaxLength + "b", line4 = Line4Valid)).
       withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
     val result = disposeController.submit(request)
