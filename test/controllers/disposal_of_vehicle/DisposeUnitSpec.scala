@@ -29,6 +29,7 @@ import scala.Some
 import services.fakes.FakeDisposeWebServiceImpl.ConsentValid
 import models.DayMonthYear
 import utils.helpers.Config
+import mappings.common.AddressLines.AddressLine1Holder
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
@@ -384,7 +385,7 @@ final class DisposeUnitSpec extends UnitSpec {
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
 
-    "truncate address line 1 and place remainder on line 2 when line 2 is empty" in new WithApplication {
+    "truncate building name or number and place remainder on line 2 when line 2 is empty" in new WithApplication {
       val disposeServiceMock = mock[DisposeService]
       when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
       val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
@@ -441,7 +442,7 @@ final class DisposeUnitSpec extends UnitSpec {
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
 
-    "truncate address line 1 and place remainder on line 2 when line 3 is empty. Line 2 is over max length, should be placed on line 3 and truncated" in new WithApplication {
+    "truncate building name or number and place remainder on line 2 when line 3 is empty. Line 2 is over max length, should be placed on line 3 and truncated" in new WithApplication {
       val disposeServiceMock = mock[DisposeService]
       when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
       val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
@@ -469,7 +470,7 @@ final class DisposeUnitSpec extends UnitSpec {
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
 
-    "truncate address line 1 when over 30 characters. Move line 2 to line 3 and remainder of line 1 to line 2 when line 3 is empty" in new WithApplication {
+    "truncate building name or number when over 30 characters. Move line 2 to line 3 and remainder of building name or number to line 2 when line 3 is empty" in new WithApplication {
       val disposeServiceMock = mock[DisposeService]
       when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
       val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
@@ -498,7 +499,7 @@ final class DisposeUnitSpec extends UnitSpec {
     }
   }
 
-  "truncate address line 1, create line 2 and move reaminder to line2  when only address line 1, town and postcode returned" in new WithApplication {
+  "truncate building name or number, create line 2 and move reaminder to line2  when only building name or number, town and postcode returned" in new WithApplication {
     val disposeServiceMock = mock[DisposeService]
     when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
@@ -527,7 +528,7 @@ final class DisposeUnitSpec extends UnitSpec {
     verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
   }
 
-  "truncate address line 2, create line 3 and move reaminder to line3 when only address line 1, line2, town and postcode returned" in new WithApplication {
+  "truncate address line 2, create line 3 and move reaminder to line3 when only building name or number, line2, town and postcode returned" in new WithApplication {
     val disposeServiceMock = mock[DisposeService]
     when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
@@ -556,7 +557,7 @@ final class DisposeUnitSpec extends UnitSpec {
     verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
   }
 
-  "truncate address line 1, create line 3, move line 2 to line 3 reaminder of line 1 to line 2 when address line 1, line2, town and postcode returned" in new WithApplication {
+  "truncate building name or number, create line 3, move line 2 to line 3 remainder of building name or number to line 2 when building name or number, line2, town and postcode returned" in new WithApplication {
     val disposeServiceMock = mock[DisposeService]
     when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
@@ -585,7 +586,7 @@ final class DisposeUnitSpec extends UnitSpec {
     verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
   }
 
-  "create dummy line 1 when only town and postcode returned" in new WithApplication {
+  "create dummy building name or number when only town and postcode returned" in new WithApplication {
     val disposeServiceMock = mock[DisposeService]
     when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future{ (0,None) })
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])

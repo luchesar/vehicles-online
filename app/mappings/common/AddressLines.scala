@@ -16,7 +16,7 @@ object AddressLines {
   final val MaxLengthOfLinesConcatenated = 120
 
   final val AddressLinesCacheKey = "addressLines"
-  final val AddressLine1Holder = "No address line 1 supplied"
+  final val AddressLine1Holder = "No building name/num supplied"
 
   final val Line1 = 0
   final val Line2 = 1
