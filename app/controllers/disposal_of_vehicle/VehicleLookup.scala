@@ -27,7 +27,7 @@ import models.domain.common.BruteForcePreventionResponse._
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
-  val form = Form(
+  private[disposal_of_vehicle] val form = Form(
     mapping(
       DocumentReferenceNumberId -> referenceNumber,
       VehicleRegistrationNumberId -> registrationNumber
