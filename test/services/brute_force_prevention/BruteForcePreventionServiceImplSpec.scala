@@ -10,25 +10,31 @@ import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceI
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
 import play.api.libs.ws.Response
 import scala.Some
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
 import utils.helpers.Config
-import org.scalatest.concurrent.PatienceConfiguration.Timeout
-import org.scalatest.time.{Second, Span}
 
 final class BruteForcePreventionServiceImplSpec extends UnitSpec {
   "isVrmLookupPermitted" should {
     "return true when response status is 200 OK" in {
       val service = bruteForceServiceImpl(permitted = true)
       whenReady(service.isVrmLookupPermitted(RegistrationNumberValid), timeout) {
-        r =>
-          r should equal(Some(BruteForcePreventionViewModel(permitted = true, 1, 3, "1970-11-25T00:00:00.000+01:00")))
+        case Some(viewModel) =>
+          viewModel.permitted should equal(true)
+          viewModel.attempts should equal(1)
+          viewModel.maxAttempts should equal(3)
+          viewModel.dateTimeISOChronology should startWith("1970-11-25T00:00:00.000")
+        case None => fail("Return values was not a Some")
       }
     }
 
     "return false when response status is not 200 OK" in {
       val service = bruteForceServiceImpl(permitted = false)
       whenReady(service.isVrmLookupPermitted(RegistrationNumberValid)) {
-        r => r should equal(Some(BruteForcePreventionViewModel(permitted = false, 1, 1, "1970-11-25T00:00:00.000+01:00")))
+        case Some(viewModel) =>
+          viewModel.permitted should equal(false)
+          viewModel.attempts should equal(1)
+          viewModel.maxAttempts should equal(1)
+          viewModel.dateTimeISOChronology should startWith("1970-11-25T00:00:00.000")
+        case None => fail("Return values was not a Some")
       }
     }
 
@@ -51,13 +57,13 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
       val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
 
       when(bruteForcePreventionWebService.callBruteForce(RegistrationNumberValid)).thenReturn(Future {
-        new FakeResponse (status = status, fakeJson = responseFirstAttempt)
+        new FakeResponse(status = status, fakeJson = responseFirstAttempt)
       })
       when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmAttempt2)).thenReturn(Future {
-        new FakeResponse (status = status, fakeJson = responseSecondAttempt)
+        new FakeResponse(status = status, fakeJson = responseSecondAttempt)
       })
       when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmLocked)).thenReturn(Future {
-        new FakeResponse (status = status)
+        new FakeResponse(status = status)
       })
       when(bruteForcePreventionWebService.callBruteForce(VrmThrows)).thenReturn(responseThrows)
 
