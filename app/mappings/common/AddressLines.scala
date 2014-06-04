@@ -14,7 +14,14 @@ object AddressLines {
   final val Line4MinLength = 3
   final val LineMaxLength = 30
   final val MaxLengthOfLinesConcatenated = 120
+
   final val AddressLinesCacheKey = "addressLines"
+  final val AddressLine1Holder = "No address line 1 supplied"
+
+  final val Line1 = 0
+  final val Line2 = 1
+  final val Line3 = 2
+  final val emptyLine = ""
 
   def addressLines: Mapping[AddressLinesModel] = mapping(
     Line1Id -> nonEmptyText(minLength = Line1MinLength, maxLength = LineMaxLength),

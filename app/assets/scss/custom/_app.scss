@@ -100,10 +100,15 @@
 			@media screen and (max-width: $device-small) {
 				clear:both;
 			}
-			.ie6 & {	
-				clear:both;
-			}
 		}
+
+		.ie6 & {	
+			dt,dd {
+				float:none;
+			}
+			
+		}
+
 
 		// smaller width, more flexible container
 		&.summary-detail-list-flex {
