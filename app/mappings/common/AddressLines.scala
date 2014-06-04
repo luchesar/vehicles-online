@@ -6,7 +6,7 @@ import models.domain.common.AddressLinesModel
 
 object AddressLines {
   final val AddressLinesId = "addressLines"
-  final val BuildingNameOrNumberId = "line1"
+  final val BuildingNameOrNumberId = "buildingNameOrNumber"
   final val Line2Id = "line2"
   final val Line3Id = "line3"
   final val Line4Id = "line4"
