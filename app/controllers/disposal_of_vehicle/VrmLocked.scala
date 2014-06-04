@@ -23,20 +23,7 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
       }
   }
 
-  def submit = Action { implicit request =>
-    val formData = request.body.asFormUrlEncoded.getOrElse(Map.empty[String, Seq[String]])
-    val actionValue = formData.get("action").flatMap(_.headOption)
-    actionValue match {
-      case Some(NewDisposalAction) =>
-        newDisposal
-      case Some(ExitAction) =>
-        exit
-      case _ =>
-        BadRequest("This action is not allowed") // TODO redirect to error page ?
-    }
-  }
-
-  private def newDisposal(implicit request: Request[AnyContent]): SimpleResult = {
+  def newDisposal = Action { implicit request =>
     request.cookies.getModel[TraderDetailsModel] match {
       case (Some(traderDetails)) =>
         Redirect(routes.VehicleLookup.present()).discardingCookies(RelatedCacheKeys.DisposeSet)
@@ -45,7 +32,7 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
     }
   }
 
-  private def exit(implicit request: Request[AnyContent]): SimpleResult = {
+  def exit = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
   }
 }
