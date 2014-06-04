@@ -79,7 +79,7 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
     createCookie(key, value)
   }
 
-  def traderDetailsModelLine1(uprn: Option[Long] = None, buildingNameOrNumber: String = BuildingNameOrNumberValid, line4: String = Line4Valid, traderPostcode: String = PostcodeValid) = {
+  def traderDetailsModelBuildingNameOrNumber(uprn: Option[Long] = None, buildingNameOrNumber: String = BuildingNameOrNumberValid, line4: String = Line4Valid, traderPostcode: String = PostcodeValid) = {
     val key = TraderDetailsCacheKey
     val value = TraderDetailsModel(traderName = TraderBusinessNameValid,
       traderAddress = AddressViewModel(uprn = uprn, address = Seq(buildingNameOrNumber, line4, traderPostcode)))

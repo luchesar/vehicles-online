@@ -217,7 +217,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
-    "collapse error messages for line1" in new WithApplication {
+    "collapse error messages for buildingNameOrNumber" in new WithApplication {
       val request = FakeCSRFRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> "",
         s"$AddressAndPostcodeId.$AddressLinesId.$Line4Id" -> Line4Valid,

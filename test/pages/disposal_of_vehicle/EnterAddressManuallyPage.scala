@@ -13,7 +13,7 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Enter address manually"
 
-  def addressLine1(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$BuildingNameOrNumberId"))
+  def addressBuildingNameOrNumber(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$BuildingNameOrNumberId"))
 
   def addressLine2(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line2Id"))
 
@@ -27,9 +27,9 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 
   def back(implicit driver: WebDriver): Element = find(id(BackId)).get
 
-  def happyPath(line1: String = BuildingNameOrNumberValid, line2: String = Line2Valid, line3: String = Line3Valid, line4:String = Line4Valid, postcode:String = PostcodeValid)(implicit driver: WebDriver) ={
+  def happyPath(buildingNameOrNumber: String = BuildingNameOrNumberValid, line2: String = Line2Valid, line3: String = Line3Valid, line4:String = Line4Valid, postcode:String = PostcodeValid)(implicit driver: WebDriver) ={
     go to EnterAddressManuallyPage
-    addressLine1.value = line1
+    addressBuildingNameOrNumber.value = buildingNameOrNumber
     addressLine2.value = line2
     addressLine3.value = line3
     addressLine4.value = line4
@@ -37,9 +37,9 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
     click on next
   }
 
-  def happyPathMandatoryFieldsOnly(line1: String = BuildingNameOrNumberValid, line4: String = Line4Valid, postcode:String = PostcodeValid)(implicit driver: WebDriver) ={
+  def happyPathMandatoryFieldsOnly(buildingNameOrNumber: String = BuildingNameOrNumberValid, line4: String = Line4Valid, postcode:String = PostcodeValid)(implicit driver: WebDriver) ={
     go to EnterAddressManuallyPage
-    addressLine1.value = line1
+    addressBuildingNameOrNumber.value = buildingNameOrNumber
     addressLine4.value = line4
     EnterAddressManuallyPage.postcode.value = postcode
     click on next

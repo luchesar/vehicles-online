@@ -508,7 +508,7 @@ final class DisposeUnitSpec extends UnitSpec {
     val request = buildCorrectlyPopulatedRequest.
       withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
       withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-      withCookies(CookieFactoryForUnitSpecs.traderDetailsModelLine1(buildingNameOrNumber = "a" * LineMaxLength + "a", line4 = Line4Valid)). // line1 is longer than maximum
+      withCookies(CookieFactoryForUnitSpecs.traderDetailsModelBuildingNameOrNumber(buildingNameOrNumber = "a" * LineMaxLength + "a", line4 = Line4Valid)). // line1 is longer than maximum
       withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
     val result = disposeController.submit(request)
