@@ -45,7 +45,7 @@ class CSRFAction(next: EssentialAction,
         continue
       } else {
 
-        val headerToken = Crypto.signToken("qwerty")  // TODO lookup tracking-id session/cookie
+        val headerToken = "cookieName"  // TODO lookup tracking-id session/cookie
 
         // Only proceed with checks if there is an incoming token in the header, otherwise there's no point
         request.contentType match {

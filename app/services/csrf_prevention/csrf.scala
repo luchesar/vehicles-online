@@ -4,6 +4,7 @@ import play.api.mvc._
 import play.api._
 import play.api.mvc.Results._
 import play.api.libs.Crypto
+import utils.helpers.AesEncryption
 
 private[csrf_prevention] object CSRFConf {
 
@@ -35,6 +36,8 @@ private[csrf_prevention] object CSRFConf {
 
 object CSRF {
 
+  def aesEncryption = new AesEncryption()
+
   private[csrf_prevention] val filterLogger = play.api.Logger("play.filters")
 
   /**
@@ -43,6 +46,7 @@ object CSRF {
   case class Token(value: String)
 
   object Token {
+
     val RequestTag = "CSRF_TOKEN"
 
     implicit def getToken(implicit request: RequestHeader): Token = {
@@ -59,7 +63,7 @@ object CSRF {
    * Extract token from current request
    */
   def getToken(request: RequestHeader): Option[Token] = {
-    Some(Token(Crypto.signToken("qwerty"))) // TODO lookup tracking-id session/cookie
+    Some(Token(Crypto.signToken(aesEncryption.encrypt("cookieName")))) // TODO lookup tracking-id session/cookie
   }
 
   /**
@@ -68,6 +72,7 @@ object CSRF {
    * This abstraction allows the use of randomised tokens.
    */
   trait TokenProvider {
+
     /** Generate a token */
     def generateToken: String
 
@@ -77,17 +82,10 @@ object CSRF {
 
   object SignedTokenProvider extends TokenProvider {
     def generateToken = {
-      val signedToken = Crypto.signToken("qwerty") // TODO lookup tracking-id session/cookie
-      // encrypt the signed token
-      // TODO
-
-      signedToken
-
-
+      Crypto.signToken(aesEncryption.encrypt("cookieName")) // TODO lookup tracking-id session/cookie
     }
-
     def compareTokens(tokenA: String, tokenB: String) = {
-      Crypto.compareSignedTokens(tokenA, tokenB)
+      aesEncryption.decrypt(Crypto.extractSignedToken(tokenA).get) == tokenB
     }
   }
 
