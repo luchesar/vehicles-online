@@ -23,8 +23,6 @@ import scala.concurrent.Future
  */
 class CSRFAction(next: EssentialAction,
                  tokenName: String = CSRFConf.TokenName,
-                 //cookieName: Option[String] = CSRFConf.CookieName,
-                 //secureCookie: Boolean = CSRFConf.SecureCookie,
                  createIfNotFound: RequestHeader => Boolean = CSRFConf.defaultCreateIfNotFound,
                  tokenProvider: TokenProvider = CSRFConf.defaultTokenProvider,
                  errorHandler: => ErrorHandler = CSRFConf.defaultErrorHandler) extends EssentialAction {
@@ -47,11 +45,10 @@ class CSRFAction(next: EssentialAction,
       } else {
 
         // Only proceed with checks if there is an incoming token in the header, otherwise there's no point
-        getTokenFromHeader(request, tokenName
-        //  , cookieName
-        ).map { headerToken =>
+        getTokenFromHeader(request, tokenName).map {
+          headerToken =>
 
-            // Check the body
+          // Check the body
             request.contentType match {
               case Some("application/x-www-form-urlencoded") => checkFormBody(request, headerToken, tokenName, next)
               case Some("multipart/form-data") => checkMultipartBody(request, headerToken, tokenName, next)
@@ -71,10 +68,8 @@ class CSRFAction(next: EssentialAction,
       }
     } else if (getTokenFromHeader(request, tokenName).isEmpty && createIfNotFound(request)) {
 
-      println("!!!!!!!!!!!!!!!!!!")
       // No token in header and we have to create one if not found, so create a new token
       val newToken = tokenProvider.generateToken
-      println(newToken)
 
       // The request
       val requestWithNewToken = request.copy(tags = request.tags + (Token.RequestTag -> newToken))
@@ -90,6 +85,7 @@ class CSRFAction(next: EssentialAction,
   }
 
   private def checkFormBody = checkBody[Map[String, Seq[String]]](tolerantFormUrlEncoded, identity) _
+
   private def checkMultipartBody = checkBody[MultipartFormData[Unit]](multipartFormData[Unit]({
     case _ => Iteratee.ignore[Array[Byte]].map(_ => MultipartFormData.FilePart("", "", None, ()))
   }), _.dataParts) _
@@ -99,30 +95,32 @@ class CSRFAction(next: EssentialAction,
     val firstPartOfBody: Iteratee[Array[Byte], Array[Byte]] =
       Traversable.take[Array[Byte]](CSRFConf.PostBodyBuffer.asInstanceOf[Int]) &>> Iteratee.consume[Array[Byte]]()
 
-    firstPartOfBody.flatMap { bytes: Array[Byte] =>
-    // Parse the first 100kb
-      val parsedBody = Enumerator(bytes) |>>> parser(request)
+    firstPartOfBody.flatMap {
+      bytes: Array[Byte] =>
+      // Parse the first 100kb
+        val parsedBody = Enumerator(bytes) |>>> parser(request)
 
-      Iteratee.flatten(parsedBody.map { parseResult =>
-        val validToken = parseResult.fold(
-          // error parsing the body, we couldn't find a valid token
-          _ => false,
-          // extract the token and verify
-          body => (for {
-            values <- extractor(body).get(tokenName)
-            token <- values.headOption
-          } yield tokenProvider.compareTokens(token, tokenFromHeader)).getOrElse(false)
-        )
+        Iteratee.flatten(parsedBody.map {
+          parseResult =>
+            val validToken = parseResult.fold(
+              // error parsing the body, we couldn't find a valid token
+              _ => false,
+              // extract the token and verify
+              body => (for {
+                values <- extractor(body).get(tokenName)
+                token <- values.headOption
+              } yield tokenProvider.compareTokens(token, tokenFromHeader)).getOrElse(false)
+            )
 
-        if (validToken) {
-          // Feed the buffered bytes into the next request, and return the iteratee
-          filterLogger.trace("[CSRF] Valid token found in body")
-          Iteratee.flatten(Enumerator(bytes) |>> next(request))
-        } else {
-          filterLogger.trace("[CSRF] Check failed because no or invalid token found in body")
-          checkFailed(request, "Invalid token found in form body")
-        }
-      })
+            if (validToken) {
+              // Feed the buffered bytes into the next request, and return the iteratee
+              filterLogger.trace("[CSRF] Valid token found in body")
+              Iteratee.flatten(Enumerator(bytes) |>> next(request))
+            } else {
+              filterLogger.trace("[CSRF] Check failed because no or invalid token found in body")
+              checkFailed(request, "Invalid token found in form body")
+            }
+        })
     }
   }
 
@@ -131,7 +129,7 @@ class CSRFAction(next: EssentialAction,
 object CSRFAction {
 
   private[csrf_prevention] def getTokenFromHeader(request: RequestHeader, tokenName: String) = {
-   request.session.get("csrfToken")
+    request.session.get("csrfToken")
   }
 
   private[csrf_prevention] def checkCsrfBypass(request: RequestHeader) = {
@@ -153,16 +151,15 @@ object CSRFAction {
   }
 
   private[csrf_prevention] def addTokenToResponse(tokenName: String,
-                                       newToken: String, request: RequestHeader, result: SimpleResult) = {
+                                                  newToken: String, request: RequestHeader, result: SimpleResult) = {
     filterLogger.trace("[CSRF] Adding token to result: " + result)
 
 
-      // Get the new session, or the incoming session
-      val session = request.session.data
+    // Get the new session, or the incoming session
+    val session = request.session.data
 
-    println("&&&&&&&&&&&&&&&&&")
-      val newSession = session + (tokenName -> newToken)
-      result.withSession(Session.deserialize(newSession))
+    val newSession = session + (tokenName -> newToken)
+    result.withSession(Session.deserialize(newSession))
 
   }
 }
@@ -177,6 +174,7 @@ object CSRFCheck {
   private class CSRFCheckAction[A](tokenName: String, tokenProvider: TokenProvider,
                                    errorHandler: ErrorHandler, wrapped: Action[A]) extends Action[A] {
     def parser = wrapped.parser
+
     def apply(request: Request[A]) = {
 
       // Maybe bypass
@@ -184,7 +182,8 @@ object CSRFCheck {
         wrapped(request)
       } else {
         // Get token from header
-        CSRFAction.getTokenFromHeader(request, tokenName).flatMap { headerToken =>
+        CSRFAction.getTokenFromHeader(request, tokenName).flatMap {
+          headerToken =>
 
             val form = request.body match {
               case body: play.api.mvc.AnyContent if body.asFormUrlEncoded.isDefined => body.asFormUrlEncoded.get
@@ -195,10 +194,10 @@ object CSRFCheck {
             }
             form.get(tokenName).flatMap(_.headOption)
 
-            // Execute if it matches
-            .collect {
-            case queryToken if tokenProvider.compareTokens(queryToken, headerToken) => wrapped(request)
-          }
+              // Execute if it matches
+              .collect {
+              case queryToken if tokenProvider.compareTokens(queryToken, headerToken) => wrapped(request)
+            }
         }.getOrElse(Future.successful(errorHandler.handle(request, "CSRF token check failed")))
       }
     }
@@ -221,6 +220,7 @@ object CSRFAddToken {
   private class CSRFAddTokenAction[A](tokenName: String,
                                       tokenProvider: TokenProvider, wrapped: Action[A]) extends Action[A] {
     def parser = wrapped.parser
+
     def apply(request: Request[A]) = {
       if (CSRFAction.getTokenFromHeader(request, tokenName).isEmpty) {
         // No token in header and we have to create one if not found, so create a new token

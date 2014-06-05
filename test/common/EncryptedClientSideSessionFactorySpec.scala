@@ -8,11 +8,12 @@ import common.CookieHelper._
 import common.CookieImplicits.SimpleResultAdapter
 import play.api.mvc.{Cookies, Cookie}
 import play.api.http.HeaderNames
+import play.api.test.FakeRequest
 
 final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
   "newSession" should {
     "return result containing a new session secret cookie" in new WithApplication {
-      val request = FakeCSRFRequest()
+      val request = FakeRequest()
       val result = setUpTradeDetails.present(request)
 
       whenReady(result) {
@@ -36,7 +37,7 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
     }
 
     "not create session again if the session is already present in the Request cookies" in new WithApplication {
-      val request = FakeCSRFRequest()
+      val request = FakeRequest()
       val result = setUpTradeDetails.present(request)
 
       whenReady(result) {
@@ -53,7 +54,7 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
     }
 
     "not create session again if the session is already created in the SimpleResult" in new WithApplication {
-      val request = FakeCSRFRequest()
+      val request = FakeRequest()
       val result = setUpTradeDetails.present(request)
 
       whenReady(result) {
@@ -67,14 +68,14 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
     }
 
     "return None when trying to fetch the client session from the request object when there are no cookies" in new WithApplication {
-      val request = FakeCSRFRequest()
+      val request = FakeRequest()
       val encryptedClientSideSessionFactory = new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing)
       val session = encryptedClientSideSessionFactory.getSession(request.cookies)
       session should equal(None)
     }
 
     "return a client side session when trying to fetch the session from the request object that contains a cookie" in new WithApplication {
-      implicit val request = FakeCSRFRequest()
+      implicit val request = FakeRequest()
       implicit val encryptedClientSideSessionFactory = new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing)
       val result = setUpTradeDetails.present(request)
 

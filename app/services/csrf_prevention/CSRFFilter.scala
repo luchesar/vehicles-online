@@ -1,7 +1,7 @@
 package services.csrf_prevention
 
 import play.api.mvc._
-import services.csrf_prevention.CSRF.{ TokenProvider, ErrorHandler }
+import services.csrf_prevention.CSRF.{TokenProvider, ErrorHandler}
 import play.api.Play
 
 /**

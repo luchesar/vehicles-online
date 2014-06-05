@@ -10,14 +10,14 @@ import play.api.test.Helpers._
 final class BeforeYouStartUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      val result = beforeYouStart.present(FakeCSRFRequest())
+      val result = beforeYouStart.present(FakeRequest())
       status(result) should equal(OK)
     }
   }
 
   "submit" should {
     "redirect to next page after the button is clicked" in new WithApplication {
-      val result = beforeYouStart.submit(FakeCSRFRequest())
+      val result = beforeYouStart.submit(FakeRequest())
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }

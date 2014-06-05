@@ -13,7 +13,7 @@ import helpers.webbrowser.TestGlobal
 final class CryptoHelperSpec extends UnitSpec {
   "handleApplicationSecretChange" should {
     "discard all cookies except SeenCookieMessageKey" in new WithApplication(app = appWithCryptpConfig) {
-      val request = FakeCSRFRequest().
+      val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.seenCookieMessage()).
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
@@ -38,7 +38,7 @@ final class CryptoHelperSpec extends UnitSpec {
     }
 
     "redirect to BeforeYouStart page" in new WithApplication(app = appWithCryptpConfig) {
-      val request = FakeCSRFRequest().
+      val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.seenCookieMessage()).
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).

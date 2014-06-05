@@ -14,11 +14,12 @@ import services.fakes.FakeAddressLookupWebServiceImpl._
 import common.ClientSideSessionFactory
 import composition.TestComposition.{testInjector => injector}
 import common.CookieHelper._
+import play.api.test.FakeRequest
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
     "display the page if dealer details cached" in new WithApplication {
-      val request = FakeCSRFRequest().
+      val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnFound.present(request)
       whenReady(result) {
@@ -27,7 +28,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "display selected field when cookie exists" in new WithApplication {
-      val request = FakeCSRFRequest().
+      val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress())
       val result = businessChooseYourAddressWithUprnFound.present(request)
@@ -37,7 +38,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "display unselected field when cookie does not exist" in new WithApplication {
-      val request = FakeCSRFRequest().
+      val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnFound.present(request)
       val content = contentAsString(result)
@@ -131,7 +132,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   }
 
   private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {
-    FakeCSRFRequest().withFormUrlEncodedBody(
+    FakeRequest().withFormUrlEncodedBody(
       AddressSelectId -> traderUprn)
   }
 

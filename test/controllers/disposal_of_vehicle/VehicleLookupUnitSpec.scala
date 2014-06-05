@@ -29,11 +29,12 @@ import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForc
 import mappings.common.DocumentReferenceNumber
 import utils.helpers.Config
 import org.mockito.ArgumentCaptor
+import play.api.test.FakeRequest
 
 final class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      val request = FakeCSRFRequest().
+      val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
 
@@ -48,7 +49,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "display populated fields when cookie exists" in new WithApplication {
-      val request = FakeCSRFRequest().
+      val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
@@ -58,7 +59,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "display data captured in previous pages" in new WithApplication {
-      val request = FakeCSRFRequest().
+      val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
       val content = contentAsString(result)
@@ -72,7 +73,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "display empty fields when cookie does not exist" in new WithApplication {
-      val request = FakeCSRFRequest().
+      val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
       val content = contentAsString(result)
@@ -184,7 +185,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to EnterAddressManually when back button is pressed and there is no uprn" in new WithApplication {
-      val request = FakeCSRFRequest().withFormUrlEncodedBody().
+      val request = FakeRequest().withFormUrlEncodedBody().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).back(request)
 
@@ -192,7 +193,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to BusinessChooseYourAddress when back button is pressed and there is a uprn" in new WithApplication {
-      val request = FakeCSRFRequest().withFormUrlEncodedBody().
+      val request = FakeRequest().withFormUrlEncodedBody().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(uprn = Some(traderUprnValid)))
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).back(request)
 
@@ -200,7 +201,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to SetupTradeDetails page when back button is pressed and dealer details is not in cache" in new WithApplication {
-      val request = FakeCSRFRequest().withFormUrlEncodedBody()
+      val request = FakeRequest().withFormUrlEncodedBody()
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).back(request)
 
       result.futureValue.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -419,7 +420,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = ReferenceNumberValid,
                                              registrationNumber: String = RegistrationNumberValid,
                                              consent: String = ConsentValid) = {
-    FakeCSRFRequest().withFormUrlEncodedBody(
+    FakeRequest().withFormUrlEncodedBody(
       DocumentReferenceNumberId -> referenceNumber,
       VehicleRegistrationNumberId -> registrationNumber,
       ConsentId -> consent)
