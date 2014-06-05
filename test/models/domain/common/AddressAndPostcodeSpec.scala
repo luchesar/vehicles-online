@@ -8,7 +8,7 @@ final class AddressAndPostcodeSpec extends WordSpec with Matchers {
       val address = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(buildingNameOrNumber = "abcd",
         line2 = Some("e"),
         line3 = Some("f"),
-        line4 = "ghi"),
+        postTown = "ghi"),
         postcode = "j")
 
       val result = address.toViewFormat.mkString(", ")
@@ -20,7 +20,7 @@ final class AddressAndPostcodeSpec extends WordSpec with Matchers {
       val address = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(buildingNameOrNumber = "abcd",
         line2 = None,
         line3 = None,
-        line4 = "efg"),
+        postTown = "efg"),
         postcode = "h")
 
       val result = address.toViewFormat.mkString(", ")

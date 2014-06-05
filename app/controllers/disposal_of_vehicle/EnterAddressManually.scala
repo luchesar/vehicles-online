@@ -37,8 +37,8 @@ final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: 
           request.cookies.getModel[SetupTradeDetailsModel] match {
             case Some(_) =>
               val updatedFormWithErrors = formWithErrors.
-                replaceError("addressAndPostcode.addressLines.line1", FormError("addressAndPostcode.addressLines", "error.address.line1.invalid")).
-                replaceError("addressAndPostcode.addressLines.line4", FormError("addressAndPostcode.addressLines", "error.address.line4.invalid")).
+                replaceError("addressAndPostcode.addressLines.buildingNameOrNumber", FormError("addressAndPostcode.addressLines", "error.address.buildingNameOrNumber.invalid")).
+                replaceError("addressAndPostcode.addressLines.postTown", FormError("addressAndPostcode.addressLines", "error.address.postTown")).
                 replaceError("addressAndPostcode.postcode", FormError("addressAndPostcode.postcode", "error.address.postcode.invalid")).
                 distinctErrors
               BadRequest(views.html.disposal_of_vehicle.enter_address_manually(updatedFormWithErrors))

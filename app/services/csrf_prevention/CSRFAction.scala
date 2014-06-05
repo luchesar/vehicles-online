@@ -7,6 +7,7 @@ import play.api.libs.iteratee._
 import play.api.mvc.BodyParsers.parse._
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import scala.concurrent.Future
+import play.api.libs.Crypto
 
 /**
  * An action that provides CSRF protection.
@@ -44,12 +45,10 @@ class CSRFAction(next: EssentialAction,
         continue
       } else {
 
-        // Only proceed with checks if there is an incoming token in the header, otherwise there's no point
-        getTokenFromHeader(request, tokenName).map {
-          headerToken =>
+        val headerToken = Crypto.signToken("qwerty")  // TODO lookup tracking-id session/cookie
 
-          // Check the body
-            request.contentType match {
+        // Only proceed with checks if there is an incoming token in the header, otherwise there's no point
+        request.contentType match {
               case Some("application/x-www-form-urlencoded") => checkFormBody(request, headerToken, tokenName, next)
               case Some("multipart/form-data") => checkMultipartBody(request, headerToken, tokenName, next)
               // No way to extract token from text plain body
@@ -59,12 +58,7 @@ class CSRFAction(next: EssentialAction,
               }
             }
 
-        } getOrElse {
 
-          filterLogger.trace("[CSRF] Check failed because no token found in headers")
-          checkFailed(request, "No CSRF token found in headers")
-
-        }
       }
     } else if (getTokenFromHeader(request, tokenName).isEmpty && createIfNotFound(request)) {
 
@@ -156,10 +150,11 @@ object CSRFAction {
 
 
     // Get the new session, or the incoming session
-    val session = request.session.data
+//    val session = request.session.data
+//    val newSession = session + (tokenName -> newToken)
+//    result.withSession(Session.deserialize(newSession))
 
-    val newSession = session + (tokenName -> newToken)
-    result.withSession(Session.deserialize(newSession))
+    result.withSession(Session.deserialize(request.session.data))
 
   }
 }

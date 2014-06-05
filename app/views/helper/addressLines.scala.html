@@ -15,11 +15,11 @@
         <div class="form-item">
         @valtechInputText(field(mappings.common.AddressLines.BuildingNameOrNumberId),
             args = Map(
-                '_label -> Messages("address.line1.label"),
-                'placeholder -> Messages("address.line1.label"),
+                '_label -> Messages("address.buildingNameOrNumber.label"),
+                'placeholder -> Messages("address.buildingNameOrNumber.label"),
                 '_showConstraints -> false,
                 'maxLength -> mappings.common.AddressLines.LineMaxLength.toString, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-                //'title -> Messages("address.line1.label"),
+                //'title -> Messages("address.buildingNameOrNumber.label"),
                 'showErrors -> false))
         </div>
         <div class="form-item">
@@ -41,13 +41,13 @@
                 'title -> Messages("")))
         </div>
         <div class="form-item">
-        @valtechInputText(field(mappings.common.AddressLines.Line4Id),
+        @valtechInputText(field(mappings.common.AddressLines.postTownId),
             args = Map(
-                '_label -> Messages("address.line4.label"),
-                'placeholder -> Messages("address.line4.label"),
+                '_label -> Messages("address.postTown.label"),
+                'placeholder -> Messages("address.postTown.label"),
                 '_showConstraints -> false,
                 'maxLength -> mappings.common.AddressLines.LineMaxLength.toString, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-                //'title -> Messages("address.line1.label"),
+                //'title -> Messages("address.buildingNameOrNumber.label"),
                 'showErrors -> false))
         </div>
     </div>

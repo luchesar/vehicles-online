@@ -6,12 +6,12 @@ import models.domain.common.AddressLinesModel
 
 object AddressLines {
   final val AddressLinesId = "addressLines"
-  final val BuildingNameOrNumberId = "line1"
+  final val BuildingNameOrNumberId = "buildingNameOrNumber"
   final val Line2Id = "line2"
   final val Line3Id = "line3"
-  final val Line4Id = "line4"
+  final val postTownId = "postTown"
   final val BuildingNameOrNumberMinLength = 4
-  final val Line4MinLength = 3
+  final val PostTownMinLength = 3
   final val LineMaxLength = 30
   final val MaxLengthOfLinesConcatenated = 120
 
@@ -27,6 +27,6 @@ object AddressLines {
     BuildingNameOrNumberId -> nonEmptyText(minLength = BuildingNameOrNumberMinLength, maxLength = LineMaxLength),
     Line2Id -> optional(text(maxLength = LineMaxLength)),
     Line3Id -> optional(text(maxLength = LineMaxLength)),
-    Line4Id -> nonEmptyText(minLength = Line4MinLength, maxLength = LineMaxLength)
+    postTownId -> nonEmptyText(minLength = PostTownMinLength, maxLength = LineMaxLength)
   )(AddressLinesModel.apply)(AddressLinesModel.unapply)
 }

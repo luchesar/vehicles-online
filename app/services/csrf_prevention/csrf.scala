@@ -77,7 +77,13 @@ object CSRF {
 
   object SignedTokenProvider extends TokenProvider {
     def generateToken = {
-      Crypto.signToken("qwerty") // TODO lookup tracking-id session/cookie
+      val signedToken = Crypto.signToken("qwerty") // TODO lookup tracking-id session/cookie
+      // encrypt the signed token
+      // TODO
+
+      signedToken
+
+
     }
 
     def compareTokens(tokenA: String, tokenB: String) = {
