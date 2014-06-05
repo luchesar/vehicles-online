@@ -301,36 +301,9 @@ final class DisposeUnitSpec extends UnitSpec {
     //      }
     //    }
 
-    def expectedDisposeRequest(referenceNumber: String = ReferenceNumberValid,
-                               registrationNumber: String = RegistrationNumberValid,
-                               traderName: String = TraderBusinessNameValid,
-                               line: Seq[String] = Seq(BuildingNameOrNumberValid, Line2Valid, "c" * LineMaxLength),
-                               postTown: Option[String] = Some(PostTownValid),
-                               postCode: String = PostcodeValid,
-                               uprn: Option[Long] = None,
-                               dateOfDisposal: String = dateValid,
-                               transactionTimestamp: String = dateValid,
-                               prConsent: Boolean = FakeDisposeWebServiceImpl.ConsentValid.toBoolean,
-                               keeperConsent: Boolean = FakeDisposeWebServiceImpl.ConsentValid.toBoolean,
-                               trackingId: String = DefaultTrackingId,
-                               mileage: Option[Int] = Some(MileageValid.toInt)) =
-      DisposeRequest(
-        referenceNumber = referenceNumber,
-        registrationNumber = registrationNumber,
-        traderName = traderName,
-        traderAddress = DisposalAddressDto(
-          line = line,
-          postTown = postTown,
-          postCode = postCode,
-          uprn = uprn
-        ),
-        dateOfDisposal = dateOfDisposal,
-        transactionTimestamp = transactionTimestamp,
-        prConsent = prConsent,
-        keeperConsent = keeperConsent,
-        trackingId = trackingId,
-        mileage = mileage
-      )
+
+
+
 
     "truncate address lines 1,2,3 and 4 up to max characters" in new WithApplication {
       val disposeServiceMock = mock[DisposeService]
@@ -348,8 +321,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val result = disposeController.submit(request)
 
       val disposeRequest = expectedDisposeRequest(
-        line = Seq("a" * LineMaxLength, "b" * LineMaxLength, "c" * LineMaxLength),
-        postTown = Some("d" * LineMaxLength)
+        line = Seq(linePart1Truncated,linePart2Truncated,linePart3Truncated),
+        postTown = postTownTruncated
       )
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
@@ -365,13 +338,13 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(postTown = "a" * LineMaxLength + 1)) // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(postTown = "d" * LineMaxLength + 1)) // line1 is longer than maximum
 
       val result = disposeController.submit(request)
 
       val disposeRequest = expectedDisposeRequest(
         line = Seq(BuildingNameOrNumberValid, Line2Valid, Line3Valid),
-        postTown = Some("a" * LineMaxLength)
+        postTown = postTownTruncated
       )
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
@@ -648,4 +621,39 @@ final class DisposeUnitSpec extends UnitSpec {
   private def buildSelectedOptionHtml(optionValue: String, optionText: String): String = {
     s"""<optionvalue="$optionValue"selected>$optionText</option>"""
   }
+
+  private val linePart1Truncated: String = "a" * LineMaxLength
+  private val linePart2Truncated: String = "b" * LineMaxLength
+  private val linePart3Truncated: String = "c" * LineMaxLength
+  private val postTownTruncated: Option[String] = Some("d" * LineMaxLength)
+  private def expectedDisposeRequest(referenceNumber: String = ReferenceNumberValid,
+                             registrationNumber: String = RegistrationNumberValid,
+                             traderName: String = TraderBusinessNameValid,
+                             line: Seq[String] = Seq(BuildingNameOrNumberValid, Line2Valid, "c" * LineMaxLength),
+                             postTown: Option[String] = Some(PostTownValid),
+                             postCode: String = PostcodeValid,
+                             uprn: Option[Long] = None,
+                             dateOfDisposal: String = dateValid,
+                             transactionTimestamp: String = dateValid,
+                             prConsent: Boolean = FakeDisposeWebServiceImpl.ConsentValid.toBoolean,
+                             keeperConsent: Boolean = FakeDisposeWebServiceImpl.ConsentValid.toBoolean,
+                             trackingId: String = DefaultTrackingId,
+                             mileage: Option[Int] = Some(MileageValid.toInt)) =
+    DisposeRequest(
+      referenceNumber = referenceNumber,
+      registrationNumber = registrationNumber,
+      traderName = traderName,
+      traderAddress = DisposalAddressDto(
+        line = line,
+        postTown = postTown,
+        postCode = postCode,
+        uprn = uprn
+      ),
+      dateOfDisposal = dateOfDisposal,
+      transactionTimestamp = transactionTimestamp,
+      prConsent = prConsent,
+      keeperConsent = keeperConsent,
+      trackingId = trackingId,
+      mileage = mileage
+    )
 }
