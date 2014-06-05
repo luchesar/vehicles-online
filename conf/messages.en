@@ -224,16 +224,16 @@ disposal_enteraddressmanually.submitbutton = Next
 disposal_enteraddressmanually.backbutton = Back
 addressAndPostcode_addressLines = Address
 address.lines.label = Address
-address.line1.label = Line 1
+address.buildingNameOrNumber.label = Building name or number
 address.line2.label= Line 2
 address.line3.label= Line 3
-address.line4.label= Post town
+address.postTown.label= Post town
 address.postcode.label = Postcode
 address.postcode.label.prompt = e.g. SA99 1BD
 address.postcode.validation = Enter a valid postcode
 addressAndPostcode.addressLines.line2 = Street name
 addressAndPostcode.addressLines.line3 = Area
-addressAndPostcode.addressLines.line4 = Post town
+addressAndPostcode.addressLines.postTown = Post town
 
 #page 3 - uprn not found
 disposal_uprnnotfound.title = Error confirming postcode
@@ -342,14 +342,14 @@ vehicle_lookup_document_reference_mismatch.p3 = For each vehicle registration ma
 
 disposal_vehiclelookupfailure.warnAboutLockout = After a third unsuccessful attempt the system prevents further attempts to access the the vehicles records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.
 
-addressAndPostcode.addressLines.line1 = Line 1
+addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
 error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
 error.address.characterinvalid = Invalid characters are not allowed
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
 error.validTraderBusinessName = Must be between two and 58 characters and not contain invalid characters
-error.address.line1.invalid = Line 1 - Must contain a minimum of four characters
-error.address.line4.invalid = Post town - Requires a minimum length of three characters
+error.address.buildingNameOrNumber.invalid = Building name or number - Must contain a minimum of four characters
+error.address.postTown = Post town - Requires a minimum length of three characters
 error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. PR2 8AE or PR28AE
 
 # micro-service response codes

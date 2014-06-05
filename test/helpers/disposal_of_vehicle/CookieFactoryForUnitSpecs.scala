@@ -64,39 +64,39 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
 
   def enterAddressManually() = {
     val key = EnterAddressManuallyCacheKey
-    val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = Line1Valid,
+    val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
       line2 = Some(Line2Valid),
       line3 = Some(Line3Valid),
-      line4 = Line4Valid),
+      postTown = postTownValid),
       postcode = PostcodeValid))
     createCookie(key, value)
   }
 
-  def traderDetailsModel(uprn: Option[Long] = None, line1: String = Line1Valid, line2: String = Line2Valid, line3: String = Line3Valid, line4: String = Line4Valid, traderPostcode: String = PostcodeValid) = {
+  def traderDetailsModel(uprn: Option[Long] = None, buildingNameOrNumber: String = BuildingNameOrNumberValid, line2: String = Line2Valid, line3: String = Line3Valid, postTown: String = postTownValid, traderPostcode: String = PostcodeValid) = {
     val key = TraderDetailsCacheKey
     val value = TraderDetailsModel(traderName = TraderBusinessNameValid,
-      traderAddress = AddressViewModel(uprn = uprn, address = Seq(line1, line2, line3, line4, traderPostcode)))
+      traderAddress = AddressViewModel(uprn = uprn, address = Seq(buildingNameOrNumber, line2, line3, postTown, traderPostcode)))
     createCookie(key, value)
   }
 
-  def traderDetailsModelLine1(uprn: Option[Long] = None, line1: String = Line1Valid, line4: String = Line4Valid, traderPostcode: String = PostcodeValid) = {
+  def traderDetailsModelBuildingNameOrNumber(uprn: Option[Long] = None, buildingNameOrNumber: String = BuildingNameOrNumberValid, postTown: String = postTownValid, traderPostcode: String = PostcodeValid) = {
     val key = TraderDetailsCacheKey
     val value = TraderDetailsModel(traderName = TraderBusinessNameValid,
-      traderAddress = AddressViewModel(uprn = uprn, address = Seq(line1, line4, traderPostcode)))
+      traderAddress = AddressViewModel(uprn = uprn, address = Seq(buildingNameOrNumber, postTown, traderPostcode)))
     createCookie(key, value)
   }
 
-  def traderDetailsModelLine2(uprn: Option[Long] = None, line1: String = Line1Valid, line2: String = Line2Valid, line4: String = Line4Valid, traderPostcode: String = PostcodeValid) = {
+  def traderDetailsModelLine2(uprn: Option[Long] = None, buildingNameOrNumber: String = BuildingNameOrNumberValid, line2: String = Line2Valid, postTown: String = postTownValid, traderPostcode: String = PostcodeValid) = {
     val key = TraderDetailsCacheKey
     val value = TraderDetailsModel(traderName = TraderBusinessNameValid,
-      traderAddress = AddressViewModel(uprn = uprn, address = Seq(line1, line2, line4, traderPostcode)))
+      traderAddress = AddressViewModel(uprn = uprn, address = Seq(buildingNameOrNumber, line2, postTown, traderPostcode)))
     createCookie(key, value)
   }
 
-  def traderDetailsModelLine4(uprn: Option[Long] = None, line4: String = Line4Valid, traderPostcode: String = PostcodeValid) = {
+  def traderDetailsModelPostTown(uprn: Option[Long] = None, postTown: String = postTownValid, traderPostcode: String = PostcodeValid) = {
     val key = TraderDetailsCacheKey
     val value = TraderDetailsModel(traderName = TraderBusinessNameValid,
-      traderAddress = AddressViewModel(uprn = uprn, address = Seq(line4, traderPostcode)))
+      traderAddress = AddressViewModel(uprn = uprn, address = Seq(postTown, traderPostcode)))
     createCookie(key, value)
   }
 
