@@ -26,8 +26,8 @@ import services.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeS
 import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
-import services.fakes.{FakeDisposeWebServiceImpl, FakeResponse}
 import services.fakes.FakeVehicleLookupWebService._
+import services.fakes.{FakeDisposeWebServiceImpl, FakeResponse}
 import utils.helpers.Config
 
 final class DisposeUnitSpec extends UnitSpec {
@@ -301,10 +301,13 @@ final class DisposeUnitSpec extends UnitSpec {
     //      }
     //    }
 
-    def expectedDisposeRequest(referenceNumber: String=  RegistrationNumberValid,
-                               registrationNumber: String = ReferenceNumberValid,
+    def expectedDisposeRequest(referenceNumber: String = ReferenceNumberValid,
+                               registrationNumber: String = RegistrationNumberValid,
                                traderName: String = TraderBusinessNameValid,
-                               traderAddress: DisposalAddressDto = DisposalAddressDto(line = Seq("a" * LineMaxLength, "b" * LineMaxLength, "c" * LineMaxLength), postTown = Some("d" * LineMaxLength), postCode = PostcodeValid, uprn = None),
+                               line: Seq[String] = Seq("a" * LineMaxLength, "b" * LineMaxLength, "c" * LineMaxLength),
+                               postTown: Option[String] = Some("d" * LineMaxLength),
+                               postCode: String = PostcodeValid,
+                               uprn: Option[Long] = None,
                                dateOfDisposal: String = dateValid,
                                transactionTimestamp: String = dateValid,
                                prConsent: Boolean = FakeDisposeWebServiceImpl.ConsentValid.toBoolean,
@@ -312,18 +315,22 @@ final class DisposeUnitSpec extends UnitSpec {
                                trackingId: String = DefaultTrackingId,
                                mileage: Option[Int] = Some(MileageValid.toInt)) =
       DisposeRequest(
-        registrationNumber,
-        referenceNumber,
-        traderName,
-        traderAddress,
-        dateOfDisposal,
-        transactionTimestamp,
-        prConsent,
-        keeperConsent,
-        trackingId,
-        mileage
+        referenceNumber = referenceNumber,
+        registrationNumber = registrationNumber,
+        traderName = traderName,
+        traderAddress = DisposalAddressDto(
+          line = line,
+          postTown = postTown,
+          postCode = postCode,
+          uprn = uprn
+        ),
+        dateOfDisposal = dateOfDisposal,
+        transactionTimestamp = transactionTimestamp,
+        prConsent = prConsent,
+        keeperConsent = keeperConsent,
+        trackingId = trackingId,
+        mileage = mileage
       )
-
 
     "truncate address lines 1,2,3 and 4 up to max characters" in new WithApplication {
       val disposeServiceMock = mock[DisposeService]
@@ -359,17 +366,9 @@ final class DisposeUnitSpec extends UnitSpec {
 
       val result = disposeController.submit(request)
 
-      val disposeRequest = DisposeRequest(
-        registrationNumber = RegistrationNumberValid,
-        referenceNumber = ReferenceNumberValid,
-        traderName = TraderBusinessNameValid,
-        traderAddress = DisposalAddressDto(line = Seq(BuildingNameOrNumberValid, Line2Valid, Line3Valid), postTown = Some("a" * LineMaxLength), postCode = PostcodeValid, uprn = None),
-        dateOfDisposal = dateValid,
-        transactionTimestamp = dateValid,
-        prConsent = FakeDisposeWebServiceImpl.ConsentValid.toBoolean,
-        keeperConsent = FakeDisposeWebServiceImpl.ConsentValid.toBoolean,
-        trackingId = DefaultTrackingId,
-        mileage = Some(MileageValid.toInt)
+      val disposeRequest = expectedDisposeRequest(
+        line = Seq(BuildingNameOrNumberValid, Line2Valid, Line3Valid),
+        postTown = Some("a" * LineMaxLength)
       )
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
