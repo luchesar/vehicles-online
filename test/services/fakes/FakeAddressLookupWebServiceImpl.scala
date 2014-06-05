@@ -18,7 +18,7 @@ final class FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService: Future
                                             responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
   override def callPostcodeWebService(postcode: String)
                                      (implicit session: Option[ClientSideSession]): Future[Response] =
-    if (postcode == PostcodeInvalid) Future {
+    if (postcode == PostcodeInvalid.toUpperCase) Future {
       FakeResponse(status = OK, fakeJson = None)
     }
     else responseOfPostcodeWebService
