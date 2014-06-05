@@ -316,7 +316,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(buildingNameOrNumber = "a" * LineMaxLength + 1, line2 = "b" * LineMaxLength + 1, line3 = "c" * LineMaxLength + 1, postTown = "d" * LineMaxLength + 1)) // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(buildingNameOrNumber = linePart1TooLong, line2 = linePart2TooLong, line3 = linePart3TooLong, postTown = postTownTooLong.get)) // line1 is longer than maximum
 
       val result = disposeController.submit(request)
 
@@ -382,12 +382,12 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(buildingNameOrNumber = "a" * 40, line2 = "")) // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(buildingNameOrNumber = linePart1TooLong, line2 = "")) // line1 is longer than maximum
 
       val result = disposeController.submit(request)
 
       val disposeRequest = expectedDisposeRequest(
-        line = Seq("a" * 30, "a" * 10, Line3Valid)
+        line = Seq(linePart1Truncated, "a", Line3Valid)
       )
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
