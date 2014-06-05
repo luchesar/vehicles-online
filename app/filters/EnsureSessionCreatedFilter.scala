@@ -5,6 +5,8 @@ import common.ClientSideSessionFactory
 import play.api.mvc._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
+import scala.Some
+import play.api.mvc.SimpleResult
 
 class EnsureSessionCreatedFilter @Inject()(sessionFactory: ClientSideSessionFactory) extends Filter {
   def apply(nextFilter: (RequestHeader) => Future[SimpleResult])
