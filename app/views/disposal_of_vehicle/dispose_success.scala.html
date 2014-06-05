@@ -83,19 +83,21 @@
             <div class="step">
                 @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.newDisposal) {
                     @CSRF.formField
-                    <button id="@NewDisposalId" type="submit" name="action" value="newDisposal" class="button">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
+                    <button id="@NewDisposalId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
                 }
             </div>
 
             <div class="step">
                 @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.exit) {
                     @CSRF.formField
-                    <button id="@ExitDisposalId" type="submit" name="action" value="exit" class="button">@Messages("disposal_disposeconfirmation.exitbutton")</button>
+                    <button id="@ExitDisposalId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.exitbutton")</button>
                 }
             </div>
 
             <div class="step">
-                @{/* TODO implemented JS and SCSS only. May need Scala work for unique ID? */}
+                @{/* TODO implemented JS and SCSS only. May need Scala work for unique ID? */
+                /* TODO do we need 'value'? */
+                }
                 <button id="printDisposalSuccess" type="button" name="action" value="printDisposalSuccess" class="button js-only print-button">@Messages("global.buttonnavprint")</button>
             </div>
 

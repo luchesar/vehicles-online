@@ -22,7 +22,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
   }
 
   override def fetchAddressesForPostcode(postcode: String)
-                                        (implicit session: Option[ClientSideSession]): Future[Seq[(String, String)]] = {
+                                        (implicit session: ClientSideSession): Future[Seq[(String, String)]] = {
     def sort(addresses: Seq[Address]) = {
       addresses.sortBy(addressDpa => {
         val buildingNumber = addressDpa.houseNumber.getOrElse("0")
@@ -49,7 +49,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
   }
 
   override def fetchAddressForUprn(uprn: String)
-                                  (implicit session: Option[ClientSideSession]): Future[Option[AddressViewModel]] = {
+                                  (implicit session: ClientSideSession): Future[Option[AddressViewModel]] = {
     def toViewModel(resp: Response) = {
       val addresses = extractFromJson(resp)
       require(addresses.length >= 1, s"Should be at least one address for the UPRN: $uprn")
@@ -62,10 +62,9 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
         if (resp.status == play.api.http.Status.OK) toViewModel(resp)
         else None
     }.recover {
-      case e: Throwable => {
+      case e: Throwable =>
         Logger.error(s"GDS uprn lookup service error: $e")
         None
-      }
     }
   }
 }

@@ -8,19 +8,8 @@ object ClientSideSessionFactory {
 }
 
 trait ClientSideSessionFactory {
-  protected def newSession(result: SimpleResult): (SimpleResult, ClientSideSession)
+  def getSession(request: Traversable[Cookie]): ClientSideSession
 
-  def getSession(request: Traversable[Cookie]): Option[ClientSideSession]
-
-  protected def getTrackingId(request: Traversable[Cookie]): Option[String] = {
-    request.find(_.name == ClientSideSessionFactory.SessionIdCookieName).map { _  .value}
-  }
-
-  def ensureSession(request: Traversable[Cookie], result: SimpleResult): (SimpleResult, ClientSideSession) = {
-    val allCookies = result.header.headers.get(HeaderNames.SET_COOKIE).fold(request) {
-      request ++ Cookies.decode(_)
-    }
-    getSession(allCookies).fold(newSession(result))((result, _))
-  }
+  def newSessionCookiesIfNeeded(request: Traversable[Cookie]): Option[Seq[Cookie]]
 }
 

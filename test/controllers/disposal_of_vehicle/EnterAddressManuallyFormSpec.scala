@@ -15,7 +15,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
 
       model.addressLinesModel.line2 should equal(Some(Line2Valid))
       model.addressLinesModel.line3 should equal(Some(Line3Valid))
-      model.addressLinesModel.postTown should equal(postTownValid)
+      model.addressLinesModel.postTown should equal(PostTownValid)
       model.postcode should equal(PostcodeValid)
     }
 
@@ -53,11 +53,11 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     }
 
     "reject if buildingNameOrNumber is less than min length" in {
-      formWithValidDefaults(buildingNameOrNumber = "abc", line2 = "", line3 = "", postTown = postTownValid).errors should have length 1
+      formWithValidDefaults(buildingNameOrNumber = "abc", line2 = "", line3 = "", postTown = PostTownValid).errors should have length 1
     }
 
     "reject if buildingNameOrNumber is more than max length" in {
-      formWithValidDefaults(buildingNameOrNumber = "a" * (LineMaxLength + 1), line2 = "", line3 = "", postTown = postTownValid).errors should have length 1
+      formWithValidDefaults(buildingNameOrNumber = "a" * (LineMaxLength + 1), line2 = "", line3 = "", postTown = PostTownValid).errors should have length 1
     }
 
     "reject if buildingNameOrNumber is greater than max length" in {
@@ -69,11 +69,11 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     }
 
     "reject if line2 is more than max length" in {
-      formWithValidDefaults(line2 = "a" * (LineMaxLength + 1), line3 = "", postTown = postTownValid).errors should have length 1
+      formWithValidDefaults(line2 = "a" * (LineMaxLength + 1), line3 = "", postTown = PostTownValid).errors should have length 1
     }
 
     "reject if line3 is more than max length" in {
-      formWithValidDefaults(line2 = "", line3 = "a" * (LineMaxLength + 1), postTown = postTownValid).errors should have length 1
+      formWithValidDefaults(line2 = "", line3 = "a" * (LineMaxLength + 1), postTown = PostTownValid).errors should have length 1
     }
 
     "reject if postTown is more than max length" in {
@@ -125,7 +125,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
   private def formWithValidDefaults(buildingNameOrNumber: String = BuildingNameOrNumberValid,
                                     line2: String = Line2Valid,
                                     line3: String = Line3Valid,
-                                    postTown: String = postTownValid,
+                                    postTown: String = PostTownValid,
                                     postcode: String = PostcodeValid) = {
     injector.getInstance(classOf[EnterAddressManually]).form.bind(
       Map(

@@ -17,14 +17,14 @@ import services.fakes.FakeAddressLookupService.PostcodeInvalid
 final class FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                                             responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
   override def callPostcodeWebService(postcode: String)
-                                     (implicit session: Option[ClientSideSession]): Future[Response] =
+                                     (implicit session: ClientSideSession): Future[Response] =
     if (postcode == PostcodeInvalid.toUpperCase) Future {
       FakeResponse(status = OK, fakeJson = None)
     }
     else responseOfPostcodeWebService
 
   override def callUprnWebService(uprn: String)
-                                 (implicit session: Option[ClientSideSession]): Future[Response] = responseOfUprnWebService
+                                 (implicit session: ClientSideSession): Future[Response] = responseOfUprnWebService
 }
 
 object FakeAddressLookupWebServiceImpl {
