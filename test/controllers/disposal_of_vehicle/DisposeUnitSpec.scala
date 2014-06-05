@@ -304,7 +304,7 @@ final class DisposeUnitSpec extends UnitSpec {
     def expectedDisposeRequest(referenceNumber: String = ReferenceNumberValid,
                                registrationNumber: String = RegistrationNumberValid,
                                traderName: String = TraderBusinessNameValid,
-                               line: Seq[String] = Seq("a" * LineMaxLength, "b" * LineMaxLength, "c" * LineMaxLength),
+                               line: Seq[String] = Seq(BuildingNameOrNumberValid, Line2Valid, "c" * LineMaxLength),
                                postTown: Option[String] = Some(PostTownValid),
                                postCode: String = PostcodeValid,
                                uprn: Option[Long] = None,
@@ -348,6 +348,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val result = disposeController.submit(request)
 
       val disposeRequest = expectedDisposeRequest(
+        line = Seq("a" * LineMaxLength, "b" * LineMaxLength, "c" * LineMaxLength),
         postTown = Some("d" * LineMaxLength)
       )
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
