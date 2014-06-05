@@ -9,12 +9,12 @@ final class AddressLinesModelSpec extends UnitSpec {
       AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
         line2 = Some(Line2Valid),
         line3 = Some(Line3Valid),
-        postTown = postTownValid).toViewFormat should equal(Seq(BuildingNameOrNumberValid, Line2Valid, Line3Valid, postTownValid))
+        postTown = PostTownValid).toViewFormat should equal(Seq(BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid))
     }
 
     "remove unset fields so there are no gaps" in {
       AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
-        postTown = postTownValid).toViewFormat should equal(Seq(BuildingNameOrNumberValid, postTownValid))
+        postTown = PostTownValid).toViewFormat should equal(Seq(BuildingNameOrNumberValid, PostTownValid))
     }
   }
 
@@ -24,21 +24,21 @@ final class AddressLinesModelSpec extends UnitSpec {
     }
 
     "return expected length when only mandatory fields are filled" in {
-      AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid, postTown = postTownValid).totalCharacters should equal(BuildingNameOrNumberValid.length + postTownValid.length)
+      AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid, postTown = PostTownValid).totalCharacters should equal(BuildingNameOrNumberValid.length + PostTownValid.length)
     }
 
     "return expected length when some fields are not filled" in {
       AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
         line2 = None,
         line3 = None,
-        postTown = postTownValid).totalCharacters should equal(BuildingNameOrNumberValid.length + postTownValid.length)
+        postTown = PostTownValid).totalCharacters should equal(BuildingNameOrNumberValid.length + PostTownValid.length)
     }
 
     "return expected length when all fields are filled" in {
       AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
         line2 = Some(Line2Valid),
         line3 = Some(Line3Valid),
-        postTown = postTownValid).totalCharacters should equal(BuildingNameOrNumberValid.length + Line2Valid.length + Line3Valid.length + postTownValid.length)
+        postTown = PostTownValid).totalCharacters should equal(BuildingNameOrNumberValid.length + Line2Valid.length + Line3Valid.length + PostTownValid.length)
     }
   }
 }

@@ -27,7 +27,7 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 
   def back(implicit driver: WebDriver): Element = find(id(BackId)).get
 
-  def happyPath(buildingNameOrNumber: String = BuildingNameOrNumberValid, line2: String = Line2Valid, line3: String = Line3Valid, postTown:String = postTownValid, postcode:String = PostcodeValid)(implicit driver: WebDriver) ={
+  def happyPath(buildingNameOrNumber: String = BuildingNameOrNumberValid, line2: String = Line2Valid, line3: String = Line3Valid, postTown:String = PostTownValid, postcode:String = PostcodeValid)(implicit driver: WebDriver) ={
     go to EnterAddressManuallyPage
     addressBuildingNameOrNumber.value = buildingNameOrNumber
     addressLine2.value = line2
@@ -37,7 +37,7 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
     click on next
   }
 
-  def happyPathMandatoryFieldsOnly(buildingNameOrNumber: String = BuildingNameOrNumberValid, postTown: String = postTownValid, postcode:String = PostcodeValid)(implicit driver: WebDriver) ={
+  def happyPathMandatoryFieldsOnly(buildingNameOrNumber: String = BuildingNameOrNumberValid, postTown: String = PostTownValid, postcode:String = PostcodeValid)(implicit driver: WebDriver) ={
     go to EnterAddressManuallyPage
     addressBuildingNameOrNumber.value = buildingNameOrNumber
     addressPostTown.value = postTown
