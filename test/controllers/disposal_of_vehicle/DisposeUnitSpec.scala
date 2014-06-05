@@ -29,6 +29,7 @@ import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.{FakeDisposeWebServiceImpl, FakeResponse}
 import utils.helpers.Config
+import org.mockito.ArgumentCaptor
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
@@ -266,28 +267,28 @@ final class DisposeUnitSpec extends UnitSpec {
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
 
-    // TODO: Whoever commented this out should make it work again!
-    //    "Ensure the DisposeRequest has the tracking ID set" in new WithApplication {
-    //      val request = buildCorrectlyPopulatedRequest.
-    //        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
-    //        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-    //        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
-    //      val mockDisposeService = mock[DisposeService]
-    //      when(mockDisposeService.invoke(any(classOf[DisposeRequest]))).thenReturn(Future[(Int, Option[DisposeResponse])] {
-    //        (200, None)
-    //      })
-    //      val invokeCaptor = ArgumentCaptor.forClass(classOf[DisposeRequest])
-    //      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    //      val dispose = new disposal_of_vehicle.Dispose(mockDisposeService, dateServiceStubbed())(clientSideSessionFactory)
-    //      val result = dispose.submit(request)
-    //      whenReady(result) {
-    //        r =>
-    //          verify(mockDisposeService).invoke(invokeCaptor.capture())
-    //          invokeCaptor.getAllValues.size should equal(1)
-    //
-    //          invokeCaptor.getValue.trackingId should equal("x" * 20)
-    //      }
-    //    }
+    "Ensure the DisposeRequest has the tracking ID set" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest.
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
+      val mockDisposeService = mock[DisposeService]
+      when(mockDisposeService.invoke(any(classOf[DisposeRequest]))).thenReturn(Future[(Int, Option[DisposeResponse])] {
+        (200, None)
+      })
+      val invokeCaptor = ArgumentCaptor.forClass(classOf[DisposeRequest])
+      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val dispose = new disposal_of_vehicle.Dispose(mockDisposeService, dateServiceStubbed())(clientSideSessionFactory)
+      val result = dispose.submit(request)
+      whenReady(result) {
+        r =>
+          verify(mockDisposeService).invoke(invokeCaptor.capture())
+          invokeCaptor.getAllValues.size should equal(1)
+
+          invokeCaptor.getValue.trackingId should equal("x" * 20)
+      }
+    }
 
     "truncate address lines 1,2,3 and 4 up to max characters" in new WithApplication {
       val disposeServiceMock = mock[DisposeService]
