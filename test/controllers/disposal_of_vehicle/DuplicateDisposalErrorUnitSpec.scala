@@ -9,7 +9,7 @@ final class DuplicateDisposalErrorUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
       val duplicateDisposalError = new DuplicateDisposalError()
-      val newFakeRequest = FakeRequest().withSession()
+      val newFakeRequest = FakeCSRFRequest()
       val result = duplicateDisposalError.present(newFakeRequest)
       status(result) should equal(OK)
     }

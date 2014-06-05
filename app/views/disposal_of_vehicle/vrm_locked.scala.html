@@ -1,7 +1,8 @@
-@(timeString: String)(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
+@(timeString: String)(implicit lang: Lang, token: services.csrf_prevention.CSRF.Token)
 
 @import helper._
 @import mappings.disposal_of_vehicle.VrmLocked._
+@import utils.helpers._
 
 @main(Messages("vrm_locked.title")){
     <p>@Messages("vrm_locked.text1")</p>
@@ -10,13 +11,13 @@
     <div class="form-steps">
         <div class="step">
             @form(action = controllers.disposal_of_vehicle.routes.VrmLocked.newDisposal) {
-                @CSRF.formField
+            @CSRFHelper.hiddenFormField
                 <button id="@NewDisposalId" type="submit" name="action" value="@NewDisposalAction" class="button">@Messages("vrm_locked.newdisposalbutton")</button>
             }
         </div>
         <div class="step">
             @form(action = controllers.disposal_of_vehicle.routes.VrmLocked.exit) {
-                @CSRF.formField
+            @CSRFHelper.hiddenFormField
                 <button id="@ExitDisposalId" type="submit" name="action" value="@ExitAction" class="button">@Messages("vrm_locked.exit.button")</button>
             }
         </div>
