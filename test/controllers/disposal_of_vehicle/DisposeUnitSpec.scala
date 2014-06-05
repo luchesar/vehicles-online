@@ -343,7 +343,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(buildingNameOrNumber = "a" * LineMaxLength + 1, line2 = "b" * LineMaxLength + 1, line3 = "c" * LineMaxLength + 1, postTown = "d" * LineMaxLength + 1)) // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel(buildingNameOrNumber = "a" * (LineMaxLength + 1), line2 = "b" * (LineMaxLength + 1), line3 = "c" * (LineMaxLength + 1), postTown = "d" * (LineMaxLength + 1))) // line1 is longer than maximum
 
       val result = disposeController.submit(request)
 
@@ -524,7 +524,6 @@ final class DisposeUnitSpec extends UnitSpec {
       )
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
-
 
     "truncate building name or number, create line 2 and move reaminder to line2  when only building name or number, town and postcode returned" in new WithApplication {
       val disposeServiceMock = mock[DisposeService]
