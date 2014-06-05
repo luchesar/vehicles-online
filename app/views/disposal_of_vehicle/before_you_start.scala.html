@@ -1,4 +1,4 @@
-@()(implicit lang: Lang)
+@()(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
 
 @import helper._
 @import mappings.disposal_of_vehicle.BeforeYouStart._
@@ -19,4 +19,17 @@
         <a class="button" id="@NextId" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.submit">@Messages("disposal_beforeyoustart.button")</a>
     </div>
 
+    <div class="step">
+    @form(action = controllers.disposal_of_vehicle.routes.BeforeYouStart.languageCy()) {
+        @CSRF.formField
+        <button id="languageCy" type="submit" name="action" class="button">@Messages("language.cy.button")</button>
+    }
+    </div>
+
+    <div class="step">
+    @form(action = controllers.disposal_of_vehicle.routes.BeforeYouStart.languageEn()) {
+        @CSRF.formField
+        <button id="languageEn" type="submit" name="action" class="button">@Messages("language.en.button")</button>
+    }
+    </div>
 }

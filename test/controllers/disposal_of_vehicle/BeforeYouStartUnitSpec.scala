@@ -25,7 +25,7 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
   }
 
   private def newFakeRequest = {
-    FakeRequest().withSession()
+    FakeCSRFRequest().withSession()
   }
 
   private val beforeYouStart = injector.getInstance(classOf[BeforeYouStart])

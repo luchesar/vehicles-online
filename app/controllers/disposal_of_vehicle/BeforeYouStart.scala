@@ -9,7 +9,6 @@ import mappings.disposal_of_vehicle.RelatedCacheKeys
 final class BeforeYouStart @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   def present = Action { implicit request =>
-
     Ok(views.html.disposal_of_vehicle.before_you_start()).
       withNewSession.
       discardingCookies(RelatedCacheKeys.FullSet)
@@ -17,5 +16,15 @@ final class BeforeYouStart @Inject()(implicit clientSideSessionFactory: ClientSi
 
   def submit = Action { implicit request =>
     Redirect(routes.SetUpTradeDetails.present())
+  }
+
+  def languageCy = Action { implicit request =>
+    Redirect(routes.BeforeYouStart.present()).
+      withLang("cy")
+  }
+
+  def languageEn = Action { implicit request =>
+    Redirect(routes.BeforeYouStart.present()).
+      withLang("en")
   }
 }
