@@ -58,14 +58,14 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
     "replace max length error message for traderBusinessName with standard error message (US158)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (TraderNameMaxLength + 1))
       val result = setUpTradeDetails.submit(request)
-      val count = "Must be between two and 30 characters and not contain invalid characters".r.findAllIn(contentAsString(result)).length
+      val count = "Must be between two and 58 characters and not contain invalid characters".r.findAllIn(contentAsString(result)).length
       count should equal(2)
     }
 
     "replace required and min length error messages for traderBusinessName with standard error message (US158)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "")
       val result = setUpTradeDetails.submit(request)
-      val count = "Must be between two and 30 characters and not contain invalid characters".r.findAllIn(contentAsString(result)).length
+      val count = "Must be between two and 58 characters and not contain invalid characters".r.findAllIn(contentAsString(result)).length
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
       // the page and once above the field.
     }

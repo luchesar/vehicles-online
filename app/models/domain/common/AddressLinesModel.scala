@@ -3,11 +3,11 @@ package models.domain.common
 import mappings.common.AddressLines._
 import play.api.libs.json.Json
 
-case class AddressLinesModel(line1: String,
+case class AddressLinesModel(buildingNameOrNumber: String,
                              line2: Option[String] = None,
                              line3: Option[String] = None,
-                             line4: String) {
-  def toViewFormat: Seq[String] = Seq(Some(line1), line2, line3, Some(line4)).flatten
+                             postTown: String) {
+  def toViewFormat: Seq[String] = Seq(Some(buildingNameOrNumber), line2, line3, Some(postTown)).flatten
 
   def totalCharacters = toViewFormat.map(_.length).sum
 }

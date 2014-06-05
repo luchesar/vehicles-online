@@ -178,16 +178,16 @@ disposal_enteraddressmanually.submitbutton = Nesaf
 disposal_enteraddressmanually.backbutton = Yn ôl
 addressAndPostcode_addressLines = Cyfeiriad
 address.lines.label = Cyfeiriad
-address.line1.label = Llinell 1
+address.buildingNameOrNumber.label = Enw''r adeilad neu rif
 address.line2.label= Llinell 2
 address.line3.label= Llinell 3
-address.line4.label= Postiwch y dref
+address.postTown.label= Postiwch y dref
 address.postcode.label = Cod post
 address.postcode.label.prompt = e.g. SA99 1BD
 address.postcode.validation = Rhowch god post dilys
 addressAndPostcode.addressLines.line2 = Enwau strydoedd
 addressAndPostcode.addressLines.line3 = Ardal
-addressAndPostcode.addressLines.line4 = Postiwch y dref
+addressAndPostcode.addressLines.postTown = Postiwch y dref
 
 #page 3 - uprn not found
 disposal_uprnnotfound.title = Gwall cod post yn cadarnhau
@@ -287,7 +287,6 @@ disposal_vehiclelookupfailure.p1 = Mae''r gwasanaeth ar gael dros dro. Os gwelwc
 disposal_vehiclelookupfailure.button = Am-edrych gerbyd
 disposal_disposefailure.button2 = Setup Newydd Manylion Masnachwr
 disposal_disposefailure.transactionid = {0}
-vehicle_lookup_document_reference_mismatch = Rhif Cyfeirnod y Ddogfen gofnodi naill ai ddilys neu os nad yw''n dod o V5C mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn. Gwnewch yn siŵr eich bod yn cael y V5C mwyaf diweddar a cheisiwch eto. Ar gyfer pob rhif cofrestru cerbyd, bydd tair ymgais i adfer y manylion y cerbyd.
 disposal_vehiclelookupfailure.warnAboutLockout = Ar ôl trydydd ymgais aflwyddiannus y system yn atal ymdrechion pellach i gael mynediad at y cofnodion cerbydau am 10 munud. Mae hyn er mwyn diogelu cofnodion cerbydau. Gall cerbydau eraill yn cael ei brosesu gan ddefnyddio''r gwasanaeth hwn yn ystod y cyfnod hwn.
 
 #widget messages
@@ -321,14 +320,14 @@ datePlaceholder.December = Rhagfyr
 select_default = Dewiswch
 
 
-addressAndPostcode.addressLines.line1 = Llinell 1
+addressAndPostcode.addressLines.buildingNameOrNumber = Enw''r adeilad neu rif
 error.address.maxLengthOfLinesConcatenated = Gall gyfeiriad gael mwy na 120 o gymeriadau
 error.address.characterinvalid = Nid yw nodau annilys chaniateir
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post
-error.validTraderBusinessName = Rhaid iddo fod rhwng dwy a 30 cymeriadau a ydynt yn cynnwys nodau annilys
-error.address.line1.invalid = Llinell 1 - Rhaid iddo gynnwys o leiaf bedwar cymeriad
-error.address.line4.invalid = Postiwch y dref - Angen hyd lleiaf o tri chymeriad
+error.validTraderBusinessName = Rhaid iddo fod rhwng dwy a 58 cymeriadau a ydynt yn cynnwys nodau annilys
+error.address.buildingNameOrNumber.invalid = Enw''r adeilad neu rif - Rhaid iddo gynnwys o leiaf bedwar cymeriad
+error.address.postTown = Postiwch y dref - Angen hyd lleiaf o tri chymeriad
 error.address.postcode.invalid = Rhaid bod rhwng 5 ac 8 cymeriadau ac mewn fformat dilys, ee. PR2 8AE neu PR28AE
 
 # micro-service response codes
