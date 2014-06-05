@@ -301,6 +301,30 @@ final class DisposeUnitSpec extends UnitSpec {
     //      }
     //    }
 
+    def expectedDisposeRequest(referenceNumber: String=  RegistrationNumberValid,
+                               registrationNumber: String = ReferenceNumberValid,
+                               traderName: String = TraderBusinessNameValid,
+                               traderAddress: DisposalAddressDto = DisposalAddressDto(line = Seq("a" * LineMaxLength, "b" * LineMaxLength, "c" * LineMaxLength), postTown = Some("d" * LineMaxLength), postCode = PostcodeValid, uprn = None),
+                               dateOfDisposal: String = dateValid,
+                               transactionTimestamp: String = dateValid,
+                               prConsent: Boolean = FakeDisposeWebServiceImpl.ConsentValid.toBoolean,
+                               keeperConsent: Boolean = FakeDisposeWebServiceImpl.ConsentValid.toBoolean,
+                               trackingId: String = DefaultTrackingId,
+                               mileage: Option[Int] = Some(MileageValid.toInt)) =
+      DisposeRequest(
+        registrationNumber,
+        referenceNumber,
+        traderName,
+        traderAddress,
+        dateOfDisposal,
+        transactionTimestamp,
+        prConsent,
+        keeperConsent,
+        trackingId,
+        mileage
+      )
+
+
     "truncate address lines 1,2,3 and 4 up to max characters" in new WithApplication {
       val disposeServiceMock = mock[DisposeService]
       when(disposeServiceMock.invoke(any[DisposeRequest])).thenReturn(Future {
@@ -316,18 +340,7 @@ final class DisposeUnitSpec extends UnitSpec {
 
       val result = disposeController.submit(request)
 
-      val disposeRequest = DisposeRequest(
-        registrationNumber = RegistrationNumberValid,
-        referenceNumber = ReferenceNumberValid,
-        traderName = TraderBusinessNameValid,
-        traderAddress = DisposalAddressDto(line = Seq("a" * LineMaxLength, "b" * LineMaxLength, "c" * LineMaxLength), postTown = Some("d" * LineMaxLength), postCode = PostcodeValid, uprn = None),
-        dateOfDisposal = dateValid,
-        transactionTimestamp = dateValid,
-        prConsent = FakeDisposeWebServiceImpl.ConsentValid.toBoolean,
-        keeperConsent = FakeDisposeWebServiceImpl.ConsentValid.toBoolean,
-        trackingId = DefaultTrackingId,
-        mileage = Some(MileageValid.toInt)
-      )
+      val disposeRequest = expectedDisposeRequest()
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
 
