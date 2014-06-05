@@ -64,7 +64,7 @@ final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
 
       val postCode = "N193NN"
 
-      val futureResult = addressLookupService.callPostcodeWebService(postCode)(Some(clientSideSession))
+      val futureResult = addressLookupService.callPostcodeWebService(postCode)(clientSideSession)
 
       whenReady(futureResult, timeout, interval) { result =>
         sentRequestsUrls should have size 1
@@ -73,26 +73,12 @@ final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
       }
     }
 
-    "don't send the trackingId to the PostcodeWebService" in {
-      val sentRequestsUrls = addRequestListener()
-
-      val postCode = "N193NN"
-
-      val futureResult = addressLookupService.callPostcodeWebService(postCode)(None)
-
-      whenReady(futureResult, timeout, interval) { result =>
-        sentRequestsUrls should have size 1
-        sentRequestsUrls(0) should include(s"?postcode=$postCode")
-        sentRequestsUrls(0) should not include(s"&tracking-id=$trackingIdValue")
-      }
-    }
-
     "send the trackingId to the callUprnWebService" in {
       val sentRequestsUrls = addRequestListener()
 
       val postCode = "N193NN"
 
-      val futureResult = addressLookupService.callUprnWebService(postCode)(Some(clientSideSession))
+      val futureResult = addressLookupService.callUprnWebService(postCode)(clientSideSession)
 
       whenReady(futureResult, timeout, interval) { result =>
         sentRequestsUrls should have size 1

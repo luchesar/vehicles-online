@@ -8,8 +8,8 @@ import common.ClientSideSession
 trait AddressLookupWebService {
 
   def callPostcodeWebService(postcode: String)
-                            (implicit session: Option[ClientSideSession]): Future[Response]
+                            (implicit session: ClientSideSession): Future[Response]
 
   def callUprnWebService(uprn: String)
-                        (implicit session: Option[ClientSideSession]): Future[Response]
+                        (implicit session: ClientSideSession): Future[Response]
 }
