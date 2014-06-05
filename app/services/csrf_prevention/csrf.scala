@@ -59,7 +59,7 @@ object CSRF {
    * Extract token from current request
    */
   def getToken(request: RequestHeader): Option[Token] = {
-    Some(Token(Crypto.signToken("1234567890"))) // TODO lookup tracking-id session/cookie
+    Some(Token(Crypto.signToken("qwerty"))) // TODO lookup tracking-id session/cookie
   }
 
   /**
@@ -77,7 +77,7 @@ object CSRF {
 
   object SignedTokenProvider extends TokenProvider {
     def generateToken = {
-      Crypto.signToken("1234567890") // TODO lookup tracking-id session/cookie
+      Crypto.signToken("qwerty") // TODO lookup tracking-id session/cookie
     }
 
     def compareTokens(tokenA: String, tokenB: String) = {
