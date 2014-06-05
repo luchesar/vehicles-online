@@ -467,7 +467,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModelBuildingNameOrNumber(buildingNameOrNumber = "a" * LineMaxLength + "a", postTown = PostTownValid)) // line1 is longer than maximum
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModelBuildingNameOrNumber(buildingNameOrNumber = linePart1TooLong, postTown = PostTownValid)) // line1 is longer than maximum
 
       val result = disposeController.submit(request)
 
@@ -488,7 +488,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModelLine2(line2 = "b" * LineMaxLength + "b")).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModelLine2(line2 = linePart2TooLong)).
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
       val result = disposeController.submit(request)
@@ -519,7 +519,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModelLine2(buildingNameOrNumber = "a" * LineMaxLength + "a", line2 = "b" * LineMaxLength + "b", postTown = PostTownValid)).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModelLine2(buildingNameOrNumber = linePart1TooLong, line2 = linePart2TooLong, postTown = PostTownValid)).
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
       val result = disposeController.submit(request)
@@ -625,7 +625,11 @@ final class DisposeUnitSpec extends UnitSpec {
   private val linePart1Truncated: String = "a" * LineMaxLength
   private val linePart2Truncated: String = "b" * LineMaxLength
   private val linePart3Truncated: String = "c" * LineMaxLength
+  private val linePart1TooLong: String = linePart1Truncated + "a"
+  private val linePart2TooLong: String = linePart2Truncated + "b"
+  private val linePart3TooLong: String = linePart3Truncated + "c"
   private val postTownTruncated: Option[String] = Some("d" * LineMaxLength)
+  private val postTownTooLong: Option[String] = Some("d" * (LineMaxLength + 1))
   private def expectedDisposeRequest(referenceNumber: String = ReferenceNumberValid,
                              registrationNumber: String = RegistrationNumberValid,
                              traderName: String = TraderBusinessNameValid,
