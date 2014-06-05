@@ -472,7 +472,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val result = disposeController.submit(request)
 
       val disposeRequest = expectedDisposeRequest(
-        line = Seq("a" * LineMaxLength, "a")
+        line = Seq(linePart1Truncated, "a")
       )
       verify(disposeServiceMock, times(1)).invoke(cmd = disposeRequest)
     }
@@ -488,7 +488,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModelLine2(line2 = "b" * LineMaxLength + "b", postTown = PostTownValid)).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModelLine2(line2 = "b" * LineMaxLength + "b")).
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
 
       val result = disposeController.submit(request)
@@ -528,7 +528,7 @@ final class DisposeUnitSpec extends UnitSpec {
         registrationNumber = RegistrationNumberValid,
         referenceNumber = ReferenceNumberValid,
         traderName = TraderBusinessNameValid,
-        traderAddress = DisposalAddressDto(line = Seq("a" * LineMaxLength, "a", "b" * LineMaxLength), postTown = Some(PostTownValid), postCode = PostcodeValid, uprn = None),
+        traderAddress = DisposalAddressDto(line = Seq(linePart1Truncated, "a", linePart2Truncated), postTown = Some(PostTownValid), postCode = PostcodeValid, uprn = None),
         dateOfDisposal = dateValid,
         transactionTimestamp = dateValid,
         prConsent = FakeDisposeWebServiceImpl.ConsentValid.toBoolean,
