@@ -4,16 +4,16 @@ import helpers.{WithApplication, UnitSpec}
 import composition.TestComposition.{testInjector => injector}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import services.fakes.FakeDateServiceImpl
+import play.api.test.Helpers._
+import scala.Some
+import pages.disposal_of_vehicle.{BeforeYouStartPage, VehicleLookupPage, SetupTradeDetailsPage}
 
 final class VrmLockedUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
       val dateService = new FakeDateServiceImpl
       val request = FakeCSRFRequest().
-        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20)). // TODO replace "x" * 20 with a constant in CookieFactoryForUnitSpecs
         withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel(dateTimeISOChronology = dateService.dateTimeISOChronology))
-      val vrmLocked = injector.getInstance(classOf[VrmLocked])
-
       val result = vrmLocked.present(request)
 
       whenReady(result) {
@@ -21,4 +21,38 @@ final class VrmLockedUnitSpec extends UnitSpec {
       }
     }
   }
+
+  "newDisposal" should {
+    "redirect to vehicle lookup page after the new disposal button is clicked when the expected data is in the cookies" in new WithApplication {
+      val request = FakeCSRFRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+      val result = vrmLocked.newDisposal(request)
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+      }
+    }
+
+    "redirect to setup trade details page after the new disposal button is clicked when the expected data is not in the cookies" in new WithApplication {
+      val request = FakeCSRFRequest()
+      val result = vrmLocked.newDisposal(request)
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
+    }
+  }
+
+  "exit" should {
+    "redirect to correct next page after the exit button is clicked" in new WithApplication {
+      val request = FakeCSRFRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+      val result = vrmLocked.exit(request)
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+      }
+    }
+  }
+
+  private val vrmLocked = injector.getInstance(classOf[VrmLocked])
 }
