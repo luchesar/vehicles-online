@@ -67,7 +67,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       content should include(BuildingNameOrNumberValid)
       content should include(Line2Valid)
       content should include(Line3Valid)
-      content should include(postTownValid)
+      content should include(PostTownValid)
       content should include(services.fakes.FakeAddressLookupService.PostcodeValid)
     }
 

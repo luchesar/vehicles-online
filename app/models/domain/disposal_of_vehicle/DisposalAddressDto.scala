@@ -19,6 +19,7 @@ object DisposalAddressDto {
     if (trimmingRequired) rebuildAddress(addressWithMandatoryLines) else buildStandardDto(addressWithMandatoryLines)
   }
 
+  @tailrec
   private def checkForLinesOverMax(sourceAddress: Seq[String]): Boolean = {
     if (sourceAddress.isEmpty) false
     else if (sourceAddress.head.size > LineMaxLength) true
