@@ -17,7 +17,7 @@ final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebSer
 
   // request should look like    (GET, "/addresses?postcode=kt70ej").withHeaders(validAuthHeader)
   override def callPostcodeWebService(postcode: String)
-                                     (implicit session: Option[ClientSideSession]): Future[Response] = {
+                                     (implicit session: ClientSideSession): Future[Response] = {
     val endPoint = s"$baseUrl/addresses?postcode=${ postcodeWithNoSpaces(postcode) }"
     Logger.debug(s"Calling GDS postcode lookup service on $endPoint...")
     WS.url(endPoint).
@@ -27,7 +27,7 @@ final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebSer
   }
 
   override def callUprnWebService(uprn: String)
-                                 (implicit session: Option[ClientSideSession]): Future[Response] = {
+                                 (implicit session: ClientSideSession): Future[Response] = {
     val endPoint = s"$baseUrl/uprn?uprn=$uprn"
     Logger.debug(s"Calling GDS uprn lookup service on $endPoint...")
     WS.url(endPoint).

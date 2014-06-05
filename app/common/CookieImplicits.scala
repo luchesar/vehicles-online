@@ -7,17 +7,14 @@ import play.api.mvc.DiscardingCookie
 import models.domain.common.CacheKey
 import scala.Some
 import play.api.mvc.SimpleResult
-import play.api.Logger
 
 object CookieImplicits {
 
   implicit class RequestCookiesAdapter[A](val requestCookies: Traversable[Cookie]) extends AnyVal {
     def getModel[B](implicit fjs: Reads[B], cacheKey: CacheKey[B], clientSideSessionFactory: ClientSideSessionFactory): Option[B] = {
-      for {
-        session <- clientSideSessionFactory.getSession(requestCookies)
-        cookieName <- Some(session.nameCookie(cacheKey.value).value)
-        cookie <- requestCookies.find(_.name == cookieName)
-      } yield {
+      val session = clientSideSessionFactory.getSession(requestCookies)
+      val cookieName = session.nameCookie(cacheKey.value).value
+      requestCookies.find(_.name == cookieName).map { cookie =>
         val json = session.getCookieValue(cookie)
         val parsed = Json.parse(json)
         val fromJson = Json.fromJson[B](parsed)
@@ -30,19 +27,15 @@ object CookieImplicits {
       }
     }
 
-    def getString(key: String)(implicit clientSideSessionFactory: ClientSideSessionFactory): Option[String] =
-      for {
-        session <- clientSideSessionFactory.getSession(requestCookies)
-        cookieName <- Some(session.nameCookie(key).value)
-        cookie <- requestCookies.find(_.name == cookieName)
-      } yield session.getCookieValue(cookie)
+    def getString(key: String)(implicit clientSideSessionFactory: ClientSideSessionFactory): Option[String] = {
+      val session = clientSideSessionFactory.getSession(requestCookies)
+      val cookieName = session.nameCookie(key).value
+      requestCookies.find(_.name == cookieName).map(session.getCookieValue)
+    }
 
     def trackingId()
-    (implicit clientSideSessionFactory: ClientSideSessionFactory): String =
-      clientSideSessionFactory.getSession(requestCookies) match {
-        case Some(s) => s.trackingId
-        case _ => ""
-    }
+      (implicit clientSideSessionFactory: ClientSideSessionFactory): String =
+      clientSideSessionFactory.getSession(requestCookies).trackingId
   }
 
   implicit class SimpleResultAdapter(val inner: SimpleResult) extends AnyVal {
@@ -58,10 +51,10 @@ object CookieImplicits {
 
     def withCookie(key: String, value: String)
                            (implicit request: Request[_], clientSideSessionFactory: ClientSideSessionFactory): SimpleResult = {
-      val (newResult, session) = clientSideSessionFactory.ensureSession(request.cookies, inner)
+      val session = clientSideSessionFactory.getSession(request.cookies)
       val cookieName = session.nameCookie(key)
       val cookie = session.newCookie(cookieName, value)
-      newResult.withCookies(cookie)
+      inner.withCookies(cookie)
     }
 
     def discardingCookie(key: String)
@@ -69,15 +62,12 @@ object CookieImplicits {
       discardingCookies(Set(key))
 
     def discardingCookies(keys: Set[String])
-                                  (implicit request: Request[_], clientSideSessionFactory: ClientSideSessionFactory): SimpleResult =
-      clientSideSessionFactory.getSession(request.cookies) match {
-        case Some(session) =>
-          val cookieNames = keys.map(session.nameCookie)
-          val discardingCookies = cookieNames.map(cookieName => DiscardingCookie(cookieName.value)).toSeq
-          inner.discardingCookies(discardingCookies: _*)
-        case None =>
-          inner
-      }
+                                  (implicit request: Request[_], clientSideSessionFactory: ClientSideSessionFactory): SimpleResult = {
+      val session = clientSideSessionFactory.getSession(request.cookies)
+      val cookieNames = keys.map(session.nameCookie)
+      val discardingCookies = cookieNames.map(cookieName => DiscardingCookie(cookieName.value)).toSeq
+      inner.discardingCookies(discardingCookies: _*)
+    }
   }
 
   implicit class FormAdapter[A](val f: Form[A]) extends AnyVal {

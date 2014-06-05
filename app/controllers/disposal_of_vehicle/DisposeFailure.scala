@@ -12,7 +12,9 @@ import models.domain.disposal_of_vehicle.DisposeViewModel
 final class DisposeFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   def present = Action { implicit request =>
-    (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[DisposeFormModel], request.cookies.getModel[VehicleDetailsModel], request.cookies.getString(DisposeFormTransactionIdCacheKey)) match {
+    (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[DisposeFormModel], request.cookies.getModel[VehicleDetailsModel],
+
+      request.cookies.getString(DisposeFormTransactionIdCacheKey)) match {
       case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId)) =>
         val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId))
         Ok(views.html.disposal_of_vehicle.dispose_failure(disposeModel, disposeFormModel))
