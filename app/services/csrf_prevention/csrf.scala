@@ -14,7 +14,7 @@ private[csrf_prevention] object CSRFConf {
 
   def TokenName: String = "csrfToken"
 
-  def PostBodyBuffer: Long = c.getBytes("csrf.body.bufferSize").getOrElse(102400L)
+  def PostBodyBuffer: Long = 102400L
 
   val UnsafeMethods = Set("POST")
   val UnsafeContentTypes = Set("application/x-www-form-urlencoded", "text/plain", "multipart/form-data")
@@ -37,8 +37,6 @@ private[csrf_prevention] object CSRFConf {
 object CSRF {
 
   def aesEncryption = new AesEncryption()
-
-  private[csrf_prevention] val filterLogger = play.api.Logger("play.filters")
 
   /**
    * A CSRF token

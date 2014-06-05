@@ -8,20 +8,8 @@ import play.api.mvc.BodyParsers.parse._
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import scala.concurrent.Future
 import play.api.libs.Crypto
+import play.api.Logger
 
-/**
- * An action that provides CSRF protection.
- *
- * @param tokenName The key used to store the token in the Play session.  Defaults to csrfToken.
- * @param cookieName If defined, causes the filter to store the token in a Cookie with this name instead of the session.
- * @param secureCookie If storing the token in a cookie, whether this Cookie should set the secure flag.  Defaults to
- *                     whether the session cookie is configured to be secure.
- * @param createIfNotFound Whether a new CSRF token should be created if it's not found.  Default creates one if it's
- *                         a GET request that accepts HTML.
- * @param tokenProvider A token provider to use.
- * @param next The composed action that is being protected.
- * @param errorHandler handling failed token error.
- */
 class CSRFAction(next: EssentialAction,
                  tokenName: String = CSRFConf.TokenName,
                  createIfNotFound: RequestHeader => Boolean = CSRFConf.defaultCreateIfNotFound,
@@ -53,7 +41,7 @@ class CSRFAction(next: EssentialAction,
               case Some("multipart/form-data") => checkMultipartBody(request, headerToken, tokenName, next)
               // No way to extract token from text plain body
               case Some("text/plain") => {
-                filterLogger.trace("[CSRF] Check failed because text/plain request")
+                Logger.trace("[CSRF] Check failed because text/plain request")
                 checkFailed(request, "No CSRF token found for text/plain body")
               }
             }
@@ -73,7 +61,7 @@ class CSRFAction(next: EssentialAction,
         CSRFAction.addTokenToResponse(tokenName, newToken, request, result))
 
     } else {
-      filterLogger.trace("[CSRF] No check necessary")
+      Logger.trace("[CSRF] No check necessary")
       next(request)
     }
   }
@@ -108,10 +96,10 @@ class CSRFAction(next: EssentialAction,
 
             if (validToken) {
               // Feed the buffered bytes into the next request, and return the iteratee
-              filterLogger.trace("[CSRF] Valid token found in body")
+              Logger.trace("[CSRF] Valid token found in body")
               Iteratee.flatten(Enumerator(bytes) |>> next(request))
             } else {
-              filterLogger.trace("[CSRF] Check failed because no or invalid token found in body")
+              Logger.trace("[CSRF] Check failed because no or invalid token found in body")
               checkFailed(request, "Invalid token found in form body")
             }
         })
@@ -131,13 +119,13 @@ object CSRFAction {
 
       // Since injecting arbitrary header values is not possible with a CSRF attack, the presence of this header
       // indicates that this is not a CSRF attack
-      filterLogger.trace("[CSRF] Bypassing check because " + CSRFConf.HeaderName + ": " + CSRFConf.HeaderNoCheck + " header found")
+      Logger.trace("[CSRF] Bypassing check because " + CSRFConf.HeaderName + ": " + CSRFConf.HeaderNoCheck + " header found")
       true
 
     } else if (request.headers.get("X-Requested-With").isDefined) {
 
       // AJAX requests are not CSRF attacks either because they are restricted to same origin policy
-      filterLogger.trace("[CSRF] Bypassing check because X-Requested-With header found")
+      Logger.trace("[CSRF] Bypassing check because X-Requested-With header found")
       true
     } else {
       false
@@ -146,13 +134,7 @@ object CSRFAction {
 
   private[csrf_prevention] def addTokenToResponse(tokenName: String,
                                                   newToken: String, request: RequestHeader, result: SimpleResult) = {
-    filterLogger.trace("[CSRF] Adding token to result: " + result)
-
-
-    // Get the new session, or the incoming session
-//    val session = request.session.data
-//    val newSession = session + (tokenName -> newToken)
-//    result.withSession(Session.deserialize(newSession))
+    Logger.trace("[CSRF] Adding token to result: " + result)
 
     result.withSession(Session.deserialize(request.session.data))
 
