@@ -19,8 +19,8 @@ GET         /assets/*file                   controllers.Assets.at(path="/public"
 GET         /                                                   controllers.Application.index
 GET         /disposal-of-vehicle/before-you-start               @controllers.disposal_of_vehicle.BeforeYouStart.present
 POST        /disposal-of-vehicle/before-you-start               @controllers.disposal_of_vehicle.BeforeYouStart.submit
-POST        /disposal-of-vehicle/language/cy                    @controllers.disposal_of_vehicle.BeforeYouStart.languageCy
-POST        /disposal-of-vehicle/language/en                    @controllers.disposal_of_vehicle.BeforeYouStart.languageEn
+POST        /disposal-of-vehicle/language/cy                    @controllers.disposal_of_vehicle.BeforeYouStart.withLanguageCy
+POST        /disposal-of-vehicle/language/en                    @controllers.disposal_of_vehicle.BeforeYouStart.withLanguageEn
 
 #page 2 - setup-trade-details
 GET         /disposal-of-vehicle/setup-trade-details            @controllers.disposal_of_vehicle.SetUpTradeDetails.present

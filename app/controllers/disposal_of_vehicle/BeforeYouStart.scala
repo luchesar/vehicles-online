@@ -18,12 +18,12 @@ final class BeforeYouStart @Inject()(implicit clientSideSessionFactory: ClientSi
     Redirect(routes.SetUpTradeDetails.present())
   }
 
-  def languageCy = Action { implicit request =>
+  def withLanguageCy = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present()).
       withLang("cy")
   }
 
-  def languageEn = Action { implicit request =>
+  def withLanguageEn = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present()).
       withLang("en")
   }

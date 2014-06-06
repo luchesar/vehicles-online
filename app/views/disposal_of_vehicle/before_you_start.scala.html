@@ -2,6 +2,9 @@
 
 @import helper._
 @import mappings.disposal_of_vehicle.BeforeYouStart._
+@import mappings.common.Languages._
+@import controllers.disposal_of_vehicle.routes.{BeforeYouStart, SetUpTradeDetails}
+@import views.html.disposal_of_vehicle.main
 
 @main(Messages("disposal_beforeyoustart.title")){
     
@@ -16,20 +19,20 @@
 
     <div class="form-steps">
         @{ /* Note the reverse routing syntax for the hyperlink */ }
-        <a class="button" id="@NextId" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.submit">@Messages("disposal_beforeyoustart.button")</a>
+        <a class="button" id="@NextId" href="@SetUpTradeDetails.submit">@Messages("disposal_beforeyoustart.button")</a>
     </div>
 
     <div class="step">
-    @form(action = controllers.disposal_of_vehicle.routes.BeforeYouStart.languageCy()) {
+    @form(action = BeforeYouStart.withLanguageCy()) {
         @CSRF.formField
-        <button id="languageCy" type="submit" name="action" class="button">@Messages("language.cy.button")</button>
+        <button id="@cyId" type="submit" name="action" class="button">@Messages("language.cy.button")</button>
     }
     </div>
 
     <div class="step">
-    @form(action = controllers.disposal_of_vehicle.routes.BeforeYouStart.languageEn()) {
+    @form(action = BeforeYouStart.withLanguageEn()) {
         @CSRF.formField
-        <button id="languageEn" type="submit" name="action" class="button">@Messages("language.en.button")</button>
+        <button id="@enId" type="submit" name="action" class="button">@Messages("language.en.button")</button>
     }
     </div>
 }
