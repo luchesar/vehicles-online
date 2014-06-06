@@ -1,13 +1,11 @@
 @()(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
 
-@import helper._
 @import mappings.disposal_of_vehicle.BeforeYouStart._
-@import mappings.common.Languages._
 @import controllers.disposal_of_vehicle.routes.{BeforeYouStart, SetUpTradeDetails}
 @import views.html.disposal_of_vehicle.main
+@import views.html.common.language
 
 @main(Messages("disposal_beforeyoustart.title")){
-    
     <p>@Messages("disposal_beforeyoustart.p1")</p>
     <ol class="list-standard">
     	<li>@Messages("disposal_beforeyoustart.listitem1") <a href="https://www.vehicleenquiry.service.gov.uk/" target="_blank">@Messages("disposal_beforeyoustart.listitem1linktext")</a>.</li>
@@ -22,17 +20,5 @@
         <a class="button" id="@NextId" href="@SetUpTradeDetails.submit">@Messages("disposal_beforeyoustart.button")</a>
     </div>
 
-    <div class="step">
-    @form(action = BeforeYouStart.withLanguageCy()) {
-        @CSRF.formField
-        <button id="@cyId" type="submit" name="action" class="button">@Messages("language.cy.button")</button>
-    }
-    </div>
-
-    <div class="step">
-    @form(action = BeforeYouStart.withLanguageEn()) {
-        @CSRF.formField
-        <button id="@enId" type="submit" name="action" class="button">@Messages("language.en.button")</button>
-    }
-    </div>
+    @language(withLanguageCy = BeforeYouStart.withLanguageCy(), withLanguageEn = BeforeYouStart.withLanguageEn())
 }

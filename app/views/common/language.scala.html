@@ -1,0 +1,18 @@
+@(withLanguageCy: Call, withLanguageEn: Call)(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
+
+@import helper._
+@import mappings.common.Languages.{cyId, enId}
+
+<div class="step">
+@form(action = withLanguageCy) {
+    @CSRF.formField
+    <button id="@cyId" type="submit" name="action" class="button">@Messages("language.cy.button")</button>
+}
+</div>
+
+<div class="step">
+@form(action = withLanguageEn) {
+    @CSRF.formField
+    <button id="@enId" type="submit" name="action" class="button">@Messages("language.en.button")</button>
+}
+</div>
