@@ -10,11 +10,7 @@ import scala.concurrent.Future
 import play.api.libs.Crypto
 import play.api.Logger
 
-class CSRFAction(next: EssentialAction,
-                 tokenName: String = CSRFConf.TokenName,
-                 createIfNotFound: RequestHeader => Boolean = CSRFConf.defaultCreateIfNotFound,
-                 tokenProvider: TokenProvider = CSRFConf.defaultTokenProvider,
-                 errorHandler: => ErrorHandler = CSRFConf.defaultErrorHandler) extends EssentialAction {
+class CSRFAction(next: EssentialAction) extends EssentialAction {
 
   import CSRFAction._
 
@@ -27,7 +23,7 @@ class CSRFAction(next: EssentialAction,
     def continue = next(request)
 
     // Only filter unsafe methods and content types
-    if (CSRFConf.UnsafeMethods(request.method) && request.contentType.exists(CSRFConf.UnsafeContentTypes)) {
+    if (unsafeMethods(request.method) && request.contentType.exists(unsafeContentTypes)) {
 
       if (checkCsrfBypass(request)) {
         continue
@@ -48,7 +44,9 @@ class CSRFAction(next: EssentialAction,
 
 
       }
-    } else if (getTokenFromHeader(request, tokenName).isEmpty && createIfNotFound(request)) {
+    } else if (getTokenFromHeader(request, tokenName).isEmpty &&
+      request.method == "GET" &&
+      (request.accepts("text/html") || request.accepts("application/xml+xhtml"))) {
 
       // No token in header and we have to create one if not found, so create a new token
       val newToken = tokenProvider.generateToken
@@ -75,7 +73,7 @@ class CSRFAction(next: EssentialAction,
   private def checkBody[T](parser: BodyParser[T], extractor: (T => Map[String, Seq[String]]))(request: RequestHeader, tokenFromHeader: String, tokenName: String, next: EssentialAction) = {
     // Take up to 100kb of the body
     val firstPartOfBody: Iteratee[Array[Byte], Array[Byte]] =
-      Traversable.take[Array[Byte]](CSRFConf.PostBodyBuffer.asInstanceOf[Int]) &>> Iteratee.consume[Array[Byte]]()
+      Traversable.take[Array[Byte]](postBodyBuffer.asInstanceOf[Int]) &>> Iteratee.consume[Array[Byte]]()
 
     firstPartOfBody.flatMap {
       bytes: Array[Byte] =>
@@ -110,19 +108,19 @@ class CSRFAction(next: EssentialAction,
 
 object CSRFAction {
 
+  def tokenName: String = "csrfToken"
+  def unsafeMethods = Set("POST")
+  def unsafeContentTypes = Set("application/x-www-form-urlencoded", "text/plain", "multipart/form-data")
+  def errorHandler = CSRF.DefaultErrorHandler
+  def tokenProvider = CSRF.SignedTokenProvider
+  def postBodyBuffer: Long = 102400L
+
   private[csrf_prevention] def getTokenFromHeader(request: RequestHeader, tokenName: String) = {
     request.session.get("csrfToken")
   }
 
   private[csrf_prevention] def checkCsrfBypass(request: RequestHeader) = {
-    if (request.headers.get(CSRFConf.HeaderName).exists(_ == CSRFConf.HeaderNoCheck)) {
-
-      // Since injecting arbitrary header values is not possible with a CSRF attack, the presence of this header
-      // indicates that this is not a CSRF attack
-      Logger.trace("[CSRF] Bypassing check because " + CSRFConf.HeaderName + ": " + CSRFConf.HeaderNoCheck + " header found")
-      true
-
-    } else if (request.headers.get("X-Requested-With").isDefined) {
+    if (request.headers.get("X-Requested-With").isDefined) {
 
       // AJAX requests are not CSRF attacks either because they are restricted to same origin policy
       Logger.trace("[CSRF] Bypassing check because X-Requested-With header found")
@@ -155,7 +153,7 @@ object CSRFCheck {
     def apply(request: Request[A]) = {
 
       // Maybe bypass
-      if (CSRFAction.checkCsrfBypass(request) || !request.contentType.exists(CSRFConf.UnsafeContentTypes)) {
+      if (CSRFAction.checkCsrfBypass(request) || !request.contentType.exists(CSRFAction.unsafeContentTypes)) {
         wrapped(request)
       } else {
         // Get token from header
@@ -183,8 +181,8 @@ object CSRFCheck {
   /**
    * Wrap an action in a CSRF check.
    */
-  def apply[A](action: Action[A], errorHandler: ErrorHandler = CSRFConf.defaultErrorHandler): Action[A] =
-    new CSRFCheckAction(CSRFConf.TokenName, CSRFConf.defaultTokenProvider, errorHandler, action)
+  def apply[A](action: Action[A], errorHandler: ErrorHandler = CSRFAction.errorHandler): Action[A] =
+    new CSRFCheckAction(CSRFAction.tokenName, CSRFAction.tokenProvider, errorHandler, action)
 }
 
 /**
@@ -221,5 +219,5 @@ object CSRFAddToken {
    * Wrap an action in an action that ensures there is a CSRF token.
    */
   def apply[A](action: Action[A]): Action[A] =
-    new CSRFAddTokenAction(CSRFConf.TokenName, CSRFConf.defaultTokenProvider, action)
+    new CSRFAddTokenAction(CSRFAction.tokenName, CSRFAction.tokenProvider, action)
 }

@@ -6,34 +6,6 @@ import play.api.mvc.Results._
 import play.api.libs.Crypto
 import utils.helpers.AesEncryption
 
-private[csrf_prevention] object CSRFConf {
-
-  import play.api.Play.current
-
-  def c = Play.configuration
-
-  def TokenName: String = "csrfToken"
-
-  def PostBodyBuffer: Long = 102400L
-
-  val UnsafeMethods = Set("POST")
-  val UnsafeContentTypes = Set("application/x-www-form-urlencoded", "text/plain", "multipart/form-data")
-
-  val HeaderName = "Csrf-Token"
-  val HeaderNoCheck = "nocheck"
-
-  def defaultCreateIfNotFound(request: RequestHeader) = {
-    // If the request isn't accepting HTML, then it won't be rendering a form, so there's no point in generating a
-    // CSRF token for it.
-    request.method == "GET" && (request.accepts("text/html") || request.accepts("application/xml+xhtml"))
-  }
-
-  def defaultErrorHandler = CSRF.DefaultErrorHandler
-
-  def defaultTokenProvider = CSRF.SignedTokenProvider
-
-}
-
 object CSRF {
 
   def aesEncryption = new AesEncryption()
@@ -51,11 +23,6 @@ object CSRF {
       CSRF.getToken(request).getOrElse(sys.error("Missing CSRF Token"))
     }
   }
-
-  // Allows the template helper to access it
-  def TokenName = CSRFConf.TokenName
-
-  import CSRFConf._
 
   /**
    * Extract token from current request
