@@ -3,16 +3,20 @@
 @import helper._
 @import mappings.common.Languages.{cyId, enId}
 
-<div class="step">
-@form(action = withLanguageCy) {
-    @CSRF.formField
-    <button id="@cyId" type="submit" name="action" class="button">@Messages("language.cy.button")</button>
+@if(lang.code != cyId) {
+    <div class="step">
+    @form(action = withLanguageCy) {
+        @CSRF.formField
+        <button id="@cyId" type="submit" name="action" class="button">@Messages("language.cy.button")</button>
+    }
+    </div>
 }
-</div>
 
-<div class="step">
-@form(action = withLanguageEn) {
-    @CSRF.formField
-    <button id="@enId" type="submit" name="action" class="button">@Messages("language.en.button")</button>
+@if(lang.code != enId) {
+    <div class="step">
+    @form(action = withLanguageEn) {
+        @CSRF.formField
+        <button id="@enId" type="submit" name="action" class="button">@Messages("language.en.button")</button>
+    }
+    </div>
 }
-</div>
