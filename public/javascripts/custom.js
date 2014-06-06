@@ -2,12 +2,12 @@ require.config({
     paths: {
         'jquery': 'jquery/jquery-1.9.1',
         'jquery-migrate': 'jquery/jquery-migrate-1.2.1.min',
-        'header-footer-only': 'gov/header-footer-only',
-        'stageprompt': 'stageprompt-2.0.1'
+        'header-footer-only': 'gov/header-footer-only'
+        //'stageprompt': 'stageprompt-2.0.1'
     }
 });
 
-require(["jquery", "jquery-migrate", "header-footer-only", "stageprompt"],function($) {
+require(["jquery", "jquery-migrate", "header-footer-only"],function($) {
 
     var IE10 = (navigator.userAgent.match(/(MSIE 10.0)/g) ? true : false);
     if (IE10) {
