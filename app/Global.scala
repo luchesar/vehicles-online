@@ -10,6 +10,8 @@ import play.api._
 import play.api.Configuration
 import play.api.mvc._
 import play.api.mvc.Results._
+import services.csrf_prevention.CSRFException
+
 //import play.filters.gzip._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
@@ -68,6 +70,7 @@ object Global extends WithFilters(filters) with GlobalSettings {
   override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] = ex.getCause match {
     case _: BadPaddingException  => CryptoHelper.handleApplicationSecretChange(request)
     case _: InvalidSessionException  => CryptoHelper.handleApplicationSecretChange(request)
+    case _: CSRFException => Future(Redirect(routes.MicroServiceError.present()))
     case _ => Future(Redirect(routes.Error.present()))
   }
 
@@ -75,4 +78,3 @@ object Global extends WithFilters(filters) with GlobalSettings {
     Filters(super.doFilter(a), devInjector.getInstance(classOf[EnsureSessionCreatedFilter]))
   }
 }
-

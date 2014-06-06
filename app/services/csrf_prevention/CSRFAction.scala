@@ -10,12 +10,11 @@ import scala.concurrent.Future
 import play.api.libs.Crypto
 import play.api.Logger
 
+final case class CSRFException(nestedException: Throwable) extends Exception(nestedException: Throwable)
+
 class CSRFAction(next: EssentialAction) extends EssentialAction {
 
   import CSRFAction._
-
-  // An iteratee that returns a forbidden result saying the CSRF check failed
-  private def checkFailed(req: RequestHeader, msg: String): Iteratee[Array[Byte], SimpleResult] = Done(errorHandler.handle(req, msg))
 
   def apply(request: RequestHeader) = {
 
@@ -36,13 +35,11 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
               case Some("application/x-www-form-urlencoded") => checkFormBody(request, headerToken, tokenName, next)
               case Some("multipart/form-data") => checkMultipartBody(request, headerToken, tokenName, next)
               // No way to extract token from text plain body
-              case Some("text/plain") => {
-                Logger.trace("[CSRF] Check failed because text/plain request")
-                checkFailed(request, "No CSRF token found for text/plain body")
+              case _ => {
+                Logger.trace("[CSRF] Check failed because request content type is not application/x-www-form-urlencoded or multipart/form-data")
+                throw new CSRFException(new Throwable("No CSRF token found in body"))
               }
             }
-
-
       }
     } else if (getTokenFromHeader(request, tokenName).isEmpty &&
       request.method == "GET" &&
@@ -98,7 +95,7 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
               Iteratee.flatten(Enumerator(bytes) |>> next(request))
             } else {
               Logger.trace("[CSRF] Check failed because no or invalid token found in body")
-              checkFailed(request, "Invalid token found in form body")
+              throw new CSRFException(new Throwable("Invalid token found in form body"))
             }
         })
     }
@@ -111,7 +108,6 @@ object CSRFAction {
   def tokenName: String = "csrfToken"
   def unsafeMethods = Set("POST")
   def unsafeContentTypes = Set("application/x-www-form-urlencoded", "text/plain", "multipart/form-data")
-  def errorHandler = CSRF.DefaultErrorHandler
   def tokenProvider = CSRF.SignedTokenProvider
   def postBodyBuffer: Long = 102400L
 
@@ -147,7 +143,7 @@ object CSRFAction {
 object CSRFCheck {
 
   private class CSRFCheckAction[A](tokenName: String, tokenProvider: TokenProvider,
-                                   errorHandler: ErrorHandler, wrapped: Action[A]) extends Action[A] {
+                                   wrapped: Action[A]) extends Action[A] {
     def parser = wrapped.parser
 
     def apply(request: Request[A]) = {
@@ -173,7 +169,7 @@ object CSRFCheck {
               .collect {
               case queryToken if tokenProvider.compareTokens(queryToken, headerToken) => wrapped(request)
             }
-        }.getOrElse(Future.successful(errorHandler.handle(request, "CSRF token check failed")))
+        }.getOrElse(Future.failed(throw new CSRFException(new Throwable("CSRF token check failed"))))
       }
     }
   }
@@ -181,8 +177,8 @@ object CSRFCheck {
   /**
    * Wrap an action in a CSRF check.
    */
-  def apply[A](action: Action[A], errorHandler: ErrorHandler = CSRFAction.errorHandler): Action[A] =
-    new CSRFCheckAction(CSRFAction.tokenName, CSRFAction.tokenProvider, errorHandler, action)
+  def apply[A](action: Action[A]): Action[A] =
+    new CSRFCheckAction(CSRFAction.tokenName, CSRFAction.tokenProvider, action)
 }
 
 /**

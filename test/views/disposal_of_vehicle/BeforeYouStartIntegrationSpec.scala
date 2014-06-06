@@ -5,8 +5,9 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.WebDriver
-import pages.disposal_of_vehicle.BeforeYouStartPage.startNow
-import pages.disposal_of_vehicle._
+import pages.disposal_of_vehicle.BeforeYouStartPage._
+import pages.disposal_of_vehicle.{SetupTradeDetailsPage, BeforeYouStartPage}
+import pages.common.Languages._
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -33,6 +34,24 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
       // Verify the cookies identified by the full set of cache keys have been removed
       RelatedCacheKeys.FullSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
+    }
+
+    "display the 'Cymraeg' language button and not the 'English' language button when the language cookie is set to 'en'" in new WebBrowser {
+      go to BeforeYouStartPage // By default will load in English.
+      CookieFactoryForUISpecs.withLanguageEn()
+      go to BeforeYouStartPage
+
+      hasCymraeg should equal(true)
+      hasEnglish should equal(false)
+    }
+
+    "display the 'English' language button and not the 'Cymraeg' language button when the language cookie is set to 'cy'" in new WebBrowser {
+      go to BeforeYouStartPage // By default will load in English.
+      CookieFactoryForUISpecs.withLanguageCy()
+      go to BeforeYouStartPage
+
+      hasCymraeg should equal(false)
+      hasEnglish should equal(true)
     }
   }
 
