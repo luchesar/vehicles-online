@@ -19,6 +19,7 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
 
   def apply(request: RequestHeader) = {
 
+    // check if csrf prevention is switched on
     if (csrfPrevention) {
 
       // this function exists purely to aid readability
@@ -49,7 +50,7 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
         (request.accepts("text/html") || request.accepts("application/xml+xhtml"))) {
 
         // No token in header and we have to create one if not found, so create a new token
-        val newToken = tokenProvider.generateToken
+        val newToken = Crypto.signToken(aesEncryption.encrypt("cookieName"))
 
         // The request
         val requestWithNewToken = request.copy(tags = request.tags + (Token.RequestTag -> newToken))
@@ -92,7 +93,7 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
               body => (for {
                 values <- extractor(body).get(tokenName)
                 token <- values.headOption
-              } yield tokenProvider.compareTokens(token, tokenFromHeader)).getOrElse(false)
+              } yield (aesEncryption.decrypt(Crypto.extractSignedToken(token).get) == tokenFromHeader)).getOrElse(false)
             )
 
             if (validToken) {
@@ -112,10 +113,13 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
 object CSRFAction {
 
   def tokenName: String = "csrfToken"
+
   def unsafeMethods = Set("POST")
+
   def unsafeContentTypes = Set("application/x-www-form-urlencoded", "text/plain", "multipart/form-data")
-  def tokenProvider = CSRF.SignedTokenProvider
+
   def postBodyBuffer: Long = 102400L
+
   def csrfPrevention = getProperty("csrf.prevention", default = true)
 
   private[csrf_prevention] def getTokenFromHeader(request: RequestHeader, tokenName: String) = {
@@ -149,8 +153,8 @@ object CSRFAction {
  */
 object CSRFCheck {
 
-  private class CSRFCheckAction[A](tokenName: String, tokenProvider: TokenProvider,
-                                   wrapped: Action[A]) extends Action[A] {
+  private class CSRFCheckAction[A](tokenName: String, wrapped: Action[A]) extends Action[A] {
+
     def parser = wrapped.parser
 
     def apply(request: Request[A]) = {
@@ -174,7 +178,7 @@ object CSRFCheck {
 
               // Execute if it matches
               .collect {
-              case queryToken if tokenProvider.compareTokens(queryToken, headerToken) => wrapped(request)
+              case queryToken if (aesEncryption.decrypt(Crypto.extractSignedToken(queryToken).get) == headerToken) => wrapped(request)
             }
         }.getOrElse(Future.failed(throw new CSRFException(new Throwable("CSRF token check failed"))))
       }
@@ -185,7 +189,7 @@ object CSRFCheck {
    * Wrap an action in a CSRF check.
    */
   def apply[A](action: Action[A]): Action[A] =
-    new CSRFCheckAction(CSRFAction.tokenName, CSRFAction.tokenProvider, action)
+    new CSRFCheckAction(CSRFAction.tokenName, action)
 }
 
 /**
@@ -195,14 +199,15 @@ object CSRFCheck {
  */
 object CSRFAddToken {
 
-  private class CSRFAddTokenAction[A](tokenName: String,
-                                      tokenProvider: TokenProvider, wrapped: Action[A]) extends Action[A] {
+  private class CSRFAddTokenAction[A](tokenName: String, wrapped: Action[A]) extends Action[A] {
     def parser = wrapped.parser
 
     def apply(request: Request[A]) = {
+
       if (CSRFAction.getTokenFromHeader(request, tokenName).isEmpty) {
+
         // No token in header and we have to create one if not found, so create a new token
-        val newToken = tokenProvider.generateToken
+        val newToken = Crypto.signToken(aesEncryption.encrypt("cookieName")) // TODO lookup tracking-id session/cookie
 
         // The request
         val requestWithNewToken = new WrappedRequest(request) {
@@ -222,5 +227,5 @@ object CSRFAddToken {
    * Wrap an action in an action that ensures there is a CSRF token.
    */
   def apply[A](action: Action[A]): Action[A] =
-    new CSRFAddTokenAction(CSRFAction.tokenName, CSRFAction.tokenProvider, action)
+    new CSRFAddTokenAction(CSRFAction.tokenName, action)
 }
