@@ -28,7 +28,8 @@ object DisposalAddressDto {
 
   private def buildStandardDisposalAddressDto(sourceAddress: AddressViewModel): DisposalAddressDto = {
     val postcode = sourceAddress.address.last.replace(" ","")
-    DisposalAddressDto(sourceAddress.address.dropRight(2), Some(sourceAddress.address.takeRight(2).head), postcode, sourceAddress.uprn)
+    val postTown = Some(sourceAddress.address.takeRight(2).head)
+    DisposalAddressDto(sourceAddress.address.dropRight(2), postTown , postcode, sourceAddress.uprn)
   }
 
   private def rebuildDisposalAddressDto(addressViewModel: AddressViewModel): DisposalAddressDto = {

@@ -6,6 +6,7 @@ import scala.concurrent.Future
 import services.address_lookup.AddressLookupWebService
 import com.google.inject.Inject
 import common.{ClientSideSession, ClientSideSessionFactory}
+import play.api.Logger
 
 final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebService {
 
@@ -18,7 +19,7 @@ final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebSer
                                      (implicit session: ClientSideSession): Future[Response] = {
 
     val endPoint = s"$baseUrl/postcode-to-address?postcode=${postcodeWithNoSpaces(postcode)}${trackingIdParam(session)}"
-    //Logger.debug(s"Calling ordnance-survey postcode lookup micro-service on $endPoint...")
+    Logger.debug(s"Calling ordnance-survey postcode lookup")// micro-service on $endPoint...")
     WS.url(endPoint).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
       get()
@@ -27,7 +28,7 @@ final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebSer
   override def callUprnWebService(uprn: String)
                                  (implicit session: ClientSideSession): Future[Response] = {
     val endPoint = s"$baseUrl/uprn-to-address?uprn=${uprn}${trackingIdParam(session)}"
-    //Logger.debug(s"Calling ordnance-survey uprn lookup micro-service on $endPoint...")
+    Logger.debug(s"Calling ordnance-survey uprn lookup")// micro-service on $endPoint...")
     WS.url(endPoint).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
       get()

@@ -43,7 +43,7 @@ final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: 
                 distinctErrors
               BadRequest(views.html.disposal_of_vehicle.enter_address_manually(updatedFormWithErrors))
             case None =>
-              Logger.debug("failed to find dealer name in cache for formWithErrors, redirecting...")
+              Logger.debug("Failed to find dealer name in cache, redirecting")
               Redirect(routes.SetUpTradeDetails.present())
           },
         f =>
@@ -56,7 +56,7 @@ final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: 
               withCookie(f).
               withCookie(traderDetailsModel)
           case None =>
-            Logger.debug("failed to find dealer name in cache on submit, redirecting...")
+            Logger.debug("Failed to find dealer name in cache on submit, redirecting")
             Redirect(routes.SetUpTradeDetails.present())
           }
       )
