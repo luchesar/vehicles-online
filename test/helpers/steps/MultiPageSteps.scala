@@ -55,15 +55,15 @@ final class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowser
   @Then("""^the trader name and address details are pre populated$""")
   def the_trader_name_and_address_details_are_pre_populated() = {
     page.title should equal(VehicleLookupPage.title)
-    page.text should include(TraderBusinessNameValid)
+    page.text should include(TraderBusinessNameValid.toUpperCase)
     enterValidManualAddress
 
   }
 
   @Then("""^the information entered is presented back to the motor trader$""")
   def the_information_entered_is_presented_back_to_the_motor_trader() = {
-    page.text should include(TraderBusinessNameValid)
-    page.text should include(RegistrationNumberValid)
+    page.text should include(TraderBusinessNameValid.toUpperCase)
+    page.text should include(RegistrationNumberValid.toUpperCase)
     enterValidManualAddress
     DisposePage.consent.isDisplayed should equal(true)
     DisposePage.lossOfRegistrationConsent.isDisplayed should equal(true)

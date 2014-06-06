@@ -11,7 +11,7 @@ import common.ClientSideSession
 
 final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends AddressLookupService {
   override def fetchAddressesForPostcode(postcode: String)
-                                        (implicit session: Option[ClientSideSession]): Future[Seq[(String, String)]] = {
+                                        (implicit session: ClientSideSession): Future[Seq[(String, String)]] = {
     def extractFromJson(resp: Response): Option[PostcodeToAddressResponse] = {
       resp.json.asOpt[PostcodeToAddressResponse]
     }
@@ -41,7 +41,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
   }
 
   override def fetchAddressForUprn(uprn: String)
-                                  (implicit session: Option[ClientSideSession]): Future[Option[AddressViewModel]] = {
+                                  (implicit session: ClientSideSession): Future[Option[AddressViewModel]] = {
     // Extract result from response and return as a view model.
     def extractFromJson(resp: Response): Option[UprnToAddressResponse] = {
       resp.json.asOpt[UprnToAddressResponse]

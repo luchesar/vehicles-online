@@ -16,6 +16,7 @@ require(["jquery", "jquery-migrate", "header-footer-only", "stageprompt"],functi
 
     $(function() {
         // view more / view less
+        /*
         $('.helper-more').click(function(){
             $(this).toggleClass("helper-less")
             $(this).next(".helper-info").slideToggle("medium");
@@ -29,6 +30,7 @@ require(["jquery", "jquery-migrate", "header-footer-only", "stageprompt"],functi
                 $(this).text('Close');
             }
         });
+        */
 
         // Nino auto jump
         // $('.ni-number input, .sort-code input').autotab_magic();
@@ -58,6 +60,7 @@ require(["jquery", "jquery-migrate", "header-footer-only", "stageprompt"],functi
 
     });
 
+    /*
     $(document).ready(function() {
         if (typeof console !== 'undefined') {
             console.log("document on ready " + areCookiesEnabled() );
@@ -70,9 +73,8 @@ require(["jquery", "jquery-migrate", "header-footer-only", "stageprompt"],functi
             $('#no-cookies').toggle(true);
             $('#content').toggle(false);
         }
-
-
     });
+    */
 
 
 

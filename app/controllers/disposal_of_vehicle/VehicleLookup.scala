@@ -57,14 +57,16 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
             }
           },
         f => {
-          val registrationNumberWithoutSpaces = f.registrationNumber.replace(" ", "")
-          val modelWithoutSpaces = f.copy(registrationNumber = registrationNumberWithoutSpaces) // DE7: Strip spaces from input as it is not allowed in the micro-service.
-          checkPermissionToLookup(modelWithoutSpaces) {
+          checkPermissionToLookup(convertToUpperCaseAndRemoveSpaces(f)) {
             lookupVehicle
           }
         }
       )
   }
+
+  private def convertToUpperCaseAndRemoveSpaces(model: VehicleLookupFormModel) : VehicleLookupFormModel =
+    model.copy(registrationNumber = model.registrationNumber.replace(" ", "")
+      .toUpperCase)
 
   def back = Action {
     implicit request =>

@@ -34,7 +34,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
     "should display the postcode entered in the previous page" in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
-      page.source.contains(FakeAddressLookupService.PostcodeValid) should equal(true)
+      page.source.contains(FakeAddressLookupService.PostcodeValid.toUpperCase) should equal(true)
     }
 
     "display expected addresses in dropdown when address service returns addresses" in new WebBrowser {

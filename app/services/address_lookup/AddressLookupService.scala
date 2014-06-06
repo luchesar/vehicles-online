@@ -7,8 +7,8 @@ import common.ClientSideSession
 
 trait AddressLookupService {
   def fetchAddressesForPostcode(postcode: String)
-                               (implicit session: Option[ClientSideSession]): Future[Seq[(String, String)]]
+                               (implicit session: ClientSideSession): Future[Seq[(String, String)]]
 
   def fetchAddressForUprn(uprn: String)
-                         (implicit session: Option[ClientSideSession]): Future[Option[AddressViewModel]]
+                         (implicit session: ClientSideSession): Future[Option[AddressViewModel]]
 }

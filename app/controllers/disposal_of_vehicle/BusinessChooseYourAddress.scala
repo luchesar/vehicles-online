@@ -81,13 +81,13 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
   }
 
   private def fetchAddresses(setupTradeDetailsModel: SetupTradeDetailsModel)
-                            (implicit session: Option[ClientSideSession]) = {
+                            (implicit session: ClientSideSession) = {
     val postcode = setupTradeDetailsModel.traderPostcode
     addressLookupService.fetchAddressesForPostcode(postcode)
   }
 
   private def lookupUprn(model: BusinessChooseYourAddressModel, traderName: String)
-                        (implicit request: Request[_], session: Option[ClientSideSession]) = {
+                        (implicit request: Request[_], session: ClientSideSession) = {
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString)
     lookedUpAddress.map {
       case Some(addressViewModel) =>
