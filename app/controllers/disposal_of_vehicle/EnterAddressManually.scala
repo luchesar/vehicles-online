@@ -49,11 +49,12 @@ final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: 
         f =>
           request.cookies.getModel[SetupTradeDetailsModel].map(_.traderBusinessName) match {
           case Some(traderBusinessName) =>
-            val traderAddress = AddressViewModel.from(f.stripCharsNotAccepted.addressAndPostcodeModel)
+            val updatedForm: EnterAddressManuallyModel = f.stripCharsNotAccepted.toUpperCase
+            val traderAddress = AddressViewModel.from(updatedForm.addressAndPostcodeModel)
             val traderDetailsModel = TraderDetailsModel(traderName = traderBusinessName, traderAddress = traderAddress)
 
             Redirect(routes.VehicleLookup.present()).
-              withCookie(f).
+              withCookie(updatedForm).
               withCookie(traderDetailsModel)
           case None =>
             Logger.debug("Failed to find dealer name in cache on submit, redirecting")

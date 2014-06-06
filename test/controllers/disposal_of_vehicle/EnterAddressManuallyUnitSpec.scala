@@ -164,7 +164,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
           cookies.find(_.name == TraderDetailsCacheKey) match {
-            case Some(cookie) => cookie.value should include("my house 1.1")
+            case Some(cookie) => cookie.value should include("MY HOUSE 1.1")
             case _ => fail("should have found some cookie")
           }
       }

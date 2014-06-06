@@ -9,12 +9,13 @@ final class AddressLinesModelSpec extends UnitSpec {
       AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
         line2 = Some(Line2Valid),
         line3 = Some(Line3Valid),
-        postTown = PostTownValid).toViewFormat should equal(Seq(BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid))
+        postTown = PostTownValid).toViewFormat should equal(
+          Seq(BuildingNameOrNumberValid.toUpperCase, Line2Valid.toUpperCase, Line3Valid.toUpperCase, PostTownValid.toUpperCase))
     }
 
     "remove unset fields so there are no gaps" in {
       AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
-        postTown = PostTownValid).toViewFormat should equal(Seq(BuildingNameOrNumberValid, PostTownValid))
+        postTown = PostTownValid).toViewFormat should equal(Seq(BuildingNameOrNumberValid.toUpperCase, PostTownValid.toUpperCase))
     }
   }
 
