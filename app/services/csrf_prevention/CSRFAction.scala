@@ -42,8 +42,7 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
             }
           }
         }
-      } else if (getTokenFromHeader(request, tokenName).isEmpty &&
-        request.method == "GET" &&
+      } else if (request.method == "GET" &&
         (request.accepts("text/html") || request.accepts("application/xml+xhtml"))) {
 
         // No token in header and we have to create one if not found, so create a new token
@@ -118,10 +117,6 @@ object CSRFAction {
   def postBodyBuffer: Long = 102400L
 
   def csrfPrevention = getProperty("csrf.prevention", default = true)
-
-  private[csrf_prevention] def getTokenFromHeader(request: RequestHeader, tokenName: String) = {
-    request.session.get("csrfToken")
-  }
 
   private[csrf_prevention] def checkCsrfBypass(request: RequestHeader) = {
 
