@@ -11,7 +11,6 @@ import mappings.common.Postcode._
 import utils.helpers.FormExtensions._
 import com.google.inject.Inject
 import CookieImplicits.FormAdapter
-import utils.helpers.CookieNameHashing
 
 final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 

@@ -17,14 +17,14 @@ import play.api.Play
 final class BeforeYouStartUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      val result = beforeYouStart.present(newFakeRequest)
+      val result = beforeYouStart.present(FakeRequest())
       status(result) should equal(OK)
     }
   }
 
   "submit" should {
     "redirect to next page after the button is clicked" in new WithApplication {
-      val result = beforeYouStart.submit(newFakeRequest)
+      val result = beforeYouStart.submit(FakeRequest())
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
@@ -33,7 +33,7 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
 
   "withLanguageCy" should {
     "redirect back to the same page" in new WithApplication {
-      val result = beforeYouStart.withLanguageCy(newFakeRequest)
+      val result = beforeYouStart.withLanguageCy(FakeRequest())
       whenReady(result) {
         r =>
           r.header.status should equal(SEE_OTHER) // Redirect...
@@ -42,7 +42,7 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
     }
 
     "writes language cookie set to 'cy'" in new WithApplication {
-      val result = beforeYouStart.withLanguageCy(newFakeRequest)
+      val result = beforeYouStart.withLanguageCy(FakeRequest())
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
@@ -56,7 +56,7 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
 
   "withLanguageEn" should {
     "redirect back to the same page" in new WithApplication {
-      val result = beforeYouStart.withLanguageEn(newFakeRequest)
+      val result = beforeYouStart.withLanguageEn(FakeRequest())
       whenReady(result) {
         r =>
           r.header.status should equal(SEE_OTHER) // Redirect...
@@ -65,7 +65,7 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
     }
 
     "writes language cookie set to 'en'" in new WithApplication {
-      val result = beforeYouStart.withLanguageEn(newFakeRequest)
+      val result = beforeYouStart.withLanguageEn(FakeRequest())
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
@@ -75,10 +75,6 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
           }
       }
     }
-  }
-
-  private def newFakeRequest = {
-    FakeCSRFRequest().withSession()
   }
 
   private val beforeYouStart = injector.getInstance(classOf[BeforeYouStart])

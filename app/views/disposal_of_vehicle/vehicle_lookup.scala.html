@@ -1,10 +1,10 @@
-@(data: models.domain.disposal_of_vehicle.TraderDetailsModel, vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
+@(data: models.domain.disposal_of_vehicle.TraderDetailsModel, vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang, token: services.csrf_prevention.CSRF.Token)
 
 @import helper._
 @import utils.helpers.BaseTemplate._
 @import views.html.helper.base._
 @import views.html.common._
-@import views.html.helper._
+@import utils.helpers._
 @import mappings.disposal_of_vehicle.VehicleLookup._
 @import mappings.common.DocumentReferenceNumber
 @import mappings.common.VehicleRegistrationNumber
@@ -14,7 +14,7 @@
 
     @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit) {
 
-    @CSRF.formField
+@CSRFHelper.hiddenFormField
 
 		<div class="two-col clearfix">
 		

@@ -1,9 +1,10 @@
-@()(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
+@()(implicit lang: Lang, token: services.csrf_prevention.CSRF.Token)
 
 @import mappings.disposal_of_vehicle.BeforeYouStart._
 @import controllers.disposal_of_vehicle.routes.{BeforeYouStart, SetUpTradeDetails}
 @import views.html.disposal_of_vehicle.main
 @import views.html.common.language
+@import utils.helpers._
 
 @main(Messages("disposal_beforeyoustart.title")){
     <p>@Messages("disposal_beforeyoustart.p1")</p>
@@ -16,6 +17,7 @@
 
 
     <div class="form-steps">
+        @CSRFHelper.hiddenFormField
         @{ /* Note the reverse routing syntax for the hyperlink */ }
         <a class="button" id="@NextId" href="@SetUpTradeDetails.submit">@Messages("disposal_beforeyoustart.button")</a>
     </div>

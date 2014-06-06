@@ -1,12 +1,13 @@
-@(withLanguageCy: Call, withLanguageEn: Call)(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
+@(withLanguageCy: Call, withLanguageEn: Call)(implicit lang: Lang, token: services.csrf_prevention.CSRF.Token)
 
 @import helper._
 @import mappings.common.Languages.{CyId, EnId}
+@import utils.helpers._
 
 @if(lang.code != CyId) {
     <div class="step">
     @form(action = withLanguageCy) {
-        @CSRF.formField
+        @CSRFHelper.hiddenFormField
         <button id="@CyId" type="submit" name="action" class="button">@Messages("language.cy.button")</button>
     }
     </div>
@@ -15,8 +16,9 @@
 @if(lang.code != EnId) {
     <div class="step">
     @form(action = withLanguageEn) {
-        @CSRF.formField
+        @CSRFHelper.hiddenFormField
         <button id="@EnId" type="submit" name="action" class="button">@Messages("language.en.button")</button>
+
     }
     </div>
 }

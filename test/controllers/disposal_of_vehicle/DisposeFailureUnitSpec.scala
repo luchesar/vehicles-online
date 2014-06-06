@@ -10,7 +10,7 @@ import helpers.WithApplication
 final class DisposeFailureUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      val request = FakeRequest().withSession().
+      val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).

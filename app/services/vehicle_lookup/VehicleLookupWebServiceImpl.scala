@@ -12,7 +12,7 @@ final class VehicleLookupWebServiceImpl @Inject()(config: Config) extends Vehicl
   private val endPoint: String = s"${config.vehicleLookupMicroServiceBaseUrl}/vehicles/lookup/v1/dispose"
 
   override def callVehicleLookupService(request: VehicleDetailsRequest): Future[Response] = {
-    Logger.debug(s"Calling vehicle lookup micro-service on ${endPoint} with request object: $request...")
+    Logger.debug(s"Calling vehicle lookup micro-service") // on ${endPoint} with request object: $request...")
     WS.url(endPoint).post(Json.toJson(request))
   }
 }

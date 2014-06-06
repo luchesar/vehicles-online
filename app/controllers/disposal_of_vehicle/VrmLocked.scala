@@ -14,10 +14,10 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
     implicit request =>
       request.cookies.getModel[BruteForcePreventionViewModel] match {
         case Some(viewModel) =>
-          Logger.debug(s"VrmLocked - displaying the vrm locked error page")
+          Logger.debug(s"VLocked - Displaying the vrm locked error page")
           Ok(views.html.disposal_of_vehicle.vrm_locked(viewModel.dateTimeISOChronology))
         case None =>
-          Logger.debug("VrmLocked - can't find cookie for BruteForcePreventionViewModel")
+          Logger.debug("VrmLocked - Can't find cookie for BruteForcePreventionViewModel")
           Redirect(routes.VehicleLookup.present())
       }
   }

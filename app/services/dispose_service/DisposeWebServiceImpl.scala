@@ -13,7 +13,7 @@ final class DisposeWebServiceImpl @Inject()(config: Config)  extends DisposeWebS
   private val requestTimeout: Int = config.disposeMsRequestTimeout
 
   override def callDisposeService(request: DisposeRequest): Future[Response] = {
-    Logger.debug(s"Calling dispose vehicle micro-service on $endPoint with request object: $request...")
+    Logger.debug(s"Calling dispose vehicle micro-service") // on $endPoint with request object: $request...")
     WS.
       url(endPoint).
       withRequestTimeout(requestTimeout).
