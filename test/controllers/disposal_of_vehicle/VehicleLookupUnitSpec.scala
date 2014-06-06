@@ -31,6 +31,7 @@ import utils.helpers.Config
 import org.mockito.ArgumentCaptor
 
 final class VehicleLookupUnitSpec extends UnitSpec {
+
   "present" should {
     "display the page" in new WithApplication {
       val request = FakeCSRFRequest().
@@ -86,7 +87,9 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
 
-      result.futureValue.header.headers.get(LOCATION) should equal(Some(DisposePage.address))
+      whenReady(result, timeout) {
+        r => r.header.headers.get(LOCATION) should equal(Some(DisposePage.address))
+      }
     }
 
     "submit removes spaces from registrationNumber" in new WithApplication {
