@@ -56,7 +56,6 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     implicit request => {
       request.cookies.getModel[TraderDetailsModel] match {
         case (Some(dealerDetails)) =>
-          Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
           request.cookies.getModel[VehicleDetailsModel] match {
             case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), form.fill(), yearsDropdown))
@@ -69,7 +68,6 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
   def submit = Action.async {
     implicit request =>
-      Logger.debug("Submitted dispose form...")
       form.bindFromRequest.fold(
         formWithErrors =>
           Future {
@@ -93,7 +91,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
             }
           },
         f => {
-          Logger.debug(s"Dispose form submitted - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}, consent=${f.consent}, lossOfRegistrationConsent=${f.lossOfRegistrationConsent}")
+          Logger.debug(s"Dispose form submitted") // - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}, consent=${f.consent}, lossOfRegistrationConsent=${f.lossOfRegistrationConsent}")
           disposeAction(webService, f)
         }
       )
@@ -106,7 +104,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       vehicleModel = vehicleDetails.vehicleModel,
       dealerName = dealerDetails.traderName,
       dealerAddress = dealerDetails.traderAddress)
-    Logger.debug(s"Dispose page read the following data from cache: $model")
+    //Logger.debug(s"Dispose page read the following data from cache: $model")
     model
   }
 
@@ -122,7 +120,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
       val disposeRequest = buildDisposeMicroServiceRequest(disposeModel, traderDetailsModel)
       webService.invoke(disposeRequest).map {
-        case (httpResponseCode, response) => Logger.debug(s"Dispose micro-service call successful - response = $response")
+        case (httpResponseCode, response) => Logger.debug(s"Dispose micro-service call successful")// - response = $response")
 
          Some(Redirect(nextPage(httpResponseCode, response))).
             map(_.withCookie(disposeModel)).
@@ -132,7 +130,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
             get
       }.recover {
         case e: Throwable =>
-          Logger.warn(s"Dispose micro-service call failed. Exception: $e")
+          Logger.warn(s"Dispose micro-service call failed")//. Exception: $e")
           Redirect(routes.MicroServiceError.present())
       }
     }
@@ -175,15 +173,15 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     def handleResponseCode(disposeResponseCode: String): Call = {
       disposeResponseCode match {
         case "ms.vehiclesService.response.unableToProcessApplication" => {
-          Logger.warn("Dispose soap endpoint redirecting to dispose failure page...")
+          Logger.warn("Dispose soap endpoint redirecting to dispose failure page")
           routes.DisposeFailure.present()
         }
         case "ms.vehiclesService.response.duplicateDisposalToTrade" => {
-          Logger.warn("Dispose soap endpoint redirecting to duplicate disposal page...")
+          Logger.warn("Dispose soap endpoint redirecting to duplicate disposal page")
           routes.DuplicateDisposalError.present()
         }
         case _ => {
-          Logger.warn(s"Dispose micro-service failed: $disposeResponseCode, redirecting to error page...")
+          Logger.warn(s"Dispose micro-service failed redirecting to error page") // $disposeResponseCode)
           routes.MicroServiceError.present()
         }
       }
@@ -206,11 +204,11 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         callMicroService(disposeModel, traderDetails)
       }
       case (None, _) => Future {
-        Logger.error("could not find dealer details in cache on Dispose submit")
+        Logger.error("Could not find dealer details in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present())
       }
       case (_, None) =>  Future {
-        Logger.error("could not find vehicle details in cache on Dispose submit")
+        Logger.error("Could not find vehicle details in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present())
       }
     }

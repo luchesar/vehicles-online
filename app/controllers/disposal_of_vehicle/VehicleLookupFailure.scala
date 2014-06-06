@@ -21,7 +21,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
   def submit = Action { implicit request =>
     (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleLookupFormModel]) match {
       case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) =>
-        Logger.debug("found dealer and vehicle details")
+        Logger.debug("Found dealer and vehicle details")
         Redirect(routes.VehicleLookup.present())
       case _ => Redirect(routes.BeforeYouStart.present())
     }

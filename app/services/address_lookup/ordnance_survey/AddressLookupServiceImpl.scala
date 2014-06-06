@@ -30,12 +30,12 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
 
     ws.callPostcodeWebService(postcode)(session).map {
       resp =>
-        //Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}")
+        Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}")
         if (resp.status == play.api.http.Status.OK) toDropDown(resp)
         else Seq.empty // The service returned http code other than 200 OK
     }.recover {
       case e: Throwable =>
-        Logger.error(s"Ordnance Survey postcode lookup service error: $e")
+        Logger.error(s"Ordnance Survey postcode lookup service error")//: $e")
         Seq.empty
     }
   }
@@ -51,18 +51,18 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
       extractFromJson(resp) match {
         case Some(deserialized) => deserialized.addressViewModel
         case None =>
-          Logger.error(s"Could not deserialize response of web service for submitted UPRN: $uprn")
+          Logger.error(s"Could not deserialize response of web service")// for submitted UPRN: $uprn")
           None
       }
 
     ws.callUprnWebService(uprn).map {
       resp =>
-        //Logger.debug(s"Http response code from Ordnance Survey uprn lookup service was: ${resp.status}")
+        Logger.debug(s"Http response code from Ordnance Survey uprn lookup service was: ${resp.status}")
         if (resp.status == play.api.http.Status.OK) toViewModel(resp)
         else None
     }.recover {
       case e: Throwable =>
-        Logger.error(s"Ordnance Survey uprn lookup service error: $e")
+        Logger.error(s"Ordnance Survey uprn lookup service error")//: $e")
         None
     }
   }
