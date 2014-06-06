@@ -28,14 +28,11 @@ import scala.language.postfixOps
 import CookieImplicits.RequestCookiesAdapter
 import CookieImplicits.SimpleResultAdapter
 import CookieImplicits.FormAdapter
-import utils.helpers.{CookieNameHashing, CookieEncryption}
 import scala.Some
 import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import play.api.data.FormError
 import play.api.mvc.Call
-import mappings.common.AddressLines._
-import scala.annotation.tailrec
 
 final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -172,18 +169,15 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
     def handleResponseCode(disposeResponseCode: String): Call = {
       disposeResponseCode match {
-        case "ms.vehiclesService.response.unableToProcessApplication" => {
+        case "ms.vehiclesService.response.unableToProcessApplication" =>
           Logger.warn("Dispose soap endpoint redirecting to dispose failure page")
           routes.DisposeFailure.present()
-        }
-        case "ms.vehiclesService.response.duplicateDisposalToTrade" => {
+        case "ms.vehiclesService.response.duplicateDisposalToTrade" =>
           Logger.warn("Dispose soap endpoint redirecting to duplicate disposal page")
           routes.DuplicateDisposalError.present()
-        }
-        case _ => {
+        case _ =>
           Logger.warn(s"Dispose micro-service failed redirecting to error page") // $disposeResponseCode)
           routes.MicroServiceError.present()
-        }
       }
     }
 
@@ -196,13 +190,12 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     }
 
     (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleLookupFormModel]) match {
-      case (Some(traderDetails), Some(vehicleLookup)) =>  {
+      case (Some(traderDetails), Some(vehicleLookup)) =>
         val disposeModel = DisposeModel(referenceNumber = vehicleLookup.referenceNumber,
           registrationNumber = vehicleLookup.registrationNumber,
           dateOfDisposal = disposeFormModel.dateOfDisposal, consent = disposeFormModel.consent, lossOfRegistrationConsent = disposeFormModel.lossOfRegistrationConsent,
           mileage = disposeFormModel.mileage)
         callMicroService(disposeModel, traderDetails)
-      }
       case (None, _) => Future {
         Logger.error("Could not find dealer details in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present())
