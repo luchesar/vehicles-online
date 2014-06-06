@@ -1,5 +1,6 @@
 package services.csrf_prevention
 
+import app.ConfigProperties._
 import play.api.mvc._
 import play.api.http.HeaderNames._
 import services.csrf_prevention.CSRF._
@@ -9,6 +10,8 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import scala.concurrent.Future
 import play.api.libs.Crypto
 import play.api.Logger
+import scala.Some
+import play.api.mvc.SimpleResult
 
 class CSRFAction(next: EssentialAction) extends EssentialAction {
 
@@ -19,47 +22,52 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
 
   def apply(request: RequestHeader) = {
 
-    // this function exists purely to aid readability
-    def continue = next(request)
+    if (csrfPrevention) {
 
-    // Only filter unsafe methods and content types
-    if (unsafeMethods(request.method) && request.contentType.exists(unsafeContentTypes)) {
+      // this function exists purely to aid readability
+      def continue = next(request)
 
-      if (checkCsrfBypass(request)) {
-        continue
-      } else {
+      // Only filter unsafe methods and content types
+      if (unsafeMethods(request.method) && request.contentType.exists(unsafeContentTypes)) {
 
-        val headerToken = "cookieName"  // TODO lookup tracking-id session/cookie
+        if (checkCsrfBypass(request)) {
+          continue
+        } else {
 
-        // Only proceed with checks if there is an incoming token in the header, otherwise there's no point
-        request.contentType match {
-              case Some("application/x-www-form-urlencoded") => checkFormBody(request, headerToken, tokenName, next)
-              case Some("multipart/form-data") => checkMultipartBody(request, headerToken, tokenName, next)
-              // No way to extract token from text plain body
-              case _ => {
-                Logger.trace("[CSRF] Check failed because request content type is not application/x-www-form-urlencoded or multipart/form-data")
-                checkFailed(request, "No CSRF token found in body")
-              }
+          val headerToken = "cookieName" // TODO lookup tracking-id session/cookie
+
+          // Only proceed with checks if there is an incoming token in the header, otherwise there's no point
+          request.contentType match {
+            case Some("application/x-www-form-urlencoded") => checkFormBody(request, headerToken, tokenName, next)
+            case Some("multipart/form-data") => checkMultipartBody(request, headerToken, tokenName, next)
+            // No way to extract token from text plain body
+            case _ => {
+              Logger.trace("[CSRF] Check failed because request content type is not application/x-www-form-urlencoded or multipart/form-data")
+              checkFailed(request, "No CSRF token found in body")
             }
+          }
 
 
+        }
+      } else if (getTokenFromHeader(request, tokenName).isEmpty &&
+        request.method == "GET" &&
+        (request.accepts("text/html") || request.accepts("application/xml+xhtml"))) {
+
+        // No token in header and we have to create one if not found, so create a new token
+        val newToken = tokenProvider.generateToken
+
+        // The request
+        val requestWithNewToken = request.copy(tags = request.tags + (Token.RequestTag -> newToken))
+
+        // Once done, add it to the result
+        next(requestWithNewToken).map(result =>
+          CSRFAction.addTokenToResponse(tokenName, newToken, request, result))
+
+      } else {
+        Logger.trace("[CSRF] No check necessary")
+        next(request)
       }
-    } else if (getTokenFromHeader(request, tokenName).isEmpty &&
-      request.method == "GET" &&
-      (request.accepts("text/html") || request.accepts("application/xml+xhtml"))) {
-
-      // No token in header and we have to create one if not found, so create a new token
-      val newToken = tokenProvider.generateToken
-
-      // The request
-      val requestWithNewToken = request.copy(tags = request.tags + (Token.RequestTag -> newToken))
-
-      // Once done, add it to the result
-      next(requestWithNewToken).map(result =>
-        CSRFAction.addTokenToResponse(tokenName, newToken, request, result))
-
     } else {
-      Logger.trace("[CSRF] No check necessary")
       next(request)
     }
   }
@@ -114,6 +122,8 @@ object CSRFAction {
   def errorHandler = CSRF.DefaultErrorHandler
   def tokenProvider = CSRF.SignedTokenProvider
   def postBodyBuffer: Long = 102400L
+
+  def csrfPrevention = getProperty("csrf.prevention", default = true)
 
   private[csrf_prevention] def getTokenFromHeader(request: RequestHeader, tokenName: String) = {
     request.session.get("csrfToken")
