@@ -6,7 +6,10 @@
 @import views.html.common.language
 @import utils.helpers._
 
-@main(Messages("disposal_beforeyoustart.title")){
+@main(
+    title = Messages("disposal_beforeyoustart.title"),
+    alternateLanguages = language(withLanguageCy = BeforeYouStart.withLanguageCy(), withLanguageEn = BeforeYouStart.withLanguageEn())
+    ){
     <p>@Messages("disposal_beforeyoustart.p1")</p>
     <ol class="list-standard">
     	<li>@Messages("disposal_beforeyoustart.listitem1") <a href="https://www.vehicleenquiry.service.gov.uk/" target="_blank">@Messages("disposal_beforeyoustart.listitem1linktext")</a>.</li>
@@ -22,5 +25,5 @@
         <a class="button" id="@NextId" href="@SetUpTradeDetails.submit">@Messages("disposal_beforeyoustart.button")</a>
     </div>
 
-    @language(withLanguageCy = BeforeYouStart.withLanguageCy(), withLanguageEn = BeforeYouStart.withLanguageEn())
+
 }

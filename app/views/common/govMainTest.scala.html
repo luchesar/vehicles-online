@@ -1,4 +1,6 @@
-@(title: String)(content: Html)
+@(title: String, lang: Lang, alternateLanguages: Html = Html.empty)(content: Html)
+    
+@import play.api.Play.current
 
 <!DOCTYPE html>
     <head>
@@ -13,6 +15,7 @@
     <body>
         <div id="wrapper content" class="group">
             @content
+            @alternateLanguages
         </div>
     </body>
 </html>
