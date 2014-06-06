@@ -10,6 +10,7 @@ import composition.TestComposition.{testInjector => injector}
 import common.CookieHelper._
 import helpers.WithApplication
 import play.api.test.FakeRequest
+import play.api.Play
 
 final class SetUpTradeDetailsUnitSpec extends UnitSpec {
   "present" should {
@@ -78,6 +79,29 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain (SetupTradeDetailsCacheKey)
+      }
+    }
+  }
+
+  "withLanguageEn" should {
+    "redirect back to the same page" in new WithApplication {
+      val result = setUpTradeDetails.withLanguageEn(FakeRequest())
+      whenReady(result) {
+        r =>
+          r.header.status should equal(SEE_OTHER) // Redirect...
+          r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address)) // ... back to the same page.
+      }
+    }
+
+    "writes language cookie set to 'en'" in new WithApplication {
+      val result = setUpTradeDetails.withLanguageEn(FakeRequest())
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.find(_.name == Play.langCookieName) match {
+            case Some(cookie) => cookie.value should equal("en")
+            case None => fail("langCookieName not found")
+          }
       }
     }
   }

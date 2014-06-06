@@ -7,6 +7,8 @@ import play.api.mvc.DiscardingCookie
 import models.domain.common.CacheKey
 import scala.Some
 import play.api.mvc.SimpleResult
+import play.api.i18n.Lang
+import play.api.Play.current
 
 object CookieImplicits {
 
@@ -67,6 +69,11 @@ object CookieImplicits {
       val cookieNames = keys.map(session.nameCookie)
       val discardingCookies = cookieNames.map(cookieName => DiscardingCookie(cookieName.value)).toSeq
       inner.discardingCookies(discardingCookies: _*)
+    }
+
+    def withLang(languageCode: String) = {
+      implicit val lang = Lang(languageCode)
+      inner.withLang(lang)
     }
   }
 

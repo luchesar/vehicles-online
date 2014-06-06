@@ -19,10 +19,14 @@ GET         /assets/*file                   controllers.Assets.at(path="/public"
 GET         /                                                   controllers.Application.index
 GET         /disposal-of-vehicle/before-you-start               @controllers.disposal_of_vehicle.BeforeYouStart.present
 POST        /disposal-of-vehicle/before-you-start               @controllers.disposal_of_vehicle.BeforeYouStart.submit
+POST        /disposal-of-vehicle/before-you-start/cy            @controllers.disposal_of_vehicle.BeforeYouStart.withLanguageCy
+POST        /disposal-of-vehicle/before-you-start/en            @controllers.disposal_of_vehicle.BeforeYouStart.withLanguageEn
 
 #page 2 - setup-trade-details
 GET         /disposal-of-vehicle/setup-trade-details            @controllers.disposal_of_vehicle.SetUpTradeDetails.present
 POST        /disposal-of-vehicle/setup-trade-details            @controllers.disposal_of_vehicle.SetUpTradeDetails.submit
+POST        /disposal-of-vehicle/setup-trade-details/cy         @controllers.disposal_of_vehicle.SetUpTradeDetails.withLanguageCy
+POST        /disposal-of-vehicle/setup-trade-details/en         @controllers.disposal_of_vehicle.SetUpTradeDetails.withLanguageEn
 
 #page 3 - business choose your address
 GET         /disposal-of-vehicle/business-choose-your-address   @controllers.disposal_of_vehicle.BusinessChooseYourAddress.present

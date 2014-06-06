@@ -40,6 +40,16 @@ final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: Cli
       )
   }
 
+  def withLanguageCy = Action { implicit request =>
+    Redirect(routes.SetUpTradeDetails.present()).
+      withLang("cy")
+  }
+
+  def withLanguageEn = Action { implicit request =>
+    Redirect(routes.SetUpTradeDetails.present()).
+      withLang("en")
+  }
+
   private def convertToUpperCase(model: SetupTradeDetailsModel) : SetupTradeDetailsModel =
     model.copy(traderBusinessName = model.traderBusinessName.toUpperCase, traderPostcode = model.traderPostcode.toUpperCase)
 }
