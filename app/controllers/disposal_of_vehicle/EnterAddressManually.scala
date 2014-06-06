@@ -25,7 +25,6 @@ final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: 
     implicit request =>
       request.cookies.getModel[SetupTradeDetailsModel] match {
         case Some(_) =>
-println(s"***** EnterAddressManually.present - now going to form fill from model")
           Ok(views.html.disposal_of_vehicle.enter_address_manually(form.fill()))
         case None => Redirect(routes.SetUpTradeDetails.present())
       }
@@ -54,8 +53,6 @@ println(s"***** EnterAddressManually.present - now going to form fill from model
             val traderAddress = AddressViewModel.from(updatedForm.addressAndPostcodeModel)
             val traderDetailsModel = TraderDetailsModel(traderName = traderBusinessName, traderAddress = traderAddress)
 
-println(s"****** - EnterAddressManually.submit - enterAddressManuallyModel = $updatedForm")
-println(s"****** - EnterAddressManually.submit - traderDetailsModel = $traderDetailsModel")
             Redirect(routes.VehicleLookup.present()).
               withCookie(updatedForm).
               withCookie(traderDetailsModel)
