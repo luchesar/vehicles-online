@@ -5,7 +5,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.WebDriver
-import pages.disposal_of_vehicle.BeforeYouStartPage.startNow
+import pages.disposal_of_vehicle.BeforeYouStartPage._
 import pages.disposal_of_vehicle._
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
@@ -33,6 +33,12 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
       // Verify the cookies identified by the full set of cache keys have been removed
       RelatedCacheKeys.FullSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
+    }
+
+    "display the 'Cymraeg' language button and not the 'English' language button" in new WebBrowser {
+      go to BeforeYouStartPage
+      hasCymraeg should equal(true)
+      hasEnglish should equal(false)
     }
   }
 
