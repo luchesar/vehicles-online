@@ -54,17 +54,5 @@ object CSRF {
     }
   }
 
-  /**
-   * This trait handles the CSRF error.
-   */
-  trait ErrorHandler {
-    /** Handle a result */
-    def handle(req: RequestHeader, msg: String): SimpleResult
-  }
-
-  object DefaultErrorHandler extends ErrorHandler {
-    def handle(req: RequestHeader, msg: String) = Forbidden(msg)
-  }
-
 }
 
