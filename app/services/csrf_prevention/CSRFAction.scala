@@ -19,16 +19,14 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
 
   def apply(request: RequestHeader) = {
 
+    // check if csrf prevention is switched on
     if (csrfPrevention) {
-
-      // this function exists purely to aid readability
-      def continue = next(request)
 
       // Only filter unsafe methods and content types
       if (unsafeMethods(request.method) && request.contentType.exists(unsafeContentTypes)) {
 
         if (checkCsrfBypass(request)) {
-          continue
+          next(request)
         } else {
 
           val headerToken = "cookieName" // TODO lookup tracking-id session/cookie
@@ -44,12 +42,11 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
             }
           }
         }
-      } else if (getTokenFromHeader(request, tokenName).isEmpty &&
-        request.method == "GET" &&
+      } else if (request.method == "GET" &&
         (request.accepts("text/html") || request.accepts("application/xml+xhtml"))) {
 
         // No token in header and we have to create one if not found, so create a new token
-        val newToken = tokenProvider.generateToken
+        val newToken = Crypto.signToken(aesEncryption.encrypt("cookieName"))
 
         // The request
         val requestWithNewToken = request.copy(tags = request.tags + (Token.RequestTag -> newToken))
@@ -92,7 +89,7 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
               body => (for {
                 values <- extractor(body).get(tokenName)
                 token <- values.headOption
-              } yield tokenProvider.compareTokens(token, tokenFromHeader)).getOrElse(false)
+              } yield (aesEncryption.decrypt(Crypto.extractSignedToken(token).get) == tokenFromHeader)).getOrElse(false)
             )
 
             if (validToken) {
@@ -112,17 +109,17 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
 object CSRFAction {
 
   def tokenName: String = "csrfToken"
+
   def unsafeMethods = Set("POST")
+
   def unsafeContentTypes = Set("application/x-www-form-urlencoded", "text/plain", "multipart/form-data")
-  def tokenProvider = CSRF.SignedTokenProvider
+
   def postBodyBuffer: Long = 102400L
+
   def csrfPrevention = getProperty("csrf.prevention", default = true)
 
-  private[csrf_prevention] def getTokenFromHeader(request: RequestHeader, tokenName: String) = {
-    request.session.get("csrfToken")
-  }
-
   private[csrf_prevention] def checkCsrfBypass(request: RequestHeader) = {
+
     if (request.headers.get("X-Requested-With").isDefined) {
 
       // AJAX requests are not CSRF attacks either because they are restricted to same origin policy
@@ -136,91 +133,7 @@ object CSRFAction {
   private[csrf_prevention] def addTokenToResponse(tokenName: String,
                                                   newToken: String, request: RequestHeader, result: SimpleResult) = {
     Logger.trace("[CSRF] Adding token to result: " + result)
-
     result.withSession(Session.deserialize(request.session.data))
 
   }
-}
-
-/**
- * CSRF check action.
- *
- * Apply this to all actions that require a CSRF check.
- */
-object CSRFCheck {
-
-  private class CSRFCheckAction[A](tokenName: String, tokenProvider: TokenProvider,
-                                   wrapped: Action[A]) extends Action[A] {
-    def parser = wrapped.parser
-
-    def apply(request: Request[A]) = {
-
-      // Maybe bypass
-      if (CSRFAction.checkCsrfBypass(request) || !request.contentType.exists(CSRFAction.unsafeContentTypes)) {
-        wrapped(request)
-      } else {
-        // Get token from header
-        CSRFAction.getTokenFromHeader(request, tokenName).flatMap {
-          headerToken =>
-
-            val form = request.body match {
-              case body: play.api.mvc.AnyContent if body.asFormUrlEncoded.isDefined => body.asFormUrlEncoded.get
-              case body: play.api.mvc.AnyContent if body.asMultipartFormData.isDefined => body.asMultipartFormData.get.asFormUrlEncoded
-              case body: Map[_, _] => body.asInstanceOf[Map[String, Seq[String]]]
-              case body: play.api.mvc.MultipartFormData[_] => body.asFormUrlEncoded
-              case _ => Map.empty[String, Seq[String]]
-            }
-            form.get(tokenName).flatMap(_.headOption)
-
-              // Execute if it matches
-              .collect {
-              case queryToken if tokenProvider.compareTokens(queryToken, headerToken) => wrapped(request)
-            }
-        }.getOrElse(Future.failed(throw new CSRFException(new Throwable("CSRF token check failed"))))
-      }
-    }
-  }
-
-  /**
-   * Wrap an action in a CSRF check.
-   */
-  def apply[A](action: Action[A]): Action[A] =
-    new CSRFCheckAction(CSRFAction.tokenName, CSRFAction.tokenProvider, action)
-}
-
-/**
- * CSRF add token action.
- *
- * Apply this to all actions that render a form that contains a CSRF token.
- */
-object CSRFAddToken {
-
-  private class CSRFAddTokenAction[A](tokenName: String,
-                                      tokenProvider: TokenProvider, wrapped: Action[A]) extends Action[A] {
-    def parser = wrapped.parser
-
-    def apply(request: Request[A]) = {
-      if (CSRFAction.getTokenFromHeader(request, tokenName).isEmpty) {
-        // No token in header and we have to create one if not found, so create a new token
-        val newToken = tokenProvider.generateToken
-
-        // The request
-        val requestWithNewToken = new WrappedRequest(request) {
-          override val tags = request.tags + (Token.RequestTag -> newToken)
-        }
-
-        // Once done, add it to the result
-        wrapped(requestWithNewToken).map(result =>
-          CSRFAction.addTokenToResponse(tokenName, newToken, request, result))
-      } else {
-        wrapped(request)
-      }
-    }
-  }
-
-  /**
-   * Wrap an action in an action that ensures there is a CSRF token.
-   */
-  def apply[A](action: Action[A]): Action[A] =
-    new CSRFAddTokenAction(CSRFAction.tokenName, CSRFAction.tokenProvider, action)
 }
