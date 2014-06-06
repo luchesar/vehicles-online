@@ -1,4 +1,4 @@
-@(data: models.domain.disposal_of_vehicle.DisposeViewModel, disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel], years: Seq[(String, String)])(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
+@(data: models.domain.disposal_of_vehicle.DisposeViewModel, disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel], years: Seq[(String, String)])(implicit lang: Lang, token: services.csrf_prevention.CSRF.Token)
 
 @import helper._
 @import views.html.helper.base._
@@ -8,13 +8,14 @@
 @import helper.dates.inputDayMonthYear
 @import mappings.disposal_of_vehicle.Dispose._
 @import mappings.common.Mileage
+@import utils.helpers._
 
 @main(Messages("disposal_dispose.title")){
     @errorsSummary(disposeForm)
     
     @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit) {
 
-    @CSRF.formField
+@CSRFHelper.hiddenFormField
 
 	<div class="alert-warning">
     	<p>@Messages("disposal_dispose.warning")&nbsp;<a href="https://www.gov.uk/contact">@Messages("disposal_dispose.warning.link")</a></p>

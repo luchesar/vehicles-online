@@ -9,7 +9,7 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
       val microserviceError = new MicroServiceError()
-      val newFakeRequest = FakeRequest().withSession()
+      val newFakeRequest = FakeRequest()
       val result = microserviceError.present(newFakeRequest)
       status(result) should equal(OK)
     }

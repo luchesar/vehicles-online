@@ -10,23 +10,23 @@ import play.api.test.Helpers._
 final class BeforeYouStartUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      val result = beforeYouStart.present(newFakeRequest)
+      val result = beforeYouStart.present(FakeRequest())
       status(result) should equal(OK)
     }
   }
 
   "submit" should {
     "redirect to next page after the button is clicked" in new WithApplication {
-      val result = beforeYouStart.submit(newFakeRequest)
+      val result = beforeYouStart.submit(FakeRequest())
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
   }
 
-  private def newFakeRequest = {
-    FakeRequest().withSession()
-  }
+//  private def newFakeRequest = {
+//    FakeRequest().withSession()
+//  }
 
   private val beforeYouStart = injector.getInstance(classOf[BeforeYouStart])
 }
