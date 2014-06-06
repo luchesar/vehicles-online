@@ -57,14 +57,16 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
             }
           },
         f => {
-          val registrationNumberWithoutSpaces = f.registrationNumber.replace(" ", "")
-          val modelWithoutSpaces = f.copy(registrationNumber = registrationNumberWithoutSpaces) // DE7: Strip spaces from input as it is not allowed in the micro-service.
-          checkPermissionToLookup(modelWithoutSpaces) {
+          checkPermissionToLookup(convertToUpperCaseAndRemoveSpaces(f)) {
             lookupVehicle
           }
         }
       )
   }
+
+  private def convertToUpperCaseAndRemoveSpaces(model: VehicleLookupFormModel) : VehicleLookupFormModel =
+    model.copy(registrationNumber = model.registrationNumber.replace(" ", "")
+      .toUpperCase)
 
   def back = Action {
     implicit request =>
@@ -85,7 +87,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         // US270: The security micro-service will return a Forbidden (403) message when the vrm is locked, we have hidden that logic as a boolean.
         if (bruteForcePreventionViewModel.permitted) lookupVehicleFunc(formModel, bruteForcePreventionViewModel)
         else Future {
-          Logger.warn(s"BruteForceService locked out vrm: ${formModel.registrationNumber}")
+          Logger.warn(s"BruteForceService locked out vrm") //: ${formModel.registrationNumber}")
           Redirect(routes.VrmLocked.present()).
             withCookie(bruteForcePreventionViewModel)
         }
@@ -94,7 +96,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       }
     } recover {
       case exception: Throwable =>
-        Logger.error(s"Exception thrown by BruteForceService so for safety we won't let anyone through. Exception ${exception.getStackTraceString}")
+        Logger.error(s"Exception thrown by BruteForceService so for safety we won't let anyone through") //. Exception ${exception.getStackTraceString}")
         Redirect(routes.MicroServiceError.present())
     }
 
@@ -109,7 +111,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     }
 
     def lookupHadProblem(responseCode: String) = {
-      Logger.debug("VehicleLookup - lookupHadProblem so redirect to VehicleLookupFailure")
+      Logger.debug("VehicleLookup encountered a problem, redirect to VehicleLookupFailure")
       Redirect(routes.VehicleLookupFailure.present()).
         withCookie(key = VehicleLookupResponseCodeCacheKey, value = responseCode)
     }
@@ -131,7 +133,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       responseStatusVehicleLookupMS match {
         case OK => hasVehicleDetailsResponse(response)
         case _ =>
-          Logger.error(s"VehicleLookup web service call http status not OK, it was: $responseStatusVehicleLookupMS. Problem may come from either vehicle-lookup micro-service or the VSS")
+          Logger.error(s"VehicleLookup web service call http status not OK") //, it was: $responseStatusVehicleLookupMS. Problem may come from either vehicle-lookup micro-service or the VSS")
           Redirect(routes.MicroServiceError.present())
       }
 
@@ -146,7 +148,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     )
     vehicleLookupService.invoke(vehicleDetailsRequest).map {
       case (responseStatusVehicleLookupMS: Int, response: Option[VehicleDetailsResponse]) =>
-        Logger.debug(s"VehicleLookup Web service call successful - response = $response")
+        Logger.debug(s"VehicleLookup micro-service call successful") // - response = $response")
         import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._
         isReponseStatusOk(responseStatusVehicleLookupMS = responseStatusVehicleLookupMS,
           response = response).
@@ -154,7 +156,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
           withCookie(bruteForcePreventionViewModel)
     }.recover {
       case exception: Throwable =>
-        Logger.debug(s"VehicleLookup Web service call failed. Exception: $exception")
+        Logger.debug(s"VehicleLookup Web service call failed")//. Exception: $exception")
         Redirect(routes.MicroServiceError.present())
     }
   }

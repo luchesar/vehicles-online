@@ -2,30 +2,12 @@ package composition
 
 import com.google.inject.Guice
 import play.api.mvc.{Session, RequestHeader, EssentialFilter}
-import play.filters.csrf.CSRF._
 import play.api.mvc.EssentialFilter
 import filters.EnsureSessionCreatedFilter
-import play.filters.csrf.CSRFFilter
 import java.security.SecureRandom
 import org.apache.commons.codec.binary.Hex
 import play.api.libs.Crypto
-
-
-object CustomSignedTokenProvider extends TokenProvider {
-
-  def generateCryptoToken = {
-    val bytes = new Array[Byte](12)
-    new SecureRandom().nextBytes(bytes)
-    new String(Hex.encodeHex(bytes))
-  }
-
-  def generateSignedToken = Crypto.signToken(generateCryptoToken)
-  def generateToken = generateSignedToken
-  def compareTokens(tokenA: String, tokenB: String) = {
-    Crypto.compareSignedTokens(tokenA, tokenB)
-  }
-
-}
+import services.csrf_prevention.CSRFFilter
 
 
 object Composition {
@@ -45,6 +27,6 @@ object Composition {
    */
   lazy val devInjector = Guice.createInjector(DevModule)
 
-  lazy val filters: EssentialFilter = new CSRFFilter(tokenProvider = CustomSignedTokenProvider)
+  lazy val filters: EssentialFilter = new CSRFFilter()
 
 }

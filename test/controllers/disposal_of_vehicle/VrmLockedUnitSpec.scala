@@ -7,12 +7,13 @@ import services.fakes.FakeDateServiceImpl
 import play.api.test.Helpers._
 import scala.Some
 import pages.disposal_of_vehicle.{BeforeYouStartPage, VehicleLookupPage, SetupTradeDetailsPage}
+import play.api.test.FakeRequest
 
 final class VrmLockedUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
       val dateService = new FakeDateServiceImpl
-      val request = FakeCSRFRequest().
+      val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel(dateTimeISOChronology = dateService.dateTimeISOChronology))
       val result = vrmLocked.present(request)
 
@@ -24,7 +25,7 @@ final class VrmLockedUnitSpec extends UnitSpec {
 
   "newDisposal" should {
     "redirect to vehicle lookup page after the new disposal button is clicked when the expected data is in the cookies" in new WithApplication {
-      val request = FakeCSRFRequest().
+      val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vrmLocked.newDisposal(request)
@@ -34,7 +35,7 @@ final class VrmLockedUnitSpec extends UnitSpec {
     }
 
     "redirect to setup trade details page after the new disposal button is clicked when the expected data is not in the cookies" in new WithApplication {
-      val request = FakeCSRFRequest()
+      val request = FakeRequest()
       val result = vrmLocked.newDisposal(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -44,7 +45,7 @@ final class VrmLockedUnitSpec extends UnitSpec {
 
   "exit" should {
     "redirect to correct next page after the exit button is clicked" in new WithApplication {
-      val request = FakeCSRFRequest().
+      val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vrmLocked.exit(request)

@@ -23,7 +23,7 @@ import services.brute_force_prevention._
  */
 object DevModule extends ScalaModule {
   def configure() {
-    Logger.debug("Guice is loading DevModule")
+    //Logger.debug("Guice is loading DevModule")
 
     getProperty("addressLookupService.type", "ordnanceSurvey") match {
       case "ordnanceSurvey" => ordnanceSurveyAddressLookup()
