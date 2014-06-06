@@ -55,8 +55,8 @@ object DisposalAddressDto {
     }
   }
 
-  private def addressLinesDecider(buildingNameOrNumberOverMax: Boolean, line2OverMax: Boolean, line2Empty: Boolean, line3Empty: Boolean, address: Seq[String]) : Seq[String]= {
-    (buildingNameOrNumberOverMax, line2OverMax, line2Empty, line3Empty) match {
+  private def addressLinesDecider(isBuildingNameOrNumberOverMax: Boolean, isLine2OverMax: Boolean, isLine2Empty: Boolean, isLine3Empty: Boolean, address: Seq[String]) : Seq[String]= {
+    (isBuildingNameOrNumberOverMax, isLine2OverMax, isLine2Empty, isLine3Empty) match {
       case (true, _, true, _) => Seq(address(BuildingNameOrNumberIndex).substring(0, LineMaxLength)) ++
                                  Seq(address(BuildingNameOrNumberIndex).substring(LineMaxLength)) ++
                                  address.drop(2)
