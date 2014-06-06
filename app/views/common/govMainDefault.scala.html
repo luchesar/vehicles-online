@@ -1,4 +1,4 @@
-@(title: String, lang: Lang)(content: Html)(implicit footerCategories: Html = Html.empty)
+@(title: String, alternateLanguages: Html = Html.empty)(content: Html)(implicit lang: Lang)
 
 @import play.api.Play.current
 
@@ -16,7 +16,7 @@
         
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("screen.min.css")">        
 
-        <!--<link href="@routes.Assets.at("fonts.min.css")" media="all" rel="stylesheet" type="text/css">-->
+        <link href="http://assets.digital.cabinet-office.gov.uk/static/fonts-607c54f71c7c1f98257595cedaa13a34.css" media="all" rel="stylesheet" type="text/css">
 
         <link href="@routes.Assets.at("print.min.css")" media="print" rel="stylesheet" type="text/css">
 
@@ -67,7 +67,7 @@
 
         <div class="group js-footer" id="footer" role="contentinfo">
             <div class="footer-wrapper carers-allowance-footer">
-                @footerCategories
+                @alternateLanguages
 
                 <div class="footer-meta">
                     <div class="nav-wrapper">
@@ -102,5 +102,6 @@
         <![endif]-->
 
         <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+
     </body>
 </html>
