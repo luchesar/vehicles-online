@@ -35,10 +35,22 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
       RelatedCacheKeys.FullSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
     }
 
-    "display the 'Cymraeg' language button and not the 'English' language button" in new WebBrowser {
+    "display the 'Cymraeg' language button and not the 'English' language button when the language cookie is set to 'en'" in new WebBrowser {
+      go to BeforeYouStartPage // By default will load in English.
+      CookieFactoryForUISpecs.withLanguageEn()
       go to BeforeYouStartPage
+
       hasCymraeg should equal(true)
       hasEnglish should equal(false)
+    }
+
+    "display the 'English' language button and not the 'Cymraeg' language button when the language cookie is set to 'cy'" in new WebBrowser {
+      go to BeforeYouStartPage // By default will load in English.
+      CookieFactoryForUISpecs.withLanguageCy()
+      go to BeforeYouStartPage
+
+      hasCymraeg should equal(false)
+      hasEnglish should equal(true)
     }
   }
 
