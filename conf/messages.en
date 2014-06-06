@@ -393,5 +393,5 @@ onHandlerNotFound.body=Please check that you have entered the correct web addres
 error.title=An unrecoverable error has occurred
 error.button=Start again
 
-language.cy.button = Iaith Gymraeg
+language.cy.button = Cymraeg
 language.en.button = YAGNI

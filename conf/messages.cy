@@ -386,4 +386,4 @@ vehicle_lookup_document_reference_mismatch.p2=Gwnewch yn siŵr eich bod yn cael 
 vehicle_lookup_document_reference_mismatch.p3=Ar gyfer pob rhif cofrestru cerbyd, bydd tair ymgais i adfer y manylion y cerbyd.
 
 language.cy.button = YAGNI
-language.en.button = English language
+language.en.button = English
