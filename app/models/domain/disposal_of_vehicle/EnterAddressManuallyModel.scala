@@ -6,7 +6,7 @@ import play.api.libs.json.Json
 import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
 
 final case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcodeModel) {
-  def stripCharsNotAccepted = {
+  def stripCharsNotAccepted: EnterAddressManuallyModel = {
     @tailrec
     def stripEndOfLine(inputLine: Option[String]): Option[String] = inputLine match {
       case Some(line) =>
@@ -27,6 +27,15 @@ final case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPo
 
     //TODO: Revisit Get - should this be used?
     copy(addressAndPostcodeModel = addressAndPostcodeModel.copy(addressLinesModel = AddressLinesModel(buildingNameOrNumber.get, line2, line3, postTown.get)))
+  }
+
+  def toUpperCase: EnterAddressManuallyModel = {
+    copy(addressAndPostcodeModel = addressAndPostcodeModel.copy(
+      addressLinesModel = AddressLinesModel(addressAndPostcodeModel.addressLinesModel.buildingNameOrNumber.toUpperCase,
+        addressAndPostcodeModel.addressLinesModel.line2.map(_.toUpperCase),
+        addressAndPostcodeModel.addressLinesModel.line3.map(_.toUpperCase),
+        addressAndPostcodeModel.addressLinesModel.postTown.toUpperCase),
+      postcode = addressAndPostcodeModel.postcode.toUpperCase))
   }
 }
 

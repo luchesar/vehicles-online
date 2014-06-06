@@ -25,6 +25,7 @@ final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: 
     implicit request =>
       request.cookies.getModel[SetupTradeDetailsModel] match {
         case Some(_) =>
+println(s"***** EnterAddressManually.present - now going to form fill from model")
           Ok(views.html.disposal_of_vehicle.enter_address_manually(form.fill()))
         case None => Redirect(routes.SetUpTradeDetails.present())
       }
@@ -49,11 +50,14 @@ final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: 
         f =>
           request.cookies.getModel[SetupTradeDetailsModel].map(_.traderBusinessName) match {
           case Some(traderBusinessName) =>
-            val traderAddress = AddressViewModel.from(f.stripCharsNotAccepted.addressAndPostcodeModel)
+            val updatedForm: EnterAddressManuallyModel = f.stripCharsNotAccepted.toUpperCase
+            val traderAddress = AddressViewModel.from(updatedForm.addressAndPostcodeModel)
             val traderDetailsModel = TraderDetailsModel(traderName = traderBusinessName, traderAddress = traderAddress)
 
+println(s"****** - EnterAddressManually.submit - enterAddressManuallyModel = $updatedForm")
+println(s"****** - EnterAddressManually.submit - traderDetailsModel = $traderDetailsModel")
             Redirect(routes.VehicleLookup.present()).
-              withCookie(f).
+              withCookie(updatedForm).
               withCookie(traderDetailsModel)
           case None =>
             Logger.debug("Failed to find dealer name in cache on submit, redirecting")
