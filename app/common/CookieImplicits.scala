@@ -70,11 +70,6 @@ object CookieImplicits {
       val discardingCookies = cookieNames.map(cookieName => DiscardingCookie(cookieName.value)).toSeq
       inner.discardingCookies(discardingCookies: _*)
     }
-
-    def withLang(languageCode: String) = {
-      implicit val lang = Lang(languageCode)
-      inner.withLang(lang)
-    }
   }
 
   implicit class FormAdapter[A](val f: Form[A]) extends AnyVal {

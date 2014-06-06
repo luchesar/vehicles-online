@@ -5,6 +5,8 @@ import com.google.inject.Inject
 import common.{ClientSideSessionFactory, CookieImplicits}
 import CookieImplicits.SimpleResultAdapter
 import mappings.disposal_of_vehicle.RelatedCacheKeys
+import mappings.common.Languages._
+import play.api.Play.current
 
 final class BeforeYouStart @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -20,11 +22,11 @@ final class BeforeYouStart @Inject()(implicit clientSideSessionFactory: ClientSi
 
   def withLanguageCy = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present()).
-      withLang("cy")
+      withLang(langCy)
   }
 
   def withLanguageEn = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present()).
-      withLang("en")
+      withLang(langEn)
   }
 }
