@@ -26,16 +26,6 @@ footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
 prototype.banner = Mae hwn yn brototeip - bydd eich adborth yn ein helpu i wella.
 prototype.link = Cael gwybod mwy
 
-#page 1
-beforeyoustart.title = Newid cyfeiriad ceidwad
-beforeyoustart.name = Cyn i chi ddechrau
-beforeyoustart.p1 = Defnyddiwch y gwasanaeth hwn os ydych am newid cyfeiriad y ceidwad cofrestredig cerbyd.
-beforeyoustart.p2 = Cyn i chi ddechrau, bydd angen i chi:
-beforeyoustart.p3 = 1. Mae''r llyfr log ar gyfer pob cerbyd a effeithir gan y newid cyfeiriad ceidwad.
-beforeyoustart.p4 = 2. Dylai ceidwad y cerbyd yn defnyddio''r gwasanaeth hwn i newid eu cyfeiriad eu hunain, ac yn ystod y broses bydd angen iddynt brofi pwy ydynt trwy fewngofnodi ar eu proffil hunaniaeth. 
-beforeyoustart.p5 = 3. Mae''n ddoeth bod ceidwad cerbyd gael proffil hunaniaeth cyn dechrau defnyddio''r gwasanaeth. Y mae, fodd bynnag, yn bosibl i gofrestru ar gyfer proffil hunaniaeth wrth ddefnyddio''r gwasanaeth hwn. 
-beforeyoustart.button = Dechrau nawr
-
 #page 2
 keeperstatus.title = Newid cyfeiriad ceidwad
 keeperstatus.name = 1. Eich statws

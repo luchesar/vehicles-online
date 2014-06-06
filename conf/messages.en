@@ -30,16 +30,6 @@ footer.builtby = Driver & Vehicle Licensing Agency
 prototype.banner = This is a prototype. You cannot change keeper using this service.
 prototype.link = Change keeper using the live service
 
-#page 1
-beforeyoustart.title = Change of keeper address1
-beforeyoustart.name = Before you start
-beforeyoustart.p1 = Use this service if you want to change the address of the registered keeper of a vehicle.
-beforeyoustart.p2 = Before you start you will need:
-beforeyoustart.p3 = 1. The log book for each vehicle affected by the change of keeper address.
-beforeyoustart.p4 = 2. A vehicle keeper should use this service to change their own address, and during the process they will need to prove who they are by logging into their identity profile.
-beforeyoustart.p5 = 3. It is advisable that a vehicle keeper obtain an identity profile before starting to use the service. It is, however, possible to register for an identity profile while using this service.
-beforeyoustart.button = Start now
-
 #page 2
 keeperstatus.title = Change of keeper address2
 keeperstatus.name = 1. Your status
