@@ -89,7 +89,15 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).submit(request)
 
       whenReady(result, timeout) {
-        r => r.header.headers.get(LOCATION) should equal(Some(DisposePage.address))
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(DisposePage.address))
+          val cookies = fetchCookiesFromHeaders(r)
+          val cookieName = "vehicleLookupFormModel"
+          cookies.find(_.name == cookieName) match {
+            case Some(cookie) =>
+              cookie.value should include(RegistrationNumberValid.toUpperCase)
+            case None => fail(s"$cookieName cookie not found")
+          }
       }
     }
 

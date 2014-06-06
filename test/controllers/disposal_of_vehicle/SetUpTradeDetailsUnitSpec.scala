@@ -11,6 +11,7 @@ import common.CookieHelper._
 import helpers.WithApplication
 import play.api.test.FakeRequest
 import play.api.Play
+import scala.Some
 
 final class SetUpTradeDetailsUnitSpec extends UnitSpec {
   "present" should {
@@ -45,7 +46,16 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = setUpTradeDetails.submit(request)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
+          val cookies = fetchCookiesFromHeaders(r)
+          val cookieName = "setupTraderDetails"
+          cookies.find(_.name == cookieName) match {
+            case Some(cookie) =>
+              cookie.value should include(TraderBusinessNameValid.toUpperCase)
+              cookie.value should include(PostcodeValid.toUpperCase)
+            case None => fail(s"$cookieName cookie not found")
+          }
       }
     }
 
