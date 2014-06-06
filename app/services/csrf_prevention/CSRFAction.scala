@@ -36,9 +36,9 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
               case Some("application/x-www-form-urlencoded") => checkFormBody(request, headerToken, tokenName, next)
               case Some("multipart/form-data") => checkMultipartBody(request, headerToken, tokenName, next)
               // No way to extract token from text plain body
-              case Some("text/plain") => {
-                Logger.trace("[CSRF] Check failed because text/plain request")
-                checkFailed(request, "No CSRF token found for text/plain body")
+              case _ => {
+                Logger.trace("[CSRF] Check failed because request content type is not application/x-www-form-urlencoded or multipart/form-data")
+                checkFailed(request, "No CSRF token found in body")
               }
             }
 
