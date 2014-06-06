@@ -6,7 +6,8 @@ import helpers.webbrowser.TestHarness
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.BeforeYouStartPage._
-import pages.disposal_of_vehicle._
+import pages.disposal_of_vehicle.{SetupTradeDetailsPage, BeforeYouStartPage}
+import pages.common.Languages._
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
