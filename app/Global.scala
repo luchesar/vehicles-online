@@ -33,7 +33,7 @@ import composition.Composition._
  * play -Dconfig.file=conf/application.test.conf run
  */
 
-object Global extends WithFilters(filters) with GlobalSettings {
+object Global extends WithFilters(filters: _*) with GlobalSettings {
 
   private lazy val injector: Injector = devInjector
 
@@ -70,7 +70,6 @@ object Global extends WithFilters(filters) with GlobalSettings {
   override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] = ex.getCause match {
     case _: BadPaddingException  => CryptoHelper.handleApplicationSecretChange(request)
     case _: InvalidSessionException  => CryptoHelper.handleApplicationSecretChange(request)
-    case _: CSRFException => Future(Redirect(routes.MicroServiceError.present()))
     case _ => Future(Redirect(routes.Error.present()))
   }
 
