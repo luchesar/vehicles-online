@@ -29,7 +29,6 @@ import CookieImplicits.RequestCookiesAdapter
 import CookieImplicits.SimpleResultAdapter
 import CookieImplicits.FormAdapter
 import mappings.common.Languages._
-import scala.Some
 import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import play.api.data.FormError

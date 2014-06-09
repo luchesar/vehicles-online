@@ -55,6 +55,9 @@ GET         /disposal-of-vehicle/dispose-success                        @control
 POST        /disposal-of-vehicle/dispose-success/new-disposal           @controllers.disposal_of_vehicle.DisposeSuccess.newDisposal
 POST        /disposal-of-vehicle/dispose-success/exit                   @controllers.disposal_of_vehicle.DisposeSuccess.exit
 
+POST        /disposal-of-vehicle/dispose-success/cy                     @controllers.disposal_of_vehicle.DisposeSuccess.withLanguageCy
+POST        /disposal-of-vehicle/dispose-success/en                     @controllers.disposal_of_vehicle.DisposeSuccess.withLanguageEn
+
 GET         /disposal-of-vehicle/dispose-failure                        @controllers.disposal_of_vehicle.DisposeFailure.present
 
 GET         /disposal-of-vehicle/vehicle-lookup-failure                 @controllers.disposal_of_vehicle.VehicleLookupFailure.present
