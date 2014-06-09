@@ -8,6 +8,9 @@ import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._
 import models.domain.disposal_of_vehicle.{BruteForcePreventionViewModel, TraderDetailsModel}
 import play.api.Logger
 import play.api.mvc._
+import mappings.common.Languages._
+import scala.Some
+import play.api.Play.current
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
   def present = Action {
@@ -32,5 +35,16 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
   def exit = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
   }
+
+  def withLanguageCy = Action { implicit request =>
+    Redirect(routes.VrmLocked.present()).
+      withLang(langCy)
+  }
+
+  def withLanguageEn = Action { implicit request =>
+    Redirect(routes.VrmLocked.present()).
+      withLang(langEn)
+  }
+
 }
 

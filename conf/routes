@@ -76,6 +76,8 @@ GET         /disposal-of-vehicle/soap-endpoint-error                    @control
 GET         /disposal-of-vehicle/vrm-locked                             @controllers.disposal_of_vehicle.VrmLocked.present
 POST        /disposal-of-vehicle/vrm-locked/new-disposal                @controllers.disposal_of_vehicle.VrmLocked.newDisposal
 POST        /disposal-of-vehicle/vrm-locked/exit                        @controllers.disposal_of_vehicle.VrmLocked.exit
+POST        /disposal-of-vehicle/vrm-locked/cy                          @controllers.disposal_of_vehicle.VrmLocked.withLanguageCy
+POST        /disposal-of-vehicle/vrm-locked/en                          @controllers.disposal_of_vehicle.VrmLocked.withLanguageEn
 
 GET         /disposal-of-vehicle/error                                  @controllers.disposal_of_vehicle.Error.present
 POST        /disposal-of-vehicle/error                                  @controllers.disposal_of_vehicle.Error.submit
