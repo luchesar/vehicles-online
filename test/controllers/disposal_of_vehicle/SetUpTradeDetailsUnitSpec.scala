@@ -11,7 +11,9 @@ import common.CookieHelper._
 import helpers.WithApplication
 import play.api.test.FakeRequest
 import play.api.Play
+import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import scala.Some
+import helpers.JsonUtils.deserializeJsonToModel
 
 final class SetUpTradeDetailsUnitSpec extends UnitSpec {
   "present" should {
@@ -52,8 +54,10 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
           val cookieName = "setupTraderDetails"
           cookies.find(_.name == cookieName) match {
             case Some(cookie) =>
-              cookie.value should include(TraderBusinessNameValid.toUpperCase)
-              cookie.value should include(PostcodeValid.toUpperCase)
+              val json = cookie.value
+              val model = deserializeJsonToModel[SetupTradeDetailsModel](json)
+              model.traderBusinessName should equal(TraderBusinessNameValid.toUpperCase)
+              model.traderPostcode should equal(PostcodeValid.toUpperCase)
             case None => fail(s"$cookieName cookie not found")
           }
       }

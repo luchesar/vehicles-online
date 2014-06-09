@@ -15,10 +15,13 @@ import services.address_lookup.AddressLookupService
 import common.{ClientSideSession, ClientSideSessionFactory, CookieImplicits}
 import utils.helpers.FormExtensions._
 import mappings.disposal_of_vehicle.EnterAddressManually._
-import play.api.data.FormError
 import CookieImplicits.RequestCookiesAdapter
 import CookieImplicits.SimpleResultAdapter
 import CookieImplicits.FormAdapter
+import mappings.common.Languages._
+import play.api.data.FormError
+import scala.Some
+import play.api.Play.current
 
 final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -78,6 +81,16 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
           }
         }
     )
+  }
+
+  def withLanguageCy = Action { implicit request =>
+    Redirect(routes.BusinessChooseYourAddress.present()).
+      withLang(langCy)
+  }
+
+  def withLanguageEn = Action { implicit request =>
+    Redirect(routes.BusinessChooseYourAddress.present()).
+      withLang(langEn)
   }
 
   private def fetchAddresses(setupTradeDetailsModel: SetupTradeDetailsModel)

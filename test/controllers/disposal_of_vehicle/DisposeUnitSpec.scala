@@ -31,6 +31,7 @@ import services.fakes.{FakeDisposeWebServiceImpl, FakeResponse}
 import utils.helpers.Config
 import org.mockito.ArgumentCaptor
 import play.api.test.FakeRequest
+import play.api.Play
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
@@ -476,6 +477,37 @@ final class DisposeUnitSpec extends UnitSpec {
         line = Seq(BuildingNameOrNumberHolder)
       )
       verify(disposeService, times(1)).invoke(cmd = disposeRequest)
+    }
+  }
+
+  "withLanguageEn" should {
+    "redirect back to the same page" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+      val result = disposeController(disposeWebService = disposeWebService()).withLanguageEn(request)
+      whenReady(result) {
+        r =>
+          r.header.status should equal(SEE_OTHER) // Redirect...
+          r.header.headers.get(LOCATION) should equal(Some(DisposePage.address)) // ... back to the same page.
+      }
+    }
+
+    "writes language cookie set to 'en'" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+      val result = disposeController(disposeWebService = disposeWebService()).withLanguageEn(request)
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.find(_.name == Play.langCookieName) match {
+            case Some(cookie) => cookie.value should equal("en")
+            case None => fail("langCookieName not found")
+          }
+      }
     }
   }
 

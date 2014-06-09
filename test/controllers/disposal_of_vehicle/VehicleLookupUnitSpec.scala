@@ -8,7 +8,7 @@ import helpers.UnitSpec
 import helpers.WithApplication
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.disposal_of_vehicle.VehicleLookup._
-import models.domain.disposal_of_vehicle.{VehicleDetailsResponse, VehicleDetailsRequest}
+import models.domain.disposal_of_vehicle.{VehicleLookupFormModel, VehicleDetailsResponse, VehicleDetailsRequest}
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import pages.disposal_of_vehicle._
@@ -30,6 +30,8 @@ import mappings.common.DocumentReferenceNumber
 import utils.helpers.Config
 import org.mockito.ArgumentCaptor
 import play.api.test.FakeRequest
+import helpers.JsonUtils.deserializeJsonToModel
+import play.api.Play
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -95,7 +97,9 @@ final class VehicleLookupUnitSpec extends UnitSpec {
           val cookieName = "vehicleLookupFormModel"
           cookies.find(_.name == cookieName) match {
             case Some(cookie) =>
-              cookie.value should include(RegistrationNumberValid.toUpperCase)
+              val json = cookie.value
+              val model = deserializeJsonToModel[VehicleLookupFormModel](json)
+              model.registrationNumber should equal(RegistrationNumberValid.toUpperCase)
             case None => fail(s"$cookieName cookie not found")
           }
       }
@@ -362,6 +366,34 @@ final class VehicleLookupUnitSpec extends UnitSpec {
           invokeCaptor.getAllValues.size should equal(1)
 
           invokeCaptor.getValue.trackingId should be(ClearTextClientSideSessionFactory.DefaultTrackingId)
+      }
+    }
+
+  }
+
+  "withLanguageEn" should {
+    "redirect back to the same page" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).withLanguageEn(request)
+      whenReady(result) {
+        r =>
+          r.header.status should equal(SEE_OTHER) // Redirect...
+          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address)) // ... back to the same page.
+      }
+    }
+
+    "writes language cookie set to 'en'" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).withLanguageEn(request)
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.find(_.name == Play.langCookieName) match {
+            case Some(cookie) => cookie.value should equal("en")
+            case None => fail("langCookieName not found")
+          }
       }
     }
   }

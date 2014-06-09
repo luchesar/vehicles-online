@@ -15,8 +15,6 @@ import com.google.inject.Inject
 import services.vehicle_lookup.VehicleLookupService
 import utils.helpers.FormExtensions._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
-import play.api.data.FormError
-import play.api.mvc.SimpleResult
 import services.brute_force_prevention.BruteForcePreventionService
 import common.{ClientSideSessionFactory, CookieImplicits}
 import CookieImplicits.RequestCookiesAdapter
@@ -24,6 +22,10 @@ import CookieImplicits.SimpleResultAdapter
 import CookieImplicits.FormAdapter
 import models.domain.common.BruteForcePreventionResponse._
 import mappings.disposal_of_vehicle.Logging
+import mappings.common.Languages._
+import play.api.data.FormError
+import play.api.mvc.SimpleResult
+import play.api.Play.current
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
@@ -63,6 +65,16 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
           }
         }
       )
+  }
+
+  def withLanguageCy = Action { implicit request =>
+    Redirect(routes.VehicleLookup.present()).
+      withLang(langCy)
+  }
+
+  def withLanguageEn = Action { implicit request =>
+    Redirect(routes.VehicleLookup.present()).
+      withLang(langEn)
   }
 
   private def convertToUpperCaseAndRemoveSpaces(model: VehicleLookupFormModel) : VehicleLookupFormModel =

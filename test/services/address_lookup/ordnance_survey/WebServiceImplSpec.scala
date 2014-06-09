@@ -69,7 +69,7 @@ final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
       whenReady(futureResult, timeout, interval) { result =>
         sentRequestsUrls should have size 1
         sentRequestsUrls(0) should include(s"?postcode=$postCode")
-        sentRequestsUrls(0) should include(s"&tracking-id=$trackingIdValue")
+        sentRequestsUrls(0) should include(s"&tracking_id=$trackingIdValue")
       }
     }
 
@@ -83,7 +83,7 @@ final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
       whenReady(futureResult, timeout, interval) { result =>
         sentRequestsUrls should have size 1
         sentRequestsUrls(0) should include(s"?uprn=$postCode")
-        sentRequestsUrls(0) should include(s"&tracking-id=$trackingIdValue")
+        sentRequestsUrls(0) should include(s"&tracking_id=$trackingIdValue")
       }
     }
   }

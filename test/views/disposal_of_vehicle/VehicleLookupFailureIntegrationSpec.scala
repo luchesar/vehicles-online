@@ -73,7 +73,8 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       CookieFactoryForUISpecs.
         dealerDetails().
         bruteForcePreventionViewModel(attempts = expectedAttempts, maxAttempts = expectedMaxAttempts).
-        vehicleLookupFormModel()
+        vehicleLookupFormModel().
+        vehicleLookupResponseCode()
 
       go to VehicleLookupFailurePage
 
@@ -110,5 +111,6 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
     CookieFactoryForUISpecs.
       dealerDetails().
       bruteForcePreventionViewModel().
-      vehicleLookupFormModel()
+      vehicleLookupFormModel().
+      vehicleLookupResponseCode()
 }
