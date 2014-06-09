@@ -48,6 +48,8 @@ POST        /disposal-of-vehicle/vehicle-lookup/en                      @control
 
 GET         /disposal-of-vehicle/dispose                                @controllers.disposal_of_vehicle.Dispose.present
 POST        /disposal-of-vehicle/dispose                                @controllers.disposal_of_vehicle.Dispose.submit
+POST        /disposal-of-vehicle/dispose/cy                             @controllers.disposal_of_vehicle.Dispose.withLanguageCy
+POST        /disposal-of-vehicle/dispose/en                             @controllers.disposal_of_vehicle.Dispose.withLanguageEn
 
 GET         /disposal-of-vehicle/dispose-success                        @controllers.disposal_of_vehicle.DisposeSuccess.present
 POST        /disposal-of-vehicle/dispose-success/new-disposal           @controllers.disposal_of_vehicle.DisposeSuccess.newDisposal
