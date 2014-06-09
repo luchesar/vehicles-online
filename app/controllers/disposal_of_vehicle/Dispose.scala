@@ -89,7 +89,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
             }
           },
         f => {
-          Logger.debug(s"Dispose form submitted") // - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}, consent=${f.consent}, lossOfRegistrationConsent=${f.lossOfRegistrationConsent}")
+          //Logger.debug(s"Dispose form submitted- mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}, consent=${f.consent}, lossOfRegistrationConsent=${f.lossOfRegistrationConsent}")
           disposeAction(webService, f)
         }
       )
@@ -128,7 +128,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
       val disposeRequest = buildDisposeMicroServiceRequest(disposeModel, traderDetailsModel)
       webService.invoke(disposeRequest).map {
-        case (httpResponseCode, response) => Logger.debug(s"Dispose micro-service call successful") // - response = $response")
+        case (httpResponseCode, response) => //Logger.debug(s"Dispose micro-service call successful response = $response") //ToDo Do we need to log this information?
 
          Some(Redirect(nextPage(httpResponseCode, response))).
             map(_.withCookie(disposeModel)).
