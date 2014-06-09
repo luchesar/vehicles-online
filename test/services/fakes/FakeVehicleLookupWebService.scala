@@ -43,7 +43,7 @@ object FakeVehicleLookupWebService {
   }
 
   val vehicleDetailsResponseVRMNotFound: (Int, Option[VehicleDetailsResponse]) = {
-    (OK, Some(VehicleDetailsResponse(responseCode = Some("vehicle_lookup_vrm_not_found"), vehicleDetailsDto = None)))
+    (OK, Some(VehicleDetailsResponse(responseCode = Some("vehicle_lookup_vrm_not_found"), vehicleDetailsDto = None))) // TODO make response code a constant
   }
 
   val vehicleDetailsResponseDocRefNumberNotLatest: (Int, Option[VehicleDetailsResponse]) = {
