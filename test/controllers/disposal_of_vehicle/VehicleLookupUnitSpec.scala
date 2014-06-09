@@ -8,7 +8,7 @@ import helpers.UnitSpec
 import helpers.WithApplication
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.disposal_of_vehicle.VehicleLookup._
-import models.domain.disposal_of_vehicle.{VehicleDetailsResponse, VehicleDetailsRequest}
+import models.domain.disposal_of_vehicle.{VehicleLookupFormModel, VehicleDetailsResponse, VehicleDetailsRequest}
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import pages.disposal_of_vehicle._
@@ -30,6 +30,7 @@ import mappings.common.DocumentReferenceNumber
 import utils.helpers.Config
 import org.mockito.ArgumentCaptor
 import play.api.test.FakeRequest
+import helpers.JsonUtils.deserializeJsonToModel
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -95,7 +96,9 @@ final class VehicleLookupUnitSpec extends UnitSpec {
           val cookieName = "vehicleLookupFormModel"
           cookies.find(_.name == cookieName) match {
             case Some(cookie) =>
-              cookie.value should include(RegistrationNumberValid.toUpperCase)
+              val json = cookie.value
+              val model = deserializeJsonToModel[VehicleLookupFormModel](json)
+              model.registrationNumber should equal(RegistrationNumberValid.toUpperCase)
             case None => fail(s"$cookieName cookie not found")
           }
       }
@@ -364,6 +367,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
           invokeCaptor.getValue.trackingId should be(ClearTextClientSideSessionFactory.DefaultTrackingId)
       }
     }
+
   }
 
   private def responseThrows: Future[Response] = Future {
