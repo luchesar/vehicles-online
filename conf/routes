@@ -59,6 +59,8 @@ POST        /disposal-of-vehicle/dispose-success/cy                     @control
 POST        /disposal-of-vehicle/dispose-success/en                     @controllers.disposal_of_vehicle.DisposeSuccess.withLanguageEn
 
 GET         /disposal-of-vehicle/dispose-failure                        @controllers.disposal_of_vehicle.DisposeFailure.present
+POST        /disposal-of-vehicle/dispose-failure/cy                     @controllers.disposal_of_vehicle.DisposeFailure.withLanguageCy
+POST        /disposal-of-vehicle/dispose-failure/en                     @controllers.disposal_of_vehicle.DisposeFailure.withLanguageEn
 
 GET         /disposal-of-vehicle/vehicle-lookup-failure                 @controllers.disposal_of_vehicle.VehicleLookupFailure.present
 POST        /disposal-of-vehicle/vehicle-lookup-failure                 @controllers.disposal_of_vehicle.VehicleLookupFailure.submit
