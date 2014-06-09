@@ -162,7 +162,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     )
     vehicleLookupService.invoke(vehicleDetailsRequest).map {
       case (responseStatusVehicleLookupMS: Int, response: Option[VehicleDetailsResponse]) =>
-        Logger.debug(s"VehicleLookup micro-service call successful") // - response = $response")
+        //Logger.debug(s"VehicleLookup micro-service call successful response = $response") ToDo Do we need to log this information?
         import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._
         isReponseStatusOk(responseStatusVehicleLookupMS = responseStatusVehicleLookupMS,
           response = response).
