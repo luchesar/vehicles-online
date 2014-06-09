@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.DisposeSuccessPage._
 import pages.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import mappings.disposal_of_vehicle.EnterAddressManually._
 
 final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {

@@ -11,7 +11,7 @@ import common.{NoCookieFlags, ClearTextClientSideSession, ClientSideSession, Cli
 import scala.collection.mutable
 import java.net.ServerSocket
 import org.scalatest.time.SpanSugar._
-import org.scalatest.concurrent.PatienceConfiguration.{Interval, Timeout}
+import org.scalatest.concurrent.PatienceConfiguration.Interval
 
 final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
 

@@ -8,7 +8,6 @@ import pages.common.ErrorPanel
 import pages.disposal_of_vehicle.BusinessChooseYourAddressPage.{sadPath, happyPath, manualAddress, back}
 import pages.disposal_of_vehicle._
 import services.fakes.FakeAddressLookupService.PostcodeValid
-import mappings.disposal_of_vehicle.RelatedCacheKeys
 import mappings.disposal_of_vehicle.EnterAddressManually._
 import services.fakes.FakeAddressLookupService
 import pages.common.Languages._
