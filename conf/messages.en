@@ -308,10 +308,11 @@ disposal_disposeconfirmation.survey = Survey
 
 #page 7 - dispose failure
 disposal_disposefailure.title = Dispose a vehicle into the motor trade: failure
-disposal_disposefailure.name = Failure
+disposal_disposefailure.header = Disposal failure
 disposal_disposefailure.p1 = It has not been possible to complete your transaction. Please call 0300 790 6802
 disposal_disposefailure.button = Vehicle Lookup
 disposal_disposefailure.button2 = Setup New Trader Details
+disposal_disposefailure.transactiontext = Your transaction ID is:
 disposal_disposefailure.transactionid = {0}
 
 #page 8 - vehicle lookup failure

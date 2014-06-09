@@ -111,6 +111,13 @@ object CookieFactoryForUISpecs {
     this
   }
 
+  def vehicleLookupResponseCode(responseCode: String = "disposal_vehiclelookupfailure")(implicit webDriver: WebDriver) = {
+    val key = mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
+    val value = responseCode
+    addCookie(key, value)
+    this
+  }
+
   def disposeFormModel()(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
     val value = DisposeFormModel(mileage = None,

@@ -5,8 +5,7 @@ import mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
 import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
-import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupDetailsCacheKey
-import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
+import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
 import models.DayMonthYear
@@ -26,6 +25,8 @@ import composition.TestComposition.{testInjector => injector}
 import play.api.mvc.Cookie
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
+import scala.Some
+import play.api.mvc.Cookie
 
 object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by returning "this" at the end of the defs
 
@@ -131,6 +132,9 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
     createCookie(key, value)
   }
 
+  def vehicleLookupResponseCode(responseCode: String = "disposal_vehiclelookupfailure") =
+    createCookie(VehicleLookupResponseCodeCacheKey, responseCode)
+
   def disposeFormModel() = {
     val key = DisposeFormModelCacheKey
     val value = DisposeFormModel(mileage = None,
@@ -148,7 +152,7 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
   def disposeFormRegistrationNumber(registrationNumber: String = RegistrationNumberValid) =
     createCookie(DisposeFormRegistrationNumberCacheKey, registrationNumber)
 
-  def disposeFormTimestamp(timestamp: String = s"$DateOfDisposalYearValid-$DateOfDisposalMonthValid-${DateOfDisposalDayValid}") =
+  def disposeFormTimestamp(timestamp: String = s"$DateOfDisposalYearValid-$DateOfDisposalMonthValid-$DateOfDisposalDayValid") =
     createCookie(DisposeFormTimestampIdCacheKey, timestamp)
 
   def disposeTransactionId(transactionId: String = TransactionIdValid) =
