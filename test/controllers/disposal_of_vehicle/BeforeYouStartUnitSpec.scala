@@ -1,18 +1,13 @@
 package controllers.disposal_of_vehicle
 
+import common.CookieHelper._
 import composition.TestComposition.{testInjector => injector}
 import helpers.UnitSpec
 import helpers.WithApplication
 import pages.disposal_of_vehicle._
+import play.api.Play
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import common.CookieHelper._
-import scala.Some
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
-import scala.Some
-import mappings.disposal_of_vehicle.TraderDetails._
-import scala.Some
-import play.api.Play
 
 final class BeforeYouStartUnitSpec extends UnitSpec {
   "present" should {
