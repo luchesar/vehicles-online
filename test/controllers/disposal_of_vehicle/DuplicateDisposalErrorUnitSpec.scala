@@ -64,5 +64,5 @@ final class DuplicateDisposalErrorUnitSpec extends UnitSpec {
     }
   }
 
-  val duplicateDisposalError = new DuplicateDisposalError()
+  private val duplicateDisposalError = new DuplicateDisposalError()
 }

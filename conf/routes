@@ -75,6 +75,9 @@ POST        /disposal-of-vehicle/duplicate-disposal-error/cy            @control
 POST        /disposal-of-vehicle/duplicate-disposal-error/en            @controllers.disposal_of_vehicle.DuplicateDisposalError.withLanguageEn
 
 GET         /disposal-of-vehicle/micro-service-error                    @controllers.disposal_of_vehicle.MicroServiceError.present
+GET         /disposal-of-vehicle/micro-service-error/cy                 @controllers.disposal_of_vehicle.MicroServiceError.withLanguageCy
+GET         /disposal-of-vehicle/micro-service-error/en                 @controllers.disposal_of_vehicle.MicroServiceError.withLanguageEn
+
 GET         /disposal-of-vehicle/soap-endpoint-error                    @controllers.disposal_of_vehicle.SoapEndpointError.present
 GET         /disposal-of-vehicle/vrm-locked                             @controllers.disposal_of_vehicle.VrmLocked.present
 POST        /disposal-of-vehicle/vrm-locked/new-disposal                @controllers.disposal_of_vehicle.VrmLocked.newDisposal
