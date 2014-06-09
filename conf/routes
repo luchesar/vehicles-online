@@ -79,6 +79,9 @@ GET         /disposal-of-vehicle/micro-service-error/cy                 @control
 GET         /disposal-of-vehicle/micro-service-error/en                 @controllers.disposal_of_vehicle.MicroServiceError.withLanguageEn
 
 GET         /disposal-of-vehicle/soap-endpoint-error                    @controllers.disposal_of_vehicle.SoapEndpointError.present
+POST        /disposal-of-vehicle/soap-endpoint-error/cy                 @controllers.disposal_of_vehicle.SoapEndpointError.withLanguageCy
+POST        /disposal-of-vehicle/soap-endpoint-error/en                 @controllers.disposal_of_vehicle.SoapEndpointError.withLanguageEn
+
 GET         /disposal-of-vehicle/vrm-locked                             @controllers.disposal_of_vehicle.VrmLocked.present
 POST        /disposal-of-vehicle/vrm-locked/new-disposal                @controllers.disposal_of_vehicle.VrmLocked.newDisposal
 POST        /disposal-of-vehicle/vrm-locked/exit                        @controllers.disposal_of_vehicle.VrmLocked.exit
