@@ -28,11 +28,12 @@ import scala.language.postfixOps
 import CookieImplicits.RequestCookiesAdapter
 import CookieImplicits.SimpleResultAdapter
 import CookieImplicits.FormAdapter
-import scala.Some
+import mappings.common.Languages._
 import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import play.api.data.FormError
 import play.api.mvc.Call
+import play.api.Play.current
 
 final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -92,6 +93,16 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
           disposeAction(webService, f)
         }
       )
+  }
+
+  def withLanguageCy = Action { implicit request =>
+    Redirect(routes.Dispose.present()).
+      withLang(langCy)
+  }
+
+  def withLanguageEn = Action { implicit request =>
+    Redirect(routes.Dispose.present()).
+      withLang(langEn)
   }
 
   private def populateModelFromCachedData(dealerDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {

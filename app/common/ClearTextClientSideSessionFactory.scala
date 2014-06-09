@@ -6,7 +6,7 @@ import java.util.UUID
 
 
 object ClearTextClientSideSessionFactory {
-  final val DefaultTrackingId = "default-test-tracking-id"
+  final val DefaultTrackingId = "default_test_tracking_id"
 }
 
 class ClearTextClientSideSessionFactory @Inject()(implicit cookieFlags: CookieFlags) extends ClientSideSessionFactory {
