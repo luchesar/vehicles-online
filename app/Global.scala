@@ -33,7 +33,7 @@ import composition.Composition._
  * play -Dconfig.file=conf/application.test.conf run
  */
 
-object Global extends WithFilters(filters) with GlobalSettings {
+object Global extends WithFilters(filters: _*) with GlobalSettings {
 
   private lazy val injector: Injector = devInjector
 
