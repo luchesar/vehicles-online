@@ -7,8 +7,6 @@ import play.api.mvc.DiscardingCookie
 import models.domain.common.CacheKey
 import scala.Some
 import play.api.mvc.SimpleResult
-import play.api.i18n.Lang
-import play.api.Play.current
 
 object CookieImplicits {
 

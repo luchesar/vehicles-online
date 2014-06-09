@@ -1,12 +1,10 @@
 package services.csrf_prevention
 
 import play.api.mvc._
-import play.api.http.HeaderNames._
 import services.csrf_prevention.CSRF._
 import play.api.libs.iteratee._
 import play.api.mvc.BodyParsers.parse._
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import scala.concurrent.Future
 import play.api.libs.Crypto
 import play.api.Logger
 import app.ConfigProperties._
@@ -36,10 +34,9 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
             case Some("application/x-www-form-urlencoded") => checkFormBody(request, headerToken, tokenName, next)
             case Some("multipart/form-data") => checkMultipartBody(request, headerToken, tokenName, next)
             // No way to extract token from text plain body
-            case _ => {
+            case _ =>
               Logger.trace("[CSRF] Check failed because request content type is not application/x-www-form-urlencoded or multipart/form-data")
               throw new CSRFException(new Throwable("No CSRF token found in body"))
-            }
           }
         }
       } else if (request.method == "GET" &&
@@ -89,7 +86,7 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
               body => (for {
                 values <- extractor(body).get(tokenName)
                 token <- values.headOption
-              } yield (aesEncryption.decrypt(Crypto.extractSignedToken(token).get) == tokenFromHeader)).getOrElse(false)
+              } yield aesEncryption.decrypt(Crypto.extractSignedToken(token).get) == tokenFromHeader).getOrElse(false)
             )
 
             if (validToken) {

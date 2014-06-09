@@ -1,8 +1,7 @@
 package common
 
-import play.api.mvc.{Cookie, SimpleResult}
+import play.api.mvc.Cookie
 import com.google.inject.Inject
-import java.util.UUID
 
 
 object ClearTextClientSideSessionFactory {
