@@ -276,6 +276,7 @@ disposal_vehiclelookupfailure.name = Methiant
 disposal_vehiclelookupfailure.p1 = Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
 disposal_vehiclelookupfailure.button = Am-edrych gerbyd
 disposal_disposefailure.button2 = Setup Newydd Manylion Masnachwr
+disposal_disposefailure.transactiontext = Mae eich ID trafodiad yn:
 disposal_disposefailure.transactionid = {0}
 disposal_vehiclelookupfailure.warnAboutLockout = Ar ôl trydydd ymgais aflwyddiannus y system yn atal ymdrechion pellach i gael mynediad at y cofnodion cerbydau am 10 munud. Mae hyn er mwyn diogelu cofnodion cerbydau. Gall cerbydau eraill yn cael ei brosesu gan ddefnyddio''r gwasanaeth hwn yn ystod y cyfnod hwn.
 
@@ -322,7 +323,7 @@ error.address.postcode.invalid = Rhaid bod rhwng 5 ac 8 cymeriadau ac mewn fform
 
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = Mae eich cais yn cael ei brosesu a dylech dderbyn llythyr cadarnhad o fewn pedair wythnos.
-ms.vehiclesService.response.unableToProcessApplication = We are not able to process your application at this time. Please send the V5C/3 to the following address; DVLA, Longview Road, Morriston, Swansea, SA6 7JL
+ms.vehiclesService.response.unableToProcessApplication = Nid ydym yn gallu prosesu eich cais ar hyn o bryd. Os gwelwch yn dda anfon y V5C / 3 i'r cyfeiriad canlynol; DVLA, Longview Road, Morriston, Swansea, SA6 7JL
 
 #micro-service error page
 micro_service_error.title=Mae''n ddrwg gennym
@@ -360,7 +361,7 @@ error.button = Dechrau eto
 vehicleRegistrationNumber=Rhif cofrestru cerbyd
 documentReferenceNumber=Rhif cyfeirnod y ddogfen
 disposal_disposefailure.title=Cael gwared cerbyd i mewn i''r fasnach foduron\: methiant
-disposal_disposefailure.name=Methiant
+disposal_disposefailure.header=Methiant Gwaredu
 disposal_disposefailure.p1=Nid yw wedi bod yn bosibl i gwblhau eich trafodiad. Ffoniwch 0300 790 6802
 disposal_disposefailure.button=Am-edrych gerbyd
 disposal_vehiclelookupfailure.button2=Gadael

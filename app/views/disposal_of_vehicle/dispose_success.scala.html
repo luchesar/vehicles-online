@@ -6,8 +6,14 @@
 @import views.html.common._
 @import mappings.disposal_of_vehicle.DisposeSuccess._
 @import utils.helpers._
+@import views.html.common.language
+@import views.html.disposal_of_vehicle.main
+@import controllers.disposal_of_vehicle.routes.DisposeSuccess
 
-@main(Messages("disposal_disposeconfirmation.title")){
+@main(
+    title = Messages("disposal_disposeconfirmation.title"),
+    alternateLanguages = language(withLanguageCy = DisposeSuccess.withLanguageCy(), withLanguageEn = DisposeSuccess.withLanguageEn())
+){
 
 <div class="alert-complete">
     <h2>@Messages("disposal_disposeconfirmation.disposalComplete")</h2>
@@ -81,14 +87,14 @@
         <div class="form-steps">
             @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
             <div class="step">
-                @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.newDisposal) {
+                @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.newDisposal()) {
                     @CSRFHelper.hiddenFormField
                     <button id="@NewDisposalId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
                 }
             </div>
 
             <div class="step">
-                @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.exit) {
+                @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.exit()) {
                     @CSRFHelper.hiddenFormField
                     <button id="@ExitDisposalId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.exitbutton")</button>
                 }

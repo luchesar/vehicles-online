@@ -15,14 +15,17 @@ import com.google.inject.Inject
 import services.vehicle_lookup.VehicleLookupService
 import utils.helpers.FormExtensions._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
-import play.api.data.FormError
-import play.api.mvc.SimpleResult
 import services.brute_force_prevention.BruteForcePreventionService
 import common.{ClientSideSessionFactory, CookieImplicits}
 import CookieImplicits.RequestCookiesAdapter
 import CookieImplicits.SimpleResultAdapter
 import CookieImplicits.FormAdapter
 import models.domain.common.BruteForcePreventionResponse._
+import mappings.disposal_of_vehicle.Logging
+import mappings.common.Languages._
+import play.api.data.FormError
+import play.api.mvc.SimpleResult
+import play.api.Play.current
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
@@ -64,6 +67,16 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       )
   }
 
+  def withLanguageCy = Action { implicit request =>
+    Redirect(routes.VehicleLookup.present()).
+      withLang(langCy)
+  }
+
+  def withLanguageEn = Action { implicit request =>
+    Redirect(routes.VehicleLookup.present()).
+      withLang(langEn)
+  }
+
   private def convertToUpperCaseAndRemoveSpaces(model: VehicleLookupFormModel) : VehicleLookupFormModel =
     model.copy(registrationNumber = model.registrationNumber.replace(" ", "")
       .toUpperCase)
@@ -87,7 +100,8 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         // US270: The security micro-service will return a Forbidden (403) message when the vrm is locked, we have hidden that logic as a boolean.
         if (bruteForcePreventionViewModel.permitted) lookupVehicleFunc(formModel, bruteForcePreventionViewModel)
         else Future {
-          Logger.warn(s"BruteForceService locked out vrm") //: ${formModel.registrationNumber}")
+          val registrationNumber = Logging.anonymize(formModel.registrationNumber)
+          Logger.warn(s"BruteForceService locked out vrm: $registrationNumber")
           Redirect(routes.VrmLocked.present()).
             withCookie(bruteForcePreventionViewModel)
         }
@@ -96,7 +110,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       }
     } recover {
       case exception: Throwable =>
-        Logger.error(s"Exception thrown by BruteForceService so for safety we won't let anyone through") //. Exception ${exception.getStackTraceString}")
+        Logger.error(s"Exception thrown by BruteForceService so for safety we won't let anyone through. Exception ${exception.getStackTraceString}")
         Redirect(routes.MicroServiceError.present())
     }
 
@@ -133,7 +147,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       responseStatusVehicleLookupMS match {
         case OK => hasVehicleDetailsResponse(response)
         case _ =>
-          Logger.error(s"VehicleLookup web service call http status not OK") //, it was: $responseStatusVehicleLookupMS. Problem may come from either vehicle-lookup micro-service or the VSS")
+          Logger.error(s"VehicleLookup web service call http status not OK, it was: $responseStatusVehicleLookupMS. Problem may come from either vehicle-lookup micro-service or the VSS")
           Redirect(routes.MicroServiceError.present())
       }
 
@@ -148,15 +162,15 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     )
     vehicleLookupService.invoke(vehicleDetailsRequest).map {
       case (responseStatusVehicleLookupMS: Int, response: Option[VehicleDetailsResponse]) =>
-        Logger.debug(s"VehicleLookup micro-service call successful") // - response = $response")
+        //Logger.debug(s"VehicleLookup micro-service call successful response = $response") ToDo Do we need to log this information?
         import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._
         isReponseStatusOk(responseStatusVehicleLookupMS = responseStatusVehicleLookupMS,
           response = response).
           withCookie(model).
           withCookie(bruteForcePreventionViewModel)
     }.recover {
-      case exception: Throwable =>
-        Logger.debug(s"VehicleLookup Web service call failed")//. Exception: $exception")
+      case e: Throwable =>
+        Logger.debug(s"VehicleLookup Web service call failed. Exception " + e.toString.take(45))
         Redirect(routes.MicroServiceError.present())
     }
   }

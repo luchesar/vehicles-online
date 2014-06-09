@@ -28,11 +28,12 @@ import scala.language.postfixOps
 import CookieImplicits.RequestCookiesAdapter
 import CookieImplicits.SimpleResultAdapter
 import CookieImplicits.FormAdapter
-import scala.Some
+import mappings.common.Languages._
 import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import play.api.data.FormError
 import play.api.mvc.Call
+import play.api.Play.current
 
 final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -88,10 +89,20 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
             }
           },
         f => {
-          Logger.debug(s"Dispose form submitted") // - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}, consent=${f.consent}, lossOfRegistrationConsent=${f.lossOfRegistrationConsent}")
+          //Logger.debug(s"Dispose form submitted- mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}, consent=${f.consent}, lossOfRegistrationConsent=${f.lossOfRegistrationConsent}")
           disposeAction(webService, f)
         }
       )
+  }
+
+  def withLanguageCy = Action { implicit request =>
+    Redirect(routes.Dispose.present()).
+      withLang(langCy)
+  }
+
+  def withLanguageEn = Action { implicit request =>
+    Redirect(routes.Dispose.present()).
+      withLang(langEn)
   }
 
   private def populateModelFromCachedData(dealerDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {
@@ -117,7 +128,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
       val disposeRequest = buildDisposeMicroServiceRequest(disposeModel, traderDetailsModel)
       webService.invoke(disposeRequest).map {
-        case (httpResponseCode, response) => Logger.debug(s"Dispose micro-service call successful")// - response = $response")
+        case (httpResponseCode, response) => //Logger.debug(s"Dispose micro-service call successful response = $response") //ToDo Do we need to log this information?
 
          Some(Redirect(nextPage(httpResponseCode, response))).
             map(_.withCookie(disposeModel)).
@@ -127,7 +138,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
             get
       }.recover {
         case e: Throwable =>
-          Logger.warn(s"Dispose micro-service call failed")//. Exception: $e")
+          Logger.warn(s"Dispose micro-service call failed. Exception: " + e.toString.take(45))
           Redirect(routes.MicroServiceError.present())
       }
     }
@@ -176,7 +187,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
           Logger.warn("Dispose soap endpoint redirecting to duplicate disposal page")
           routes.DuplicateDisposalError.present()
         case _ =>
-          Logger.warn(s"Dispose micro-service failed redirecting to error page") // $disposeResponseCode)
+          Logger.warn(s"Dispose micro-service failed redirecting to error page $disposeResponseCode")
           routes.MicroServiceError.present()
       }
     }

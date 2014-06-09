@@ -3,12 +3,18 @@
 @import helper._
 @import mappings.disposal_of_vehicle.Error._
 @import utils.helpers._
+@import views.html.common.language
+@import views.html.disposal_of_vehicle.main
+@import controllers.disposal_of_vehicle.routes.Error
 
-@main(Messages("error.title")){
+@main(
+    title = Messages("error.title"),
+    alternateLanguages = language(withLanguageCy = Error.withLanguageCy(), withLanguageEn = Error.withLanguageEn())
+){
 
     @form(action = controllers.disposal_of_vehicle.routes.Error.submit) {
 
-@CSRFHelper.hiddenFormField
+    @CSRFHelper.hiddenFormField
 
         <div class="form-steps">
             <button id="@SubmitId" type="submit" name="action" class="button">@Messages("error.button")</button>

@@ -7,6 +7,9 @@ import helpers.UnitSpec
 import composition.TestComposition.{testInjector => injector}
 import helpers.WithApplication
 import play.api.test.FakeRequest
+import common.CookieHelper._
+import scala.Some
+import play.api.Play
 
 final class DisposeSuccessUnitSpec extends UnitSpec {
   "present" should {
@@ -187,6 +190,52 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
       val result = disposeSuccess.newDisposal(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
+    }
+  }
+
+  "withLanguageCy" should {
+    "redirect back to the same page" in new WithApplication {
+      val result = disposeSuccess.withLanguageCy(FakeRequest())
+      whenReady(result) {
+        r =>
+          r.header.status should equal(SEE_OTHER) // Redirect...
+          r.header.headers.get(LOCATION) should equal(Some(DisposeSuccessPage.address)) // ... back to the same page.
+      }
+    }
+
+    "writes language cookie set to 'cy'" in new WithApplication {
+      val result = disposeSuccess.withLanguageCy(FakeRequest())
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.find(_.name == Play.langCookieName) match {
+            case Some(cookie) => cookie.value should equal("cy")
+            case None => fail("langCookieName not found")
+          }
+      }
+    }
+  }
+
+  "withLanguageEn" should {
+    "redirect back to the same page" in new WithApplication {
+      val result = disposeSuccess.withLanguageEn(FakeRequest())
+      whenReady(result) {
+        r =>
+          r.header.status should equal(SEE_OTHER) // Redirect...
+          r.header.headers.get(LOCATION) should equal(Some(DisposeSuccessPage.address)) // ... back to the same page.
+      }
+    }
+
+    "writes language cookie set to 'en'" in new WithApplication {
+      val result = disposeSuccess.withLanguageEn(FakeRequest())
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.find(_.name == Play.langCookieName) match {
+            case Some(cookie) => cookie.value should equal("en")
+            case None => fail("langCookieName not found")
+          }
       }
     }
   }

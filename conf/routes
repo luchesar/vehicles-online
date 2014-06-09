@@ -9,57 +9,86 @@
 # Guice to provide the actual instance complete with its injected dependencies
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                   controllers.Assets.at(path="/public", file)
+GET         /assets/*file                                               controllers.Assets.at(path="/public", file)
 
 ######################
 ## DISPOSAL OF VEHICLE
 ######################
 
 #page 1 - Before You Start (GET request not POST on submission because we are not posting any data)
-GET         /                                                   controllers.Application.index
-GET         /disposal-of-vehicle/before-you-start               @controllers.disposal_of_vehicle.BeforeYouStart.present
-POST        /disposal-of-vehicle/before-you-start               @controllers.disposal_of_vehicle.BeforeYouStart.submit
-POST        /disposal-of-vehicle/before-you-start/cy            @controllers.disposal_of_vehicle.BeforeYouStart.withLanguageCy
-POST        /disposal-of-vehicle/before-you-start/en            @controllers.disposal_of_vehicle.BeforeYouStart.withLanguageEn
+GET         /                                                           controllers.Application.index
+GET         /disposal-of-vehicle/before-you-start                       @controllers.disposal_of_vehicle.BeforeYouStart.present
+POST        /disposal-of-vehicle/before-you-start                       @controllers.disposal_of_vehicle.BeforeYouStart.submit
+POST        /disposal-of-vehicle/before-you-start/cy                    @controllers.disposal_of_vehicle.BeforeYouStart.withLanguageCy
+POST        /disposal-of-vehicle/before-you-start/en                    @controllers.disposal_of_vehicle.BeforeYouStart.withLanguageEn
 
 #page 2 - setup-trade-details
-GET         /disposal-of-vehicle/setup-trade-details            @controllers.disposal_of_vehicle.SetUpTradeDetails.present
-POST        /disposal-of-vehicle/setup-trade-details            @controllers.disposal_of_vehicle.SetUpTradeDetails.submit
-POST        /disposal-of-vehicle/setup-trade-details/cy         @controllers.disposal_of_vehicle.SetUpTradeDetails.withLanguageCy
-POST        /disposal-of-vehicle/setup-trade-details/en         @controllers.disposal_of_vehicle.SetUpTradeDetails.withLanguageEn
+GET         /disposal-of-vehicle/setup-trade-details                    @controllers.disposal_of_vehicle.SetUpTradeDetails.present
+POST        /disposal-of-vehicle/setup-trade-details                    @controllers.disposal_of_vehicle.SetUpTradeDetails.submit
+POST        /disposal-of-vehicle/setup-trade-details/cy                 @controllers.disposal_of_vehicle.SetUpTradeDetails.withLanguageCy
+POST        /disposal-of-vehicle/setup-trade-details/en                 @controllers.disposal_of_vehicle.SetUpTradeDetails.withLanguageEn
 
 #page 3 - business choose your address
-GET         /disposal-of-vehicle/business-choose-your-address   @controllers.disposal_of_vehicle.BusinessChooseYourAddress.present
-POST        /disposal-of-vehicle/business-choose-your-address   @controllers.disposal_of_vehicle.BusinessChooseYourAddress.submit
+GET         /disposal-of-vehicle/business-choose-your-address           @controllers.disposal_of_vehicle.BusinessChooseYourAddress.present
+POST        /disposal-of-vehicle/business-choose-your-address           @controllers.disposal_of_vehicle.BusinessChooseYourAddress.submit
+POST        /disposal-of-vehicle/business-choose-your-address/cy        @controllers.disposal_of_vehicle.BusinessChooseYourAddress.withLanguageCy
+POST        /disposal-of-vehicle/business-choose-your-address/en        @controllers.disposal_of_vehicle.BusinessChooseYourAddress.withLanguageEn
 
 #page 4 [optional] - enter address manually
-GET         /disposal-of-vehicle/enter-address-manually         @controllers.disposal_of_vehicle.EnterAddressManually.present
-POST        /disposal-of-vehicle/enter-address-manually         @controllers.disposal_of_vehicle.EnterAddressManually.submit
+GET         /disposal-of-vehicle/enter-address-manually                 @controllers.disposal_of_vehicle.EnterAddressManually.present
+POST        /disposal-of-vehicle/enter-address-manually                 @controllers.disposal_of_vehicle.EnterAddressManually.submit
+POST        /disposal-of-vehicle/enter-address-manually/cy              @controllers.disposal_of_vehicle.EnterAddressManually.withLanguageCy
+POST        /disposal-of-vehicle/enter-address-manually/en              @controllers.disposal_of_vehicle.EnterAddressManually.withLanguageEn
 
-GET         /disposal-of-vehicle/vehicle-lookup                 @controllers.disposal_of_vehicle.VehicleLookup.present
-POST        /disposal-of-vehicle/vehicle-lookup                 @controllers.disposal_of_vehicle.VehicleLookup.submit
-GET         /disposal-of-vehicle/vehicle-lookup-back            @controllers.disposal_of_vehicle.VehicleLookup.back
+GET         /disposal-of-vehicle/vehicle-lookup                         @controllers.disposal_of_vehicle.VehicleLookup.present
+POST        /disposal-of-vehicle/vehicle-lookup                         @controllers.disposal_of_vehicle.VehicleLookup.submit
+GET         /disposal-of-vehicle/vehicle-lookup-back                    @controllers.disposal_of_vehicle.VehicleLookup.back
+POST        /disposal-of-vehicle/vehicle-lookup/cy                      @controllers.disposal_of_vehicle.VehicleLookup.withLanguageCy
+POST        /disposal-of-vehicle/vehicle-lookup/en                      @controllers.disposal_of_vehicle.VehicleLookup.withLanguageEn
 
-GET         /disposal-of-vehicle/dispose                        @controllers.disposal_of_vehicle.Dispose.present
-POST        /disposal-of-vehicle/dispose                        @controllers.disposal_of_vehicle.Dispose.submit
+GET         /disposal-of-vehicle/dispose                                @controllers.disposal_of_vehicle.Dispose.present
+POST        /disposal-of-vehicle/dispose                                @controllers.disposal_of_vehicle.Dispose.submit
+POST        /disposal-of-vehicle/dispose/cy                             @controllers.disposal_of_vehicle.Dispose.withLanguageCy
+POST        /disposal-of-vehicle/dispose/en                             @controllers.disposal_of_vehicle.Dispose.withLanguageEn
 
-GET         /disposal-of-vehicle/dispose-success                @controllers.disposal_of_vehicle.DisposeSuccess.present
-POST        /disposal-of-vehicle/dispose-success/new-disposal   @controllers.disposal_of_vehicle.DisposeSuccess.newDisposal
-POST        /disposal-of-vehicle/dispose-success/exit           @controllers.disposal_of_vehicle.DisposeSuccess.exit
+GET         /disposal-of-vehicle/dispose-success                        @controllers.disposal_of_vehicle.DisposeSuccess.present
+POST        /disposal-of-vehicle/dispose-success/new-disposal           @controllers.disposal_of_vehicle.DisposeSuccess.newDisposal
+POST        /disposal-of-vehicle/dispose-success/exit                   @controllers.disposal_of_vehicle.DisposeSuccess.exit
+POST        /disposal-of-vehicle/dispose-success/cy                     @controllers.disposal_of_vehicle.DisposeSuccess.withLanguageCy
+POST        /disposal-of-vehicle/dispose-success/en                     @controllers.disposal_of_vehicle.DisposeSuccess.withLanguageEn
 
-GET         /disposal-of-vehicle/dispose-failure                @controllers.disposal_of_vehicle.DisposeFailure.present
+GET         /disposal-of-vehicle/dispose-failure                        @controllers.disposal_of_vehicle.DisposeFailure.present
+POST        /disposal-of-vehicle/dispose-failure/cy                     @controllers.disposal_of_vehicle.DisposeFailure.withLanguageCy
+POST        /disposal-of-vehicle/dispose-failure/en                     @controllers.disposal_of_vehicle.DisposeFailure.withLanguageEn
 
-GET         /disposal-of-vehicle/vehicle-lookup-failure         @controllers.disposal_of_vehicle.VehicleLookupFailure.present
-POST        /disposal-of-vehicle/vehicle-lookup-failure         @controllers.disposal_of_vehicle.VehicleLookupFailure.submit
+GET         /disposal-of-vehicle/vehicle-lookup-failure                 @controllers.disposal_of_vehicle.VehicleLookupFailure.present
+POST        /disposal-of-vehicle/vehicle-lookup-failure                 @controllers.disposal_of_vehicle.VehicleLookupFailure.submit
+POST        /disposal-of-vehicle/vehicle-lookup-failure/cy              @controllers.disposal_of_vehicle.VehicleLookupFailure.withLanguageCy
+POST        /disposal-of-vehicle/vehicle-lookup-failure/en              @controllers.disposal_of_vehicle.VehicleLookupFailure.withLanguageEn
 
-GET         /disposal-of-vehicle/uprn-not-found                 @controllers.disposal_of_vehicle.UprnNotFound.present
+GET         /disposal-of-vehicle/uprn-not-found                         @controllers.disposal_of_vehicle.UprnNotFound.present
+GET         /disposal-of-vehicle/uprn-not-found/cy                      @controllers.disposal_of_vehicle.UprnNotFound.withLanguageCy
+GET         /disposal-of-vehicle/uprn-not-found/en                      @controllers.disposal_of_vehicle.UprnNotFound.withLanguageEn
 
-GET         /disposal-of-vehicle/duplicate-disposal-error       @controllers.disposal_of_vehicle.DuplicateDisposalError.present
-GET         /disposal-of-vehicle/micro-service-error            @controllers.disposal_of_vehicle.MicroServiceError.present
-GET         /disposal-of-vehicle/soap-endpoint-error            @controllers.disposal_of_vehicle.SoapEndpointError.present
-GET         /disposal-of-vehicle/vrm-locked                     @controllers.disposal_of_vehicle.VrmLocked.present
-POST        /disposal-of-vehicle/vrm-locked/new-disposal        @controllers.disposal_of_vehicle.VrmLocked.newDisposal
-POST        /disposal-of-vehicle/vrm-locked/exit                @controllers.disposal_of_vehicle.VrmLocked.exit
+GET         /disposal-of-vehicle/duplicate-disposal-error               @controllers.disposal_of_vehicle.DuplicateDisposalError.present
+POST        /disposal-of-vehicle/duplicate-disposal-error/cy            @controllers.disposal_of_vehicle.DuplicateDisposalError.withLanguageCy
+POST        /disposal-of-vehicle/duplicate-disposal-error/en            @controllers.disposal_of_vehicle.DuplicateDisposalError.withLanguageEn
 
-GET         /disposal-of-vehicle/error                          @controllers.disposal_of_vehicle.Error.present
-POST        /disposal-of-vehicle/error                          @controllers.disposal_of_vehicle.Error.submit
+GET         /disposal-of-vehicle/micro-service-error                    @controllers.disposal_of_vehicle.MicroServiceError.present
+GET         /disposal-of-vehicle/micro-service-error/cy                 @controllers.disposal_of_vehicle.MicroServiceError.withLanguageCy
+GET         /disposal-of-vehicle/micro-service-error/en                 @controllers.disposal_of_vehicle.MicroServiceError.withLanguageEn
+
+GET         /disposal-of-vehicle/soap-endpoint-error                    @controllers.disposal_of_vehicle.SoapEndpointError.present
+POST        /disposal-of-vehicle/soap-endpoint-error/cy                 @controllers.disposal_of_vehicle.SoapEndpointError.withLanguageCy
+POST        /disposal-of-vehicle/soap-endpoint-error/en                 @controllers.disposal_of_vehicle.SoapEndpointError.withLanguageEn
+
+GET         /disposal-of-vehicle/vrm-locked                             @controllers.disposal_of_vehicle.VrmLocked.present
+POST        /disposal-of-vehicle/vrm-locked/new-disposal                @controllers.disposal_of_vehicle.VrmLocked.newDisposal
+POST        /disposal-of-vehicle/vrm-locked/exit                        @controllers.disposal_of_vehicle.VrmLocked.exit
+POST        /disposal-of-vehicle/vrm-locked/cy                          @controllers.disposal_of_vehicle.VrmLocked.withLanguageCy
+POST        /disposal-of-vehicle/vrm-locked/en                          @controllers.disposal_of_vehicle.VrmLocked.withLanguageEn
+
+GET         /disposal-of-vehicle/error                                  @controllers.disposal_of_vehicle.Error.present
+POST        /disposal-of-vehicle/error                                  @controllers.disposal_of_vehicle.Error.submit
+POST        /disposal-of-vehicle/error/cy                               @controllers.disposal_of_vehicle.Error.withLanguageCy
+POST        /disposal-of-vehicle/error/en                               @controllers.disposal_of_vehicle.Error.withLanguageEn

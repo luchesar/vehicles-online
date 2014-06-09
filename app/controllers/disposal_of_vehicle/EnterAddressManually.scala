@@ -1,17 +1,20 @@
 package controllers.disposal_of_vehicle
 
-import play.api.mvc._
-import play.api.data.{FormError, Form}
-import play.api.data.Forms._
-import play.api.Logger
-import mappings.common.AddressAndPostcode._
-import models.domain.disposal_of_vehicle.{TraderDetailsModel, AddressViewModel, SetupTradeDetailsModel, EnterAddressManuallyModel}
-import utils.helpers.FormExtensions._
 import com.google.inject.Inject
-import common.{ClientSideSessionFactory, CookieImplicits}
-import CookieImplicits.RequestCookiesAdapter
-import CookieImplicits.SimpleResultAdapter
-import CookieImplicits.FormAdapter
+import common.ClientSideSessionFactory
+import common.CookieImplicits.FormAdapter
+import common.CookieImplicits.RequestCookiesAdapter
+import common.CookieImplicits.SimpleResultAdapter
+import mappings.common.AddressAndPostcode._
+import mappings.common.Languages._
+import models.domain.disposal_of_vehicle.{TraderDetailsModel, AddressViewModel, SetupTradeDetailsModel, EnterAddressManuallyModel}
+import play.api.Logger
+import play.api.Play.current
+import play.api.data.Form
+import play.api.data.FormError
+import play.api.data.Forms._
+import play.api.mvc._
+import utils.helpers.FormExtensions._
 
 final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -48,20 +51,30 @@ final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: 
           },
         f =>
           request.cookies.getModel[SetupTradeDetailsModel].map(_.traderBusinessName) match {
-          case Some(traderBusinessName) =>
-            val updatedForm: EnterAddressManuallyModel = f.stripCharsNotAccepted.toUpperCase
-            val traderAddress = AddressViewModel.from(updatedForm.addressAndPostcodeModel)
-            val traderDetailsModel = TraderDetailsModel(traderName = traderBusinessName, traderAddress = traderAddress)
+            case Some(traderBusinessName) =>
+              val updatedForm: EnterAddressManuallyModel = f.stripCharsNotAccepted.toUpperCase
+              val traderAddress = AddressViewModel.from(updatedForm.addressAndPostcodeModel)
+              val traderDetailsModel = TraderDetailsModel(traderName = traderBusinessName, traderAddress = traderAddress)
 
-            Redirect(routes.VehicleLookup.present()).
-              withCookie(updatedForm).
-              withCookie(traderDetailsModel)
-          case None =>
-            Logger.debug("Failed to find dealer name in cache on submit, redirecting")
-            Redirect(routes.SetUpTradeDetails.present())
+              Redirect(routes.VehicleLookup.present()).
+                withCookie(updatedForm).
+                withCookie(traderDetailsModel)
+            case None =>
+              Logger.debug("Failed to find dealer name in cache on submit, redirecting")
+              Redirect(routes.SetUpTradeDetails.present())
           }
       )
     }
+  }
+
+  def withLanguageCy = Action { implicit request =>
+    Redirect(routes.EnterAddressManually.present()).
+      withLang(langCy)
+  }
+
+  def withLanguageEn = Action { implicit request =>
+    Redirect(routes.EnterAddressManually.present()).
+      withLang(langEn)
   }
 }
 
