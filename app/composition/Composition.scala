@@ -3,6 +3,7 @@ package composition
 import com.google.inject.Guice
 import play.api.mvc.EssentialFilter
 import services.csrf_prevention.CSRFFilter
+import common.ClientSideSessionFactory
 
 
 object Composition {
