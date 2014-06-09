@@ -8,25 +8,28 @@ import org.scalatest.Matchers
 import pages.common.Languages._
 import pages.disposal_of_vehicle._
 
-
-final class BeforeYourStartSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDSL with Matchers {
+final class BusinessChooseYourAddressSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 
   @Given("^the site is being viewed in the English Language$")
   def `the site is being viewed in the English Language`() = {
     go to BeforeYouStartPage
-    CookieFactoryForUISpecs.withLanguageEn()
-    go to BeforeYouStartPage
-    page.title should equal(BeforeYouStartPage.title)
+    CookieFactoryForUISpecs.
+      withLanguageEn(). // Set language to English.
+      setupTradeDetails()
+    go to BusinessChooseYourAddressPage
+    page.title should equal(BusinessChooseYourAddressPage.title)
   }
 
   @Given("^the site is being viewed in the Welsh Language$")
   def `the site is being viewed in the Welsh Language`() = {
     go to BeforeYouStartPage
-    CookieFactoryForUISpecs.withLanguageCy()
-    go to BeforeYouStartPage
-    page.title should equal(BeforeYouStartPage.titleCy)
+    CookieFactoryForUISpecs.
+      withLanguageCy(). // Set language to Welsh.
+      setupTradeDetails()
+    go to BusinessChooseYourAddressPage
+    page.title should equal(BusinessChooseYourAddressPage.titleCy)
   }
 
   @When("^I select the 'Cymraeg' button in the footer$")
@@ -41,12 +44,12 @@ final class BeforeYourStartSteps(webBrowserDriver: WebBrowserDriver) extends Web
 
   @Then("^the site is displayed in Welsh$")
   def `the site is displayed in Welsh`() = {
-    page.title should equal(BeforeYouStartPage.titleCy)
+    page.title should equal(BusinessChooseYourAddressPage.titleCy)
   }
 
   @Then("^the site is displayed in English$")
   def `the site is displayed in English`() = {
-    page.title should equal(BeforeYouStartPage.title)
+    page.title should equal(BusinessChooseYourAddressPage.title)
   }
 
   @And("^I can continue my transaction without the need to re-enter previously submitted data$")
