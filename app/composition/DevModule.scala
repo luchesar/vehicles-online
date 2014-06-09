@@ -50,13 +50,13 @@ object DevModule extends ScalaModule {
   }
 
   private def ordnanceSurveyAddressLookup() = {
-    Logger.debug("IoC ordnance survey address lookup service")
+    //Logger.debug("IoC ordnance survey address lookup service") //ToDo Do we need to log which address service we are using, this is displayed when calling the service
     bind[AddressLookupService].to[services.address_lookup.ordnance_survey.AddressLookupServiceImpl].asEagerSingleton()
     bind[AddressLookupWebService].to[services.address_lookup.ordnance_survey.WebServiceImpl].asEagerSingleton()
   }
 
   private def gdsAddressLookup() = {
-    Logger.debug("IoC gds address lookup service")
+    //Logger.debug("IoC gds address lookup service")
     bind[AddressLookupService].to[services.address_lookup.gds.AddressLookupServiceImpl].asEagerSingleton()
     bind[AddressLookupWebService].to[services.address_lookup.gds.WebServiceImpl].asEagerSingleton()
   }
