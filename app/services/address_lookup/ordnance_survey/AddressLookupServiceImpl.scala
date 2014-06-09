@@ -8,6 +8,7 @@ import javax.inject.Inject
 import play.api.libs.ws.Response
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 import common.ClientSideSession
+import mappings.disposal_of_vehicle.Logging
 
 final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends AddressLookupService {
   override def fetchAddressesForPostcode(postcode: String)
@@ -24,7 +25,8 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
           } // Sort before translating to drop down format.
         case None =>
           // Handle no results
-          Logger.debug(s"No results returned for postcode: $postcode")
+          val postcodeToLog = Logging.anonymize(postcode)
+          Logger.debug(s"No results returned for postcode: $postcodeToLog")
           Seq.empty
       }
 
@@ -35,7 +37,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
         else Seq.empty // The service returned http code other than 200 OK
     }.recover {
       case e: Throwable =>
-        Logger.error(s"Ordnance Survey postcode lookup service error")//: $e")
+        Logger.error(s"Ordnance Survey postcode lookup service error: ${e.toString.take(45)}")
         Seq.empty
     }
   }
@@ -51,7 +53,8 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
       extractFromJson(resp) match {
         case Some(deserialized) => deserialized.addressViewModel
         case None =>
-          Logger.error(s"Could not deserialize response of web service")// for submitted UPRN: $uprn")
+          val uprnToLog = Logging.anonymize(uprn)
+          Logger.error(s"Could not deserialize response of web service for submitted UPRN: $uprnToLog")
           None
       }
 
@@ -62,7 +65,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
         else None
     }.recover {
       case e: Throwable =>
-        Logger.error(s"Ordnance Survey uprn lookup service error")//: $e")
+        Logger.error(s"Ordnance Survey postcode lookup service error: ${e.toString.take(45)}")
         None
     }
   }

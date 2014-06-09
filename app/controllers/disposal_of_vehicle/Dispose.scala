@@ -128,7 +128,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
       val disposeRequest = buildDisposeMicroServiceRequest(disposeModel, traderDetailsModel)
       webService.invoke(disposeRequest).map {
-        case (httpResponseCode, response) => Logger.debug(s"Dispose micro-service call successful")// - response = $response")
+        case (httpResponseCode, response) => Logger.debug(s"Dispose micro-service call successful") // - response = $response")
 
          Some(Redirect(nextPage(httpResponseCode, response))).
             map(_.withCookie(disposeModel)).
@@ -138,7 +138,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
             get
       }.recover {
         case e: Throwable =>
-          Logger.warn(s"Dispose micro-service call failed")//. Exception: $e")
+          Logger.warn(s"Dispose micro-service call failed. Exception: " + e.toString.take(45))
           Redirect(routes.MicroServiceError.present())
       }
     }
@@ -187,7 +187,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
           Logger.warn("Dispose soap endpoint redirecting to duplicate disposal page")
           routes.DuplicateDisposalError.present()
         case _ =>
-          Logger.warn(s"Dispose micro-service failed redirecting to error page") // $disposeResponseCode)
+          Logger.warn(s"Dispose micro-service failed redirecting to error page $disposeResponseCode")
           routes.MicroServiceError.present()
       }
     }
