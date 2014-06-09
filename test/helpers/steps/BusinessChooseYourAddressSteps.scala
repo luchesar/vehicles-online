@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver
 import org.scalatest.Matchers
 import pages.common.Languages._
 import pages.disposal_of_vehicle._
+import mappings.disposal_of_vehicle.SetupTradeDetails._
+import services.fakes.FakeAddressLookupService._
 
 final class BusinessChooseYourAddressSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
@@ -54,7 +56,12 @@ final class BusinessChooseYourAddressSteps(webBrowserDriver: WebBrowserDriver) e
 
   @And("^I can continue my transaction without the need to re-enter previously submitted data$")
   def `I can continue my transaction without the need to re-enter data`() = {
-    // TODO there is not previous data for the first page! we will need a test for the third page
+    val setupTradeDetails = webDriver.manage().
+      getCookieNamed(SetupTradeDetailsCacheKey).
+      getValue
+
+    setupTradeDetails should include(PostcodeValid)
+    setupTradeDetails should include(TraderBusinessNameValid)
   }
 
   @And("^the language button in the footer will change to 'English'$")

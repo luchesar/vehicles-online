@@ -37,6 +37,8 @@ POST        /disposal-of-vehicle/business-choose-your-address/en   @controllers.
 #page 4 [optional] - enter address manually
 GET         /disposal-of-vehicle/enter-address-manually         @controllers.disposal_of_vehicle.EnterAddressManually.present
 POST        /disposal-of-vehicle/enter-address-manually         @controllers.disposal_of_vehicle.EnterAddressManually.submit
+POST        /disposal-of-vehicle/enter-address-manually/cy         @controllers.disposal_of_vehicle.EnterAddressManually.withLanguageCy
+POST        /disposal-of-vehicle/enter-address-manually/en         @controllers.disposal_of_vehicle.EnterAddressManually.withLanguageEn
 
 GET         /disposal-of-vehicle/vehicle-lookup                 @controllers.disposal_of_vehicle.VehicleLookup.present
 POST        /disposal-of-vehicle/vehicle-lookup                 @controllers.disposal_of_vehicle.VehicleLookup.submit

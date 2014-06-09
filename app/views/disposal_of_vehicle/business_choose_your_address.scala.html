@@ -3,9 +3,8 @@
 @import helper._
 @import utils.helpers.BaseTemplate._
 @import views.html.helper.base._
-@import views.html.common._
 @import utils.helpers._
-@import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
+@import mappings.disposal_of_vehicle.BusinessChooseYourAddress.{AddressSelectId, EnterAddressManuallyButtonId, SelectId, BackId}
 @import controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress
 @import views.html.common.language
 @import views.html.disposal_of_vehicle.main
@@ -15,7 +14,7 @@
 ) {
     @errorsSummary(businessChooseYourAddressForm)
 
-    @form(action = BusinessChooseYourAddress.submit) {
+    @form(action = BusinessChooseYourAddress.submit()) {
 
     @CSRFHelper.hiddenFormField
 
