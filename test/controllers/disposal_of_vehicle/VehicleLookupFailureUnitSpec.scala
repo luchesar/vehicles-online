@@ -94,10 +94,6 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
 
   "withLanguageCy" should {
     "redirect back to the same page" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
       val result = vehicleLookupFailure.withLanguageCy(FakeRequest())
       whenReady(result) {
         r =>
@@ -107,10 +103,6 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
     }
 
     "writes language cookie set to 'cy'" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
       val result = vehicleLookupFailure.withLanguageCy(FakeRequest())
       whenReady(result) {
         r =>

@@ -28,11 +28,6 @@ final class DisposeFailureUnitSpec extends UnitSpec {
 
   "withLanguageCy" should {
     "redirect back to the same page" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeTransactionId())
       val result = disposeFailure.withLanguageCy(FakeRequest())
       whenReady(result) {
         r =>
@@ -42,11 +37,6 @@ final class DisposeFailureUnitSpec extends UnitSpec {
     }
 
     "writes language cookie set to 'cy'" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeTransactionId())
       val result = disposeFailure.withLanguageCy(FakeRequest())
       whenReady(result) {
         r =>
