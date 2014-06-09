@@ -1,4 +1,4 @@
-@(data: models.domain.disposal_of_vehicle.DisposeViewModel, disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel], years: Seq[(String, String)])(implicit lang: Lang, token: services.csrf_prevention.CSRF.Token)
+@(data: models.domain.disposal_of_vehicle.DisposeViewModel, disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel], years: Seq[(String, String)])(implicit lang: Lang, token: services.csrf_prevention.CSRFAction.Token)
 
 @import helper._
 @import views.html.helper.base._

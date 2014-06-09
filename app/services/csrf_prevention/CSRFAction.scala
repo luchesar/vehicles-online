@@ -2,7 +2,6 @@ package services.csrf_prevention
 
 import play.api.mvc._
 import play.api.http.HeaderNames._
-import services.csrf_prevention.CSRF._
 import play.api.libs.iteratee._
 import play.api.mvc.BodyParsers.parse._
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
@@ -10,6 +9,10 @@ import scala.concurrent.Future
 import play.api.libs.Crypto
 import play.api.Logger
 import app.ConfigProperties._
+import common.ClientSideSessionFactory
+import scala.Some
+import utils.helpers.AesEncryption
+import composition.Composition
 
 final case class CSRFException(nestedException: Throwable) extends Exception(nestedException: Throwable)
 
@@ -29,7 +32,7 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
           next(request)
         } else {
 
-          val headerToken = "cookieName" // TODO lookup tracking-id session/cookie
+          val headerToken = clientSideSessionFactory.getSession(request.cookies).trackingId // request.cookies.trackingId
 
           // Only proceed with checks if there is an incoming token in the header, otherwise there's no point
           request.contentType match {
@@ -107,6 +110,10 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
 
 object CSRFAction {
 
+  implicit val clientSideSessionFactory = Composition.devInjector.getInstance(classOf[ClientSideSessionFactory])
+
+  def aesEncryption = new AesEncryption()
+
   def tokenName: String = "csrfToken"
 
   def unsafeMethods = Set("POST")
@@ -127,6 +134,21 @@ object CSRFAction {
     } else {
       false
     }
+  }
+
+  case class Token(value: String)
+
+  object Token {
+
+    val RequestTag = "CSRF_TOKEN"
+
+    implicit def getToken(implicit request: RequestHeader): Token = {
+      CSRFAction.getToken(request).getOrElse(sys.error("Missing CSRF Token"))
+    }
+  }
+
+  def getToken(request: RequestHeader): Option[Token] = {
+    Some(Token(Crypto.signToken(aesEncryption.encrypt(clientSideSessionFactory.getSession(request.cookies).trackingId))))
   }
 
 }

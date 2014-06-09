@@ -8,6 +8,7 @@ import java.security.SecureRandom
 import org.apache.commons.codec.binary.Hex
 import play.api.libs.Crypto
 import services.csrf_prevention.CSRFFilter
+import common.ClientSideSessionFactory
 
 
 object Composition {
