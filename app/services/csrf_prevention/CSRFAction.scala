@@ -52,8 +52,7 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
         val requestWithNewToken = request.copy(tags = request.tags + (Token.RequestTag -> newToken))
 
         // Once done, add it to the result
-        next(requestWithNewToken).map(result =>
-          CSRFAction.addTokenToResponse(tokenName, newToken, request, result))
+        next(requestWithNewToken)
 
       } else {
         Logger.trace("[CSRF] No check necessary")
@@ -130,10 +129,4 @@ object CSRFAction {
     }
   }
 
-  private[csrf_prevention] def addTokenToResponse(tokenName: String,
-                                                  newToken: String, request: RequestHeader, result: SimpleResult) = {
-    Logger.trace("[CSRF] Adding token to result: " + result)
-    result.withSession(Session.deserialize(request.session.data))
-
-  }
 }
