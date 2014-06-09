@@ -67,6 +67,8 @@ POST        /disposal-of-vehicle/vehicle-lookup-failure/cy              @control
 POST        /disposal-of-vehicle/vehicle-lookup-failure/en              @controllers.disposal_of_vehicle.VehicleLookupFailure.withLanguageEn
 
 GET         /disposal-of-vehicle/uprn-not-found                         @controllers.disposal_of_vehicle.UprnNotFound.present
+GET         /disposal-of-vehicle/uprn-not-found/cy                      @controllers.disposal_of_vehicle.UprnNotFound.withLanguageCy
+GET         /disposal-of-vehicle/uprn-not-found/en                      @controllers.disposal_of_vehicle.UprnNotFound.withLanguageEn
 
 GET         /disposal-of-vehicle/duplicate-disposal-error               @controllers.disposal_of_vehicle.DuplicateDisposalError.present
 GET         /disposal-of-vehicle/micro-service-error                    @controllers.disposal_of_vehicle.MicroServiceError.present
