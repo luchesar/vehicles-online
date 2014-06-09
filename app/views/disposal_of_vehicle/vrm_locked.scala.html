@@ -5,6 +5,7 @@
 @import utils.helpers._
 @import views.html.common.language
 @import controllers.disposal_of_vehicle.routes.VrmLocked
+@import views.html.disposal_of_vehicle.main
 
 @main(
 title = Messages("vrm_locked.title"),
@@ -15,13 +16,13 @@ alternateLanguages = language(withLanguageCy = VrmLocked.withLanguageCy(), withL
     <p>@Messages("vrm_locked.text3.1")&nbsp;<strong>@Messages("vrm_locked.text3.2")</strong></p>
     <div class="form-steps">
         <div class="step">
-            @form(action = controllers.disposal_of_vehicle.routes.VrmLocked.newDisposal) {
+            @form(action = controllers.disposal_of_vehicle.routes.VrmLocked.newDisposal()) {
             @CSRFHelper.hiddenFormField
                 <button id="@NewDisposalId" type="submit" name="action" value="@NewDisposalAction" class="button">@Messages("vrm_locked.newdisposalbutton")</button>
             }
         </div>
         <div class="step">
-            @form(action = controllers.disposal_of_vehicle.routes.VrmLocked.exit) {
+            @form(action = controllers.disposal_of_vehicle.routes.VrmLocked.exit()) {
             @CSRFHelper.hiddenFormField
                 <button id="@ExitDisposalId" type="submit" name="action" value="@ExitAction" class="button">@Messages("vrm_locked.exit.button")</button>
             }
@@ -29,6 +30,7 @@ alternateLanguages = language(withLanguageCy = VrmLocked.withLanguageCy(), withL
     </div>
 }
 
+@* TODO instead of inserting into html the html needs the default value (for browsers without javascript) and this script should totally replace the span. *@
 <script type="text/javascript">
     function localize(dateTimeISOChronology)
     {
