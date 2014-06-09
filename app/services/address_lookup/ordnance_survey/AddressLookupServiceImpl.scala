@@ -37,7 +37,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
         else Seq.empty // The service returned http code other than 200 OK
     }.recover {
       case e: Throwable =>
-        Logger.error(s"Ordnance Survey postcode lookup service error: " + e.toString.take(45))
+        Logger.error(s"Ordnance Survey postcode lookup service error: ${e.toString.take(45)}")
         Seq.empty
     }
   }
@@ -65,7 +65,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
         else None
     }.recover {
       case e: Throwable =>
-        Logger.error(s"Ordnance Survey postcode lookup service error: " + e.toString.take(45))
+        Logger.error(s"Ordnance Survey postcode lookup service error: ${e.toString.take(45)}")
         None
     }
   }

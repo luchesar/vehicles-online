@@ -17,7 +17,7 @@ final class DisposeServiceImpl @Inject()(config: Config, ws: DisposeWebService) 
     val refNo = Logging.anonymize(cmd.referenceNumber)
     val postcode = Logging.anonymize(cmd.traderAddress.postCode)
 
-    Logger.debug(s"Calling dispose vehicle micro-service with $refNo $vrm $postcode " + cmd.keeperConsent + " " + cmd.prConsent + " " + cmd.mileage)//request object: $cmd on $endPoint")
+    Logger.debug(s"Calling dispose vehicle micro-service with $refNo $vrm $postcode ${cmd.keeperConsent} ${cmd.prConsent} ${cmd.mileage}")//request object: $cmd on $endPoint")
 
     ws.callDisposeService(cmd).map {
       resp =>
