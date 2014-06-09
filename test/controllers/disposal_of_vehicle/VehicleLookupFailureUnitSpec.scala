@@ -117,11 +117,7 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
 
   "withLanguageEn" should {
     "redirect back to the same page" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
-      val result = vehicleLookupFailure.withLanguageEn(request)
+      val result = vehicleLookupFailure.withLanguageEn(FakeRequest())
       whenReady(result) {
         r =>
           r.header.status should equal(SEE_OTHER) // Redirect...
@@ -130,11 +126,7 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
     }
 
     "writes language cookie set to 'en'" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
-      val result = vehicleLookupFailure.withLanguageEn(request)
+      val result = vehicleLookupFailure.withLanguageEn(FakeRequest())
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)

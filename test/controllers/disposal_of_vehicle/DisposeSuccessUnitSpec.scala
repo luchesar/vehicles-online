@@ -219,11 +219,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
 
   "withLanguageEn" should {
     "redirect back to the same page" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeModel())
-      val result = disposeSuccess.withLanguageEn(request)
+      val result = disposeSuccess.withLanguageEn(FakeRequest())
       whenReady(result) {
         r =>
           r.header.status should equal(SEE_OTHER) // Redirect...
@@ -232,11 +228,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "writes language cookie set to 'en'" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeModel())
-      val result = disposeSuccess.withLanguageEn(request)
+      val result = disposeSuccess.withLanguageEn(FakeRequest())
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
