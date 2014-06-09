@@ -71,6 +71,9 @@ GET         /disposal-of-vehicle/uprn-not-found/cy                      @control
 GET         /disposal-of-vehicle/uprn-not-found/en                      @controllers.disposal_of_vehicle.UprnNotFound.withLanguageEn
 
 GET         /disposal-of-vehicle/duplicate-disposal-error               @controllers.disposal_of_vehicle.DuplicateDisposalError.present
+POST        /disposal-of-vehicle/duplicate-disposal-error/cy            @controllers.disposal_of_vehicle.DuplicateDisposalError.withLanguageCy
+POST        /disposal-of-vehicle/duplicate-disposal-error/en            @controllers.disposal_of_vehicle.DuplicateDisposalError.withLanguageEn
+
 GET         /disposal-of-vehicle/micro-service-error                    @controllers.disposal_of_vehicle.MicroServiceError.present
 GET         /disposal-of-vehicle/soap-endpoint-error                    @controllers.disposal_of_vehicle.SoapEndpointError.present
 GET         /disposal-of-vehicle/vrm-locked                             @controllers.disposal_of_vehicle.VrmLocked.present
