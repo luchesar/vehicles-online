@@ -6,7 +6,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
 import composition.TestComposition.{testInjector => injector}
 import helpers.WithApplication
-import pages.disposal_of_vehicle.{DisposeFailurePage, DisposeSuccessPage}
+import pages.disposal_of_vehicle.DisposeFailurePage
 import common.CookieHelper._
 import scala.Some
 import play.api.Play

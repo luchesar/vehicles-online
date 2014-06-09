@@ -4,7 +4,7 @@ import helpers.UnitSpec
 import play.api.test.Helpers._
 import play.api.test.FakeRequest
 import helpers.WithApplication
-import pages.disposal_of_vehicle.{SoapEndpointErrorPage, BeforeYouStartPage}
+import pages.disposal_of_vehicle.SoapEndpointErrorPage
 import common.CookieHelper._
 import scala.Some
 import play.api.Play

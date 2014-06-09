@@ -19,22 +19,20 @@ object HtmlArgsExtensions {
         case (true, true) => htmlArgs - 'maxLength // Remove maxLength when testing so we can have integration tests cause server side validation errors.
         case (true, false) => htmlArgs // No change
         case (false, true) => htmlArgs // No change
-        case (false, false) => {
+        case (false, false) =>
           // On production we should have a maxLength, so if you forgot to add one then the default is used.
           htmlArgs + ('maxLength -> DefaultMaxLength)
-        }
       }
     }
 
     // Always turn off autocomplete to protect user details.
     def autoCompleteRules: Map[Symbol, Any] = {
       htmlArgs.get('autocomplete) match {
-        case Some(value) => {
+        case Some(value) =>
           value match {
             case "on" => htmlArgs + ('autocomplete -> "off")
             case "off" => htmlArgs
           }
-        }
         case None => htmlArgs + ('autocomplete -> "off")
       }
     }

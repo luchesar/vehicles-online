@@ -56,7 +56,7 @@ final class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowser
   def the_trader_name_and_address_details_are_pre_populated() = {
     page.title should equal(VehicleLookupPage.title)
     page.text should include(TraderBusinessNameValid.toUpperCase)
-    enterValidManualAddress
+    enterValidManualAddress()
 
   }
 
@@ -64,7 +64,7 @@ final class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowser
   def the_information_entered_is_presented_back_to_the_motor_trader() = {
     page.text should include(TraderBusinessNameValid.toUpperCase)
     page.text should include(RegistrationNumberValid.toUpperCase)
-    enterValidManualAddress
+    enterValidManualAddress()
     DisposePage.consent.isDisplayed should equal(true)
     DisposePage.lossOfRegistrationConsent.isDisplayed should equal(true)
     DisposePage.mileage.isDisplayed should equal(true)
@@ -79,7 +79,7 @@ final class MultiPageSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowser
       getCookieNamed(DisposeFormTimestampIdCacheKey).
       getValue
 
-    timestamp should include(s"""$DateOfDisposalYearValid-$DateOfDisposalMonthValid-${DateOfDisposalDayValid}""")
+    timestamp should include(s"""$DateOfDisposalYearValid-$DateOfDisposalMonthValid-$DateOfDisposalDayValid""")
   }
 
   private def enterValidManualAddress() {

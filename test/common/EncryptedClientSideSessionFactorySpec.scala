@@ -3,7 +3,6 @@ package common
 import utils.helpers._
 import helpers.UnitSpec
 import play.api.mvc.Cookie
-//import common.EncryptedClientSideSession
 
 final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
   implicit val noCookieFlags = new NoCookieFlags

@@ -4,8 +4,7 @@ import helpers.UnitSpec
 import play.api.test.Helpers._
 import play.api.test.FakeRequest
 import helpers.WithApplication
-import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import pages.disposal_of_vehicle.{UprnNotFoundPage, VehicleLookupFailurePage}
+import pages.disposal_of_vehicle.UprnNotFoundPage
 import common.CookieHelper._
 import scala.Some
 import play.api.Play

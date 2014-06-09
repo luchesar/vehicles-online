@@ -5,7 +5,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import play.api.test.Helpers._
 import composition.TestComposition.{testInjector => injector}
 import play.api.test.FakeRequest
-import pages.disposal_of_vehicle.{ErrorPage, BeforeYouStartPage}
+import pages.disposal_of_vehicle.ErrorPage
 import common.CookieHelper._
 import scala.Some
 import play.api.Play

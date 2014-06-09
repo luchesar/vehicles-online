@@ -15,7 +15,7 @@ final class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBro
 
   @Given("""^a motor trader has entered a doc ref number in a valid format$""")
   def a_motor_trader_has_entered_a_doc_ref_number_in_a_valid_format() = {
-    buildVehicleLookupSetup
+    buildVehicleLookupSetup()
 
     VehicleLookupPage.vehicleRegistrationNumber enter RegistrationNumberValid
     VehicleLookupPage.documentReferenceNumber enter ReferenceNumberValid
@@ -23,7 +23,7 @@ final class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBro
 
   @Given("""^a motor trader has (.*) a VRM in a valid format$""")
   def a_motor_trader_has_entered_a_vrm_in_a_valid_format(vrm:String) = {
-    buildVehicleLookupSetup
+    buildVehicleLookupSetup()
 
     VehicleLookupPage.vehicleRegistrationNumber enter vrm
     VehicleLookupPage.documentReferenceNumber enter ReferenceNumberValid
@@ -31,7 +31,7 @@ final class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBro
 
   @Given("""^a motor trader has (.*) a VRM in an invalid format$""")
   def a_motor_trader_has_entered_a_vrm_in_an_invalid_format(vrm:String) = {
-    buildVehicleLookupSetup
+    buildVehicleLookupSetup()
 
     VehicleLookupPage.vehicleRegistrationNumber enter vrm
     VehicleLookupPage.documentReferenceNumber enter ReferenceNumberValid
@@ -39,7 +39,7 @@ final class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBro
 
   @Given("""^a motor trader has (.*) a doc ref number in an invalid format$""")
   def a_motor_trader_has_entered_a_doc_ref_number_in_an_invalid_format(invalidDocRef:String) = {
-    buildVehicleLookupSetup
+    buildVehicleLookupSetup()
 
     VehicleLookupPage.vehicleRegistrationNumber enter RegistrationNumberValid
     VehicleLookupPage.documentReferenceNumber enter invalidDocRef
