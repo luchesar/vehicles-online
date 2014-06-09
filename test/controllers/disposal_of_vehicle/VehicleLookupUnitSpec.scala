@@ -368,7 +368,33 @@ final class VehicleLookupUnitSpec extends UnitSpec {
           invokeCaptor.getValue.trackingId should be(ClearTextClientSideSessionFactory.DefaultTrackingId)
       }
     }
+  }
 
+  "withLanguageCy" should {
+    "redirect back to the same page" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).withLanguageCy(FakeRequest())
+      whenReady(result) {
+        r =>
+          r.header.status should equal(SEE_OTHER) // Redirect...
+          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address)) // ... back to the same page.
+      }
+    }
+
+    "writes language cookie set to 'cy'" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).withLanguageCy(FakeRequest())
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.find(_.name == Play.langCookieName) match {
+            case Some(cookie) => cookie.value should equal("cy")
+            case None => fail("langCookieName not found")
+          }
+      }
+    }
   }
 
   "withLanguageEn" should {
