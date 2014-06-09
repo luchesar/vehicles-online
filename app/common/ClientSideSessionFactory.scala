@@ -4,7 +4,7 @@ import play.api.mvc.{Cookies, Cookie, SimpleResult}
 import play.api.http.HeaderNames
 
 object ClientSideSessionFactory {
-  final val SessionIdCookieName = "tracking-id"
+  final val SessionIdCookieName = "tracking_id"
 }
 
 trait ClientSideSessionFactory {
