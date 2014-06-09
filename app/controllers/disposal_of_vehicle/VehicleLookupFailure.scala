@@ -7,6 +7,9 @@ import models.domain.disposal_of_vehicle.{BruteForcePreventionViewModel, TraderD
 import mappings.disposal_of_vehicle.VehicleLookup._
 import common.{ClientSideSessionFactory, CookieImplicits}
 import CookieImplicits.RequestCookiesAdapter
+import mappings.common.Languages._
+import play.api.mvc.DiscardingCookie
+import play.api.Play.current
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -27,6 +30,16 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
     }
   }
 
+  def withLanguageCy = Action { implicit request =>
+    Redirect(routes.VehicleLookupFailure.present()).
+      withLang(langCy)
+  }
+
+  def withLanguageEn = Action { implicit request =>
+    Redirect(routes.VehicleLookupFailure.present()).
+      withLang(langEn)
+  }
+
   private def displayVehicleLookupFailure(vehicleLookUpFormModelDetails: VehicleLookupFormModel, bruteForcePreventionViewModel: BruteForcePreventionViewModel)(implicit request: Request[AnyContent]) = {
     val responseCodeErrorMessage = encodeResponseCodeErrorMessage
     Ok(views.html.disposal_of_vehicle.vehicle_lookup_failure(
@@ -41,6 +54,6 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
   private def encodeResponseCodeErrorMessage(implicit request: Request[AnyContent]): String =
     request.cookies.getString(VehicleLookupResponseCodeCacheKey) match {
       case Some(responseCode) => responseCode
-      case _ => "disposal_vehiclelookupfailure.p1"
+      case _ => "disposal_vehiclelookupfailure"
     }
 }
