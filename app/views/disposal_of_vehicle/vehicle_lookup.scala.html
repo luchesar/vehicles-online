@@ -3,18 +3,23 @@
 @import helper._
 @import utils.helpers.BaseTemplate._
 @import views.html.helper.base._
-@import views.html.common._
 @import utils.helpers._
 @import mappings.disposal_of_vehicle.VehicleLookup._
 @import mappings.common.DocumentReferenceNumber
 @import mappings.common.VehicleRegistrationNumber
+@import views.html.disposal_of_vehicle.main
+@import views.html.common.language
+@import controllers.disposal_of_vehicle.routes.VehicleLookup
 
-@main(Messages("disposal_vehiclelookup.title")) {
+@main(
+    title = Messages("disposal_vehiclelookup.title"),
+    alternateLanguages = language(withLanguageCy = VehicleLookup.withLanguageCy(), withLanguageEn = VehicleLookup.withLanguageEn())
+) {
     @errorsSummary(vehicleLookupForm)
 
-    @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit) {
+    @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit()) {
 
-@CSRFHelper.hiddenFormField
+    @CSRFHelper.hiddenFormField
 
 		<div class="two-col clearfix">
 		
@@ -55,7 +60,7 @@
 				@{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
 				<div class="form-steps">
 					<button id="@SubmitId" type="submit" name="action" class="button">@Messages("disposal_vehiclelookup.button")</button>
-                    <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.back" class="button-secondary">@Messages("disposal_vehiclelookup.backbutton")</a>
+                    <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.back()" class="button-secondary">@Messages("disposal_vehiclelookup.backbutton")</a>
 				</div>
 			</div>
 		

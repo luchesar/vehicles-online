@@ -30,6 +30,7 @@ import mappings.common.DocumentReferenceNumber
 import utils.helpers.Config
 import org.mockito.ArgumentCaptor
 import play.api.test.FakeRequest
+import play.api.Play
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -362,6 +363,33 @@ final class VehicleLookupUnitSpec extends UnitSpec {
           invokeCaptor.getAllValues.size should equal(1)
 
           invokeCaptor.getValue.trackingId should be(ClearTextClientSideSessionFactory.DefaultTrackingId)
+      }
+    }
+  }
+
+  "withLanguageEn" should {
+    "redirect back to the same page" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).withLanguageEn(request)
+      whenReady(result) {
+        r =>
+          r.header.status should equal(SEE_OTHER) // Redirect...
+          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address)) // ... back to the same page.
+      }
+    }
+
+    "writes language cookie set to 'en'" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).withLanguageEn(request)
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.find(_.name == Play.langCookieName) match {
+            case Some(cookie) => cookie.value should equal("en")
+            case None => fail("langCookieName not found")
+          }
       }
     }
   }
