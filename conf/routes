@@ -31,6 +31,8 @@ POST        /disposal-of-vehicle/setup-trade-details/en         @controllers.dis
 #page 3 - business choose your address
 GET         /disposal-of-vehicle/business-choose-your-address   @controllers.disposal_of_vehicle.BusinessChooseYourAddress.present
 POST        /disposal-of-vehicle/business-choose-your-address   @controllers.disposal_of_vehicle.BusinessChooseYourAddress.submit
+POST        /disposal-of-vehicle/business-choose-your-address/cy   @controllers.disposal_of_vehicle.BusinessChooseYourAddress.withLanguageCy
+POST        /disposal-of-vehicle/business-choose-your-address/en   @controllers.disposal_of_vehicle.BusinessChooseYourAddress.withLanguageEn
 
 #page 4 [optional] - enter address manually
 GET         /disposal-of-vehicle/enter-address-manually         @controllers.disposal_of_vehicle.EnterAddressManually.present

@@ -15,6 +15,7 @@ import common.ClientSideSessionFactory
 import composition.TestComposition.{testInjector => injector}
 import common.CookieHelper._
 import play.api.test.FakeRequest
+import play.api.Play
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
@@ -118,6 +119,29 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
           cookies.map(_.name) should contain noneOf(BusinessChooseYourAddressCacheKey, TraderDetailsCacheKey)
+      }
+    }
+  }
+
+  "withLanguageEn" should {
+    "redirect back to the same page" in new WithApplication {
+      val result = businessChooseYourAddressWithUprnFound.withLanguageEn(FakeRequest())
+      whenReady(result) {
+        r =>
+          r.header.status should equal(SEE_OTHER) // Redirect...
+          r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address)) // ... back to the same page.
+      }
+    }
+
+    "writes language cookie set to 'en'" in new WithApplication {
+      val result = businessChooseYourAddressWithUprnFound.withLanguageEn(FakeRequest())
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.find(_.name == Play.langCookieName) match {
+            case Some(cookie) => cookie.value should equal("en")
+            case None => fail("langCookieName not found")
+          }
       }
     }
   }

@@ -6,11 +6,16 @@
 @import views.html.common._
 @import utils.helpers._
 @import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
+@import controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress
+@import views.html.common.language
+@import views.html.disposal_of_vehicle.main
 
-@main(Messages("disposal_businessChooseYourAddress_title")) {
+@main(title = Messages("disposal_businessChooseYourAddress_title"),
+    alternateLanguages = language(withLanguageCy = BusinessChooseYourAddress.withLanguageCy(), withLanguageEn = BusinessChooseYourAddress.withLanguageEn())
+) {
     @errorsSummary(businessChooseYourAddressForm)
 
-    @form(action = controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit) {
+    @form(action = BusinessChooseYourAddress.submit) {
 
     @CSRFHelper.hiddenFormField
 
