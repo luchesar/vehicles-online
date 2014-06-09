@@ -7,11 +7,17 @@ import ExecutionContext.Implicits.global
 import utils.helpers.Config
 import models.domain.disposal_of_vehicle.{DisposeRequest, DisposeResponse}
 import javax.inject.Inject
+import mappings.disposal_of_vehicle.Logging
 
 final class DisposeServiceImpl @Inject()(config: Config, ws: DisposeWebService) extends DisposeService {
   override def invoke(cmd: DisposeRequest): Future[(Int, Option[DisposeResponse])] = {
     val endPoint = s"${config.disposeVehicleMicroServiceBaseUrl}/vehicles/dispose/v1"
-    //Logger.debug(s"Calling dispose vehicle micro-service")// on $endPoint with request object: $cmd...")
+
+    val vrm = Logging.anonymize( cmd.registrationNumber)
+    val refNo = Logging.anonymize(cmd.referenceNumber)
+    val postcode = Logging.anonymize(cmd.traderAddress.postCode)
+
+    Logger.debug(s"Calling dispose vehicle micro-service with $refNo $vrm $postcode " + cmd.keeperConsent + " " + cmd.prConsent + " " + cmd.mileage)//request object: $cmd on $endPoint")
 
     ws.callDisposeService(cmd).map {
       resp =>
