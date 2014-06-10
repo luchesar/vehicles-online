@@ -20,16 +20,14 @@ final case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPo
 
     val buildingNameOrNumber = stripEndOfLine(Some(addressAndPostcodeModel.addressLinesModel.buildingNameOrNumber))
     require(buildingNameOrNumber.isDefined, "Address buildingNameOrNumber must have content")
-    val mandatoryBuildingNameOrNumber = buildingNameOrNumber.toString
 
     val line2 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line2)
     val line3 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line3)
     
     val postTown = stripEndOfLine(Some(addressAndPostcodeModel.addressLinesModel.postTown))
     require(postTown.isDefined, "Address postTown must have content")
-    val mandatoryPostTown = postTown.toString
 
-    copy(addressAndPostcodeModel = addressAndPostcodeModel.copy(addressLinesModel = AddressLinesModel(mandatoryBuildingNameOrNumber, line2, line3, mandatoryPostTown)))
+    copy(addressAndPostcodeModel = addressAndPostcodeModel.copy(addressLinesModel = AddressLinesModel(buildingNameOrNumber.get, line2, line3, postTown.get)))
   }
 
   def toUpperCase: EnterAddressManuallyModel = {
