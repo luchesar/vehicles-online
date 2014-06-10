@@ -16,52 +16,11 @@
 
     @CSRF.formField
 
-	<div class="alert-warning">
-    	<p>@Messages("disposal_dispose.warning")&nbsp;<a href="https://www.gov.uk/contact">@Messages("disposal_dispose.warning.link")</a></p>
-    </div>
 
     <div class="two-col clearfix">
 
-        <div class="disposal-info first-col">
-            <h2>@Messages("disposal_dispose.vehicledetails")</h2>
-            <dl class="summary-detail-list">
-            	<dt>@Messages("disposal_dispose.vehiclereg")</dt>
-            	<dd>@data.registrationNumber</dd>
-                <dt>@Messages("disposal_dispose.vehiclemake")</dt>
-                <dd>@data.vehicleMake</dd>
-                <dt>@Messages("disposal_dispose.vehiclemodel")</dt>
-                <dd>@data.vehicleModel</dd>
-                
-                @{/*
-                	Removed in changes 19/3/14
-                <dt>@Messages("disposal_dispose.vehiclekeeper")</dt>
-                <dd>
-                    @data.keeperName<br />
-                    @for(addr <- data.keeperAddress.address) {@addr<br/>}
-                </dd>
-                */}
-            </dl>
 
-            @valtechInputText(disposeForm(MileageId), args =
-            Map('_label -> Messages("disposal_dispose.mileage.label"),
-            '_showConstraints -> false,
-            'pattern -> Mileage.Pattern,
-            'maxLength -> Mileage.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-            'title -> Messages("disposal_dispose.mileage.validation")))
-
-            @{
-            /*
-            Removed for now as out of scope of this sprint,
-            as per conversation with Peter Timmer 10/2/14
-
-            <div class="form-steps">
-                <button type="submit" name="action" class="button">@Messages("global.buttonnavupdate")</button>
-            </div>
-            */
-            }
-        </div>
-
-        <div class="disposal-form second-col">
+        <div class="disposal-form first-col">
             <h2>@Messages("disposal_dispose.disposevehicleto")</h2>
 
             <div class="summary-detail-list">
@@ -94,6 +53,13 @@
                 )
             </div>
 
+            @valtechInputText(disposeForm(MileageId), args =
+            Map('_label -> Messages("disposal_dispose.mileage.label"),
+            '_showConstraints -> false,
+            'pattern -> Mileage.Pattern,
+            'maxLength -> Mileage.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+            'title -> Messages("disposal_dispose.mileage.validation")))
+
             @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
             <div class="form-steps">
             	<button id="@SubmitId" type="submit" name="action" class="button">@Messages("disposal_dispose.submitbutton")</button>
@@ -106,6 +72,42 @@
                 </div>
             </div>
 		</div>
+
+                <div class="disposal-info second-col">
+            <h2>@Messages("disposal_dispose.vehicledetails")</h2>
+            <dl class="summary-detail-list">
+                <dt>@Messages("disposal_dispose.vehiclereg")</dt>
+                <dd>@data.registrationNumber</dd>
+                <dt>@Messages("disposal_dispose.vehiclemake")</dt>
+                <dd>@data.vehicleMake</dd>
+                <dt>@Messages("disposal_dispose.vehiclemodel")</dt>
+                <dd>@data.vehicleModel</dd>
+                
+                @{/*
+                    Removed in changes 19/3/14
+                <dt>@Messages("disposal_dispose.vehiclekeeper")</dt>
+                <dd>
+                    @data.keeperName<br />
+                    @for(addr <- data.keeperAddress.address) {@addr<br/>}
+                </dd>
+                */}
+            </dl>
+                <div class="alert-warning">
+                    <p>@Messages("disposal_dispose.warning")&nbsp;<a href="https://www.gov.uk/contact">@Messages("disposal_dispose.warning.link")</a></p>
+                </div>
+
+            @{
+            /*
+            Removed for now as out of scope of this sprint,
+            as per conversation with Peter Timmer 10/2/14
+
+            <div class="form-steps">
+                <button type="submit" name="action" class="button">@Messages("global.buttonnavupdate")</button>
+            </div>
+            */
+            }
+        </div>
+
     </div>
     }
 }

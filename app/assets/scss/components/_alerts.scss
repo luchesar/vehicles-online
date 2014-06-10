@@ -142,6 +142,31 @@
 		}
 	}
 	
+	.alert-failed {
+		@extend .alert;
+		background: $red;
+		border:none;
+		text-align: center;
+		h1, h2, h3, p, ul {
+			color:#FFF;
+		}
+		h1, h2, h3 {
+			display: inline-block;
+			padding-left:40px;
+			@include bold-27;
+			&:before {
+				content: '\2716';
+				padding-right: 12px;
+			}
+			.ie6 & {
+				display: block;
+				background: none;
+				padding-left:0;
+			}
+
+		}
+	}
+	
 	.validation {
 	    background: $error-bg;
 	    padding: .7em;
