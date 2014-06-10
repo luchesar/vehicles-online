@@ -22,6 +22,7 @@ import mappings.common.Languages._
 import play.api.data.FormError
 import scala.Some
 import play.api.Play.current
+import play.api.i18n.Lang
 
 final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -39,7 +40,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       request.cookies.getModel[SetupTradeDetailsModel] match {
         case Some(setupTradeDetailsModel) =>
           val session = clientSideSessionFactory.getSession(request.cookies)
-          fetchAddresses(setupTradeDetailsModel)(session).map {
+          fetchAddresses(setupTradeDetailsModel)(session, lang).map {
             addresses =>
               Ok(views.html.disposal_of_vehicle.business_choose_your_address(form.fill(),
                 setupTradeDetailsModel.traderBusinessName,
@@ -58,7 +59,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
         request.cookies.getModel[SetupTradeDetailsModel] match {
           case Some(setupTradeDetailsModel) =>
             val session = clientSideSessionFactory.getSession(request.cookies)
-            fetchAddresses(setupTradeDetailsModel)(session).map {addresses =>
+            fetchAddresses(setupTradeDetailsModel)(session, lang).map {addresses =>
               val formWithReplacedErrors = formWithErrors.
                 replaceError(AddressSelectId, "error.required", FormError(key = AddressSelectId, message = "disposal_businessChooseYourAddress.address.required", args = Seq.empty)).
                 distinctErrors
@@ -94,7 +95,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
   }
 
   private def fetchAddresses(setupTradeDetailsModel: SetupTradeDetailsModel)
-                            (implicit session: ClientSideSession) = {
+                            (implicit session: ClientSideSession, lang: Lang) = {
     val postcode = setupTradeDetailsModel.traderPostcode
     addressLookupService.fetchAddressesForPostcode(postcode)
   }

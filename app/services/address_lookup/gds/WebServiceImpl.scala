@@ -7,6 +7,7 @@ import utils.helpers.Config
 import services.address_lookup.AddressLookupWebService
 import com.google.inject.Inject
 import common.ClientSideSession
+import play.api.i18n.Lang
 
 final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebService {
   private val baseUrl: String = config.gdsAddressLookupBaseUrl
@@ -17,7 +18,7 @@ final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebSer
 
   // request should look like    (GET, "/addresses?postcode=kt70ej").withHeaders(validAuthHeader)
   override def callPostcodeWebService(postcode: String)
-                                     (implicit session: ClientSideSession): Future[Response] = {
+                                     (implicit session: ClientSideSession, lang: Lang): Future[Response] = {
     val endPoint = s"$baseUrl/addresses?postcode=${ postcodeWithNoSpaces(postcode) }"
     Logger.debug(s"Calling GDS postcode lookup service on $endPoint...")
     WS.url(endPoint).
@@ -27,7 +28,7 @@ final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebSer
   }
 
   override def callUprnWebService(uprn: String)
-                                 (implicit session: ClientSideSession): Future[Response] = {
+                                 (implicit session: ClientSideSession, lang: Lang): Future[Response] = {
     val endPoint = s"$baseUrl/uprn?uprn=$uprn"
     Logger.debug(s"Calling GDS uprn lookup service on $endPoint...")
     WS.url(endPoint).
