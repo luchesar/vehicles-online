@@ -8,18 +8,18 @@ import com.google.inject.Inject
 import common.{ClientSideSession, ClientSideSessionFactory}
 import play.api.Logger
 import mappings.disposal_of_vehicle.Logging
+import play.api.i18n.Lang
 
 final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebService {
-
   private val baseUrl: String = config.ordnanceSurveyMicroServiceUrl // TODO would it be better to move these to a companion object? And maybe private[this]
   private val requestTimeout: Int = config.ordnanceSurveyRequestTimeout
 
-  def postcodeWithNoSpaces(postcode: String): String = postcode.filter(_ != ' ')
-
   override def callPostcodeWebService(postcode: String)
-                                     (implicit session: ClientSideSession): Future[Response] = {
-
-    val endPoint = s"$baseUrl/postcode-to-address?postcode=${postcodeWithNoSpaces(postcode)}${trackingIdParam(session)}"
+                                     (implicit session: ClientSideSession, lang: Lang): Future[Response] = {
+    val endPoint = s"$baseUrl/postcode-to-address?" +
+      postcodeParam(postcode) +
+      languageParam +
+      trackingIdParam
 
     val postcodeToLog = Logging.anonymize(postcode)
 
@@ -30,17 +30,26 @@ final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebSer
   }
 
   override def callUprnWebService(uprn: String)
-                                 (implicit session: ClientSideSession): Future[Response] = {
-    val endPoint = s"$baseUrl/uprn-to-address?uprn=${uprn}${trackingIdParam(session)}"
+                                 (implicit session: ClientSideSession, lang: Lang): Future[Response] = {
+    val endPoint = s"$baseUrl/uprn-to-address?" +
+      s"uprn=$uprn" +
+      languageParam +
+      trackingIdParam(session)
 
     val uprnToLog = Logging.anonymize(uprn)
 
-    Logger.debug(s"Calling ordnance-survey uprn lookup micro-service with $uprnToLog") // $endPoint...")
+    Logger.debug(s"Calling ordnance-survey uprn lookup micro-service with $uprnToLog")
     WS.url(endPoint).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
       get()
   }
 
-  private def trackingIdParam(session: ClientSideSession): String =
+  def postcodeWithNoSpaces(postcode: String): String = postcode.filter(_ != ' ')
+
+  private def postcodeParam(postcode: String) = s"postcode=${postcodeWithNoSpaces(postcode)}"
+
+  private def trackingIdParam(implicit session: ClientSideSession): String =
     s"&${ClientSideSessionFactory.SessionIdCookieName}=${session.trackingId}"
+
+  private def languageParam(implicit lang: Lang) = s"&languageCode=${lang.code.toUpperCase}"
 }
