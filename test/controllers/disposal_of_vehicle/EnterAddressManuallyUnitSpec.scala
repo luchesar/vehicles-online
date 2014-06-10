@@ -14,6 +14,8 @@ import play.api.test.Helpers._
 import services.fakes.FakeAddressLookupService._
 import play.api.test.FakeRequest
 import play.api.Play
+import helpers.JsonUtils.deserializeJsonToModel
+import models.domain.disposal_of_vehicle.{EnterAddressManuallyModel, TraderDetailsModel}
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
   "present" should {
@@ -104,7 +106,34 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually.submit(request)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+          val cookies = fetchCookiesFromHeaders(r)
+          val enterAddressManuallyCookieName = "enterAddressManually"
+          cookies.find(_.name == enterAddressManuallyCookieName) match {
+            case Some(cookie) =>
+              val json = cookie.value
+              val model = deserializeJsonToModel[EnterAddressManuallyModel](json)
+
+                model.addressAndPostcodeModel.addressLinesModel.buildingNameOrNumber should equal(BuildingNameOrNumberValid.toUpperCase)
+                model.addressAndPostcodeModel.addressLinesModel.line2 should equal(Some(Line2Valid.toUpperCase))
+                model.addressAndPostcodeModel.addressLinesModel.line3 should equal(Some(Line3Valid.toUpperCase))
+                model.addressAndPostcodeModel.addressLinesModel.postTown should equal(PostTownValid.toUpperCase)
+                model.addressAndPostcodeModel.postcode should equal(PostcodeValid.toUpperCase)
+            case None => fail(s"$enterAddressManuallyCookieName cookie not found")
+          }
+
+          val traderDetailsCookieName = "traderDetails"
+          cookies.find(_.name == traderDetailsCookieName) match {
+            case Some(cookie) =>
+              val json = cookie.value
+              val model = deserializeJsonToModel[TraderDetailsModel](json)
+              val expectedData = Seq(BuildingNameOrNumberValid.toUpperCase, Line2Valid.toUpperCase, Line3Valid.toUpperCase,
+                PostTownValid.toUpperCase, PostcodeValid.toUpperCase)
+              expectedData should equal(model.traderAddress.address)
+
+            case None => fail(s"$traderDetailsCookieName cookie not found")
+          }
       }
     }
 
