@@ -30,7 +30,7 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
           next(request)
         } else {
 
-          val headerToken = clientSideSessionFactory.getSession(request.cookies).trackingId // request.cookies.trackingId
+          val headerToken = buildTokenWithReferer(clientSideSessionFactory.getSession(request.cookies).trackingId, request.headers)
 
           // Only proceed with checks if there is an incoming token in the header, otherwise there's no point
           request.contentType match {
@@ -46,10 +46,14 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
         (request.accepts("text/html") || request.accepts("application/xml+xhtml"))) {
 
         // No token in header and we have to create one if not found, so create a new token
-        val newToken = Crypto.signToken(aesEncryption.encrypt("cookieName"))
+        val newToken = buildTokenWithUri(clientSideSessionFactory.getSession(request.cookies).trackingId, request.uri)
+
+        val newEncryptedToken = aesEncryption.encrypt(newToken)
+
+        val newSignedEncryptedToken = Crypto.signToken(newEncryptedToken)
 
         // The request
-        val requestWithNewToken = request.copy(tags = request.tags + (Token.RequestTag -> newToken))
+        val requestWithNewToken = request.copy(tags = request.tags + (Token.RequestTag -> newSignedEncryptedToken))
 
         // Once done, add it to the result
         next(requestWithNewToken)
@@ -88,7 +92,14 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
               body => (for {
                 values <- extractor(body).get(tokenName)
                 token <- values.headOption
-              } yield aesEncryption.decrypt(Crypto.extractSignedToken(token).get) == tokenFromHeader).getOrElse(false)
+              } yield {
+                val decryptedExtractedSignedToken = aesEncryption.decrypt(Crypto.extractSignedToken(token).getOrElse(
+                  throw new CSRFException(new Throwable("Invalid token found in form body"))))
+                val splitDecryptedExtractedSignedToken = splitToken(decryptedExtractedSignedToken)
+                val splitTokenFromHeader = splitToken(tokenFromHeader)
+                ((splitDecryptedExtractedSignedToken._1 == splitTokenFromHeader._1) &&
+                  (splitTokenFromHeader._2.contains(splitDecryptedExtractedSignedToken._2)))
+              } ).getOrElse(false)
             )
 
             if (validToken) {
@@ -138,6 +149,7 @@ object CSRFAction {
   object Token {
 
     val RequestTag = "CSRF_TOKEN"
+    val Delimiter = "-"
 
     implicit def getToken(implicit request: RequestHeader): Token = {
       CSRFAction.getToken(request).getOrElse(sys.error("Missing CSRF Token"))
@@ -145,7 +157,21 @@ object CSRFAction {
   }
 
   def getToken(request: RequestHeader): Option[Token] = {
-    Some(Token(Crypto.signToken(aesEncryption.encrypt(clientSideSessionFactory.getSession(request.cookies).trackingId))))
+
+    Some(Token(Crypto.signToken(aesEncryption.encrypt(
+      buildTokenWithUri(clientSideSessionFactory.getSession(request.cookies).trackingId, request.uri)))))
+  }
+
+  def buildTokenWithReferer(trackingId: String, requestHeaders: Headers) = {
+    trackingId + Token.Delimiter + requestHeaders.get("Referer")
+  }
+
+  def buildTokenWithUri(trackingId: String, uri: String) = {
+    trackingId + Token.Delimiter + uri
+  }
+
+  def splitToken(token: String): (String, String) = {
+    (token.split(Token.Delimiter)(0), token.drop(token.indexOf(Token.Delimiter) + 1))
   }
 
 }
