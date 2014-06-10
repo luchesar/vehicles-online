@@ -94,4 +94,3 @@ Please refer to the [session encryption][session-encryption] document for detail
 [play-framework]: http://www.playframework.com/ "Play Framework"
 [scala]: http://www.scala-lang.org/ "Scala Language"
 [session-encryption]: encrypted-session-state.md "Session Encryption"
-
