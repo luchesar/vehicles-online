@@ -16,12 +16,11 @@ import services.vehicle_lookup.VehicleLookupService
 import utils.helpers.FormExtensions._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import services.brute_force_prevention.BruteForcePreventionService
-import common.{ClientSideSessionFactory, CookieImplicits}
+import common.{LogFormats, ClientSideSessionFactory, CookieImplicits}
 import CookieImplicits.RequestCookiesAdapter
 import CookieImplicits.SimpleResultAdapter
 import CookieImplicits.FormAdapter
 import models.domain.common.BruteForcePreventionResponse._
-import mappings.disposal_of_vehicle.Logging
 import mappings.common.Languages._
 import play.api.data.FormError
 import play.api.mvc.SimpleResult
@@ -100,7 +99,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         // US270: The security micro-service will return a Forbidden (403) message when the vrm is locked, we have hidden that logic as a boolean.
         if (bruteForcePreventionViewModel.permitted) lookupVehicleFunc(formModel, bruteForcePreventionViewModel)
         else Future {
-          val registrationNumber = Logging.anonymize(formModel.registrationNumber)
+          val registrationNumber = LogFormats.anonymize(formModel.registrationNumber)
           Logger.warn(s"BruteForceService locked out vrm: $registrationNumber")
           Redirect(routes.VrmLocked.present()).
             withCookie(bruteForcePreventionViewModel)

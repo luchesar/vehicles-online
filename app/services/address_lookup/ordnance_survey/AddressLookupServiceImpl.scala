@@ -7,8 +7,7 @@ import ExecutionContext.Implicits.global
 import javax.inject.Inject
 import play.api.libs.ws.Response
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
-import common.ClientSideSession
-import mappings.disposal_of_vehicle.Logging
+import common.{LogFormats, ClientSideSession}
 import play.api.i18n.Lang
 
 final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends AddressLookupService {
@@ -26,7 +25,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
           } // Sort before translating to drop down format.
         case None =>
           // Handle no results
-          val postcodeToLog = Logging.anonymize(postcode)
+          val postcodeToLog = LogFormats.anonymize(postcode)
           Logger.debug(s"No results returned for postcode: $postcodeToLog")
           Seq.empty
       }
@@ -54,7 +53,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
       extractFromJson(resp) match {
         case Some(deserialized) => deserialized.addressViewModel
         case None =>
-          val uprnToLog = Logging.anonymize(uprn)
+          val uprnToLog = LogFormats.anonymize(uprn)
           Logger.error(s"Could not deserialize response of web service for submitted UPRN: $uprnToLog")
           None
       }

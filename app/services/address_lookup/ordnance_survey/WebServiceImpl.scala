@@ -5,9 +5,8 @@ import utils.helpers.Config
 import scala.concurrent.Future
 import services.address_lookup.AddressLookupWebService
 import com.google.inject.Inject
-import common.{ClientSideSession, ClientSideSessionFactory}
+import common.{LogFormats, ClientSideSession, ClientSideSessionFactory}
 import play.api.Logger
-import mappings.disposal_of_vehicle.Logging
 import play.api.i18n.Lang
 
 final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebService {
@@ -21,7 +20,7 @@ final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebSer
       languageParam +
       trackingIdParam
 
-    val postcodeToLog = Logging.anonymize(postcode)
+    val postcodeToLog = LogFormats.anonymize(postcode)
 
     Logger.debug(s"Calling ordnance-survey postcode lookup micro-service with $postcodeToLog") // $endPoint...")
     WS.url(endPoint).
@@ -36,7 +35,7 @@ final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebSer
       languageParam +
       trackingIdParam(session)
 
-    val uprnToLog = Logging.anonymize(uprn)
+    val uprnToLog = LogFormats.anonymize(uprn)
 
     Logger.debug(s"Calling ordnance-survey uprn lookup micro-service with $uprnToLog")
     WS.url(endPoint).
