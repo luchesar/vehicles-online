@@ -32,7 +32,7 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
         case Some(viewModel) =>
           viewModel.permitted should equal(false)
           viewModel.attempts should equal(1)
-          viewModel.maxAttempts should equal(1)
+          viewModel.maxAttempts should equal(3)
           viewModel.dateTimeISOChronology should startWith("1970-11-25T00:00:00.000")
         case None => fail("Return values was not a Some")
       }
