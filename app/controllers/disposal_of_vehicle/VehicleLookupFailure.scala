@@ -7,13 +7,16 @@ import models.domain.disposal_of_vehicle.{BruteForcePreventionViewModel, TraderD
 import mappings.disposal_of_vehicle.VehicleLookup._
 import common.{ClientSideSessionFactory, CookieImplicits}
 import CookieImplicits.RequestCookiesAdapter
+import mappings.common.Languages._
+import play.api.mvc.DiscardingCookie
+import play.api.Play.current
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   def present = Action { implicit request =>
-    (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[BruteForcePreventionViewModel], request.cookies.getModel[VehicleLookupFormModel]) match {
-      case (Some(dealerDetails), Some(bruteForcePreventionResponse), Some(vehicleLookUpFormModelDetails)) =>
-        displayVehicleLookupFailure(vehicleLookUpFormModelDetails, bruteForcePreventionResponse)
+    (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[BruteForcePreventionViewModel], request.cookies.getModel[VehicleLookupFormModel], request.cookies.getString(VehicleLookupResponseCodeCacheKey)) match {
+      case (Some(dealerDetails), Some(bruteForcePreventionResponse), Some(vehicleLookUpFormModelDetails), Some(vehicleLookupResponseCode)) =>
+        displayVehicleLookupFailure(vehicleLookUpFormModelDetails, bruteForcePreventionResponse, vehicleLookupResponseCode)
       case _ => Redirect(routes.SetUpTradeDetails.present())
     }
   }
@@ -21,26 +24,31 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
   def submit = Action { implicit request =>
     (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleLookupFormModel]) match {
       case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) =>
-        Logger.debug("found dealer and vehicle details")
+        Logger.debug("Found dealer and vehicle details")
         Redirect(routes.VehicleLookup.present())
       case _ => Redirect(routes.BeforeYouStart.present())
     }
   }
 
-  private def displayVehicleLookupFailure(vehicleLookUpFormModelDetails: VehicleLookupFormModel, bruteForcePreventionViewModel: BruteForcePreventionViewModel)(implicit request: Request[AnyContent]) = {
-    val responseCodeErrorMessage = encodeResponseCodeErrorMessage
+  def withLanguageCy = Action { implicit request =>
+    Redirect(routes.VehicleLookupFailure.present()).
+      withLang(langCy)
+  }
+
+  def withLanguageEn = Action { implicit request =>
+    Redirect(routes.VehicleLookupFailure.present()).
+      withLang(langEn)
+  }
+
+  private def displayVehicleLookupFailure(vehicleLookUpFormModelDetails: VehicleLookupFormModel,
+                                          bruteForcePreventionViewModel: BruteForcePreventionViewModel,
+                                          vehicleLookupResponseCode: String)(implicit request: Request[AnyContent]) = {
     Ok(views.html.disposal_of_vehicle.vehicle_lookup_failure(
       data = vehicleLookUpFormModelDetails,
-      responseCodeVehicleLookupMSErrorMessage = responseCodeErrorMessage,
+      responseCodeVehicleLookupMSErrorMessage = vehicleLookupResponseCode,
       attempts = bruteForcePreventionViewModel.attempts,
       maxAttempts = bruteForcePreventionViewModel.maxAttempts)
     ).
     discardingCookies(DiscardingCookie(name = VehicleLookupResponseCodeCacheKey))
   }
-
-  private def encodeResponseCodeErrorMessage(implicit request: Request[AnyContent]): String =
-    request.cookies.getString(VehicleLookupResponseCodeCacheKey) match {
-      case Some(responseCode) => responseCode
-      case _ => "disposal_vehiclelookupfailure.p1"
-    }
 }

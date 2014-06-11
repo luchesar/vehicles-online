@@ -28,14 +28,12 @@ import scala.language.postfixOps
 import CookieImplicits.RequestCookiesAdapter
 import CookieImplicits.SimpleResultAdapter
 import CookieImplicits.FormAdapter
-import utils.helpers.{CookieNameHashing, CookieEncryption}
-import scala.Some
+import mappings.common.Languages._
 import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import play.api.data.FormError
 import play.api.mvc.Call
-import mappings.common.AddressLines._
-import scala.annotation.tailrec
+import play.api.Play.current
 
 final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -56,7 +54,6 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     implicit request => {
       request.cookies.getModel[TraderDetailsModel] match {
         case (Some(dealerDetails)) =>
-          Logger.debug("found dealer details")
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
           request.cookies.getModel[VehicleDetailsModel] match {
             case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), form.fill(), yearsDropdown))
@@ -69,7 +66,6 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
   def submit = Action.async {
     implicit request =>
-      Logger.debug("Submitted dispose form...")
       form.bindFromRequest.fold(
         formWithErrors =>
           Future {
@@ -93,10 +89,20 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
             }
           },
         f => {
-          Logger.debug(s"Dispose form submitted - mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}, consent=${f.consent}, lossOfRegistrationConsent=${f.lossOfRegistrationConsent}")
+          //Logger.debug(s"Dispose form submitted- mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}, consent=${f.consent}, lossOfRegistrationConsent=${f.lossOfRegistrationConsent}")
           disposeAction(webService, f)
         }
       )
+  }
+
+  def withLanguageCy = Action { implicit request =>
+    Redirect(routes.Dispose.present()).
+      withLang(langCy)
+  }
+
+  def withLanguageEn = Action { implicit request =>
+    Redirect(routes.Dispose.present()).
+      withLang(langEn)
   }
 
   private def populateModelFromCachedData(dealerDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {
@@ -106,7 +112,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       vehicleModel = vehicleDetails.vehicleModel,
       dealerName = dealerDetails.traderName,
       dealerAddress = dealerDetails.traderAddress)
-    Logger.debug(s"Dispose page read the following data from cache: $model")
+    //Logger.debug(s"Dispose page read the following data from cache: $model")
     model
   }
 
@@ -122,7 +128,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
       val disposeRequest = buildDisposeMicroServiceRequest(disposeModel, traderDetailsModel)
       webService.invoke(disposeRequest).map {
-        case (httpResponseCode, response) => Logger.debug(s"Dispose micro-service call successful - response = $response")
+        case (httpResponseCode, response) => //Logger.debug(s"Dispose micro-service call successful response = $response") //ToDo Do we need to log this information?
 
          Some(Redirect(nextPage(httpResponseCode, response))).
             map(_.withCookie(disposeModel)).
@@ -132,7 +138,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
             get
       }.recover {
         case e: Throwable =>
-          Logger.warn(s"Dispose micro-service call failed. Exception: $e")
+          Logger.warn(s"Dispose micro-service call failed. Exception: " + e.toString.take(45))
           Redirect(routes.MicroServiceError.present())
       }
     }
@@ -163,7 +169,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       DisposeRequest(referenceNumber = disposeModel.referenceNumber,
         registrationNumber = disposeModel.registrationNumber,
         traderName = traderDetails.traderName,
-        traderAddress = disposalAddressDto(traderDetails.traderAddress),
+        traderAddress = DisposalAddressDto.from(traderDetails.traderAddress),
         dateOfDisposal = isoDateTimeString,
         transactionTimestamp = ISODateTimeFormat.dateTime().print(dateService.today.toDateTime.get),
         prConsent = disposeModel.lossOfRegistrationConsent.toBoolean,
@@ -174,18 +180,15 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
     def handleResponseCode(disposeResponseCode: String): Call = {
       disposeResponseCode match {
-        case "ms.vehiclesService.response.unableToProcessApplication" => {
-          Logger.warn("Dispose soap endpoint redirecting to dispose failure page...")
+        case "ms.vehiclesService.response.unableToProcessApplication" =>
+          Logger.warn("Dispose soap endpoint redirecting to dispose failure page")
           routes.DisposeFailure.present()
-        }
-        case "ms.vehiclesService.response.duplicateDisposalToTrade" => {
-          Logger.warn("Dispose soap endpoint redirecting to duplicate disposal page...")
+        case "ms.vehiclesService.response.duplicateDisposalToTrade" =>
+          Logger.warn("Dispose soap endpoint redirecting to duplicate disposal page")
           routes.DuplicateDisposalError.present()
-        }
-        case _ => {
-          Logger.warn(s"Dispose micro-service failed: $disposeResponseCode, redirecting to error page...")
+        case _ =>
+          Logger.warn(s"Dispose micro-service failed redirecting to error page $disposeResponseCode")
           routes.MicroServiceError.present()
-        }
       }
     }
 
@@ -198,72 +201,20 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     }
 
     (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleLookupFormModel]) match {
-      case (Some(traderDetails), Some(vehicleLookup)) =>  {
+      case (Some(traderDetails), Some(vehicleLookup)) =>
         val disposeModel = DisposeModel(referenceNumber = vehicleLookup.referenceNumber,
           registrationNumber = vehicleLookup.registrationNumber,
           dateOfDisposal = disposeFormModel.dateOfDisposal, consent = disposeFormModel.consent, lossOfRegistrationConsent = disposeFormModel.lossOfRegistrationConsent,
           mileage = disposeFormModel.mileage)
         callMicroService(disposeModel, traderDetails)
-      }
       case (None, _) => Future {
-        Logger.error("could not find dealer details in cache on Dispose submit")
+        Logger.error("Could not find dealer details in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present())
       }
       case (_, None) =>  Future {
-        Logger.error("could not find vehicle details in cache on Dispose submit")
+        Logger.error("Could not find vehicle details in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present())
       }
     }
-  }
-
-  private def disposalAddressDto(sourceAddress: AddressViewModel): DisposalAddressDto = {
-
-    val sourceAddressToCheck = assignEmptyLines(sourceAddress.address)
-
-    val (line2Empty, line3Empty) = (sourceAddressToCheck(Line2) == emptyLine, sourceAddressToCheck(Line3) == emptyLine)
-    val (line1OverMax, line2OverMax) = (sourceAddressToCheck(Line1).size > LineMaxLength, sourceAddressToCheck(Line2).size > LineMaxLength)
-
-    val sourceAddressAmendedLines = addressLinesOverMaxToEmptyLines(line1OverMax, line2OverMax, line2Empty, line3Empty, sourceAddressToCheck)
-
-    val legacyAddressLines = lineLengthCheck(sourceAddressAmendedLines.dropRight(2), Nil)
-    val postTownToCheck = sourceAddressToCheck.takeRight(2).head
-    val postTown = if (postTownToCheck.size > LineMaxLength) postTownToCheck.substring(0, LineMaxLength) else postTownToCheck
-    val postcode = sourceAddress.address.last.replaceAll(" ","")
-
-    //Logger.debug("DisposalAddressDto is " + legacyAddressLines + ", " + Some(postTown) + ", " + postcode + ", " + sourceAddress.uprn)
-    DisposalAddressDto(legacyAddressLines, Some(postTown), postcode, sourceAddress.uprn)
-  }
-
-  private def assignEmptyLines(sourceAddress: Seq[String]) : Seq[String] = {
-    sourceAddress.size match { //every address returned by OS contains at least one address line and a postcode
-      case 2 => Seq(AddressLine1Holder) ++ sourceAddress
-      case 3 => Seq(sourceAddress(Line1)) ++ Seq(emptyLine) ++ sourceAddress.tail
-      case 4 => Seq(sourceAddress(Line1)) ++ Seq(sourceAddress(Line2)) ++ Seq(emptyLine) ++ sourceAddress.tail.tail
-      case _ => sourceAddress
-    }
-  }
-
-  private def addressLinesOverMaxToEmptyLines(line1OverMax: Boolean, line2OverMax: Boolean, line2Empty: Boolean, line3Empty: Boolean, sourceAddressToCheck: Seq[String]) : Seq[String]= {
-    (line1OverMax, line2OverMax, line2Empty, line3Empty) match {
-      case (true, _, true, _) => Seq(sourceAddressToCheck(Line1).substring(0, LineMaxLength)) ++
-                                 Seq(sourceAddressToCheck(Line1).substring(LineMaxLength)) ++
-                                 sourceAddressToCheck.tail.tail
-      case (true, _, false, true) => Seq(sourceAddressToCheck(Line1).substring(0, LineMaxLength)) ++
-                                     Seq(sourceAddressToCheck(Line1).substring(LineMaxLength)) ++
-                                     Seq(sourceAddressToCheck(Line2)) ++
-                                     sourceAddressToCheck.tail.tail.tail
-      case (false, true, false, true) => Seq(sourceAddressToCheck(Line1)) ++
-                                         Seq(sourceAddressToCheck(Line2).substring(0, LineMaxLength)) ++
-                                         Seq(sourceAddressToCheck(Line2).substring(LineMaxLength)) ++
-                                         sourceAddressToCheck.tail.tail.tail
-      case (_) => sourceAddressToCheck
-    }
-  }
-
-  @tailrec
-  private def lineLengthCheck(existingAddress: Seq[String], accAddress: Seq[String]) : Seq[String] = {
-    if (existingAddress.isEmpty) accAddress
-    else if (existingAddress.head.size > LineMaxLength) lineLengthCheck(existingAddress.tail, accAddress :+ existingAddress.head.substring(0, LineMaxLength))
-    else lineLengthCheck(existingAddress.tail, accAddress :+ existingAddress.head)
   }
 }

@@ -9,11 +9,16 @@ import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import composition.TestComposition.{testInjector => injector}
 import common.CookieHelper._
 import helpers.WithApplication
+import play.api.test.FakeRequest
+import play.api.Play
+import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
+import scala.Some
+import helpers.JsonUtils.deserializeJsonToModel
 
 final class SetUpTradeDetailsUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      val request = FakeCSRFRequest()
+      val request = FakeRequest()
       val result = setUpTradeDetails.present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
@@ -21,9 +26,8 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
     }
 
     "display populated fields when cookie exists" in new WithApplication {
-      val request = FakeCSRFRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
-        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = setUpTradeDetails.present(request)
       val content = contentAsString(result)
       content should include(TraderBusinessNameValid)
@@ -31,7 +35,7 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
     }
 
     "display empty fields when cookie does not exist" in new WithApplication {
-      val request = FakeCSRFRequest()
+      val request = FakeRequest()
       val result = setUpTradeDetails.present(request)
       val content = contentAsString(result)
       content should not include TraderBusinessNameValid
@@ -44,7 +48,18 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = setUpTradeDetails.submit(request)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
+          val cookies = fetchCookiesFromHeaders(r)
+          val cookieName = "setupTraderDetails"
+          cookies.find(_.name == cookieName) match {
+            case Some(cookie) =>
+              val json = cookie.value
+              val model = deserializeJsonToModel[SetupTradeDetailsModel](json)
+              model.traderBusinessName should equal(TraderBusinessNameValid.toUpperCase)
+              model.traderPostcode should equal(PostcodeValid.toUpperCase)
+            case None => fail(s"$cookieName cookie not found")
+          }
       }
     }
 
@@ -82,8 +97,54 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
     }
   }
 
+  "withLanguageCy" should {
+    "redirect back to the same page" in new WithApplication {
+      val result = setUpTradeDetails.withLanguageCy(FakeRequest())
+      whenReady(result) {
+        r =>
+          r.header.status should equal(SEE_OTHER) // Redirect...
+          r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address)) // ... back to the same page.
+      }
+    }
+
+    "writes language cookie set to 'cy'" in new WithApplication {
+      val result = setUpTradeDetails.withLanguageCy(FakeRequest())
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.find(_.name == Play.langCookieName) match {
+            case Some(cookie) => cookie.value should equal("cy")
+            case None => fail("langCookieName not found")
+          }
+      }
+    }
+  }
+
+  "withLanguageEn" should {
+    "redirect back to the same page" in new WithApplication {
+      val result = setUpTradeDetails.withLanguageEn(FakeRequest())
+      whenReady(result) {
+        r =>
+          r.header.status should equal(SEE_OTHER) // Redirect...
+          r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address)) // ... back to the same page.
+      }
+    }
+
+    "writes language cookie set to 'en'" in new WithApplication {
+      val result = setUpTradeDetails.withLanguageEn(FakeRequest())
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.find(_.name == Play.langCookieName) match {
+            case Some(cookie) => cookie.value should equal("en")
+            case None => fail("langCookieName not found")
+          }
+      }
+    }
+  }
+
   private def buildCorrectlyPopulatedRequest(dealerName: String = TraderBusinessNameValid, dealerPostcode: String = PostcodeValid) = {
-    FakeCSRFRequest().withFormUrlEncodedBody(
+    FakeRequest().withFormUrlEncodedBody(
       TraderNameId -> dealerName,
       TraderPostcodeId -> dealerPostcode)
   }

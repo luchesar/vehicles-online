@@ -8,9 +8,9 @@ import pages.common.ErrorPanel
 import pages.disposal_of_vehicle.BusinessChooseYourAddressPage.{sadPath, happyPath, manualAddress, back}
 import pages.disposal_of_vehicle._
 import services.fakes.FakeAddressLookupService.PostcodeValid
-import mappings.disposal_of_vehicle.RelatedCacheKeys
 import mappings.disposal_of_vehicle.EnterAddressManually._
 import services.fakes.FakeAddressLookupService
+import pages.common.Languages._
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -34,7 +34,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
     "should display the postcode entered in the previous page" in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
-      page.source.contains(FakeAddressLookupService.PostcodeValid) should equal(true)
+      page.source.contains(FakeAddressLookupService.PostcodeValid.toUpperCase) should equal(true)
     }
 
     "display expected addresses in dropdown when address service returns addresses" in new WebBrowser {
@@ -57,6 +57,23 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       page.source should include("input type=\"hidden\" name=\"csrfToken\"")
     }
 
+    "display the 'Cymraeg' language button and not the 'English' language button when the language cookie is set to 'en'" in new WebBrowser {
+      go to BeforeYouStartPage // By default will load in English.
+      CookieFactoryForUISpecs.withLanguageEn()
+      go to BusinessChooseYourAddressPage
+
+      hasCymraeg should equal(true)
+      hasEnglish should equal(false)
+    }
+
+    "display the 'English' language button and not the 'Cymraeg' language button when the language cookie is set to 'cy'" in new WebBrowser {
+      go to BeforeYouStartPage // By default will load in English.
+      CookieFactoryForUISpecs.withLanguageCy()
+      go to BusinessChooseYourAddressPage
+
+      hasCymraeg should equal(false)
+      hasEnglish should equal(true)
+    }
   }
 
   "manualAddress button" should {

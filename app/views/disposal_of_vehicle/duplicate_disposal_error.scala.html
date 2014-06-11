@@ -1,13 +1,18 @@
-@()(implicit lang: Lang)
+@()(implicit lang: Lang, token: services.csrf_prevention.CSRFAction.Token)
 
-@import helper._
+@import views.html.common.language
+@import views.html.disposal_of_vehicle.main
+@import controllers.disposal_of_vehicle.routes.DuplicateDisposalError
 
-@main(Messages("duplicate_disposal_error.title")){
+@main(
+    title = Messages("duplicate_disposal_error.title"),
+    alternateLanguages = language(withLanguageCy = DuplicateDisposalError.withLanguageCy(), withLanguageEn = DuplicateDisposalError.withLanguageEn())
+){
     <p>@Messages("duplicate_disposal_error.text")</p>
 
     <div class="form-steps">
         @{ /* Note the reverse routing syntax for the hyperlink */ }
-        <a class="button" id="tryagain" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present">@Messages("duplicate_disposal_error.back.button")</a>
-        <a class="button" id="exit" href="@controllers.disposal_of_vehicle.routes.BeforeYouStart.present">@Messages("duplicate_disposal_error.exit.button")</a>
+        <a class="button" id="tryagain" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present()">@Messages("duplicate_disposal_error.back.button")</a>
+        <a class="button" id="exit" href="@controllers.disposal_of_vehicle.routes.BeforeYouStart.present()">@Messages("duplicate_disposal_error.exit.button")</a>
     </div>
 }

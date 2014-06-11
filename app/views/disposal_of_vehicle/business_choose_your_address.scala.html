@@ -1,18 +1,22 @@
-@(businessChooseYourAddressForm: Form[models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel], traderBusinessName: String, traderPostcode: String, dropDownOptions: Seq[(String, String)])(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
+@(businessChooseYourAddressForm: Form[models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel], traderBusinessName: String, traderPostcode: String, dropDownOptions: Seq[(String, String)])(implicit lang: Lang, token: services.csrf_prevention.CSRFAction.Token)
 
 @import helper._
 @import utils.helpers.BaseTemplate._
 @import views.html.helper.base._
-@import views.html.common._
-@import views.html.helper._
-@import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
+@import utils.helpers._
+@import mappings.disposal_of_vehicle.BusinessChooseYourAddress.{AddressSelectId, EnterAddressManuallyButtonId, SelectId, BackId}
+@import controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress
+@import views.html.common.language
+@import views.html.disposal_of_vehicle.main
 
-@main(Messages("disposal_businessChooseYourAddress_title")) {
+@main(title = Messages("disposal_businessChooseYourAddress_title"),
+    alternateLanguages = language(withLanguageCy = BusinessChooseYourAddress.withLanguageCy(), withLanguageEn = BusinessChooseYourAddress.withLanguageEn())
+) {
     @errorsSummary(businessChooseYourAddressForm)
 
-    @form(action = controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit) {
+    @form(action = BusinessChooseYourAddress.submit()) {
 
-    @CSRF.formField
+    @CSRFHelper.hiddenFormField
 
         @{/*
         	Removed according to changes 18/3/13

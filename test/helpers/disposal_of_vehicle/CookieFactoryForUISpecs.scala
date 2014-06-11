@@ -17,6 +17,8 @@ import mappings.disposal_of_vehicle.EnterAddressManually._
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
+import play.api.Play
+import play.api.Play.current
 
 object CookieFactoryForUISpecs {
   private def addCookie[A](key: String, value: A)(implicit tjs: Writes[A], webDriver: WebDriver): Unit = {
@@ -24,6 +26,20 @@ object CookieFactoryForUISpecs {
     val manage = webDriver.manage()
     val cookie = new Cookie(key, valueAsString)
     manage.addCookie(cookie)
+  }
+
+  def withLanguageCy()(implicit webDriver: WebDriver) = {
+    val key = Play.langCookieName
+    val value = "cy"
+    addCookie(key, value)
+    this
+  }
+
+  def withLanguageEn()(implicit webDriver: WebDriver) = {
+    val key = Play.langCookieName
+    val value = "en"
+    addCookie(key, value)
+    this
   }
 
   def setupTradeDetails(traderPostcode: String = PostcodeValid)(implicit webDriver: WebDriver) = {
@@ -43,10 +59,10 @@ object CookieFactoryForUISpecs {
 
   def enterAddressManually()(implicit webDriver: WebDriver) = {
     val key = EnterAddressManuallyCacheKey
-    val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(line1 = Line1Valid,
+    val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
       line2 = Some(Line2Valid),
       line3 = Some(Line3Valid),
-      line4 = Line4Valid),
+      postTown = PostTownValid),
       postcode = PostcodeValid))
     addCookie(key, value)
     this
@@ -91,6 +107,13 @@ object CookieFactoryForUISpecs {
     val value = VehicleDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel)
+    addCookie(key, value)
+    this
+  }
+
+  def vehicleLookupResponseCode(responseCode: String = "disposal_vehiclelookupfailure")(implicit webDriver: WebDriver) = {
+    val key = mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
+    val value = responseCode
     addCookie(key, value)
     this
   }

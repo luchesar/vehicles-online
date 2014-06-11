@@ -7,41 +7,64 @@ import play.api.test.Helpers._
 import play.api.test.FakeRequest
 import composition.TestComposition.{testInjector => injector}
 import helpers.WithApplication
+import services.fakes.FakeVehicleLookupWebService._
+import scala.Some
+import common.CookieHelper._
+import scala.Some
+import play.api.Play
 
 final class VehicleLookupFailureUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      val request = FakeRequest().withSession().
+      val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupResponseCode())
       val result = vehicleLookupFailure.present(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
       }
     }
 
-    "redirect to setuptraderdetails when cache is empty" in new WithApplication {
-      val request = FakeRequest().withSession()
-      val result = vehicleLookupFailure.present(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
-      }
-    }
-
-    "redirect to setuptraderdetails on if only BusinessChooseYourAddress cache is populated" in new WithApplication {
-      val request = FakeRequest().withSession()
-      val result = vehicleLookupFailure.present(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
-      }
-    }
-
-    "redirect to setuptraderdetails on if only VehicleLookupFormModelCache is populated" in new WithApplication {
-      val request = FakeRequest().withSession().
+    "redirect to setuptraderdetails on if traderDetailsModel is not in cache" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupResponseCode())
+      val result = vehicleLookupFailure.present(request)
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
+    }
+
+    "redirect to setuptraderdetails on if bruteForcePreventionViewModel is not in cache" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupResponseCode())
+      val result = vehicleLookupFailure.present(request)
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
+    }
+
+    "redirect to setuptraderdetails on if VehicleLookupFormModelCache is not in cache" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupResponseCode())
+      val result = vehicleLookupFailure.present(request)
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
+    }
+
+    "redirect to setuptraderdetails on if only vehicleLookupResponseCode is not in cache" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
       val result = vehicleLookupFailure.present(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -51,10 +74,9 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
 
   "submit" should {
     "redirect to vehiclelookup on submit" in new WithApplication {
-      val request = FakeRequest().withSession().
+      val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
       val result = vehicleLookupFailure.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
@@ -62,10 +84,56 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
     }
 
     "redirect to setuptraderdetails on submit when cache is empty" in new WithApplication {
-      val request = FakeRequest().withSession()
+      val request = FakeRequest()
       val result = vehicleLookupFailure.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+      }
+    }
+  }
+
+  "withLanguageCy" should {
+    "redirect back to the same page" in new WithApplication {
+      val result = vehicleLookupFailure.withLanguageCy(FakeRequest())
+      whenReady(result) {
+        r =>
+          r.header.status should equal(SEE_OTHER) // Redirect...
+          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address)) // ... back to the same page.
+      }
+    }
+
+    "writes language cookie set to 'cy'" in new WithApplication {
+      val result = vehicleLookupFailure.withLanguageCy(FakeRequest())
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.find(_.name == Play.langCookieName) match {
+            case Some(cookie) => cookie.value should equal("cy")
+            case None => fail("langCookieName not found")
+          }
+      }
+    }
+  }
+
+  "withLanguageEn" should {
+    "redirect back to the same page" in new WithApplication {
+      val result = vehicleLookupFailure.withLanguageEn(FakeRequest())
+      whenReady(result) {
+        r =>
+          r.header.status should equal(SEE_OTHER) // Redirect...
+          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address)) // ... back to the same page.
+      }
+    }
+
+    "writes language cookie set to 'en'" in new WithApplication {
+      val result = vehicleLookupFailure.withLanguageEn(FakeRequest())
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.find(_.name == Play.langCookieName) match {
+            case Some(cookie) => cookie.value should equal("en")
+            case None => fail("langCookieName not found")
+          }
       }
     }
   }

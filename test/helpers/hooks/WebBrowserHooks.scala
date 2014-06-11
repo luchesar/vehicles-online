@@ -5,9 +5,6 @@ import helpers.webbrowser.WebBrowserDriver
 import org.openqa.selenium.WebDriver
 
 final class WebBrowserHooks(webBrowserDriver: WebBrowserDriver) {
-  /*@Before
-  def configureBrowser() = {
-  }*/
 
   @After
   def quitBrowser() = {

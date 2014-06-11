@@ -26,16 +26,6 @@ footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
 prototype.banner = Mae hwn yn brototeip - bydd eich adborth yn ein helpu i wella.
 prototype.link = Cael gwybod mwy
 
-#page 1
-beforeyoustart.title = Newid cyfeiriad ceidwad
-beforeyoustart.name = Cyn i chi ddechrau
-beforeyoustart.p1 = Defnyddiwch y gwasanaeth hwn os ydych am newid cyfeiriad y ceidwad cofrestredig cerbyd.
-beforeyoustart.p2 = Cyn i chi ddechrau, bydd angen i chi:
-beforeyoustart.p3 = 1. Mae''r llyfr log ar gyfer pob cerbyd a effeithir gan y newid cyfeiriad ceidwad.
-beforeyoustart.p4 = 2. Dylai ceidwad y cerbyd yn defnyddio''r gwasanaeth hwn i newid eu cyfeiriad eu hunain, ac yn ystod y broses bydd angen iddynt brofi pwy ydynt trwy fewngofnodi ar eu proffil hunaniaeth. 
-beforeyoustart.p5 = 3. Mae''n ddoeth bod ceidwad cerbyd gael proffil hunaniaeth cyn dechrau defnyddio''r gwasanaeth. Y mae, fodd bynnag, yn bosibl i gofrestru ar gyfer proffil hunaniaeth wrth ddefnyddio''r gwasanaeth hwn. 
-beforeyoustart.button = Dechrau nawr
-
 #page 2
 keeperstatus.title = Newid cyfeiriad ceidwad
 keeperstatus.name = 1. Eich statws
@@ -178,16 +168,16 @@ disposal_enteraddressmanually.submitbutton = Nesaf
 disposal_enteraddressmanually.backbutton = Yn ôl
 addressAndPostcode_addressLines = Cyfeiriad
 address.lines.label = Cyfeiriad
-address.line1.label = Llinell 1
+address.buildingNameOrNumber.label = Enw''r adeilad neu rif
 address.line2.label= Llinell 2
 address.line3.label= Llinell 3
-address.line4.label= Postiwch y dref
+address.postTown.label= Postiwch y dref
 address.postcode.label = Cod post
 address.postcode.label.prompt = e.g. SA99 1BD
 address.postcode.validation = Rhowch god post dilys
 addressAndPostcode.addressLines.line2 = Enwau strydoedd
 addressAndPostcode.addressLines.line3 = Ardal
-addressAndPostcode.addressLines.line4 = Postiwch y dref
+addressAndPostcode.addressLines.postTown = Postiwch y dref
 
 #page 3 - uprn not found
 disposal_uprnnotfound.title = Gwall cod post yn cadarnhau
@@ -286,6 +276,7 @@ disposal_vehiclelookupfailure.name = Methiant
 disposal_vehiclelookupfailure.p1 = Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
 disposal_vehiclelookupfailure.button = Am-edrych gerbyd
 disposal_disposefailure.button2 = Setup Newydd Manylion Masnachwr
+disposal_disposefailure.transactiontext = Mae eich ID trafodiad yn:
 disposal_disposefailure.transactionid = {0}
 disposal_vehiclelookupfailure.warnAboutLockout = Ar ôl trydydd ymgais aflwyddiannus y system yn atal ymdrechion pellach i gael mynediad at y cofnodion cerbydau am 10 munud. Mae hyn er mwyn diogelu cofnodion cerbydau. Gall cerbydau eraill yn cael ei brosesu gan ddefnyddio''r gwasanaeth hwn yn ystod y cyfnod hwn.
 
@@ -320,19 +311,19 @@ datePlaceholder.December = Rhagfyr
 select_default = Dewiswch
 
 
-addressAndPostcode.addressLines.line1 = Llinell 1
+addressAndPostcode.addressLines.buildingNameOrNumber = Enw''r adeilad neu rif
 error.address.maxLengthOfLinesConcatenated = Gall gyfeiriad gael mwy na 120 o gymeriadau
 error.address.characterinvalid = Nid yw nodau annilys chaniateir
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post
 error.validTraderBusinessName = Rhaid iddo fod rhwng dwy a 58 cymeriadau a ydynt yn cynnwys nodau annilys
-error.address.line1.invalid = Llinell 1 - Rhaid iddo gynnwys o leiaf bedwar cymeriad
-error.address.line4.invalid = Postiwch y dref - Angen hyd lleiaf o tri chymeriad
+error.address.buildingNameOrNumber.invalid = Enw''r adeilad neu rif - Rhaid iddo gynnwys o leiaf bedwar cymeriad
+error.address.postTown = Postiwch y dref - Angen hyd lleiaf o tri chymeriad
 error.address.postcode.invalid = Rhaid bod rhwng 5 ac 8 cymeriadau ac mewn fformat dilys, ee. PR2 8AE neu PR28AE
 
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = Mae eich cais yn cael ei brosesu a dylech dderbyn llythyr cadarnhad o fewn pedair wythnos.
-ms.vehiclesService.response.unableToProcessApplication = We are not able to process your application at this time. Please send the V5C/3 to the following address; DVLA, Longview Road, Morriston, Swansea, SA6 7JL
+ms.vehiclesService.response.unableToProcessApplication = Nid ydym yn gallu prosesu eich cais ar hyn o bryd. Os gwelwch yn dda anfon y V5C / 3 i'r cyfeiriad canlynol; DVLA, Longview Road, Morriston, Swansea, SA6 7JL
 
 #micro-service error page
 micro_service_error.title=Mae''n ddrwg gennym
@@ -370,7 +361,7 @@ error.button = Dechrau eto
 vehicleRegistrationNumber=Rhif cofrestru cerbyd
 documentReferenceNumber=Rhif cyfeirnod y ddogfen
 disposal_disposefailure.title=Cael gwared cerbyd i mewn i''r fasnach foduron\: methiant
-disposal_disposefailure.name=Methiant
+disposal_disposefailure.header=Methiant Gwaredu
 disposal_disposefailure.p1=Nid yw wedi bod yn bosibl i gwblhau eich trafodiad. Ffoniwch 0300 790 6802
 disposal_disposefailure.button=Am-edrych gerbyd
 disposal_vehiclelookupfailure.button2=Gadael
@@ -384,3 +375,6 @@ vehicle_lookup_vrm_not_found.p3=Ar gyfer pob rhif cofrestru cerbyd, bydd tair ym
 vehicle_lookup_document_reference_mismatch.p1=Rhif Cyfeirnod y Ddogfen gofnodi naill ai ddilys neu os nad yw''n dod o V5C mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
 vehicle_lookup_document_reference_mismatch.p2=Gwnewch yn siŵr eich bod yn cael y V5C mwyaf diweddar a cheisiwch eto.
 vehicle_lookup_document_reference_mismatch.p3=Ar gyfer pob rhif cofrestru cerbyd, bydd tair ymgais i adfer y manylion y cerbyd.
+
+language.cy.button = YAGNI
+language.en.button = English

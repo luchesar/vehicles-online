@@ -15,10 +15,14 @@ import services.address_lookup.AddressLookupService
 import common.{ClientSideSession, ClientSideSessionFactory, CookieImplicits}
 import utils.helpers.FormExtensions._
 import mappings.disposal_of_vehicle.EnterAddressManually._
-import play.api.data.FormError
 import CookieImplicits.RequestCookiesAdapter
 import CookieImplicits.SimpleResultAdapter
 import CookieImplicits.FormAdapter
+import mappings.common.Languages._
+import play.api.data.FormError
+import scala.Some
+import play.api.Play.current
+import play.api.i18n.Lang
 
 final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -36,7 +40,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       request.cookies.getModel[SetupTradeDetailsModel] match {
         case Some(setupTradeDetailsModel) =>
           val session = clientSideSessionFactory.getSession(request.cookies)
-          fetchAddresses(setupTradeDetailsModel)(session).map {
+          fetchAddresses(setupTradeDetailsModel)(session, lang).map {
             addresses =>
               Ok(views.html.disposal_of_vehicle.business_choose_your_address(form.fill(),
                 setupTradeDetailsModel.traderBusinessName,
@@ -55,7 +59,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
         request.cookies.getModel[SetupTradeDetailsModel] match {
           case Some(setupTradeDetailsModel) =>
             val session = clientSideSessionFactory.getSession(request.cookies)
-            fetchAddresses(setupTradeDetailsModel)(session).map {addresses =>
+            fetchAddresses(setupTradeDetailsModel)(session, lang).map {addresses =>
               val formWithReplacedErrors = formWithErrors.
                 replaceError(AddressSelectId, "error.required", FormError(key = AddressSelectId, message = "disposal_businessChooseYourAddress.address.required", args = Seq.empty)).
                 distinctErrors
@@ -63,7 +67,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
               BadRequest(views.html.disposal_of_vehicle.business_choose_your_address(formWithReplacedErrors, setupTradeDetailsModel.traderBusinessName, setupTradeDetailsModel.traderPostcode, addresses))
           }
           case None => Future {
-            //Logger.error("Failed to find dealer details in cache for submit formWithErrors, redirecting...")
+            Logger.error("Failed to find dealer details, redirecting")
             Redirect(routes.SetUpTradeDetails.present())
           }
         },
@@ -73,21 +77,31 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
             lookupUprn(f, setupTradeDetailsModel.traderBusinessName)
           case None => Future {
-            //Logger.error("Failed to find dealer details in cache on submit valid form, redirecting...")
+            Logger.error("Failed to find dealer details, redirecting")
             Redirect(routes.SetUpTradeDetails.present())
           }
         }
     )
   }
 
+  def withLanguageCy = Action { implicit request =>
+    Redirect(routes.BusinessChooseYourAddress.present()).
+      withLang(langCy)
+  }
+
+  def withLanguageEn = Action { implicit request =>
+    Redirect(routes.BusinessChooseYourAddress.present()).
+      withLang(langEn)
+  }
+
   private def fetchAddresses(setupTradeDetailsModel: SetupTradeDetailsModel)
-                            (implicit session: Option[ClientSideSession]) = {
+                            (implicit session: ClientSideSession, lang: Lang) = {
     val postcode = setupTradeDetailsModel.traderPostcode
     addressLookupService.fetchAddressesForPostcode(postcode)
   }
 
   private def lookupUprn(model: BusinessChooseYourAddressModel, traderName: String)
-                        (implicit request: Request[_], session: Option[ClientSideSession]) = {
+                        (implicit request: Request[_], session: ClientSideSession) = {
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString)
     lookedUpAddress.map {
       case Some(addressViewModel) =>

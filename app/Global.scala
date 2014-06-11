@@ -1,5 +1,6 @@
 import com.google.inject.Injector
 import com.typesafe.config.ConfigFactory
+import common.InvalidSessionException
 import controllers.disposal_of_vehicle.routes
 import filters.EnsureSessionCreatedFilter
 import java.io.File
@@ -9,6 +10,8 @@ import play.api._
 import play.api.Configuration
 import play.api.mvc._
 import play.api.mvc.Results._
+import services.csrf_prevention.CSRFException
+
 //import play.filters.gzip._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
@@ -30,7 +33,7 @@ import composition.Composition._
  * play -Dconfig.file=conf/application.test.conf run
  */
 
-object Global extends WithFilters(filters) with GlobalSettings {
+object Global extends WithFilters(filters: _*) with GlobalSettings {
 
   private lazy val injector: Injector = devInjector
 
@@ -66,6 +69,7 @@ object Global extends WithFilters(filters) with GlobalSettings {
 
   override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] = ex.getCause match {
     case _: BadPaddingException  => CryptoHelper.handleApplicationSecretChange(request)
+    case _: InvalidSessionException  => CryptoHelper.handleApplicationSecretChange(request)
     case _ => Future(Redirect(routes.Error.present()))
   }
 
@@ -73,4 +77,3 @@ object Global extends WithFilters(filters) with GlobalSettings {
     Filters(super.doFilter(a), devInjector.getInstance(classOf[EnsureSessionCreatedFilter]))
   }
 }
-

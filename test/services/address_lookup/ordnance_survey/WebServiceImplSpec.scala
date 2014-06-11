@@ -11,14 +11,18 @@ import common.{NoCookieFlags, ClearTextClientSideSession, ClientSideSession, Cli
 import scala.collection.mutable
 import java.net.ServerSocket
 import org.scalatest.time.SpanSugar._
-import org.scalatest.concurrent.PatienceConfiguration.{Interval, Timeout}
+import org.scalatest.concurrent.PatienceConfiguration.Interval
+import play.api.i18n.Lang
+import org.scalatest.concurrent.PatienceConfiguration.Interval
 
 final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
 
   val wireMockPort: Int = {
     val serverSocket = new ServerSocket(0)
     try serverSocket.getLocalPort
-    catch{ case e:Exception => 51987}
+    catch {
+      case e: Exception => 51987
+    }
     finally serverSocket.close()
   }
 
@@ -38,6 +42,7 @@ final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
   }
 
   import composition.TestComposition.{testInjector => injector}
+
   implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
   val addressLookupService = new services.address_lookup.ordnance_survey.WebServiceImpl(new Config() {
     override val ordnanceSurveyMicroServiceUrl = s"http://localhost:$wireMockPort"
@@ -64,26 +69,12 @@ final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
 
       val postCode = "N193NN"
 
-      val futureResult = addressLookupService.callPostcodeWebService(postCode)(Some(clientSideSession))
+      val futureResult = addressLookupService.callPostcodeWebService(postCode)(clientSideSession, lang = Lang("en"))
 
       whenReady(futureResult, timeout, interval) { result =>
         sentRequestsUrls should have size 1
         sentRequestsUrls(0) should include(s"?postcode=$postCode")
-        sentRequestsUrls(0) should include(s"&tracking-id=$trackingIdValue")
-      }
-    }
-
-    "don't send the trackingId to the PostcodeWebService" in {
-      val sentRequestsUrls = addRequestListener()
-
-      val postCode = "N193NN"
-
-      val futureResult = addressLookupService.callPostcodeWebService(postCode)(None)
-
-      whenReady(futureResult, timeout, interval) { result =>
-        sentRequestsUrls should have size 1
-        sentRequestsUrls(0) should include(s"?postcode=$postCode")
-        sentRequestsUrls(0) should not include(s"&tracking-id=$trackingIdValue")
+        sentRequestsUrls(0) should include(s"&tracking_id=$trackingIdValue")
       }
     }
 
@@ -92,20 +83,20 @@ final class WebServiceImplSpec extends UnitSpec with BeforeAndAfterEach {
 
       val postCode = "N193NN"
 
-      val futureResult = addressLookupService.callUprnWebService(postCode)(Some(clientSideSession))
+      val futureResult = addressLookupService.callUprnWebService(postCode)(clientSideSession, Lang("en"))
 
       whenReady(futureResult, timeout, interval) { result =>
         sentRequestsUrls should have size 1
         sentRequestsUrls(0) should include(s"?uprn=$postCode")
-        sentRequestsUrls(0) should include(s"&tracking-id=$trackingIdValue")
+        sentRequestsUrls(0) should include(s"&tracking_id=$trackingIdValue")
       }
     }
   }
 
-  private def addRequestListener(): mutable.ArrayBuffer[String] =  {
-    var sentRequestsUrls: mutable.ArrayBuffer[String] =  mutable.ArrayBuffer.empty[String]
+  private def addRequestListener(): mutable.ArrayBuffer[String] = {
+    var sentRequestsUrls: mutable.ArrayBuffer[String] = mutable.ArrayBuffer.empty[String]
 
-    wireMockServer.addMockServiceRequestListener(new RequestListener(){
+    wireMockServer.addMockServiceRequestListener(new RequestListener() {
       override def requestReceived(request: Request, response: Response): Unit = {
         sentRequestsUrls += request.getUrl
       }

@@ -6,9 +6,8 @@ import services._
 import play.api.Logger
 import services.fakes._
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
-import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebServiceImpl, VehicleLookupWebService}
-import services.dispose_service.{DisposeServiceImpl, DisposeWebServiceImpl, DisposeWebService, DisposeService}
-import utils.helpers._
+import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebService}
+import services.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeService}
 import common._
 import services.brute_force_prevention._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl

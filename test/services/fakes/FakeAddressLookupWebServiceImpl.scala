@@ -13,18 +13,19 @@ import services.address_lookup.gds.domain.Details
 import services.address_lookup.gds.domain.Location
 import services.address_lookup.gds.domain.Presentation
 import services.fakes.FakeAddressLookupService.PostcodeInvalid
+import play.api.i18n.Lang
 
 final class FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                                             responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
   override def callPostcodeWebService(postcode: String)
-                                     (implicit session: Option[ClientSideSession]): Future[Response] =
-    if (postcode == PostcodeInvalid) Future {
+                                     (implicit session: ClientSideSession, lang: Lang): Future[Response] =
+    if (postcode == PostcodeInvalid.toUpperCase) Future {
       FakeResponse(status = OK, fakeJson = None)
     }
     else responseOfPostcodeWebService
 
   override def callUprnWebService(uprn: String)
-                                 (implicit session: Option[ClientSideSession]): Future[Response] = responseOfUprnWebService
+                                 (implicit session: ClientSideSession, lang: Lang): Future[Response] = responseOfUprnWebService
 }
 
 object FakeAddressLookupWebServiceImpl {

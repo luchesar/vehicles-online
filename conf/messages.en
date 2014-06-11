@@ -6,7 +6,7 @@
 main.banner = Sell a vehicle into the motor trade
 main.banner.help = Help
 main.banner.feedback = Feedback
-main.banner.altLang = Cymraeg
+main.banner.feedback.link = mailto:VM@digital.dvla.gov.uk?Subject=Sell%20to%20the%20Trade%20feedback
 
 global.cookiemessage = GOV.UK uses cookies to make the site simpler.
 global.cookiefindoutmore = Find out more about cookies
@@ -32,16 +32,6 @@ footer.builtby = Driver & Vehicle Licensing Agency
 prototype.banner = This is a new service - your
 prototype.link =  feedback
 prototype.banner-part2 =  will help us to improve it
-
-#page 1
-beforeyoustart.title = Change of keeper address1
-beforeyoustart.name = Before you start
-beforeyoustart.p1 = Use this service if you want to change the address of the registered keeper of a vehicle.
-beforeyoustart.p2 = Before you start you will need:
-beforeyoustart.p3 = 1. The log book for each vehicle affected by the change of keeper address.
-beforeyoustart.p4 = 2. A vehicle keeper should use this service to change their own address, and during the process they will need to prove who they are by logging into their identity profile.
-beforeyoustart.p5 = 3. It is advisable that a vehicle keeper obtain an identity profile before starting to use the service. It is, however, possible to register for an identity profile while using this service.
-beforeyoustart.button = Start now
 
 #page 2
 keeperstatus.title = Change of keeper address2
@@ -225,16 +215,16 @@ disposal_enteraddressmanually.submitbutton = Next
 disposal_enteraddressmanually.backbutton = Back
 addressAndPostcode_addressLines = Address
 address.lines.label = Address
-address.line1.label = Line 1
+address.buildingNameOrNumber.label = Building name or number
 address.line2.label= Line 2
 address.line3.label= Line 3
-address.line4.label= Post town
+address.postTown.label= Post town
 address.postcode.label = Postcode
 address.postcode.label.prompt = e.g. SA99 1BD
 address.postcode.validation = Enter a valid postcode
 addressAndPostcode.addressLines.line2 = Street name
 addressAndPostcode.addressLines.line3 = Area
-addressAndPostcode.addressLines.line4 = Post town
+addressAndPostcode.addressLines.postTown = Post town
 
 #page 3 - uprn not found
 disposal_uprnnotfound.title = Error confirming postcode
@@ -323,6 +313,7 @@ disposal_disposefailure.name = Failure
 disposal_disposefailure.p1 = It has not been possible to complete your transaction. Please call 0300 790 6802
 disposal_disposefailure.button = Vehicle Lookup
 disposal_disposefailure.button2 = Setup New Trader Details
+disposal_disposefailure.transactiontext = Your transaction ID is:
 disposal_disposefailure.transactionid = {0}
 
 #page 8 - vehicle lookup failure
@@ -342,14 +333,14 @@ vehicle_lookup_document_reference_mismatch.p2 = Please make sure you have the mo
 vehicle_lookup_document_reference_mismatch.p3 = For each vehicle registration mark, only three attempts can be made to retrieve the vehicle details.
 disposal_vehiclelookupfailure.warnAboutLockout = After a third unsuccessful attempt the system prevents further attempts to access the the vehicles records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.
 
-addressAndPostcode.addressLines.line1 = Line 1
+addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
 error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
 error.address.characterinvalid = Invalid characters are not allowed
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
 error.validTraderBusinessName = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, +, -, ‘, &, @, () and ,)
-error.address.line1.invalid = Line 1 - Must contain a minimum of four characters
-error.address.line4.invalid = Post town - Requires a minimum length of three characters
+error.address.buildingNameOrNumber.invalid = Building name or number - Must contain a minimum of four characters
+error.address.postTown = Post town - Requires a minimum length of three characters
 error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. PR2 8AE or PR28AE
 
 # micro-service response codes
@@ -393,3 +384,6 @@ onHandlerNotFound.body=Please check that you have entered the correct web addres
 
 error.title=An unrecoverable error has occurred
 error.button=Start again
+
+language.cy.button = Cymraeg
+language.en.button = YAGNI

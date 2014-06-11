@@ -1,4 +1,6 @@
-@(title: String)(content: Html)(footerCategories: Html)
+@(title: String, alternateLanguages: Html = Html.empty)(content: Html)(implicit lang: Lang)
+    
+@import play.api.Play.current
 
 <!DOCTYPE html>
     <head>
@@ -12,6 +14,7 @@
 
     <body>
         <div id="wrapper content" class="group">
+            @alternateLanguages
             @content
         </div>
     </body>

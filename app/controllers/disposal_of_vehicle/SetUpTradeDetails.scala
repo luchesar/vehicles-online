@@ -11,7 +11,8 @@ import mappings.common.Postcode._
 import utils.helpers.FormExtensions._
 import com.google.inject.Inject
 import CookieImplicits.FormAdapter
-import utils.helpers.CookieNameHashing
+import mappings.common.Languages._
+import play.api.Play.current
 
 final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -37,7 +38,20 @@ final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: Cli
             distinctErrors
           BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors))
         },
-        f => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(f)
+        f => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(convertToUpperCase(f))
       )
   }
+
+  def withLanguageCy = Action { implicit request =>
+    Redirect(routes.SetUpTradeDetails.present()).
+      withLang(langCy)
+  }
+
+  def withLanguageEn = Action { implicit request =>
+    Redirect(routes.SetUpTradeDetails.present()).
+      withLang(langEn)
+  }
+
+  private def convertToUpperCase(model: SetupTradeDetailsModel) : SetupTradeDetailsModel =
+    model.copy(traderBusinessName = model.traderBusinessName.toUpperCase, traderPostcode = model.traderPostcode.toUpperCase)
 }
