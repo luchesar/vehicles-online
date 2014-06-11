@@ -30,7 +30,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposeSuccessPage
 
-      page.title should equal(SetupTradeDetailsPage.title)
+      page.title should equal(VehicleLookupPage.title)
     }
 
     "redirect when only VehicleDetails are cached" in new WebBrowser {
@@ -59,7 +59,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposeSuccessPage
 
-      page.title should equal(SetupTradeDetailsPage.title)
+      page.title should equal(VehicleLookupPage.title)
     }
 
     "redirect when only DisposeDetails and VehicleDetails are cached" in new WebBrowser {
@@ -81,7 +81,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposeSuccessPage
 
-      page.title should equal(SetupTradeDetailsPage.title)
+      page.title should equal(VehicleLookupPage.title)
     }
 
     "contain the hidden csrfToken field" in new WebBrowser {
@@ -122,6 +122,16 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "exit button" should {
+    "display before you start page" in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to DisposeSuccessPage
+
+      click on exitDisposal
+
+      page.title should equal(BeforeYouStartPage.title)
+    }
+
     "remove redundant cookies" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
