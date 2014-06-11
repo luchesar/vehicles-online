@@ -124,7 +124,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     }
 
     def lookupHadProblem(responseCode: String) = {
-      Logger.debug("VehicleLookup encountered a problem, redirect to VehicleLookupFailure")
+      Logger.debug(s"VehicleLookup encountered a problem with request ${LogFormats.anonymize(model.referenceNumber)} ${LogFormats.anonymize(model.registrationNumber)}, redirect to VehicleLookupFailure")
       Redirect(routes.VehicleLookupFailure.present()).
         withCookie(key = VehicleLookupResponseCodeCacheKey, value = responseCode)
     }
