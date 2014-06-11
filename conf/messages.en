@@ -4,7 +4,9 @@
 
 #main
 main.banner = Sell a vehicle into the motor trade
-main.banner.help = Help and feedback
+main.banner.help = Help
+main.banner.feedback = Feedback
+main.banner.altLang = Cymraeg
 
 global.cookiemessage = GOV.UK uses cookies to make the site simpler.
 global.cookiefindoutmore = Find out more about cookies
@@ -27,8 +29,9 @@ footer.builtbyintro = Built by
 footer.builtby = Driver & Vehicle Licensing Agency
 
 #prototype
-prototype.banner = This is a prototype. You cannot change keeper using this service.
-prototype.link = Change keeper using the live service
+prototype.banner = This is a new service - your
+prototype.link =  feedback
+prototype.banner-part2 =  will help us to improve it
 
 #page 1
 beforeyoustart.title = Change of keeper address1
@@ -181,19 +184,17 @@ error.invalid = Invalid value
 #page 1 - Before You Start
 disposal_beforeyoustart.title = Sell a vehicle into the motor trade
 disposal_beforeyoustart.p1 = Before you start:
-disposal_beforeyoustart.listitem1 = You will need the most recent vehicle registration certificate (V5C). You can check this by using the
+disposal_beforeyoustart.listitem1 = You will need the most recent vehicle registration certificate (V5C). There must be no changes needed to the V5C and the name and address of the registered keeper must be up to date and correct.
 disposal_beforeyoustart.listitem1linktext = Vehicle Enquiry Service (VES)
 
-disposal_beforeyoustart.listitem2 = There must be no changes needed to the V5C and the name and address of the registered keeper must be up to date and correct.
+disposal_beforeyoustart.listitem2 = If the vehicle being sold has a personal registration number, the keeper must understand that the registration number will be sold with the vehicle. If the keeper wants to keep the personal registration number, they must firstly retain or transfer it to another vehicle.
 
-disposal_beforeyoustart.listitem3 = If the vehicle being sold has a personal registration number, the keeper must understand that the registration number will be sold with the vehicle. If the keeper wants to keep the personal registration number, they must firstly retain or transfer it to another vehicle.
-
-disposal_beforeyoustart.listitem4 = Only a sale to the motor trade can be notified using this service. Any other notification such as a sale to a private individual or change of address cannot currently be made on-line.  These requests must be made by sending the application and any relevant documentation to DVLA, Swansea.
+disposal_beforeyoustart.listitem3 = Only a sale to the motor trade can be notified using this service. Any other notification such as a sale to a private individual or change of address cannot currently be made on-line.  These requests must be made by sending the application and any relevant documentation to DVLA, Swansea.
 
 disposal_beforeyoustart.button = Start now
 
 #page 2 - set-up trade details
-disposal_setuptradedetails.title = Provide your trader details
+disposal_setuptradedetails.title = Provide your Trader details
 disposal_setuptradedetails.name = Sell a vehicle into the motor trade
 disposal_setuptradedetails.p1 = Set-up trade details
 disposal_setuptradedetails.tradernamelabel = Trader name
@@ -300,8 +301,8 @@ disposal_disposeconfirmation.disposaldetails = Sale details
 disposal_disposeconfirmation.vehiclemake = Make
 disposal_disposeconfirmation.vehiclemodel = Model
 disposal_disposeconfirmation.vehiclekeeper = Keeper
-disposal_disposeconfirmation.disposedto = Disposed to
-disposal_disposeconfirmation.exkeeper = A letter will be sent to the name and address on the V5C within 4 weeks. If he/she does not receive a letter in this time they must contact DVLA Customer Enquiries on 0300 790 6802 as they could still be liable for this vehicle. Please print this page and pass to the customer.
+disposal_disposeconfirmation.disposedto = Sold to
+disposal_disposeconfirmation.exkeeper = A letter will be sent to the name and address on the V5C within 4 weeks. If they do not receive a letter in this time they must contact DVLA Customer Enquiries on 0300 790 6802 as they could still be liable for this vehicle. Please print this page and pass to the customer.
 disposal_disposeconfirmation.sendbutton = Send
 disposal_disposeconfirmation.transactionid = {0}
 disposal_disposeconfirmation.transactionid_label = Transaction id
@@ -310,11 +311,11 @@ disposal_disposeconfirmation.registrationNumber = {0}
 disposal_disposeconfirmation.registrationNumber_label = Registration
 disposal_disposeconfirmation.backbutton = Back
 disposal_disposeconfirmation.newdisposalbutton = Sell another vehicle
-disposal_disposeconfirmation.disposaldate = Sale date
+disposal_disposeconfirmation.disposaldate = Date of sale
 disposal_disposeconfirmation.mileage = Mileage
 disposal_disposeconfirmation.noMileageEntered = No mileage entered
 disposal_disposeconfirmation.exitbutton = Exit
-disposal_disposeconfirmation.survey = Survey
+disposal_disposeconfirmation.survey = 
 
 #page 7 - dispose failure
 disposal_disposefailure.title = Sell a vehicle into the motor trade: failure
@@ -341,19 +342,27 @@ vehicle_lookup_document_reference_mismatch.p2 = Please make sure you have the mo
 vehicle_lookup_document_reference_mismatch.p3 = For each vehicle registration mark, only three attempts can be made to retrieve the vehicle details.
 disposal_vehiclelookupfailure.warnAboutLockout = After a third unsuccessful attempt the system prevents further attempts to access the the vehicles records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.
 
+##
+# Personalised Registration Retainer
+##
+
+#Page 1 - before you start
+retainer_beforeyoustart.title = Vehicle Search
+
 addressAndPostcode.addressLines.line1 = Line 1
 error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
 error.address.characterinvalid = Invalid characters are not allowed
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
-error.validTraderBusinessName = Must be between two and 58 characters and not contain invalid characters
+error.validTraderBusinessName = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, +, -, ‘, &, @, () and ,)
 error.address.line1.invalid = Line 1 - Must contain a minimum of four characters
 error.address.line4.invalid = Post town - Requires a minimum length of three characters
 error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. PR2 8AE or PR28AE
 
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = The application is being processed.
-ms.vehiclesService.response.unableToProcessApplication = We are not able to process the application at this time. Please send the V5C/3 to the following address; DVLA, Longview Road, Morriston, Swansea, SA6 7JL
+ms.vehiclesService.response.unableToProcessApplication = We are not able to process the application at this time. Please send the V5C/3 to the following address;
+ms.vehiclesService.response.unableToProcessApplication-address = DVLA, Longview Road, Morriston, Swansea, SA6 7JL
 
 #micro-service error page
 micro_service_error.title=We are sorry
@@ -377,7 +386,7 @@ soap_endpoint_error.exit.button=Exit
 vrm_locked.title=Registration mark is locked
 vrm_locked.text1=There have been three attempts to access the vehicle details without success. The vehicle registration mark is now locked for 10 minutes as a safeguard. During this period other vehicles can be processed.
 vrm_locked.text2.1=Locked at
-vrm_locked.text2.3=(this is the time when the error state commenced)
+vrm_locked.text2.3=
 vrm_locked.text3.1=If you need assistance to process this vehicle, please call our Contact Centre on
 vrm_locked.text3.2=0300 790 6801
 
