@@ -59,3 +59,10 @@ POST        /disposal-of-vehicle/vrm-locked/exit                @controllers.dis
 
 GET         /disposal-of-vehicle/error                          @controllers.disposal_of_vehicle.Error.present
 POST        /disposal-of-vehicle/error                          @controllers.disposal_of_vehicle.Error.submit
+
+#########################
+## REGISTRATION RETENTION
+#########################
+
+GET         /personalised-registration-retainer/before-you-start               @controllers.personalised_registration_retainer.BeforeYouStart.present
+
