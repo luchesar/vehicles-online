@@ -94,7 +94,6 @@ final class DisposeUnitSpec extends UnitSpec {
 
       val result = disposeController(disposeWebService = disposeWebService()).submit(request)
 
-      redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
       whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(DisposeSuccessPage.address))
@@ -477,6 +476,21 @@ final class DisposeUnitSpec extends UnitSpec {
         line = Seq(BuildingNameOrNumberHolder)
       )
       verify(disposeService, times(1)).invoke(cmd = disposeRequest)
+    }
+
+    "redirect to vehicle lookup when a dispose success cookie exists" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest.
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeSuccess())
+
+      val result = disposeController(disposeWebService = disposeWebService()).submit(request)
+
+      whenReady(result) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+      }
     }
   }
 

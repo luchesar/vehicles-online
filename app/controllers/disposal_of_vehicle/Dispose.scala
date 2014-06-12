@@ -97,8 +97,10 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
             }
           },
         f => {
-          //Logger.debug(s"Dispose form submitted- mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}, consent=${f.consent}, lossOfRegistrationConsent=${f.lossOfRegistrationConsent}")
-          disposeAction(webService, f)
+          request.cookies.getString(DisposeSuccessCacheKey) match {
+            case Some(_) => Future { Redirect(routes.VehicleLookup.present()) } // US320 prevent user using the browser back button and resubmitting.
+            case None => disposeAction(webService, f)
+          }
         }
       )
   }
