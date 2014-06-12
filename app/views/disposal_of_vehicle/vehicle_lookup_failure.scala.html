@@ -12,7 +12,7 @@
     title = if(attempts <= 1) {
         Messages("disposal_vehiclelookupfailure.title")
     } else {
-        s"""${Messages("disposal_vehiclelookupfailure.title")} ${Messages("disposal_vehiclelookupfailure.title.greaterThanOneAttempt", attempts, maxAttempts)}"""
+        s"""${Messages("disposal_vehiclelookupfailure.title")}"""
     },
     alternateLanguages = language(withLanguageCy = VehicleLookupFailure.withLanguageCy(), withLanguageEn = VehicleLookupFailure.withLanguageEn())
 ) {

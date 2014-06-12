@@ -53,7 +53,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       webDriver.manage().getCookieNamed(VehicleLookupResponseCodeCacheKey) should equal(null)
     }
 
-    "not display greaterThanOneAttempt and warnAboutLockout messages when 1 attempt has been made" in new WebBrowser {
+    "not display warnAboutLockout messages when 1 attempt has been made" in new WebBrowser {
       val notExpectedAttempts = 2
       val notExpectedMaxAttempts = MaxAttemptsOneBased
       go to BeforeYouStartPage
@@ -61,11 +61,10 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       go to VehicleLookupFailurePage
 
-      page.source should not include s"Look-up was unsuccessful ($notExpectedAttempts of $notExpectedMaxAttempts)"
       page.source should not include "After a third unsuccessful attempt the system prevents further attempts to access the the vehicles records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period."
     }
 
-    "display greaterThanOneAttempt and warnAboutLockout messages when 2 attempts have been made" in new WebBrowser {
+    "display warnAboutLockout messages when 2 attempts have been made" in new WebBrowser {
       val expectedAttempts = 2
       val expectedMaxAttempts = MaxAttemptsOneBased
       go to BeforeYouStartPage
@@ -78,7 +77,6 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       go to VehicleLookupFailurePage
 
-      page.source should include(s"Look-up was unsuccessful")
       page.source should include("After a third unsuccessful attempt the system prevents further attempts to access the the vehicles records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.")
     }
   }

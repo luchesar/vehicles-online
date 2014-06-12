@@ -269,7 +269,6 @@ disposal_disposeconfirmation.exitbutton = Gadael
 disposal_disposeconfirmation.survey = Arolwg
 
 disposal_vehiclelookupfailure.title = Edrych i fyny yn aflwyddiannus
-disposal_vehiclelookupfailure.title.greaterThanOneAttempt = Edrych i fyny yn aflwyddiannus ({0} o {1})
 disposal_vehiclelookupfailure.name = Methiant
 disposal_vehiclelookupfailure.p1 = Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
 disposal_vehiclelookupfailure.button = Am-edrych gerbyd
