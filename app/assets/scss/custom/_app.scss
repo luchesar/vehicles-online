@@ -221,8 +221,12 @@
         width: 75%;
         padding: 0.25em; } }
 
-	#traderName, #traderPostcode, .summary-detail-list dd, .summary-detail-list {
-		@include toUppercase
+	#traderName, #traderPostcode,
+	#vehicleRegistrationNumber, #documentReferenceNumber,
+	#addressAndPostcode_addressLines_buildingNameOrNumber, #addressAndPostcode_addressLines_line2,
+	#addressAndPostcode_addressLines_line3, #addressAndPostcode_addressLines_postTown, #addressAndPostcode_postcode,
+	.summary-detail-list dd, .summary-detail-list {
+		@include toUppercase;
 	}
 
 }
