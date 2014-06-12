@@ -143,8 +143,6 @@ disposal_beforeyoustart.listitem2 = Ni ddylai fod unrhyw angen i''r V5C newidiad
 
 disposal_beforeyoustart.listitem3 = Os oes gan y cerbyd yn cael ei werthu rhif cofrestru personol, Mae''n rhaid i''r ceidwad yn deall y bydd y rhif cofrestru yn cael ei werthu gyda''r cerbyd. Os yw''r ceidwad yn awyddus i gadw rhif cofrestru personol, rhaid iddynt gadw yn gyntaf neu ei drosglwyddo i gerbyd arall.
 
-disposal_beforeyoustart.listitem4 = Dim ond yn gwerthu i''r fasnach modur yn cael eu hysbysu gan ddefnyddio''r gwasanaeth hwn. Ni all unrhyw hysbysiad arall megis gwerthu i unigolyn preifat neu newid cyfeiriad yn cael ei wneud ar-lein ar hyn o bryd. Rhaid i''r ceisiadau gael eu gwneud drwy anfon y cais ac unrhyw ddogfennau sy''n berthnasol i DVLA, Abertawe.
-
 disposal_beforeyoustart.button = Ddechrau nawr
 
 #page 3
@@ -271,7 +269,6 @@ disposal_disposeconfirmation.exitbutton = Gadael
 disposal_disposeconfirmation.survey = Arolwg
 
 disposal_vehiclelookupfailure.title = Edrych i fyny yn aflwyddiannus
-disposal_vehiclelookupfailure.title.greaterThanOneAttempt = Edrych i fyny yn aflwyddiannus ({0} o {1})
 disposal_vehiclelookupfailure.name = Methiant
 disposal_vehiclelookupfailure.p1 = Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
 disposal_vehiclelookupfailure.button = Am-edrych gerbyd
@@ -361,7 +358,6 @@ error.button = Dechrau eto
 vehicleRegistrationNumber=Rhif cofrestru cerbyd
 documentReferenceNumber=Rhif cyfeirnod y ddogfen
 disposal_disposefailure.title=Cael gwared cerbyd i mewn i''r fasnach foduron\: methiant
-disposal_disposefailure.header=Methiant Gwaredu
 disposal_disposefailure.p1=Nid yw wedi bod yn bosibl i gwblhau eich trafodiad. Ffoniwch 0300 790 6802
 disposal_disposefailure.button=Am-edrych gerbyd
 disposal_vehiclelookupfailure.button2=Gadael
@@ -378,3 +374,10 @@ vehicle_lookup_document_reference_mismatch.p3=Ar gyfer pob rhif cofrestru cerbyd
 
 language.cy.button = YAGNI
 language.en.button = English
+
+main.banner.feedback =Adborth
+main.banner.feedback.link=mailto\:VM@digital.dvla.gov.uk?Subject\=Gwerthu%20i''r%20adborth%20Masnach
+prototype.banner-part2=yn ein helpu i wella
+disposal_disposefailure.name=Methiant
+disposal_disposefailure.button3=Print
+ms.vehiclesService.response.unableToProcessApplication-address=DVLA, Longview Road, Morriston, Abertawe, SA6 7JL
