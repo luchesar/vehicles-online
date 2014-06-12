@@ -19,7 +19,7 @@ final class DisposeWebServiceImpl @Inject()(config: Config)  extends DisposeWebS
     val refNo = LogFormats.anonymize(request.referenceNumber)
     val postcode = LogFormats.anonymize(request.traderAddress.postCode)
 
-    Logger.debug(s"Calling dispose vehicle micro-service with $refNo $vrm $postcode ${request.keeperConsent} ${request.prConsent} ${request.mileage}")//request object: $request on $endPoint")
+    //Logger.debug(s"Calling dispose vehicle micro-service with $refNo $vrm $postcode ${request.keeperConsent} ${request.prConsent} ${request.mileage}")//request object: $request on $endPoint")
     WS.
       url(endPoint).
       withRequestTimeout(requestTimeout).

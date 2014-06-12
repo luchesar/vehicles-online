@@ -34,6 +34,12 @@ import models.domain.disposal_of_vehicle.DisposeViewModel
 import play.api.data.FormError
 import play.api.mvc.Call
 import play.api.Play.current
+import mappings.disposal_of_vehicle.DisposeSuccess._
+import scala.Some
+import play.api.mvc.SimpleResult
+import models.domain.disposal_of_vehicle.DisposeViewModel
+import play.api.data.FormError
+import play.api.mvc.Call
 
 final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -52,13 +58,15 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
   def present = Action {
     implicit request => {
-      request.cookies.getModel[TraderDetailsModel] match {
-        case (Some(dealerDetails)) =>
+      (request.cookies.getModel[TraderDetailsModel], request.cookies.getString(DisposeSuccessCacheKey)) match {
+        case (Some(dealerDetails), None) =>
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
           request.cookies.getModel[VehicleDetailsModel] match {
             case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), form.fill(), yearsDropdown))
             case _ => Redirect(routes.VehicleLookup.present())
           }
+        case (_, Some(disposeSuccess)) => Redirect(routes.VehicleLookup.present()).
+          discardingCookie(DisposeSuccessCacheKey)
         case _ => Redirect(routes.SetUpTradeDetails.present())
       }
     }
@@ -89,8 +97,10 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
             }
           },
         f => {
-          //Logger.debug(s"Dispose form submitted- mileage = ${f.mileage}, disposalDate = ${f.dateOfDisposal}, consent=${f.consent}, lossOfRegistrationConsent=${f.lossOfRegistrationConsent}")
-          disposeAction(webService, f)
+          request.cookies.getString(DisposeSuccessCacheKey) match {
+            case Some(_) => Future { Redirect(routes.VehicleLookup.present()) } // US320 prevent user using the browser back button and resubmitting.
+            case None => disposeAction(webService, f)
+          }
         }
       )
   }

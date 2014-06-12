@@ -33,7 +33,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
       val request = FakeRequest()
       val result = disposeSuccess.present(request)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
 
@@ -43,7 +43,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = disposeSuccess.present(request)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
 
@@ -53,7 +53,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val result = disposeSuccess.present(request)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
 
@@ -63,7 +63,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.disposeModel())
       val result = disposeSuccess.present(request)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
 
@@ -73,7 +73,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.disposeFormModel())
       val result = disposeSuccess.present(request)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
 
@@ -82,7 +82,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val result = disposeSuccess.present(request)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
 
@@ -92,7 +92,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.disposeModel())
       val result = disposeSuccess.present(request)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
   }
@@ -110,21 +110,6 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
       val result = disposeSuccess.newDisposal(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
-      }
-    }
-
-    "redirect to correct next page after the exit button is clicked" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeTransactionId()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
-        withCookies(CookieFactoryForUnitSpecs.disposeModel())
-      val result = disposeSuccess.exit(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
       }
     }
 
@@ -190,6 +175,23 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
       val result = disposeSuccess.newDisposal(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      }
+    }
+  }
+
+  "exit" should {
+    "redirect to BeforeYouStartPage" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeTransactionId()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
+        withCookies(CookieFactoryForUnitSpecs.disposeModel())
+      val result = disposeSuccess.exit(request)
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
       }
     }
   }
