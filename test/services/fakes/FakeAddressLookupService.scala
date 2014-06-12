@@ -6,8 +6,8 @@ import models.domain.disposal_of_vehicle.AddressViewModel
 object FakeAddressLookupService {
   final val TraderBusinessNameValid = "example trader name"
   final val PostcodeInvalid = "xx99xx"
-  val addressWithoutUprn = AddressViewModel(address = Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
-  val addressWithUprn = AddressViewModel(uprn = Some(traderUprnValid), address = Seq("44 Hythe Road", "White City", "London", "NW10 6RJ"))
+  val addressWithoutUprn = AddressViewModel(address = Seq("44 Hythe Road", "White City", "London", PostcodeValid))
+  val addressWithUprn = AddressViewModel(uprn = Some(traderUprnValid), address = Seq("44 Hythe Road", "White City", "London", PostcodeValid))
   final val BuildingNameOrNumberValid = "1234"
   final val Line2Valid = "line2 stub"
   final val Line3Valid = "line3 stub"
