@@ -40,15 +40,16 @@
                             <img src="@routes.Assets.at("images/gov.uk_logotype-2x.png")" alt="GOV.UK">
                         </a>
                     </div>
-					
-					<div class="header-phase">
+
+                    <div class="header-phase">
                     	<h1 class="page-title alpha"><strong>@{Messages("main.banner")(lang)}</strong> <span aria-hidden="true">alpha</span></h1>
                     	<h2>
                             <a href="">@{Messages("main.banner.help")(lang)}</a>
                             <a href="@{Messages("main.banner.feedback.link")(lang)}">@{Messages("main.banner.feedback")(lang)}</a>
-                            @alternateLanguages
                         </h2>
                     </div>
+                    
+                    @alternateLanguages
 
                 </div>
             </div>
