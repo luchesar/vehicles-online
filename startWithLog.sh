@@ -1,1 +1,1 @@
-play "start -Dlogger.file=conf/prod-logger.xml"
+play start -Dlogger.file=conf/prod-logger.xml
