@@ -7,7 +7,7 @@ import mappings.disposal_of_vehicle.DisposeFailure._
 object DisposeFailurePage extends Page with WebBrowserDSL {
   final val address = "/disposal-of-vehicle/dispose-failure"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  final override val title: String = "Dispose a vehicle into the motor trade: failure"
+  final override val title: String = "Sell a vehicle into the motor trade: failure"
 
   def setuptradedetails(implicit driver: WebDriver): Element = find(id(SetupTradeDetailsId)).get
 

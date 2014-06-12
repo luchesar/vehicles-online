@@ -9,7 +9,7 @@ import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceI
 object VehicleLookupPage extends Page with WebBrowserDSL {
   final val address = "/disposal-of-vehicle/vehicle-lookup"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  final override val title: String = "Find vehicle details"
+  final override val title: String = "Enter vehicle details"
 
   def vehicleRegistrationNumber(implicit driver: WebDriver): TextField = textField(id(VehicleRegistrationNumberId))
 

@@ -18,7 +18,7 @@ final class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with B
       info("So they will be removed from the vehicle record as current keeper")
       info("")
 
-      scenario("Dispose a vehicle to the trade: happy path") {
+      scenario("Sell a vehicle to the trade: happy path") {
 
         new WebBrowser {
 
@@ -73,8 +73,8 @@ final class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with B
           When("I click the dispose button")
           click on DisposePage.dispose
 
-          Then("I should see \"Dispose a vehicle into the motor trade: summary \"")
-          page.text should include("Dispose a vehicle into the motor trade: summary")
+          Then("I should see \"Sell a vehicle into the motor trade: summary \"")
+          page.text should include("Sell a vehicle into the motor trade: summary")
         }
       }
     }

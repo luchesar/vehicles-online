@@ -8,7 +8,7 @@ import mappings.disposal_of_vehicle.SetupTradeDetails._
 object SetupTradeDetailsPage extends Page with WebBrowserDSL {
   final val address = "/disposal-of-vehicle/setup-trade-details"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  final override val title: String = "Provide your trader details"
+  final override val title: String = "Provide your Trader details" 
 
   def traderName(implicit driver: WebDriver): TextField = textField(id(TraderNameId))
 

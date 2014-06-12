@@ -10,13 +10,19 @@
     alternateLanguages = language(withLanguageCy = DisposeFailure.withLanguageCy(), withLanguageEn = DisposeFailure.withLanguageEn())
 ) {
 
-    <p>@Messages("disposal_disposefailure.p1")</p>
 
-    <div class="alert-error">
-        <h2>@Messages("disposal_disposefailure.header")</h2>
-        <p>@Messages("ms.vehiclesService.response.unableToProcessApplication")</p>
-        <p>@Messages("disposal_disposefailure.transactiontext") <br /> <span class="emphasized">@Messages("disposal_disposefailure.transactionid", data.transactionId.getOrElse(""))</span></p>
-    </div>
+<div class="alert-failed">
+    <h2>Disposal failure</h2>
+    <p>
+    	@Messages("ms.vehiclesService.response.unableToProcessApplication")
+    	<br>
+    	@Messages("ms.vehiclesService.response.unableToProcessApplication-address")
+    </p>
+    <p>Your transaction ID is<br /><span class="emphasized">@Messages("disposal_disposefailure.transactionid", data.transactionId.getOrElse(""))</span></p>
+</div>
+
+
+
 
     <div class="form-steps">
         @{
@@ -24,5 +30,6 @@
         }
         <a class="button" id="@VehicleLookupId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present()">@Messages("disposal_disposefailure.button")</a>
         <a class="button" id="@SetupTradeDetailsId" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.present()">@Messages("disposal_disposefailure.button2")</a>
+        <button id="printDisposalSuccess" type="button" name="action" value="printDisposalSuccess" class="button js-only print-button">@Messages("global.buttonnavprint")</button>
     </div>
 }

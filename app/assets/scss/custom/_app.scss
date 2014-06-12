@@ -35,13 +35,13 @@
 		   	font-size: 24px;
 	   	}
  	}
- 	
+
  	p {
  		@include copy-19;
 	 	.ie & {
 		 	font-size:19px;
 	 	}
-	 	
+
 	 	&.link-manual-address {
 	 		position: relative;
 		 	top:-0.3em;
@@ -60,7 +60,7 @@
 	 		}
  		}
  	}
- 	
+
  	// information items (1/2 columns - typically 2 columns)
  	// this could be a DL element, or a wrapping div
  	.summary-detail-list {
@@ -88,7 +88,7 @@
 			width:190px;
 			font-weight:bold;
 			clear:left;
-			
+
 			@media screen and (max-width: $device-small) {
 				padding-top:0;
 				margin-bottom:0;
@@ -102,11 +102,11 @@
 			}
 		}
 
-		.ie6 & {	
+		.ie6 & {
 			dt,dd {
 				float:none;
 			}
-			
+
 		}
 
 
@@ -116,12 +116,12 @@
 		}
 	}
 
-	
+
 	// add out of scope watermark
 	.out-of-scope {
-	  background:#FFF url(#{$image-path}out-of-scope-sml.gif) center center repeat;  
+	  background:#FFF url(#{$image-path}out-of-scope-sml.gif) center center repeat;
 	}
-	
+
 	// styles two column layout
 	.two-col {
 		@include clearfix;
@@ -153,7 +153,7 @@
 
 	//vehicle lookup/find vehicle details
 	.TraderDetails dd {
-		.ie6 & {	
+		.ie6 & {
 			clear:both;
 		}
 	}
@@ -168,7 +168,7 @@
 			}
 		}
 	}
-	
+
 	.disposal-date {
 		legend {
 			margin-top:20px;
@@ -179,6 +179,50 @@
 			}
 		}
 
+	}
+
+  //progress indicator
+  nav.progress-indicator {
+	  padding-left: 0.5em;
+	  border-top: 1px solid #dee0e2;
+	  border-bottom: 3px solid #dee0e2;
+	  margin: 0em -1em 0em -1em;
+	  display:inline-block;
+	  width:100%; }
+  nav.progress-indicator ol {
+    list-style-type: decimal;
+    list-style-position: inside;
+    margin: 0;
+    padding: 0;
+    margin-bottom: -3px; }
+    @media (max-width: 640px) {
+      nav.progress-indicator ol {
+        margin: 0.5em 0; } }
+  nav.progress-indicator li {
+    float: left;
+    margin: 0 0.5em;
+    padding: 0.75em 0; }
+    @media (min-width: 641px) {
+      nav.progress-indicator li.active {
+        border-bottom: 3px solid #28a197;
+        position: relative;
+        top: 3px;
+        margin-top: -3px; } }
+    @media (max-width: 640px) {
+      nav.progress-indicator li.active {
+        border: 0;
+        font-weight: bold;
+        color: #28a197; } }
+    @media (max-width: 900px) {
+      nav.progress-indicator li {
+        font-size: 100%; } }
+    @media (max-width: 640px) {
+      nav.progress-indicator li {
+        width: 75%;
+        padding: 0.25em; } }
+
+	#traderName, #traderPostcode, .summary-detail-list dd, .summary-detail-list {
+		@include toUppercase
 	}
 
 }

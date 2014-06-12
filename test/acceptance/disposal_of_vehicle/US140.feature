@@ -6,7 +6,7 @@ Feature: US140: Disposal to Trade - Consent for Disposal with Personalised Regis
   Scenario:
     Given the motor trader has confirmed the acknowledgement of the current keeper
     When they attempt to dispose of the vehicle
-    Then they are taken to the "Dispose a vehicle into the motor trade: summary" page
+    Then they are taken to the "Sell a vehicle into the motor trade: summary" page
 
   Scenario:
     Given the motor trader has not confirmed the acknowledgement of the current keeper

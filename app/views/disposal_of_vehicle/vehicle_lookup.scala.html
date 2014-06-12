@@ -23,24 +23,7 @@
 
 		<div class="two-col clearfix">
 		
-			<div id="TraderDetails" class="TraderDetails first-col">
-				<h2>@Messages("disposal_vehiclelookup.p2")</h2>
-
-				<dl class="summary-detail-list">
-					<dt>@Messages("disposal_vehiclelookup.tradernamelabel")</dt>
-					<dd>@data.traderName</dd>
-					<dt>@Messages("disposal_vehiclelookup.traderaddresslabel")</dt>
-					<dd>@for(addr <- data.traderAddress.address) {@addr<br/>}</dd>
-				</dl>
-                
-                @{/*
-				<div class="form-steps">
-					<a class="button-not-implemented" title="Edit disposal address" aria-disabled="true" disabled>@Messages("disposal_vehiclelookup.button2")</a></p>
-				</div>
-                */}
-			</div>
-			
-			<div id="FindAVehicleDiv" class="second-col">
+			<div id="FindAVehicleDiv" class="first-col">
 				<h2>@Messages("disposal_vehiclelookup.p1")</h2>
 				
 				@valtechInputText(vehicleLookupForm(VehicleRegistrationNumberId), args =
@@ -63,6 +46,24 @@
                     <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.back()" class="button-secondary">@Messages("disposal_vehiclelookup.backbutton")</a>
 				</div>
 			</div>
+			 
+			<div id="TraderDetails" class="TraderDetails second-col">
+				<h2>@Messages("disposal_vehiclelookup.p2")</h2>
+
+				<dl class="summary-detail-list">
+					<dt>@Messages("disposal_vehiclelookup.tradernamelabel")</dt>
+					<dd>@data.traderName</dd>
+					<dt>@Messages("disposal_vehiclelookup.traderaddresslabel")</dt>
+					<dd>@for(addr <- data.traderAddress.address) {@addr<br/>}</dd>
+				</dl>
+                
+                @{/*
+				<div class="form-steps">
+					<a class="button-not-implemented" title="Edit disposal address" aria-disabled="true" disabled>@Messages("disposal_vehiclelookup.button2")</a></p>
+				</div>
+                */}
+			</div>
+			
 		
 		</div>
     }

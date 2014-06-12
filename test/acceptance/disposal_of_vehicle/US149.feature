@@ -6,7 +6,7 @@ Feature: US149: Disposal to Trade - The consent of the current keeper to dispose
   Scenario:
     Given the motor trader has confirmed the consent of the current keeper
     When they attempt to dispose of the vehicle
-    Then they are taken to the "Dispose a vehicle into the motor trade: summary" page
+    Then they are taken to the "Sell a vehicle into the motor trade: summary" page
 
   Scenario:
     Given the motor trader has not confirmed the consent of the current keeper
