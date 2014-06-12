@@ -23,7 +23,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnFound.present(request)
-      whenReady(result) {
+      whenReady(result, timeout) {
         r => r.header.status should equal(OK)
       }
     }
