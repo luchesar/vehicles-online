@@ -47,7 +47,7 @@ Feature: US51: Disposal to Trade: Validate VRM format entry
     Given a motor trader has <entered> a VRM in an invalid format
     When they attempt to submit the VRM in addition to other required information
     Then a single error message is displayed "Vehicle registration mark - Must be valid format"
-    And they remain on the "Find vehicle details" page
+    And they remain on the "Enter vehicle details" page
 
   Examples:
     | entered |

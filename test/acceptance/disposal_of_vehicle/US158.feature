@@ -26,8 +26,8 @@ Feature: US158: Disposal to Trade: Business Name - Error Messages
   Scenario Outline:
     Given the motor trader has <entered> a business name which does not conform to business rules
     When they attempt to submit the business name in addition to other required information
-    Then a single error message is displayed "Trader name - Must be between two and 58 characters and not contain invalid characters"
-    And they remain on the "Provide your trader details" page
+    Then a single error message is displayed "Trader name - Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, +, -, ‘, &, @, () and ,)"
+    And they remain on the "Provide your Trader details" page
 
   Examples:
     | entered                                                     |

@@ -6,10 +6,10 @@ Feature: US125: Date of Disposal - Business Rules
   Scenario:
     Given the motor trader has entered a valid calendar date which conforms to business rules
     When they attempt to dispose of the vehicle
-    Then they are taken to the "Dispose a vehicle into the motor trade: summary" page
+    Then they are taken to the "Sell a vehicle into the motor trade: summary" page
 
   Scenario:
     Given the motor trader has entered a valid calendar date which does not conform to business rules
     When they attempt to dispose of the vehicle
-    Then a single error message is displayed "Date of disposal - Must be between today and two years ago"
+    Then a single error message is displayed "Date of sale - Must be between today and two years ago"
     And they remain on the "Complete & confirm" page

@@ -78,7 +78,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       go to VehicleLookupFailurePage
 
-      page.source should include(s"Look-up was unsuccessful ($expectedAttempts of $expectedMaxAttempts)")
+      page.source should include(s"Look-up was unsuccessful")
       page.source should include("After a third unsuccessful attempt the system prevents further attempts to access the the vehicles records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.")
     }
   }

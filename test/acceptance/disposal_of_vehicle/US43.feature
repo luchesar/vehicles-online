@@ -13,7 +13,7 @@ Feature: US43: Validate document reference entry format - Error Messages
     Given a motor trader has <entered> a doc ref number in an invalid format
     When they attempt to submit the doc ref number in addition to other required information
     Then a single error message is displayed "Document reference number - Document reference number must be an 11-digit number"
-    And they remain on the "Find vehicle details" page
+    And they remain on the "Enter vehicle details" page
 
   Examples:
     | entered      |

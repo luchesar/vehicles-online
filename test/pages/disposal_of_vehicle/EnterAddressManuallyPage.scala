@@ -11,7 +11,7 @@ import mappings.disposal_of_vehicle.EnterAddressManually._
 object EnterAddressManuallyPage extends Page with WebBrowserDSL {
   final val address = "/disposal-of-vehicle/enter-address-manually"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  final override val title: String = "Enter address manually"
+  final override val title: String = "Enter address"
 
   def addressBuildingNameOrNumber(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$BuildingNameOrNumberId"))
 
