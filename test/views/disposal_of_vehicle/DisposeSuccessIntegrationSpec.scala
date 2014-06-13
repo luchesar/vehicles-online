@@ -3,6 +3,7 @@ package views.disposal_of_vehicle
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
+import mappings.common.Interstitial._
 import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.DisposeSuccessPage._
 import pages.disposal_of_vehicle._
@@ -118,6 +119,8 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       RelatedCacheKeys.TradeDetailsSet.foreach(cacheKey => {
         webDriver.manage().getCookieNamed(cacheKey) should not equal null
       })
+
+      webDriver.manage().getCookieNamed(InterstitialCacheKey) should not equal null
     }
   }
 
