@@ -1,6 +1,7 @@
 package services.address_lookup.ordnance_survey
 
 import play.api.libs.ws.{Response, WS}
+import services.HttpHeaders
 import utils.helpers.Config
 import scala.concurrent.Future
 import services.address_lookup.AddressLookupWebService
@@ -24,6 +25,7 @@ final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebSer
 
     Logger.debug(s"Calling ordnance-survey postcode lookup micro-service with $postcodeToLog") // $endPoint...")
     WS.url(endPoint).
+      withHeaders(HttpHeaders.TrackingId -> session.trackingId).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
       get()
   }
@@ -39,6 +41,7 @@ final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebSer
 
     Logger.debug(s"Calling ordnance-survey uprn lookup micro-service with $uprnToLog")
     WS.url(endPoint).
+      withHeaders(HttpHeaders.TrackingId -> session.trackingId).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
       get()
   }

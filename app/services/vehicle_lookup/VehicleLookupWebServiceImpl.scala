@@ -1,5 +1,7 @@
 package services.vehicle_lookup
 
+import services.HttpHeaders
+
 import scala.concurrent.Future
 import play.api.libs.ws.{WS, Response}
 import models.domain.disposal_of_vehicle.VehicleDetailsRequest
@@ -18,6 +20,8 @@ final class VehicleLookupWebServiceImpl @Inject()(config: Config) extends Vehicl
     val refNo = LogFormats.anonymize(request.referenceNumber)
 
     Logger.debug(s"Calling vehicle lookup micro-service with request $refNo $vrm") //object: $request on ${endPoint}")
-    WS.url(endPoint).post(Json.toJson(request))
+    WS.url(endPoint).
+      withHeaders(HttpHeaders.TrackingId -> request.trackingId).
+      post(Json.toJson(request))
   }
 }
