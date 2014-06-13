@@ -57,6 +57,12 @@ final class DisposeSuccessSteps(webBrowserDriver: WebBrowserDriver) extends WebB
     page.text should include(PostcodeValid)
   }
 
+  @Then( """^no vehicle details are available$""")
+  def no_vehicle_details_are_available() = {
+    page.text should not include RegistrationNumberValid
+    page.text should not include ReferenceNumberValid
+  }
+
   @Given( """^that the user has selected the "Exit" button and navigated away from the service$""")
   def that_the_user_has_selected_the_Exit_button_and_navigated_away_from_the_service() = {
     go to BeforeYouStartPage
@@ -86,7 +92,7 @@ final class DisposeSuccessSteps(webBrowserDriver: WebBrowserDriver) extends WebB
   }
 
   @Then( """^the user is returned to the "SetUpTradeDetails" page for the service$""")
-  def the_user_is_returned_to_the_Before_You_Start_page_for_the_service() = {
+  def the_user_is_returned_to_the_SetUpTradeDetails_page_for_the_service() = {
     page.title should equal(SetupTradeDetailsPage.title)
   }
 
