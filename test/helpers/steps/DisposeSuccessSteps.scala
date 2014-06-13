@@ -91,9 +91,9 @@ final class DisposeSuccessSteps(webBrowserDriver: WebBrowserDriver) extends WebB
     webDriver.navigate().back()
   }
 
-  @Then( """^the user is returned to the "SetUpTradeDetails" page for the service$""")
-  def the_user_is_returned_to_the_SetUpTradeDetails_page_for_the_service() = {
-    page.title should equal(SetupTradeDetailsPage.title)
+  @Then( """^the user is returned to the "BeforeYouStart" page for the service$""")
+  def the_user_is_returned_to_the_BeforeYouStart_page_for_the_service() = {
+    page.title should equal(BeforeYouStartPage.title)
   }
 
   @Given( """^that the user has selected the "New Disposal" button and navigated away from the service$""")

@@ -4,6 +4,7 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.RequestCookiesAdapter
 import common.CookieImplicits.SimpleResultAdapter
+import mappings.common.Interstitial._
 import mappings.common.Languages._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.RelatedCacheKeys
@@ -35,7 +36,9 @@ final class DisposeSuccess @Inject()()(implicit clientSideSessionFactory: Client
   }
 
   def exit = Action { implicit request =>
-    Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
+    Redirect(routes.Interstitial.present()).
+      discardingCookies(RelatedCacheKeys.FullSet).
+      withCookie(InterstitialCacheKey, routes.BeforeYouStart.present().url)
   }
 
   def withLanguageCy = Action { implicit request =>

@@ -16,4 +16,4 @@ Feature: US320: Redirect Browser Back Button After Transaction is Complete or af
   Scenario: Browser back button should redirect to Vehicle Lookup after pressing 'Exit' on Dispose Success
     Given that the user has selected the "Exit" button and navigated away from the service
     When the user tries to return to a previous screens in the service
-    Then the user is returned to the "SetUpTradeDetails" page for the service
+    Then the user is returned to the "BeforeYouStart" page for the service

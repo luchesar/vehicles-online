@@ -117,7 +117,8 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
   private def lookupVehicle(model: VehicleLookupFormModel, bruteForcePreventionViewModel: BruteForcePreventionViewModel)(implicit request: Request[_]): Future[SimpleResult] = {
     def lookupSuccess(vehicleDetailsDto: VehicleDetailsDto) =
       Redirect(routes.Dispose.present()).
-        withCookie(VehicleDetailsModel.fromDto(vehicleDetailsDto)).discardingCookie(InterstitialCacheKey)
+        withCookie(VehicleDetailsModel.fromDto(vehicleDetailsDto)).
+        discardingCookie(InterstitialCacheKey) // US320: we have successfully called the lookup service so we cannot be coming back from a dispose success (as the doc id will have changed and the call sould fail).
 
     def hasVehicleDetails(vehicleDetailsDto: Option[VehicleDetailsDto])(implicit request: Request[_]) = vehicleDetailsDto match {
       case Some(dto) => lookupSuccess(dto)
