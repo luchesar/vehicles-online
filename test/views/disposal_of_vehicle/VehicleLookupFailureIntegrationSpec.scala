@@ -7,10 +7,11 @@ import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.VehicleLookupFailurePage._
 import pages.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.VehicleLookup._
-import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttemptsOneBased
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
 
 final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
+
     "display the page" in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
@@ -54,29 +55,32 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
     }
 
     "not display warnAboutLockout messages when 1 attempt has been made" in new WebBrowser {
-      val notExpectedAttempts = 2
-      val notExpectedMaxAttempts = MaxAttemptsOneBased
-      go to BeforeYouStartPage
-      cacheSetup()
-
-      go to VehicleLookupFailurePage
-
-      page.source should not include "After a third unsuccessful attempt the system prevents further attempts to access the the vehicles records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period."
-    }
-
-    "display warnAboutLockout messages when 2 attempts have been made" in new WebBrowser {
-      val expectedAttempts = 2
-      val expectedMaxAttempts = MaxAttemptsOneBased
       go to BeforeYouStartPage
 
       CookieFactoryForUISpecs.
         dealerDetails().
-        bruteForcePreventionViewModel(attempts = expectedAttempts, maxAttempts = expectedMaxAttempts).
+        bruteForcePreventionViewModel(attempts = 1, maxAttempts = MaxAttempts).
         vehicleLookupFormModel().
-        vehicleLookupResponseCode()
+        vehicleLookupResponseCode(responseCode = "vehicle_lookup_document_reference_mismatch")
 
       go to VehicleLookupFailurePage
 
+      page.source should include("For each vehicle registration mark, only three attempts can be made to retrieve the vehicle details.")
+      page.source should not include "After a third unsuccessful attempt the system prevents further attempts to access the the vehicles records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period."
+    }
+
+    "display warnAboutLockout messages when 2 attempts have been made" in new WebBrowser {
+      go to BeforeYouStartPage
+
+      CookieFactoryForUISpecs.
+        dealerDetails().
+        bruteForcePreventionViewModel(attempts = 2, maxAttempts = MaxAttempts).
+        vehicleLookupFormModel().
+        vehicleLookupResponseCode(responseCode = "vehicle_lookup_document_reference_mismatch")
+
+      go to VehicleLookupFailurePage
+
+      page.source should include("For each vehicle registration mark, only three attempts can be made to retrieve the vehicle details.")
       page.source should include("After a third unsuccessful attempt the system prevents further attempts to access the the vehicles records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.")
     }
   }
