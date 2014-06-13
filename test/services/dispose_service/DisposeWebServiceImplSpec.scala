@@ -40,7 +40,7 @@ class DisposeWebServiceImplSpec extends UnitSpec with WireMockFixture {
   "callDisposeService" should {
     "send the serialised json request" in {
       val resultFuture = disposeService.callDisposeService(request)
-      whenReady(resultFuture) { result =>
+      whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/vehicles/dispose/v1")
         ).withHeader(HttpHeaders.TrackingId, equalTo(request.trackingId)).
