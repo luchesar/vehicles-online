@@ -1,0 +1,16 @@
+@(nextPageUrl: String)(implicit lang: Lang)
+
+<html>
+    <head>
+        <script type="text/javascript">
+        <!--
+        function delayer(){
+            window.location = "@nextPageUrl"
+        }
+        //-->
+        </script>
+    </head>
+    <body onLoad="setTimeout('delayer()', 5000)">
+        <p>If this page does not automatically redirect in 5 seconds, please <a href="@nextPageUrl" title="Next page">click on this link</a></p>
+    </body>
+</html>

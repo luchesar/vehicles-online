@@ -51,6 +51,8 @@ POST        /disposal-of-vehicle/dispose                                @control
 POST        /disposal-of-vehicle/dispose/cy                             @controllers.disposal_of_vehicle.Dispose.withLanguageCy
 POST        /disposal-of-vehicle/dispose/en                             @controllers.disposal_of_vehicle.Dispose.withLanguageEn
 
+GET         /disposal-of-vehicle/interstitial                           @controllers.disposal_of_vehicle.Interstitial.present
+
 GET         /disposal-of-vehicle/dispose-success                        @controllers.disposal_of_vehicle.DisposeSuccess.present
 POST        /disposal-of-vehicle/dispose-success/new-disposal           @controllers.disposal_of_vehicle.DisposeSuccess.newDisposal
 POST        /disposal-of-vehicle/dispose-success/exit                   @controllers.disposal_of_vehicle.DisposeSuccess.exit
