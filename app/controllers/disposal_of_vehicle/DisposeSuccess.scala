@@ -4,6 +4,7 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.RequestCookiesAdapter
 import common.CookieImplicits.SimpleResultAdapter
+import mappings.common.Interstitial._
 import mappings.common.Languages._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.RelatedCacheKeys
@@ -11,7 +12,6 @@ import models.domain.disposal_of_vehicle.DisposeViewModel
 import models.domain.disposal_of_vehicle.{DisposeFormModel, VehicleDetailsModel, TraderDetailsModel}
 import play.api.Play.current
 import play.api.mvc._
-import mappings.disposal_of_vehicle.DisposeSuccess.DisposeSuccessCacheKey
 
 final class DisposeSuccess @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -21,8 +21,7 @@ final class DisposeSuccess @Inject()()(implicit clientSideSessionFactory: Client
         request.cookies.getString(DisposeFormTransactionIdCacheKey), request.cookies.getString(DisposeFormRegistrationNumberCacheKey)) match {
         case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId), Some(registrationNumber)) =>
           val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId), registrationNumber)
-          Ok(views.html.disposal_of_vehicle.dispose_success(disposeModel, disposeFormModel)).
-            withCookie(DisposeSuccessCacheKey, "success") // US320 write a cookie to prevent us going back to the Dispose page using browser keys.
+          Ok(views.html.disposal_of_vehicle.dispose_success(disposeModel, disposeFormModel))
         case _ => Redirect(routes.VehicleLookup.present()) // US320 the user has pressed back button after being on dispose-success and pressing new dispose.
       }
   }
@@ -37,7 +36,9 @@ final class DisposeSuccess @Inject()()(implicit clientSideSessionFactory: Client
   }
 
   def exit = Action { implicit request =>
-    Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
+    Redirect(routes.Interstitial.present()).
+      discardingCookies(RelatedCacheKeys.FullSet).
+      withCookie(InterstitialCacheKey, routes.BeforeYouStart.present().url)
   }
 
   def withLanguageCy = Action { implicit request =>

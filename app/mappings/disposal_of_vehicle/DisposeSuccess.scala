@@ -6,5 +6,4 @@ object DisposeSuccess {
   final val ExitDisposalId = "exitDisposal"
   final val NewDisposalAction = "newDisposal"
   final val ExitAction = "exit"
-  final val DisposeSuccessCacheKey = "disposeSuccess"
 }

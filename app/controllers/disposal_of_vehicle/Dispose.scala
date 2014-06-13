@@ -1,45 +1,28 @@
 package controllers.disposal_of_vehicle
 
-import _root_.common.{ClientSideSessionFactory, CookieImplicits}
-import play.api.data.Form
-import play.api.data.Forms._
-import play.api.Logger
-import play.api.mvc._
-import mappings.disposal_of_vehicle.Dispose._
-import mappings.common.Mileage._
-import mappings.common.DayMonthYear.dayMonthYear
-import mappings.common.Consent._
-import constraints.common
-import common.DayMonthYear._
-import models.domain.disposal_of_vehicle._
 import com.google.inject.Inject
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
-import utils.helpers.FormExtensions._
-import models.domain.disposal_of_vehicle.VehicleDetailsModel
-import org.joda.time.format.ISODateTimeFormat
-import services.dispose_service.DisposeService
-import services.DateService
-import models.domain.disposal_of_vehicle.DisposeFormModel
-import models.domain.disposal_of_vehicle.TraderDetailsModel
-import models.domain.disposal_of_vehicle.DisposeModel
-import mappings.disposal_of_vehicle.Dispose.DateOfDisposalYearsIntoThePast
-import scala.language.postfixOps
-import CookieImplicits.RequestCookiesAdapter
-import CookieImplicits.SimpleResultAdapter
-import CookieImplicits.FormAdapter
+import common.ClientSideSessionFactory
+import common.CookieImplicits.{FormAdapter, RequestCookiesAdapter, SimpleResultAdapter}
+import constraints.common.DayMonthYear._
+import mappings.common.Consent._
+import mappings.common.DayMonthYear.dayMonthYear
+import mappings.common.Interstitial.InterstitialCacheKey
 import mappings.common.Languages._
-import play.api.mvc.SimpleResult
-import models.domain.disposal_of_vehicle.DisposeViewModel
-import play.api.data.FormError
-import play.api.mvc.Call
+import mappings.common.Mileage._
+import mappings.disposal_of_vehicle.Dispose._
+import models.domain.disposal_of_vehicle._
+import org.joda.time.format.ISODateTimeFormat
+import play.api.Logger
 import play.api.Play.current
-import mappings.disposal_of_vehicle.DisposeSuccess._
-import scala.Some
-import play.api.mvc.SimpleResult
-import models.domain.disposal_of_vehicle.DisposeViewModel
-import play.api.data.FormError
-import play.api.mvc.Call
+import play.api.data.Forms._
+import play.api.data.{Form, FormError}
+import play.api.mvc._
+import services.DateService
+import services.dispose_service.DisposeService
+import utils.helpers.FormExtensions._
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.language.postfixOps
 
 final class Dispose @Inject()(webService: DisposeService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -58,15 +41,18 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
   def present = Action {
     implicit request => {
-      (request.cookies.getModel[TraderDetailsModel], request.cookies.getString(DisposeSuccessCacheKey)) match {
+      (request.cookies.getModel[TraderDetailsModel], request.cookies.getString(InterstitialCacheKey)) match {
         case (Some(dealerDetails), None) =>
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
           request.cookies.getModel[VehicleDetailsModel] match {
             case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), form.fill(), yearsDropdown))
             case _ => Redirect(routes.VehicleLookup.present())
           }
-        case (_, Some(disposeSuccess)) => Redirect(routes.VehicleLookup.present()).
-          discardingCookie(DisposeSuccessCacheKey)
+        case (_, Some(interstitial)) =>
+          // US320 Kick them back to the VehicleLookup page if they arrive here by any route other that clicking the
+          // "Exit" or "New Dispose" buttons.
+          Redirect(routes.VehicleLookup.present()).
+            discardingCookie(InterstitialCacheKey)
         case _ => Redirect(routes.SetUpTradeDetails.present())
       }
     }
@@ -97,8 +83,10 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
             }
           },
         f => {
-          request.cookies.getString(DisposeSuccessCacheKey) match {
-            case Some(_) => Future { Redirect(routes.VehicleLookup.present()) } // US320 prevent user using the browser back button and resubmitting.
+          request.cookies.getString(InterstitialCacheKey) match {
+            case Some(_) => Future {
+              Redirect(routes.VehicleLookup.present())
+            } // US320 prevent user using the browser back button and resubmitting.
             case None => disposeAction(webService, f)
           }
         }
@@ -140,11 +128,12 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       webService.invoke(disposeRequest).map {
         case (httpResponseCode, response) => //Logger.debug(s"Dispose micro-service call successful response = $response") //ToDo Do we need to log this information?
 
-         Some(Redirect(nextPage(httpResponseCode, response))).
+          Some(Redirect(nextPage(httpResponseCode, response))).
             map(_.withCookie(disposeModel)).
             map(_.withCookie(disposeFormModel)).
             map(storeResponseInCache(response, _)).
             map(transactionTimestamp).
+            map(_.withCookie(InterstitialCacheKey, routes.DisposeSuccess.present().url)). // US320 interstitial should redirect to DisposeSuccess.
             get
       }.recover {
         case e: Throwable =>
@@ -157,14 +146,14 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       response match {
         case Some(o) =>
           val nextPageWithTransactionId = if (o.transactionId != "") nextPage.withCookie(DisposeFormTransactionIdCacheKey, o.transactionId)
-            else nextPage
+          else nextPage
           if (o.registrationNumber != "") nextPageWithTransactionId.withCookie(DisposeFormRegistrationNumberCacheKey, o.registrationNumber)
-            else nextPageWithTransactionId
+          else nextPageWithTransactionId
         case None => nextPage
       }
     }
 
-      def transactionTimestamp(nextPage: SimpleResult) = {
+    def transactionTimestamp(nextPage: SimpleResult) = {
       val transactionTimestamp = dateService.today.toDateTime.get
       val formatter = ISODateTimeFormat.dateTime()
       val isoDateTimeString = formatter.print(transactionTimestamp)
@@ -204,7 +193,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
     def handleHttpStatusCode(statusCode: Int): Call = {
       statusCode match {
-        case OK => routes.DisposeSuccess.present()
+        case OK => routes.Interstitial.present()
         case SERVICE_UNAVAILABLE => routes.SoapEndpointError.present()
         case _ => routes.MicroServiceError.present()
       }
@@ -221,7 +210,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         Logger.error("Could not find dealer details in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present())
       }
-      case (_, None) =>  Future {
+      case (_, None) => Future {
         Logger.error("Could not find vehicle details in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present())
       }

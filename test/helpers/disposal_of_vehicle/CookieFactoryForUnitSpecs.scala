@@ -24,7 +24,7 @@ import common.{ClientSideSessionFactory, CookieFlags, ClearTextClientSideSession
 import composition.TestComposition.{testInjector => injector}
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
-import mappings.disposal_of_vehicle.DisposeSuccess.DisposeSuccessCacheKey
+import mappings.common.Interstitial.InterstitialCacheKey
 import play.api.mvc.Cookie
 
 object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by returning "this" at the end of the defs
@@ -175,5 +175,5 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
   }
 
   def disposeSuccess() =
-    createCookie(DisposeSuccessCacheKey, "success")  //controller needs to match on existance of this cookie when it shouldn't exist and redirect
+    createCookie(InterstitialCacheKey, "success")
 }

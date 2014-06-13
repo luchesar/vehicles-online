@@ -7,7 +7,7 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.EnterAddressManually._
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._
-import mappings.disposal_of_vehicle.DisposeSuccess.DisposeSuccessCacheKey
+import mappings.common.Interstitial.InterstitialCacheKey
 
 object RelatedCacheKeys {
   final val SeenCookieMessageKey = "seen_cookie_message"
@@ -22,7 +22,7 @@ object RelatedCacheKeys {
     DisposeFormTimestampIdCacheKey,
     DisposeFormRegistrationNumberCacheKey,
     DisposeModelCacheKey,
-    DisposeSuccessCacheKey)
+    InterstitialCacheKey)
 
   val TradeDetailsSet = Set(SetupTradeDetailsCacheKey,
       TraderDetailsCacheKey,

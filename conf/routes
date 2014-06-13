@@ -92,3 +92,5 @@ GET         /disposal-of-vehicle/error                                  @control
 POST        /disposal-of-vehicle/error                                  @controllers.disposal_of_vehicle.Error.submit
 POST        /disposal-of-vehicle/error/cy                               @controllers.disposal_of_vehicle.Error.withLanguageCy
 POST        /disposal-of-vehicle/error/en                               @controllers.disposal_of_vehicle.Error.withLanguageEn
+
+GET         /common/interstitial                                        @controllers.disposal_of_vehicle.Interstitial.present

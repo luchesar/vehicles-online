@@ -1,0 +1,45 @@
+@(nextPageUrl: String, delay: Int = 0)(implicit lang: Lang)
+
+<html>
+    <head>
+        @*
+        US320 prevent browser back button taking user to a cached version of the page using headers. The primary defence is using
+        cookies to prevent a submission but that would not stop the bad user experience of seeing the Dispose page
+        again then being redirected when they click submit.
+
+        https://bugzilla.mozilla.org/show_bug.cgi?id=112564
+        There is a known design decision in FireFox that it does not honour the cache headers and the mods refuse pull
+        requests to fix it as they are following their interpretation of the spec. So to stop this page from being cached
+        we have a javascript fix and for no-javascript people a meta fix.
+
+        The javascript fix makes sure the page is not cached on firefox and safari
+        The meta fix should work for browsers with javascript disabled, but I've seen in firefox it only worked the first
+        time and after that (without javascript to force no caching of the page) the meta is not re-executed when the page
+        is rendered on pressing the back button, so we include a href the user can click on.
+
+        Rapidly clicking the back button will cause the browser to go back more than one page, and that's where the cookie
+        based protection is required. The user experience isn't as good but the back end system is protected.
+        *@
+        <script type="text/javascript">
+            <!--
+            function delayer(){
+                window.location = "@nextPageUrl"
+
+                @*
+                Set an empty function to be called on window.onunload so that Javascript runs when user returns to this page
+                using the back button. This just prevents Firefox from caching the page in the Back-Forward Cache
+                https://stackoverflow.com/questions/2638292/after-travelling-back-in-firefox-history-javascript-wont-run
+                *@
+                window.onunload = function(){};
+            }
+            //-->
+        </script>
+
+        <noscript><meta http-equiv="refresh" content="@{if(delay == 0) 0 else delay / 1000};URL='@nextPageUrl'" /></noscript>
+
+        <title>@Messages("interstitial.title")</title>
+    </head>
+    <body onLoad="setTimeout('delayer()', @delay)">
+        <p>@Messages("interstitial.body", {if(delay == 0) 0 else delay / 1000}) <a href="@nextPageUrl" title="@Messages("interstitial.link.title")">@Messages("interstitial.link")</a></p>
+    </body>
+</html>

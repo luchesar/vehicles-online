@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import pages.common.InterstitialPage
 import play.api.test.Helpers._
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
@@ -191,7 +192,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.disposeModel())
       val result = disposeSuccess.exit(request)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+        r => r.header.headers.get(LOCATION) should equal(Some(InterstitialPage.address))
       }
     }
   }

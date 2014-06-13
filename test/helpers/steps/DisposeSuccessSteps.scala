@@ -5,6 +5,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 import org.openqa.selenium.WebDriver
 import org.scalatest.Matchers
+import pages.common.InterstitialPage
 import pages.disposal_of_vehicle._
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.FakeAddressLookupService._
@@ -41,6 +42,10 @@ final class DisposeSuccessSteps(webBrowserDriver: WebBrowserDriver) extends WebB
     webDriver.navigate().back()
   }
 
+  @Then( """^the user is returned to the "Dispose Success" page for the service$""")
+  def the_user_is_returned_to_the_Dispose_Success_page_for_the_service() = {
+    page.title should equal(DisposeSuccessPage.title)
+  }
   @Then( """^the user is returned to the "Vehicle Lookup" page for the service$""")
   def the_user_is_returned_to_the_Vehicle_Lookup_page_for_the_service() = {
     page.title should equal(VehicleLookupPage.title)
@@ -86,9 +91,9 @@ final class DisposeSuccessSteps(webBrowserDriver: WebBrowserDriver) extends WebB
     webDriver.navigate().back()
   }
 
-  @Then( """^the user is returned to the "SetUpTradeDetails" page for the service$""")
-  def the_user_is_returned_to_the_Before_You_Start_page_for_the_service() = {
-    page.title should equal(SetupTradeDetailsPage.title)
+  @Then( """^the user is returned to the "BeforeYouStart" page for the service$""")
+  def the_user_is_returned_to_the_BeforeYouStart_page_for_the_service() = {
+    page.title should equal(BeforeYouStartPage.title)
   }
 
   @Given( """^that the user has selected the "New Disposal" button and navigated away from the service$""")
