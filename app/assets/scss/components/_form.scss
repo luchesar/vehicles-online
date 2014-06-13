@@ -307,7 +307,7 @@
 	   	}
 	}
 
-	//uppercase text inputs (class is applied to the parent form wrapper)
+	//uppercase text inputs (class is applied to a parent wrapper)
 	.uppercase-input input {
 		@include toUppercase;
 	}
