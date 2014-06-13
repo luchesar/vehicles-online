@@ -83,6 +83,21 @@ Running the application
 
 3.  Repeat *step 1* for each required microservice (if any).
 
+### Running with production logging
+
+To emulate the production-level logging:
+
+1.  Ensure `syslog` is configured. Details have been provided for [configuring `syslog` on OSX][syslog-osx].
+
+2.  Run the `vehicles-online` application:
+
+        cd vehicles-online
+        ./startWithLog.sh
+        
+3.  Open in Web browser:
+
+        http://localhost:9000/
+
 Session encryption
 ------------------
 
@@ -93,4 +108,5 @@ Please refer to the [session encryption][session-encryption] document for detail
 [rest]: https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm "REST"
 [play-framework]: http://www.playframework.com/ "Play Framework"
 [scala]: http://www.scala-lang.org/ "Scala Language"
+[syslog-osx]: syslog-osx.md "Configuring syslog on OSX"
 [session-encryption]: encrypted-session-state.md "Session Encryption"
