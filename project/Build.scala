@@ -48,7 +48,7 @@ object ApplicationBuild extends Build {
 
   val myOrganization = Seq(organization := "Driver & Vehicle Licensing Agency")
 
-  val compilerOptions = Seq(scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls"))
+  val compilerOptions = Seq(scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls", "-Xmax-classfile-name", "128"))
 
   val myScalaVersion = Seq(scalaVersion := "2.10.3")
 
