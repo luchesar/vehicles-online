@@ -15,6 +15,7 @@ import models.DayMonthYear
 import models.domain.disposal_of_vehicle._
 import org.mockito.Matchers._
 import org.mockito.Mockito._
+import pages.common.InterstitialPage
 import pages.disposal_of_vehicle._
 import play.api.libs.json.Json
 import play.api.test.Helpers._
@@ -96,7 +97,7 @@ final class DisposeUnitSpec extends UnitSpec {
 
       whenReady(result) {
         r =>
-          r.header.headers.get(LOCATION) should equal(Some(DisposeSuccessPage.address))
+          r.header.headers.get(LOCATION) should equal(Some(InterstitialPage.address))
       }
     }
 
@@ -185,7 +186,9 @@ final class DisposeUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val disposeSuccess = disposeController(disposeWebService = disposeWebService(disposeServiceResponse = Some(disposeResponseApplicationBeingProcessed)))
       val result = disposeSuccess.submit(request)
-      redirectLocation(result) should equal(Some(DisposeSuccessPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(InterstitialPage.address))
+      }
     }
 
     "redirect to dispose failure page when unableToProcessApplication" in new WithApplication {

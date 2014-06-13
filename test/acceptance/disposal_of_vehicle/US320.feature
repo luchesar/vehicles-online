@@ -1,6 +1,6 @@
 Feature: US320: Redirect Browser Back Button After Transaction is Complete or after Service Exit
 
-  Scenario: Browser back button should redirect to Vehicle Lookup while on Dispose Success
+  Scenario: Browser back button should redirect to Dispose Success while on Dispose Success
     Given that the user has completed the sale of a vehicle and received the transaction confirmation screen
     When the user tries to return to a previous screen without using the "New Disposal" button
     Then the user is returned to the "Vehicle Lookup" page for the service

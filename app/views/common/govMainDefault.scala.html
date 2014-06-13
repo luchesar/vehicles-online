@@ -25,26 +25,6 @@
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@routes.Assets.at("images/apple-touch-icon-114x114-f1d7ccdc7b86d923386b373a9ba5e3db.png")">
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@routes.Assets.at("images/apple-touch-icon-72x72-2ddbe540853e3ba0d30fbad2a95eab3c.png")">
         <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("images/apple-touch-icon-57x57-37527434942ed8407b091aae5feff3f3.png")">
-
-        @*
-        US320 prevent browser back button taking user to a cached version of the page using headers. The primary defence is using
-        cookies to prevent a submission but that would not stop the bad user experience of seeing the Dispose page
-        again then being redirected when they click submit.
-
-        https://stackoverflow.com/questions/1341089/using-meta-tags-to-turn-off-caching-in-all-browsers
-        As said in the comments in the stackoverflow top answer I think the duplicate "cache-control" and "expires" are
-        possibly for compatability with browsers that implement the spec in different ways.
-
-        https://bugzilla.mozilla.org/show_bug.cgi?id=112564
-        There is a known bug in FireFox that it does not honour the cache headers and the mods refuse pull requests to
-        fix it.
-        *@
-        <meta http-equiv="cache-control" content="max-age=0" />
-        <meta http-equiv="cache-control" content="no-cache" />
-        <meta http-equiv="expires" content="0" />
-        <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-        <meta http-equiv="pragma" content="no-cache" />
-
     </head>
 
     <body>

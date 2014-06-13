@@ -25,6 +25,7 @@ import mappings.common.Languages._
 import play.api.data.FormError
 import play.api.mvc.SimpleResult
 import play.api.Play.current
+import mappings.common.Interstitial.InterstitialCacheKey
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
@@ -116,7 +117,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
   private def lookupVehicle(model: VehicleLookupFormModel, bruteForcePreventionViewModel: BruteForcePreventionViewModel)(implicit request: Request[_]): Future[SimpleResult] = {
     def lookupSuccess(vehicleDetailsDto: VehicleDetailsDto) =
       Redirect(routes.Dispose.present()).
-        withCookie(VehicleDetailsModel.fromDto(vehicleDetailsDto))
+        withCookie(VehicleDetailsModel.fromDto(vehicleDetailsDto)).discardingCookie(InterstitialCacheKey)
 
     def hasVehicleDetails(vehicleDetailsDto: Option[VehicleDetailsDto])(implicit request: Request[_]) = vehicleDetailsDto match {
       case Some(dto) => lookupSuccess(dto)
