@@ -95,6 +95,7 @@
 			}
 		}
 		dd {
+			@include toUppercase;
 			overflow: hidden;
 
 			@media screen and (max-width: $device-small) {
@@ -160,7 +161,7 @@
 
 	.disposal-form {
 
-		label {
+		label.form-checkbox {
 			cursor:pointer;
 
 			.ie6 & {
@@ -220,9 +221,5 @@
       nav.progress-indicator li {
         width: 75%;
         padding: 0.25em; } }
-
-	#traderName, #traderPostcode, .summary-detail-list dd, .summary-detail-list {
-		@include toUppercase
-	}
 
 }
