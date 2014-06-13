@@ -42,6 +42,10 @@ final class DisposeSuccessSteps(webBrowserDriver: WebBrowserDriver) extends WebB
     webDriver.navigate().back()
   }
 
+  @Then( """^the user is returned to the "Dispose Success" page for the service$""")
+  def the_user_is_returned_to_the_Dispose_Success_page_for_the_service() = {
+    page.title should equal(DisposeSuccessPage.title)
+  }
   @Then( """^the user is returned to the "Vehicle Lookup" page for the service$""")
   def the_user_is_returned_to_the_Vehicle_Lookup_page_for_the_service() = {
     page.title should equal(VehicleLookupPage.title)
@@ -51,12 +55,6 @@ final class DisposeSuccessSteps(webBrowserDriver: WebBrowserDriver) extends WebB
   def the_Trader_details_are_retained() = {
     page.text should include(TraderBusinessNameValid)
     page.text should include(PostcodeValid)
-  }
-
-  @Then( """^no vehicle details are available$""")
-  def no_vehicle_details_are_available() = {
-    page.text should not include RegistrationNumberValid
-    page.text should not include ReferenceNumberValid
   }
 
   @Given( """^that the user has selected the "Exit" button and navigated away from the service$""")

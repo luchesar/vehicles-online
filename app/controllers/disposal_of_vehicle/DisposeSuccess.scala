@@ -11,7 +11,6 @@ import models.domain.disposal_of_vehicle.DisposeViewModel
 import models.domain.disposal_of_vehicle.{DisposeFormModel, VehicleDetailsModel, TraderDetailsModel}
 import play.api.Play.current
 import play.api.mvc._
-import mappings.common.Interstitial.InterstitialCacheKey
 
 final class DisposeSuccess @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -21,8 +20,7 @@ final class DisposeSuccess @Inject()()(implicit clientSideSessionFactory: Client
         request.cookies.getString(DisposeFormTransactionIdCacheKey), request.cookies.getString(DisposeFormRegistrationNumberCacheKey)) match {
         case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId), Some(registrationNumber)) =>
           val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId), registrationNumber)
-          Ok(views.html.disposal_of_vehicle.dispose_success(disposeModel, disposeFormModel)).
-            withCookie(InterstitialCacheKey, routes.VehicleLookup.present().url) // US320 write a cookie tell the interstitial page where to go to if the user presses the browser back button.
+          Ok(views.html.disposal_of_vehicle.dispose_success(disposeModel, disposeFormModel))
         case _ => Redirect(routes.VehicleLookup.present()) // US320 the user has pressed back button after being on dispose-success and pressing new dispose.
       }
   }

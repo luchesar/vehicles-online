@@ -1,6 +1,6 @@
 package controllers.disposal_of_vehicle
 
-import _root_.common.{ClientSideSessionFactory, CookieImplicits}
+import common.{ClientSideSessionFactory, CookieImplicits}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.Logger
@@ -14,7 +14,7 @@ import common.DayMonthYear._
 import models.domain.disposal_of_vehicle._
 import com.google.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.Implicits.global
 import utils.helpers.FormExtensions._
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import org.joda.time.format.ISODateTimeFormat
@@ -29,13 +29,7 @@ import CookieImplicits.RequestCookiesAdapter
 import CookieImplicits.SimpleResultAdapter
 import CookieImplicits.FormAdapter
 import mappings.common.Languages._
-import play.api.mvc.SimpleResult
-import models.domain.disposal_of_vehicle.DisposeViewModel
-import play.api.data.FormError
-import play.api.mvc.Call
 import play.api.Play.current
-import mappings.disposal_of_vehicle.DisposeSuccess._
-import scala.Some
 import play.api.mvc.SimpleResult
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import play.api.data.FormError
