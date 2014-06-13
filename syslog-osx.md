@@ -6,11 +6,11 @@ The `syslogd` daemon runs on most Unix distributions by default, including OSX.
 The standard aproach for integrating with `syslog` from the JVM is to send log entries over UDP. For this, `syslogd` 
 on OSX needs to be reconfigured to allow network connections.
 
-1.  Convert to `syslog` config file into XML. This allows easy editing of the otherwise binary formatted config:
+1.  Convert the `syslog` config file into XML. This allows easy editing of the otherwise binary formatted config:
 
         sudo plutil -convert xml1 /System/Library/LaunchDaemons/com.apple.syslogd.plist
     
-2.  Open the config file, as `sudo`, in the text editor of your choice:
+2.  Open the config file, as `sudo`, in a text editor of your choice:
 
         /System/Library/LaunchDaemons/com.apple.syslogd.plist
     

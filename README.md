@@ -85,7 +85,7 @@ Running the application
 
 ### Running with production logging
 
-To emulate the production-level logging:
+To emulate production-level logging:
 
 1.  Ensure `syslog` is configured. Details have been provided for [configuring `syslog` on OSX][syslog-osx].
 
