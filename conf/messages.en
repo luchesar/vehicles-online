@@ -387,3 +387,8 @@ error.button=Start again
 
 language.cy.button = Cymraeg
 language.en.button = YAGNI
+
+interstitial.title = Redirecting
+interstitial.body = If this page does not automatically redirect in {0} seconds, please
+interstitial.link.title = Next page
+interstitial.link = click on this link
