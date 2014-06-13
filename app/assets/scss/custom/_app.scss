@@ -65,6 +65,7 @@
  	// this could be a DL element, or a wrapping div
  	.summary-detail-list {
  		@include clearfix;
+ 		@include toUppercase;
  		margin:23px 0 20px 0;
 		margin:2.3rem 0 2rem 0;
 		//padding:10px;
@@ -95,6 +96,7 @@
 			}
 		}
 		dd {
+			@include toUppercase;
 			overflow: hidden;
 
 			@media screen and (max-width: $device-small) {
@@ -220,13 +222,5 @@
       nav.progress-indicator li {
         width: 75%;
         padding: 0.25em; } }
-
-	#traderName, #traderPostcode,
-	#vehicleRegistrationNumber, #documentReferenceNumber,
-	#addressAndPostcode_addressLines_buildingNameOrNumber, #addressAndPostcode_addressLines_line2,
-	#addressAndPostcode_addressLines_line3, #addressAndPostcode_addressLines_postTown, #addressAndPostcode_postcode,
-	.summary-detail-list dd, .summary-detail-list {
-		@include toUppercase;
-	}
 
 }
