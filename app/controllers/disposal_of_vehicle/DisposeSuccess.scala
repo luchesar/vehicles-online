@@ -29,8 +29,10 @@ final class DisposeSuccess @Inject()()(implicit clientSideSessionFactory: Client
   def newDisposal = Action { implicit request =>
     (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[DisposeFormModel],
       request.cookies.getModel[VehicleDetailsModel]) match {
-      case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present()).
-        discardingCookies(RelatedCacheKeys.DisposeSet)
+      case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) =>
+        Redirect(routes.Interstitial.present()).
+          discardingCookies(RelatedCacheKeys.DisposeSet).
+          withCookie(InterstitialCacheKey, routes.VehicleLookup.present().url)
       case _ => Redirect(routes.SetUpTradeDetails.present())
     }
   }

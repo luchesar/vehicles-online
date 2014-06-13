@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import mappings.common.Interstitial._
 import pages.common.InterstitialPage
 import play.api.test.Helpers._
 import pages.disposal_of_vehicle._
@@ -110,7 +111,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.disposeModel())
       val result = disposeSuccess.newDisposal(request)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+        r => r.header.headers.get(LOCATION) should equal(Some(InterstitialPage.address))
       }
     }
 
@@ -178,6 +179,26 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
+
+    "write interstitial cookie with BeforeYouStart url" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeTransactionId()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
+        withCookies(CookieFactoryForUnitSpecs.disposeModel())
+      val result = disposeSuccess.newDisposal(request)
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.find(c => c.name == InterstitialCacheKey) match {
+            case Some(c) => c.value should equal(VehicleLookupPage.address)
+            case None => fail("Interstitial cookie should exist")
+          }
+      }
+    }
   }
 
   "exit" should {
@@ -193,6 +214,26 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
       val result = disposeSuccess.exit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(InterstitialPage.address))
+      }
+    }
+
+    "write interstitial cookie with BeforeYouStart url" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeTransactionId()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
+        withCookies(CookieFactoryForUnitSpecs.disposeModel())
+      val result = disposeSuccess.exit(request)
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.find(c => c.name == InterstitialCacheKey) match {
+            case Some(c) => c.value should equal(BeforeYouStartPage.address)
+            case None => fail("Interstitial cookie should exist")
+          }
       }
     }
   }
