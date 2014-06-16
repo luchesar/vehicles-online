@@ -13,14 +13,16 @@ final class AddressViewModelSpec extends UnitSpec {
       val addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
         line2 = Some(Line2Valid),
         line3 = Some(Line3Valid),
-        postTown = PostTownValid),
-        postcode = PostcodeValid)
+        postTown = PostTownValid))
 
-      val result = AddressViewModel.from(addressAndPostcodeModel)
+      val result = AddressViewModel.from(addressAndPostcodeModel, PostcodeValid)
 
       result.uprn should equal(None)
-      result.address should equal(Seq(BuildingNameOrNumberValid.toUpperCase, Line2Valid.toUpperCase,
-        Line3Valid.toUpperCase, PostTownValid.toUpperCase, PostcodeValid.toUpperCase))
+      result.address should equal(Seq(BuildingNameOrNumberValid.toUpperCase,
+        Line2Valid.toUpperCase,
+        Line3Valid.toUpperCase,
+        PostTownValid.toUpperCase,
+        PostcodeValid.toUpperCase))
     }
   }
 

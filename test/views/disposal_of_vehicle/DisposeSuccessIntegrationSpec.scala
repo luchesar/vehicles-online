@@ -2,6 +2,7 @@ package views.disposal_of_vehicle
 
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import mappings.common.Interstitial._
 import org.openqa.selenium.WebDriver
@@ -11,7 +12,7 @@ import mappings.disposal_of_vehicle.RelatedCacheKeys
 
 final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
-    "display the page" in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -19,13 +20,13 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       page.title should equal(DisposeSuccessPage.title)
     }
-    "redirect when no details are cached" in new WebBrowser {
+    "redirect when no details are cached" taggedAs UiTag in new WebBrowser {
       go to DisposeSuccessPage
 
       page.title should equal(SetupTradeDetailsPage.title)
     }
 
-    "redirect when only DealerDetails are cached" in new WebBrowser {
+    "redirect when only DealerDetails are cached" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.dealerDetails()
 
@@ -34,7 +35,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(VehicleLookupPage.title)
     }
 
-    "redirect when only VehicleDetails are cached" in new WebBrowser {
+    "redirect when only VehicleDetails are cached" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.vehicleDetailsModel()
 
@@ -43,7 +44,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(SetupTradeDetailsPage.title)
     }
 
-    "redirect when only DisposeDetails are cached" in new WebBrowser {
+    "redirect when only DisposeDetails are cached" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.disposeFormModel()
 
@@ -52,7 +53,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(SetupTradeDetailsPage.title)
     }
 
-    "redirect when only DealerDetails and VehicleDetails are cached" in new WebBrowser {
+    "redirect when only DealerDetails and VehicleDetails are cached" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.
         dealerDetails().
@@ -63,7 +64,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(VehicleLookupPage.title)
     }
 
-    "redirect when only DisposeDetails and VehicleDetails are cached" in new WebBrowser {
+    "redirect when only DisposeDetails and VehicleDetails are cached" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.
         disposeFormModel().
@@ -74,7 +75,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(SetupTradeDetailsPage.title)
     }
 
-    "redirect when only DisposeDetails and DealerDetails are cached" in new WebBrowser {
+    "redirect when only DisposeDetails and DealerDetails are cached" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.
         dealerDetails().
@@ -85,7 +86,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(VehicleLookupPage.title)
     }
 
-    "contain the hidden csrfToken field" in new WebBrowser {
+    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -95,7 +96,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "newDisposal button" should {
-    "display vehicle lookup page" in new WebBrowser {
+    "display vehicle lookup page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       DisposeSuccessPage.happyPath
@@ -103,7 +104,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(VehicleLookupPage.title)
     }
 
-    "remove redundant cookies" in new WebBrowser {
+    "remove redundant cookies" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeSuccessPage
@@ -125,7 +126,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "exit button" should {
-    "display before you start page" in new WebBrowser {
+    "display before you start page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeSuccessPage
@@ -135,7 +136,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(BeforeYouStartPage.title)
     }
 
-    "remove redundant cookies" in new WebBrowser {
+    "remove redundant cookies" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeSuccessPage

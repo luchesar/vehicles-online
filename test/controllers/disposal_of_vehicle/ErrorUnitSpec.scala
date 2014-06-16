@@ -1,23 +1,23 @@
 package controllers.disposal_of_vehicle
 
-import helpers.{WithApplication, UnitSpec}
-import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import play.api.test.Helpers._
-import composition.TestComposition.{testInjector => injector}
-import play.api.test.FakeRequest
-import pages.disposal_of_vehicle.ErrorPage
 import common.CookieHelper._
-import scala.Some
+import composition.TestComposition.{testInjector => injector}
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import helpers.{UnitSpec, WithApplication}
+import pages.disposal_of_vehicle.ErrorPage
 import play.api.Play
+import play.api.test.FakeRequest
+import play.api.test.Helpers._
 
 final class ErrorUnitSpec extends UnitSpec {
+
   "present" should {
     "display the page" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
-      val result = errorController.present(request)
+      val result = errorController.present(ErrorPage.exceptionDigest)(request)
       whenReady(result) {
         r => r.header.status should equal(OK)
       }
@@ -28,7 +28,7 @@ final class ErrorUnitSpec extends UnitSpec {
 
   "withLanguageCy" should {
     "redirect back to the same page" in new WithApplication {
-      val result = errorController.withLanguageCy(FakeRequest())
+      val result = errorController.withLanguageCy(ErrorPage.exceptionDigest)(FakeRequest())
       whenReady(result) {
         r =>
           r.header.status should equal(SEE_OTHER) // Redirect...
@@ -37,7 +37,7 @@ final class ErrorUnitSpec extends UnitSpec {
     }
 
     "writes language cookie set to 'cy'" in new WithApplication {
-      val result = errorController.withLanguageCy(FakeRequest())
+      val result = errorController.withLanguageCy(ErrorPage.exceptionDigest)(FakeRequest())
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
@@ -51,7 +51,7 @@ final class ErrorUnitSpec extends UnitSpec {
 
   "withLanguageEn" should {
     "redirect back to the same page" in new WithApplication {
-      val result = errorController.withLanguageEn(FakeRequest())
+      val result = errorController.withLanguageEn(ErrorPage.exceptionDigest)(FakeRequest())
       whenReady(result) {
         r =>
           r.header.status should equal(SEE_OTHER) // Redirect...
@@ -60,7 +60,7 @@ final class ErrorUnitSpec extends UnitSpec {
     }
 
     "writes language cookie set to 'en'" in new WithApplication {
-      val result = errorController.withLanguageEn(FakeRequest())
+      val result = errorController.withLanguageEn(ErrorPage.exceptionDigest)(FakeRequest())
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)

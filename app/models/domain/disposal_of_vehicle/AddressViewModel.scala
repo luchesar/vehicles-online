@@ -9,6 +9,6 @@ final case class AddressViewModel(uprn: Option[Long] = None, // Optional because
 object AddressViewModel {
   implicit val JsonFormat = Json.format[AddressViewModel]
 
-  def from(address: AddressAndPostcodeModel): AddressViewModel =
-    AddressViewModel(address = address.toViewFormat)
+  def from(address: AddressAndPostcodeModel, postcode: String): AddressViewModel =
+    AddressViewModel(address = address.toViewFormat(postcode))
 }

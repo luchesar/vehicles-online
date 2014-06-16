@@ -1,4 +1,4 @@
-@()(implicit lang: Lang, token: services.csrf_prevention.CSRFAction.Token)
+@(exceptionDigest: String)(implicit lang: Lang, token: services.csrf_prevention.CSRFAction.Token)
 
 @import helper._
 @import mappings.disposal_of_vehicle.Error._
@@ -9,10 +9,10 @@
 
 @main(
     title = Messages("error.title"),
-    alternateLanguages = language(withLanguageCy = Error.withLanguageCy(), withLanguageEn = Error.withLanguageEn())
+    alternateLanguages = language(withLanguageCy = Error.withLanguageCy(exceptionDigest), withLanguageEn = Error.withLanguageEn(exceptionDigest))
 ){
 
-    @form(action = controllers.disposal_of_vehicle.routes.Error.submit) {
+    @form(action = controllers.disposal_of_vehicle.routes.Error.submit(exceptionDigest)) {
 
     @CSRFHelper.hiddenFormField
 

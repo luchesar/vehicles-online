@@ -1,22 +1,19 @@
-import com.google.inject.Injector
-import com.typesafe.config.ConfigFactory
-import common.InvalidSessionException
-import controllers.disposal_of_vehicle.routes
-import filters.EnsureSessionCreatedFilter
 import java.io.File
 import java.util.UUID
-import javax.crypto.BadPaddingException
+
+import com.google.inject.Injector
+import com.typesafe.config.ConfigFactory
+import filters.EnsureSessionCreatedFilter
 import play.api._
-import play.api.Configuration
-import play.api.mvc._
 import play.api.mvc.Results._
-import services.csrf_prevention.CSRFException
+import play.api.mvc._
 
 //import play.filters.gzip._
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
-import utils.helpers.CryptoHelper
 import composition.Composition._
+import utils.helpers.ErrorStrategy
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
  * Application configuration is in a hierarchy of files:
@@ -67,11 +64,8 @@ object Global extends WithFilters(filters: _*) with GlobalSettings {
     Future(NotFound(views.html.errors.onHandlerNotFound(request)))
   }
 
-  override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] = ex.getCause match {
-    case _: BadPaddingException  => CryptoHelper.handleApplicationSecretChange(request)
-    case _: InvalidSessionException  => CryptoHelper.handleApplicationSecretChange(request)
-    case _ => Future(Redirect(routes.Error.present()))
-  }
+  override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] =
+    ErrorStrategy(request, ex)
 
   override def doFilter(a: EssentialAction): EssentialAction = {
     Filters(super.doFilter(a), devInjector.getInstance(classOf[EnsureSessionCreatedFilter]))

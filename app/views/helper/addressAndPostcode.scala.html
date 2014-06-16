@@ -14,14 +14,4 @@
     @addressLines(field(AddressLinesId),
         args = Map('_label -> Messages("address.lines.label")))
 
-    @valtechInputText(field(PostcodeId),
-        args = Map(
-            'placeholder -> Messages("address.postcode.label.prompt"),
-            '_label -> Messages("address.postcode.label"),
-            '_showConstraints -> false,
-            'maxLength -> Postcode.MaxLength // Must be set independently of the pattern as the pattern is only checked when the user submits.
-            //'title -> Messages("address.postcode.validation")
-        )
-    )
-
 }</fieldset>

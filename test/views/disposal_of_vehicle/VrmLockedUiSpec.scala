@@ -1,5 +1,6 @@
 package views.disposal_of_vehicle
 
+import helpers.tags.UiTag
 import pages.disposal_of_vehicle.VrmLockedPage._
 import helpers.UiSpec
 import helpers.webbrowser.TestHarness
@@ -10,7 +11,7 @@ import mappings.disposal_of_vehicle.RelatedCacheKeys
 
 final class VrmLockedUiSpec extends UiSpec with TestHarness {
   "go to page" should {
-    "display the page" in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.bruteForcePreventionViewModel()
       go to VrmLockedPage
@@ -18,7 +19,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       page.title should equal(VrmLockedPage.title)
     }
 
-    "contain the hidden csrfToken field" in new WebBrowser {
+    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
       go to VrmLockedPage
       page.source should include("input type=\"hidden\" name=\"csrfToken\"")
     }
@@ -26,7 +27,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
   }
 
   "newDisposal button" should {
-    "redirect to vehiclelookup" in new WebBrowser {
+    "redirect to vehiclelookup" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to VrmLockedPage
@@ -36,7 +37,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       page.title should equal(VehicleLookupPage.title)
     }
 
-    "redirect to setuptradedetails when no trade details are cached" in new WebBrowser {
+    "redirect to setuptradedetails when no trade details are cached" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.bruteForcePreventionViewModel()
       go to VrmLockedPage
@@ -46,7 +47,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       page.title should equal(SetupTradeDetailsPage.title)
     }
 
-    "remove redundant cookies" in new WebBrowser {
+    "remove redundant cookies" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to VrmLockedPage
@@ -61,7 +62,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
   }
 
   "exit button" should {
-    "redirect to beforeyoustart" in new WebBrowser {
+    "redirect to beforeyoustart" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to VrmLockedPage
@@ -71,7 +72,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       page.title should equal(BeforeYouStartPage.title)
     }
 
-    "remove redundant cookies" in new WebBrowser {
+    "remove redundant cookies" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to VrmLockedPage
