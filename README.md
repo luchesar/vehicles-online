@@ -111,8 +111,4 @@ Please refer to the [session encryption][session-encryption] document for detail
 [syslog-osx]: syslog-osx.md "Configuring syslog on OSX"
 [session-encryption]: encrypted-session-state.md "Session Encryption"
 
-Force Build # 10
-Force Build # 11
-Force Build # 12
-Force Build # 13
-Force Build # 14
+Force Build # 15
