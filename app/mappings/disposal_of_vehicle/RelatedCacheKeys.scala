@@ -21,13 +21,13 @@ object RelatedCacheKeys {
     DisposeFormTransactionIdCacheKey,
     DisposeFormTimestampIdCacheKey,
     DisposeFormRegistrationNumberCacheKey,
-    DisposeModelCacheKey,
-    InterstitialCacheKey)
+    DisposeModelCacheKey
+  )
 
   val TradeDetailsSet = Set(SetupTradeDetailsCacheKey,
       TraderDetailsCacheKey,
       BusinessChooseYourAddressCacheKey,
       EnterAddressManuallyCacheKey)
 
-  val FullSet = TradeDetailsSet ++ DisposeSet
+  val FullSet = TradeDetailsSet ++ DisposeSet ++ Set(InterstitialCacheKey)
 }

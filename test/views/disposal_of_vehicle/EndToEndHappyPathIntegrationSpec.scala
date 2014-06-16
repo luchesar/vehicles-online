@@ -1,13 +1,14 @@
 package views.disposal_of_vehicle
 
 import helpers.UiSpec
+import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import pages.disposal_of_vehicle._
 import services.fakes.FakeAddressLookupService
 
 class EndToEndHappyPathIntegrationSpec extends UiSpec with TestHarness {
   "The happy end to end case" should {
-    "follow the happy path trough all the pages" in new WebBrowser {
+    "follow the happy path trough all the pages" taggedAs UiTag in new WebBrowser {
 
       info("Going Before You Start page and click start")
       go to BeforeYouStartPage

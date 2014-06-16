@@ -102,7 +102,7 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
 
   def bruteForcePreventionViewModel(permitted: Boolean = true,
                                     attempts: Int = 0,
-                                    maxAttempts: Int = MaxAttemptsOneBased,
+                                    maxAttempts: Int = MaxAttempts,
                                     dateTimeISOChronology: String = org.joda.time.DateTime.now().toString) = {
     val key = BruteForcePreventionViewModelCacheKey
     val value = BruteForcePreventionViewModel(permitted,
