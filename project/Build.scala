@@ -14,7 +14,7 @@ object ApplicationBuild extends Build {
     cache,
     filters,
     "org.seleniumhq.selenium" % "selenium-java" % "2.42.2" % "test" withSources() withJavadoc(),
-    "com.github.detro.ghostdriver" % "phantomjsdriver" % "1.1.0" % "test" withSources() withJavadoc(),
+    "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-scala_2.10" % "1.1.7" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-java" % "1.1.7" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-junit" % "1.1.7" % "test" withSources() withJavadoc(),
