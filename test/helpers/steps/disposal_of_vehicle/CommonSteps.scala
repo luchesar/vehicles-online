@@ -53,8 +53,8 @@ final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDS
 
   def enterAddressManually() = {
     page.title should equal(EnterAddressManuallyPage.title)
-    EnterAddressManuallyPage.addressLine1 enter "1 Long Road"
-    EnterAddressManuallyPage.addressLine4 enter "Swansea"
+    EnterAddressManuallyPage.addressBuildingNameOrNumber enter "1 Long Road"
+    EnterAddressManuallyPage.addressPostTown enter "Swansea"
     EnterAddressManuallyPage.postcode enter "AA11 1AA"
     click on EnterAddressManuallyPage.next
   }
