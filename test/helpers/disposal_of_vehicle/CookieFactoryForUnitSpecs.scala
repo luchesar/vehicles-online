@@ -67,8 +67,7 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
     val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
       line2 = Some(Line2Valid),
       line3 = Some(Line3Valid),
-      postTown = PostTownValid),
-      postcode = PostcodeValid))
+      postTown = PostTownValid)))
     createCookie(key, value)
   }
 

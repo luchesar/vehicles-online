@@ -15,7 +15,7 @@ import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import scala.Some
 import play.api.mvc.Cookie
 
-
+// TODO please find a better name for this class as it is the same as a file in the level above!
 final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
   implicit val clientSideSessionFactory = {
@@ -55,7 +55,6 @@ final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDS
     page.title should equal(EnterAddressManuallyPage.title)
     EnterAddressManuallyPage.addressBuildingNameOrNumber enter "1 Long Road"
     EnterAddressManuallyPage.addressPostTown enter "Swansea"
-    EnterAddressManuallyPage.postcode enter "AA11 1AA"
     click on EnterAddressManuallyPage.next
   }
 

@@ -8,10 +8,9 @@ final class AddressAndPostcodeSpec extends WordSpec with Matchers {
       val address = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(buildingNameOrNumber = "abcd",
         line2 = Some("e"),
         line3 = Some("f"),
-        postTown = "ghi"),
-        postcode = "j")
+        postTown = "ghi"))
 
-      val result = address.toViewFormat.mkString(", ")
+      val result = address.toViewFormat(postcode = "J").mkString(", ")
 
       result should equal("ABCD, E, F, GHI, J")
     }
@@ -20,10 +19,9 @@ final class AddressAndPostcodeSpec extends WordSpec with Matchers {
       val address = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(buildingNameOrNumber = "abcd",
         line2 = None,
         line3 = None,
-        postTown = "efg"),
-        postcode = "h")
+        postTown = "efg"))
 
-      val result = address.toViewFormat.mkString(", ")
+      val result = address.toViewFormat(postcode = "H").mkString(", ")
 
       result should equal("ABCD, EFG, H")
     }
