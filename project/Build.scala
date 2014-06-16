@@ -13,8 +13,8 @@ object ApplicationBuild extends Build {
   val appDependencies = Seq(
     cache,
     filters,
-    "org.seleniumhq.selenium" % "selenium-java" % "2.40.0" % "test" withSources() withJavadoc(),
-    "com.github.detro.ghostdriver" % "phantomjsdriver" % "1.1.0" % "test" withSources() withJavadoc(),
+    "org.seleniumhq.selenium" % "selenium-java" % "2.42.2" % "test" withSources() withJavadoc(),
+    "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-scala_2.10" % "1.1.7" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-java" % "1.1.7" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-junit" % "1.1.7" % "test" withSources() withJavadoc(),
@@ -23,10 +23,10 @@ object ApplicationBuild extends Build {
     "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
     "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc(),
     "org.scalatest" % "scalatest_2.10" % "2.2.0" % "test" withSources() withJavadoc(),
-    "com.google.inject" % "guice" % "4.0-beta" withSources() withJavadoc(),
+    "com.google.inject" % "guice" % "4.0-beta4" withSources() withJavadoc(),
     "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
     "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
-    "org.apache.httpcomponents" % "httpclient" % "4.3.1" withSources() withJavadoc()
+    "org.apache.httpcomponents" % "httpclient" % "4.3.4" withSources() withJavadoc()
   )
 
   val jsModulesToOptimise = Seq("custom.js")
