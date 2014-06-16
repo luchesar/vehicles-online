@@ -111,8 +111,11 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
             case Some(cookie) =>
               val json = cookie.value
               val model = deserializeJsonToModel[TraderDetailsModel](json)
-              val expectedData = Seq(BuildingNameOrNumberValid.toUpperCase, Line2Valid.toUpperCase, Line3Valid.toUpperCase,
-                PostTownValid.toUpperCase)
+              val expectedData = Seq(BuildingNameOrNumberValid.toUpperCase,
+                Line2Valid.toUpperCase,
+                Line3Valid.toUpperCase,
+                PostTownValid.toUpperCase,
+                PostcodeValid.toUpperCase)
               expectedData should equal(model.traderAddress.address)
 
             case None => fail(s"$traderDetailsCookieName cookie not found")

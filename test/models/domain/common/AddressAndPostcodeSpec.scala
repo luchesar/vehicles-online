@@ -10,9 +10,9 @@ final class AddressAndPostcodeSpec extends WordSpec with Matchers {
         line3 = Some("f"),
         postTown = "ghi"))
 
-      val result = address.toViewFormat.mkString(", ")
+      val result = address.toViewFormat(postcode = "J").mkString(", ")
 
-      result should equal("ABCD, E, F, GHI")
+      result should equal("ABCD, E, F, GHI, J")
     }
 
     "return expected toString value with missings values" in {
@@ -21,9 +21,9 @@ final class AddressAndPostcodeSpec extends WordSpec with Matchers {
         line3 = None,
         postTown = "efg"))
 
-      val result = address.toViewFormat.mkString(", ")
+      val result = address.toViewFormat(postcode = "H").mkString(", ")
 
-      result should equal("ABCD, EFG")
+      result should equal("ABCD, EFG, H")
     }
   }
 }

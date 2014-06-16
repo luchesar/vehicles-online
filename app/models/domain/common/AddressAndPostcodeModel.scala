@@ -4,7 +4,7 @@ import play.api.libs.json.Json
 import mappings.common.AddressAndPostcode.AddressAndPostcodeCacheKey
 
 case class AddressAndPostcodeModel(uprn: Option[Int] = None, addressLinesModel: AddressLinesModel) {
-  def toViewFormat: Seq[String] = addressLinesModel.toViewFormat
+  def toViewFormat(postcode: String): Seq[String] = addressLinesModel.toViewFormat :+ postcode
 }
 
 object AddressAndPostcodeModel {

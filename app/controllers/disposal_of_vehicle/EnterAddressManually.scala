@@ -51,11 +51,11 @@ final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: 
               Redirect(routes.SetUpTradeDetails.present())
           },
         f =>
-          request.cookies.getModel[SetupTradeDetailsModel].map(_.traderBusinessName) match {
-            case Some(traderBusinessName) =>
+          request.cookies.getModel[SetupTradeDetailsModel] match {
+            case Some(setupTradeDetailsModel) =>
               val updatedForm: EnterAddressManuallyModel = f.stripCharsNotAccepted.toUpperCase
-              val traderAddress = AddressViewModel.from(updatedForm.addressAndPostcodeModel)
-              val traderDetailsModel = TraderDetailsModel(traderName = traderBusinessName, traderAddress = traderAddress)
+              val traderAddress = AddressViewModel.from(updatedForm.addressAndPostcodeModel, setupTradeDetailsModel.traderPostcode)
+              val traderDetailsModel = TraderDetailsModel(traderName = setupTradeDetailsModel.traderBusinessName, traderAddress = traderAddress)
 
               Redirect(routes.VehicleLookup.present()).
                 withCookie(updatedForm).
