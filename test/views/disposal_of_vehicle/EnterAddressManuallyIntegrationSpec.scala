@@ -53,16 +53,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       sadPath
 
-      ErrorPanel.numberOfErrors should equal(3)
-    }
-
-    "display validation error messages when a blank postcode is entered" taggedAs UiTag in new WebBrowser {
-      go to BeforeYouStartPage
-      cacheSetup()
-
-      happyPath(postcode = "")
-
-      ErrorPanel.numberOfErrors should equal(1)
+      ErrorPanel.numberOfErrors should equal(2)
     }
   }
 

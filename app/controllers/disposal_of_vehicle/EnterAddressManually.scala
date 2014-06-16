@@ -15,6 +15,7 @@ import play.api.data.FormError
 import play.api.data.Forms._
 import play.api.mvc._
 import utils.helpers.FormExtensions._
+import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 
 final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -27,8 +28,8 @@ final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: 
   def present = Action {
     implicit request =>
       request.cookies.getModel[SetupTradeDetailsModel] match {
-        case Some(_) =>
-          Ok(views.html.disposal_of_vehicle.enter_address_manually(form.fill()))
+        case Some(setupTradeDetailsModel) =>
+          Ok(views.html.disposal_of_vehicle.enter_address_manually(form.fill(), setupTradeDetailsModel.traderPostcode))
         case None => Redirect(routes.SetUpTradeDetails.present())
       }
   }
@@ -38,13 +39,13 @@ final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: 
       form.bindFromRequest.fold(
         formWithErrors =>
           request.cookies.getModel[SetupTradeDetailsModel] match {
-            case Some(_) =>
+            case Some(setupTradeDetailsModel) =>
               val updatedFormWithErrors = formWithErrors.
                 replaceError("addressAndPostcode.addressLines.buildingNameOrNumber", FormError("addressAndPostcode.addressLines", "error.address.buildingNameOrNumber.invalid")).
                 replaceError("addressAndPostcode.addressLines.postTown", FormError("addressAndPostcode.addressLines", "error.address.postTown")).
                 replaceError("addressAndPostcode.postcode", FormError("addressAndPostcode.postcode", "error.address.postcode.invalid")).
                 distinctErrors
-              BadRequest(views.html.disposal_of_vehicle.enter_address_manually(updatedFormWithErrors))
+              BadRequest(views.html.disposal_of_vehicle.enter_address_manually(updatedFormWithErrors, setupTradeDetailsModel.traderPostcode))
             case None =>
               Logger.debug("Failed to find dealer name in cache, redirecting")
               Redirect(routes.SetUpTradeDetails.present())
