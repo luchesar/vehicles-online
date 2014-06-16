@@ -2,22 +2,23 @@ package views.disposal_of_vehicle
 
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.WebDriver
-import pages.disposal_of_vehicle.BeforeYouStartPage._
-import pages.disposal_of_vehicle.{SetupTradeDetailsPage, BeforeYouStartPage}
 import pages.common.Languages._
+import pages.disposal_of_vehicle.BeforeYouStartPage._
+import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage}
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
-    "display the page" in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
       page.title should equal(BeforeYouStartPage.title)
     }
 
-    "remove redundant cookies (needed for when a user exits the service and comes back)" in new WebBrowser {
+    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowser {
       def cacheSetup()(implicit webDriver: WebDriver) =
         CookieFactoryForUISpecs.setupTradeDetails().
           businessChooseYourAddress().
@@ -36,7 +37,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
       RelatedCacheKeys.FullSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
     }
 
-    "display the 'Cymraeg' language button and not the 'English' language button when the language cookie is set to 'en'" in new WebBrowser {
+    "display the 'Cymraeg' language button and not the 'English' language button when the language cookie is set to 'en'" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage // By default will load in English.
       CookieFactoryForUISpecs.withLanguageEn()
       go to BeforeYouStartPage
@@ -45,7 +46,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
       hasEnglish should equal(false)
     }
 
-    "display the 'English' language button and not the 'Cymraeg' language button when the language cookie is set to 'cy'" in new WebBrowser {
+    "display the 'English' language button and not the 'Cymraeg' language button when the language cookie is set to 'cy'" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage // By default will load in English.
       CookieFactoryForUISpecs.withLanguageCy()
       go to BeforeYouStartPage
@@ -56,7 +57,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "startNow button" should {
-    "go to next page" in new WebBrowser {
+    "go to next page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
       click on startNow
