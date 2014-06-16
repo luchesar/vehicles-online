@@ -3,22 +3,22 @@ Feature: US43: Validate document reference entry format - Error Messages
   I want to receive an appropriate error message when I enter an invalid document reference number
   so that I can correct it and move to the next step in the transaction
 
-  Scenario: Valid format document reference number entered
-    Given a motor trader has entered a doc ref number in a valid format
-    When they attempt to submit the doc ref number in addition to other required information
-    Then the doc ref number is retained
-    And they are taken to the "Complete & confirm" page
+  Scenario:
+    Given a correctly formatted document reference number "20149680001" has been entered
+    When this is submitted along with any other mandatory information
+    Then the document reference number "20149680001" is retained
+    And the next step in the dispose transaction "Complete & confirm" is shown
 
-  Scenario Outline: Invalid format document reference number entered
-    Given a motor trader has <entered> a doc ref number in an invalid format
-    When they attempt to submit the doc ref number in addition to other required information
-    Then a single error message is displayed "Document reference number - Document reference number must be an 11-digit number"
-    And they remain on the "Enter vehicle details" page
+  Scenario Outline:
+    Given an incorrectly formatted document reference number "<incorrect>" has been entered
+    When this is submitted along with any other mandatory information
+    Then a single error message "Document reference number - Document reference number must be an 11-digit number" is displayed
+    And the dispose transaction does not proceed past the "Find vehicle details" step
 
   Examples:
-    | entered      |
-    |              |
-    | 123          |
-    | 123456789012 |
-    | abcdefghijk  |
-    | abc123abc12  |
+    | incorrect    | comment                            |
+    |              | no document reference number       |
+    | 1234567890   | 10 digit document reference number |
+    | 123456789012 | 12 digit document reference number |
+    | abcdefghijk  | all alphabetic characters          |
+    | abc123abc12  | alphanumeric characters            |

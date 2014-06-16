@@ -3,14 +3,14 @@ Feature: US51: Disposal to Trade: Validate VRM format entry
   I want to enter a properly formatted VRM
   so that I can progress through the transaction
 
-  Scenario Outline: Valid format vehicle registration mark entered
-    Given a motor trader has <entered> a VRM in a valid format
-    When they attempt to submit the VRM in addition to other required information
-    Then the VRM is retained
-    And they are taken to the "Complete & confirm" page
+  Scenario Outline:
+    Given a correctly formatted vehicle reference mark "<vrm>" has been entered
+    When this is submitted along with any other mandatory information
+    Then the vehicle reference mark "<vrm>" is retained
+    And the next step in the dispose transaction "Complete & confirm" is shown
 
   Examples:
-    | entered |
+    | vrm     |
     | A9      |
     | A99     |
     | A999    |
@@ -43,14 +43,14 @@ Feature: US51: Disposal to Trade: Validate VRM format entry
     | AA99AAA |
     | 9999AAA |
 
-  Scenario Outline: Invalid format vehicle registration mark entered
-    Given a motor trader has <entered> a VRM in an invalid format
-    When they attempt to submit the VRM in addition to other required information
-    Then a single error message is displayed "Vehicle registration mark - Must be valid format"
-    And they remain on the "Enter vehicle details" page
+  Scenario Outline:
+    Given an incorrectly formatted vehicle reference mark "<vrm>" has been entered
+    When this is submitted along with any other mandatory information
+    Then a single error message "Vehicle registration mark - Must be valid format" is displayed
+    And the dispose transaction does not proceed past the "Find vehicle details" step
 
   Examples:
-    | entered |
+    | vrm     |
     |         |
     | 9A99A99 |
     | 9A9A99  |
