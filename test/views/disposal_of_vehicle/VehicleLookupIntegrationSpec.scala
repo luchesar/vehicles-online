@@ -1,5 +1,6 @@
 package views.disposal_of_vehicle
 
+import helpers.tags.UiTag
 import pages.disposal_of_vehicle.VehicleLookupPage._
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
@@ -11,7 +12,7 @@ import services.fakes.FakeAddressLookupService._
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
-    "display the page" in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -20,26 +21,26 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(VehicleLookupPage.title)
     }
 
-    "Redirect when no traderBusinessName is cached" in new WebBrowser {
+    "Redirect when no traderBusinessName is cached" taggedAs UiTag in new WebBrowser {
       go to VehicleLookupPage
 
       page.title should equal(SetupTradeDetailsPage.title)
     }
 
-    "redirect when no dealerBusinessName is cached" in new WebBrowser {
+    "redirect when no dealerBusinessName is cached" taggedAs UiTag in new WebBrowser {
       go to VehicleLookupPage
 
       page.title should equal(SetupTradeDetailsPage.title)
     }
 
-    "contain the hidden csrfToken field" in new WebBrowser {
+    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
       go to VehicleLookupPage
       page.source should include("input type=\"hidden\" name=\"csrfToken\"")
     }
   }
 
   "findVehicleDetails button" should {
-    "go to the next page when correct data is entered" in new WebBrowser {
+    "go to the next page when correct data is entered" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -48,7 +49,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(DisposePage.title)
     }
 
-    "display one validation error message when no referenceNumber is entered" in new WebBrowser {
+    "display one validation error message when no referenceNumber is entered" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -57,7 +58,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "display one validation error message when no registrationNumber is entered" in new WebBrowser {
+    "display one validation error message when no registrationNumber is entered" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -66,7 +67,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "display one validation error message when a registrationNumber is entered containing one character" in new WebBrowser {
+    "display one validation error message when a registrationNumber is entered containing one character" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -75,7 +76,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "display one validation error message when a registrationNumber is entered containing special characters" in new WebBrowser {
+    "display one validation error message when a registrationNumber is entered containing special characters" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -84,7 +85,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "display two validation error messages when no vehicle details are entered but consent is given" in new WebBrowser {
+    "display two validation error messages when no vehicle details are entered but consent is given" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -93,7 +94,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(2)
     }
 
-    "display one validation error message when only a valid referenceNumber is entered and consent is given" in new WebBrowser {
+    "display one validation error message when only a valid referenceNumber is entered and consent is given" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -102,7 +103,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "display one validation error message when only a valid registrationNumber is entered and consent is given" in new WebBrowser {
+    "display one validation error message when only a valid registrationNumber is entered and consent is given" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -111,7 +112,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "redirect to vrm locked when too many attempting to lookup a locked vrm" in new WebBrowser {
+    "redirect to vrm locked when too many attempting to lookup a locked vrm" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -121,7 +122,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "back" should {
-    "display previous page when back link is clicked with uprn present" in new WebBrowser {
+    "display previous page when back link is clicked with uprn present" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.
         setupTradeDetails().
@@ -133,7 +134,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(BusinessChooseYourAddressPage.title)
     }
 
-    "display previous page when back link is clicked with no uprn present" in new WebBrowser {
+    "display previous page when back link is clicked with no uprn present" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to VehicleLookupPage
