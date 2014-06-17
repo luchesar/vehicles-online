@@ -1,6 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import helpers.UnitSpec
+import helpers.common.CookieHelper
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
@@ -13,7 +14,7 @@ import services.fakes.FakeAddressLookupWebServiceImpl
 import services.fakes.FakeAddressLookupWebServiceImpl._
 import common.ClientSideSessionFactory
 import composition.TestComposition.{testInjector => injector}
-import common.CookieHelper._
+import CookieHelper._
 import play.api.test.FakeRequest
 import play.api.Play
 

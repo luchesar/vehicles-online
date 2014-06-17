@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import helpers.common.CookieHelper
 import helpers.{WithApplication, UnitSpec}
 import composition.TestComposition.{testInjector => injector}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
@@ -8,7 +9,7 @@ import play.api.test.Helpers._
 import scala.Some
 import pages.disposal_of_vehicle.{VrmLockedPage, BeforeYouStartPage, VehicleLookupPage, SetupTradeDetailsPage}
 import play.api.test.FakeRequest
-import common.CookieHelper._
+import CookieHelper._
 import play.api.Play
 
 final class VrmLockedUnitSpec extends UnitSpec {

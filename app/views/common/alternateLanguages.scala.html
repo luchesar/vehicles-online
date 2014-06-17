@@ -1,15 +1,16 @@
 @()(implicit lang: Lang)
 
+@import controllers.common.routes.AlternateLanguages.withLanguage
 @import mappings.common.AlternateLanguages.{CyId, EnId}
 
 @if(lang.code != CyId) {
     <div class="step language-selection">
-        <a id="@CyId" href="/with-language/@CyId">@Messages("language.cy.button")</a>
+        <a id="@CyId" href="@withLanguage(chosenLanguage = CyId)">@Messages("language.cy.button")</a>
     </div>
 }
 
 @if(lang.code != EnId) {
     <div class="step language-selection">
-        <a id="@EnId" href="/with-language/@EnId">@Messages("language.en.button")</a>
+        <a id="@EnId" href="@withLanguage(chosenLanguage = EnId)">@Messages("language.en.button")</a>
     </div>
 }

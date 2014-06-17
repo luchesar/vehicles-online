@@ -1,4 +1,4 @@
-package common
+package helpers.common
 
 import play.api.http.HeaderNames._
 import play.api.mvc._
