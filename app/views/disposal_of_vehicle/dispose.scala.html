@@ -9,12 +9,11 @@
 @import mappings.disposal_of_vehicle.Dispose._
 @import utils.helpers.BaseTemplate._
 @import utils.helpers._
-@import views.html.common.language
+@import views.html.common.alternateLanguages
 @import views.html.disposal_of_vehicle.main
 
 @main(
-    title = Messages("disposal_dispose.title"),
-    alternateLanguages = language(withLanguageCy = Dispose.withLanguageCy(), withLanguageEn = Dispose.withLanguageEn())
+    title = Messages("disposal_dispose.title")
 ) {
     @errorsSummary(disposeForm)
 

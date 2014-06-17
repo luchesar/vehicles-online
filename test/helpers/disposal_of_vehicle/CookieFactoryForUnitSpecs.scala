@@ -144,7 +144,7 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
   }
 
   def trackingIdModel(value: String) = {
-    createCookie(ClientSideSessionFactory.SessionIdCookieName, value)
+    createCookie(ClientSideSessionFactory.TrackingIdCookieName, value)
   }
 
   def disposeFormRegistrationNumber(registrationNumber: String = RegistrationNumberValid) =

@@ -51,7 +51,7 @@ final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebSer
   private def postcodeParam(postcode: String) = s"postcode=${postcodeWithNoSpaces(postcode)}"
 
   private def trackingIdParam(implicit session: ClientSideSession): String =
-    s"&${ClientSideSessionFactory.SessionIdCookieName}=${session.trackingId}"
+    s"&${ClientSideSessionFactory.TrackingIdCookieName}=${session.trackingId}"
 
   private def languageParam(implicit lang: Lang) = s"&languageCode=${lang.code.toUpperCase}"
 }

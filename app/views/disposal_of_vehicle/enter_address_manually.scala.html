@@ -5,12 +5,11 @@
 @import mappings.disposal_of_vehicle.EnterAddressManually.{NextId, BackId}
 @import utils.helpers._
 @import views.html.disposal_of_vehicle.main
-@import views.html.common.language
+@import views.html.common.alternateLanguages
 @import controllers.disposal_of_vehicle.routes.EnterAddressManually
 
 @main(
-    title = Messages("disposal_enteraddressmanually.title"),
-    alternateLanguages = language(withLanguageCy = EnterAddressManually.withLanguageCy(), withLanguageEn = EnterAddressManually.withLanguageEn())
+    title = Messages("disposal_enteraddressmanually.title")
 ) {
     @errorsSummary(enterAddressManuallyForm)
 

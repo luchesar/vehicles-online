@@ -6,11 +6,10 @@
 @import utils.helpers._
 @import mappings.disposal_of_vehicle.BusinessChooseYourAddress.{AddressSelectId, EnterAddressManuallyButtonId, SelectId, BackId}
 @import controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress
-@import views.html.common.language
+@import views.html.common.alternateLanguages
 @import views.html.disposal_of_vehicle.main
 
-@main(title = Messages("disposal_businessChooseYourAddress_title"),
-    alternateLanguages = language(withLanguageCy = BusinessChooseYourAddress.withLanguageCy(), withLanguageEn = BusinessChooseYourAddress.withLanguageEn())
+@main(title = Messages("disposal_businessChooseYourAddress_title")
 ) {
     @errorsSummary(businessChooseYourAddressForm)
 

@@ -6,7 +6,7 @@ import common.CookieImplicits.FormAdapter
 import common.CookieImplicits.RequestCookiesAdapter
 import common.CookieImplicits.SimpleResultAdapter
 import mappings.common.AddressAndPostcode._
-import mappings.common.Languages._
+import mappings.common.AlternateLanguages._
 import models.domain.disposal_of_vehicle.{TraderDetailsModel, AddressViewModel, SetupTradeDetailsModel, EnterAddressManuallyModel}
 import play.api.Logger
 import play.api.Play.current
@@ -66,16 +66,6 @@ final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: 
           }
       )
     }
-  }
-
-  def withLanguageCy = Action { implicit request =>
-    Redirect(routes.EnterAddressManually.present()).
-      withLang(langCy)
-  }
-
-  def withLanguageEn = Action { implicit request =>
-    Redirect(routes.EnterAddressManually.present()).
-      withLang(langEn)
   }
 }
 

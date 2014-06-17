@@ -370,8 +370,7 @@ soap_endpoint_error.exit.button=Exit
 #vrm locked
 vrm_locked.title=Registration mark is locked
 vrm_locked.text1=There have been three attempts to access the vehicle details without success. The vehicle registration mark is now locked for 10 minutes as a safeguard. During this period other vehicles can be processed.
-vrm_locked.text2.1=Locked at
-vrm_locked.text2.3=
+vrm_locked.text2=Locked at
 vrm_locked.text3.1=If you need assistance to process this vehicle, please call our Contact Centre on
 vrm_locked.text3.2=0300 790 6801
 
