@@ -35,8 +35,7 @@ final case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPo
       addressLinesModel = AddressLinesModel(addressAndPostcodeModel.addressLinesModel.buildingNameOrNumber.toUpperCase,
         addressAndPostcodeModel.addressLinesModel.line2.map(_.toUpperCase),
         addressAndPostcodeModel.addressLinesModel.line3.map(_.toUpperCase),
-        addressAndPostcodeModel.addressLinesModel.postTown.toUpperCase),
-      postcode = addressAndPostcodeModel.postcode.toUpperCase))
+        addressAndPostcodeModel.addressLinesModel.postTown.toUpperCase)))
   }
 }
 

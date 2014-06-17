@@ -5,7 +5,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 import org.openqa.selenium.WebDriver
 import org.scalatest.Matchers
-import pages.common.Languages._
+import pages.common.AlternateLanguages._
 import pages.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import services.fakes.FakeAddressLookupService._

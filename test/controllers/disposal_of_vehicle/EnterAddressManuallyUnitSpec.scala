@@ -46,7 +46,6 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       content should include(Line2Valid)
       content should include(Line3Valid)
       content should include(PostTownValid)
-      content should include(PostcodeValid)
     }
 
     "display empty fields when cookie does not exist" in new WithApplication {
@@ -58,7 +57,6 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       content should not include Line2Valid
       content should not include Line3Valid
       content should not include PostTownValid
-      content should not include PostcodeValid
     }
   }
 
@@ -67,19 +65,6 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val request = FakeRequest().withFormUrlEncodedBody().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
 
-      val result = enterAddressManually.submit(request)
-      whenReady(result) {
-        r => r.header.status should equal(BAD_REQUEST)
-      }
-    }
-
-    "return bad request when a valid address is entered without a postcode" in new WithApplication {
-      val request = FakeRequest().withFormUrlEncodedBody(
-        s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
-        s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> Line2Valid,
-        s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> Line3Valid,
-        s"$AddressAndPostcodeId.$AddressLinesId.$postTownId" -> PostTownValid).
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually.submit(request)
       whenReady(result) {
         r => r.header.status should equal(BAD_REQUEST)
@@ -101,8 +86,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> Line2Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> Line3Valid,
-        s"$AddressAndPostcodeId.$AddressLinesId.$postTownId" -> PostTownValid,
-        s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
+        s"$AddressAndPostcodeId.$AddressLinesId.$postTownId" -> PostTownValid).
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually.submit(request)
       whenReady(result) {
@@ -119,7 +103,6 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
                 model.addressAndPostcodeModel.addressLinesModel.line2 should equal(Some(Line2Valid.toUpperCase))
                 model.addressAndPostcodeModel.addressLinesModel.line3 should equal(Some(Line3Valid.toUpperCase))
                 model.addressAndPostcodeModel.addressLinesModel.postTown should equal(PostTownValid.toUpperCase)
-                model.addressAndPostcodeModel.postcode should equal(PostcodeValid.toUpperCase)
             case None => fail(s"$enterAddressManuallyCookieName cookie not found")
           }
 
@@ -128,8 +111,11 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
             case Some(cookie) =>
               val json = cookie.value
               val model = deserializeJsonToModel[TraderDetailsModel](json)
-              val expectedData = Seq(BuildingNameOrNumberValid.toUpperCase, Line2Valid.toUpperCase, Line3Valid.toUpperCase,
-                PostTownValid.toUpperCase, PostcodeValid.toUpperCase)
+              val expectedData = Seq(BuildingNameOrNumberValid.toUpperCase,
+                Line2Valid.toUpperCase,
+                Line3Valid.toUpperCase,
+                PostTownValid.toUpperCase,
+                PostcodeValid.toUpperCase)
               expectedData should equal(model.traderAddress.address)
 
             case None => fail(s"$traderDetailsCookieName cookie not found")
@@ -268,63 +254,6 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val result = enterAddressManually.submit(request)
       val content = contentAsString(result)
       content should include("Post town - Requires a minimum length of three characters")
-    }
-
-    "collapse error messages for post code" in new WithApplication {
-      val request = FakeRequest().withFormUrlEncodedBody(
-        s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
-        s"$AddressAndPostcodeId.$AddressLinesId.$postTownId" -> PostTownValid,
-        s"$AddressAndPostcodeId.$PostcodeId" -> "").
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = enterAddressManually.submit(request)
-      val content = contentAsString(result)
-      content should include("Must be between five and eight characters and in a valid format, eg. PR2 8AE or PR28AE")
-    }
-  }
-
-  "withLanguageCy" should {
-    "redirect back to the same page" in new WithApplication {
-      val result = enterAddressManually.withLanguageCy(FakeRequest())
-      whenReady(result) {
-        r =>
-          r.header.status should equal(SEE_OTHER) // Redirect...
-          r.header.headers.get(LOCATION) should equal(Some(EnterAddressManuallyPage.address)) // ... back to the same page.
-      }
-    }
-
-    "writes language cookie set to 'cy'" in new WithApplication {
-      val result = enterAddressManually.withLanguageCy(FakeRequest())
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(_.name == Play.langCookieName) match {
-            case Some(cookie) => cookie.value should equal("cy")
-            case None => fail("langCookieName not found")
-          }
-      }
-    }
-  }
-
-  "withLanguageEn" should {
-    "redirect back to the same page" in new WithApplication {
-      val result = enterAddressManually.withLanguageEn(FakeRequest())
-      whenReady(result) {
-        r =>
-          r.header.status should equal(SEE_OTHER) // Redirect...
-          r.header.headers.get(LOCATION) should equal(Some(EnterAddressManuallyPage.address)) // ... back to the same page.
-      }
-    }
-
-    "writes language cookie set to 'en'" in new WithApplication {
-      val result = enterAddressManually.withLanguageEn(FakeRequest())
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(_.name == Play.langCookieName) match {
-            case Some(cookie) => cookie.value should equal("en")
-            case None => fail("langCookieName not found")
-          }
-      }
     }
   }
 

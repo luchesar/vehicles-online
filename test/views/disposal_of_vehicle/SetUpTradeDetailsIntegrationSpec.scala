@@ -9,7 +9,7 @@ import pages.common.ErrorPanel
 import pages.disposal_of_vehicle.SetupTradeDetailsPage._
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
-import pages.common.Languages._
+import pages.common.AlternateLanguages._
 
 final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
   "got to page" should {

@@ -2,12 +2,11 @@
 
 @import controllers.disposal_of_vehicle.routes.DisposeFailure
 @import mappings.disposal_of_vehicle.DisposeFailure._
-@import views.html.common.language
+@import views.html.common.alternateLanguages
 @import views.html.disposal_of_vehicle.main
 
 @main(
-    title = Messages("disposal_disposefailure.title"),
-    alternateLanguages = language(withLanguageCy = DisposeFailure.withLanguageCy(), withLanguageEn = DisposeFailure.withLanguageEn())
+    title = Messages("disposal_disposefailure.title")
 ) {
 
 

@@ -21,27 +21,23 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 
   def addressPostTown(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$postTownId"))
 
-  def postcode(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_$PostcodeId"))
-
   def next(implicit driver: WebDriver): Element = find(id(NextId)).get
 
   def back(implicit driver: WebDriver): Element = find(id(BackId)).get
 
-  def happyPath(buildingNameOrNumber: String = BuildingNameOrNumberValid, line2: String = Line2Valid, line3: String = Line3Valid, postTown:String = PostTownValid, postcode:String = PostcodeValid)(implicit driver: WebDriver) ={
+  def happyPath(buildingNameOrNumber: String = BuildingNameOrNumberValid, line2: String = Line2Valid, line3: String = Line3Valid, postTown:String = PostTownValid)(implicit driver: WebDriver) ={
     go to EnterAddressManuallyPage
     addressBuildingNameOrNumber.value = buildingNameOrNumber
     addressLine2.value = line2
     addressLine3.value = line3
     addressPostTown.value = postTown
-    EnterAddressManuallyPage.postcode.value = postcode
     click on next
   }
 
-  def happyPathMandatoryFieldsOnly(buildingNameOrNumber: String = BuildingNameOrNumberValid, postTown: String = PostTownValid, postcode:String = PostcodeValid)(implicit driver: WebDriver) ={
+  def happyPathMandatoryFieldsOnly(buildingNameOrNumber: String = BuildingNameOrNumberValid, postTown: String = PostTownValid)(implicit driver: WebDriver) ={
     go to EnterAddressManuallyPage
     addressBuildingNameOrNumber.value = buildingNameOrNumber
     addressPostTown.value = postTown
-    EnterAddressManuallyPage.postcode.value = postcode
     click on next
   }
 

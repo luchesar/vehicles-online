@@ -13,7 +13,7 @@ Feature: US43: Validate document reference entry format - Error Messages
     Given an incorrectly formatted document reference number "<incorrect>" has been entered
     When this is submitted along with any other mandatory information
     Then a single error message "Document reference number - Document reference number must be an 11-digit number" is displayed
-    And the dispose transaction does not proceed past the "Find vehicle details" step
+    And the dispose transaction does not proceed past the "Enter vehicle details" step
 
   Examples:
     | incorrect    | comment                            |

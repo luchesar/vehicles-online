@@ -21,7 +21,7 @@ import CookieImplicits.RequestCookiesAdapter
 import CookieImplicits.SimpleResultAdapter
 import CookieImplicits.FormAdapter
 import models.domain.common.BruteForcePreventionResponse._
-import mappings.common.Languages._
+import mappings.common.AlternateLanguages._
 import play.api.data.FormError
 import play.api.mvc.SimpleResult
 import play.api.Play.current
@@ -65,16 +65,6 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
           }
         }
       )
-  }
-
-  def withLanguageCy = Action { implicit request =>
-    Redirect(routes.VehicleLookup.present()).
-      withLang(langCy)
-  }
-
-  def withLanguageEn = Action { implicit request =>
-    Redirect(routes.VehicleLookup.present()).
-      withLang(langEn)
   }
 
   private def convertToUpperCaseAndRemoveSpaces(model: VehicleLookupFormModel) : VehicleLookupFormModel =

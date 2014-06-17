@@ -15,7 +15,6 @@ object AddressAndPostcode {
 
   val addressAndPostcode: Mapping[AddressAndPostcodeModel] = mapping(
     UprnId -> uprn,
-    AddressLinesId -> addressLines.verifying(validAddressLines),
-    PostcodeId -> postcode
+    AddressLinesId -> addressLines.verifying(validAddressLines)
   )(AddressAndPostcodeModel.apply)(AddressAndPostcodeModel.unapply)
 }

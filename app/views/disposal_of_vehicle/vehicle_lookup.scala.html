@@ -8,12 +8,11 @@
 @import mappings.common.DocumentReferenceNumber
 @import mappings.common.VehicleRegistrationNumber
 @import views.html.disposal_of_vehicle.main
-@import views.html.common.language
+@import views.html.common.alternateLanguages
 @import controllers.disposal_of_vehicle.routes.VehicleLookup
 
 @main(
-    title = Messages("disposal_vehiclelookup.title"),
-    alternateLanguages = language(withLanguageCy = VehicleLookup.withLanguageCy(), withLanguageEn = VehicleLookup.withLanguageEn())
+    title = Messages("disposal_vehiclelookup.title")
 ) {
     @errorsSummary(vehicleLookupForm)
 
