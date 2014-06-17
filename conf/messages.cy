@@ -236,6 +236,7 @@ dateOfDisposal_year = Flwyddyn waredu
 dateOfDisposal.day = Diwrnod gwaredu
 dateOfDisposal.month = Mis gwaredu
 dateOfDisposal.year = Flwyddyn waredu
+disposal_dispose.todays_date_of_disposal = Defnyddiwch Dyddiad heddiw
 error.dateOfDisposal = Rhaid i ddyddiad gwared fod o fewn dwy flynedd
 disposal_dispose.consent.mandatory = Rhaid i chi gael cydsyniad y ceidwad cofrestredig i hysbysu gwerthu cerbyd hwn
 consent = Caniatâd
