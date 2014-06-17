@@ -1,4 +1,4 @@
-@(data: models.domain.disposal_of_vehicle.DisposeViewModel, disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel], years: Seq[(String, String)])(implicit lang: Lang, token: services.csrf_prevention.CSRFAction.Token)
+@(data: models.domain.disposal_of_vehicle.DisposeViewModel, disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel], dateService: services.DateService)(implicit lang: Lang, token: services.csrf_prevention.CSRFAction.Token)
 
 @import helper._
 @import helper.base.valtechDeclareCheck
@@ -53,7 +53,9 @@
                             'maxLength -> Mileage.maxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                             'title -> Messages("disposal_dispose.mileage.validation")))
                 <div id=@mappings.disposal_of_vehicle.Dispose.DateOfDisposalId class="disposal-date">
-                @inputDayMonthYear(disposeForm(DateOfDisposalId), years,
+                @inputDayMonthYear(
+                    field = disposeForm(DateOfDisposalId),
+                    years = dateService.today.yearRangeToDropdown(yearsIntoThePast = DateOfDisposalYearsIntoThePast),
                     args = Map(
                         '_label -> Messages("disposal_dispose.dateofdisposal.label")
                     )
@@ -65,7 +67,7 @@
                 <div class="form-item todays-date-of-disposal js-only">
                 	<label class="form-checkbox" for="@TodaysDateOfDisposal" id="@TodaysDateOfDisposalLabel">
                     @Messages("disposal_dispose.todays_date_of_disposal")
-                    <input name="@TodaysDateOfDisposal" type="checkbox" id="@TodaysDateOfDisposal" onclick="AutoFillTodaysDate()" />
+                    <input name="@TodaysDateOfDisposal" type="checkbox" id="@TodaysDateOfDisposal" onclick="AutoFillTodaysDate(@{dateService.today.day}, @{dateService.today.month}, @{dateService.today.year})" />
                 	</label>
 
                 </div>

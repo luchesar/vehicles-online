@@ -4,7 +4,7 @@ import helpers.tags.UiTag
 import pages.disposal_of_vehicle.DisposePage._
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
-import helpers.webbrowser.TestHarness
+import helpers.webbrowser.{WebDriverFactory, TestHarness}
 import org.openqa.selenium.WebDriver
 import pages.common.ErrorPanel
 import pages.disposal_of_vehicle._
@@ -127,6 +127,23 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       click on back
 
       page.title should equal(VehicleLookupPage.title)
+    }
+  }
+
+  "use today's date" should {
+    // This test needs to run with javaScript enabled.
+    "fill in the date fields" taggedAs UiTag in new WebBrowser(webDriver = WebDriverFactory.webDriver(targetBrowser = "htmlUnit", javascriptEnabled = true)) {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to DisposePage
+
+      click on useTodaysDate
+
+      Thread.sleep(2000)
+
+      dateOfDisposalDay.value should equal(DateOfDisposalDayValid)
+      dateOfDisposalMonth.value should equal(DateOfDisposalMonthValid)
+      dateOfDisposalYear.value should equal(DateOfDisposalYearValid)
     }
   }
 

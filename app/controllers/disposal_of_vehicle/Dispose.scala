@@ -37,15 +37,13 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     )(DisposeFormModel.apply)(DisposeFormModel.unapply)
   )
 
-  private val yearsDropdown: Seq[(String, String)] = dateService.today.yearRangeToDropdown(yearsIntoThePast = DateOfDisposalYearsIntoThePast)
-
   def present = Action {
     implicit request => {
       (request.cookies.getModel[TraderDetailsModel], request.cookies.getString(InterstitialCacheKey)) match {
         case (Some(dealerDetails), None) =>
           // Pre-populate the form so that the consent checkbox is ticked and today's date is displayed in the date control
           request.cookies.getModel[VehicleDetailsModel] match {
-            case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), form.fill(), yearsDropdown))
+            case (Some(vehicleDetails)) => Ok(views.html.disposal_of_vehicle.dispose(populateModelFromCachedData(dealerDetails, vehicleDetails), form.fill(), dateService))
             case _ => Redirect(routes.VehicleLookup.present())
           }
         case (_, Some(interstitial)) =>
@@ -76,7 +74,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
                   replaceError(ConsentId, "error.required", FormError(key = ConsentId, message = "disposal_dispose.consent.notgiven", args = Seq.empty)).
                   replaceError(LossOfRegistrationConsentId, "error.required", FormError(key = LossOfRegistrationConsentId, message = "disposal_dispose.loss_of_registration.consent.notgiven", args = Seq.empty)).
                   distinctErrors
-                BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors, yearsDropdown))
+                BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors, dateService))
               case _ =>
                 Logger.debug("could not find expected data in cache on dispose submit - now redirecting...")
                 Redirect(routes.SetUpTradeDetails.present())
