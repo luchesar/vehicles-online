@@ -1,6 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import helpers.UnitSpec
+import helpers.common.CookieHelper
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
@@ -13,7 +14,7 @@ import services.fakes.FakeAddressLookupWebServiceImpl
 import services.fakes.FakeAddressLookupWebServiceImpl._
 import common.ClientSideSessionFactory
 import composition.TestComposition.{testInjector => injector}
-import common.CookieHelper._
+import CookieHelper._
 import play.api.test.FakeRequest
 import play.api.Play
 
@@ -119,52 +120,6 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         r =>
           val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
           cookies.map(_.name) should contain noneOf(BusinessChooseYourAddressCacheKey, TraderDetailsCacheKey)
-      }
-    }
-  }
-
-  "withLanguageCy" should {
-    "redirect back to the same page" in new WithApplication {
-      val result = businessChooseYourAddressWithUprnFound.withLanguageCy(FakeRequest())
-      whenReady(result) {
-        r =>
-          r.header.status should equal(SEE_OTHER) // Redirect...
-          r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address)) // ... back to the same page.
-      }
-    }
-
-    "writes language cookie set to 'cy'" in new WithApplication {
-      val result = businessChooseYourAddressWithUprnFound.withLanguageCy(FakeRequest())
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(_.name == Play.langCookieName) match {
-            case Some(cookie) => cookie.value should equal("cy")
-            case None => fail("langCookieName not found")
-          }
-      }
-    }
-  }
-
-  "withLanguageEn" should {
-    "redirect back to the same page" in new WithApplication {
-      val result = businessChooseYourAddressWithUprnFound.withLanguageEn(FakeRequest())
-      whenReady(result) {
-        r =>
-          r.header.status should equal(SEE_OTHER) // Redirect...
-          r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address)) // ... back to the same page.
-      }
-    }
-
-    "writes language cookie set to 'en'" in new WithApplication {
-      val result = businessChooseYourAddressWithUprnFound.withLanguageEn(FakeRequest())
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(_.name == Play.langCookieName) match {
-            case Some(cookie) => cookie.value should equal("en")
-            case None => fail("langCookieName not found")
-          }
       }
     }
   }

@@ -1,6 +1,7 @@
 package controllers.disposal_of_vehicle
 
-import common.CookieHelper._
+import helpers.common.CookieHelper
+import CookieHelper._
 import composition.TestComposition.{testInjector => injector}
 import helpers.UnitSpec
 import helpers.WithApplication
@@ -254,53 +255,6 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val result = enterAddressManually.submit(request)
       val content = contentAsString(result)
       content should include("Post town - Requires a minimum length of three characters")
-    }
-
-  }
-
-  "withLanguageCy" should {
-    "redirect back to the same page" in new WithApplication {
-      val result = enterAddressManually.withLanguageCy(FakeRequest())
-      whenReady(result) {
-        r =>
-          r.header.status should equal(SEE_OTHER) // Redirect...
-          r.header.headers.get(LOCATION) should equal(Some(EnterAddressManuallyPage.address)) // ... back to the same page.
-      }
-    }
-
-    "writes language cookie set to 'cy'" in new WithApplication {
-      val result = enterAddressManually.withLanguageCy(FakeRequest())
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(_.name == Play.langCookieName) match {
-            case Some(cookie) => cookie.value should equal("cy")
-            case None => fail("langCookieName not found")
-          }
-      }
-    }
-  }
-
-  "withLanguageEn" should {
-    "redirect back to the same page" in new WithApplication {
-      val result = enterAddressManually.withLanguageEn(FakeRequest())
-      whenReady(result) {
-        r =>
-          r.header.status should equal(SEE_OTHER) // Redirect...
-          r.header.headers.get(LOCATION) should equal(Some(EnterAddressManuallyPage.address)) // ... back to the same page.
-      }
-    }
-
-    "writes language cookie set to 'en'" in new WithApplication {
-      val result = enterAddressManually.withLanguageEn(FakeRequest())
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(_.name == Play.langCookieName) match {
-            case Some(cookie) => cookie.value should equal("en")
-            case None => fail("langCookieName not found")
-          }
-      }
     }
   }
 

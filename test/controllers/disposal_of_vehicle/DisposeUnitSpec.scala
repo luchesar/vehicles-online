@@ -2,7 +2,8 @@ package controllers.disposal_of_vehicle
 
 import common.ClearTextClientSideSessionFactory.DefaultTrackingId
 import common.ClientSideSessionFactory
-import common.CookieHelper._
+import helpers.common.CookieHelper
+import CookieHelper._
 import composition.TestComposition.{testInjector => injector}
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
@@ -493,52 +494,6 @@ final class DisposeUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
-      }
-    }
-  }
-
-  "withLanguageCy" should {
-    "redirect back to the same page" in new WithApplication {
-      val result = disposeController(disposeWebService = disposeWebService()).withLanguageCy(FakeRequest())
-      whenReady(result) {
-        r =>
-          r.header.status should equal(SEE_OTHER) // Redirect...
-          r.header.headers.get(LOCATION) should equal(Some(DisposePage.address)) // ... back to the same page.
-      }
-    }
-
-    "writes language cookie set to 'cy'" in new WithApplication {
-      val result = disposeController(disposeWebService = disposeWebService()).withLanguageCy(FakeRequest())
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(_.name == Play.langCookieName) match {
-            case Some(cookie) => cookie.value should equal("cy")
-            case None => fail("langCookieName not found")
-          }
-      }
-    }
-  }
-
-  "withLanguageEn" should {
-    "redirect back to the same page" in new WithApplication {
-      val result = disposeController(disposeWebService = disposeWebService()).withLanguageEn(FakeRequest())
-      whenReady(result) {
-        r =>
-          r.header.status should equal(SEE_OTHER) // Redirect...
-          r.header.headers.get(LOCATION) should equal(Some(DisposePage.address)) // ... back to the same page.
-      }
-    }
-
-    "writes language cookie set to 'en'" in new WithApplication {
-      val result = disposeController(disposeWebService = disposeWebService()).withLanguageEn(FakeRequest())
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(_.name == Play.langCookieName) match {
-            case Some(cookie) => cookie.value should equal("en")
-            case None => fail("langCookieName not found")
-          }
       }
     }
   }
