@@ -1,6 +1,7 @@
-@(title: String, alternateLanguages: Html = Html.empty)(content: Html)(implicit lang: Lang)
+@(title: String)(content: Html)(implicit lang: Lang)
 
 @import play.api.Play.current
+@import views.html.common.alternateLanguages
 
 <!DOCTYPE html>
     <!--[if IE 6]>         <html class="ie ie6" lang="en"> <![endif]-->
@@ -46,7 +47,7 @@
                     	<h2>
                             <a href="">@{Messages("main.banner.help")(lang)}</a>
                             <a href="@{Messages("main.banner.feedback.link")(lang)}">@{Messages("main.banner.feedback")(lang)}</a>
-                            @alternateLanguages
+                            @alternateLanguages()
                         </h2>
                     </div>
                 </div>

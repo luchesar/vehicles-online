@@ -19,6 +19,7 @@ import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceI
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import play.api.Play
 import play.api.Play.current
+import mappings.common.Languages._
 
 object CookieFactoryForUISpecs {
   private def addCookie[A](key: String, value: A)(implicit tjs: Writes[A], webDriver: WebDriver): Unit = {
@@ -30,14 +31,14 @@ object CookieFactoryForUISpecs {
 
   def withLanguageCy()(implicit webDriver: WebDriver) = {
     val key = Play.langCookieName
-    val value = "cy"
+    val value = CyId
     addCookie(key, value)
     this
   }
 
   def withLanguageEn()(implicit webDriver: WebDriver) = {
     val key = Play.langCookieName
-    val value = "en"
+    val value = EnId
     addCookie(key, value)
     this
   }

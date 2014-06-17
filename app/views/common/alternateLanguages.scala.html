@@ -1,0 +1,15 @@
+@()(implicit lang: Lang)
+
+@import mappings.common.Languages.{CyId, EnId}
+
+@if(lang.code != CyId) {
+    <div class="step language-selection">
+        <a id="@CyId" href="/with-language/@CyId">@Messages("language.cy.button")</a>
+    </div>
+}
+
+@if(lang.code != EnId) {
+    <div class="step language-selection">
+        <a id="@EnId" href="/with-language/@EnId">@Messages("language.en.button")</a>
+    </div>
+}

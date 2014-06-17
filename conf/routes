@@ -19,8 +19,6 @@ GET         /assets/*file                                               controll
 GET         /                                                           controllers.Application.index
 GET         /disposal-of-vehicle/before-you-start                       @controllers.disposal_of_vehicle.BeforeYouStart.present
 POST        /disposal-of-vehicle/before-you-start                       @controllers.disposal_of_vehicle.BeforeYouStart.submit
-GET         /disposal-of-vehicle/before-you-start/cy                    @controllers.disposal_of_vehicle.BeforeYouStart.withLanguageCy
-GET         /disposal-of-vehicle/before-you-start/en                    @controllers.disposal_of_vehicle.BeforeYouStart.withLanguageEn
 
 #page 2 - setup-trade-details
 GET         /disposal-of-vehicle/setup-trade-details                    @controllers.disposal_of_vehicle.SetUpTradeDetails.present
@@ -94,3 +92,5 @@ GET         /disposal-of-vehicle/error/cy/:exceptionDigest              @control
 GET         /disposal-of-vehicle/error/en/:exceptionDigest              @controllers.disposal_of_vehicle.Error.withLanguageEn(exceptionDigest)
 
 GET         /common/interstitial                                        @controllers.disposal_of_vehicle.Interstitial.present
+
+GET         /with-language/:chosenLanguage                              controllers.Language.withLanguage(chosenLanguage: String)

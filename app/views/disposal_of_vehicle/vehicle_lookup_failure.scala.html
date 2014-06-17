@@ -4,13 +4,12 @@
         maxAttempts: Int)(implicit lang: Lang, token: services.csrf_prevention.CSRFAction.Token)
 
 @import mappings.disposal_of_vehicle.VehicleLookupFailure._
-@import views.html.common.language
+@import views.html.common.alternateLanguages
 @import views.html.disposal_of_vehicle.main
 @import controllers.disposal_of_vehicle.routes.VehicleLookupFailure
 
 @main(
-    title = Messages("disposal_vehiclelookupfailure.title"),
-    alternateLanguages = language(withLanguageCy = VehicleLookupFailure.withLanguageCy(), withLanguageEn = VehicleLookupFailure.withLanguageEn())
+    title = Messages("disposal_vehiclelookupfailure.title")
 ) {
     <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
     <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2")</p>

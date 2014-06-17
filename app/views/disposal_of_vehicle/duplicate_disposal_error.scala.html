@@ -1,12 +1,11 @@
 @()(implicit lang: Lang, token: services.csrf_prevention.CSRFAction.Token)
 
-@import views.html.common.language
+@import views.html.common.alternateLanguages
 @import views.html.disposal_of_vehicle.main
 @import controllers.disposal_of_vehicle.routes.DuplicateDisposalError
 
 @main(
-    title = Messages("duplicate_disposal_error.title"),
-    alternateLanguages = language(withLanguageCy = DuplicateDisposalError.withLanguageCy(), withLanguageEn = DuplicateDisposalError.withLanguageEn())
+    title = Messages("duplicate_disposal_error.title")
 ){
     <p>@Messages("duplicate_disposal_error.text")</p>
 
