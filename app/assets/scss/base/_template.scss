@@ -159,20 +159,34 @@
 
 
 /* Header - Global Overrides - inc !important overrides */
-html {background: #dee0e2!important;}
+html {
+	background: #dee0e2!important;
+}
 //#global-header #logo img {left: -211px!important;}
-#global-header .header-wrapper {padding: 0.5em 1px!important;}
-
-.carers-allowance-footer {padding-top: 30px!important; padding-bottom: 30px!important;}
-.carers-allowance-footer .footer-meta {border-top: none!important; padding-top: 0!important; padding-bottom: 0!important; margin-top: 0!important;}
-.carers-allowance-footer .footer-meta .copyright {position: relative; top: 2px;}
-#footer .footer-meta ul {
-    @media screen and (max-width: 640px) {
-        text-align: center;
-        }
+#global-header .header-wrapper {
+	padding: 0.5em 1px !important;
+	#logo img {
+		left:-206px !important;
+	}
 }
 
-#global-header #logo img {
-	//left:-212px !important;
-	left:-206px !important;
+.vehicles-online-footer {
+	padding-top: 30px !important; 
+	padding-bottom: 30px !important;
+	.footer-meta {
+		border-top: none !important; 
+		padding-top: 0 !important; 
+		padding-bottom: 0 !important; 
+		margin-top: 0 !important;
+
+		ul {
+		 	@media screen and (max-width: 640px) {
+    		text-align: center;
+    	}
+	  }
+		.copyright {
+			position: relative; top: 2px;
+		}
+	}
 }
+
