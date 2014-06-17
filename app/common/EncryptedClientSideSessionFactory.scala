@@ -17,6 +17,7 @@ class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: Cookie
   private final val SessionSecretKeyLifetime = None
 
   val secureCookies: Boolean = getProperty("secureCookies", default = true)
+  val sessionSecretKeySuffixKey: String = getProperty("sessionSecretKeySuffixKey", "FE291934-66BD-4500-B27F-517C7D77F26B")
 
   override def newSessionCookiesIfNeeded(request: Traversable[Cookie]): Option[Seq[Cookie]] = {
     validateSessionCookies(request) match {
@@ -24,23 +25,23 @@ class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: Cookie
       case _ =>
         val sessionSecretKey = newSessionSecretKey
 
-        val sessionSecretKeyPrefixCookieName = ClientSideSessionFactory.SessionIdCookieName
-        val sessionSecretKeyCipherText = encryption.encrypt(sessionSecretKeyCookieName + sessionSecretKey)
+        val trackingIdCookieName = ClientSideSessionFactory.TrackingIdCookieName
+        val sessionSecretKeyCipherText = encryption.encrypt(createSessionSecretKeySuffixCookieName + sessionSecretKey)
         val (prefixValue, suffixValue) = sessionSecretKeyCipherText.splitAt(20)
 
-        val sessionSecretKeyPrefixCookie = Cookie(
-          name = sessionSecretKeyPrefixCookieName,
+        val trackingIdCookie = Cookie(
+          name = trackingIdCookieName,
           value = prefixValue,
           secure = secureCookies,
           maxAge = SessionSecretKeyLifetime)
 
         val sessionSecretKeySuffixCookie = Cookie(
-          name = sessionSecretKeyCookieName,
+          name = createSessionSecretKeySuffixCookieName,
           value = suffixValue,
           secure = secureCookies,
           maxAge = SessionSecretKeyLifetime)
 
-        Some(Seq(sessionSecretKeyPrefixCookie, sessionSecretKeySuffixCookie))
+        Some(Seq(trackingIdCookie, sessionSecretKeySuffixCookie))
     }
   }
 
@@ -53,17 +54,16 @@ class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: Cookie
   }
 
   private def validateSessionCookies(requestCookies: Traversable[Cookie]): Option[(String, String)] = {
-    val cookieName = sessionSecretKeyCookieName
+    val sessionSecretKeySuffixCookieName = createSessionSecretKeySuffixCookieName
 
-    val trackingIdCookieOption = requestCookies.find(_.name == ClientSideSessionFactory.SessionIdCookieName)
-    val cookieOption = requestCookies.find(_.name == cookieName)
+    val trackingIdCookie = requestCookies.find(_.name == ClientSideSessionFactory.TrackingIdCookieName)
+    val sessionSecretKeySuffixCookie = requestCookies.find(_.name == sessionSecretKeySuffixCookieName)
 
-    (trackingIdCookieOption, cookieOption) match {
-      case (Some(trackingId), Some(cookie)) =>
-        val cookieName = sessionSecretKeyCookieName
-        val decrypted = encryption.decrypt(trackingId.value + cookie.value)
-        val (cookieNameFromPayload, sessionSecretKey) = decrypted.splitAt(cookieName.length)
-        if (cookieName != cookieNameFromPayload) {
+    (trackingIdCookie, sessionSecretKeySuffixCookie) match {
+      case (Some(trackingId), Some(sessionSecretKeySuffix)) =>
+        val decrypted = encryption.decrypt(trackingId.value + sessionSecretKeySuffix.value)
+        val (cookieNameFromPayload, sessionSecretKey) = decrypted.splitAt(sessionSecretKeySuffixCookieName.length)
+        if (sessionSecretKeySuffixCookieName != cookieNameFromPayload) {
           throw new InvalidSessionException("The cookie name bytes from the payload must match the cookie name")
         }
         Some((trackingId.value, sessionSecretKey))
@@ -75,10 +75,8 @@ class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: Cookie
     }
   }
 
-
-
-  private def sessionSecretKeyCookieName(implicit cookieNameHashing: CookieNameHashing): String =
-    cookieNameHashing.hash("FE291934-66BD-4500-B27F-517C7D77F26B")
+  private def createSessionSecretKeySuffixCookieName(implicit cookieNameHashing: CookieNameHashing): String =
+    cookieNameHashing.hash(sessionSecretKeySuffixKey)
 
   private def newSessionSecretKey = Hex.encodeHexString(getSecureRandomBytes(16))
 

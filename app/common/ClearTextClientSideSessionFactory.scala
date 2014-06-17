@@ -19,7 +19,7 @@ class ClearTextClientSideSessionFactory @Inject()(implicit cookieFlags: CookieFl
     }
 
   private def getTrackingId(request: Traversable[Cookie]): Option[String] = {
-    request.find(_.name == ClientSideSessionFactory.SessionIdCookieName).map {
+    request.find(_.name == ClientSideSessionFactory.TrackingIdCookieName).map {
       _.value
     }
   }
