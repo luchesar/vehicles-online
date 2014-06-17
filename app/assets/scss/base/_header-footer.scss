@@ -240,9 +240,10 @@ input:focus, textarea:focus, select:focus {
     color: #0b0c0c;
   }
   .header-wrapper {
-  	@media screen and (min-width:$device-small) {
+  	/*@media screen and (min-width:$device-small) {
 			position:relative; //for language-selection button
 		}
+		*/
     &:after {
       content: "";
       display: block;
@@ -284,9 +285,8 @@ input:focus, textarea:focus, select:focus {
   #logo {
     float: left;
     position: relative;
-    width: 161px;
+    width: 166px;
     height: 30px;
-    margin-right:0;
     overflow: hidden;
     img {
       position: absolute;

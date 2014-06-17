@@ -61,7 +61,7 @@
             padding: 6px 10px 4px 10px;
             position: absolute;
             top: 2px;
-            right:10px;
+            right:15px;
             .ie & {
                 font-size: 14px;
             }
@@ -84,8 +84,8 @@
 #global-header {
 	.header-logo {
 		float:left;
-		//margin-right:80px !important;
-		margin-right:0 !important;
+		margin-right:80px !important;
+		//margin-right:0 !important;
 		margin-bottom:10px !important;
 		width:auto !important;
 	}
@@ -95,13 +95,10 @@
 	float:left;
 	margin-left:15px;
 	margin-bottom:8px;
-	.ie & {
-		margin-left:10px !important;
-	}
 	h1.page-title {
 		@include bold-19;
 		position: relative;
-		padding-right:5.5em;
+		padding-right:6em;
 		
 		@media screen and (max-width: $device-small) {
         	padding-right:7em;
@@ -119,43 +116,8 @@
 			}
 		}
 	}
-	//for language toggle/selection
-	//780 breakpoint is only used with the language-toggle element
-	@media screen and (max-width:780px) {
-		clear:both;
-		margin-left:10px;
-		h1.page-title {
-			font-size:16px;
-			line-height:1.25;
-			padding-right:7em;
-		}
-		h2 {
-			font-size:12px;
-			line-height:1.25;
-		}
-	}
 }
 
-//language toggle/selection 
-.language-selection {
-	float:right;
-	button {
-		-webkit-appearance:none;
-		border:0 none;
-		background:none;
-		color:#FFF;
-		padding:1em;
-		margin:0;
-		font-weight:700;
-		cursor:pointer;
-	}
-	//780 breakpoint is only used with the language toggle/selection
-	@media screen and (max-width:780px) {
-		position:absolute;
-		top:8px;
-		right:0;
-	}
-}
 
 
 /* Header - Global Overrides - inc !important overrides */
@@ -165,9 +127,6 @@ html {
 
 #global-header .header-wrapper {
 	padding: 0.5em 1px !important;
-	#logo img {
-		left:-206px !important;
-	}
 }
 
 .vehicles-online-footer {
@@ -190,3 +149,6 @@ html {
 	}
 }
 
+#global-header #logo img {
+	left:-212px !important;
+}
