@@ -11,7 +11,7 @@ import mappings.common.Postcode._
 import utils.helpers.FormExtensions._
 import com.google.inject.Inject
 import CookieImplicits.FormAdapter
-import mappings.common.Languages._
+import mappings.common.AlternateLanguages._
 import play.api.Play.current
 
 final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
@@ -40,16 +40,6 @@ final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: Cli
         },
         f => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(convertToUpperCase(f))
       )
-  }
-
-  def withLanguageCy = Action { implicit request =>
-    Redirect(routes.SetUpTradeDetails.present()).
-      withLang(langCy)
-  }
-
-  def withLanguageEn = Action { implicit request =>
-    Redirect(routes.SetUpTradeDetails.present()).
-      withLang(langEn)
   }
 
   private def convertToUpperCase(model: SetupTradeDetailsModel) : SetupTradeDetailsModel =

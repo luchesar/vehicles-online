@@ -19,7 +19,7 @@ import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceI
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import play.api.Play
 import play.api.Play.current
-import mappings.common.Languages._
+import mappings.common.AlternateLanguages._
 
 object CookieFactoryForUISpecs {
   private def addCookie[A](key: String, value: A)(implicit tjs: Writes[A], webDriver: WebDriver): Unit = {

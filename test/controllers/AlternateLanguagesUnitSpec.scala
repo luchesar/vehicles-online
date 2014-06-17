@@ -1,15 +1,15 @@
-package controllers.disposal_of_vehicle
+package controllers
 
 import common.CookieHelper._
+import controllers.AlternateLanguages.withLanguage
 import helpers.{UnitSpec, WithApplication}
+import mappings.common.AlternateLanguages._
 import pages.disposal_of_vehicle._
 import play.api.Play
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import mappings.common.Languages._
-import controllers.Language.withLanguage
 
-final class LanguagesUnitSpec extends UnitSpec {
+final class AlternateLanguagesUnitSpec extends UnitSpec {
   "withLanguageCy" should {
     "redirect back to the same page" in new WithApplication {
       val result = withLanguage(CyId)(request)

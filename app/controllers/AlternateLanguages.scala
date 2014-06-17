@@ -4,7 +4,7 @@ import play.api.i18n.Lang
 import play.api.mvc._
 import play.api.Play.current
 
-object Language extends Controller {
+object AlternateLanguages extends Controller {
   def withLanguage(chosenLanguage: String) = Action { implicit request =>
     def redirectUrl(request: Request[AnyContent]): String = {
       def refererAndHost(request: Request[AnyContent]) = {

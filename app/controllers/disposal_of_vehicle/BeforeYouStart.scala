@@ -5,7 +5,7 @@ import com.google.inject.Inject
 import common.{ClientSideSessionFactory, CookieImplicits}
 import CookieImplicits.SimpleResultAdapter
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import mappings.common.Languages._
+import mappings.common.AlternateLanguages._
 import play.api.Play.current
 
 final class BeforeYouStart @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {

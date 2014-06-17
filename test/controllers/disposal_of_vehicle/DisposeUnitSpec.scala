@@ -497,52 +497,6 @@ final class DisposeUnitSpec extends UnitSpec {
     }
   }
 
-  "withLanguageCy" should {
-    "redirect back to the same page" in new WithApplication {
-      val result = disposeController(disposeWebService = disposeWebService()).withLanguageCy(FakeRequest())
-      whenReady(result) {
-        r =>
-          r.header.status should equal(SEE_OTHER) // Redirect...
-          r.header.headers.get(LOCATION) should equal(Some(DisposePage.address)) // ... back to the same page.
-      }
-    }
-
-    "writes language cookie set to 'cy'" in new WithApplication {
-      val result = disposeController(disposeWebService = disposeWebService()).withLanguageCy(FakeRequest())
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(_.name == Play.langCookieName) match {
-            case Some(cookie) => cookie.value should equal("cy")
-            case None => fail("langCookieName not found")
-          }
-      }
-    }
-  }
-
-  "withLanguageEn" should {
-    "redirect back to the same page" in new WithApplication {
-      val result = disposeController(disposeWebService = disposeWebService()).withLanguageEn(FakeRequest())
-      whenReady(result) {
-        r =>
-          r.header.status should equal(SEE_OTHER) // Redirect...
-          r.header.headers.get(LOCATION) should equal(Some(DisposePage.address)) // ... back to the same page.
-      }
-    }
-
-    "writes language cookie set to 'en'" in new WithApplication {
-      val result = disposeController(disposeWebService = disposeWebService()).withLanguageEn(FakeRequest())
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(_.name == Play.langCookieName) match {
-            case Some(cookie) => cookie.value should equal("en")
-            case None => fail("langCookieName not found")
-          }
-      }
-    }
-  }
-
   private val dateValid: String = DayMonthYear(DateOfDisposalDayValid.toInt, DateOfDisposalMonthValid.toInt, DateOfDisposalYearValid.toInt).toDateTime.get.toString
 
   private val emptySpace = " "

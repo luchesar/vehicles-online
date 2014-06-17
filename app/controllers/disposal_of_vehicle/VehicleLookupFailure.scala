@@ -7,7 +7,7 @@ import models.domain.disposal_of_vehicle.{BruteForcePreventionViewModel, TraderD
 import mappings.disposal_of_vehicle.VehicleLookup._
 import common.{ClientSideSessionFactory, CookieImplicits}
 import CookieImplicits.RequestCookiesAdapter
-import mappings.common.Languages._
+import mappings.common.AlternateLanguages._
 import play.api.mvc.DiscardingCookie
 import play.api.Play.current
 
@@ -28,16 +28,6 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         Redirect(routes.VehicleLookup.present())
       case _ => Redirect(routes.BeforeYouStart.present())
     }
-  }
-
-  def withLanguageCy = Action { implicit request =>
-    Redirect(routes.VehicleLookupFailure.present()).
-      withLang(langCy)
-  }
-
-  def withLanguageEn = Action { implicit request =>
-    Redirect(routes.VehicleLookupFailure.present()).
-      withLang(langEn)
   }
 
   private def displayVehicleLookupFailure(vehicleLookUpFormModelDetails: VehicleLookupFormModel,

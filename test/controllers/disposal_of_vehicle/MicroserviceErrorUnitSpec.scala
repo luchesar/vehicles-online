@@ -17,51 +17,5 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
     }
   }
 
-  "withLanguageCy" should {
-    "redirect back to the same page" in new WithApplication {
-      val result = microServiceError.withLanguageCy(FakeRequest())
-      whenReady(result) {
-        r =>
-          r.header.status should equal(SEE_OTHER) // Redirect...
-          r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address)) // ... back to the same page.
-      }
-    }
-
-    "writes language cookie set to 'cy'" in new WithApplication {
-      val result = microServiceError.withLanguageCy(FakeRequest())
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(_.name == Play.langCookieName) match {
-            case Some(cookie) => cookie.value should equal("cy")
-            case None => fail("langCookieName not found")
-          }
-      }
-    }
-  }
-
-  "withLanguageEn" should {
-    "redirect back to the same page" in new WithApplication {
-      val result = microServiceError.withLanguageEn(FakeRequest())
-      whenReady(result) {
-        r =>
-          r.header.status should equal(SEE_OTHER) // Redirect...
-          r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address)) // ... back to the same page.
-      }
-    }
-
-    "writes language cookie set to 'en'" in new WithApplication {
-      val result = microServiceError.withLanguageEn(FakeRequest())
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(_.name == Play.langCookieName) match {
-            case Some(cookie) => cookie.value should equal("en")
-            case None => fail("langCookieName not found")
-          }
-      }
-    }
-  }
-
   private val microServiceError = new MicroServiceError()
 }
