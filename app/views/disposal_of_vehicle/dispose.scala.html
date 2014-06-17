@@ -62,47 +62,36 @@
                 )
                 </div>
 
-
-                <style>
-                    .noJavaScript {
-                        display:none !important;
-                    }
-                </style>
-
-                <label class="form-checkbox noJavaScript" id="todaysDateOfDisposalLabel">
-                    @Messages("disposal_dispose.todays_date_of_disposal")
-                    <input type="checkbox" onclick="AutoFillTodaysDate()" id="todaysDateOfDisposal" />
-                </label>
-
-                <script type="text/javascript">
-
-                function JavascriptIsEnabled() {
-                    document.getElementById("todaysDateOfDisposalLabel").className = "form-checkbox";
-                }
-
-                JavascriptIsEnabled();
-
+                <script>
                 function AutoFillTodaysDate() {
-                    if (todaysDateOfDisposal.checked == false) {
-                        document.getElementById("dateOfDisposal_day").value = '';
-                        document.getElementById("dateOfDisposal_month").value = '';
-                        document.getElementById("dateOfDisposal_year").value = '';
-                    }
-                    else {
-                        var todaysDate = new Date();
-                        var day = todaysDate.getUTCDate();
-                        var month = todaysDate.getUTCMonth() + 1; //0 based so need to increase month by 1
-                        var year = todaysDate. getFullYear();
+                	var dod_day = document.getElementById("dateOfDisposal_day");
+			          	var dod_month = document.getElementById("dateOfDisposal_month");
+			          	var dod_year = document.getElementById("dateOfDisposal_year");
 
-                        document.getElementById("dateOfDisposal_day").value = day;
-                        document.getElementById("dateOfDisposal_month").value = month;
-                        document.getElementById("dateOfDisposal_year").value = year;
-                    }
-                }
+				          if (todaysDateOfDisposal.checked === false) {
+				            dod_day.value = '';
+				            dod_month.value = '';
+				            dod_year.value = '';
+				          } else {
+				            var todaysDate = new Date();
+				            var day = todaysDate.getUTCDate();
+				            var month = todaysDate.getUTCMonth() + 1; //0 based so need to increase month by 1
+				            var year = todaysDate. getFullYear();
 
-
+				            dod_day.value = day;
+				            dod_month.value = month;
+				            dod_year.value = year;
+				          }
+				        }
                 </script>
 
+                <div class="form-item todays-date-of-disposal js-only">
+                	<label class="form-checkbox" for="todaysDateOfDisposal" id="todaysDateOfDisposalLabel">
+                    @Messages("disposal_dispose.todays_date_of_disposal")
+                    <input name="todaysDateOfDisposal" type="checkbox" id="todaysDateOfDisposal" onclick="AutoFillTodaysDate()" />
+                	</label>
+
+                </div>
 
                 @{
                     /* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */

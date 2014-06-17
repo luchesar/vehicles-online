@@ -160,6 +160,13 @@
 		}
 
 	}
+	label.form-checkbox {
+		cursor:pointer;
+		.ie6 & {
+			cursor:default;
+		}
+
+	}
 
 	.form-declaration {
 		label {

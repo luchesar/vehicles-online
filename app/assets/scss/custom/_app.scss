@@ -158,17 +158,6 @@
 		}
 	}
 
-	.disposal-form {
-
-		label.form-checkbox {
-			cursor:pointer;
-
-			.ie6 & {
-				cursor:default;
-			}
-		}
-	}
-
 	.disposal-date {
 		legend {
 			margin-top:20px;
