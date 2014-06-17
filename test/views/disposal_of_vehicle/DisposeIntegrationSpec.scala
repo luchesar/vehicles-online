@@ -139,8 +139,6 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
       click on useTodaysDate
 
-      Thread.sleep(2000)
-
       dateOfDisposalDay.value should equal(DateOfDisposalDayValid)
       dateOfDisposalMonth.value should equal(DateOfDisposalMonthValid)
       dateOfDisposalYear.value should equal(DateOfDisposalYearValid)
