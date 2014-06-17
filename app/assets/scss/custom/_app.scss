@@ -95,7 +95,7 @@
 			}
 		}
 		dd {
-			@include toUppercase;
+			@include to-uppercase;
 			overflow: hidden;
 
 			@media screen and (max-width: $device-small) {
@@ -109,7 +109,6 @@
 			}
 
 		}
-
 
 		// smaller width, more flexible container
 		&.summary-detail-list-flex {
