@@ -40,7 +40,7 @@ final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDS
 
   @When("^the motor trader goes to the website for the first time$")
   def `the motor trader goes to the website for the first time`() = {
-    webDriver.manage().getCookieNamed(ClientSideSessionFactory.SessionIdCookieName) should be(null)
+    webDriver.manage().getCookieNamed(ClientSideSessionFactory.TrackingIdCookieName) should be(null)
     go to BeforeYouStartPage
   }
 }

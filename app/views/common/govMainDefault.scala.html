@@ -1,6 +1,7 @@
-@(title: String, alternateLanguages: Html = Html.empty)(content: Html)(implicit lang: Lang)
+@(title: String)(content: Html)(implicit lang: Lang)
 
 @import play.api.Play.current
+@import views.html.common.alternateLanguages
 
 <!DOCTYPE html>
     <!--[if IE 6]>         <html class="ie ie6" lang="en"> <![endif]-->
@@ -40,17 +41,14 @@
                         </a>
                     </div>
 					
-								<div class="header-phase">
                     <div class="header-phase">
-                    	<h1 class="page-title alpha"><strong>@{Messages("main.banner")(lang)}</strong> <span aria-hidden="true">alpha</span></h1>
+                    	<h1 class="page-title beta"><strong>@{Messages("main.banner")(lang)}</strong> <span aria-hidden="true">beta</span></h1>
                     	<h2>
                             <a href="">@{Messages("main.banner.help")(lang)}</a>
                             <a href="@{Messages("main.banner.feedback.link")(lang)}">@{Messages("main.banner.feedback")(lang)}</a>
+                            @alternateLanguages()
                         </h2>
                     </div>
-                    
-                    @alternateLanguages
-
                 </div>
             </div>
         </div>

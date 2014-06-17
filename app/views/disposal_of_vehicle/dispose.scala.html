@@ -9,12 +9,11 @@
 @import mappings.disposal_of_vehicle.Dispose._
 @import utils.helpers.BaseTemplate._
 @import utils.helpers._
-@import views.html.common.language
+@import views.html.common.alternateLanguages
 @import views.html.disposal_of_vehicle.main
 
 @main(
-    title = Messages("disposal_dispose.title"),
-    alternateLanguages = language(withLanguageCy = Dispose.withLanguageCy(), withLanguageEn = Dispose.withLanguageEn())
+    title = Messages("disposal_dispose.title")
 ) {
     @errorsSummary(disposeForm)
 
@@ -62,6 +61,48 @@
                     )
                 )
                 </div>
+
+
+                <style>
+                    .noJavaScript {
+                        display:none !important;
+                    }
+                </style>
+
+                <label class="form-checkbox noJavaScript" id="todaysDateOfDisposalLabel">
+                    @Messages("disposal_dispose.todays_date_of_disposal")
+                    <input type="checkbox" onclick="AutoFillTodaysDate()" id="todaysDateOfDisposal" />
+                </label>
+
+                <script type="text/javascript">
+
+                function JavascriptIsEnabled() {
+                    document.getElementById("todaysDateOfDisposalLabel").className = "form-checkbox";
+                }
+
+                JavascriptIsEnabled();
+
+                function AutoFillTodaysDate() {
+                    if (todaysDateOfDisposal.checked == false) {
+                        document.getElementById("dateOfDisposal_day").value = '';
+                        document.getElementById("dateOfDisposal_month").value = '';
+                        document.getElementById("dateOfDisposal_year").value = '';
+                    }
+                    else {
+                        var todaysDate = new Date();
+                        var day = todaysDate.getUTCDate();
+                        var month = todaysDate.getUTCMonth() + 1; //0 based so need to increase month by 1
+                        var year = todaysDate. getFullYear();
+
+                        document.getElementById("dateOfDisposal_day").value = day;
+                        document.getElementById("dateOfDisposal_month").value = month;
+                        document.getElementById("dateOfDisposal_year").value = year;
+                    }
+                }
+
+
+                </script>
+
 
                 @{
                     /* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */

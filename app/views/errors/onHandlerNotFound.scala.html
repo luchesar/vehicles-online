@@ -1,12 +1,12 @@
 @(request: RequestHeader)(implicit lang: Lang)
 
-@import helper._
+@import views.html.common.govMain
+@import views.html.common.protoType
 
-
-@common.govMain(Messages("onHandlerNotFound.title")) {
+@govMain(Messages("onHandlerNotFound.title")) {
     <div class="vehicles-online">
 
-        @common.protoType()
+        @protoType()
         @{/*common.helpLine()*/}
 
         <section class="section-content">

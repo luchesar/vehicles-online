@@ -3,13 +3,12 @@
 @import helper._
 @import mappings.disposal_of_vehicle.Error._
 @import utils.helpers._
-@import views.html.common.language
+@import views.html.common.alternateLanguages
 @import views.html.disposal_of_vehicle.main
 @import controllers.disposal_of_vehicle.routes.Error
 
 @main(
-    title = Messages("error.title"),
-    alternateLanguages = language(withLanguageCy = Error.withLanguageCy(exceptionDigest), withLanguageEn = Error.withLanguageEn(exceptionDigest))
+    title = Messages("error.title")
 ){
 
     @form(action = controllers.disposal_of_vehicle.routes.Error.submit(exceptionDigest)) {

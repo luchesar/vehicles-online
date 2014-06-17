@@ -7,7 +7,7 @@ import constraints.common.DayMonthYear._
 import mappings.common.Consent._
 import mappings.common.DayMonthYear.dayMonthYear
 import mappings.common.Interstitial.InterstitialCacheKey
-import mappings.common.Languages._
+import mappings.common.AlternateLanguages._
 import mappings.common.Mileage._
 import mappings.disposal_of_vehicle.Dispose._
 import models.domain.disposal_of_vehicle._
@@ -91,16 +91,6 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
           }
         }
       )
-  }
-
-  def withLanguageCy = Action { implicit request =>
-    Redirect(routes.Dispose.present()).
-      withLang(langCy)
-  }
-
-  def withLanguageEn = Action { implicit request =>
-    Redirect(routes.Dispose.present()).
-      withLang(langEn)
   }
 
   private def populateModelFromCachedData(dealerDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {
