@@ -110,7 +110,10 @@
 		a {
 			color:$white;
 			text-decoration: none;
-            margin-right: 1em;
+			margin-right: 1em;
+			&:visited {
+				color:$white;
+			}
 			&:hover {
 				text-decoration: underline;
 			}
