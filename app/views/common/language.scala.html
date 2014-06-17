@@ -5,20 +5,25 @@
 @import utils.helpers._
 
 @if(lang.code != CyId) {
-    <div class="step language-selection">
-    @form(action = withLanguageCy) {
+    <!--<div class="step language-selection">-->
+    <!--@form(action = withLanguageCy) {
         @CSRFHelper.hiddenFormField
-        <button id="@CyId" type="submit" name="action" class="button">@Messages("language.cy.button")</button>
-    }
-    </div>
+        <button id="@CyId" type="submit" name="action" class="button">@Messages("language.cy.button")</button>-->
+        <a href="#">@Messages("language.cy.button")</a>
+    <!--
+  	}-->
+    <!--</div>-->
 }
 
 @if(lang.code != EnId) {
-    <div class="step language-selection">
+    <!--<div class="step language-selection">
     @form(action = withLanguageEn) {
+  -->
         @CSRFHelper.hiddenFormField
-        <button id="@EnId" type="submit" name="action" class="button">@Messages("language.en.button")</button>
+        <!--<button id="@EnId" type="submit" name="action" class="button">@Messages("language.en.button")</button>-->
+        <a href="#">@Messages("language.en.button")</a>
 
+    <!--
     }
-    </div>
+    </div>-->
 }
