@@ -65,4 +65,4 @@ POST        /disposal-of-vehicle/error/:exceptionDigest                 @control
 
 GET         /common/interstitial                                        @controllers.disposal_of_vehicle.Interstitial.present
 
-GET         /with-language/:chosenLanguage                              controllers.AlternateLanguages.withLanguage(chosenLanguage: String)
+GET         /with-language/:chosenLanguage                              controllers.common.AlternateLanguages.withLanguage(chosenLanguage: String)

@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import helpers.common.CookieHelper
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
@@ -7,7 +8,7 @@ import helpers.UnitSpec
 import composition.TestComposition.{testInjector => injector}
 import helpers.WithApplication
 import pages.disposal_of_vehicle.DisposeFailurePage
-import common.CookieHelper._
+import CookieHelper._
 import scala.Some
 import play.api.Play
 

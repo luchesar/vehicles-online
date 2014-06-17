@@ -1,13 +1,14 @@
 package controllers.disposal_of_vehicle
 
 import helpers.UnitSpec
+import helpers.common.CookieHelper
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
 import services.fakes.FakeAddressLookupService._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import composition.TestComposition.{testInjector => injector}
-import common.CookieHelper._
+import CookieHelper._
 import helpers.WithApplication
 import play.api.test.FakeRequest
 import play.api.Play

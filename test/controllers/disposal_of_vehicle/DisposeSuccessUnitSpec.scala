@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import helpers.common.CookieHelper
 import mappings.common.Interstitial._
 import pages.common.InterstitialPage
 import play.api.test.Helpers._
@@ -9,7 +10,7 @@ import helpers.UnitSpec
 import composition.TestComposition.{testInjector => injector}
 import helpers.WithApplication
 import play.api.test.FakeRequest
-import common.CookieHelper._
+import CookieHelper._
 import scala.Some
 import play.api.Play
 
