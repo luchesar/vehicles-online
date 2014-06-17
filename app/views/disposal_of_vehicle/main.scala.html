@@ -1,8 +1,8 @@
-@(title: String, currentForm: Option[Form[_]] = None, alternateLanguages: Html = Html.empty)(content: Html)(implicit lang: Lang)
+@(title: String, currentForm: Option[Form[_]] = None)(content: Html)(implicit lang: Lang)
 
 @import helper._
 
-@common.govMain(title, alternateLanguages) {
+@common.govMain(title) {
     <div class="vehicles-online">
 
         @common.protoType()

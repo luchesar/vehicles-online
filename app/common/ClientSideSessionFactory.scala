@@ -3,7 +3,7 @@ package common
 import play.api.mvc.Cookie
 
 object ClientSideSessionFactory {
-  final val SessionIdCookieName = "tracking_id"
+  final val TrackingIdCookieName = "tracking_id"
 }
 
 trait ClientSideSessionFactory {

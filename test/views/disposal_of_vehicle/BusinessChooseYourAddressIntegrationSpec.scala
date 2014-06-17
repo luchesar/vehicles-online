@@ -11,7 +11,7 @@ import pages.disposal_of_vehicle._
 import services.fakes.FakeAddressLookupService.PostcodeValid
 import mappings.disposal_of_vehicle.EnterAddressManually._
 import services.fakes.FakeAddressLookupService
-import pages.common.Languages._
+import pages.common.AlternateLanguages._
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {

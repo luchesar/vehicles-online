@@ -1,12 +1,11 @@
 @()(implicit lang: Lang, token: services.csrf_prevention.CSRFAction.Token)
 
-@import views.html.common.language
+@import views.html.common.alternateLanguages
 @import views.html.disposal_of_vehicle.main
 @import controllers.disposal_of_vehicle.routes.SoapEndpointError
 
 @main(
-    title = Messages("soap_endpoint_error.title"),
-    alternateLanguages = language(withLanguageCy = SoapEndpointError.withLanguageCy(), withLanguageEn = SoapEndpointError.withLanguageEn())
+    title = Messages("soap_endpoint_error.title")
 ){
     <p>@Messages("soap_endpoint_error.text")</p>
 

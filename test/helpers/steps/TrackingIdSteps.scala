@@ -27,7 +27,7 @@ class TrackingIdSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDSL 
   @Given("^the motor trader has already been in the website and has trackingId assigned$")
   def `the motor trader has already been in the website and has trackingId assigned`() {
     go to BeforeYouStartPage
-    webDriver.manage().addCookie(new Cookie(ClientSideSessionFactory.SessionIdCookieName, trackingIdTestValue))
+    webDriver.manage().addCookie(new Cookie(ClientSideSessionFactory.TrackingIdCookieName, trackingIdTestValue))
   }
 
   @When("^going to the website again$")
@@ -39,7 +39,7 @@ class TrackingIdSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDSL 
 
   @Then("^the trackingId should stay the same$")
   def `the trackingId should stay the same`() = {
-    val trackingIdCookie = webDriver.manage().getCookieNamed(ClientSideSessionFactory.SessionIdCookieName)
+    val trackingIdCookie = webDriver.manage().getCookieNamed(ClientSideSessionFactory.TrackingIdCookieName)
     trackingIdCookie.getValue should be(trackingIdTestValue)
   }
 }

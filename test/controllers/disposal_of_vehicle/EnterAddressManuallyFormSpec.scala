@@ -16,13 +16,11 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
       model.addressLinesModel.line2 should equal(Some(Line2Valid))
       model.addressLinesModel.line3 should equal(Some(Line3Valid))
       model.addressLinesModel.postTown should equal(PostTownValid)
-      model.postcode should equal(PostcodeValid)
     }
 
     "accept if form is valid with only mandatory filled in" in {
       val model = formWithValidDefaults(line2 = "", line3 = "").get.addressAndPostcodeModel
       model.addressLinesModel.buildingNameOrNumber should equal(BuildingNameOrNumberValid)
-      model.postcode should equal(PostcodeValid)
     }
   }
 
@@ -100,40 +98,16 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     }
   }
 
-  "postcode" should {
-    "reject if blank" in {
-      formWithValidDefaults(postcode = "").errors should have length 3
-    }
-
-    "reject if less than min length" in {
-      formWithValidDefaults(postcode = "SA99").errors should have length 2
-    }
-
-    "reject if contains special characters" in {
-      formWithValidDefaults(postcode = "SA99 2L$").errors should have length 1
-    }
-
-    "reject if more than max length" in {
-      formWithValidDefaults(postcode = "SA99 1DDR").errors should have length 2
-    }
-
-    "reject if contains html chevrons" in {
-      formWithValidDefaults(postcode = "A<br>B").errors should have length 1
-    }
-  }
-
   private def formWithValidDefaults(buildingNameOrNumber: String = BuildingNameOrNumberValid,
                                     line2: String = Line2Valid,
                                     line3: String = Line3Valid,
-                                    postTown: String = PostTownValid,
-                                    postcode: String = PostcodeValid) = {
+                                    postTown: String = PostTownValid) = {
     injector.getInstance(classOf[EnterAddressManually]).form.bind(
       Map(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> buildingNameOrNumber,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> line2,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> line3,
-        s"$AddressAndPostcodeId.$AddressLinesId.$postTownId" -> postTown,
-        s"$AddressAndPostcodeId.$PostcodeId" -> postcode
+        s"$AddressAndPostcodeId.$AddressLinesId.$postTownId" -> postTown
       )
     )
   }
