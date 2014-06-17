@@ -1,8 +1,8 @@
-package controllers
+package controllers.common
 
+import play.api.Play.current
 import play.api.i18n.Lang
 import play.api.mvc._
-import play.api.Play.current
 
 object AlternateLanguages extends Controller {
   def withLanguage(chosenLanguage: String) = Action { implicit request =>

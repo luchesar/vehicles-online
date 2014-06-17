@@ -1,7 +1,7 @@
-package controllers
+package controllers.common
 
-import common.CookieHelper._
-import controllers.AlternateLanguages.withLanguage
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import controllers.common.AlternateLanguages.withLanguage
 import helpers.{UnitSpec, WithApplication}
 import mappings.common.AlternateLanguages._
 import pages.disposal_of_vehicle._

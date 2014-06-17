@@ -1,6 +1,7 @@
 package controllers.disposal_of_vehicle
 
-import common.CookieHelper._
+import helpers.common.CookieHelper
+import CookieHelper._
 import composition.TestComposition.{testInjector => injector}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
