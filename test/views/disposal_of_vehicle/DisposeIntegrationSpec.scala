@@ -10,6 +10,8 @@ import pages.common.ErrorPanel
 import pages.disposal_of_vehicle._
 import services.fakes.FakeDateServiceImpl._
 import mappings.disposal_of_vehicle.Dispose._
+import org.scalatest.time.{Seconds, Span}
+import org.scalatest.concurrent.Eventually._
 
 final class DisposeIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -75,7 +77,13 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
       happyPath
 
-      page.title should equal("Redirecting")
+
+      // We want to wait for the javascript to execute and redirect to the next page. For build servers we may need to
+      // wait longer than the default.
+      val timeout: Span = scaled(Span(2, Seconds))
+      implicit val patienceConfig: PatienceConfig = PatienceConfig(timeout = timeout)
+
+      eventually {page.title should equal(DisposeSuccessPage.title)}
     }
 
     // This test needs to run with javaScript enabled.
@@ -96,7 +104,12 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       click on dispose
 
 
-      page.title should equal("Redirecting")
+      // We want to wait for the javascript to execute and redirect to the next page. For build servers we may need to
+      // wait longer than the default.
+      val timeout: Span = scaled(Span(2, Seconds))
+      implicit val patienceConfig: PatienceConfig = PatienceConfig(timeout = timeout)
+
+      eventually {page.title should equal(DisposeSuccessPage.title)}
     }
 
     "display validation errors when no data is entered" taggedAs UiTag in new WebBrowser {
@@ -182,7 +195,7 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       cacheSetup().
         vehicleLookupFormModel()
 
-      webDriver.getPageSource shouldNot(contain(TodaysDateOfDisposal))
+      webDriver.getPageSource shouldNot contain(TodaysDateOfDisposal)
     }
   }
 

@@ -1,0 +1,62 @@
+package helpers.steps.javascript_enabled
+
+import pages.disposal_of_vehicle._
+import cucumber.api.java.en.Given
+import cucumber.api.java.en.When
+import cucumber.api.java.en.Then
+import org.scalatest.Matchers
+import org.openqa.selenium.WebDriver
+import helpers.webbrowser.{WebBrowserDriverWIthJavaScript, WebBrowserDSL, WebBrowserDriver}
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import pages.disposal_of_vehicle.DisposePage._
+import services.fakes.FakeDateServiceImpl._
+import org.scalatest.time.{Seconds, Span}
+import org.scalatest.concurrent.Eventually._
+
+final class DisposeSteps(webBrowserDriver:WebBrowserDriverWIthJavaScript) extends WebBrowserDSL with Matchers {
+
+  implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
+
+  @Given("""^the Trader is on the Complete & Confirm page and javascript is enabled for the browser$""")
+  def the_Trader_is_on_the_Complete_Confirm_page_and_javascript_is_enabled_for_the_browser() = {
+    buildDisposeSetup()
+
+    go to DisposePage
+  }
+
+  @When("""^the user checks the 'Use today's date' checkbox for Date of Sale$""")
+  def the_user_checks_the_Use_todays_date_checkbox_for_Date_of_Sale() = {
+    click on useTodaysDate
+  }
+
+  @Then("""^the data of sale will be set to today's date$""")
+  def the_date_of_sale_will_be_set_to_todays_date () = {
+    dateOfDisposalDay.value should equal(DateOfDisposalDayValid)
+    dateOfDisposalMonth.value should equal(DateOfDisposalMonthValid)
+    dateOfDisposalYear.value should equal(DateOfDisposalYearValid)
+  }
+
+  @Then("""^the user can select 'Confirm sale' without error on the date of sale field$""")
+  def the_user_can_select_Confirm_sale_without_error_on_the_date_of_sale_field() = {
+    click on consent
+    click on lossOfRegistrationConsent
+    click on dispose
+
+    // We want to wait for the javascript to execute and redirect to the next page. For build servers we may need to
+    // wait longer than the default.
+    val timeout: Span = scaled(Span(2, Seconds))
+    implicit val patienceConfig: PatienceConfig = PatienceConfig(timeout = timeout)
+
+    eventually {page.title should equal(DisposeSuccessPage.title)}
+  }
+
+
+  private def buildDisposeSetup() {
+    go to BeforeYouStartPage
+
+    CookieFactoryForUISpecs.setupTradeDetails().
+      dealerDetails().
+      vehicleDetailsModel().
+      vehicleLookupFormModel()
+  }
+}
