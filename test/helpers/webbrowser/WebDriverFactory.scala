@@ -17,7 +17,13 @@ object WebDriverFactory {
 
   def webDriver: WebDriver = {
     val targetBrowser = getProperty("browser.type", "htmlunit")
+    webDriver(
+      targetBrowser = targetBrowser,
+      javascriptEnabled = false // Default to off.
+    )
+  }
 
+  def webDriver(targetBrowser: String, javascriptEnabled: Boolean): WebDriver = {
     val selectedDriver: WebDriver = {
 
       targetBrowser match {
@@ -26,8 +32,8 @@ object WebDriverFactory {
         case "internetexplorer" => new InternetExplorerDriver()
         case "safari" => new SafariDriver()
         case "firefox" => firefoxDriver
-        case "phantomjs" => phantomjsDriver
-        case _ => htmlUnitDriver // Default
+        case "phantomjs" => phantomjsDriver(javascriptEnabled)
+        case _ => htmlUnitDriver(javascriptEnabled) // Default
       }
     }
 
@@ -55,9 +61,9 @@ object WebDriverFactory {
     new ChromeDriver()
   }
 
-  private def htmlUnitDriver = {
+  private def htmlUnitDriver(javascriptEnabled: Boolean) = {
     val driver = new HtmlUnitDriver()
-    driver.setJavascriptEnabled(false) // TODO HTMLUnit blows up when navigating live site due to JavaScript errors!
+    driver.setJavascriptEnabled(javascriptEnabled) // TODO HTMLUnit blows up when navigating live site due to JavaScript errors!
     driver
   }
 
@@ -67,11 +73,11 @@ object WebDriverFactory {
     new FirefoxDriver(firefoxProfile)
   }
 
-  private def phantomjsDriver = {
+  private def phantomjsDriver(javascriptEnabled: Boolean) = {
     systemProperties.setProperty("webdriver.phantomjs.binary", getProperty("webdriver.phantomjs.binary", "drivers/phantomjs-1.9.7_macosx"))
 
     val capabilities = new DesiredCapabilities
-    capabilities.setJavascriptEnabled(true)
+    capabilities.setJavascriptEnabled(javascriptEnabled)
     capabilities.setCapability("takesScreenshot", false)
     capabilities.setCapability(
       PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,

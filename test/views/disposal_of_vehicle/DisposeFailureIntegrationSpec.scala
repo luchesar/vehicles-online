@@ -1,5 +1,6 @@
 package views.disposal_of_vehicle
 
+import helpers.tags.UiTag
 import pages.disposal_of_vehicle.DisposeFailurePage._
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
@@ -9,7 +10,7 @@ import pages.disposal_of_vehicle._
 
 final class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
-    "display the page" in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeFailurePage
@@ -17,7 +18,7 @@ final class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(DisposeFailurePage.title)
     }
 
-    "redirect to setuptrade details if cache is empty on page load" in new WebBrowser {
+    "redirect to setuptrade details if cache is empty on page load" taggedAs UiTag in new WebBrowser {
       go to DisposeFailurePage
 
       page.title should equal(SetupTradeDetailsPage.title)
@@ -25,7 +26,7 @@ final class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "vehiclelookup button" should {
-    "redirect to vehiclelookup" in new WebBrowser {
+    "redirect to vehiclelookup" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeFailurePage
@@ -37,7 +38,7 @@ final class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "setuptradedetails button" should {
-    "redirect to setuptradedetails" in new WebBrowser {
+    "redirect to setuptradedetails" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeFailurePage

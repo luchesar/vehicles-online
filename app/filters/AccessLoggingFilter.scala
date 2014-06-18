@@ -26,7 +26,7 @@ class AccessLoggingFilter extends Filter{
     val dateFormat = new SimpleDateFormat("dd/MMM/yyyy:hh:mm:ss +SSS")
 
     val ipAddress = Seq(request.headers.get(XForwardedFor), Some(request.remoteAddress), request.headers.get(XRealIp), Some("-")).flatten.head
-    val trackingId = request.cookies.get(ClientSideSessionFactory.SessionIdCookieName) match {
+    val trackingId = request.cookies.get(ClientSideSessionFactory.TrackingIdCookieName) match {
      case Some(c) => c.value
      case _ => "-"
     }

@@ -2,6 +2,7 @@ package views.disposal_of_vehicle
 
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.VehicleLookupFailurePage._
@@ -12,7 +13,7 @@ import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceI
 final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
 
-    "display the page" in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -21,13 +22,13 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       page.title should equal(VehicleLookupFailurePage.title)
     }
 
-    "redirect to setuptrade details if cache is empty on page load" in new WebBrowser {
+    "redirect to setuptrade details if cache is empty on page load" taggedAs UiTag in new WebBrowser {
       go to VehicleLookupFailurePage
 
       page.title should equal(SetupTradeDetailsPage.title)
     }
 
-    "redirect to setuptrade details if only VehicleLookupFormModelCache is populated" in new WebBrowser {
+    "redirect to setuptrade details if only VehicleLookupFormModelCache is populated" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.vehicleLookupFormModel()
 
@@ -36,7 +37,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       page.title should equal(SetupTradeDetailsPage.title)
     }
 
-    "redirect to setuptrade details if only dealerDetails cache is populated" in new WebBrowser {
+    "redirect to setuptrade details if only dealerDetails cache is populated" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.dealerDetails()
 
@@ -45,7 +46,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       page.title should equal(SetupTradeDetailsPage.title)
     }
 
-    "remove redundant cookies when displayed" in new WebBrowser {
+    "remove redundant cookies when displayed" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -54,7 +55,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       webDriver.manage().getCookieNamed(VehicleLookupResponseCodeCacheKey) should equal(null)
     }
 
-    "not display warnAboutLockout messages when 1 attempt has been made" in new WebBrowser {
+    "not display warnAboutLockout messages when 1 attempt has been made" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
       CookieFactoryForUISpecs.
@@ -66,10 +67,10 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       go to VehicleLookupFailurePage
 
       page.source should include("For each vehicle registration mark, only three attempts can be made to retrieve the vehicle details.")
-      page.source should not include "After a third unsuccessful attempt the system prevents further attempts to access the the vehicles records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period."
+      page.source should not include "After a third unsuccessful attempt the system prevents further attempts to access the vehicle's records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period."
     }
 
-    "display warnAboutLockout messages when 2 attempts have been made" in new WebBrowser {
+    "display warnAboutLockout messages when 2 attempts have been made" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
       CookieFactoryForUISpecs.
@@ -81,12 +82,12 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       go to VehicleLookupFailurePage
 
       page.source should include("For each vehicle registration mark, only three attempts can be made to retrieve the vehicle details.")
-      page.source should include("After a third unsuccessful attempt the system prevents further attempts to access the the vehicles records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.")
+      page.source should include("After a third unsuccessful attempt the system prevents further attempts to access the vehicle's records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.")
     }
   }
 
   "vehicleLookup button" should {
-    "redirect to vehiclelookup when button clicked" in new WebBrowser {
+    "redirect to vehiclelookup when button clicked" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to VehicleLookupFailurePage
@@ -98,7 +99,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
   }
 
   "beforeYouStart button" should {
-    "redirect to beforeyoustart" in new WebBrowser {
+    "redirect to beforeyoustart" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to VehicleLookupFailurePage

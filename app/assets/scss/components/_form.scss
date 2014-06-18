@@ -160,6 +160,13 @@
 		}
 
 	}
+	label.form-checkbox {
+		cursor:pointer;
+		.ie6 & {
+			cursor:default;
+		}
+
+	}
 
 	.form-declaration {
 		label {
@@ -309,7 +316,7 @@
 
 	//uppercase text inputs (class is applied to a parent wrapper)
 	.uppercase-input input {
-		@include toUppercase;
+		@include to-uppercase;
 	}
 
 }

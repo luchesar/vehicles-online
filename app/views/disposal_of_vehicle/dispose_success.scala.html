@@ -6,13 +6,12 @@
 @import views.html.common._
 @import mappings.disposal_of_vehicle.DisposeSuccess._
 @import utils.helpers._
-@import views.html.common.language
+@import views.html.common.alternateLanguages
 @import views.html.disposal_of_vehicle.main
 @import controllers.disposal_of_vehicle.routes.DisposeSuccess
 
 @main(
-    title = Messages("disposal_disposeconfirmation.title"),
-    alternateLanguages = language(withLanguageCy = DisposeSuccess.withLanguageCy(), withLanguageEn = DisposeSuccess.withLanguageEn())
+    title = Messages("disposal_disposeconfirmation.title")
 ){
 
 <div class="alert-complete">

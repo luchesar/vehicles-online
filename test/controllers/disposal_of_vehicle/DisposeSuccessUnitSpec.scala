@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import helpers.common.CookieHelper
 import mappings.common.Interstitial._
 import pages.common.InterstitialPage
 import play.api.test.Helpers._
@@ -9,7 +10,7 @@ import helpers.UnitSpec
 import composition.TestComposition.{testInjector => injector}
 import helpers.WithApplication
 import play.api.test.FakeRequest
-import common.CookieHelper._
+import CookieHelper._
 import scala.Some
 import play.api.Play
 
@@ -233,52 +234,6 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
           cookies.find(c => c.name == InterstitialCacheKey) match {
             case Some(c) => c.value should equal(BeforeYouStartPage.address)
             case None => fail("Interstitial cookie should exist")
-          }
-      }
-    }
-  }
-
-  "withLanguageCy" should {
-    "redirect back to the same page" in new WithApplication {
-      val result = disposeSuccess.withLanguageCy(FakeRequest())
-      whenReady(result) {
-        r =>
-          r.header.status should equal(SEE_OTHER) // Redirect...
-          r.header.headers.get(LOCATION) should equal(Some(DisposeSuccessPage.address)) // ... back to the same page.
-      }
-    }
-
-    "writes language cookie set to 'cy'" in new WithApplication {
-      val result = disposeSuccess.withLanguageCy(FakeRequest())
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(_.name == Play.langCookieName) match {
-            case Some(cookie) => cookie.value should equal("cy")
-            case None => fail("langCookieName not found")
-          }
-      }
-    }
-  }
-
-  "withLanguageEn" should {
-    "redirect back to the same page" in new WithApplication {
-      val result = disposeSuccess.withLanguageEn(FakeRequest())
-      whenReady(result) {
-        r =>
-          r.header.status should equal(SEE_OTHER) // Redirect...
-          r.header.headers.get(LOCATION) should equal(Some(DisposeSuccessPage.address)) // ... back to the same page.
-      }
-    }
-
-    "writes language cookie set to 'en'" in new WithApplication {
-      val result = disposeSuccess.withLanguageEn(FakeRequest())
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(_.name == Play.langCookieName) match {
-            case Some(cookie) => cookie.value should equal("en")
-            case None => fail("langCookieName not found")
           }
       }
     }

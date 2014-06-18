@@ -2,7 +2,7 @@ package mappings.common
 
 import play.api.i18n.Lang
 
-object Languages {
+object AlternateLanguages {
   final val CyId = "cy"
   final val EnId = "en"
   val langCy = Lang(CyId)

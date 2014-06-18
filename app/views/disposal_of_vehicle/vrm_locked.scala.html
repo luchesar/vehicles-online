@@ -3,16 +3,15 @@
 @import helper._
 @import mappings.disposal_of_vehicle.VrmLocked._
 @import utils.helpers._
-@import views.html.common.language
+@import views.html.common.alternateLanguages
 @import controllers.disposal_of_vehicle.routes.VrmLocked
 @import views.html.disposal_of_vehicle.main
 
 @main(
-title = Messages("vrm_locked.title"),
-alternateLanguages = language(withLanguageCy = VrmLocked.withLanguageCy(), withLanguageEn = VrmLocked.withLanguageEn())
+    title = Messages("vrm_locked.title")
 ) {
     <p>@Messages("vrm_locked.text1")</p>
-    <p>@Messages("vrm_locked.text2.1")&nbsp;<span id='localTimeOfVrmLock' >@timeString</span>&nbsp;@Messages("vrm_locked.text2.3")</p>
+    <p>@Messages("vrm_locked.text2")&nbsp;<span id='localTimeOfVrmLock' >@timeString</span></p>
     <p>@Messages("vrm_locked.text3.1")&nbsp;<strong>@Messages("vrm_locked.text3.2")</strong></p>
     <div class="form-steps">
         <div class="step">

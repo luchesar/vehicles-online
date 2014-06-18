@@ -2,6 +2,7 @@ package views.disposal_of_vehicle
 
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.common.ErrorPanel
@@ -10,34 +11,34 @@ import pages.disposal_of_vehicle._
 import services.fakes.FakeAddressLookupService.PostcodeValid
 import mappings.disposal_of_vehicle.EnterAddressManually._
 import services.fakes.FakeAddressLookupService
-import pages.common.Languages._
+import pages.common.AlternateLanguages._
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
-    "display the page" in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
       page.title should equal(BusinessChooseYourAddressPage.title)
     }
 
-    "redirect when no traderBusinessName is cached" in new WebBrowser {
+    "redirect when no traderBusinessName is cached" taggedAs UiTag in new WebBrowser {
       go to BusinessChooseYourAddressPage
 
       page.title should equal(SetupTradeDetailsPage.title)
     }
 
-    "not display 'No addresses found' message when address service returns addresses" in new WebBrowser {
+    "not display 'No addresses found' message when address service returns addresses" taggedAs UiTag in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
       page.source.contains("No addresses found for that postcode") should equal(false) // Does not contain message
     }
 
-    "should display the postcode entered in the previous page" in new WebBrowser {
+    "should display the postcode entered in the previous page" taggedAs UiTag in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
       page.source.contains(FakeAddressLookupService.PostcodeValid.toUpperCase) should equal(true)
     }
 
-    "display expected addresses in dropdown when address service returns addresses" in new WebBrowser {
+    "display expected addresses in dropdown when address service returns addresses" taggedAs UiTag in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
 
       BusinessChooseYourAddressPage.getListCount should equal(4) // The first option is the "Please select..." and the other options are the addresses.
@@ -46,18 +47,18 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       page.source should include(s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $PostcodeValid")
     }
 
-    "display 'No addresses found' message when address service returns no addresses" in new WebBrowser {
+    "display 'No addresses found' message when address service returns no addresses" taggedAs UiTag in new WebBrowser {
       SetupTradeDetailsPage.submitInvalidPostcode
 
       page.source should include("No addresses found for that postcode") // Does not contain the positive message
     }
 
-    "contain the hidden csrfToken field" in new WebBrowser {
+    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
       page.source should include("input type=\"hidden\" name=\"csrfToken\"")
     }
 
-    "display the 'Cymraeg' language button and not the 'English' language button when the language cookie is set to 'en'" in new WebBrowser {
+    "display the 'Cymraeg' language button and not the 'English' language button when the language cookie is set to 'en'" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage // By default will load in English.
       CookieFactoryForUISpecs.withLanguageEn()
       go to BusinessChooseYourAddressPage
@@ -66,7 +67,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       hasEnglish should equal(false)
     }
 
-    "display the 'English' language button and not the 'Cymraeg' language button when the language cookie is set to 'cy'" in new WebBrowser {
+    "display the 'English' language button and not the 'Cymraeg' language button when the language cookie is set to 'cy'" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage // By default will load in English.
       CookieFactoryForUISpecs.withLanguageCy()
       go to BusinessChooseYourAddressPage
@@ -77,7 +78,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
   }
 
   "manualAddress button" should {
-    "go to the manual address entry page" in new WebBrowser {
+    "go to the manual address entry page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
@@ -89,7 +90,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
   }
 
   "back button" should {
-    "display previous page" in new WebBrowser {
+    "display previous page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
@@ -101,7 +102,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
   }
 
   "select button" should {
-    "go to the next page when correct data is entered" in new WebBrowser {
+    "go to the next page when correct data is entered" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       happyPath
@@ -109,7 +110,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       page.title should equal(VehicleLookupPage.title)
     }
 
-    "display validation error messages when addressSelected is not in the list" in new WebBrowser {
+    "display validation error messages when addressSelected is not in the list" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       sadPath
@@ -117,7 +118,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "remove redundant EnterAddressManually cookie (as we are now in an alternate history)" in new WebBrowser {
+    "remove redundant EnterAddressManually cookie (as we are now in an alternate history)" taggedAs UiTag in new WebBrowser {
       def cacheSetupVisitedEnterAddressManuallyPage()(implicit webDriver: WebDriver) =
         CookieFactoryForUISpecs.setupTradeDetails().
           enterAddressManually()

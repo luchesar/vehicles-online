@@ -2,9 +2,9 @@ package pages.common
 
 import helpers.webbrowser.{Element, WebBrowserDSL}
 import org.openqa.selenium.WebDriver
-import mappings.common.Languages._
+import mappings.common.AlternateLanguages._
 
-object Languages extends WebBrowserDSL{
+object AlternateLanguages extends WebBrowserDSL{
   def cymraeg(implicit driver: WebDriver): Element = find(id(CyId)).get
   def english(implicit driver: WebDriver): Element = find(id(EnId)).get
 

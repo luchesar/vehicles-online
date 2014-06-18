@@ -1,11 +1,11 @@
-@(title: String, alternateLanguages: Html = Html.empty)(content: Html)(implicit lang: Lang)
+@(title: String)(content: Html)(implicit lang: Lang)
 
 @import play.api.Play
 @import play.api.Play.current
 @import views.html.common._
 
 @if(Play.isTest) {
-    @govMainTest(title, alternateLanguages)(content)
+    @govMainTest(title)(content)
 } else {
-    @govMainDefault(title, alternateLanguages)(content)
+    @govMainDefault(title)(content)
 }
