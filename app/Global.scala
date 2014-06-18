@@ -1,17 +1,13 @@
-import java.io.File
-import java.util.UUID
-
 import com.google.inject.Injector
 import com.typesafe.config.ConfigFactory
-import filters.EnsureSessionCreatedFilter
+import filters.{AccessLoggingFilter, EnsureSessionCreatedFilter}
+import java.io.File
+import java.util.UUID
 import play.api._
 import play.api.mvc.Results._
 import play.api.mvc._
-
-//import play.filters.gzip._
 import composition.Composition._
 import utils.helpers.ErrorStrategy
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -68,6 +64,6 @@ object Global extends WithFilters(filters: _*) with GlobalSettings {
     ErrorStrategy(request, ex)
 
   override def doFilter(a: EssentialAction): EssentialAction = {
-    Filters(super.doFilter(a), devInjector.getInstance(classOf[EnsureSessionCreatedFilter]))
+    Filters(super.doFilter(a), devInjector.getInstance(classOf[EnsureSessionCreatedFilter]), devInjector.getInstance(classOf[AccessLoggingFilter]))
   }
 }
