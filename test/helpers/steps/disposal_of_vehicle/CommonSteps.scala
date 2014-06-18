@@ -60,7 +60,7 @@ final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDS
 
   @When("""^this is submitted along with any other mandatory information$""")
   def this_is_submitted_along_with_any_other_mandatory_information() = {
-    submit()
+    click on VehicleLookupPage.findVehicleDetails
   }
 
   @Then("""^the document reference number "(.*)" is retained$""")
