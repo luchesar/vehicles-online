@@ -72,9 +72,14 @@ final class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBro
     click on VehicleLookupPage.findVehicleDetails
   }
 
+  @When("""^this is submitted along with any other mandatory information$""")
+  def this_is_submitted_along_with_any_other_mandatory_information() = {
+    click on VehicleLookupPage.findVehicleDetails
+  }
+
   @When("""^they attempt to submit the doc ref number in addition to other required information$""")
   def they_attempt_to_submit_the_doc_ref_number_in_addition_to_other_required_information() = {
-    click on VehicleLookupPage.findVehicleDetails
+    this_is_submitted_along_with_any_other_mandatory_information()
   }
 
   @Then("""^the doc ref number is retained$""")
