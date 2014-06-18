@@ -1,9 +1,11 @@
 function AutoFillTodaysDate(day, month, year) {
+
+	var dod_elm = document.getElementById("todaysDateOfDisposalLabel");
 	var dod_day = document.getElementById("dateOfDisposal_day");
 	var dod_month = document.getElementById("dateOfDisposal_month");
 	var dod_year = document.getElementById("dateOfDisposal_year");
 
-  if (todaysDateOfDisposal.checked === false) {
+  if (dod_elm.checked === false) {
     dod_day.value = '';
     dod_month.value = '';
     dod_year.value = '';
