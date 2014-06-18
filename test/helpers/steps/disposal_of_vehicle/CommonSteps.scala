@@ -58,23 +58,6 @@ final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDS
     click on EnterAddressManuallyPage.next
   }
 
-  @Given("""^a correctly formatted document reference number "(.*)" has been entered$""")
-  def a_correctly_formatted_document_reference_number_has_been_entered(docRefNo:String) = {
-    start()
-    setupTraderDetails()
-    chooseYourAddressManual()
-    enterAddressManually()
-
-    page.title should equal(VehicleLookupPage.title)
-    VehicleLookupPage.vehicleRegistrationNumber enter "AA99 AAA"
-    VehicleLookupPage.documentReferenceNumber enter docRefNo
-  }
-
-  @Given("""^an incorrectly formatted document reference number "(.*)" has been entered$""")
-  def an_incorrectly_formatted_document_reference_number_has_been_entered(docRefNo:String) = {
-    a_correctly_formatted_document_reference_number_has_been_entered(docRefNo)
-  }
-
   @Given("""^a correctly formatted vehicle reference mark "(.*)" has been entered$""")
   def a_correctly_formatted_vehicle_reference_mark_has_been_entered(refMark:String) = {
     start()

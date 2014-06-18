@@ -13,12 +13,20 @@ final class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBro
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 
-  @Given("""^a motor trader has entered a doc ref number in a valid format$""")
-  def a_motor_trader_has_entered_a_doc_ref_number_in_a_valid_format() = {
+  @Given("""^a correctly formatted document reference number "(.*)" has been entered$""")
+  def a_correctly_formatted_document_reference_number_has_been_entered(docRefNo:String) = {
     buildVehicleLookupSetup()
 
     VehicleLookupPage.vehicleRegistrationNumber enter RegistrationNumberValid
-    VehicleLookupPage.documentReferenceNumber enter ReferenceNumberValid
+    VehicleLookupPage.documentReferenceNumber enter docRefNo
+  }
+  @Given("""^an incorrectly formatted document reference number "(.*)" has been entered$""")
+  def an_incorrectly_formatted_document_reference_number_has_been_entered(docRefNo:String) = {
+    a_correctly_formatted_document_reference_number_has_been_entered(docRefNo)
+  }
+  @Given("""^a motor trader has entered a doc ref number in a valid format$""")
+  def a_motor_trader_has_entered_a_doc_ref_number_in_a_valid_format() = {
+    a_correctly_formatted_document_reference_number_has_been_entered(RegistrationNumberValid)
   }
 
   @Given("""^a motor trader has (.*) a VRM in a valid format$""")
