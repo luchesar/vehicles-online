@@ -1,12 +1,15 @@
 package helpers.steps
 
 import pages.disposal_of_vehicle._
-import cucumber.api.java.en.{When, Given}
+import cucumber.api.java.en.{When, Given, Then}
 import org.scalatest.Matchers
 import services.fakes.FakeDateServiceImpl._
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
+import org.scalatest.time.{Seconds, Span}
+import org.scalatest.concurrent.Eventually._
+import pages.disposal_of_vehicle.DisposePage._
 
 final class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
@@ -20,6 +23,13 @@ final class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
     enterValidDisposalDate()
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
+  }
+
+  @Given("""^the Trader is on the Complete & Confirm page and javascript is not enabled for the browser$""")
+  def the_Trader_is_on_the_Complete_Confirm_page_and_javascript_is_not_enabled_for_the_browser() = {
+    buildDisposeSetup()
+
+    go to DisposePage
   }
 
   @Given("""^the motor trader has not confirmed the consent of the current keeper$""")
@@ -102,6 +112,20 @@ final class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
   @When("""^they attempt to dispose of the vehicle$""")
   def they_attempt_to_dispose_of_the_vehicle() = {
     click on DisposePage.dispose
+  }
+
+  @When("""^the user manually selects a date using the  Date of Sale date drop downs$""")
+  def the_user_manually_selects_a_date_using_the_Date_of_Sale_date_drop_downs() = {
+    enterValidDisposalDate()
+  }
+
+  @Then("""^the user can select "Confirm sale" without error on the date of sale field$""")
+  def the_user_can_select_Confirm_sale_without_error_on_the_date_of_sale_field() = {
+    click on consent
+    click on lossOfRegistrationConsent
+    click on dispose
+
+    page.title should equal(DisposeSuccessPage.title)
   }
 
   private def enterValidDisposalDate() {

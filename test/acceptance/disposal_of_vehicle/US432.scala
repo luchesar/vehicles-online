@@ -5,12 +5,12 @@ import cucumber.api.junit.Cucumber
 import cucumber.api.CucumberOptions
 
 @RunWith(classOf[Cucumber])
-@CucumberOptions(
-  format = Array("pretty", "html:target/cucumber-acceptance-html-report-US432"),
-  strict = true,
-  features = Array("test/acceptance/disposal_of_vehicle/US432.feature"),
-  glue = Array("classpath:helpers.hooks", "classpath:helpers.steps.javascript_enabled")
-)
+ @CucumberOptions(
+   format = Array("pretty", "html:target/cucumber-acceptance-html-report-US432"),
+   strict = true,
+   features = Array("test/acceptance/disposal_of_vehicle/US432.feature"),
+   glue = Array("classpath:helpers.hooks", "classpath:helpers.steps")
+ )
 class US432 {
 
-}
+ }

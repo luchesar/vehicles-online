@@ -1,4 +1,4 @@
-package helpers.steps.javascript_enabled
+package helpers.steps_javascript_enabled
 
 import pages.disposal_of_vehicle._
 import cucumber.api.java.en.Given
