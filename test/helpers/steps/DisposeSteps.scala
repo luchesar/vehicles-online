@@ -134,6 +134,18 @@ final class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
     click on dispose
   }
 
+  @When("""^the user checks the 'Use today's date' checkbox for Date of Sale$""")
+  def the_user_checks_the_Use_todays_date_checkbox_for_Date_of_Sale() = {
+    click on useTodaysDate
+  }
+
+  @Then("""^the date dropdown is still unset$""")
+  def the_date_dropdown_is_still_unset() = {
+    dateOfDisposalDay.value should equal("")
+    dateOfDisposalMonth.value should equal("")
+    dateOfDisposalYear.value should equal("")
+  }
+
   @Then("""^the user can select "Confirm sale" without error on the date of sale field$""")
   def the_user_can_select_Confirm_sale_without_error_on_the_date_of_sale_field() = {
     click on consent

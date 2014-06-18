@@ -10,5 +10,10 @@ Feature: US432: Option to Auto Populate Date of Sale Field with Todays Date
   When the Trader tries to select "Confirm Sale" without setting the Date of Sale
   Then an error will occur stating "Must be between today and two years ago"
 
+  Scenario: Prove the button doesn't work if someone tries to click it using broken CSS
+    Given the Trader is on the Complete & Confirm page
+    When the user checks the 'Use today's date' checkbox for Date of Sale
+    Then the date dropdown is still unset
+
 
 
