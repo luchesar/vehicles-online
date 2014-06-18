@@ -1,6 +1,6 @@
 #main
 main.banner = Cael gwared cerbyd i mewn i''r fasnach foduron
-main.banner.help = Cymorth ac adborth
+main.banner.help = Cymorth
 
 global.cookiemessage = GOV.UK yn defnyddio cwcis i wneud y safle yn symlach.
 global.cookiefindoutmore = Cael gwybod mwy am gwcis
@@ -23,8 +23,9 @@ footer.builtbyintro = Adeiladwyd gan
 footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
 
 #prototype
-prototype.banner = Mae hwn yn brototeip - bydd eich adborth yn ein helpu i wella.
-prototype.link = Cael gwybod mwy
+prototype.banner = Mae'r gwasanaeth hwn yn cael ei ddatblygu - 
+prototype.link = cael gwybod mwy
+prototype.link.source = https://www.gov.uk/help/beta
 
 #page 2
 keeperstatus.title = Newid cyfeiriad ceidwad
