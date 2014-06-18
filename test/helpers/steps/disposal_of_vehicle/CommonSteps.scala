@@ -58,44 +58,7 @@ final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDS
     click on EnterAddressManuallyPage.next
   }
 
-  @Given("""^a correctly formatted document reference number "(.*)" has been entered$""")
-  def a_correctly_formatted_document_reference_number_has_been_entered(docRefNo:String) = {
-    start()
-    setupTraderDetails()
-    chooseYourAddressManual()
-    enterAddressManually()
 
-    page.title should equal(VehicleLookupPage.title)
-    VehicleLookupPage.vehicleRegistrationNumber enter "AA99 AAA"
-    VehicleLookupPage.documentReferenceNumber enter docRefNo
-  }
-
-  @Given("""^an incorrectly formatted document reference number "(.*)" has been entered$""")
-  def an_incorrectly_formatted_document_reference_number_has_been_entered(docRefNo:String) = {
-    a_correctly_formatted_document_reference_number_has_been_entered(docRefNo)
-  }
-
-  @Given("""^a correctly formatted vehicle reference mark "(.*)" has been entered$""")
-  def a_correctly_formatted_vehicle_reference_mark_has_been_entered(refMark:String) = {
-    start()
-    setupTraderDetails()
-    chooseYourAddressManual()
-    enterAddressManually()
-
-    page.title should equal(VehicleLookupPage.title)
-    VehicleLookupPage.vehicleRegistrationNumber enter refMark
-    VehicleLookupPage.documentReferenceNumber enter "20149680001"
-  }
-
-  @Given("""^an incorrectly formatted vehicle reference mark "(.*)" has been entered$""")
-  def an_incorrectly_formatted_vehicle_reference_mark_has_been_entered(refMark:String) = {
-    a_correctly_formatted_vehicle_reference_mark_has_been_entered(refMark:String)
-  }
-
-  @When("""^this is submitted along with any other mandatory information$""")
-  def this_is_submitted_along_with_any_other_mandatory_information() = {
-    submit()
-  }
 
   @Then("""^the document reference number "(.*)" is retained$""")
   def the_document_reference_number_is_retained(docRefNo:String) = {

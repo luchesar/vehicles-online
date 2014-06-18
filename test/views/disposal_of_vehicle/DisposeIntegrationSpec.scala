@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver
 import pages.common.ErrorPanel
 import pages.disposal_of_vehicle._
 import services.fakes.FakeDateServiceImpl._
+import mappings.disposal_of_vehicle.Dispose._
 
 final class DisposeIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -66,6 +67,38 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(DisposeSuccessPage.title)
     }
 
+    // This test needs to run with javaScript enabled.
+    "display DisposeSuccess page on correct submission with javascript enabled" taggedAs UiTag in new WebBrowser(webDriver = WebDriverFactory.webDriver(targetBrowser = "htmlUnit", javascriptEnabled = true)) {
+      go to BeforeYouStartPage
+      cacheSetup().
+        vehicleLookupFormModel()
+
+      happyPath
+
+      page.title should equal("Redirecting")
+    }
+
+    // This test needs to run with javaScript enabled.
+    "display DisposeSuccess page on correct submission when a user auto populates the date of disposal with javascript enabled" taggedAs UiTag in new WebBrowser(webDriver = WebDriverFactory.webDriver(targetBrowser = "htmlUnit", javascriptEnabled = true)) {
+      go to BeforeYouStartPage
+      cacheSetup().
+        vehicleLookupFormModel()
+      go to DisposePage
+
+      click on useTodaysDate
+
+      dateOfDisposalDay.value should equal(DateOfDisposalDayValid)
+      dateOfDisposalMonth.value should equal(DateOfDisposalMonthValid)
+      dateOfDisposalYear.value should equal(DateOfDisposalYearValid)
+
+      click on consent
+      click on lossOfRegistrationConsent
+      click on dispose
+
+
+      page.title should equal("Redirecting")
+    }
+
     "display validation errors when no data is entered" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
@@ -116,6 +149,18 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
       ErrorPanel.numberOfErrors should equal(1)
     }
+
+    "display validation errors when day month and year are not input but all other mandatory fields have been" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to DisposePage
+
+      click on consent
+      click on lossOfRegistrationConsent
+      click on dispose
+
+      ErrorPanel.numberOfErrors should equal(1)
+    }
   }
 
   "back button" should {
@@ -127,6 +172,17 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       click on back
 
       page.title should equal(VehicleLookupPage.title)
+    }
+  }
+
+  "javascript disabled" should {
+    // This test needs to run with javaScript enabled.
+    "not display the Use Todays Date checkbox" taggedAs UiTag in new WebBrowser(webDriver = WebDriverFactory.webDriver(targetBrowser = "htmlUnit", javascriptEnabled = false)) {
+      go to BeforeYouStartPage
+      cacheSetup().
+        vehicleLookupFormModel()
+
+      webDriver.getPageSource shouldNot(contain(TodaysDateOfDisposal))
     }
   }
 

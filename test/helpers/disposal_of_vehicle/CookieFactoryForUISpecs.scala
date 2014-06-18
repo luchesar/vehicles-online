@@ -156,4 +156,11 @@ object CookieFactoryForUISpecs {
     addCookie(key, value)
     this
   }
+
+  def interstitial(url: String)(implicit webDriver: WebDriver) = {
+    val key = mappings.common.Interstitial.InterstitialCacheKey
+    val value = url
+    addCookie(key, value)
+    this
+  }
 }
