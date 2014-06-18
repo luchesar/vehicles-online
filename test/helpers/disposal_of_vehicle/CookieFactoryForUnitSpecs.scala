@@ -173,6 +173,6 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
     createCookie(key, value)
   }
 
-  def disposeSuccess() =
-    createCookie(InterstitialCacheKey, "success")
+  def interstitial(url: String = "NOT SET") =
+    createCookie(InterstitialCacheKey, url)
 }
