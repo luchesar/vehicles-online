@@ -16,7 +16,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
   "Log an incoming request" in setUp {
     case SetUp(filter, request, sessionFactory, nextFilter) =>
 
-      val trackingIdCookie = Cookie("trackingId", "trackingIdValue")
+      val trackingIdCookie = Cookie(ClientSideSessionFactory.TrackingIdCookieName, "98765")
 
       val filterResult: Future[SimpleResult] = filter.apply(nextFilter)(request.withCookies(trackingIdCookie))
 
@@ -27,6 +27,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
         filter.logEntry should include ("HTTP/1.1")
         filter.logEntry should include ("200")
         filter.logEntry should include ("12345")
+        filter.logEntry should include ("98765")
       }
 
   }

@@ -43,18 +43,9 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!-- pattern>%coloredLevel %logger{15} - %message%n%xException{5}</pattern-->
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
-
-    <!-- appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>
-                %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
-            </Pattern>
-        </encoder>
-    </appender-->
 
     <!--Only log play messages to stdout -->
     <logger name="play" level="DEBUG" additivity="false">
@@ -68,8 +59,6 @@
     A logger will log to the appenders attached to itself (if any) as well as all the appenders attached to its ancestors.
      The top ancestor is root; thus all loggers will log to the application log and graylog. -->
     <root level="TRACE">
-        <!-- appender-ref ref="GELF"/-->
-        <!-- appender-ref ref="ASYNC_APPLICATION_LOG"/-->
         <appender-ref ref="SYSLOG"/>
         <appender-ref ref="STDOUT"/>
     </root>
