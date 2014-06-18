@@ -77,6 +77,27 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal("Redirecting")
     }
 
+ // This test needs to run with javaScript enabled.
+    "display DisposeSuccess page on correct submission when a user auto populates the date of disposal with javascript enabled" taggedAs UiTag in new WebBrowser(webDriver = WebDriverFactory.webDriver(targetBrowser = "htmlUnit", javascriptEnabled = true)) {
+      go to BeforeYouStartPage
+      cacheSetup().
+        vehicleLookupFormModel()
+      go to DisposePage
+
+      click on useTodaysDate
+
+      dateOfDisposalDay.value should equal(DateOfDisposalDayValid)
+      dateOfDisposalMonth.value should equal(DateOfDisposalMonthValid)
+      dateOfDisposalYear.value should equal(DateOfDisposalYearValid)
+
+      click on consent
+      click on lossOfRegistrationConsent
+      click on dispose
+
+
+      page.title should equal("Redirecting")
+    }
+
     "display validation errors when no data is entered" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
