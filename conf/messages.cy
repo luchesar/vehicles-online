@@ -1,6 +1,6 @@
 #main
 main.banner = Cael gwared cerbyd i mewn i''r fasnach foduron
-main.banner.help = Cymorth ac adborth
+main.banner.help = Cymorth
 
 global.cookiemessage = GOV.UK yn defnyddio cwcis i wneud y safle yn symlach.
 global.cookiefindoutmore = Cael gwybod mwy am gwcis
@@ -23,8 +23,9 @@ footer.builtbyintro = Adeiladwyd gan
 footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
 
 #prototype
-prototype.banner = Mae hwn yn brototeip - bydd eich adborth yn ein helpu i wella.
-prototype.link = Cael gwybod mwy
+prototype.banner = Mae'r gwasanaeth hwn yn cael ei ddatblygu - 
+prototype.link = cael gwybod mwy
+prototype.link.source = https://www.gov.uk/help/beta
 
 #page 2
 keeperstatus.title = Newid cyfeiriad ceidwad
@@ -236,6 +237,7 @@ dateOfDisposal_year = Flwyddyn waredu
 dateOfDisposal.day = Diwrnod gwaredu
 dateOfDisposal.month = Mis gwaredu
 dateOfDisposal.year = Flwyddyn waredu
+disposal_dispose.todays_date_of_disposal = Defnyddiwch Dyddiad heddiw
 error.dateOfDisposal = Rhaid i ddyddiad gwared fod o fewn dwy flynedd
 disposal_dispose.consent.mandatory = Rhaid i chi gael cydsyniad y ceidwad cofrestredig i hysbysu gwerthu cerbyd hwn
 consent = Caniatâd
@@ -343,8 +345,7 @@ soap_endpoint_error.exit.button=Gadael
 #vrm locked
 vrm_locked.title = Marc cofrestru yn gloi
 vrm_locked.text1 = Cafwyd tri chynnig i gael mynediad i''r manylion y cerbyd heb lwyddiant. Y marc cofrestru cerbyd bellach yn cael ei gloi am 10 munud fel dull diogelu. Yn ystod y cyfnod hwn y gellir ei brosesu gerbydau eraill.
-vrm_locked.text2.1 = Glo yn
-vrm_locked.text2.3 = (dyma''r amser pan ddechreuodd y gwall wladwriaeth)
+vrm_locked.text2 = Glo yn
 vrm_locked.text3.1 = Os ydych angen cymorth i brosesu cerbyd hwn, ffoniwch ein Canolfan Gyswllt ar
 vrm_locked.text3.2 = 0300 790 6801
 

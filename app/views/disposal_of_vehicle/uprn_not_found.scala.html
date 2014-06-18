@@ -2,12 +2,11 @@
 
 @import controllers.disposal_of_vehicle.routes.UprnNotFound
 @import mappings.disposal_of_vehicle.UprnNotFound._
-@import views.html.common.language
+@import views.html.common.alternateLanguages
 @import views.html.disposal_of_vehicle.main
 
 @main(
-    title = Messages("disposal_uprnnotfound.title"),
-    alternateLanguages = language(withLanguageCy = UprnNotFound.withLanguageCy(), withLanguageEn = UprnNotFound.withLanguageEn())
+    title = Messages("disposal_uprnnotfound.title")
 ) {
     <p>@Messages("disposal_uprnnotfound.p1")</p>
 

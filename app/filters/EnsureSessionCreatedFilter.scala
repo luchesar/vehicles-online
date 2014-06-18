@@ -20,7 +20,7 @@ class EnsureSessionCreatedFilter @Inject()(sessionFactory: ClientSideSessionFact
           val updatedRequestHeadersMap = requestHeader.headers.toMap +
             (play.api.http.HeaderNames.COOKIE -> Seq(mergedCookiesString))
 
-          val headerWithSessionCookies = new Headers {
+            val headerWithSessionCookies = new Headers {
             val data = updatedRequestHeadersMap.toSeq
           }
           requestHeader.copy(headers = headerWithSessionCookies)
@@ -31,4 +31,6 @@ class EnsureSessionCreatedFilter @Inject()(sessionFactory: ClientSideSessionFact
         }
       case None => nextFilter(requestHeader)
     }
-}
+
+
+  }

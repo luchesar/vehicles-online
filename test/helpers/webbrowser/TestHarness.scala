@@ -15,10 +15,13 @@ import org.specs2.execute.{Result, AsResult}
 
 trait TestHarness {
   import WebBrowser._
-  abstract class WebBrowser(val app: FakeApplication = fakeAppWithTestGlobal, val port: Int = 9001)
+  abstract class WebBrowser(val app: FakeApplication = fakeAppWithTestGlobal,
+                            val port: Int = 9001,
+                            implicit protected val webDriver: WebDriver = WebDriverFactory.webDriver
+                             )
       extends Around with Scope with WebBrowserDSL {
 
-    implicit protected lazy val webDriver: WebDriver = WebDriverFactory.webDriver
+
 
     override def around[T: AsResult](t: => T): Result = {
       try {

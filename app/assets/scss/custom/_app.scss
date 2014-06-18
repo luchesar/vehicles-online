@@ -95,7 +95,7 @@
 			}
 		}
 		dd {
-			@include toUppercase;
+			@include to-uppercase;
 			overflow: hidden;
 
 			@media screen and (max-width: $device-small) {
@@ -109,7 +109,6 @@
 			}
 
 		}
-
 
 		// smaller width, more flexible container
 		&.summary-detail-list-flex {
@@ -153,20 +152,9 @@
 	}
 
 	//vehicle lookup/find vehicle details
-	.TraderDetails dd {
+	.trader-details dd {
 		.ie6 & {
 			clear:both;
-		}
-	}
-
-	.disposal-form {
-
-		label.form-checkbox {
-			cursor:pointer;
-
-			.ie6 & {
-				cursor:default;
-			}
 		}
 	}
 
@@ -184,42 +172,48 @@
 
   //progress indicator
   nav.progress-indicator {
-	  padding-left: 0.5em;
-	  border-top: 1px solid #dee0e2;
-	  border-bottom: 3px solid #dee0e2;
+  	padding-left: 0.5em;
+	  border-top: 1px solid $grey-3;
+	  border-bottom: 3px solid $grey-3;
 	  margin: 0em -1em 0em -1em;
 	  display:inline-block;
-	  width:100%; }
-  nav.progress-indicator ol {
-    list-style-type: decimal;
-    list-style-position: inside;
-    margin: 0;
-    padding: 0;
-    margin-bottom: -3px; }
-    @media (max-width: 640px) {
-      nav.progress-indicator ol {
-        margin: 0.5em 0; } }
-  nav.progress-indicator li {
-    float: left;
-    margin: 0 0.5em;
-    padding: 0.75em 0; }
-    @media (min-width: 641px) {
-      nav.progress-indicator li.active {
-        border-bottom: 3px solid #28a197;
-        position: relative;
-        top: 3px;
-        margin-top: -3px; } }
-    @media (max-width: 640px) {
-      nav.progress-indicator li.active {
-        border: 0;
-        font-weight: bold;
-        color: #28a197; } }
-    @media (max-width: 900px) {
-      nav.progress-indicator li {
-        font-size: 100%; } }
-    @media (max-width: 640px) {
-      nav.progress-indicator li {
-        width: 75%;
-        padding: 0.25em; } }
+	  width:100%;
+	  ol {
+	  	list-style-type: decimal;
+	    list-style-position: inside;
+	    margin: 0;
+	    padding: 0;
+	    margin-bottom: -3px;
 
+	    @media (max-width: 640px) {
+        margin: 0.5em 0; 
+      }
+	  }
+	  li {
+	  	float: left;
+	    margin: 0 0.5em;
+	    padding: 0.75em 0;
+
+      @media (max-width: 900px) {
+      	font-size: 100%;
+      }
+      @media (max-width: 640px) {
+      	width: 75%;
+        padding: 0.25em;
+      }
+      &.active {
+    		@media (min-width: 641px) {
+	        border-bottom: 3px solid $turquoise;
+	        position: relative;
+	        top: 3px;
+	        margin-top: -3px; 
+	      }
+	      @media (max-width: 640px) {
+	      	border: 0;
+	        font-weight: bold;
+	        color: #28a197;
+	      }
+      }
+	  }
+  }
 }

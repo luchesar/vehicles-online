@@ -5,7 +5,7 @@ import common.ClientSideSessionFactory
 import common.CookieImplicits.RequestCookiesAdapter
 import common.CookieImplicits.SimpleResultAdapter
 import mappings.common.Interstitial._
-import mappings.common.Languages._
+import mappings.common.AlternateLanguages._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import models.domain.disposal_of_vehicle.DisposeViewModel
@@ -41,16 +41,6 @@ final class DisposeSuccess @Inject()()(implicit clientSideSessionFactory: Client
     Redirect(routes.Interstitial.present()).
       discardingCookies(RelatedCacheKeys.FullSet).
       withCookie(InterstitialCacheKey, routes.BeforeYouStart.present().url)
-  }
-
-  def withLanguageCy = Action { implicit request =>
-    Redirect(routes.DisposeSuccess.present()).
-      withLang(langCy)
-  }
-
-  def withLanguageEn = Action { implicit request =>
-    Redirect(routes.DisposeSuccess.present()).
-      withLang(langEn)
   }
 
   private def fetchData(dealerDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel, transactionId: Option[String],
