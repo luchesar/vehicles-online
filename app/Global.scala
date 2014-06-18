@@ -2,7 +2,7 @@ import com.google.inject.Injector
 import com.typesafe.config.ConfigFactory
 import common.InvalidSessionException
 import controllers.disposal_of_vehicle.routes
-import filters.EnsureSessionCreatedFilter
+import filters.{AccessLoggingFilter, EnsureSessionCreatedFilter}
 import java.io.File
 import java.util.UUID
 import javax.crypto.BadPaddingException
@@ -74,6 +74,6 @@ object Global extends WithFilters(filters: _*) with GlobalSettings {
   }
 
   override def doFilter(a: EssentialAction): EssentialAction = {
-    Filters(super.doFilter(a), devInjector.getInstance(classOf[EnsureSessionCreatedFilter]))
+    Filters(super.doFilter(a), devInjector.getInstance(classOf[EnsureSessionCreatedFilter]), devInjector.getInstance(classOf[AccessLoggingFilter]))
   }
 }
