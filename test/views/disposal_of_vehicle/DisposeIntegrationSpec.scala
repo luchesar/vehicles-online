@@ -149,6 +149,18 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
       ErrorPanel.numberOfErrors should equal(1)
     }
+
+    "display validation errors when day month and year are not input but all other mandatory fields have been" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to DisposePage
+
+      click on consent
+      click on lossOfRegistrationConsent
+      click on dispose
+
+      ErrorPanel.numberOfErrors should equal(1)
+    }
   }
 
   "back button" should {
@@ -173,7 +185,7 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       webDriver.getPageSource shouldNot(contain(TodaysDateOfDisposal))
     }
   }
-  
+
   "use today's date" should {
     // This test needs to run with javaScript enabled.
     "fill in the date fields" taggedAs UiTag in new WebBrowser(webDriver = WebDriverFactory.webDriver(targetBrowser = "htmlUnit", javascriptEnabled = true)) {
