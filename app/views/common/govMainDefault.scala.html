@@ -104,6 +104,7 @@
 
         <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
 
+        @if(play.Configuration.root().getBoolean("googleAnalytics.enabled")) {
         <script>
         	var _gaq = _gaq || [];
         	_gaq.push(['_setSiteSpeedSampleRate', 5]);
@@ -117,5 +118,6 @@
           ga('send', 'pageview');
 
         </script>
+        }
     </body>
 </html>

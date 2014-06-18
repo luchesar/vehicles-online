@@ -142,16 +142,16 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
           Redirect(routes.MicroServiceError.present())
       }
 
+    val trackingId = request.cookies.trackingId()
     val vehicleDetailsRequest = VehicleDetailsRequest(
       referenceNumber = model.referenceNumber,
       registrationNumber = model.registrationNumber,
-      trackingId = request.cookies.trackingId(),
       userName = request.cookies.getModel[TraderDetailsModel] match {
         case Some(traderDetails) => traderDetails.traderName
         case _ => ""
       }
     )
-    vehicleLookupService.invoke(vehicleDetailsRequest).map {
+    vehicleLookupService.invoke(vehicleDetailsRequest, trackingId).map {
       case (responseStatusVehicleLookupMS: Int, response: Option[VehicleDetailsResponse]) =>
         //Logger.debug(s"VehicleLookup micro-service call successful response = $response") ToDo Do we need to log this information?
         import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._

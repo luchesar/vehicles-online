@@ -319,15 +319,15 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
     }
 
-    "Send the request with a correct trackingId within" in new WithApplication {
+    "Send a request and a trackingId" in new WithApplication {
+      val trackingId = "x" * 20
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.trackingIdModel("x" * 20))
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel(trackingId))
       val mockVehiclesLookupService = mock[VehicleLookupWebService]
-      when(mockVehiclesLookupService.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
+      when(mockVehiclesLookupService.callVehicleLookupService(any[VehicleDetailsRequest], any[String])).thenReturn(Future {
         new FakeResponse(status = 200, fakeJson = Some(Json.toJson(vehicleDetailsResponseSuccess._2.get)))
       })
-      val invokeCaptor = ArgumentCaptor.forClass(classOf[VehicleDetailsRequest])
       val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
       val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
@@ -338,21 +338,19 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
       whenReady(result) {
         r =>
-          verify(mockVehiclesLookupService).callVehicleLookupService(invokeCaptor.capture())
-          invokeCaptor.getAllValues.size should equal(1)
-
-          invokeCaptor.getValue.trackingId should be("x" * 20)
+          val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
+          verify(mockVehiclesLookupService).callVehicleLookupService(any[VehicleDetailsRequest], trackingIdCaptor.capture())
+          trackingIdCaptor.getValue should be(trackingId)
       }
     }
 
-    "Send the request without a trackingId if session is not present" in new WithApplication {
+    "Send the request and no trackingId if session is not present" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val mockVehiclesLookupService = mock[VehicleLookupWebService]
-      when(mockVehiclesLookupService.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
+      when(mockVehiclesLookupService.callVehicleLookupService(any[VehicleDetailsRequest], any[String])).thenReturn(Future {
         new FakeResponse(status = 200, fakeJson = Some(Json.toJson(vehicleDetailsResponseSuccess._2.get)))
       })
-      val invokeCaptor = ArgumentCaptor.forClass(classOf[VehicleDetailsRequest])
       val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
       val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
@@ -363,12 +361,12 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
       whenReady(result) {
         r =>
-          verify(mockVehiclesLookupService).callVehicleLookupService(invokeCaptor.capture())
-          invokeCaptor.getAllValues.size should equal(1)
-
-          invokeCaptor.getValue.trackingId should be(ClearTextClientSideSessionFactory.DefaultTrackingId)
+          val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
+          verify(mockVehiclesLookupService).callVehicleLookupService(any[VehicleDetailsRequest], trackingIdCaptor.capture())
+          trackingIdCaptor.getValue should be(ClearTextClientSideSessionFactory.DefaultTrackingId)
       }
     }
+
   }
 
   private def responseThrows: Future[Response] = Future {
@@ -404,7 +402,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   private def vehicleLookupResponseGenerator(fullResponse: (Int, Option[VehicleDetailsResponse]), bruteForceService: BruteForcePreventionService = bruteForceServiceImpl(permitted = true)) = {
     val (status, vehicleDetailsResponse) = fullResponse
     val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
-    when(ws.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
+    when(ws.callVehicleLookupService(any[VehicleDetailsRequest], any[String])).thenReturn(Future {
       val responseAsJson: Option[JsValue] = vehicleDetailsResponse match {
         case Some(e) => Some(Json.toJson(e))
         case _ => None
@@ -422,7 +420,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   private lazy val vehicleLookupError = {
     val permitted = true // The lookup is permitted as we want to test failure on the vehicle lookup micro-service step.
     val vehicleLookupWebService: VehicleLookupWebService = mock[VehicleLookupWebService]
-    when(vehicleLookupWebService.callVehicleLookupService(any[VehicleDetailsRequest])).thenReturn(Future {
+    when(vehicleLookupWebService.callVehicleLookupService(any[VehicleDetailsRequest], any[String])).thenReturn(Future {
       throw new IllegalArgumentException
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(vehicleLookupWebService)

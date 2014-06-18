@@ -14,14 +14,15 @@ import common.LogFormats
 final class VehicleLookupWebServiceImpl @Inject()(config: Config) extends VehicleLookupWebService {
   private val endPoint: String = s"${config.vehicleLookupMicroServiceBaseUrl}/vehicles/lookup/v1/dispose"
 
-  override def callVehicleLookupService(request: VehicleDetailsRequest): Future[Response] = {
+  override def callVehicleLookupService(request: VehicleDetailsRequest, trackingId: String): Future[Response] = {
 
     val vrm = LogFormats.anonymize(request.registrationNumber)
     val refNo = LogFormats.anonymize(request.referenceNumber)
 
     Logger.debug(s"Calling vehicle lookup micro-service with request $refNo $vrm") //object: $request on ${endPoint}")
+    Logger.debug(s"Calling vehicle lookup micro-service with tracking id: $trackingId") //object: $request on ${endPoint}")
     WS.url(endPoint).
-      withHeaders(HttpHeaders.TrackingId -> request.trackingId).
+      withHeaders(HttpHeaders.TrackingId -> trackingId).
       post(Json.toJson(request))
   }
 }
