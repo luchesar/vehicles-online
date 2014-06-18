@@ -14,7 +14,7 @@ final class DisposeWebServiceImpl @Inject()(config: Config)  extends DisposeWebS
   private val endPoint: String = s"${config.disposeVehicleMicroServiceBaseUrl}/vehicles/dispose/v1"
   private val requestTimeout: Int = config.disposeMsRequestTimeout
 
-  override def callDisposeService(request: DisposeRequest): Future[Response] = {
+  override def callDisposeService(request: DisposeRequest, trackingId: String): Future[Response] = {
 
     val vrm = LogFormats.anonymize(request.registrationNumber)
     val refNo = LogFormats.anonymize(request.referenceNumber)
@@ -23,7 +23,7 @@ final class DisposeWebServiceImpl @Inject()(config: Config)  extends DisposeWebS
     //Logger.debug(s"Calling dispose vehicle micro-service with $refNo $vrm $postcode ${request.keeperConsent} ${request.prConsent} ${request.mileage}")//request object: $request on $endPoint")
     WS.
       url(endPoint).
-      withHeaders(HttpHeaders.TrackingId -> request.trackingId).
+      withHeaders(HttpHeaders.TrackingId -> trackingId).
       withRequestTimeout(requestTimeout).
       post(Json.toJson(request))
   }

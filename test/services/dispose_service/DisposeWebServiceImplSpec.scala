@@ -17,6 +17,8 @@ class DisposeWebServiceImplSpec extends UnitSpec with WireMockFixture {
     override val disposeVehicleMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
   })
 
+  private final val trackingId = "track-id-test"
+
   implicit val disposalAddressDtoFormat = Json.format[DisposalAddressDto]
   implicit val disposeRequestFormat = Json.format[DisposeRequest]
   val request = DisposeRequest(
@@ -33,17 +35,16 @@ class DisposeWebServiceImplSpec extends UnitSpec with WireMockFixture {
     transactionTimestamp = "",
     prConsent = true,
     keeperConsent = false,
-    trackingId = "track-id-test",
     mileage = Some(12)
   )
 
   "callDisposeService" ignore {
     "send the serialised json request" in {
-      val resultFuture = disposeService.callDisposeService(request)
+      val resultFuture = disposeService.callDisposeService(request, trackingId)
       whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/vehicles/dispose/v1")
-        ).withHeader(HttpHeaders.TrackingId, equalTo(request.trackingId)).
+        ).withHeader(HttpHeaders.TrackingId, equalTo(trackingId)).
           withRequestBody(equalTo(Json.toJson(request).toString())))
       }
     }
