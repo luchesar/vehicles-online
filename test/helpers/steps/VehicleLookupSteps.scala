@@ -37,6 +37,20 @@ final class VehicleLookupSteps(webBrowserDriver:WebBrowserDriver) extends WebBro
     VehicleLookupPage.documentReferenceNumber enter ReferenceNumberValid
   }
 
+  @Given("""^a correctly formatted vehicle reference mark "(.*)" has been entered$""")
+  def a_correctly_formatted_vehicle_reference_mark_has_been_entered(refMark:String) = {
+    buildVehicleLookupSetup()
+
+    page.title should equal(VehicleLookupPage.title)
+    VehicleLookupPage.vehicleRegistrationNumber enter refMark
+    VehicleLookupPage.documentReferenceNumber enter "20149680001"
+  }
+
+  @Given("""^an incorrectly formatted vehicle reference mark "(.*)" has been entered$""")
+  def an_incorrectly_formatted_vehicle_reference_mark_has_been_entered(refMark:String) = {
+    a_correctly_formatted_vehicle_reference_mark_has_been_entered(refMark:String)
+  }
+
   @Given("""^a motor trader has (.*) a VRM in an invalid format$""")
   def a_motor_trader_has_entered_a_vrm_in_an_invalid_format(vrm:String) = {
     buildVehicleLookupSetup()
