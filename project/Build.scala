@@ -4,6 +4,7 @@ import play.Project._
 import net.litola.SassPlugin
 import de.johoop.jacoco4sbt.JacocoPlugin._
 import org.scalastyle.sbt.ScalastylePlugin
+import templemore.sbt.cucumber.CucumberPlugin
 
 object ApplicationBuild extends Build {
   val appName         = "vehicles-online"
@@ -17,7 +18,6 @@ object ApplicationBuild extends Build {
     "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-scala_2.10" % "1.1.7" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-java" % "1.1.7" % "test" withSources() withJavadoc(),
-    "info.cukes" % "cucumber-junit" % "1.1.7" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-picocontainer" % "1.1.7" % "test" withSources() withJavadoc(),
     "org.specs2" %% "specs2" % "2.3.10" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
@@ -28,6 +28,18 @@ object ApplicationBuild extends Build {
     "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
     "org.apache.httpcomponents" % "httpclient" % "4.3.4" withSources() withJavadoc()
   )
+
+  val cukes = CucumberPlugin.cucumberSettings ++
+    Seq (
+      CucumberPlugin.cucumberFeaturesLocation := "./test/acceptance/disposal_of_vehicle/",
+      CucumberPlugin.cucumberStepsBasePackage := "helpers.steps",
+      CucumberPlugin.cucumberJunitReport := false,
+      CucumberPlugin.cucumberHtmlReport := false,
+      CucumberPlugin.cucumberPrettyReport := false,
+      CucumberPlugin.cucumberJsonReport := false,
+      CucumberPlugin.cucumberStrict := true,
+      CucumberPlugin.cucumberMonochrome := false
+    )
 
   val jsModulesToOptimise = Seq("custom.js")
 
@@ -75,7 +87,7 @@ object ApplicationBuild extends Build {
   val jcoco = Seq(parallelExecution in jacoco.Config := false)
 
   val appSettings: Seq[Def.Setting[_]] = myOrganization ++ SassPlugin.sassSettings ++ myScalaVersion ++ compilerOptions ++ myConcurrentRestrictions ++
-    myTestOptions ++ excludeTest ++ myJavaOptions ++ fork ++ jcoco ++ scalaCheck ++ requireJsSettings
+    myTestOptions ++ excludeTest ++ myJavaOptions ++ fork ++ jcoco ++ scalaCheck ++ requireJsSettings ++ cukes
 
   val main = play.Project(appName, appVersion, appDependencies, settings = play.Project.playScalaSettings ++ jacoco.settings ++ ScalastylePlugin.Settings).settings(appSettings: _*)
 }
