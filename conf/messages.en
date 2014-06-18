@@ -29,9 +29,9 @@ footer.builtbyintro = Built by
 footer.builtby = Driver & Vehicle Licensing Agency
 
 #prototype
-prototype.banner = This is a new service - your
-prototype.link =  feedback
-prototype.banner-part2 =  will help us to improve it
+prototype.banner = This is service under development - 
+prototype.link =  find out more
+prototype.link.source = https://www.gov.uk/help/beta
 
 #page 2
 keeperstatus.title = Change of keeper address2
