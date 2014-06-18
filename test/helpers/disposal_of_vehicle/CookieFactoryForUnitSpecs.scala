@@ -30,7 +30,8 @@ import play.api.mvc.Cookie
 object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by returning "this" at the end of the defs
 
   implicit private val cookieFlags = injector.getInstance(classOf[CookieFlags])
-  private val session = new ClearTextClientSideSession("trackingId")
+  final val TrackingIdValue = "trackingId"
+  private val session = new ClearTextClientSideSession(TrackingIdValue)
 
   private def createCookie[A](key: String, value: A)(implicit tjs: Writes[A]): Cookie = {
     val json = Json.toJson(value).toString()
@@ -143,7 +144,7 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
     createCookie(key, value)
   }
 
-  def trackingIdModel(value: String) = {
+  def trackingIdModel(value: String = TrackingIdValue) = {
     createCookie(ClientSideSessionFactory.TrackingIdCookieName, value)
   }
 

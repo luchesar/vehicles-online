@@ -1,4 +1,4 @@
-package helpers.hooks
+package helpers.steps.hooks
 
 import cucumber.api.java.After
 import cucumber.api.java.Before
