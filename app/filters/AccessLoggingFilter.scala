@@ -6,16 +6,16 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.http.HeaderNames._
-import play.Logger
 import common.ClientSideSessionFactory
 import services.HttpHeaders._
+import play.api.Logger
 
 class AccessLoggingFilter extends Filter{
   override def apply(filter: (RequestHeader) => Future[SimpleResult])(requestHeader: RequestHeader): Future[SimpleResult] = {
     filter(requestHeader)
       .map (
       result => {
-        Logger.info(clfEntry(requestHeader, result))
+        Logger("dvla.common.AccessLogger").info(clfEntry(requestHeader, result))
         result
       }
     )
@@ -25,7 +25,7 @@ class AccessLoggingFilter extends Filter{
 
     val dateFormat = new SimpleDateFormat("dd/MMM/yyyy:hh:mm:ss +SSS")
 
-    val ipAddress = Seq(request.headers.get(XForwardedFor), Some(request.remoteAddress), request.headers.get(XRealIp), Some("-")).flatten.head
+    val ipAddress = Seq(request.headers.get(XForwardedFor), Option(request.remoteAddress), request.headers.get(XRealIp), Some("-")).flatten.head
     val trackingId = request.cookies.get(ClientSideSessionFactory.TrackingIdCookieName) match {
      case Some(c) => c.value
      case _ => "-"

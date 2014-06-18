@@ -7,13 +7,11 @@ import constraints.common.DayMonthYear._
 import mappings.common.Consent._
 import mappings.common.DayMonthYear.dayMonthYear
 import mappings.common.Interstitial.InterstitialCacheKey
-import mappings.common.AlternateLanguages._
 import mappings.common.Mileage._
 import mappings.disposal_of_vehicle.Dispose._
 import models.domain.disposal_of_vehicle._
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
-import play.api.Play.current
 import play.api.data.Forms._
 import play.api.data.{Form, FormError}
 import play.api.mvc._
@@ -85,7 +83,9 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
             case Some(_) => Future {
               Redirect(routes.VehicleLookup.present())
             } // US320 prevent user using the browser back button and resubmitting.
-            case None => disposeAction(webService, f)
+            case None =>
+              val trackingId = request.cookies.trackingId()
+              disposeAction(webService, f, trackingId)
           }
         }
       )
@@ -102,8 +102,8 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     model
   }
 
-  private def disposeAction(webService: DisposeService, disposeFormModel: DisposeFormModel)(implicit request: Request[AnyContent]): Future[SimpleResult] = {
-    def callMicroService(disposeModel: DisposeModel, traderDetailsModel: TraderDetailsModel) = {
+  private def disposeAction(webService: DisposeService, disposeFormModel: DisposeFormModel, trackingId: String)(implicit request: Request[AnyContent]): Future[SimpleResult] = {
+    def callMicroService(disposeModel: DisposeModel, traderDetailsModel: TraderDetailsModel, trackingId: String) = {
       def nextPage(httpResponseCode: Int, response: Option[DisposeResponse]) = {
         // This makes the choice of which page to go to based on the first one it finds that is not None.
         response match {
@@ -113,7 +113,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       }
 
       val disposeRequest = buildDisposeMicroServiceRequest(disposeModel, traderDetailsModel)
-      webService.invoke(disposeRequest).map {
+      webService.invoke(disposeRequest, trackingId).map {
         case (httpResponseCode, response) => //Logger.debug(s"Dispose micro-service call successful response = $response") //ToDo Do we need to log this information?
 
           Some(Redirect(nextPage(httpResponseCode, response))).
@@ -161,7 +161,6 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         transactionTimestamp = ISODateTimeFormat.dateTime().print(dateService.today.toDateTime.get),
         prConsent = disposeModel.lossOfRegistrationConsent.toBoolean,
         keeperConsent = disposeModel.consent.toBoolean,
-        trackingId = request.cookies.trackingId(),
         mileage = disposeModel.mileage)
     }
 
@@ -193,7 +192,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
           registrationNumber = vehicleLookup.registrationNumber,
           dateOfDisposal = disposeFormModel.dateOfDisposal, consent = disposeFormModel.consent, lossOfRegistrationConsent = disposeFormModel.lossOfRegistrationConsent,
           mileage = disposeFormModel.mileage)
-        callMicroService(disposeModel, traderDetails)
+        callMicroService(disposeModel, traderDetails, trackingId)
       case (None, _) => Future {
         Logger.error("Could not find dealer details in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present())

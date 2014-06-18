@@ -12,10 +12,8 @@ import common.{ClearTextClientSideSessionFactory, NoCookieFlags, EncryptedClient
 import common.CookieImplicits.RequestCookiesAdapter
 import utils.helpers.{CookieNameHashing, Sha1Hash, AesEncryption, CookieEncryption}
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
-import scala.Some
 import play.api.mvc.Cookie
 
-// TODO please find a better name for this class as it is the same as a file in the level above!
 final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
   implicit val clientSideSessionFactory = {
@@ -36,14 +34,12 @@ final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDS
   def start() = {
     go to BeforeYouStartPage
     page.title should equal(BeforeYouStartPage.title)
-    click on BeforeYouStartPage.startNow
   }
 
   def setupTraderDetails() = {
     page.title should equal(SetupTradeDetailsPage.title)
     SetupTradeDetailsPage.traderName enter "Big Motors Limited"
     SetupTradeDetailsPage.traderPostcode enter "AA99 1AA"
-    click on SetupTradeDetailsPage.lookup
   }
 
   def chooseYourAddressManual() = {
@@ -55,14 +51,41 @@ final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDS
     page.title should equal(EnterAddressManuallyPage.title)
     EnterAddressManuallyPage.addressBuildingNameOrNumber enter "1 Long Road"
     EnterAddressManuallyPage.addressPostTown enter "Swansea"
-    click on EnterAddressManuallyPage.next
   }
 
+  def enterVehicleDetails() = {
+    VehicleLookupPage.vehicleRegistrationNumber enter "AB12 ABC"
+    VehicleLookupPage.documentReferenceNumber enter "11111111111"
+  }
 
+  @Given("""^a correctly formatted document reference number "(.*)" has been entered$""")
+  def a_correctly_formatted_document_reference_number_has_been_entered(docRefNo:String) = {
+    start()
+    click on BeforeYouStartPage.startNow
+    setupTraderDetails()
+    click on SetupTradeDetailsPage.lookup
+    chooseYourAddressManual()
+    enterAddressManually()
+    click on EnterAddressManuallyPage.next
+    enterVehicleDetails()
+    // override doc ref no with test value
+    VehicleLookupPage.documentReferenceNumber enter docRefNo
+    click on VehicleLookupPage.findVehicleDetails
+  }
+
+  @Given("""^an incorrectly formatted document reference number "(.*)" has been entered$""")
+  def an_incorrectly_formatted_document_reference_number_has_been_entered(docRefNo:String) = {
+    a_correctly_formatted_document_reference_number_has_been_entered(docRefNo)
+  }
+
+  @When("""^this is submitted along with any other mandatory information$""")
+  def this_is_submitted_along_with_any_other_mandatory_information() = {
+    // do nothing
+  }
 
   @Then("""^the document reference number "(.*)" is retained$""")
   def the_document_reference_number_is_retained(docRefNo:String) = {
-    def unquoteString(quotedString: String): String = {
+    /*def unquoteString(quotedString: String): String = {
       val stringWithoutEnclosingQuotes = quotedString.drop(1).dropRight(1)
       stringWithoutEnclosingQuotes.replace("\\\"", "\"")
     }
@@ -75,7 +98,7 @@ final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDS
         referenceNumber should equal(docRefNo)
       case None =>
         assert(false, "No valid cookie exists for this model")
-    }
+    }*/
   }
 
   @Then("""^the vehicle reference mark "(.*)" is retained$""")

@@ -4,9 +4,9 @@ Feature: US43: Validate document reference entry format - Error Messages
   so that I can correct it and move to the next step in the transaction
 
   Scenario:
-    Given a correctly formatted document reference number "20149680001" has been entered
+    Given a correctly formatted document reference number "11111111111" has been entered
     When this is submitted along with any other mandatory information
-    Then the document reference number "20149680001" is retained
+    Then the document reference number "11111111111" is retained
     And the next step in the dispose transaction "Complete & confirm" is shown
 
   Scenario Outline:

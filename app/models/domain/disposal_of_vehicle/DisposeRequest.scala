@@ -10,7 +10,6 @@ final case class DisposeRequest(referenceNumber: String,
                                 transactionTimestamp: String,
                                 prConsent: Boolean,
                                 keeperConsent: Boolean,
-                                trackingId: String,
                                 mileage: Option[Int] = None)
 
 object DisposeRequest {
