@@ -487,7 +487,7 @@ final class DisposeUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeSuccess())
+        withCookies(CookieFactoryForUnitSpecs.interstitial())
 
       val result = disposeController(disposeWebService = disposeWebService()).submit(request)
 
