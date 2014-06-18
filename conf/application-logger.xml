@@ -23,7 +23,6 @@
 
     <logger name="dvla.common.AccessLogger" level="INFO" additivity="false" >
         <appender-ref ref="REQUEST-SYSLOG"/>
-        <appender-ref ref="CONSOLE"/>
     </logger>
 
     <logger name="play" level="INFO" />
