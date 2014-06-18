@@ -5,6 +5,6 @@ import play.api.libs.ws.Response
 import models.domain.disposal_of_vehicle.VehicleDetailsRequest
 
 trait VehicleLookupWebService {
-  def callVehicleLookupService(request: VehicleDetailsRequest): Future[Response]
+  def callVehicleLookupService(request: VehicleDetailsRequest, trackingId: String): Future[Response]
 }
 
