@@ -50,6 +50,20 @@ final class DisposeSteps(webBrowserDriver:WebBrowserDriverWIthJavaScript) extend
     eventually {page.title should equal(DisposeSuccessPage.title)}
   }
 
+  @When("""^the user manually selects a date using the  Date of Sale date drop downs$""")
+  def the_user_manually_selects_a_date_using_the_Date_of_Sale_date_drop_downs() = {
+    dateOfDisposalDay select DateOfDisposalDayValid
+    dateOfDisposalMonth select DateOfDisposalMonthValid
+    dateOfDisposalYear select DateOfDisposalYearValid
+  }
+
+  @Then("""^the data of sale will be set to the date selected by the user$""")
+  def the_data_of_sale_will_be_set_to_the_date_selected_by_the_user() = {
+    dateOfDisposalDay.value should equal(DateOfDisposalDayValid)
+    dateOfDisposalMonth.value should equal(DateOfDisposalMonthValid)
+    dateOfDisposalYear.value should equal(DateOfDisposalYearValid)
+  }
+
 
   private def buildDisposeSetup() {
     go to BeforeYouStartPage
