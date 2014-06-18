@@ -10,6 +10,7 @@ import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 import org.scalatest.time.{Seconds, Span}
 import org.scalatest.concurrent.Eventually._
 import pages.disposal_of_vehicle.DisposePage._
+import pages.common.ErrorPanel
 
 final class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
@@ -109,6 +110,13 @@ final class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
     click on DisposePage.lossOfRegistrationConsent
   }
 
+  @Given("""^the Trader is on the Complete & Confirm page$""")
+  def the_Trader_is_on_the_Complete_Confirm_page() = {
+    buildDisposeSetup()
+
+    go to DisposePage
+  }
+
   @When("""^they attempt to dispose of the vehicle$""")
   def they_attempt_to_dispose_of_the_vehicle() = {
     click on DisposePage.dispose
@@ -119,6 +127,13 @@ final class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
     enterValidDisposalDate()
   }
 
+  @When("""^the Trader tries to select "Confirm Sale" without setting the Date of Sale$""")
+  def the_Trader_tries_to_select_Confirm_Sale_without_setting_the_Date_of_Sale() = {
+    click on consent
+    click on lossOfRegistrationConsent
+    click on dispose
+  }
+
   @Then("""^the user can select "Confirm sale" without error on the date of sale field$""")
   def the_user_can_select_Confirm_sale_without_error_on_the_date_of_sale_field() = {
     click on consent
@@ -126,6 +141,11 @@ final class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
     click on dispose
 
     page.title should equal(DisposeSuccessPage.title)
+  }
+
+  @Then("""^an error will occur stating "Must be between today and two years ago"$""")
+  def an_error_will_occur_stating_Must_be_between_today_and_two_years_ago() = {
+    ErrorPanel.numberOfErrors should equal(1)
   }
 
   private def enterValidDisposalDate() {
