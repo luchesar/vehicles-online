@@ -66,6 +66,17 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(DisposeSuccessPage.title)
     }
 
+    // This test needs to run with javaScript enabled.
+    "display DisposeSuccess page on correct submission with javascript enabled" taggedAs UiTag in new WebBrowser(webDriver = WebDriverFactory.webDriver(targetBrowser = "htmlUnit", javascriptEnabled = true)) {
+      go to BeforeYouStartPage
+      cacheSetup().
+        vehicleLookupFormModel()
+
+      happyPath
+
+      page.title should equal("Redirecting")
+    }
+
     "display validation errors when no data is entered" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
