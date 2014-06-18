@@ -16,6 +16,6 @@ addSbtPlugin("de.johoop" % "jacoco4sbt" % "2.1.5")
 
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "0.4.0")
 
-resolvers += "Templemore Repository" at "https://templemore.co.uk/repo/"
+//resolvers += "Templemore Repository" at "https://templemore.co.uk/repo/"
 
-addSbtPlugin("templemore" % "sbt-cucumber-plugin" % "0.8.0")
+//addSbtPlugin("templemore" % "sbt-cucumber-plugin" % "0.8.0")
