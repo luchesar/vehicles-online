@@ -13,6 +13,7 @@ import common.CookieImplicits.RequestCookiesAdapter
 import utils.helpers.{CookieNameHashing, Sha1Hash, AesEncryption, CookieEncryption}
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import play.api.mvc.Cookie
+import helpers.common.RandomVrmGenerator
 
 // TODO - Store input as variables
 
@@ -61,7 +62,7 @@ final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDS
 
   def gotToDisposePage() = {
     goToVehicleLookupPage()
-    VehicleLookupPage.vehicleRegistrationNumber enter "AB12 ABC"
+    VehicleLookupPage.vehicleRegistrationNumber enter RandomVrmGenerator.vrm
     VehicleLookupPage.documentReferenceNumber enter "11111111111"
     click on VehicleLookupPage.findVehicleDetails
     page.title should equal(DisposePage.title)
@@ -83,7 +84,7 @@ final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDS
   def a_correctly_formatted_document_reference_number_has_been_entered(docRefNo:String) = {
     goToVehicleLookupPage()
     // override doc ref no with test value
-    VehicleLookupPage.vehicleRegistrationNumber enter "AB12 ABC"
+    VehicleLookupPage.vehicleRegistrationNumber enter RandomVrmGenerator.vrm
     VehicleLookupPage.documentReferenceNumber enter docRefNo
   }
 

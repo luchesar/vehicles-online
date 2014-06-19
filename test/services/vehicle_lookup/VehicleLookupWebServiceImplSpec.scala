@@ -26,7 +26,7 @@ class VehicleLookupWebServiceImplSpec  extends UnitSpec  with WireMockFixture {
 
   implicit val vehiclesDetailsFormat = Json.format[VehicleDetailsRequest]
 
-  "callDisposeService" ignore {
+  "callDisposeService" should {
 
     "send the serialised json request" in {
       val resultFuture = lookupService.callVehicleLookupService(request, trackingId)
