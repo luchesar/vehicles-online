@@ -1,5 +1,6 @@
 package models.domain.disposal_of_vehicle
 
+import services.fakes.FakeAddressLookupService
 import services.fakes.FakeVehicleLookupWebService._
 import helpers.UnitSpec
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
@@ -39,5 +40,5 @@ final class AddressViewModelSpec extends UnitSpec {
     }
   }
 
-  private val asJson = Json.parse("""{"uprn":10123456789,"address":["1234","line2 stub","line3 stub","postTown stub","CM81QJ"]}""")
+  private val asJson = Json.parse(s"""{"uprn":10123456789,"address":["1234","line2 stub","line3 stub","postTown stub","$PostcodeValid"]}""")
 }
