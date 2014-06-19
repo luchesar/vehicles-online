@@ -38,7 +38,7 @@ class DisposeWebServiceImplSpec extends UnitSpec with WireMockFixture {
     mileage = Some(12)
   )
 
-  "callDisposeService" ignore {
+  "callDisposeService" should {
     "send the serialised json request" in {
       val resultFuture = disposeService.callDisposeService(request, trackingId)
       whenReady(resultFuture, timeout) { result =>
