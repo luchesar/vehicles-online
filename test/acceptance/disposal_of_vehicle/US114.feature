@@ -13,4 +13,4 @@ Feature: US114: Disposal to Trade - transaction failure codes and messages
     Given details are entered that correspond to a vehicle that has a valid record but does have markers or error codes
     When this is submitted along with any other mandatory information
     Then the next step in the dispose transaction "Sell a vehicle into the motor trade: failure" is shown
-    And a message is displayed "We are not able to process your application at this time. Please send the V5C/3 to the following address;"
+    And a message is displayed "We are not able to process the application at this time. Please send the V5C/3 to the following address;"
