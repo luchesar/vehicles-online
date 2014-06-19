@@ -110,13 +110,6 @@ final class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
     click on DisposePage.lossOfRegistrationConsent
   }
 
-  @Given("""^the Trader is on the Complete & Confirm page$""")
-  def the_Trader_is_on_the_Complete_Confirm_page() = {
-    buildDisposeSetup()
-
-    go to DisposePage
-  }
-
   @When("""^they attempt to dispose of the vehicle$""")
   def they_attempt_to_dispose_of_the_vehicle() = {
     click on DisposePage.dispose

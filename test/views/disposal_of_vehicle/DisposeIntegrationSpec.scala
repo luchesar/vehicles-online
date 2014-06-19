@@ -190,7 +190,7 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
   "javascript disabled" should {
     // This test needs to run with javaScript enabled.
-    "not display the Use Todays Date checkbox" taggedAs UiTag in new WebBrowser(webDriver = WebDriverFactory.webDriver(targetBrowser = "htmlUnit", javascriptEnabled = false)) {
+    "not display the Use Todays Date checkbox" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup().
         vehicleLookupFormModel()
