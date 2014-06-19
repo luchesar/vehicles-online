@@ -12,6 +12,14 @@ import mappings.common.Interstitial.InterstitialCacheKey
 object RelatedCacheKeys {
   final val SeenCookieMessageKey = "seen_cookie_message"
 
+  val DisposeOnlySet = Set(
+    DisposeFormModelCacheKey,
+    DisposeFormTransactionIdCacheKey,
+    DisposeFormTimestampIdCacheKey,
+    DisposeFormRegistrationNumberCacheKey,
+    DisposeModelCacheKey
+  )
+
   val DisposeSet = Set(
     BruteForcePreventionViewModelCacheKey,
     VehicleLookupDetailsCacheKey,
