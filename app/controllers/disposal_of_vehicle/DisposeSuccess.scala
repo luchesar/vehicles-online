@@ -21,7 +21,8 @@ final class DisposeSuccess @Inject()()(implicit clientSideSessionFactory: Client
         request.cookies.getString(DisposeFormTransactionIdCacheKey), request.cookies.getString(DisposeFormRegistrationNumberCacheKey)) match {
         case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId), Some(registrationNumber)) =>
           val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId), registrationNumber)
-          Ok(views.html.disposal_of_vehicle.dispose_success(disposeModel, disposeFormModel))
+          Ok(views.html.disposal_of_vehicle.dispose_success(disposeModel, disposeFormModel)).
+            discardingCookies(RelatedCacheKeys.DisposeSet) // TODO US320 test for this
         case _ => Redirect(routes.VehicleLookup.present()) // US320 the user has pressed back button after being on dispose-success and pressing new dispose.
       }
   }
