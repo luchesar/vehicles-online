@@ -20,6 +20,7 @@ import services.brute_force_prevention.{BruteForcePreventionServiceImpl, BruteFo
 import play.api.http.Status._
 import scala.Some
 import utils.helpers.Config
+import helpers.common.RandomVrmGenerator
 
 final class VehicleLookupFormSpec extends UnitSpec {
   "form" should {
@@ -91,6 +92,13 @@ final class VehicleLookupFormSpec extends UnitSpec {
 
     "reject if contains special characters" in {
       formWithValidDefaults(registrationNumber = "ab53ab%").errors should have length 1
+    }
+
+    "accept a selection of randomly generated vrms that all satisfy vrm regex" in {
+      for (i <- 1 to 100) {
+        val randomVrm = RandomVrmGenerator.vrm
+        formWithValidDefaults(registrationNumber = randomVrm).get.registrationNumber should equal(randomVrm)
+      }
     }
   }
 
