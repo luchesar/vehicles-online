@@ -23,27 +23,18 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
     // check if csrf prevention is switched on
     if (csrfPrevention) {
 
-      // Only filter unsafe methods and content types
-      if (unsafeMethods(request.method) && request.contentType.exists(unsafeContentTypes)) {
+      if (request.method == "POST") {
 
-        if (checkCsrfBypass(request)) {
-          next(request)
+        val headerToken =
+          buildTokenWithReferer(clientSideSessionFactory.getSession(request.cookies).trackingId, request.headers)
+
+        if (request.contentType.get == "application/x-www-form-urlencoded") {
+          checkBody(request, headerToken, next)
         } else {
-
-          val headerToken = buildTokenWithReferer(clientSideSessionFactory.getSession(request.cookies).trackingId, request.headers)
-
-          // Only proceed with checks if there is an incoming token in the header, otherwise there's no point
-          request.contentType match {
-            case Some("application/x-www-form-urlencoded") => checkFormBody(request, headerToken, tokenName, next)
-            case Some("multipart/form-data") => checkMultipartBody(request, headerToken, tokenName, next)
-            // No way to extract token from text plain body
-            case _ =>
-              Logger.trace("[CSRF] Check failed because request content type is not application/x-www-form-urlencoded or multipart/form-data")
-              throw new CSRFException(new Throwable("No CSRF token found in body"))
-          }
+          throw new CSRFException(new Throwable("No CSRF token found in body"))
         }
-      } else if (request.method == "GET" &&
-        (request.accepts("text/html") || request.accepts("application/xml+xhtml"))) {
+
+      } else if (request.method == "GET" && request.accepts("text/html")) {
 
         // No token in header and we have to create one if not found, so create a new token
         val newToken = buildTokenWithUri(clientSideSessionFactory.getSession(request.cookies).trackingId, request.uri)
@@ -52,14 +43,12 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
 
         val newSignedEncryptedToken = Crypto.signToken(newEncryptedToken)
 
-        // The request
-        val requestWithNewToken = request.copy(tags = request.tags + (Token.RequestTag -> newSignedEncryptedToken))
+        val requestWithNewToken = request.copy(tags = request.tags + ("CSRF_TOKEN" -> newSignedEncryptedToken))
 
         // Once done, add it to the result
         next(requestWithNewToken)
 
       } else {
-        Logger.trace("[CSRF] No check necessary")
         next(request)
       }
     } else {
@@ -67,51 +56,43 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
     }
   }
 
-  private def checkFormBody = checkBody[Map[String, Seq[String]]](tolerantFormUrlEncoded, identity) _
+  private def checkBody(request: RequestHeader, headerToken: String, next: EssentialAction) = {
 
-  private def checkMultipartBody = checkBody[MultipartFormData[Unit]](multipartFormData[Unit]({
-    case _ => Iteratee.ignore[Array[Byte]].map(_ => MultipartFormData.FilePart("", "", None, ()))
-  }), _.dataParts) _
-
-  private def checkBody[T](parser: BodyParser[T], extractor: (T => Map[String, Seq[String]]))(request: RequestHeader, tokenFromHeader: String, tokenName: String, next: EssentialAction) = {
-    // Take up to 100kb of the body
     val firstPartOfBody: Iteratee[Array[Byte], Array[Byte]] =
-      Traversable.take[Array[Byte]](postBodyBuffer.asInstanceOf[Int]) &>> Iteratee.consume[Array[Byte]]()
+      Traversable.take[Array[Byte]](102400L.asInstanceOf[Int]) &>> Iteratee.consume[Array[Byte]]()
 
     firstPartOfBody.flatMap {
       bytes: Array[Byte] =>
-      // Parse the first 100kb
-        val parsedBody = Enumerator(bytes) |>>> parser(request)
+
+        val parsedBody = Enumerator(bytes) |>>> tolerantFormUrlEncoded(request)
 
         Iteratee.flatten(parsedBody.map {
           parseResult =>
             val validToken = parseResult.fold(
-              // error parsing the body, we couldn't find a valid token
+              // valid token not found
               _ => false,
-              // extract the token and verify
+              // valid token found
               body => (for {
-                values <- extractor(body).get(tokenName)
+                values <- identity(body).get(tokenName)
                 token <- values.headOption
               } yield {
                 val decryptedExtractedSignedToken = aesEncryption.decrypt(Crypto.extractSignedToken(token).getOrElse(
                   throw new CSRFException(new Throwable("Invalid token found in form body"))))
                 val splitDecryptedExtractedSignedToken = splitToken(decryptedExtractedSignedToken)
-                val splitTokenFromHeader = splitToken(tokenFromHeader)
+                val splitTokenFromHeader = splitToken(headerToken)
                 ((splitDecryptedExtractedSignedToken._1 == splitTokenFromHeader._1) &&
                   (splitTokenFromHeader._2.contains(splitDecryptedExtractedSignedToken._2)))
-              } ).getOrElse(false)
+              }).getOrElse(false)
             )
 
             if (validToken) {
-              // Feed the buffered bytes into the next request, and return the iteratee
-              Logger.trace("[CSRF] Valid token found in body")
               Iteratee.flatten(Enumerator(bytes) |>> next(request))
             } else {
-              Logger.trace("[CSRF] Check failed because no or invalid token found in body")
               throw new CSRFException(new Throwable("Invalid token found in form body"))
             }
         })
     }
+
   }
 
 }
@@ -124,31 +105,12 @@ object CSRFAction {
 
   def tokenName: String = "csrfToken"
 
-  def unsafeMethods = Set("POST")
-
-  def unsafeContentTypes = Set("application/x-www-form-urlencoded", "text/plain", "multipart/form-data")
-
-  def postBodyBuffer: Long = 102400L
-
   def csrfPrevention = getProperty("csrf.prevention", default = true)
-
-  private[csrf_prevention] def checkCsrfBypass(request: RequestHeader) = {
-
-    if (request.headers.get("X-Requested-With").isDefined) {
-
-      // AJAX requests are not CSRF attacks either because they are restricted to same origin policy
-      Logger.trace("[CSRF] Bypassing check because X-Requested-With header found")
-      true
-    } else {
-      false
-    }
-  }
 
   case class Token(value: String)
 
   object Token {
 
-    val RequestTag = "CSRF_TOKEN"
     val Delimiter = "-"
 
     implicit def getToken(implicit request: RequestHeader): Token = {
@@ -157,7 +119,6 @@ object CSRFAction {
   }
 
   def getToken(request: RequestHeader): Option[Token] = {
-
     Some(Token(Crypto.signToken(aesEncryption.encrypt(
       buildTokenWithUri(clientSideSessionFactory.getSession(request.cookies).trackingId, request.uri)))))
   }
