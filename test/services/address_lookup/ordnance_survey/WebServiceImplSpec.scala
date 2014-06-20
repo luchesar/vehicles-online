@@ -41,7 +41,7 @@ final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
     }
   }
 
-  "callPostcodeWebService" ignore {
+  "callPostcodeWebService" should {
     "send the trackingId to the PostcodeWebService" in {
       val postCode = "N193NN"
 

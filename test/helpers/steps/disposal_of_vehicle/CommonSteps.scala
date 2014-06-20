@@ -13,6 +13,9 @@ import common.CookieImplicits.RequestCookiesAdapter
 import utils.helpers.{CookieNameHashing, Sha1Hash, AesEncryption, CookieEncryption}
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import play.api.mvc.Cookie
+import helpers.common.RandomVrmGenerator
+
+// TODO - Store input as variables
 
 final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
@@ -31,46 +34,58 @@ final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDS
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 
-  def start() = {
+  def goToSetupTradeDetailsPage() = {
     go to BeforeYouStartPage
     page.title should equal(BeforeYouStartPage.title)
+    click on BeforeYouStartPage.startNow
+    page.title should equal(SetupTradeDetailsPage.title)
   }
 
-  def setupTraderDetails() = {
-    page.title should equal(SetupTradeDetailsPage.title)
+  def goToEnterAddressManuallyPage() = {
+    goToSetupTradeDetailsPage()
     SetupTradeDetailsPage.traderName enter "Big Motors Limited"
     SetupTradeDetailsPage.traderPostcode enter "AA99 1AA"
-  }
-
-  def chooseYourAddressManual() = {
+    click on SetupTradeDetailsPage.lookup
     page.title should equal(BusinessChooseYourAddressPage.title)
     click on BusinessChooseYourAddressPage.manualAddress
+    page.title should equal(EnterAddressManuallyPage.title)
   }
 
-  def enterAddressManually() = {
+  def goToVehicleLookupPage() = {
+    goToEnterAddressManuallyPage()
     page.title should equal(EnterAddressManuallyPage.title)
     EnterAddressManuallyPage.addressBuildingNameOrNumber enter "1 Long Road"
     EnterAddressManuallyPage.addressPostTown enter "Swansea"
+    click on EnterAddressManuallyPage.next
+    page.title should equal(VehicleLookupPage.title)
   }
 
-  def enterVehicleDetails() = {
-    VehicleLookupPage.vehicleRegistrationNumber enter "AB12 ABC"
+  def gotToDisposePage() = {
+    goToVehicleLookupPage()
+    VehicleLookupPage.vehicleRegistrationNumber enter RandomVrmGenerator.vrm
     VehicleLookupPage.documentReferenceNumber enter "11111111111"
+    click on VehicleLookupPage.findVehicleDetails
+    page.title should equal(DisposePage.title)
+  }
+
+  def goToDisposeSuccessPage() = {
+    gotToDisposePage()
+    DisposePage.mileage enter "10000"
+    DisposePage.dateOfDisposalDay select "01"
+    DisposePage.dateOfDisposalMonth select "May"
+    DisposePage.dateOfDisposalYear select "2014"
+    click on DisposePage.consent
+    click on DisposePage.lossOfRegistrationConsent
+    click on DisposePage.dispose
+    page.title should equal(DisposeSuccessPage.title)
   }
 
   @Given("""^a correctly formatted document reference number "(.*)" has been entered$""")
   def a_correctly_formatted_document_reference_number_has_been_entered(docRefNo:String) = {
-    start()
-    click on BeforeYouStartPage.startNow
-    setupTraderDetails()
-    click on SetupTradeDetailsPage.lookup
-    chooseYourAddressManual()
-    enterAddressManually()
-    click on EnterAddressManuallyPage.next
-    enterVehicleDetails()
+    goToVehicleLookupPage()
     // override doc ref no with test value
+    VehicleLookupPage.vehicleRegistrationNumber enter RandomVrmGenerator.vrm
     VehicleLookupPage.documentReferenceNumber enter docRefNo
-    click on VehicleLookupPage.findVehicleDetails
   }
 
   @Given("""^an incorrectly formatted document reference number "(.*)" has been entered$""")
@@ -78,9 +93,48 @@ final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDS
     a_correctly_formatted_document_reference_number_has_been_entered(docRefNo)
   }
 
+  @Given("""^a correctly formatted vehicle reference mark "(.*)" has been entered$""")
+  def a_correctly_formatted_vehicle_reference_mark_has_been_entered(refMark:String) = {
+    goToVehicleLookupPage()
+    // override doc ref no with test value
+    VehicleLookupPage.vehicleRegistrationNumber enter refMark
+    VehicleLookupPage.documentReferenceNumber enter "11111111111"
+  }
+
+  @Given("""^an incorrectly formatted vehicle reference mark "(.*)" has been entered$""")
+  def an_incorrectly_formatted_vehicle_reference_mark_has_been_entered(refMark:String) = {
+    a_correctly_formatted_vehicle_reference_mark_has_been_entered(refMark:String)
+  }
+
+  @Given("""^details are entered that correspond to a vehicle that has a valid clean record and has no markers or error codes$""")
+  def details_are_entered_that_correspond_to_a_vehicle_that_has_a_valid_clean_record_and_has_no_markers_or_error_codes() = {
+    gotToDisposePage()
+    DisposePage.mileage enter "10000"
+    DisposePage.dateOfDisposalDay select "1"
+    DisposePage.dateOfDisposalMonth select "5"
+    DisposePage.dateOfDisposalYear select "2014"
+    click on DisposePage.consent
+    click on DisposePage.lossOfRegistrationConsent
+  }
+
+  @Given("""^details are entered that correspond to a vehicle that has a valid record but does have markers or error codes$""")
+  def details_are_entered_that_correspond_to_a_vehicle_that_has_a_valid_record_but_does_have_markers_or_error_codes() = {
+    goToVehicleLookupPage()
+    VehicleLookupPage.vehicleRegistrationNumber enter "AA11 AAC"
+    VehicleLookupPage.documentReferenceNumber enter "88888888883"
+    click on VehicleLookupPage.findVehicleDetails
+    page.title should equal(DisposePage.title)
+    DisposePage.mileage enter "10000"
+    DisposePage.dateOfDisposalDay select "1"
+    DisposePage.dateOfDisposalMonth select "5"
+    DisposePage.dateOfDisposalYear select "2014"
+    click on DisposePage.consent
+    click on DisposePage.lossOfRegistrationConsent
+  }
+
   @When("""^this is submitted along with any other mandatory information$""")
   def this_is_submitted_along_with_any_other_mandatory_information() = {
-    // do nothing
+    submit()
   }
 
   @Then("""^the document reference number "(.*)" is retained$""")
@@ -115,6 +169,11 @@ final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDS
   def a_single_error_message_msg_is_displayed(message: String) = {
     ErrorPanel.numberOfErrors should equal(1)
     ErrorPanel.text should include(message)
+  }
+
+  @Then("""^a message is displayed "(.*?)"$""")
+  def a_message_is_displayed(message: String) = {
+    page.text should include(message)
   }
 
   @Then("""^the dispose transaction does not proceed past the "(.*)" step$""")
