@@ -1,9 +1,9 @@
 package common
 
 object LogFormats {
-  val anonymousChar = "*"
-
+  // TODO add unit tests for this. Especially values 0, 1, 4, 8, 9
   def anonymize(inputString: String): String = {
+    val anonymousChar = "*"
     val charIndex =
       if (inputString.length == 0) 0
       else if (inputString.length > 8) 4

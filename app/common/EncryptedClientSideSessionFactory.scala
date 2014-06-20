@@ -1,11 +1,12 @@
 package common
 
-import app.ConfigProperties._
-import utils.helpers.{CookieEncryption, CookieNameHashGenerator}
-import org.apache.commons.codec.binary.Hex
 import java.security.SecureRandom
+
+import app.ConfigProperties._
 import com.google.inject.Inject
+import org.apache.commons.codec.binary.Hex
 import play.api.mvc.Cookie
+import utils.helpers.{CookieEncryption, CookieNameHashGenerator}
 
 class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: CookieFlags,
                                                     encryption: CookieEncryption,
@@ -23,7 +24,8 @@ class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: Cookie
       case _ =>
         val sessionSecretKey = newSessionSecretKey
         val sessionSecretKeyCipherText = encryption.encrypt(createSessionSecretKeySuffixCookieName + sessionSecretKey)
-        val (prefixValue, suffixValue) = sessionSecretKeyCipherText.splitAt(20)
+        val trackingIdLengthChars = 20
+        val (prefixValue, suffixValue) = sessionSecretKeyCipherText.splitAt(trackingIdLengthChars)
 
         val trackingIdCookie = Cookie(
           name = ClientSideSessionFactory.TrackingIdCookieName,
@@ -42,10 +44,8 @@ class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: Cookie
 
   override def getSession(request: Traversable[Cookie]): ClientSideSession =
     validateSessionCookies(request) match {
-      case Some((trackingId, sessionSecretKey)) =>
-        new EncryptedClientSideSession(trackingId, sessionSecretKey)
-      case _ =>
-        throw new InvalidSessionException("No session present in the request")
+      case Some((trackingId, sessionSecretKey)) => new EncryptedClientSideSession(trackingId, sessionSecretKey)
+      case _ => throw new InvalidSessionException("No session present in the request")
     }
 
   private def validateSessionCookies(requestCookies: Traversable[Cookie]): Option[(String, String)] = {
@@ -57,23 +57,22 @@ class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: Cookie
       case (Some(trackingId), Some(sessionSecretKeySuffix)) =>
         val decrypted = encryption.decrypt(trackingId.value + sessionSecretKeySuffix.value)
         val (cookieNameFromPayload, sessionSecretKey) = decrypted.splitAt(sessionSecretKeySuffixCookieName.length)
-        if (sessionSecretKeySuffixCookieName != cookieNameFromPayload) {
+
+        if (sessionSecretKeySuffixCookieName != cookieNameFromPayload)
           throw new InvalidSessionException("The cookie name bytes from the payload must match the cookie name")
-        }
+
         Some((trackingId.value, sessionSecretKey))
-      case (Some(trackingId), None) =>
-        throw new InvalidSessionException("Invalid session cookies coming from the request")
-      case (None, Some(cookie)) =>
-        throw new InvalidSessionException("Invalid session cookies coming from the request")
-      case _ => None
+      case (None, None) => None
+      case _ => throw new InvalidSessionException("Invalid session cookies coming from the request")
     }
   }
 
-  private def createSessionSecretKeySuffixCookieName: String =
-    cookieNameHashing.hash(sessionSecretKeySuffixKey)
+  private def createSessionSecretKeySuffixCookieName: String = cookieNameHashing.hash(sessionSecretKeySuffixKey)
 
-  private def newSessionSecretKey: String =
-    Hex.encodeHexString(getSecureRandomBytes(16))
+  private def newSessionSecretKey: String = {
+    val secretKeyLengthBytes = 16
+    Hex.encodeHexString(getSecureRandomBytes(secretKeyLengthBytes))
+  }
 
   private def getSecureRandomBytes(numberOfBytes: Int): Array[Byte] = {
     val random = new SecureRandom()
