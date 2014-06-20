@@ -1,31 +1,25 @@
 package controllers.disposal_of_vehicle
 
-import play.api.mvc._
-import play.api.data.Form
-import play.api.data.Forms._
-import play.api.Logger
-import mappings.common.{DocumentReferenceNumber, VehicleRegistrationNumber}
-import DocumentReferenceNumber._
-import VehicleRegistrationNumber._
-import mappings.disposal_of_vehicle.VehicleLookup._
-import models.domain.disposal_of_vehicle._
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
 import com.google.inject.Inject
+import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
+import common.{ClientSideSessionFactory, CookieImplicits, LogFormats}
+import mappings.common.DocumentReferenceNumber._
+import mappings.common.Interstitial.InterstitialCacheKey
+import mappings.common.VehicleRegistrationNumber._
+import mappings.common.{DocumentReferenceNumber, VehicleRegistrationNumber}
+import mappings.disposal_of_vehicle.VehicleLookup._
+import models.domain.common.BruteForcePreventionResponse._
+import models.domain.disposal_of_vehicle.{VehicleLookupFormModel, _}
+import play.api.Logger
+import play.api.data.{Form, FormError}
+import play.api.data.Forms._
+import play.api.mvc.{SimpleResult, _}
+import services.brute_force_prevention.BruteForcePreventionService
 import services.vehicle_lookup.VehicleLookupService
 import utils.helpers.FormExtensions._
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
-import services.brute_force_prevention.BruteForcePreventionService
-import common.{LogFormats, ClientSideSessionFactory, CookieImplicits}
-import CookieImplicits.RichCookies
-import CookieImplicits.RichSimpleResult
-import CookieImplicits.RichForm
-import models.domain.common.BruteForcePreventionResponse._
-import mappings.common.AlternateLanguages._
-import play.api.data.FormError
-import play.api.mvc.SimpleResult
-import play.api.Play.current
-import mappings.common.Interstitial.InterstitialCacheKey
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{ExecutionContext, Future}
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
@@ -37,37 +31,33 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     )(VehicleLookupFormModel.apply)(VehicleLookupFormModel.unapply)
   )
 
-  def present = Action {
-    implicit request =>
+  def present = Action { implicit request =>
       request.cookies.getModel[TraderDetailsModel] match {
         case Some(traderDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, form.fill()))
         case None => Redirect(routes.SetUpTradeDetails.present())
       }
   }
 
-  def submit = Action.async {
-    implicit request =>
+  def submit = Action.async {implicit request =>
       form.bindFromRequest.fold(
-        formWithErrors =>
+        invalidForm =>
           Future {
             request.cookies.getModel[TraderDetailsModel] match {
-              case Some(dealerDetails) => val formWithReplacedErrors = formWithErrors.
+              case Some(traderDetails) => val formWithReplacedErrors = invalidForm.
                 replaceError(VehicleRegistrationNumberId, FormError(key = VehicleRegistrationNumberId, message = "error.restricted.validVrnOnly", args = Seq.empty)).
                 replaceError(DocumentReferenceNumberId, FormError(key = DocumentReferenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
                 distinctErrors
-                BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithReplacedErrors))
+                BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, formWithReplacedErrors))
               case None => Redirect(routes.SetUpTradeDetails.present())
             }
           },
-        f => {
-          checkPermissionToLookup(convertToUpperCaseAndRemoveSpaces(f)) {
-            lookupVehicle
-          }
+        validForm => {
+          checkPermissionToLookup(convertToUpperCaseAndRemoveSpaces(validForm))
         }
       )
   }
 
-  private def convertToUpperCaseAndRemoveSpaces(model: VehicleLookupFormModel) : VehicleLookupFormModel =
+  private def convertToUpperCaseAndRemoveSpaces(model: VehicleLookupFormModel): VehicleLookupFormModel =
     model.copy(registrationNumber = model.registrationNumber.replace(" ", "")
       .toUpperCase)
 
@@ -81,14 +71,14 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       }
   }
 
-  private def checkPermissionToLookup(formModel: VehicleLookupFormModel)(lookupVehicleFunc: ((VehicleLookupFormModel, BruteForcePreventionViewModel) => Future[SimpleResult]))
+  private def checkPermissionToLookup(formModel: VehicleLookupFormModel)
                                      (implicit request: Request[_]): Future[SimpleResult] =
     bruteForceService.isVrmLookupPermitted(formModel.registrationNumber).map { response =>
       response // TODO US270 @Lawrence please code review the way we are using map, the lambda (I think we could use _ but it looks strange to read) and flatmap
     } flatMap {
       case Some(bruteForcePreventionViewModel) =>
         // US270: The security micro-service will return a Forbidden (403) message when the vrm is locked, we have hidden that logic as a boolean.
-        if (bruteForcePreventionViewModel.permitted) lookupVehicleFunc(formModel, bruteForcePreventionViewModel)
+        if (bruteForcePreventionViewModel.permitted) lookupVehicle(formModel, bruteForcePreventionViewModel)
         else Future {
           val registrationNumber = LogFormats.anonymize(formModel.registrationNumber)
           Logger.warn(s"BruteForceService locked out vrm: $registrationNumber")
