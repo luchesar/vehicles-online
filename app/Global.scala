@@ -64,6 +64,10 @@ object Global extends WithFilters(filters: _*) with GlobalSettings {
     ErrorStrategy(request, ex)
 
   override def doFilter(a: EssentialAction): EssentialAction = {
+    // TODO can we work out how to dependency inject into WithFilters?
+    // EnsureSessionCreatedFilter relies on IoC which in turn requires the configs to be read, but if we try to load it in the
+    // Global WithFilters the config is not yet loaded so will fail. One solution is to use this doFilter to append to the
+    // Global filters.
     Filters(super.doFilter(a), devInjector.getInstance(classOf[EnsureSessionCreatedFilter]), devInjector.getInstance(classOf[AccessLoggingFilter]))
   }
 }
