@@ -1,6 +1,6 @@
 package constraints.disposal_of_vehicle
 
-import play.api.data.validation.{ValidationError, Invalid, Valid, Constraint}
+import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 
 object TraderBusinessName {
   def validTraderBusinessName: Constraint[String] = Constraint[String]("constraint.validTraderBusinessName") { restrictedString =>

@@ -6,6 +6,7 @@ import common.ClientSideSession
 import play.api.i18n.Lang
 
 trait AddressLookupService {
+  // TODO we should not be passing ClientSideSession, we should just pass the tracking ID.
   def fetchAddressesForPostcode(postcode: String)
                                (implicit session: ClientSideSession, lang: Lang): Future[Seq[(String, String)]]
 

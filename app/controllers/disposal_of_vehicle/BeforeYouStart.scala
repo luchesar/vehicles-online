@@ -1,12 +1,10 @@
 package controllers.disposal_of_vehicle
 
-import play.api.mvc._
 import com.google.inject.Inject
-import common.{ClientSideSessionFactory, CookieImplicits}
-import CookieImplicits.RichSimpleResult
+import common.ClientSideSessionFactory
+import common.CookieImplicits.RichSimpleResult
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import mappings.common.AlternateLanguages._
-import play.api.Play.current
+import play.api.mvc._
 
 final class BeforeYouStart @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 

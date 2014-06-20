@@ -52,7 +52,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
           Future {
             request.cookies.getModel[TraderDetailsModel] match {
               case Some(dealerDetails) => val formWithReplacedErrors = formWithErrors.
-                replaceError(VehicleRegistrationNumberId, FormError(key = VehicleRegistrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
+                replaceError(VehicleRegistrationNumberId, FormError(key = VehicleRegistrationNumberId, message = "error.restricted.validVrnOnly", args = Seq.empty)).
                 replaceError(DocumentReferenceNumberId, FormError(key = DocumentReferenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
                 distinctErrors
                 BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithReplacedErrors))
