@@ -2,9 +2,9 @@ package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
-import common.CookieImplicits.FormAdapter
-import common.CookieImplicits.RequestCookiesAdapter
-import common.CookieImplicits.SimpleResultAdapter
+import common.CookieImplicits.RichForm
+import common.CookieImplicits.RichCookies
+import common.CookieImplicits.RichSimpleResult
 import mappings.common.AddressAndPostcode._
 import mappings.common.AlternateLanguages._
 import models.domain.disposal_of_vehicle.{TraderDetailsModel, AddressViewModel, SetupTradeDetailsModel, EnterAddressManuallyModel}

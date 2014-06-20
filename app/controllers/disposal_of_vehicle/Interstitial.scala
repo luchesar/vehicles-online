@@ -2,7 +2,7 @@ package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
-import common.CookieImplicits.RequestCookiesAdapter
+import common.CookieImplicits.RichCookies
 import mappings.common.Interstitial.InterstitialCacheKey
 import play.api.mvc._
 

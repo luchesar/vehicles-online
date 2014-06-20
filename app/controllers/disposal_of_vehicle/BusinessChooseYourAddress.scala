@@ -15,9 +15,9 @@ import services.address_lookup.AddressLookupService
 import common.{ClientSideSession, ClientSideSessionFactory, CookieImplicits}
 import utils.helpers.FormExtensions._
 import mappings.disposal_of_vehicle.EnterAddressManually._
-import CookieImplicits.RequestCookiesAdapter
-import CookieImplicits.SimpleResultAdapter
-import CookieImplicits.FormAdapter
+import CookieImplicits.RichCookies
+import CookieImplicits.RichSimpleResult
+import CookieImplicits.RichForm
 import mappings.common.AlternateLanguages._
 import play.api.data.FormError
 import scala.Some

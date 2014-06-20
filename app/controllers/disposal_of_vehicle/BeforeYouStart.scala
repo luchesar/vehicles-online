@@ -3,7 +3,7 @@ package controllers.disposal_of_vehicle
 import play.api.mvc._
 import com.google.inject.Inject
 import common.{ClientSideSessionFactory, CookieImplicits}
-import CookieImplicits.SimpleResultAdapter
+import CookieImplicits.RichSimpleResult
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import mappings.common.AlternateLanguages._
 import play.api.Play.current

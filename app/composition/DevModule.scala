@@ -38,7 +38,7 @@ object DevModule extends ScalaModule {
     val encryptCookies = getProperty("encryptCookies", default = true)
     if (encryptCookies) {
       bind[CookieEncryption].toInstance(new AesEncryption with CookieEncryption)
-      bind[CookieNameHashing].toInstance(new Sha1Hash with CookieNameHashing)
+      bind[CookieNameHashGenerator].toInstance(new Sha1HashGenerator with CookieNameHashGenerator)
       bind[ClientSideSessionFactory].to[EncryptedClientSideSessionFactory].asEagerSingleton()
     } else {
       bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()

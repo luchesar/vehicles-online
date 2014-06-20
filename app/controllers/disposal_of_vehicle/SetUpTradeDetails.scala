@@ -6,11 +6,11 @@ import play.api.data.Forms._
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import mappings.disposal_of_vehicle.SetupTradeDetails._
 import common.{ClientSideSessionFactory, CookieImplicits}
-import CookieImplicits.SimpleResultAdapter
+import CookieImplicits.RichSimpleResult
 import mappings.common.Postcode._
 import utils.helpers.FormExtensions._
 import com.google.inject.Inject
-import CookieImplicits.FormAdapter
+import CookieImplicits.RichForm
 import mappings.common.AlternateLanguages._
 import play.api.Play.current
 

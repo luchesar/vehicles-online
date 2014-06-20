@@ -2,7 +2,7 @@ package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
-import common.CookieImplicits.{FormAdapter, RequestCookiesAdapter, SimpleResultAdapter}
+import common.CookieImplicits.{RichForm, RichCookies, RichSimpleResult}
 import constraints.common.DayMonthYear._
 import mappings.common.Consent._
 import mappings.common.DayMonthYear.dayMonthYear

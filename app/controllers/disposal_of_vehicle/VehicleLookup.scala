@@ -17,9 +17,9 @@ import utils.helpers.FormExtensions._
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import services.brute_force_prevention.BruteForcePreventionService
 import common.{LogFormats, ClientSideSessionFactory, CookieImplicits}
-import CookieImplicits.RequestCookiesAdapter
-import CookieImplicits.SimpleResultAdapter
-import CookieImplicits.FormAdapter
+import CookieImplicits.RichCookies
+import CookieImplicits.RichSimpleResult
+import CookieImplicits.RichForm
 import models.domain.common.BruteForcePreventionResponse._
 import mappings.common.AlternateLanguages._
 import play.api.data.FormError

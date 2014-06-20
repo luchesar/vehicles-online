@@ -6,6 +6,5 @@ package common
 class CookieName private(val value: String) extends AnyVal
 
 object CookieName {
-  def apply(value: String): CookieName =
-    new CookieName(value)
+  def apply(value: String): CookieName = new CookieName(value)
 }

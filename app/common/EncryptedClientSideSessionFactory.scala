@@ -1,7 +1,7 @@
 package common
 
 import app.ConfigProperties._
-import utils.helpers.{CookieEncryption, CookieNameHashing}
+import utils.helpers.{CookieEncryption, CookieNameHashGenerator}
 import org.apache.commons.codec.binary.Hex
 import java.security.SecureRandom
 import com.google.inject.Inject
@@ -9,7 +9,7 @@ import play.api.mvc.Cookie
 
 class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: CookieFlags,
                                                     encryption: CookieEncryption,
-                                                    cookieNameHashing: CookieNameHashing) extends ClientSideSessionFactory {
+                                                    cookieNameHashing: CookieNameHashGenerator) extends ClientSideSessionFactory {
   /**
    * Session secret key must not expire before any other cookie that relies on it.
    */

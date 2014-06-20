@@ -2,8 +2,8 @@ package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
-import common.CookieImplicits.RequestCookiesAdapter
-import common.CookieImplicits.SimpleResultAdapter
+import common.CookieImplicits.RichCookies
+import common.CookieImplicits.RichSimpleResult
 import mappings.common.Interstitial._
 import mappings.common.AlternateLanguages._
 import mappings.disposal_of_vehicle.Dispose._
