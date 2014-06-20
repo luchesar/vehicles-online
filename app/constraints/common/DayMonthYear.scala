@@ -1,10 +1,10 @@
 package constraints.common
 
-import play.api.data.validation._
-import scala.util.{Success, Try}
 import org.joda.time.DateTime
-import play.api.data.validation.ValidationError
+import play.api.data.validation.{ValidationError, _}
 import services.DateService
+
+import scala.util.{Success, Try}
 
 object DayMonthYear {
   private final val MinYear = 999
@@ -22,25 +22,21 @@ object DayMonthYear {
     }
 
     Constraint("constraint.required") {
-      case dmy@models.DayMonthYear(_, _, _, _, _) => dateValidation(dmy)
+      case dmy: models.DayMonthYear => dateValidation(dmy)
       case _ => Invalid(ValidationError("error.required")) // TODO test coverage
     }
   }
 
   def after(earliest: models.DayMonthYear): Constraint[models.DayMonthYear] = {
-    // Date must be after a year
-    import scala.language.postfixOps
     Constraint("constraint.withinTwoYears") {
-      case dmy@models.DayMonthYear(_, _, _, _, _) if dmy >= earliest => Valid
+      case dmy: models.DayMonthYear if dmy >= earliest => Valid
       case _ => Invalid(ValidationError("error.withinTwoYears"))
     }
   }
 
   def notInFuture(dateService: DateService): Constraint[models.DayMonthYear] = {
-    // Date must be after a year
-    import scala.language.postfixOps
     Constraint("constraint.notInFuture") {
-      case dmy@models.DayMonthYear(_, _, _, _, _) if dmy <= dateService.today => Valid
+      case dmy: models.DayMonthYear if dmy <= dateService.today => Valid
       case _ => Invalid(ValidationError("error.notInFuture"))
     }
   }

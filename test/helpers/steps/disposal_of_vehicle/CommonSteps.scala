@@ -9,8 +9,8 @@ import pages.disposal_of_vehicle._
 import pages.common.ErrorPanel
 import scala.collection.JavaConversions._
 import common.{ClearTextClientSideSessionFactory, NoCookieFlags, EncryptedClientSideSessionFactory}
-import common.CookieImplicits.RequestCookiesAdapter
-import utils.helpers.{CookieNameHashing, Sha1Hash, AesEncryption, CookieEncryption}
+import common.CookieImplicits.RichCookies
+import utils.helpers.{CookieNameHashGenerator, Sha1HashGenerator, AesEncryption, CookieEncryption}
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import play.api.mvc.Cookie
 import helpers.common.RandomVrmGenerator
@@ -24,7 +24,7 @@ final class CommonSteps(webBrowserDriver: WebBrowserDriver) extends WebBrowserDS
     val testRemote = getProperty("test.remote", default = false)
     if (testRemote)  {
       implicit val cookieEncryption = new AesEncryption with CookieEncryption
-      implicit val cookieNameHashing = new Sha1Hash with CookieNameHashing
+      implicit val cookieNameHashing = new Sha1HashGenerator with CookieNameHashGenerator
       new EncryptedClientSideSessionFactory()
     }
     else {

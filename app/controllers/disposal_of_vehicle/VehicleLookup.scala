@@ -1,31 +1,24 @@
 package controllers.disposal_of_vehicle
 
-import play.api.mvc._
-import play.api.data.Form
-import play.api.data.Forms._
-import play.api.Logger
-import mappings.common.{DocumentReferenceNumber, VehicleRegistrationNumber}
-import DocumentReferenceNumber._
-import VehicleRegistrationNumber._
-import mappings.disposal_of_vehicle.VehicleLookup._
-import models.domain.disposal_of_vehicle._
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
 import com.google.inject.Inject
+import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
+import common.{ClientSideSessionFactory, LogFormats}
+import mappings.common.DocumentReferenceNumber._
+import mappings.common.Interstitial.InterstitialCacheKey
+import mappings.common.VehicleRegistrationNumber._
+import mappings.disposal_of_vehicle.VehicleLookup._
+import models.domain.common.BruteForcePreventionResponse._
+import models.domain.disposal_of_vehicle._
+import play.api.Logger
+import play.api.data.Forms._
+import play.api.data.{Form, FormError}
+import play.api.mvc._
+import services.brute_force_prevention.BruteForcePreventionService
 import services.vehicle_lookup.VehicleLookupService
 import utils.helpers.FormExtensions._
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
-import services.brute_force_prevention.BruteForcePreventionService
-import common.{LogFormats, ClientSideSessionFactory, CookieImplicits}
-import CookieImplicits.RequestCookiesAdapter
-import CookieImplicits.SimpleResultAdapter
-import CookieImplicits.FormAdapter
-import models.domain.common.BruteForcePreventionResponse._
-import mappings.common.AlternateLanguages._
-import play.api.data.FormError
-import play.api.mvc.SimpleResult
-import play.api.Play.current
-import mappings.common.Interstitial.InterstitialCacheKey
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
@@ -37,58 +30,53 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     )(VehicleLookupFormModel.apply)(VehicleLookupFormModel.unapply)
   )
 
-  def present = Action {
-    implicit request =>
-      request.cookies.getModel[TraderDetailsModel] match {
-        case Some(traderDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, form.fill()))
-        case None => Redirect(routes.SetUpTradeDetails.present())
-      }
+  def present = Action { implicit request =>
+    request.cookies.getModel[TraderDetailsModel] match {
+      case Some(traderDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, form.fill()))
+      case None => Redirect(routes.SetUpTradeDetails.present())
+    }
   }
 
-  def submit = Action.async {
-    implicit request =>
-      form.bindFromRequest.fold(
-        formWithErrors =>
-          Future {
-            request.cookies.getModel[TraderDetailsModel] match {
-              case Some(dealerDetails) => val formWithReplacedErrors = formWithErrors.
-                replaceError(VehicleRegistrationNumberId, FormError(key = VehicleRegistrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
-                replaceError(DocumentReferenceNumberId, FormError(key = DocumentReferenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
-                distinctErrors
-                BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(dealerDetails, formWithReplacedErrors))
-              case None => Redirect(routes.SetUpTradeDetails.present())
-            }
-          },
-        f => {
-          checkPermissionToLookup(convertToUpperCaseAndRemoveSpaces(f)) {
-            lookupVehicle
+  def submit = Action.async { implicit request =>
+    form.bindFromRequest.fold(
+      invalidForm =>
+        Future {
+          request.cookies.getModel[TraderDetailsModel] match {
+            case Some(traderDetails) => val formWithReplacedErrors = invalidForm.
+              replaceError(VehicleRegistrationNumberId, FormError(key = VehicleRegistrationNumberId, message = "error.restricted.validVrnOnly", args = Seq.empty)).
+              replaceError(DocumentReferenceNumberId, FormError(key = DocumentReferenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
+              distinctErrors
+              BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, formWithReplacedErrors))
+            case None => Redirect(routes.SetUpTradeDetails.present())
           }
-        }
-      )
+        },
+      validForm => {
+        bruteForceAndLookup(convertToUpperCaseAndRemoveSpaces(validForm))
+      }
+    )
   }
 
-  private def convertToUpperCaseAndRemoveSpaces(model: VehicleLookupFormModel) : VehicleLookupFormModel =
+  private def convertToUpperCaseAndRemoveSpaces(model: VehicleLookupFormModel): VehicleLookupFormModel =
     model.copy(registrationNumber = model.registrationNumber.replace(" ", "")
       .toUpperCase)
 
-  def back = Action {
-    implicit request =>
-      request.cookies.getModel[TraderDetailsModel] match {
-        case Some(dealerDetails) =>
-          if (dealerDetails.traderAddress.uprn.isDefined) Redirect(routes.BusinessChooseYourAddress.present())
-          else Redirect(routes.EnterAddressManually.present())
-        case None => Redirect(routes.SetUpTradeDetails.present())
-      }
+  def back = Action { implicit request =>
+    request.cookies.getModel[TraderDetailsModel] match {
+      case Some(dealerDetails) =>
+        if (dealerDetails.traderAddress.uprn.isDefined) Redirect(routes.BusinessChooseYourAddress.present())
+        else Redirect(routes.EnterAddressManually.present())
+      case None => Redirect(routes.SetUpTradeDetails.present())
+    }
   }
 
-  private def checkPermissionToLookup(formModel: VehicleLookupFormModel)(lookupVehicleFunc: ((VehicleLookupFormModel, BruteForcePreventionViewModel) => Future[SimpleResult]))
-                                     (implicit request: Request[_]): Future[SimpleResult] =
+  private def bruteForceAndLookup(formModel: VehicleLookupFormModel)
+                                 (implicit request: Request[_]): Future[SimpleResult] =
     bruteForceService.isVrmLookupPermitted(formModel.registrationNumber).map { response =>
       response // TODO US270 @Lawrence please code review the way we are using map, the lambda (I think we could use _ but it looks strange to read) and flatmap
     } flatMap {
       case Some(bruteForcePreventionViewModel) =>
         // US270: The security micro-service will return a Forbidden (403) message when the vrm is locked, we have hidden that logic as a boolean.
-        if (bruteForcePreventionViewModel.permitted) lookupVehicleFunc(formModel, bruteForcePreventionViewModel)
+        if (bruteForcePreventionViewModel.permitted) lookupVehicleResult(formModel, bruteForcePreventionViewModel)
         else Future {
           val registrationNumber = LogFormats.anonymize(formModel.registrationNumber)
           Logger.warn(s"BruteForceService locked out vrm: $registrationNumber")
@@ -104,65 +92,60 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         Redirect(routes.MicroServiceError.present())
     }
 
-  private def lookupVehicle(model: VehicleLookupFormModel, bruteForcePreventionViewModel: BruteForcePreventionViewModel)(implicit request: Request[_]): Future[SimpleResult] = {
-    def lookupSuccess(vehicleDetailsDto: VehicleDetailsDto) =
+  private def lookupVehicleResult(model: VehicleLookupFormModel, bruteForcePreventionViewModel: BruteForcePreventionViewModel)(implicit request: Request[_]): Future[SimpleResult] = {
+    def vehicleFoundResult(vehicleDetailsDto: VehicleDetailsDto) =
       Redirect(routes.Dispose.present()).
         withCookie(VehicleDetailsModel.fromDto(vehicleDetailsDto)).
         discardingCookie(InterstitialCacheKey) // US320: we have successfully called the lookup service so we cannot be coming back from a dispose success (as the doc id will have changed and the call sould fail).
 
-    def hasVehicleDetails(vehicleDetailsDto: Option[VehicleDetailsDto])(implicit request: Request[_]) = vehicleDetailsDto match {
-      case Some(dto) => lookupSuccess(dto)
-      case None => Redirect(routes.MicroServiceError.present())
-    }
-
-    def lookupHadProblem(responseCode: String) = {
+    def vehicleNotFoundResult(responseCode: String) = {
       Logger.debug(s"VehicleLookup encountered a problem with request ${LogFormats.anonymize(model.referenceNumber)} ${LogFormats.anonymize(model.registrationNumber)}, redirect to VehicleLookupFailure")
       Redirect(routes.VehicleLookupFailure.present()).
         withCookie(key = VehicleLookupResponseCodeCacheKey, value = responseCode)
     }
 
-    def hasResponseCode(vehicleDetailsResponse: VehicleDetailsResponse)(implicit request: Request[_]) =
+    def microServiceErrorResult(message: String) = {
+      Logger.error(message)
+      Redirect(routes.MicroServiceError.present())
+    }
+
+    def createResultFromVehicleLookupResponse(vehicleDetailsResponse: VehicleDetailsResponse)(implicit request: Request[_]) =
       vehicleDetailsResponse.responseCode match {
-        case Some(responseCode) => lookupHadProblem(responseCode) // There is only a response code when there is a problem.
-        case None => hasVehicleDetails(vehicleDetailsResponse.vehicleDetailsDto) // Happy path when there is no response code therefore no problem.
+        case Some(responseCode) => vehicleNotFoundResult(responseCode) // There is only a response code when there is a problem.
+        case None =>
+          // Happy path when there is no response code therefore no problem.
+          vehicleDetailsResponse.vehicleDetailsDto match {
+            case Some(dto) => vehicleFoundResult(dto)
+            case None => microServiceErrorResult(message = "No vehicleDetailsDto found")
+          }
       }
 
-    def hasVehicleDetailsResponse(vehicleDetailsResponse: Option[VehicleDetailsResponse])(implicit request: Request[_]) =
-      vehicleDetailsResponse match {
-        case Some(response) => hasResponseCode(response)
-        case _ => Redirect(routes.MicroServiceError.present()) // TODO write test to achieve code coverage.
-      }
-
-    def isReponseStatusOk(responseStatusVehicleLookupMS: Int,
-                          response: Option[VehicleDetailsResponse])(implicit request: Request[_]) =
+    def vehicleLookupSuccessResponse(responseStatusVehicleLookupMS: Int,
+                                     vehicleDetailsResponse: Option[VehicleDetailsResponse])(implicit request: Request[_]) =
       responseStatusVehicleLookupMS match {
-        case OK => hasVehicleDetailsResponse(response)
-        case _ =>
-          Logger.error(s"VehicleLookup web service call http status not OK, it was: $responseStatusVehicleLookupMS. Problem may come from either vehicle-lookup micro-service or the VSS")
-          Redirect(routes.MicroServiceError.present())
+        case OK =>
+          vehicleDetailsResponse match {
+            case Some(response) => createResultFromVehicleLookupResponse(response)
+            case _ => microServiceErrorResult("No vehicleDetailsResponse found") // TODO write test to achieve code coverage.
+          }
+        case _ => microServiceErrorResult(s"VehicleLookup web service call http status not OK, it was: $responseStatusVehicleLookupMS. Problem may come from either vehicle-lookup micro-service or the VSS")
       }
 
     val trackingId = request.cookies.trackingId()
     val vehicleDetailsRequest = VehicleDetailsRequest(
       referenceNumber = model.referenceNumber,
       registrationNumber = model.registrationNumber,
-      userName = request.cookies.getModel[TraderDetailsModel] match {
-        case Some(traderDetails) => traderDetails.traderName
-        case _ => ""
-      }
+      userName = request.cookies.getModel[TraderDetailsModel].map(_.traderName).getOrElse("")
     )
     vehicleLookupService.invoke(vehicleDetailsRequest, trackingId).map {
-      case (responseStatusVehicleLookupMS: Int, response: Option[VehicleDetailsResponse]) =>
-        //Logger.debug(s"VehicleLookup micro-service call successful response = $response") ToDo Do we need to log this information?
-        import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._
-        isReponseStatusOk(responseStatusVehicleLookupMS = responseStatusVehicleLookupMS,
-          response = response).
+      case (responseStatusVehicleLookupMS: Int, vehicleDetailsResponse: Option[VehicleDetailsResponse]) =>
+        vehicleLookupSuccessResponse(
+          responseStatusVehicleLookupMS = responseStatusVehicleLookupMS,
+          vehicleDetailsResponse = vehicleDetailsResponse).
           withCookie(model).
           withCookie(bruteForcePreventionViewModel)
     }.recover {
-      case e: Throwable =>
-        Logger.debug(s"VehicleLookup Web service call failed. Exception " + e.toString.take(45))
-        Redirect(routes.MicroServiceError.present())
+      case e: Throwable => microServiceErrorResult(message = s"VehicleLookup Web service call failed. Exception " + e.toString.take(45))
     }
   }
 }

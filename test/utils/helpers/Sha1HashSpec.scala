@@ -21,6 +21,6 @@ final class Sha1HashSpec extends WordSpec with Matchers {
     }
   }
 
-  private val sha1Hash = new Sha1Hash // Sharing immutable fixture objects via instance variables
+  private val sha1Hash = new Sha1HashGenerator // Sharing immutable fixture objects via instance variables
   private final val ClearText = "qwerty"
 }

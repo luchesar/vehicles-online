@@ -1,18 +1,15 @@
 package controllers.disposal_of_vehicle
 
-import play.api.mvc._
-import play.api.data.{FormError, Form}
-import play.api.data.Forms._
-import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
-import mappings.disposal_of_vehicle.SetupTradeDetails._
-import common.{ClientSideSessionFactory, CookieImplicits}
-import CookieImplicits.SimpleResultAdapter
-import mappings.common.Postcode._
-import utils.helpers.FormExtensions._
 import com.google.inject.Inject
-import CookieImplicits.FormAdapter
-import mappings.common.AlternateLanguages._
-import play.api.Play.current
+import common.ClientSideSessionFactory
+import common.CookieImplicits.{RichForm, RichSimpleResult}
+import mappings.common.Postcode._
+import mappings.disposal_of_vehicle.SetupTradeDetails._
+import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
+import play.api.data.Forms._
+import play.api.data.{Form, FormError}
+import play.api.mvc._
+import utils.helpers.FormExtensions._
 
 final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -23,25 +20,24 @@ final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: Cli
     )(SetupTradeDetailsModel.apply)(SetupTradeDetailsModel.unapply)
   )
 
-  def present = Action {
-    implicit request =>
-      Ok(views.html.disposal_of_vehicle.setup_trade_details(form.fill()))
+  def present = Action { implicit request =>
+    Ok(views.html.disposal_of_vehicle.setup_trade_details(form.fill()))
   }
 
-  def submit = Action {
-    implicit request =>
-      form.bindFromRequest.fold(
-        formWithErrors => {
-          val formWithReplacedErrors = formWithErrors.
-            replaceError(TraderNameId, FormError(key = TraderNameId, message = "error.validTraderBusinessName", args = Seq.empty)).
-            replaceError(TraderPostcodeId, FormError(key = TraderPostcodeId, message = "error.restricted.validPostcode", args = Seq.empty)).
-            distinctErrors
-          BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors))
-        },
-        f => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(convertToUpperCase(f))
-      )
+  def submit = Action { implicit request =>
+    form.bindFromRequest.fold(
+      invalidForm => {
+        val formWithReplacedErrors = invalidForm.
+          replaceError(TraderNameId, FormError(key = TraderNameId, message = "error.validTraderBusinessName", args = Seq.empty)).
+          replaceError(TraderPostcodeId, FormError(key = TraderPostcodeId, message = "error.restricted.validPostcode", args = Seq.empty)).
+          distinctErrors
+        BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors))
+      },
+      validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(convertToUpperCase(validForm))
+    )
   }
 
-  private def convertToUpperCase(model: SetupTradeDetailsModel) : SetupTradeDetailsModel =
+  // TODO move this method to be on the SetupTradeDetailsModel.
+  private def convertToUpperCase(model: SetupTradeDetailsModel): SetupTradeDetailsModel =
     model.copy(traderBusinessName = model.traderBusinessName.toUpperCase, traderPostcode = model.traderPostcode.toUpperCase)
 }

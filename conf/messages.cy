@@ -286,7 +286,7 @@ widget.optional = (dewisol)
 
 #customer validation messages
 error.restricted.validNumberOnly = Mae''r maes hwn yn derbyn rhifau yn unig
-error.restricted.validVRNOnly = Rhaid bod fformat dilys
+error.restricted.validVrnOnly = Rhaid bod fformat dilys
 error.restricted.validPostcode = Rhaid bod rhwng pump ac wyth cymeriadau ac mewn fformat dilys, ee. PR2 8AE neu PR28AE
 
 datePlaceholder.day = Dydd

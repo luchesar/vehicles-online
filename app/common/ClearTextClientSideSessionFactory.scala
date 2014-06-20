@@ -1,12 +1,7 @@
 package common
 
-import play.api.mvc.Cookie
 import com.google.inject.Inject
-
-
-object ClearTextClientSideSessionFactory {
-  final val DefaultTrackingId = "default_test_tracking_id"
-}
+import play.api.mvc.Cookie
 
 class ClearTextClientSideSessionFactory @Inject()(implicit cookieFlags: CookieFlags) extends ClientSideSessionFactory {
 
@@ -18,9 +13,10 @@ class ClearTextClientSideSessionFactory @Inject()(implicit cookieFlags: CookieFl
       case None => new ClearTextClientSideSession(ClearTextClientSideSessionFactory.DefaultTrackingId)
     }
 
-  private def getTrackingId(request: Traversable[Cookie]): Option[String] = {
-    request.find(_.name == ClientSideSessionFactory.TrackingIdCookieName).map {
-      _.value
-    }
-  }
+  private def getTrackingId(request: Traversable[Cookie]): Option[String] =
+    request.find(_.name == ClientSideSessionFactory.TrackingIdCookieName).map(_.value)
+}
+
+object ClearTextClientSideSessionFactory {
+  final val DefaultTrackingId = "default_test_tracking_id"
 }

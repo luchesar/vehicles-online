@@ -1,21 +1,22 @@
 package common
 
-import utils.helpers.{CookieNameHashing, CookieEncryption}
 import play.api.mvc.Cookie
+import utils.helpers.{CookieEncryption, CookieNameHashGenerator}
 
-class EncryptedClientSideSession(override val trackingId: String, val sessionSecretKey: String)(implicit cookieFlags: CookieFlags,
-                                                                    encryption: CookieEncryption,
-                                                                    cookieNameHashing: CookieNameHashing) extends ClientSideSession {
+class EncryptedClientSideSession(override val trackingId: String,
+                                 val sessionSecretKey: String)
+                                (implicit cookieFlags: CookieFlags,
+                                 encryption: CookieEncryption,
+                                 cookieNameHashGenerator: CookieNameHashGenerator) extends ClientSideSession {
 
-  override def nameCookie(key: String): CookieName =
-    CookieName(cookieNameHashing.hash(sessionSecretKey + key))
+  override def nameCookie(key: String): CookieName = CookieName(cookieNameHashGenerator.hash(sessionSecretKey + key))
 
   override def newCookie(name: CookieName, value: String): Cookie = {
-    val valueCoupledToName = name.value + value
-    val cipherText = encryption.encrypt(valueCoupledToName)
-    cookieFlags.applyToCookie(Cookie(
-      name = name.value,
-      value = cipherText))
+    val nameCoupledToValue = name.value + value
+    val cipherText = encryption.encrypt(nameCoupledToValue)
+    cookieFlags.applyToCookie(
+      Cookie(name = name.value, value = cipherText)
+    )
   }
 
   override def getCookieValue(cookie: Cookie): String = {

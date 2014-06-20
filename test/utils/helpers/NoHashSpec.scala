@@ -15,6 +15,6 @@ final class NoHashSpec extends WordSpec with Matchers {
     }
   }
 
-  private val noHash = new NoHash // Sharing immutable fixture objects via instance variables
+  private val noHash = new NoHashGenerator // Sharing immutable fixture objects via instance variables
   private final val ClearText = "qwerty"
 }

@@ -44,8 +44,8 @@ final class EncryptedClientSideSessionSpec extends WordSpec with Matchers {
   private final val CookieName = "cookieName"
   implicit val noCookieFlags = new NoCookieFlags
   implicit val noEncryption = new NoEncryption with CookieEncryption
-  implicit val noHashing = new NoHash with CookieNameHashing
-  implicit val sha1Hashing = new Sha1Hash with CookieNameHashing
+  implicit val noHashing = new NoHashGenerator with CookieNameHashGenerator
+  implicit val sha1Hashing = new Sha1HashGenerator with CookieNameHashGenerator
 
   private val fakeAppWithConfig = FakeApplication(
     withGlobal = Some(TestGlobal),

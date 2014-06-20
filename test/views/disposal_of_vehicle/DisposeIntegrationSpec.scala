@@ -5,7 +5,7 @@ import pages.disposal_of_vehicle.DisposePage._
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.webbrowser.{WebDriverFactory, TestHarness}
-import org.openqa.selenium.WebDriver
+import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.common.ErrorPanel
 import pages.disposal_of_vehicle._
 import services.fakes.FakeDateServiceImpl._
@@ -53,7 +53,10 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       cacheSetup()
 
       go to DisposePage
-      page.source should include("input type=\"hidden\" name=\"csrfToken\"")
+      val csrf: WebElement = webDriver.findElement(By.name(services.csrf_prevention.CSRFAction.tokenName))
+      csrf.getAttribute("type") should equal("hidden")
+      csrf.getAttribute("name") should equal(services.csrf_prevention.CSRFAction.tokenName)
+      csrf.getAttribute("value").size > 0 should equal(true)
     }
 
   }

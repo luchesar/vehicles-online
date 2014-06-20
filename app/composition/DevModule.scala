@@ -2,13 +2,13 @@ package composition
 
 import app.ConfigProperties._
 import com.tzavellas.sse.guice.ScalaModule
-import services.address_lookup.{AddressLookupWebService, AddressLookupService}
-import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebServiceImpl, VehicleLookupWebService}
-import services.dispose_service.{DisposeWebServiceImpl, DisposeWebService, DisposeServiceImpl, DisposeService}
-import services.{DateServiceImpl, DateService}
-import utils.helpers._
 import common._
+import services.address_lookup._
 import services.brute_force_prevention._
+import services.dispose_service.{DisposeService, DisposeServiceImpl, DisposeWebService, DisposeWebServiceImpl}
+import services.vehicle_lookup.{VehicleLookupService, VehicleLookupServiceImpl, VehicleLookupWebService, VehicleLookupWebServiceImpl}
+import services.{DateService, DateServiceImpl, brute_force_prevention}
+import utils.helpers._
 
 /**
  * Provides real implementations of traits
@@ -22,11 +22,13 @@ import services.brute_force_prevention._
  */
 object DevModule extends ScalaModule {
   def configure() {
-    //Logger.debug("Guice is loading DevModule")
-
     getProperty("addressLookupService.type", "ordnanceSurvey") match {
-      case "ordnanceSurvey" => ordnanceSurveyAddressLookup()
-      case _ => gdsAddressLookup()
+      case "ordnanceSurvey" =>
+        bind[AddressLookupService].to[ordnance_survey.AddressLookupServiceImpl].asEagerSingleton()
+        bind[AddressLookupWebService].to[ordnance_survey.WebServiceImpl].asEagerSingleton()
+      case _ =>
+        bind[AddressLookupService].to[gds.AddressLookupServiceImpl].asEagerSingleton()
+        bind[AddressLookupWebService].to[gds.WebServiceImpl].asEagerSingleton()
     }
     bind[VehicleLookupWebService].to[VehicleLookupWebServiceImpl].asEagerSingleton()
     bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton()
@@ -35,28 +37,15 @@ object DevModule extends ScalaModule {
     bind[DateService].to[DateServiceImpl].asEagerSingleton()
     bind[CookieFlags].to[CookieFlagsFromConfig].asEagerSingleton()
 
-    val encryptCookies = getProperty("encryptCookies", default = true)
-    if (encryptCookies) {
+    if (getProperty("encryptCookies", default = true)) {
       bind[CookieEncryption].toInstance(new AesEncryption with CookieEncryption)
-      bind[CookieNameHashing].toInstance(new Sha1Hash with CookieNameHashing)
+      bind[CookieNameHashGenerator].toInstance(new Sha1HashGenerator with CookieNameHashGenerator)
       bind[ClientSideSessionFactory].to[EncryptedClientSideSessionFactory].asEagerSingleton()
     } else {
       bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
     }
 
-    bind[BruteForcePreventionWebService].to[services.brute_force_prevention.WebServiceImpl].asEagerSingleton()
+    bind[BruteForcePreventionWebService].to[brute_force_prevention.WebServiceImpl].asEagerSingleton()
     bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
-  }
-
-  private def ordnanceSurveyAddressLookup() = {
-    //Logger.debug("IoC ordnance survey address lookup service") //ToDo Do we need to log which address service we are using, this is displayed when calling the service
-    bind[AddressLookupService].to[services.address_lookup.ordnance_survey.AddressLookupServiceImpl].asEagerSingleton()
-    bind[AddressLookupWebService].to[services.address_lookup.ordnance_survey.WebServiceImpl].asEagerSingleton()
-  }
-
-  private def gdsAddressLookup() = {
-    //Logger.debug("IoC gds address lookup service")
-    bind[AddressLookupService].to[services.address_lookup.gds.AddressLookupServiceImpl].asEagerSingleton()
-    bind[AddressLookupWebService].to[services.address_lookup.gds.WebServiceImpl].asEagerSingleton()
   }
 }

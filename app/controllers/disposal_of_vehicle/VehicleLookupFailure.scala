@@ -6,7 +6,7 @@ import com.google.inject.Inject
 import models.domain.disposal_of_vehicle.{BruteForcePreventionViewModel, TraderDetailsModel, VehicleLookupFormModel}
 import mappings.disposal_of_vehicle.VehicleLookup._
 import common.{ClientSideSessionFactory, CookieImplicits}
-import CookieImplicits.RequestCookiesAdapter
+import CookieImplicits.RichCookies
 import mappings.common.AlternateLanguages._
 import play.api.mvc.DiscardingCookie
 import play.api.Play.current

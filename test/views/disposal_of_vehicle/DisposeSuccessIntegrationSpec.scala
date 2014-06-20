@@ -5,7 +5,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import mappings.common.Interstitial._
-import org.openqa.selenium.WebDriver
+import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.disposal_of_vehicle.DisposeSuccessPage._
 import pages.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.RelatedCacheKeys
@@ -91,7 +91,10 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       cacheSetup()
 
       go to DisposeSuccessPage
-      page.source should include("input type=\"hidden\" name=\"csrfToken\"")
+      val csrf: WebElement = webDriver.findElement(By.name(services.csrf_prevention.CSRFAction.tokenName))
+      csrf.getAttribute("type") should equal("hidden")
+      csrf.getAttribute("name") should equal(services.csrf_prevention.CSRFAction.tokenName)
+      csrf.getAttribute("value").size > 0 should equal(true)
     }
   }
 
