@@ -5,7 +5,7 @@ import pages.disposal_of_vehicle.VrmLockedPage._
 import helpers.UiSpec
 import helpers.webbrowser.TestHarness
 import pages.disposal_of_vehicle._
-import org.openqa.selenium.WebDriver
+import org.openqa.selenium.{By, WebElement, WebDriver}
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 
@@ -21,7 +21,10 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
       go to VrmLockedPage
-      page.source should include("input type=\"hidden\" name=\"csrfToken\"")
+      val csrf: WebElement = webDriver.findElement(By.name(services.csrf_prevention.CSRFAction.tokenName))
+      csrf.getAttribute("type") should equal("hidden")
+      csrf.getAttribute("name") should equal(services.csrf_prevention.CSRFAction.tokenName)
+      csrf.getAttribute("value").size > 0 should equal(true)
     }
 
   }

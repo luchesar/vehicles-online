@@ -1,14 +1,14 @@
 package helpers.common
 
-import org.scalatest.{Matchers, WordSpec}
+import helpers.UnitSpec
 
-class RandomVrmGeneratorTest  extends WordSpec with Matchers {
+final class RandomVrmGeneratorSpec extends UnitSpec {
 
   "Random vrm generator" should {
     "not generate the same vrm twice" in {
       val first = RandomVrmGenerator.vrm
       val second = RandomVrmGenerator.vrm
-      first should not equal(second)
+      first should not equal second
     }
 
   }

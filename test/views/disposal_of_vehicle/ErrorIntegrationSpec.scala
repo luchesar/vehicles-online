@@ -5,7 +5,7 @@ import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import pages.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import org.openqa.selenium.WebDriver
+import org.openqa.selenium.{By, WebElement, WebDriver}
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import pages.disposal_of_vehicle.ErrorPage.startAgain
 
@@ -24,7 +24,10 @@ final class ErrorIntegrationSpec extends UiSpec with TestHarness {
       cacheSetup()
 
       go to ErrorPage
-      page.source should include("input type=\"hidden\" name=\"csrfToken\"")
+      val csrf: WebElement = webDriver.findElement(By.name(services.csrf_prevention.CSRFAction.tokenName))
+      csrf.getAttribute("type") should equal("hidden")
+      csrf.getAttribute("name") should equal(services.csrf_prevention.CSRFAction.tokenName)
+      csrf.getAttribute("value").size > 0 should equal(true)
     }
   }
 
