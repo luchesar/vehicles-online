@@ -22,9 +22,9 @@ object DisposePage extends Page with WebBrowserDSL {
 
   def consent(implicit driver: WebDriver): Checkbox = checkbox(id(ConsentId))
 
-  def lossOfRegistrationConsent(implicit driver: WebDriver): Checkbox = checkbox(id(LossOfRegistrationConsentId))
+  def lossOfRegistrationConsent(implicit driver: WebDriver): Element = find(id(LossOfRegistrationConsentId)).get
 
-  def useTodaysDate(implicit driver: WebDriver): Checkbox = checkbox(id(TodaysDateOfDisposal))
+  def useTodaysDate(implicit driver: WebDriver): Element = find(id(TodaysDateOfDisposal)).get
 
   def back(implicit driver: WebDriver): Element = find(id(BackId)).get
 
