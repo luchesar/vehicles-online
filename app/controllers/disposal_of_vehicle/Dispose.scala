@@ -182,7 +182,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
     def handleHttpStatusCode(statusCode: Int): Call =
       statusCode match {
-        case OK => routes.Interstitial.present()
+        case OK => routes.DisposeSuccess.present()
         case SERVICE_UNAVAILABLE => routes.SoapEndpointError.present()
         case _ => routes.MicroServiceError.present()
       }

@@ -28,7 +28,7 @@ final class DisposeSuccess @Inject()()(implicit clientSideSessionFactory: Client
   def newDisposal = Action { implicit request =>
     (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleDetailsModel]) match {
       case (Some(traderDetails), Some(vehicleDetails)) =>
-        Redirect(routes.Interstitial.present()).
+        Redirect(routes.VehicleLookup.present()).
           discardingCookies(RelatedCacheKeys.DisposeSet).
           withCookie(InterstitialCacheKey, routes.VehicleLookup.present().url)
       case _ => Redirect(routes.SetUpTradeDetails.present())
@@ -36,7 +36,7 @@ final class DisposeSuccess @Inject()()(implicit clientSideSessionFactory: Client
   }
 
   def exit = Action { implicit request =>
-    Redirect(routes.Interstitial.present()).
+    Redirect(routes.BeforeYouStart.present()).
       discardingCookies(RelatedCacheKeys.FullSet).
       withCookie(InterstitialCacheKey, routes.BeforeYouStart.present().url)
   }
