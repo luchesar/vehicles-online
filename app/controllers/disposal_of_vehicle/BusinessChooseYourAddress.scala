@@ -84,11 +84,11 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       distinctErrors
 
   private def fetchAddresses(model: SetupTradeDetailsModel)(implicit session: ClientSideSession, lang: Lang) =
-    addressLookupService.fetchAddressesForPostcode(model.traderPostcode)
+    addressLookupService.fetchAddressesForPostcode(model.traderPostcode, session.trackingId)
 
   private def lookupUprn(model: BusinessChooseYourAddressModel, traderName: String)
                         (implicit request: Request[_], session: ClientSideSession) = {
-    val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString)
+    val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString, session.trackingId)
     lookedUpAddress.map {
       case Some(addressViewModel) =>
         val traderDetailsModel = TraderDetailsModel(traderName = traderName, traderAddress = addressViewModel)

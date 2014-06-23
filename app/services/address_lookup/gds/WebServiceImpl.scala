@@ -6,8 +6,8 @@ import play.api.Logger
 import utils.helpers.Config
 import services.address_lookup.AddressLookupWebService
 import com.google.inject.Inject
-import common.ClientSideSession
 import play.api.i18n.Lang
+import services.HttpHeaders
 
 final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebService {
   private val baseUrl: String = config.gdsAddressLookupBaseUrl
@@ -17,22 +17,24 @@ final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebSer
   def postcodeWithNoSpaces(postcode: String): String = postcode.filter(_ != ' ')
 
   // request should look like    (GET, "/addresses?postcode=kt70ej").withHeaders(validAuthHeader)
-  override def callPostcodeWebService(postcode: String)
-                                     (implicit session: ClientSideSession, lang: Lang): Future[Response] = {
+  override def callPostcodeWebService(postcode: String, trackingId: String)
+                                     (implicit lang: Lang): Future[Response] = {
     val endPoint = s"$baseUrl/addresses?postcode=${ postcodeWithNoSpaces(postcode) }"
     Logger.debug(s"Calling GDS postcode lookup service on $endPoint...")
     WS.url(endPoint).
       withHeaders("AUTHORIZATION" -> authorisation).
+      withHeaders(HttpHeaders.TrackingId -> trackingId).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
       get()
   }
 
-  override def callUprnWebService(uprn: String)
-                                 (implicit session: ClientSideSession, lang: Lang): Future[Response] = {
+  override def callUprnWebService(uprn: String, trackingId: String)
+                                 (implicit lang: Lang): Future[Response] = {
     val endPoint = s"$baseUrl/uprn?uprn=$uprn"
     Logger.debug(s"Calling GDS uprn lookup service on $endPoint...")
     WS.url(endPoint).
       withHeaders("AUTHORIZATION" -> authorisation).
+      withHeaders(HttpHeaders.TrackingId -> trackingId).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
       get()
   }
