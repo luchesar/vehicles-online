@@ -1,8 +1,8 @@
 package models.domain.common
 
-import org.scalatest.{Matchers, WordSpec}
+import helpers.UnitSpec
 
-final class AddressAndPostcodeSpec extends WordSpec with Matchers {
+final class AddressAndPostcodeSpec extends UnitSpec {
   "Address - model" should {
     "return expected toString value" in {
       val address = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(buildingNameOrNumber = "abcd",

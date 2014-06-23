@@ -8,5 +8,4 @@ import org.scalatest.time.{Second, Span}
 
 abstract class UnitSpec extends WordSpec with Matchers with MockitoSugar with ScalaFutures {
   protected val timeout = Timeout(Span(1, Second))
-
 }
