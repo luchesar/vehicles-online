@@ -12,47 +12,47 @@ import scala.Some
 import utils.helpers.AesEncryption
 import composition.Composition
 
-final case class CSRFException(nestedException: Throwable) extends Exception(nestedException: Throwable)
+final case class CSRFPreventionException(nestedException: Throwable) extends Exception(nestedException: Throwable)
 
-class CSRFAction(next: EssentialAction) extends EssentialAction {
+class CSRFPreventionAction(next: EssentialAction) extends EssentialAction {
 
-  import CSRFAction._
+  import CSRFPreventionAction._
 
-  def apply(request: RequestHeader) = {
+  def apply(requestHeader: RequestHeader) = {
 
     // check if csrf prevention is switched on
     if (csrfPrevention) {
 
-      if (request.method == "POST") {
+      if (requestHeader.method == "POST") {
 
         val headerToken =
-          buildTokenWithReferer(clientSideSessionFactory.getSession(request.cookies).trackingId, request.headers)
+          buildTokenWithReferer(clientSideSessionFactory.getSession(requestHeader.cookies).trackingId, requestHeader.headers)
 
-        if (request.contentType.get == "application/x-www-form-urlencoded") {
-          checkBody(request, headerToken, next)
+        if (requestHeader.contentType.get == "application/x-www-form-urlencoded") {
+          checkBody(requestHeader, headerToken, next)
         } else {
-          throw new CSRFException(new Throwable("No CSRF token found in body"))
+          throw new CSRFPreventionException(new Throwable("No CSRF token found in body"))
         }
 
-      } else if (request.method == "GET" && request.accepts("text/html")) {
+      } else if (requestHeader.method == "GET" && requestHeader.accepts("text/html")) {
 
         // No token in header and we have to create one if not found, so create a new token
-        val newToken = buildTokenWithUri(clientSideSessionFactory.getSession(request.cookies).trackingId, request.uri)
+        val newToken = buildTokenWithUri(clientSideSessionFactory.getSession(requestHeader.cookies).trackingId, requestHeader.uri)
 
         val newEncryptedToken = aesEncryption.encrypt(newToken)
 
         val newSignedEncryptedToken = Crypto.signToken(newEncryptedToken)
 
-        val requestWithNewToken = request.copy(tags = request.tags + ("CSRF_TOKEN" -> newSignedEncryptedToken))
+        val requestWithNewToken = requestHeader.copy(tags = requestHeader.tags + ("CSRF_PREVENTION_TOKEN" -> newSignedEncryptedToken))
 
         // Once done, add it to the result
         next(requestWithNewToken)
 
       } else {
-        next(request)
+        next(requestHeader)
       }
     } else {
-      next(request)
+      next(requestHeader)
     }
   }
 
@@ -73,11 +73,11 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
               _ => false,
               // valid token found
               body => (for {
-                values <- identity(body).get(tokenName)
+                values <- identity(body).get(csrfPreventionTokenName)
                 token <- values.headOption
               } yield {
                 val decryptedExtractedSignedToken = aesEncryption.decrypt(Crypto.extractSignedToken(token).getOrElse(
-                  throw new CSRFException(new Throwable("Invalid token found in form body"))))
+                  throw new CSRFPreventionException(new Throwable("Invalid token found in form body"))))
                 val splitDecryptedExtractedSignedToken = splitToken(decryptedExtractedSignedToken)
                 val splitTokenFromHeader = splitToken(headerToken)
                 ((splitDecryptedExtractedSignedToken._1 == splitTokenFromHeader._1) &&
@@ -88,7 +88,7 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
             if (validToken) {
               Iteratee.flatten(Enumerator(bytes) |>> next(request))
             } else {
-              throw new CSRFException(new Throwable("Invalid token found in form body"))
+              throw new CSRFPreventionException(new Throwable("Invalid token found in form body"))
             }
         })
     }
@@ -97,42 +97,36 @@ class CSRFAction(next: EssentialAction) extends EssentialAction {
 
 }
 
-object CSRFAction {
+object CSRFPreventionAction {
 
   implicit val clientSideSessionFactory = Composition.devInjector.getInstance(classOf[ClientSideSessionFactory])
 
   def aesEncryption = new AesEncryption()
 
-  def tokenName: String = "csrfToken"
+  def csrfPreventionTokenName: String = "csrf_prevention_Token"
 
   def csrfPrevention = getProperty("csrf.prevention", default = true)
 
-  case class Token(value: String)
+  case class CSRFPreventionToken(value: String)
 
-  object Token {
-
-    val Delimiter = "-"
-
-    implicit def getToken(implicit request: RequestHeader): Token = {
-      CSRFAction.getToken(request).getOrElse(sys.error("Missing CSRF Token"))
-    }
+  val Delimiter = "-"
+  
+  // TODO : Trap the missing token exception differently?
+  implicit def getToken(implicit request: RequestHeader): CSRFPreventionToken = {
+    Some(CSRFPreventionToken(Crypto.signToken(aesEncryption.encrypt(
+      buildTokenWithUri(clientSideSessionFactory.getSession(request.cookies).trackingId, request.uri))))).getOrElse(throw new CSRFPreventionException(throw new Throwable("No CSRF token found")))
   }
 
-  def getToken(request: RequestHeader): Option[Token] = {
-    Some(Token(Crypto.signToken(aesEncryption.encrypt(
-      buildTokenWithUri(clientSideSessionFactory.getSession(request.cookies).trackingId, request.uri)))))
+  private def buildTokenWithReferer(trackingId: String, requestHeaders: Headers) = {
+    trackingId + Delimiter + requestHeaders.get("Referer")
   }
 
-  def buildTokenWithReferer(trackingId: String, requestHeaders: Headers) = {
-    trackingId + Token.Delimiter + requestHeaders.get("Referer")
+  private def buildTokenWithUri(trackingId: String, uri: String) = {
+    trackingId + Delimiter + uri
   }
 
-  def buildTokenWithUri(trackingId: String, uri: String) = {
-    trackingId + Token.Delimiter + uri
-  }
-
-  def splitToken(token: String): (String, String) = {
-    (token.split(Token.Delimiter)(0), token.drop(token.indexOf(Token.Delimiter) + 1))
+  private def splitToken(token: String): (String, String) = {
+    (token.split(Delimiter)(0), token.drop(token.indexOf(Delimiter) + 1))
   }
 
 }

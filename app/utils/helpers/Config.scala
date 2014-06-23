@@ -27,7 +27,7 @@ class Config {
   val bruteForcePreventionTimeout: Int = getProperty("bruteForcePrevention.requesttimeout", (5 seconds).toMillis.toInt)
   val bruteForcePreventionEnabled: Boolean = {
     val enabled = getProperty("bruteForcePrevention.enabled", default = true)
-    //Logger.debug(s"bruteForcePreventionEnabled = $enabled") //ToDo Do we need to log this information?
+    //Logger.debug(s"bruteForcePreventionEnabled = $enabled")
     enabled
   }
   val bruteForcePreventionServiceNameHeader: String = getProperty("bruteForcePrevention.headers.serviceName", "")

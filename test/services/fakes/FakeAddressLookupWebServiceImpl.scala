@@ -1,6 +1,5 @@
 package services.fakes
 
-import common.ClientSideSession
 import models.domain.disposal_of_vehicle.{AddressViewModel, UprnToAddressResponse, UprnAddressPair, PostcodeToAddressResponse}
 import play.api.http.Status._
 import play.api.libs.json.Json
@@ -18,15 +17,15 @@ import services.fakes.FakeAddressLookupService.PostcodeValid
 
 final class FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                                             responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
-  override def callPostcodeWebService(postcode: String)
-                                     (implicit session: ClientSideSession, lang: Lang): Future[Response] =
+  override def callPostcodeWebService(postcode: String, trackingId: String)
+                                     (implicit lang: Lang): Future[Response] =
     if (postcode == PostcodeInvalid.toUpperCase) Future {
       FakeResponse(status = OK, fakeJson = None)
     }
     else responseOfPostcodeWebService
 
-  override def callUprnWebService(uprn: String)
-                                 (implicit session: ClientSideSession, lang: Lang): Future[Response] = responseOfUprnWebService
+  override def callUprnWebService(uprn: String, trackingId: String)
+                                 (implicit lang: Lang): Future[Response] = responseOfUprnWebService
 }
 
 object FakeAddressLookupWebServiceImpl {

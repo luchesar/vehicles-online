@@ -1,6 +1,6 @@
 package services.address_lookup.ordnance_survey
 
-import common.{ClearTextClientSideSession, ClientSideSession, ClientSideSessionFactory, NoCookieFlags}
+import common.{ClientSideSessionFactory, NoCookieFlags}
 import helpers.{UnitSpec, WireMockFixture}
 import org.scalatest.concurrent.PatienceConfiguration.Interval
 import org.scalatest.time.SpanSugar._
@@ -9,7 +9,6 @@ import services.HttpHeaders
 import services.fakes.FakeAddressLookupService._
 import utils.helpers.Config
 import com.github.tomakehurst.wiremock.client.WireMock._
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration._
 
 final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
 
@@ -17,7 +16,6 @@ final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
   val interval = Interval(50 millis)
 
   implicit val noCookieFlags = new NoCookieFlags
-  implicit val clientSideSession: ClientSideSession = new ClearTextClientSideSession(trackingIdValue)
 
   import composition.TestComposition.{testInjector => injector}
 
@@ -45,7 +43,7 @@ final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
     "send the trackingId to the PostcodeWebService" in {
       val postCode = "N193NN"
 
-      val futureResult = addressLookupService.callPostcodeWebService(postCode)(clientSideSession, lang = Lang("en"))
+      val futureResult = addressLookupService.callPostcodeWebService(postCode, trackingIdValue)(lang = Lang("en"))
 
       whenReady(futureResult, timeout, interval) { result =>
         wireMock.verifyThat(1, getRequestedFor(
@@ -57,7 +55,7 @@ final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
     "send the trackingId to the callUprnWebService" in {
       val postCode = "N193NN"
 
-      val futureResult = addressLookupService.callUprnWebService(postCode)(clientSideSession, Lang("en"))
+      val futureResult = addressLookupService.callUprnWebService(postCode, trackingIdValue)(Lang("en"))
 
       whenReady(futureResult, timeout, interval) { result =>
         wireMock.verifyThat(1, getRequestedFor(
