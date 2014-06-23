@@ -2,8 +2,8 @@ package services.csrf_prevention
 
 import play.api.mvc._
 
-class CSRFFilter() extends EssentialFilter {
+class CSRFPreventionFilter() extends EssentialFilter {
   def apply(next: EssentialAction): EssentialAction = {
-    new CSRFAction(next)
+    new CSRFPreventionAction(next)
   }
 }

@@ -1,4 +1,4 @@
-@(data: models.domain.disposal_of_vehicle.TraderDetailsModel, vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang, token: services.csrf_prevention.CSRFAction.Token)
+@(data: models.domain.disposal_of_vehicle.TraderDetailsModel, vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
 @import helper._
 @import utils.helpers.BaseTemplate._
