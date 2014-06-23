@@ -7,9 +7,7 @@ import models.domain.disposal_of_vehicle.{BruteForcePreventionViewModel, TraderD
 import mappings.disposal_of_vehicle.VehicleLookup._
 import common.{ClientSideSessionFactory, CookieImplicits}
 import CookieImplicits.RichCookies
-import mappings.common.AlternateLanguages._
 import play.api.mvc.DiscardingCookie
-import play.api.Play.current
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
