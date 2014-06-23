@@ -197,7 +197,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
           mileage = disposeFormModel.mileage)
         callMicroService(disposeModel, traderDetails)
       case _ => Future {
-        Logger.error("Could not find dealer details in cache on Dispose submit")
+        Logger.error("Could not find either dealer details or VehicleLookupFormModel in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present())
       }
     }
