@@ -1,8 +1,8 @@
 package common
 
-import org.scalatest.{Matchers, WordSpec}
+import helpers.UnitSpec
 
-class LogFormatsUnitSpec extends WordSpec with Matchers{
+class LogFormatsUnitSpec extends UnitSpec {
 
   "Anonymize" should {
     "empty string should return nothing" in {
