@@ -7,7 +7,7 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.EnterAddressManually._
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._
-import mappings.common.Interstitial.InterstitialCacheKey
+import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
 
 object RelatedCacheKeys {
   final val SeenCookieMessageKey = "seen_cookie_message"
@@ -37,5 +37,5 @@ object RelatedCacheKeys {
       BusinessChooseYourAddressCacheKey,
       EnterAddressManuallyCacheKey)
 
-  val FullSet = TradeDetailsSet ++ DisposeSet ++ Set(InterstitialCacheKey)
+  val FullSet = TradeDetailsSet ++ DisposeSet ++ Set(PreventGoingToDisposePageCacheKey)
 }

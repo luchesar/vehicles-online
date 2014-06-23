@@ -1,7 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import helpers.common.CookieHelper
-import mappings.common.Interstitial._
+import mappings.common.PreventGoingToDisposePage._
 import play.api.test.Helpers._
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
@@ -192,10 +192,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(c => c.name == InterstitialCacheKey) match {
-            case Some(c) => c.value should equal(VehicleLookupPage.address)
-            case None => fail("Interstitial cookie should exist")
-          }
+          cookies.exists(c => c.name == PreventGoingToDisposePageCacheKey) should equal(true)
       }
     }
   }
@@ -229,10 +226,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(c => c.name == InterstitialCacheKey) match {
-            case Some(c) => c.value should equal(BeforeYouStartPage.address)
-            case None => fail("Interstitial cookie should exist")
-          }
+          cookies.exists(c => c.name == PreventGoingToDisposePageCacheKey) should equal(true)
       }
     }
   }
