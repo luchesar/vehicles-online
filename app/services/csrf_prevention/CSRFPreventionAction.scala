@@ -14,6 +14,14 @@ import composition.Composition
 
 final case class CSRFPreventionException(nestedException: Throwable) extends Exception(nestedException: Throwable)
 
+/**
+ * This class is based upon the Play's v2.2 CSRF protection. It has been stripped of code not relevant to this project, and
+ * project specific exception handling and encryption has been added. The unmarshalling and onward streaming in the
+ * checkBody method is as Play intended it apart from the token comparison.
+ *
+ * https://www.playframework.com/documentation/2.2.x/ScalaCsrf
+ *
+ */
 class CSRFPreventionAction(next: EssentialAction) extends EssentialAction {
 
   import CSRFPreventionAction._
