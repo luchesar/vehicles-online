@@ -4,7 +4,7 @@ import com.google.inject.Inject
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import common.{ClientSideSessionFactory, LogFormats}
 import mappings.common.DocumentReferenceNumber._
-import mappings.common.Interstitial.InterstitialCacheKey
+import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
 import mappings.common.VehicleRegistrationNumber._
 import mappings.disposal_of_vehicle.VehicleLookup._
 import models.domain.common.BruteForcePreventionResponse._
@@ -96,7 +96,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     def vehicleFoundResult(vehicleDetailsDto: VehicleDetailsDto) =
       Redirect(routes.Dispose.present()).
         withCookie(VehicleDetailsModel.fromDto(vehicleDetailsDto)).
-        discardingCookie(InterstitialCacheKey) // US320: we have successfully called the lookup service so we cannot be coming back from a dispose success (as the doc id will have changed and the call sould fail).
+        discardingCookie(PreventGoingToDisposePageCacheKey) // US320: we have successfully called the lookup service so we cannot be coming back from a dispose success (as the doc id will have changed and the call sould fail).
 
     def vehicleNotFoundResult(responseCode: String) = {
       Logger.debug(s"VehicleLookup encountered a problem with request ${LogFormats.anonymize(model.referenceNumber)} ${LogFormats.anonymize(model.registrationNumber)}, redirect to VehicleLookupFailure")

@@ -6,7 +6,7 @@ import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import constraints.common.DayMonthYear._
 import mappings.common.Consent._
 import mappings.common.DayMonthYear.dayMonthYear
-import mappings.common.Interstitial.InterstitialCacheKey
+import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
 import mappings.common.Mileage._
 import mappings.disposal_of_vehicle.Dispose._
 import models.domain.disposal_of_vehicle._
@@ -37,7 +37,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
   )
 
   def present = Action { implicit request =>
-    (request.cookies.getModel[TraderDetailsModel], request.cookies.getString(InterstitialCacheKey)) match {
+    (request.cookies.getModel[TraderDetailsModel], request.cookies.getString(PreventGoingToDisposePageCacheKey)) match {
       case (Some(traderDetails), None) =>
         request.cookies.getModel[VehicleDetailsModel] match {
           case (Some(vehicleDetails)) =>
@@ -49,7 +49,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         // US320 Kick them back to the VehicleLookup page if they arrive here by any route other that clicking the
         // "Exit" or "New Dispose" buttons.
         Redirect(routes.VehicleLookup.present()).
-          discardingCookie(InterstitialCacheKey)
+          discardingCookie(PreventGoingToDisposePageCacheKey)
       case _ => Redirect(routes.SetUpTradeDetails.present())
     }
   }
@@ -68,7 +68,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
           }
         },
       validForm => {
-        request.cookies.getString(InterstitialCacheKey) match {
+        request.cookies.getString(PreventGoingToDisposePageCacheKey) match {
           case Some(_) => Future {
             Redirect(routes.VehicleLookup.present())
           } // US320 prevent user using the browser back button and resubmitting.
@@ -122,7 +122,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
             map(_.withCookie(disposeFormModel)).
             map(storeResponseInCache(response, _)).
             map(transactionTimestamp).
-            map(_.withCookie(InterstitialCacheKey, routes.DisposeSuccess.present().url)). // US320 interstitial should redirect to DisposeSuccess.
+            map(_.withCookie(PreventGoingToDisposePageCacheKey, "")). // US320 interstitial should redirect to DisposeSuccess.
             get
       }.recover {
         case e: Throwable =>
@@ -182,7 +182,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
     def handleHttpStatusCode(statusCode: Int): Call =
       statusCode match {
-        case OK => routes.Interstitial.present()
+        case OK => routes.DisposeSuccess.present()
         case SERVICE_UNAVAILABLE => routes.SoapEndpointError.present()
         case _ => routes.MicroServiceError.present()
       }
@@ -197,7 +197,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
           mileage = disposeFormModel.mileage)
         callMicroService(disposeModel, traderDetails)
       case _ => Future {
-        Logger.error("Could not find dealer details in cache on Dispose submit")
+        Logger.error("Could not find either dealer details or VehicleLookupFormModel in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present())
       }
     }

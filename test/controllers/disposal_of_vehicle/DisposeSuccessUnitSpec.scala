@@ -1,8 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import helpers.common.CookieHelper
-import mappings.common.Interstitial._
-import pages.common.InterstitialPage
+import mappings.common.PreventGoingToDisposePage._
 import play.api.test.Helpers._
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
@@ -11,7 +10,6 @@ import composition.TestComposition.{testInjector => injector}
 import helpers.WithApplication
 import play.api.test.FakeRequest
 import CookieHelper._
-import scala.Some
 import play.api.Play
 
 final class DisposeSuccessUnitSpec extends UnitSpec {
@@ -112,7 +110,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.disposeModel())
       val result = disposeSuccess.newDisposal(request)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(InterstitialPage.address))
+        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
 
@@ -194,10 +192,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(c => c.name == InterstitialCacheKey) match {
-            case Some(c) => c.value should equal(VehicleLookupPage.address)
-            case None => fail("Interstitial cookie should exist")
-          }
+          cookies.exists(c => c.name == PreventGoingToDisposePageCacheKey) should equal(true)
       }
     }
   }
@@ -214,7 +209,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.disposeModel())
       val result = disposeSuccess.exit(request)
       whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(InterstitialPage.address))
+        r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
       }
     }
 
@@ -231,10 +226,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(c => c.name == InterstitialCacheKey) match {
-            case Some(c) => c.value should equal(BeforeYouStartPage.address)
-            case None => fail("Interstitial cookie should exist")
-          }
+          cookies.exists(c => c.name == PreventGoingToDisposePageCacheKey) should equal(true)
       }
     }
   }

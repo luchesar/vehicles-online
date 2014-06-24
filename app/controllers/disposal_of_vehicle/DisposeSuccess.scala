@@ -3,7 +3,7 @@ package controllers.disposal_of_vehicle
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
-import mappings.common.Interstitial._
+import mappings.common.PreventGoingToDisposePage._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeViewModel, TraderDetailsModel, VehicleDetailsModel}
@@ -28,17 +28,17 @@ final class DisposeSuccess @Inject()()(implicit clientSideSessionFactory: Client
   def newDisposal = Action { implicit request =>
     (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleDetailsModel]) match {
       case (Some(traderDetails), Some(vehicleDetails)) =>
-        Redirect(routes.Interstitial.present()).
+        Redirect(routes.VehicleLookup.present()).
           discardingCookies(RelatedCacheKeys.DisposeSet).
-          withCookie(InterstitialCacheKey, routes.VehicleLookup.present().url)
+          withCookie(PreventGoingToDisposePageCacheKey, "")
       case _ => Redirect(routes.SetUpTradeDetails.present())
     }
   }
 
   def exit = Action { implicit request =>
-    Redirect(routes.Interstitial.present()).
+    Redirect(routes.BeforeYouStart.present()).
       discardingCookies(RelatedCacheKeys.FullSet).
-      withCookie(InterstitialCacheKey, routes.BeforeYouStart.present().url)
+      withCookie(PreventGoingToDisposePageCacheKey, "")
   }
 
   private def createViewModel(traderDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel, transactionId: Option[String],

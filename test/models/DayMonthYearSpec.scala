@@ -1,12 +1,12 @@
 package models
 
-import org.scalatest.{Matchers, WordSpec}
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import scala.util.Try
 import scala.language.postfixOps
+import helpers.UnitSpec
 
-final class DayMonthYearSpec extends WordSpec with Matchers {
+final class DayMonthYearSpec extends UnitSpec {
   "DayMonthYear" should {
     "return the correct 'yyyy-MM-dd' date format" in {
       val dmy = DayMonthYear(1, 1, 1963)

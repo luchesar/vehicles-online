@@ -157,8 +157,8 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def interstitial(url: String)(implicit webDriver: WebDriver) = {
-    val key = mappings.common.Interstitial.InterstitialCacheKey
+  def preventGoingToDisposePage(url: String)(implicit webDriver: WebDriver) = {
+    val key = mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
     val value = url
     addCookie(key, value)
     this

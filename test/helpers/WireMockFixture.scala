@@ -10,7 +10,7 @@ import org.scalatest.{Suite, SuiteMixin, BeforeAndAfterEach}
 
 import scala.collection.mutable
 
-trait WireMockFixture  extends Suite with SuiteMixin with BeforeAndAfterEach {
+trait WireMockFixture extends Suite with SuiteMixin with BeforeAndAfterEach {
 
   val wireMockPort: Int = {
     val serverSocket = new ServerSocket(0)

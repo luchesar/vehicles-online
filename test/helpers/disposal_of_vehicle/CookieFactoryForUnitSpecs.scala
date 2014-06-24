@@ -24,7 +24,7 @@ import common.{ClientSideSessionFactory, CookieFlags, ClearTextClientSideSession
 import composition.TestComposition.{testInjector => injector}
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
-import mappings.common.Interstitial.InterstitialCacheKey
+import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
 import play.api.mvc.Cookie
 
 object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by returning "this" at the end of the defs
@@ -174,6 +174,6 @@ object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by retur
     createCookie(key, value)
   }
 
-  def interstitial(url: String = "NOT SET") =
-    createCookie(InterstitialCacheKey, url)
+  def preventGoingToDisposePage(payload: String = "") =
+    createCookie(PreventGoingToDisposePageCacheKey, payload)
 }

@@ -33,11 +33,7 @@ final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: Cli
           distinctErrors
         BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors))
       },
-      validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(convertToUpperCase(validForm))
+      validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(SetupTradeDetailsModel.convertToUpperCase(validForm))
     )
   }
-
-  // TODO move this method to be on the SetupTradeDetailsModel.
-  private def convertToUpperCase(model: SetupTradeDetailsModel): SetupTradeDetailsModel =
-    model.copy(traderBusinessName = model.traderBusinessName.toUpperCase, traderPostcode = model.traderPostcode.toUpperCase)
 }

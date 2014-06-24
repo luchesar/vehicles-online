@@ -1,12 +1,14 @@
 package common
 
 object LogFormats {
-  def anonymize(inputString: String): String = {
+
+  def anonymize(input: String): String = {
     val anonymousChar = "*"
-    val charIndex =
-      if (inputString.length == 0) 0
-      else if (inputString.length > 8) 4
-      else inputString.length / 2
-    anonymousChar * (inputString.length - charIndex) + inputString.takeRight(charIndex)
+    val startOfNonAnonymizedText =
+      if (input.length == 0) 0
+      else if (input.length > 8) 4
+      else input.length / 2
+    anonymousChar * (input.length - startOfNonAnonymizedText) + input.takeRight(startOfNonAnonymizedText)
   }
+
 }

@@ -61,9 +61,19 @@ final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
       Accessibility.ariaRequiredPresent(SetupTradeDetails.TraderNameId) should equal(true)
     }
 
+    "add aria invalid attribute to trader name field when required field not input" taggedAs UiTag in new WebBrowser {
+      happyPath(traderBusinessName = "")
+      Accessibility.ariaInvalidPresent(SetupTradeDetails.TraderNameId) should equal(true)
+    }
+
     "add aria required attribute to trader postcode field when required field not input" taggedAs UiTag in new WebBrowser {
       happyPath(traderBusinessPostcode = "")
       Accessibility.ariaRequiredPresent(SetupTradeDetails.TraderPostcodeId) should equal(true)
+    }
+
+    "add aria invalid attribute to trader postcode field when required field not input" taggedAs UiTag in new WebBrowser {
+      happyPath(traderBusinessPostcode = "")
+      Accessibility.ariaInvalidPresent(SetupTradeDetails.TraderPostcodeId) should equal(true)
     }
   }
 }

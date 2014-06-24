@@ -54,6 +54,7 @@ vagrant_ansible_inventory_default
 .vagrant
 workdir/
 /conf/vehiclesOnline.conf
+conf/generated.keystore
 
 .*.swp
 tags

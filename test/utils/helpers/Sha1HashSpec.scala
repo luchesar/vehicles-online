@@ -1,9 +1,8 @@
 package utils.helpers
 
-import org.scalatest.{Matchers, WordSpec}
-import helpers.WithApplication
+import helpers.{UnitSpec, WithApplication}
 
-final class Sha1HashSpec extends WordSpec with Matchers {
+final class Sha1HashSpec extends UnitSpec {
 
   "Sha1Hash" should {
     "return a hashed string" in new WithApplication {

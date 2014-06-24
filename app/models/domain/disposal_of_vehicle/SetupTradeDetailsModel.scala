@@ -11,4 +11,7 @@ final case class SetupTradeDetailsModel(traderBusinessName: String, traderPostco
 object SetupTradeDetailsModel {
   implicit val JsonFormat = Json.format[SetupTradeDetailsModel]
   implicit val Key = CacheKey[SetupTradeDetailsModel](SetupTradeDetailsCacheKey)
+
+  def convertToUpperCase(model: SetupTradeDetailsModel): SetupTradeDetailsModel =
+    model.copy(traderBusinessName = model.traderBusinessName.toUpperCase, traderPostcode = model.traderPostcode.toUpperCase)
 }

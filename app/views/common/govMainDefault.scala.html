@@ -14,17 +14,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>@title</title>
-        
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("screen.min.css")">        
 
-        <link href="https://assets.digital.cabinet-office.gov.uk/static/fonts-607c54f71c7c1f98257595cedaa13a34.css" media="all" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="@routes.Assets.at("screen.min.css")" media="screen" type="text/css"> @* TODO check if this needs type="text/css" *@
 
-        <link href="@routes.Assets.at("print.min.css")" media="print" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://assets.digital.cabinet-office.gov.uk/static/fonts-607c54f71c7c1f98257595cedaa13a34.css" media="all" type="text/css">
+
+        <link rel="stylesheet" href="@routes.Assets.at("print.min.css")" media="print" type="text/css">
 
         <link rel="shortcut icon" href="@routes.Assets.at("images/favicon.ico")" type="image/x-icon">
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@routes.Assets.at("images/apple-touch-icon-144x144.png")">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@routes.Assets.at("images/apple-touch-icon-114x114.png")">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@routes.Assets.at("images/apple-touch-icon-72x72.png")">
+        <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("images/apple-touch-icon-144x144.png")" sizes="144x144">
+        <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("images/apple-touch-icon-114x114.png")" sizes="114x114">
+        <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("images/apple-touch-icon-72x72.png")" sizes="72x72">
         <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("images/apple-touch-icon-57x57.png")">
     </head>
 
@@ -104,7 +104,7 @@
 
         <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
 
-        @if(play.Configuration.root().getBoolean("googleAnalytics.enabled")) {
+            @if(play.Configuration.root().getBoolean("googleAnalytics.enabled")) {
         <script>
         	var _gaq = _gaq || [];
         	_gaq.push(['_setSiteSpeedSampleRate', 5]);

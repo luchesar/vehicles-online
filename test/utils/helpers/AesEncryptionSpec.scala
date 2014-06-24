@@ -1,11 +1,10 @@
 package utils.helpers
 
-import helpers.WithApplication
-import org.scalatest.{Matchers, WordSpec}
+import helpers.{UnitSpec, WithApplication}
 import play.api.test.FakeApplication
 import helpers.webbrowser.TestGlobal
 
-final class AesEncryptionSpec extends WordSpec with Matchers {
+final class AesEncryptionSpec extends UnitSpec {
   "encryptCookie" should {
     "return an encrypted string" in new WithApplication(app = fakeAppWithCryptoConfig) {
       val aesEncryption = new AesEncryption

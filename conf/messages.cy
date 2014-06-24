@@ -382,8 +382,3 @@ prototype.banner-part2=yn ein helpu i wella
 disposal_disposefailure.name=Methiant
 disposal_disposefailure.button3=Print
 ms.vehiclesService.response.unableToProcessApplication-address=DVLA, Longview Road, Morriston, Abertawe, SA6 7JL
-
-interstitial.title = Ailgyfeirio
-interstitial.body = Os nad yw'r dudalen hon yn ailgyfeirio yn awtomatig yn {0} eiliad, os gwelwch yn dda
-interstitial.link.title = Tudalen nesaf
-interstitial.link = cliciwch ar y ddolen hon
