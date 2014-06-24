@@ -1,7 +1,14 @@
 package filters
 
+import java.util.Date
+
 import common.ClientSideSessionFactory
 import helpers.UnitSpec
+import org.mockito.invocation.InvocationOnMock
+import org.mockito.stubbing.Answer
+import org.mockito.{Mockito, Matchers}
+import org.slf4j.LoggerFactory
+import play.api.Logger
 import play.api.mvc._
 import play.api.test.{FakeHeaders, FakeRequest}
 import play.api.http.HeaderNames._
@@ -11,7 +18,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.existentials
 
-class ClfLoggerSpec extends UnitSpec {
+class AccessLoggingFilterSpec extends UnitSpec {
+  val testDate = new Date()
 
   "Log an incoming request" in setUp() {
     case SetUp(filter, request, sessionFactory, nextFilter) =>
@@ -28,8 +36,8 @@ class ClfLoggerSpec extends UnitSpec {
         filter.logEntry should include ("200")
         filter.logEntry should include ("12345")
         filter.logEntry should include ("98765")
+        filter.logEntry should include (s"[${ClfLogger.dateFormat.format(testDate)}]")
       }
-
   }
 
   "Log an incoming request with ipAddress provided in XForwardedFor only" in setUp("127.0.0.3") {
@@ -44,29 +52,28 @@ class ClfLoggerSpec extends UnitSpec {
       whenReady(filterResult) { result =>
         filter.logEntry should startWith ("127.0.0.2")
       }
-
   }
 
   "Log an incoming request with ipAddress provided in remoteAddress only" in setUp("127.0.0.3") {
     case SetUp(filter, request, sessionFactory, nextFilter) =>
 
-      val filterResult: Future[SimpleResult] = filter.apply(nextFilter)(request.withHeaders(HttpHeaders.XRealIp -> "127.0.0.4"))
+      val filterResult: Future[SimpleResult] =
+        filter.apply(nextFilter)(request.withHeaders(HttpHeaders.XRealIp -> "127.0.0.4"))
 
       whenReady(filterResult) { result =>
         filter.logEntry should startWith ("127.0.0.3")
       }
-
   }
 
   "Log an incoming request with ipAddress provided in XRealIp only" in setUp(null) {
     case SetUp(filter, request, sessionFactory, nextFilter) =>
 
-      val filterResult: Future[SimpleResult] = filter.apply(nextFilter)(request.withHeaders(HttpHeaders.XRealIp -> "127.0.0.4"))
+      val filterResult: Future[SimpleResult] =
+        filter.apply(nextFilter)(request.withHeaders(HttpHeaders.XRealIp -> "127.0.0.4"))
 
       whenReady(filterResult) { result =>
         filter.logEntry should startWith ("127.0.0.4")
       }
-
   }
 
   "Log an incoming request with no ipAddress provided" in setUp(null) {
@@ -77,7 +84,6 @@ class ClfLoggerSpec extends UnitSpec {
       whenReady(filterResult) { result =>
         filter.logEntry should startWith ("-")
       }
-
   }
 
   private class MockFilter extends ((RequestHeader) => Future[SimpleResult]) {
@@ -108,31 +114,24 @@ class ClfLoggerSpec extends UnitSpec {
   private class TestClfLogger extends ClfLogger {
     var entry = ""
 
-    override def clfEntry(request: RequestHeader, result: SimpleResult) : String = {
+    override def clfEntry(requestTimestamp: Date, request: RequestHeader, result: SimpleResult) : String = {
       val extendedResult = result.withHeaders(CONTENT_LENGTH -> "12345").
         withHeaders(ClientSideSessionFactory.TrackingIdCookieName -> "98765")
-      entry = super.clfEntry(request, extendedResult)
+      entry = super.clfEntry(testDate, request, extendedResult)
       entry
     }
   }
 
+
   private class TestAccessLoggingFilter(val logger: TestClfLogger) extends AccessLoggingFilter(logger) {
+    override val accessLogger = {
+      val mockLogger = mock[play.api.Logger]
+      mockLogger
+    }
+
     def logEntry = logger.entry
   }
 
   private def testAccessLoggingFilter: TestAccessLoggingFilter = new TestAccessLoggingFilter(new TestClfLogger())
-//  {
-//    var logEntry = ""
-//    override def apply(filter: (RequestHeader) => Future[SimpleResult])(requestHeader: RequestHeader): Future[SimpleResult] = {
-//      filter(requestHeader)
-//        .map (
-//        result => {
-//          val extendedResult = result.withHeaders(CONTENT_LENGTH -> "12345").withHeaders(ClientSideSessionFactory.TrackingIdCookieName -> "98765")
-//          logEntry = clfEntry(requestHeader, extendedResult)
-//          result
-//        }
-//      )
-//    }
-//  }
 
 }

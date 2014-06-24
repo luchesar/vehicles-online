@@ -1,5 +1,6 @@
 package utils.helpers
 
+import java.util.Date
 import javax.crypto.BadPaddingException
 
 import common.InvalidSessionException
@@ -8,7 +9,7 @@ import filters.ClfLogger
 import play.api.Logger
 import play.api.libs.Codecs
 import play.api.mvc.Results._
-import play.api.mvc.{SimpleResult, RequestHeader}
+import play.api.mvc.{RequestHeader, SimpleResult}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -26,8 +27,9 @@ object ErrorStrategy {
         Future(Redirect(routes.Error.present(exceptionDigest)))
     }
     result.map { result =>
-      AccessLogger.info(ClfLogger.clfEntry(request, result))
+      AccessLogger.info(ClfLogger.clfEntry(new Date(), request, result))
     }
     result
   }
+
 }
