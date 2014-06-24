@@ -1,18 +1,17 @@
 package filters
 
-import helpers.UnitSpec
 import common.ClientSideSessionFactory
+import helpers.UnitSpec
 import play.api.mvc._
-import scala.concurrent.{ExecutionContext, Future}
 import play.api.test.{FakeHeaders, FakeRequest}
-import ExecutionContext.Implicits.global
-import scala.language.existentials
 import play.api.http.HeaderNames._
-import play.api.mvc.Cookie
-import play.api.mvc.SimpleResult
 import services.HttpHeaders
 
-class AccessLoggingFilterSpec extends UnitSpec {
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.language.existentials
+
+class ClfLoggerSpec extends UnitSpec {
 
   "Log an incoming request" in setUp() {
     case SetUp(filter, request, sessionFactory, nextFilter) =>
@@ -90,7 +89,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
     }
   }
 
-  private case class SetUp(filter: testAccessLoggingFilter,
+  private case class SetUp(filter: TestAccessLoggingFilter,
                            request: FakeRequest[_],
                            sessionFactory:ClientSideSessionFactory,
                            nextFilter: MockFilter)
@@ -99,26 +98,41 @@ class AccessLoggingFilterSpec extends UnitSpec {
     val sessionFactory = mock[ClientSideSessionFactory]
 
     test(SetUp(
-      filter = new testAccessLoggingFilter,
+      filter = testAccessLoggingFilter,
       request = FakeRequest("GET", "/", FakeHeaders(), AnyContentAsEmpty, remoteAddress = ipAddress),
       sessionFactory = sessionFactory,
       nextFilter = new MockFilter()
     ))
   }
 
+  private class TestClfLogger extends ClfLogger {
+    var entry = ""
 
-  class testAccessLoggingFilter extends AccessLoggingFilter{
-    var logEntry = ""
-    override def apply(filter: (RequestHeader) => Future[SimpleResult])(requestHeader: RequestHeader): Future[SimpleResult] = {
-      filter(requestHeader)
-        .map (
-        result => {
-          val extendedResult = result.withHeaders(CONTENT_LENGTH -> "12345").withHeaders(ClientSideSessionFactory.TrackingIdCookieName -> "98765")
-          logEntry = clfEntry(requestHeader, extendedResult)
-          result
-        }
-      )
+    override def clfEntry(request: RequestHeader, result: SimpleResult) : String = {
+      val extendedResult = result.withHeaders(CONTENT_LENGTH -> "12345").
+        withHeaders(ClientSideSessionFactory.TrackingIdCookieName -> "98765")
+      entry = super.clfEntry(request, extendedResult)
+      entry
     }
   }
+
+  private class TestAccessLoggingFilter(val logger: TestClfLogger) extends AccessLoggingFilter(logger) {
+    def logEntry = logger.entry
+  }
+
+  private def testAccessLoggingFilter: TestAccessLoggingFilter = new TestAccessLoggingFilter(new TestClfLogger())
+//  {
+//    var logEntry = ""
+//    override def apply(filter: (RequestHeader) => Future[SimpleResult])(requestHeader: RequestHeader): Future[SimpleResult] = {
+//      filter(requestHeader)
+//        .map (
+//        result => {
+//          val extendedResult = result.withHeaders(CONTENT_LENGTH -> "12345").withHeaders(ClientSideSessionFactory.TrackingIdCookieName -> "98765")
+//          logEntry = clfEntry(requestHeader, extendedResult)
+//          result
+//        }
+//      )
+//    }
+//  }
 
 }

@@ -1,5 +1,6 @@
 package filters
 
+import com.google.inject.Inject
 import play.api.mvc.{SimpleResult, RequestHeader, Filter}
 import scala.concurrent.Future
 import java.text.SimpleDateFormat
@@ -10,18 +11,19 @@ import common.ClientSideSessionFactory
 import services.HttpHeaders._
 import play.api.Logger
 
-class AccessLoggingFilter extends Filter{
+class AccessLoggingFilter @Inject()(logger: ClfLogger) extends Filter{
   override def apply(filter: (RequestHeader) => Future[SimpleResult])(requestHeader: RequestHeader): Future[SimpleResult] = {
-    filter(requestHeader)
-      .map (
-      result => {
-        Logger("dvla.common.AccessLogger").info(clfEntry(requestHeader, result))
+    filter(requestHeader).map (result => {
+        val entry = logger.clfEntry(requestHeader, result)
+        Logger("dvla.common.AccessLogger").info(logger.clfEntry(requestHeader, result))
         result
       }
     )
   }
+}
 
-  protected def clfEntry(request: RequestHeader, result: SimpleResult) : String = {
+class ClfLogger {
+  def clfEntry(request: RequestHeader, result: SimpleResult) : String = {
 
     val dateFormat = new SimpleDateFormat("dd/MMM/yyyy:hh:mm:ss +SSS")
 
