@@ -3,6 +3,7 @@ package constraints.disposal_of_vehicle
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 
 object RegistrationNumber {
+
   def validRegistrationNumber: Constraint[String] = Constraint("constraint.restricted.validVrn") { input =>
     val whitelist =
       """^
@@ -18,4 +19,5 @@ object RegistrationNumber {
     if (whitelist.pattern.matcher(input.replace(" ", "")).matches) Valid
     else Invalid(ValidationError("error.restricted.validVrnOnly"))
   }
+
 }

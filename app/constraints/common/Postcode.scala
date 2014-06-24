@@ -3,6 +3,7 @@ package constraints.common
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 
 object Postcode {
+
   def validPostcode: Constraint[String] = Constraint("constraint.restricted.validPostcode") { input =>
     val whitelist =
       """^
@@ -16,4 +17,5 @@ object Postcode {
     if (whitelist.pattern.matcher(input).matches) Valid
     else Invalid(ValidationError("error.restricted.validPostcode"))
   }
+
 }
