@@ -9,8 +9,8 @@ import javax.inject.Inject
 import play.api.http.Status
 
 final class VehicleLookupServiceImpl @Inject()(ws: VehicleLookupWebService) extends VehicleLookupService {
-  override def invoke(cmd: VehicleDetailsRequest): (Future[(Int, Option[VehicleDetailsResponse])]) = {
-    ws.callVehicleLookupService(cmd).map {
+  override def invoke(cmd: VehicleDetailsRequest, trackingId: String): (Future[(Int, Option[VehicleDetailsResponse])]) = {
+    ws.callVehicleLookupService(cmd, trackingId).map {
       resp =>
         Logger.debug(s"Http response code from vehicle lookup micro-service was: ${resp.status}")
       if (resp.status == Status.OK) (resp.status, Some(resp.json.as[VehicleDetailsResponse]))

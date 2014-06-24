@@ -1,38 +1,46 @@
-@(traderLookupForm: Form[models.domain.disposal_of_vehicle.SetupTradeDetailsModel])(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
+@(traderLookupForm: Form[models.domain.disposal_of_vehicle.SetupTradeDetailsModel])(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
-@import mappings.common.Postcode
+@import controllers.disposal_of_vehicle.routes.SetUpTradeDetails
 @import helper._
-@import utils.helpers.BaseTemplate._
-@import views.html.helper.base._
-@import views.html.common._
-@import views.html.helper._
+@import mappings.common.Postcode
 @import mappings.disposal_of_vehicle.SetupTradeDetails._
+@import utils.helpers.BaseTemplate._
+@import utils.helpers._
+@import views.html.common._
+@import views.html.disposal_of_vehicle.main
+@import views.html.helper.base._
 
-@main(Messages("disposal_setuptradedetails.title")) {
+@main(
+    title = Messages("disposal_setuptradedetails.title")
+) {
     @errorsSummary(traderLookupForm)
 
-    @form(action = controllers.disposal_of_vehicle.routes.SetUpTradeDetails.submit) {
+    @form(action = SetUpTradeDetails.submit) {
 
-    @CSRF.formField
+        @CSRFHelper.hiddenFormField
 
-    @{/*
-    	Removed following review feedback 18/3/14
-    	<h2>@Messages("disposal_setuptradedetails.p1")</h2>
-    */}
-    
-    @valtechInputText(traderLookupForm(TraderNameId), args =
-    Map('_label -> Messages("disposal_setuptradedetails.tradernamelabel"),
-    '_showConstraints -> false,
-    'maxLength -> TraderNameMaxLength))
+        @{
+            /*
+                    Removed following review feedback 18/3/14
+                    <h2>@Messages("disposal_setuptradedetails.p1")</h2>
+                */
+        }
+        <div class="uppercase-input">
 
-    @valtechInputText(traderLookupForm(TraderPostcodeId), args =
-    Map('_label -> Messages("disposal_setuptradedetails.traderpostcodelabel"),
-    '_showConstraints -> false,
-    'maxLength -> Postcode.MaxLength))
+	        @valtechInputText(traderLookupForm(TraderNameId), args =
+	                Map('_label -> Messages("disposal_setuptradedetails.tradernamelabel"),
+	                    '_showConstraints -> false,
+	                    'maxLength -> TraderNameMaxLength))
 
-	<div class="form-steps">
-	    <button id="@SubmitId" type="submit" name="action" class="button">@Messages("disposal_setuptradedetails.button")</button>
-	</div>
+	        @valtechInputText(traderLookupForm(TraderPostcodeId), args =
+	                Map('_label -> Messages("disposal_setuptradedetails.traderpostcodelabel"),
+	                    '_showConstraints -> false,
+	                    'maxLength -> Postcode.MaxLength))
 
+	        <div class="form-steps">
+	            <button id="@SubmitId" type="submit" name="action" class="button">@Messages("disposal_setuptradedetails.button")</button>
+	        </div>
+
+      	</div>
     }
 }

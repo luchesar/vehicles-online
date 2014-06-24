@@ -1,6 +1,5 @@
 package services.fakes
 
-import common.ClientSideSession
 import models.domain.disposal_of_vehicle.{AddressViewModel, UprnToAddressResponse, UprnAddressPair, PostcodeToAddressResponse}
 import play.api.http.Status._
 import play.api.libs.json.Json
@@ -13,27 +12,28 @@ import services.address_lookup.gds.domain.Details
 import services.address_lookup.gds.domain.Location
 import services.address_lookup.gds.domain.Presentation
 import services.fakes.FakeAddressLookupService.PostcodeInvalid
+import play.api.i18n.Lang
+import services.fakes.FakeAddressLookupService.PostcodeValid
 
 final class FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                                             responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
-  override def callPostcodeWebService(postcode: String)
-                                     (implicit session: Option[ClientSideSession]): Future[Response] =
-    if (postcode == PostcodeInvalid) Future {
+  override def callPostcodeWebService(postcode: String, trackingId: String)
+                                     (implicit lang: Lang): Future[Response] =
+    if (postcode == PostcodeInvalid.toUpperCase) Future {
       FakeResponse(status = OK, fakeJson = None)
     }
     else responseOfPostcodeWebService
 
-  override def callUprnWebService(uprn: String)
-                                 (implicit session: Option[ClientSideSession]): Future[Response] = responseOfUprnWebService
+  override def callUprnWebService(uprn: String, trackingId: String)
+                                 (implicit lang: Lang): Future[Response] = responseOfUprnWebService
 }
 
 object FakeAddressLookupWebServiceImpl {
   final val traderUprnValid = 12345L
   final val traderUprnValid2 = 4567L
-  final val postcodeValid = "CM81QJ"
 
   private def addressSeq(houseName: String, houseNumber: String): Seq[String] = {
-    Seq(houseName, houseNumber, "property stub", "street stub", "town stub", "area stub", postcodeValid)
+    Seq(houseName, houseNumber, "property stub", "street stub", "town stub", "area stub", PostcodeValid)
   }
 
   def uprnAddressPairWithDefaults(uprn: String = traderUprnValid.toString, houseName: String = "presentationProperty stub", houseNumber: String = "123") =
@@ -90,14 +90,14 @@ object FakeAddressLookupWebServiceImpl {
     Address(
       gssCode = "gssCode stub",
       countryCode = "countryCode stub",
-      postcode = postcodeValid,
+      postcode = PostcodeValid,
       houseName = Some("presentationProperty stub"),
       houseNumber = Some("123"),
       presentation = Presentation(property = Some(presentationProperty),
         street = Some(presentationStreet),
         town = Some("town stub"),
         area = Some("area stub"),
-        postcode = postcodeValid,
+        postcode = PostcodeValid,
         uprn = traderUprnValid.toString),
       details = Details(
         usrn = "usrn stub",

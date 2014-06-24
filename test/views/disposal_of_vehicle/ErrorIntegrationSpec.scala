@@ -1,16 +1,17 @@
 package views.disposal_of_vehicle
 
 import helpers.UiSpec
+import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import pages.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import org.openqa.selenium.WebDriver
+import org.openqa.selenium.{By, WebElement, WebDriver}
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import pages.disposal_of_vehicle.ErrorPage.startAgain
 
 final class ErrorIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
-    "display the page" in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -18,17 +19,20 @@ final class ErrorIntegrationSpec extends UiSpec with TestHarness {
 
       page.title should equal(ErrorPage.title)
     }
-    "contain the hidden csrfToken field" in new WebBrowser {
+    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
 
       go to ErrorPage
-      page.source should include("input type=\"hidden\" name=\"csrfToken\"")
+      val csrf: WebElement = webDriver.findElement(By.name(services.csrf_prevention.CSRFPreventionAction.csrfPreventionTokenName))
+      csrf.getAttribute("type") should equal("hidden")
+      csrf.getAttribute("name") should equal(services.csrf_prevention.CSRFPreventionAction.csrfPreventionTokenName)
+      csrf.getAttribute("value").size > 0 should equal(true)
     }
   }
 
   "submit button" should {
-    "remove redundant cookies when 'start again' button is clicked" in new WebBrowser {
+    "remove redundant cookies when 'start again' button is clicked" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to ErrorPage

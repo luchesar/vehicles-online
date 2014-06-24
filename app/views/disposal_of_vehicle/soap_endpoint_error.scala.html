@@ -1,13 +1,17 @@
-@()(implicit lang: Lang)
+@()(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
-@import helper._
+@import views.html.common.alternateLanguages
+@import views.html.disposal_of_vehicle.main
+@import controllers.disposal_of_vehicle.routes.SoapEndpointError
 
-@main(Messages("soap_endpoint_error.title")){
+@main(
+    title = Messages("soap_endpoint_error.title")
+){
     <p>@Messages("soap_endpoint_error.text")</p>
 
     <div class="form-steps">
         @{ /* Note the reverse routing syntax for the hyperlink */ }
-        <a class="button" id="back" href="@controllers.disposal_of_vehicle.routes.Dispose.present">@Messages("soap_endpoint_error.back.button")</a>
-        <a class="button" id="exit" href="@controllers.disposal_of_vehicle.routes.BeforeYouStart.present">@Messages("soap_endpoint_error.exit.button")</a>
+        <a class="button" id="back" href="@controllers.disposal_of_vehicle.routes.Dispose.present()">@Messages("soap_endpoint_error.back.button")</a>
+        <a class="button" id="exit" href="@controllers.disposal_of_vehicle.routes.BeforeYouStart.present()">@Messages("soap_endpoint_error.exit.button")</a>
     </div>
 }

@@ -1,23 +1,22 @@
 package common
 
-import play.api.mvc.{Cookie, SimpleResult}
 import com.google.inject.Inject
-import java.util.UUID
+import play.api.mvc.Cookie
 
 class ClearTextClientSideSessionFactory @Inject()(implicit cookieFlags: CookieFlags) extends ClientSideSessionFactory {
 
-  override protected def newSession(result: SimpleResult): (SimpleResult, ClientSideSession) = {
-    val sessionSecretKeyPrefixCookie = Cookie(
-      name = ClientSideSessionFactory.SessionIdCookieName,
-      value = UUID.randomUUID().toString.take(20),
-      secure = false,
-      maxAge = None)
-    val resultWithSessionSecretKeyCookie = result.withCookies(sessionSecretKeyPrefixCookie)
+  override def newSessionCookiesIfNeeded(request: Traversable[Cookie]): Option[Seq[Cookie]] = None
 
-    (resultWithSessionSecretKeyCookie, new ClearTextClientSideSession(sessionSecretKeyPrefixCookie.value))
-  }
+  override def getSession(request: Traversable[Cookie]): ClientSideSession =
+    getTrackingId(request) match {
+      case Some(trackingId) => new ClearTextClientSideSession(trackingId)
+      case None => new ClearTextClientSideSession(ClearTextClientSideSessionFactory.DefaultTrackingId)
+    }
 
-  override def getSession(request: Traversable[Cookie]): Option[ClientSideSession] =
-    getTrackingId(request).map(trackingId => new ClearTextClientSideSession(trackingId))
-  //    Some(new ClearTextClientSideSession(getTrackingId(request).getOrElse("defaultTrackingId")))
+  private def getTrackingId(request: Traversable[Cookie]): Option[String] =
+    request.find(_.name == ClientSideSessionFactory.TrackingIdCookieName).map(_.value)
+}
+
+object ClearTextClientSideSessionFactory {
+  final val DefaultTrackingId = "default_test_tracking_id"
 }

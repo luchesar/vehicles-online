@@ -1,17 +1,19 @@
 @(now:String)(implicit lang: Lang)
-@common.govMain("Alive", lang) {
 
+@import views.html.common.govMain
+@import views.html.common.protoType
+@import views.html.common.helpLine
+
+@govMain("Alive") {
     <div class="carers-allowance">
 
-        @common.protoType()
+        @protoType()
 
-        @common.helpLine()
+        @helpLine()
 
         <section class="finish-statement">
             <h1>Carer's allowance is functioning</h1>
             <p>@now</p>
         </section>
     </div>
-} {
-    @{ /* Deliberately Empty */}
 }

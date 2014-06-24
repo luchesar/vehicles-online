@@ -1,11 +1,16 @@
 @(url:String)(implicit lang: Lang)
-@common.govMain("Session has timed out", lang) {
+
+@import views.html.common.govMain
+@import views.html.common.protoType
+@import views.html.common.helpLine
+
+@govMain("Session has timed out") {
 	
     <div class="carers-allowance">
 
-        @common.protoType()
+        @protoType()
         
-        @common.helpLine()
+        @helpLine()
 
 
         <section class="error-statement">

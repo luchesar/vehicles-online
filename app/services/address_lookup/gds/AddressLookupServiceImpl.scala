@@ -9,7 +9,7 @@ import play.api.libs.ws.Response
 import services.address_lookup.gds.domain.Address
 import services.address_lookup.gds.domain.JsonFormats.addressFormat
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
-import common.ClientSideSession
+import play.api.i18n.Lang
 
 final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
   extends AddressLookupService {
@@ -21,8 +21,8 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
     }
   }
 
-  override def fetchAddressesForPostcode(postcode: String)
-                                        (implicit session: Option[ClientSideSession]): Future[Seq[(String, String)]] = {
+  override def fetchAddressesForPostcode(postcode: String, trackingId: String)
+                                        (implicit lang: Lang): Future[Seq[(String, String)]] = {
     def sort(addresses: Seq[Address]) = {
       addresses.sortBy(addressDpa => {
         val buildingNumber = addressDpa.houseNumber.getOrElse("0")
@@ -36,7 +36,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
       sort(addresses) map { address => (address.presentation.uprn, address.toViewModel.mkString(", ")) } // Sort before translating to drop down format.
     }
 
-    ws.callPostcodeWebService(postcode).map {
+    ws.callPostcodeWebService(postcode, trackingId).map {
       resp =>
         Logger.debug(s"Http response code from GDS postcode lookup service was: ${ resp.status }")
         if (resp.status == play.api.http.Status.OK) toDropDown(resp)
@@ -48,24 +48,23 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
     }
   }
 
-  override def fetchAddressForUprn(uprn: String)
-                                  (implicit session: Option[ClientSideSession]): Future[Option[AddressViewModel]] = {
+  override def fetchAddressForUprn(uprn: String, trackingId: String)
+                                  (implicit lang: Lang): Future[Option[AddressViewModel]] = {
     def toViewModel(resp: Response) = {
       val addresses = extractFromJson(resp)
       require(addresses.length >= 1, s"Should be at least one address for the UPRN: $uprn")
       Some(AddressViewModel(uprn = Some(addresses.head.presentation.uprn.toLong), address = addresses.head.toViewModel)) // Translate to view model.
     }
 
-    ws.callUprnWebService(uprn).map {
+    ws.callUprnWebService(uprn, trackingId).map {
       resp =>
         Logger.debug(s"Http response code from GDS postcode lookup service was: ${ resp.status }")
         if (resp.status == play.api.http.Status.OK) toViewModel(resp)
         else None
     }.recover {
-      case e: Throwable => {
+      case e: Throwable =>
         Logger.error(s"GDS uprn lookup service error: $e")
         None
-      }
     }
   }
 }

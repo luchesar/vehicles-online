@@ -1,9 +1,8 @@
 package utils.helpers
 
-import org.scalatest.{Matchers, WordSpec}
-import helpers.WithApplication
+import helpers.{UnitSpec, WithApplication}
 
-final class Sha1HashSpec extends WordSpec with Matchers {
+final class Sha1HashSpec extends UnitSpec {
 
   "Sha1Hash" should {
     "return a hashed string" in new WithApplication {
@@ -21,6 +20,6 @@ final class Sha1HashSpec extends WordSpec with Matchers {
     }
   }
 
-  private val sha1Hash = new Sha1Hash // Sharing immutable fixture objects via instance variables
+  private val sha1Hash = new Sha1HashGenerator // Sharing immutable fixture objects via instance variables
   private final val ClearText = "qwerty"
 }

@@ -33,3 +33,7 @@
 		max-width:55%;
 	}	
 }
+
+@mixin to-uppercase {
+	text-transform:uppercase;
+}

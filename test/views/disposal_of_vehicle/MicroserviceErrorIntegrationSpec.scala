@@ -1,5 +1,6 @@
 package views.disposal_of_vehicle
 
+import helpers.tags.UiTag
 import pages.disposal_of_vehicle.MicroServiceErrorPage.{tryAgain, exit}
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
@@ -9,7 +10,7 @@ import pages.disposal_of_vehicle._
 
 final class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
-    "display the page" in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowser {
       go to MicroServiceErrorPage
 
       page.title should equal(MicroServiceErrorPage.title)
@@ -17,7 +18,7 @@ final class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "tryAgain button" should {
-    "redirect to vehiclelookup" in new WebBrowser {
+    "redirect to vehiclelookup" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to MicroServiceErrorPage
@@ -27,7 +28,7 @@ final class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(VehicleLookupPage.title)
     }
 
-    "redirect to setuptradedetails when no details are cached" in new WebBrowser {
+    "redirect to setuptradedetails when no details are cached" taggedAs UiTag in new WebBrowser {
       go to MicroServiceErrorPage
 
       click on tryAgain
@@ -37,7 +38,7 @@ final class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "exit button" should {
-    "redirect to beforeyoustart" in new WebBrowser {
+    "redirect to beforeyoustart" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to MicroServiceErrorPage

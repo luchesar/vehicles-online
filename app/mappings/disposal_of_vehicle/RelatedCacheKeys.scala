@@ -7,9 +7,18 @@ import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.EnterAddressManually._
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._
+import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
 
 object RelatedCacheKeys {
   final val SeenCookieMessageKey = "seen_cookie_message"
+
+  val DisposeOnlySet = Set(
+    DisposeFormModelCacheKey,
+    DisposeFormTransactionIdCacheKey,
+    DisposeFormTimestampIdCacheKey,
+    DisposeFormRegistrationNumberCacheKey,
+    DisposeModelCacheKey
+  )
 
   val DisposeSet = Set(
     BruteForcePreventionViewModelCacheKey,
@@ -20,12 +29,13 @@ object RelatedCacheKeys {
     DisposeFormTransactionIdCacheKey,
     DisposeFormTimestampIdCacheKey,
     DisposeFormRegistrationNumberCacheKey,
-    DisposeModelCacheKey)
+    DisposeModelCacheKey
+  )
 
   val TradeDetailsSet = Set(SetupTradeDetailsCacheKey,
       TraderDetailsCacheKey,
       BusinessChooseYourAddressCacheKey,
       EnterAddressManuallyCacheKey)
 
-  val FullSet = TradeDetailsSet ++ DisposeSet
+  val FullSet = TradeDetailsSet ++ DisposeSet ++ Set(PreventGoingToDisposePageCacheKey)
 }

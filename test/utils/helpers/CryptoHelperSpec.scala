@@ -1,19 +1,20 @@
 package utils.helpers
 
 import helpers.UnitSpec
+import helpers.common.CookieHelper
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import play.api.test.Helpers._
 import play.api.test.{FakeApplication, FakeRequest}
 import pages.disposal_of_vehicle.BeforeYouStartPage
-import common.CookieHelper._
+import CookieHelper._
 import helpers.WithApplication
 import helpers.webbrowser.TestGlobal
 
 final class CryptoHelperSpec extends UnitSpec {
   "handleApplicationSecretChange" should {
     "discard all cookies except SeenCookieMessageKey" in new WithApplication(app = appWithCryptpConfig) {
-      val request = FakeRequest().withSession().
+      val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.seenCookieMessage()).
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
@@ -38,7 +39,7 @@ final class CryptoHelperSpec extends UnitSpec {
     }
 
     "redirect to BeforeYouStart page" in new WithApplication(app = appWithCryptpConfig) {
-      val request = FakeRequest().withSession().
+      val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.seenCookieMessage()).
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).

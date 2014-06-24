@@ -35,13 +35,13 @@
 		   	font-size: 24px;
 	   	}
  	}
- 	
+
  	p {
  		@include copy-19;
 	 	.ie & {
 		 	font-size:19px;
 	 	}
-	 	
+
 	 	&.link-manual-address {
 	 		position: relative;
 		 	top:-0.3em;
@@ -60,7 +60,7 @@
 	 		}
  		}
  	}
- 	
+
  	// information items (1/2 columns - typically 2 columns)
  	// this could be a DL element, or a wrapping div
  	.summary-detail-list {
@@ -88,13 +88,14 @@
 			width:190px;
 			font-weight:bold;
 			clear:left;
-			
+
 			@media screen and (max-width: $device-small) {
 				padding-top:0;
 				margin-bottom:0;
 			}
 		}
 		dd {
+			@include to-uppercase;
 			overflow: hidden;
 
 			@media screen and (max-width: $device-small) {
@@ -102,13 +103,12 @@
 			}
 		}
 
-		.ie6 & {	
+		.ie6 & {
 			dt,dd {
 				float:none;
 			}
-			
-		}
 
+		}
 
 		// smaller width, more flexible container
 		&.summary-detail-list-flex {
@@ -116,12 +116,12 @@
 		}
 	}
 
-	
+
 	// add out of scope watermark
 	.out-of-scope {
-	  background:#FFF url(#{$image-path}out-of-scope-sml.gif) center center repeat;  
+	  background:#FFF url(#{$image-path}out-of-scope-sml.gif) center center repeat;
 	}
-	
+
 	// styles two column layout
 	.two-col {
 		@include clearfix;
@@ -152,23 +152,12 @@
 	}
 
 	//vehicle lookup/find vehicle details
-	.TraderDetails dd {
-		.ie6 & {	
+	.trader-details dd {
+		.ie6 & {
 			clear:both;
 		}
 	}
 
-	.disposal-form {
-
-		label {
-			cursor:pointer;
-
-			.ie6 & {
-				cursor:default;
-			}
-		}
-	}
-	
 	.disposal-date {
 		legend {
 			margin-top:20px;
@@ -181,4 +170,50 @@
 
 	}
 
+  //progress indicator
+  nav.progress-indicator {
+  	padding-left: 0.5em;
+	  border-top: 1px solid $grey-3;
+	  border-bottom: 3px solid $grey-3;
+	  margin: 0em -1em 0em -1em;
+	  display:inline-block;
+	  width:100%;
+	  ol {
+	  	list-style-type: decimal;
+	    list-style-position: inside;
+	    margin: 0;
+	    padding: 0;
+	    margin-bottom: -3px;
+
+	    @media (max-width: 640px) {
+        margin: 0.5em 0; 
+      }
+	  }
+	  li {
+	  	float: left;
+	    margin: 0 0.5em;
+	    padding: 0.75em 0;
+
+      @media (max-width: 900px) {
+      	font-size: 100%;
+      }
+      @media (max-width: 640px) {
+      	width: 75%;
+        padding: 0.25em;
+      }
+      &.active {
+    		@media (min-width: 641px) {
+	        border-bottom: 3px solid $turquoise;
+	        position: relative;
+	        top: 3px;
+	        margin-top: -3px; 
+	      }
+	      @media (max-width: 640px) {
+	      	border: 0;
+	        font-weight: bold;
+	        color: #28a197;
+	      }
+      }
+	  }
+  }
 }

@@ -1,47 +1,52 @@
 package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
-import common.{ClientSideSessionFactory, CookieImplicits}
-import CookieImplicits.RequestCookiesAdapter
+import common.ClientSideSessionFactory
+import common.CookieImplicits.{RichCookies, RichSimpleResult}
+import mappings.common.PreventGoingToDisposePage._
 import mappings.disposal_of_vehicle.Dispose._
-import models.domain.disposal_of_vehicle.DisposeViewModel
-import models.domain.disposal_of_vehicle.{DisposeFormModel, VehicleDetailsModel, TraderDetailsModel}
-import play.api.mvc._
-import CookieImplicits.SimpleResultAdapter
 import mappings.disposal_of_vehicle.RelatedCacheKeys
+import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeViewModel, TraderDetailsModel, VehicleDetailsModel}
+import play.api.mvc._
 
 final class DisposeSuccess @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
-  def present = Action {
-    implicit request =>
-      (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[DisposeFormModel], request.cookies.getModel[VehicleDetailsModel],
-        request.cookies.getString(DisposeFormTransactionIdCacheKey), request.cookies.getString(DisposeFormRegistrationNumberCacheKey)) match {
-        case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId), Some(registrationNumber)) =>
-          val disposeModel = fetchData(dealerDetails, vehicleDetails, Some(transactionId), registrationNumber)
-          Ok(views.html.disposal_of_vehicle.dispose_success(disposeModel, disposeFormModel))
-        case _ => Redirect(routes.SetUpTradeDetails.present())
-      }
+  def present = Action { implicit request =>
+    (request.cookies.getModel[TraderDetailsModel],
+      request.cookies.getModel[DisposeFormModel],
+      request.cookies.getModel[VehicleDetailsModel],
+      request.cookies.getString(DisposeFormTransactionIdCacheKey),
+      request.cookies.getString(DisposeFormRegistrationNumberCacheKey)) match {
+      case (Some(traderDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId), Some(registrationNumber)) =>
+        val disposeViewModel = createViewModel(traderDetails, vehicleDetails, Some(transactionId), registrationNumber)
+        Ok(views.html.disposal_of_vehicle.dispose_success(disposeViewModel, disposeFormModel)).
+          discardingCookies(RelatedCacheKeys.DisposeOnlySet) // TODO US320 test for this
+      case _ => Redirect(routes.VehicleLookup.present()) // US320 the user has pressed back button after being on dispose-success and pressing new dispose.
+    }
   }
 
   def newDisposal = Action { implicit request =>
-    (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[DisposeFormModel],
-      request.cookies.getModel[VehicleDetailsModel]) match {
-      case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails)) => Redirect(routes.VehicleLookup.present()).
-        discardingCookies(RelatedCacheKeys.DisposeSet)
+    (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleDetailsModel]) match {
+      case (Some(traderDetails), Some(vehicleDetails)) =>
+        Redirect(routes.VehicleLookup.present()).
+          discardingCookies(RelatedCacheKeys.DisposeSet).
+          withCookie(PreventGoingToDisposePageCacheKey, "")
       case _ => Redirect(routes.SetUpTradeDetails.present())
     }
   }
 
   def exit = Action { implicit request =>
-    Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
+    Redirect(routes.BeforeYouStart.present()).
+      discardingCookies(RelatedCacheKeys.FullSet).
+      withCookie(PreventGoingToDisposePageCacheKey, "")
   }
 
-  private def fetchData(dealerDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel, transactionId: Option[String],
-                        registrationNumber: String): DisposeViewModel = {
+  private def createViewModel(traderDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel, transactionId: Option[String],
+                              registrationNumber: String): DisposeViewModel = {
     DisposeViewModel(vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
-      dealerName = dealerDetails.traderName,
-      dealerAddress = dealerDetails.traderAddress,
+      dealerName = traderDetails.traderName,
+      dealerAddress = traderDetails.traderAddress,
       transactionId = transactionId,
       registrationNumber = registrationNumber)
   }

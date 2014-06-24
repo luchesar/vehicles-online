@@ -1,14 +1,13 @@
 package services.address_lookup
 
-import models.domain.disposal_of_vehicle.{PostcodeToAddressResponse, AddressViewModel}
+import models.domain.disposal_of_vehicle.AddressViewModel
 import scala.concurrent.Future
-import play.api.libs.ws.Response
-import common.ClientSideSession
+import play.api.i18n.Lang
 
 trait AddressLookupService {
-  def fetchAddressesForPostcode(postcode: String)
-                               (implicit session: Option[ClientSideSession]): Future[Seq[(String, String)]]
+  def fetchAddressesForPostcode(postcode: String, trackingId: String)
+                               (implicit lang: Lang): Future[Seq[(String, String)]]
 
-  def fetchAddressForUprn(uprn: String)
-                         (implicit session: Option[ClientSideSession]): Future[Option[AddressViewModel]]
+  def fetchAddressForUprn(uprn: String, trackingId: String)
+                         (implicit lang: Lang): Future[Option[AddressViewModel]]
 }

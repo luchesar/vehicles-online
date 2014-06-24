@@ -15,14 +15,14 @@ trait Encryption {
 
 trait CookieEncryption extends Encryption
 
-trait Hashing {
+trait HashGenerator {
   val digestStringLength: Int
   def hash(clearText: String): String
 }
 
-trait CookieNameHashing extends Hashing
+trait CookieNameHashGenerator extends HashGenerator
 
-class Sha1Hash extends Hashing {
+class Sha1HashGenerator extends HashGenerator {
   private final val Sha1SizeInBits = 160
   private final val BitsPerHexCharacter = 4
   private final val CharactersInHexedSha1 = Sha1SizeInBits / BitsPerHexCharacter
@@ -32,7 +32,7 @@ class Sha1Hash extends Hashing {
   override val digestStringLength: Int = CharactersInHexedSha1
 }
 
-class NoHash extends Hashing {
+class NoHashGenerator extends HashGenerator {
   override def hash(clearText: String): String = clearText
   override val digestStringLength: Int = 0
 }

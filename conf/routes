@@ -9,53 +9,58 @@
 # Guice to provide the actual instance complete with its injected dependencies
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                   controllers.Assets.at(path="/public", file)
+GET         /assets/*file                                               controllers.Assets.at(path="/public", file)
 
 ######################
 ## DISPOSAL OF VEHICLE
 ######################
 
 #page 1 - Before You Start (GET request not POST on submission because we are not posting any data)
-GET         /                                                   controllers.Application.index
-GET         /disposal-of-vehicle/before-you-start               @controllers.disposal_of_vehicle.BeforeYouStart.present
-POST        /disposal-of-vehicle/before-you-start               @controllers.disposal_of_vehicle.BeforeYouStart.submit
+GET         /                                                           controllers.Application.index
+GET         /disposal-of-vehicle/before-you-start                       @controllers.disposal_of_vehicle.BeforeYouStart.present
+POST        /disposal-of-vehicle/before-you-start                       @controllers.disposal_of_vehicle.BeforeYouStart.submit
 
 #page 2 - setup-trade-details
-GET         /disposal-of-vehicle/setup-trade-details            @controllers.disposal_of_vehicle.SetUpTradeDetails.present
-POST        /disposal-of-vehicle/setup-trade-details            @controllers.disposal_of_vehicle.SetUpTradeDetails.submit
+GET         /disposal-of-vehicle/setup-trade-details                    @controllers.disposal_of_vehicle.SetUpTradeDetails.present
+POST        /disposal-of-vehicle/setup-trade-details                    @controllers.disposal_of_vehicle.SetUpTradeDetails.submit
 
 #page 3 - business choose your address
-GET         /disposal-of-vehicle/business-choose-your-address   @controllers.disposal_of_vehicle.BusinessChooseYourAddress.present
-POST        /disposal-of-vehicle/business-choose-your-address   @controllers.disposal_of_vehicle.BusinessChooseYourAddress.submit
+GET         /disposal-of-vehicle/business-choose-your-address           @controllers.disposal_of_vehicle.BusinessChooseYourAddress.present
+POST        /disposal-of-vehicle/business-choose-your-address           @controllers.disposal_of_vehicle.BusinessChooseYourAddress.submit
 
 #page 4 [optional] - enter address manually
-GET         /disposal-of-vehicle/enter-address-manually         @controllers.disposal_of_vehicle.EnterAddressManually.present
-POST        /disposal-of-vehicle/enter-address-manually         @controllers.disposal_of_vehicle.EnterAddressManually.submit
+GET         /disposal-of-vehicle/enter-address-manually                 @controllers.disposal_of_vehicle.EnterAddressManually.present
+POST        /disposal-of-vehicle/enter-address-manually                 @controllers.disposal_of_vehicle.EnterAddressManually.submit
 
-GET         /disposal-of-vehicle/vehicle-lookup                 @controllers.disposal_of_vehicle.VehicleLookup.present
-POST        /disposal-of-vehicle/vehicle-lookup                 @controllers.disposal_of_vehicle.VehicleLookup.submit
-GET         /disposal-of-vehicle/vehicle-lookup-back            @controllers.disposal_of_vehicle.VehicleLookup.back
+GET         /disposal-of-vehicle/vehicle-lookup                         @controllers.disposal_of_vehicle.VehicleLookup.present
+POST        /disposal-of-vehicle/vehicle-lookup                         @controllers.disposal_of_vehicle.VehicleLookup.submit
+GET         /disposal-of-vehicle/vehicle-lookup-back                    @controllers.disposal_of_vehicle.VehicleLookup.back
 
-GET         /disposal-of-vehicle/dispose                        @controllers.disposal_of_vehicle.Dispose.present
-POST        /disposal-of-vehicle/dispose                        @controllers.disposal_of_vehicle.Dispose.submit
+GET         /disposal-of-vehicle/dispose                                @controllers.disposal_of_vehicle.Dispose.present
+POST        /disposal-of-vehicle/dispose                                @controllers.disposal_of_vehicle.Dispose.submit
 
-GET         /disposal-of-vehicle/dispose-success                @controllers.disposal_of_vehicle.DisposeSuccess.present
-POST        /disposal-of-vehicle/dispose-success/new-disposal   @controllers.disposal_of_vehicle.DisposeSuccess.newDisposal
-POST        /disposal-of-vehicle/dispose-success/exit           @controllers.disposal_of_vehicle.DisposeSuccess.exit
+GET         /disposal-of-vehicle/dispose-success                        @controllers.disposal_of_vehicle.DisposeSuccess.present
+POST        /disposal-of-vehicle/dispose-success/new-disposal           @controllers.disposal_of_vehicle.DisposeSuccess.newDisposal
+POST        /disposal-of-vehicle/dispose-success/exit                   @controllers.disposal_of_vehicle.DisposeSuccess.exit
 
-GET         /disposal-of-vehicle/dispose-failure                @controllers.disposal_of_vehicle.DisposeFailure.present
+GET         /disposal-of-vehicle/dispose-failure                        @controllers.disposal_of_vehicle.DisposeFailure.present
 
-GET         /disposal-of-vehicle/vehicle-lookup-failure         @controllers.disposal_of_vehicle.VehicleLookupFailure.present
-POST        /disposal-of-vehicle/vehicle-lookup-failure         @controllers.disposal_of_vehicle.VehicleLookupFailure.submit
+GET         /disposal-of-vehicle/vehicle-lookup-failure                 @controllers.disposal_of_vehicle.VehicleLookupFailure.present
+POST        /disposal-of-vehicle/vehicle-lookup-failure                 @controllers.disposal_of_vehicle.VehicleLookupFailure.submit
 
-GET         /disposal-of-vehicle/uprn-not-found                 @controllers.disposal_of_vehicle.UprnNotFound.present
+GET         /disposal-of-vehicle/uprn-not-found                         @controllers.disposal_of_vehicle.UprnNotFound.present
 
-GET         /disposal-of-vehicle/duplicate-disposal-error       @controllers.disposal_of_vehicle.DuplicateDisposalError.present
-GET         /disposal-of-vehicle/micro-service-error            @controllers.disposal_of_vehicle.MicroServiceError.present
-GET         /disposal-of-vehicle/soap-endpoint-error            @controllers.disposal_of_vehicle.SoapEndpointError.present
-GET         /disposal-of-vehicle/vrm-locked                     @controllers.disposal_of_vehicle.VrmLocked.present
-POST        /disposal-of-vehicle/vrm-locked/new-disposal        @controllers.disposal_of_vehicle.VrmLocked.newDisposal
-POST        /disposal-of-vehicle/vrm-locked/exit                @controllers.disposal_of_vehicle.VrmLocked.exit
+GET         /disposal-of-vehicle/duplicate-disposal-error               @controllers.disposal_of_vehicle.DuplicateDisposalError.present
 
-GET         /disposal-of-vehicle/error                          @controllers.disposal_of_vehicle.Error.present
-POST        /disposal-of-vehicle/error                          @controllers.disposal_of_vehicle.Error.submit
+GET         /disposal-of-vehicle/micro-service-error                    @controllers.disposal_of_vehicle.MicroServiceError.present
+
+GET         /disposal-of-vehicle/soap-endpoint-error                    @controllers.disposal_of_vehicle.SoapEndpointError.present
+
+GET         /disposal-of-vehicle/vrm-locked                             @controllers.disposal_of_vehicle.VrmLocked.present
+POST        /disposal-of-vehicle/vrm-locked/new-disposal                @controllers.disposal_of_vehicle.VrmLocked.newDisposal
+POST        /disposal-of-vehicle/vrm-locked/exit                        @controllers.disposal_of_vehicle.VrmLocked.exit
+
+GET         /disposal-of-vehicle/error/:exceptionDigest                 @controllers.disposal_of_vehicle.Error.present(exceptionDigest)
+POST        /disposal-of-vehicle/error/:exceptionDigest                 @controllers.disposal_of_vehicle.Error.submit(exceptionDigest)
+
+GET         /with-language/:chosenLanguage                              controllers.common.AlternateLanguages.withLanguage(chosenLanguage: String)

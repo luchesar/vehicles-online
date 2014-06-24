@@ -1,42 +1,57 @@
 package services.address_lookup.ordnance_survey
 
 import play.api.libs.ws.{Response, WS}
+import services.HttpHeaders
 import utils.helpers.Config
 import scala.concurrent.Future
-import play.api.Logger
 import services.address_lookup.AddressLookupWebService
 import com.google.inject.Inject
-import common.{ClientSideSession, ClientSideSessionFactory}
+import common.{LogFormats, ClientSideSessionFactory}
+import play.api.Logger
+import play.api.i18n.Lang
 
 final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebService {
-
   private val baseUrl: String = config.ordnanceSurveyMicroServiceUrl // TODO would it be better to move these to a companion object? And maybe private[this]
   private val requestTimeout: Int = config.ordnanceSurveyRequestTimeout
 
+  override def callPostcodeWebService(postcode: String, trackingId: String)
+                                     (implicit lang: Lang): Future[Response] = {
+    val endPoint = s"$baseUrl/postcode-to-address?" +
+      postcodeParam(postcode) +
+      languageParam +
+      trackingIdParam(trackingId)
+
+    val postcodeToLog = LogFormats.anonymize(postcode)
+
+    Logger.debug(s"Calling ordnance-survey postcode lookup micro-service with $postcodeToLog") // $endPoint...")
+    WS.url(endPoint).
+      withHeaders(HttpHeaders.TrackingId -> trackingId).
+      withRequestTimeout(requestTimeout). // Timeout is in milliseconds
+      get()
+  }
+
+  override def callUprnWebService(uprn: String, trackingId: String)
+                                 (implicit lang: Lang): Future[Response] = {
+    val endPoint = s"$baseUrl/uprn-to-address?" +
+      s"uprn=$uprn" +
+      languageParam +
+      trackingIdParam(trackingId)
+
+    val uprnToLog = LogFormats.anonymize(uprn)
+
+    Logger.debug(s"Calling ordnance-survey uprn lookup micro-service with $uprnToLog")
+    WS.url(endPoint).
+      withHeaders(HttpHeaders.TrackingId -> trackingId).
+      withRequestTimeout(requestTimeout). // Timeout is in milliseconds
+      get()
+  }
+
   def postcodeWithNoSpaces(postcode: String): String = postcode.filter(_ != ' ')
 
-  override def callPostcodeWebService(postcode: String)
-                                     (implicit session: Option[ClientSideSession]): Future[Response] = {
+  private def postcodeParam(postcode: String) = s"postcode=${postcodeWithNoSpaces(postcode)}"
 
-    val endPoint = s"$baseUrl/postcode-to-address?postcode=${postcodeWithNoSpaces(postcode)}${trackingIdParam(session)}"
-    //Logger.debug(s"Calling ordnance-survey postcode lookup micro-service on $endPoint...")
-    WS.url(endPoint).
-      withRequestTimeout(requestTimeout). // Timeout is in milliseconds
-      get()
-  }
+  private def trackingIdParam(trackingId: String): String =
+    s"&${ClientSideSessionFactory.TrackingIdCookieName}=$trackingId"
 
-  override def callUprnWebService(uprn: String)
-                                 (implicit session: Option[ClientSideSession]): Future[Response] = {
-    val endPoint = s"$baseUrl/uprn-to-address?uprn=${uprn}${trackingIdParam(session)}"
-    //Logger.debug(s"Calling ordnance-survey uprn lookup micro-service on $endPoint...")
-    WS.url(endPoint).
-      withRequestTimeout(requestTimeout). // Timeout is in milliseconds
-      get()
-  }
-
-  private def trackingIdParam(session: Option[ClientSideSession]): String = session match {
-    case Some(s) => s"&${ClientSideSessionFactory.SessionIdCookieName}=${s.trackingId}"
-    case _ => ""
-  }
-
+  private def languageParam(implicit lang: Lang) = s"&languageCode=${lang.code.toUpperCase}"
 }

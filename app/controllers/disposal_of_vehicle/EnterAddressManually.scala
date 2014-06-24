@@ -1,17 +1,15 @@
 package controllers.disposal_of_vehicle
 
-import play.api.mvc._
-import play.api.data.{FormError, Form}
-import play.api.data.Forms._
-import play.api.Logger
-import mappings.common.AddressAndPostcode._
-import models.domain.disposal_of_vehicle.{TraderDetailsModel, AddressViewModel, SetupTradeDetailsModel, EnterAddressManuallyModel}
-import utils.helpers.FormExtensions._
 import com.google.inject.Inject
-import common.{ClientSideSessionFactory, CookieImplicits}
-import CookieImplicits.RequestCookiesAdapter
-import CookieImplicits.SimpleResultAdapter
-import CookieImplicits.FormAdapter
+import common.ClientSideSessionFactory
+import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
+import mappings.common.AddressAndPostcode._
+import models.domain.disposal_of_vehicle.{AddressViewModel, EnterAddressManuallyModel, SetupTradeDetailsModel, TraderDetailsModel}
+import play.api.Logger
+import play.api.data.Forms._
+import play.api.data.{Form, FormError}
+import play.api.mvc._
+import utils.helpers.FormExtensions._
 
 final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
@@ -21,46 +19,47 @@ final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: 
     )(EnterAddressManuallyModel.apply)(EnterAddressManuallyModel.unapply)
   )
 
-  def present = Action {
-    implicit request =>
-      request.cookies.getModel[SetupTradeDetailsModel] match {
-        case Some(_) =>
-          Ok(views.html.disposal_of_vehicle.enter_address_manually(form.fill()))
-        case None => Redirect(routes.SetUpTradeDetails.present())
-      }
-  }
-
-  def submit = Action {
-    implicit request => {
-      form.bindFromRequest.fold(
-        formWithErrors =>
-          request.cookies.getModel[SetupTradeDetailsModel] match {
-            case Some(_) =>
-              val updatedFormWithErrors = formWithErrors.
-                replaceError("addressAndPostcode.addressLines.line1", FormError("addressAndPostcode.addressLines", "error.address.line1.invalid")).
-                replaceError("addressAndPostcode.addressLines.line4", FormError("addressAndPostcode.addressLines", "error.address.line4.invalid")).
-                replaceError("addressAndPostcode.postcode", FormError("addressAndPostcode.postcode", "error.address.postcode.invalid")).
-                distinctErrors
-              BadRequest(views.html.disposal_of_vehicle.enter_address_manually(updatedFormWithErrors))
-            case None =>
-              Logger.debug("failed to find dealer name in cache for formWithErrors, redirecting...")
-              Redirect(routes.SetUpTradeDetails.present())
-          },
-        f =>
-          request.cookies.getModel[SetupTradeDetailsModel].map(_.traderBusinessName) match {
-          case Some(traderBusinessName) =>
-            val traderAddress = AddressViewModel.from(f.stripCharsNotAccepted.addressAndPostcodeModel)
-            val traderDetailsModel = TraderDetailsModel(traderName = traderBusinessName, traderAddress = traderAddress)
-
-            Redirect(routes.VehicleLookup.present()).
-              withCookie(f).
-              withCookie(traderDetailsModel)
-          case None =>
-            Logger.debug("failed to find dealer name in cache on submit, redirecting...")
-            Redirect(routes.SetUpTradeDetails.present())
-          }
-      )
+  def present = Action { implicit request =>
+    request.cookies.getModel[SetupTradeDetailsModel] match {
+      case Some(setupTradeDetails) =>
+        Ok(views.html.disposal_of_vehicle.enter_address_manually(form.fill(), traderPostcode = setupTradeDetails.traderPostcode))
+      case None => Redirect(routes.SetUpTradeDetails.present())
     }
   }
+
+  def submit = Action { implicit request =>
+    form.bindFromRequest.fold(
+      invalidForm =>
+        request.cookies.getModel[SetupTradeDetailsModel] match {
+          case Some(setupTradeDetails) =>
+            BadRequest(views.html.disposal_of_vehicle.enter_address_manually(formWithReplacedErrors(invalidForm), setupTradeDetails.traderPostcode))
+          case None =>
+            Logger.debug("Failed to find dealer name in cache, redirecting")
+            Redirect(routes.SetUpTradeDetails.present())
+        },
+      validForm =>
+        request.cookies.getModel[SetupTradeDetailsModel] match {
+          case Some(setupTradeDetails) =>
+            val updatedForm = validForm.stripCharsNotAccepted.toUpperCase
+            val traderAddress = AddressViewModel.from(updatedForm.addressAndPostcodeModel, setupTradeDetails.traderPostcode)
+            val traderDetailsModel = TraderDetailsModel(traderName = setupTradeDetails.traderBusinessName, traderAddress = traderAddress)
+
+            Redirect(routes.VehicleLookup.present()).
+              withCookie(updatedForm).
+              withCookie(traderDetailsModel)
+          case None =>
+            Logger.debug("Failed to find dealer name in cache on submit, redirecting")
+            Redirect(routes.SetUpTradeDetails.present())
+        }
+    )
+  }
+
+  private def formWithReplacedErrors(form: Form[EnterAddressManuallyModel])(implicit request: Request[_]) =
+    form.
+      replaceError("addressAndPostcode.addressLines.buildingNameOrNumber",
+        FormError("addressAndPostcode.addressLines", "error.address.buildingNameOrNumber.invalid")).
+      replaceError("addressAndPostcode.addressLines.postTown", FormError("addressAndPostcode.addressLines", "error.address.postTown")).
+      replaceError("addressAndPostcode.postcode", FormError("addressAndPostcode.postcode", "error.address.postcode.invalid")).
+      distinctErrors
 }
 

@@ -11,37 +11,33 @@ import mappings.disposal_of_vehicle.EnterAddressManually._
 object EnterAddressManuallyPage extends Page with WebBrowserDSL {
   final val address = "/disposal-of-vehicle/enter-address-manually"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  final override val title: String = "Enter address manually"
+  final override val title: String = "Enter address"
 
-  def addressLine1(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line1Id"))
+  def addressBuildingNameOrNumber(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$BuildingNameOrNumberId"))
 
   def addressLine2(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line2Id"))
 
   def addressLine3(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line3Id"))
 
-  def addressLine4(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line4Id"))
-
-  def postcode(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_$PostcodeId"))
+  def addressPostTown(implicit driver: WebDriver): TextField = textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$postTownId"))
 
   def next(implicit driver: WebDriver): Element = find(id(NextId)).get
 
   def back(implicit driver: WebDriver): Element = find(id(BackId)).get
 
-  def happyPath(line1: String = Line1Valid, line2: String = Line2Valid, line3: String = Line3Valid, line4:String = Line4Valid, postcode:String = PostcodeValid)(implicit driver: WebDriver) ={
+  def happyPath(buildingNameOrNumber: String = BuildingNameOrNumberValid, line2: String = Line2Valid, line3: String = Line3Valid, postTown:String = PostTownValid)(implicit driver: WebDriver) ={
     go to EnterAddressManuallyPage
-    addressLine1.value = line1
+    addressBuildingNameOrNumber.value = buildingNameOrNumber
     addressLine2.value = line2
     addressLine3.value = line3
-    addressLine4.value = line4
-    EnterAddressManuallyPage.postcode.value = postcode
+    addressPostTown.value = postTown
     click on next
   }
 
-  def happyPathMandatoryFieldsOnly(line1: String = Line1Valid, line4: String = Line4Valid, postcode:String = PostcodeValid)(implicit driver: WebDriver) ={
+  def happyPathMandatoryFieldsOnly(buildingNameOrNumber: String = BuildingNameOrNumberValid, postTown: String = PostTownValid)(implicit driver: WebDriver) ={
     go to EnterAddressManuallyPage
-    addressLine1.value = line1
-    addressLine4.value = line4
-    EnterAddressManuallyPage.postcode.value = postcode
+    addressBuildingNameOrNumber.value = buildingNameOrNumber
+    addressPostTown.value = postTown
     click on next
   }
 

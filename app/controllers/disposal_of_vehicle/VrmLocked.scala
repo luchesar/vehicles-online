@@ -2,22 +2,22 @@ package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
-import common.CookieImplicits.{RequestCookiesAdapter, SimpleResultAdapter}
+import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._
 import models.domain.disposal_of_vehicle.{BruteForcePreventionViewModel, TraderDetailsModel}
 import play.api.Logger
 import play.api.mvc._
+import scala.Some
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
-  def present = Action {
-    implicit request =>
+  def present = Action { implicit request =>
       request.cookies.getModel[BruteForcePreventionViewModel] match {
         case Some(viewModel) =>
-          Logger.debug(s"VrmLocked - displaying the vrm locked error page")
+          Logger.debug(s"VrmLocked - Displaying the vrm locked error page")
           Ok(views.html.disposal_of_vehicle.vrm_locked(viewModel.dateTimeISOChronology))
         case None =>
-          Logger.debug("VrmLocked - can't find cookie for BruteForcePreventionViewModel")
+          Logger.debug("VrmLocked - Can't find cookie for BruteForcePreventionViewModel")
           Redirect(routes.VehicleLookup.present())
       }
   }
@@ -33,4 +33,3 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
     Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
   }
 }
-

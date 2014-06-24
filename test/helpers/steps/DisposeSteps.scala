@@ -1,12 +1,16 @@
 package helpers.steps
 
 import pages.disposal_of_vehicle._
-import cucumber.api.java.en.{When, Given}
+import cucumber.api.java.en.{When, Given, Then}
 import org.scalatest.Matchers
 import services.fakes.FakeDateServiceImpl._
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
+import org.scalatest.time.{Seconds, Span}
+import org.scalatest.concurrent.Eventually._
+import pages.disposal_of_vehicle.DisposePage._
+import pages.common.ErrorPanel
 
 final class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
@@ -14,55 +18,62 @@ final class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
 
   @Given("""^the motor trader has confirmed the consent of the current keeper$""")
   def the_motor_trader_has_confirmed_the_consent_of_the_current_keeper() = {
-    buildDisposeSetup
+    buildDisposeSetup()
 
     go to DisposePage
-    enterValidDisposalDate
+    enterValidDisposalDate()
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
   }
 
-  @Given("""^the motor trader has not confirmed the consent of the current keeper$""")
-  def the_motor_trader_has_not_confirmed_the_consent_of_the_current_keeper() = {
-    buildDisposeSetup
+  @Given("""^the Trader is on the Complete & Confirm page and javascript is not enabled for the browser$""")
+  def the_Trader_is_on_the_Complete_Confirm_page_and_javascript_is_not_enabled_for_the_browser() = {
+    buildDisposeSetup()
 
     go to DisposePage
-    enterValidDisposalDate
+  }
+
+  @Given("""^the motor trader has not confirmed the consent of the current keeper$""")
+  def the_motor_trader_has_not_confirmed_the_consent_of_the_current_keeper() = {
+    buildDisposeSetup()
+
+    go to DisposePage
+    enterValidDisposalDate()
     click on DisposePage.lossOfRegistrationConsent
   }
 
   @Given("""^the motor trader has confirmed the acknowledgement of the current keeper$""")
   def the_motor_trader_has_confirmed_the_acknowledgement_of_the_current_keeper() = {
-    buildDisposeSetup
+    buildDisposeSetup()
 
     go to DisposePage
-    enterValidDisposalDate
+    enterValidDisposalDate()
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
   }
 
   @Given("""^the motor trader has not confirmed the acknowledgement of the current keeper$""")
   def the_motor_trader_has_not_confirmed_the_acknowledgement_of_the_current_keeper() = {
-    buildDisposeSetup
+    buildDisposeSetup()
 
     go to DisposePage
-    enterValidDisposalDate
+    enterValidDisposalDate()
     click on DisposePage.consent
   }
 
   @Given("""^the motor trader has entered a valid calendar date which conforms to business rules$""")
   def the_motor_trader_has_entered_a_valid_calendar_date() = {
-    buildDisposeSetup
+    buildDisposeSetup()
 
     go to DisposePage
-    enterValidDisposalDate
+    enterValidDisposalDate()
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
   }
 
   @Given("""^the motor trader has entered a valid calendar date which does not conform to business rules$""")
   def the_motor_trader_has_entered_a_valid_calendar_date_which_does_not_conform_to_the_business_rules() = {
-    buildDisposeSetup
+    buildDisposeSetup()
 
     go to DisposePage
     click on DisposePage.consent
@@ -94,7 +105,7 @@ final class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
     VehicleLookupPage.vehicleRegistrationNumber enter "AB12AWR"
     VehicleLookupPage.documentReferenceNumber enter "11111111113"
     click on VehicleLookupPage.findVehicleDetails
-    enterValidDisposalDate
+    enterValidDisposalDate()
     click on DisposePage.consent
     click on DisposePage.lossOfRegistrationConsent
   }
@@ -104,13 +115,51 @@ final class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDS
     click on DisposePage.dispose
   }
 
+  @When("""^the user manually selects a date using the  Date of Sale date drop downs$""")
+  def the_user_manually_selects_a_date_using_the_Date_of_Sale_date_drop_downs() = {
+    enterValidDisposalDate()
+  }
+
+  @When("""^the Trader tries to select "Confirm Sale" without setting the Date of Sale$""")
+  def the_Trader_tries_to_select_Confirm_Sale_without_setting_the_Date_of_Sale() = {
+    click on consent
+    click on lossOfRegistrationConsent
+    click on dispose
+  }
+
+  @When("""^the user checks the 'Use today's date' checkbox for Date of Sale$""")
+  def the_user_checks_the_Use_todays_date_checkbox_for_Date_of_Sale() = {
+    click on useTodaysDate
+  }
+
+  @Then("""^the date dropdown is still unset$""")
+  def the_date_dropdown_is_still_unset() = {
+    dateOfDisposalDay.value should equal("")
+    dateOfDisposalMonth.value should equal("")
+    dateOfDisposalYear.value should equal("")
+  }
+
+  @Then("""^the user can select "Confirm sale" without error on the date of sale field$""")
+  def the_user_can_select_Confirm_sale_without_error_on_the_date_of_sale_field() = {
+    click on consent
+    click on lossOfRegistrationConsent
+    click on dispose
+
+    page.title should equal(DisposeSuccessPage.title)
+  }
+
+  @Then("""^an error will occur stating "Must be between today and two years ago"$""")
+  def an_error_will_occur_stating_Must_be_between_today_and_two_years_ago() = {
+    ErrorPanel.numberOfErrors should equal(1)
+  }
+
   private def enterValidDisposalDate() {
     DisposePage.dateOfDisposalDay select DateOfDisposalDayValid
     DisposePage.dateOfDisposalMonth select DateOfDisposalMonthValid
     DisposePage.dateOfDisposalYear select DateOfDisposalYearValid
   }
 
-  private def buildDisposeSetup(){
+  private def buildDisposeSetup() {
     go to BeforeYouStartPage
 
     CookieFactoryForUISpecs.setupTradeDetails().

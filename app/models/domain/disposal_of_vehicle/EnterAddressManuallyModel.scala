@@ -6,7 +6,7 @@ import play.api.libs.json.Json
 import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
 
 final case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcodeModel) {
-  def stripCharsNotAccepted = {
+  def stripCharsNotAccepted: EnterAddressManuallyModel = {
     @tailrec
     def stripEndOfLine(inputLine: Option[String]): Option[String] = inputLine match {
       case Some(line) =>
@@ -18,15 +18,24 @@ final case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPo
       case _ => None
     }
 
-    val line1 = stripEndOfLine(Some(addressAndPostcodeModel.addressLinesModel.line1))
-    require(line1.isDefined, "Address line1 must have content")
+    val buildingNameOrNumber = stripEndOfLine(Some(addressAndPostcodeModel.addressLinesModel.buildingNameOrNumber))
+    require(buildingNameOrNumber.isDefined, "Address buildingNameOrNumber must have content")
+
     val line2 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line2)
     val line3 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line3)
-    val line4 = stripEndOfLine(Some(addressAndPostcodeModel.addressLinesModel.line4))
-    require(line4.isDefined, "Address line4 must have content")
+    
+    val postTown = stripEndOfLine(Some(addressAndPostcodeModel.addressLinesModel.postTown))
+    require(postTown.isDefined, "Address postTown must have content")
 
-    //TODO: Revisit Get - should this be used?
-    copy(addressAndPostcodeModel = addressAndPostcodeModel.copy(addressLinesModel = AddressLinesModel(line1.get, line2, line3, line4.get)))
+    copy(addressAndPostcodeModel = addressAndPostcodeModel.copy(addressLinesModel = AddressLinesModel(buildingNameOrNumber.get, line2, line3, postTown.get)))
+  }
+
+  def toUpperCase: EnterAddressManuallyModel = {
+    copy(addressAndPostcodeModel = addressAndPostcodeModel.copy(
+      addressLinesModel = AddressLinesModel(addressAndPostcodeModel.addressLinesModel.buildingNameOrNumber.toUpperCase,
+        addressAndPostcodeModel.addressLinesModel.line2.map(_.toUpperCase),
+        addressAndPostcodeModel.addressLinesModel.line3.map(_.toUpperCase),
+        addressAndPostcodeModel.addressLinesModel.postTown.toUpperCase)))
   }
 }
 

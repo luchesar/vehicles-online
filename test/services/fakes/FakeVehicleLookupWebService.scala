@@ -9,7 +9,7 @@ import scala.concurrent.Future
 import services.vehicle_lookup.VehicleLookupWebService
 
 final class FakeVehicleLookupWebService extends VehicleLookupWebService {
-  override def callVehicleLookupService(request: VehicleDetailsRequest) = Future {
+  override def callVehicleLookupService(request: VehicleDetailsRequest, trackingId: String) = Future {
     val (responseStatus, response) = {
       request.referenceNumber match {
         case "99999999991" => vehicleDetailsResponseVRMNotFound
@@ -43,7 +43,7 @@ object FakeVehicleLookupWebService {
   }
 
   val vehicleDetailsResponseVRMNotFound: (Int, Option[VehicleDetailsResponse]) = {
-    (OK, Some(VehicleDetailsResponse(responseCode = Some("vehicle_lookup_vrm_not_found"), vehicleDetailsDto = None)))
+    (OK, Some(VehicleDetailsResponse(responseCode = Some("vehicle_lookup_vrm_not_found"), vehicleDetailsDto = None))) // TODO make response code a constant
   }
 
   val vehicleDetailsResponseDocRefNumberNotLatest: (Int, Option[VehicleDetailsResponse]) = {

@@ -1,20 +1,18 @@
 package helpers.webbrowser
 
-import com.typesafe.config.ConfigFactory
-import controllers.disposal_of_vehicle.routes
 import java.io.File
 import java.util.UUID
-import javax.crypto.BadPaddingException
-import play.api._
-import play.api.Configuration
-import play.api.mvc._
-import play.api.mvc.Results._
-import play.api.Play.current
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
-import utils.helpers.CryptoHelper
+
 import com.google.inject.Injector
+import com.typesafe.config.ConfigFactory
 import composition.TestComposition._
+import play.api._
+import play.api.mvc.Results._
+import play.api.mvc._
+import utils.helpers.ErrorStrategy
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
  * Application configuration is in a hierarchy of files:
@@ -52,9 +50,7 @@ object TestGlobal extends WithFilters(filters: _*) with GlobalSettings {
   // 404 - page not found error http://alvinalexander.com/scala/handling-scala-play-framework-2-404-500-errors
   override def onHandlerNotFound(request: RequestHeader): Future[SimpleResult] = Future(NotFound(views.html.errors.onHandlerNotFound(request)))
 
-  override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] = ex.getCause match {
-    case _: BadPaddingException  => CryptoHelper.handleApplicationSecretChange(request)
-    case _ => Future(Redirect(routes.Error.present()))
-  }
+  override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] =
+    ErrorStrategy(request, ex)
 }
 

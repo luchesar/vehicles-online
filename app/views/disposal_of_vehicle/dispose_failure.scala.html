@@ -1,23 +1,34 @@
-@(data: models.domain.disposal_of_vehicle.DisposeViewModel, formModel: models.domain.disposal_of_vehicle.DisposeFormModel)(implicit lang: Lang)
+@(data: models.domain.disposal_of_vehicle.DisposeViewModel, formModel: models.domain.disposal_of_vehicle.DisposeFormModel)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
-@import helper._
+@import controllers.disposal_of_vehicle.routes.DisposeFailure
 @import mappings.disposal_of_vehicle.DisposeFailure._
+@import views.html.common.alternateLanguages
+@import views.html.disposal_of_vehicle.main
 
-@main(Messages("disposal_disposefailure.title")){
+@main(
+    title = Messages("disposal_disposefailure.title")
+) {
 
-<p>@Messages("disposal_disposefailure.p1")</p>
 
-<div class="alert-error">
+<div class="alert-failed">
     <h2>Disposal failure</h2>
-    <p>@Messages("ms.vehiclesService.response.unableToProcessApplication")</p>
+    <p>
+    	@Messages("ms.vehiclesService.response.unableToProcessApplication")
+    	<br>
+    	@Messages("ms.vehiclesService.response.unableToProcessApplication-address")
+    </p>
     <p>Your transaction ID is<br /><span class="emphasized">@Messages("disposal_disposefailure.transactionid", data.transactionId.getOrElse(""))</span></p>
 </div>
 
 
-<div class="form-steps">
-    @{ /* Note the reverse routing syntax for the hyperlink */ }
-    <a class="button" id="@VehicleLookupId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present">@Messages("disposal_disposefailure.button")</a>
-    <a class="button" id="@SetupTradeDetailsId" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.present">@Messages("disposal_disposefailure.button2")</a>
-</div>
 
+
+    <div class="form-steps">
+        @{
+            /* Note the reverse routing syntax for the hyperlink */
+        }
+        <a class="button" id="@VehicleLookupId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present()">@Messages("disposal_disposefailure.button")</a>
+        <a class="button" id="@SetupTradeDetailsId" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.present()">@Messages("disposal_disposefailure.button2")</a>
+        <button id="printDisposalSuccess" type="button" name="action" value="printDisposalSuccess" class="button js-only print-button">@Messages("global.buttonnavprint")</button>
+    </div>
 }

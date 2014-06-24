@@ -1,13 +1,19 @@
-@()(implicit lang: Lang, token: play.filters.csrf.CSRF.Token)
+@(exceptionDigest: String)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
 @import helper._
 @import mappings.disposal_of_vehicle.Error._
+@import utils.helpers._
+@import views.html.common.alternateLanguages
+@import views.html.disposal_of_vehicle.main
+@import controllers.disposal_of_vehicle.routes.Error
 
-@main(Messages("error.title")){
+@main(
+    title = Messages("error.title")
+){
 
-    @form(action = controllers.disposal_of_vehicle.routes.Error.submit) {
+    @form(action = controllers.disposal_of_vehicle.routes.Error.submit(exceptionDigest)) {
 
-        @CSRF.formField
+    @CSRFHelper.hiddenFormField
 
         <div class="form-steps">
             <button id="@SubmitId" type="submit" name="action" class="button">@Messages("error.button")</button>

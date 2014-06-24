@@ -1,7 +1,6 @@
 package models.domain.disposal_of_vehicle
 
 import play.api.libs.json.Json
-import org.joda.time.DateTime
 
 final case class DisposeRequest(referenceNumber: String,
                                 registrationNumber: String,
@@ -11,7 +10,6 @@ final case class DisposeRequest(referenceNumber: String,
                                 transactionTimestamp: String,
                                 prConsent: Boolean,
                                 keeperConsent: Boolean,
-                                trackingId: String,
                                 mileage: Option[Int] = None)
 
 object DisposeRequest {

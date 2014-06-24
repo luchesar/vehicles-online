@@ -6,7 +6,13 @@
     <appender name="SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">
         <syslogHost>localhost</syslogHost>
         <facility>LOCAL0</facility>
-        <suffixPattern>app: %logger{20} %msg</suffixPattern>
+        <suffixPattern>vehicles-online: %logger{20} %msg</suffixPattern>
+    </appender>
+
+    <appender name="REQUEST-SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">
+        <syslogHost>localhost</syslogHost>
+        <facility>LOCAL0</facility>
+        <suffixPattern>vehicles-online: %msg</suffixPattern>
     </appender>
 
     <appender name="APPLICATION_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -63,6 +69,10 @@
 
     <!-- log application messages to root logger appenders -->
     <logger name="application" level="INFO"/>
+
+    <logger name="dvla.common.AccessLogger" level="INFO" additivity="false" >
+        <appender-ref ref="REQUEST-SYSLOG"/>
+    </logger>
 
     <!-- Note: The appenders are cumulative.
     A logger will log to the appenders attached to itself (if any) as well as all the appenders attached to its ancestors.

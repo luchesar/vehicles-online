@@ -1,9 +1,9 @@
 package constraints.common
 
-import play.api.data.validation._
-import scala.util.{Success, Try}
+import models.DayMonthYear
 import org.joda.time.DateTime
-import play.api.data.validation.ValidationError
+import play.api.data.validation.{Constraint, ValidationError, Valid, Invalid}
+import scala.util.Try
 import services.DateService
 
 object DayMonthYear {
@@ -15,33 +15,29 @@ object DayMonthYear {
     case _ => Invalid(ValidationError("error.dropDownInvalid")) // TODO test coverage
   }
 
-  def validDate(minYear: Int = MinYear, maxYear: Int = MaxYear): Constraint[models.DayMonthYear] = {
-    def dateValidation(dmy: models.DayMonthYear): ValidationResult = Try(new DateTime(dmy.year, dmy.month, dmy.day, 0, 0)) match {
-      case Success(dt: DateTime) if dt.getYear > minYear && dt.getYear < maxYear => Valid
-      case _ => Invalid(ValidationError("error.invalid"))
-    }
+  def validDate(minYear: Int = MinYear, maxYear: Int = MaxYear): Constraint[DayMonthYear] = {
+    def isValidDateTime(dmy: DayMonthYear) = Try(new DateTime(dmy.year, dmy.month, dmy.day, 0, 0)).isSuccess
+    def isWithinYearBounds(dmy: DayMonthYear) = dmy.year > minYear && dmy.year < maxYear
 
     Constraint("constraint.required") {
-      case dmy@models.DayMonthYear(_, _, _, _, _) => dateValidation(dmy)
+      case dmy: DayMonthYear if isValidDateTime(dmy) && isWithinYearBounds(dmy)  => Valid
+      case dmy: DayMonthYear => Invalid(ValidationError("error.invalid"))
       case _ => Invalid(ValidationError("error.required")) // TODO test coverage
     }
   }
 
-  def after(earliest: models.DayMonthYear): Constraint[models.DayMonthYear] = {
-    // Date must be after a year
-    import scala.language.postfixOps
+  def after(earliest: DayMonthYear): Constraint[DayMonthYear] = {
     Constraint("constraint.withinTwoYears") {
-      case dmy@models.DayMonthYear(_, _, _, _, _) if dmy >= earliest => Valid
+      case dmy: DayMonthYear if dmy >= earliest => Valid
       case _ => Invalid(ValidationError("error.withinTwoYears"))
     }
   }
 
-  def notInFuture(dateService: DateService): Constraint[models.DayMonthYear] = {
-    // Date must be after a year
-    import scala.language.postfixOps
+  def notInFuture(dateService: DateService): Constraint[DayMonthYear] = {
     Constraint("constraint.notInFuture") {
-      case dmy@models.DayMonthYear(_, _, _, _, _) if dmy <= dateService.today => Valid
+      case dmy: DayMonthYear if dmy <= dateService.today => Valid
       case _ => Invalid(ValidationError("error.notInFuture"))
     }
   }
+
 }

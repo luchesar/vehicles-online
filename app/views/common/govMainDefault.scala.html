@@ -1,6 +1,7 @@
-@(title: String, lang: Lang)(content: Html)(implicit footerCategories: Html = Html.empty)
+@(title: String)(content: Html)(implicit lang: Lang)
 
 @import play.api.Play.current
+@import views.html.common.alternateLanguages
 
 <!DOCTYPE html>
     <!--[if IE 6]>         <html class="ie ie6" lang="en"> <![endif]-->
@@ -13,22 +14,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>@title</title>
-        
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("screen.min.css")">        
 
+        <link rel="stylesheet" href="@routes.Assets.at("screen.min.css")" media="screen" type="text/css"> @* TODO check if this needs type="text/css" *@
 
-        <!--[if gte IE 9]><!-->
-        <link href="@routes.Assets.at("fonts.min.css")" media="all" rel="stylesheet" type="text/css">
-        <!--<![endif]-->
+        <link rel="stylesheet" href="https://assets.digital.cabinet-office.gov.uk/static/fonts-607c54f71c7c1f98257595cedaa13a34.css" media="all" type="text/css">
 
-        <link href="@routes.Assets.at("print.min.css")" media="print" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="@routes.Assets.at("print.min.css")" media="print" type="text/css">
 
-        <link rel="shortcut icon" href="@routes.Assets.at("images/favicon-447e4ac1ab790342660eacfe3dcce264.ico")" type="image/x-icon">
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@routes.Assets.at("images/apple-touch-icon-144x144-4e306e01c31e237722b82b7aa7130082.png")">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@routes.Assets.at("images/apple-touch-icon-114x114-f1d7ccdc7b86d923386b373a9ba5e3db.png")">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@routes.Assets.at("images/apple-touch-icon-72x72-2ddbe540853e3ba0d30fbad2a95eab3c.png")">
-        <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("images/apple-touch-icon-57x57-37527434942ed8407b091aae5feff3f3.png")">
-        
+        <link rel="shortcut icon" href="@routes.Assets.at("images/favicon.ico")" type="image/x-icon">
+        <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("images/apple-touch-icon-144x144.png")" sizes="144x144">
+        <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("images/apple-touch-icon-114x114.png")" sizes="114x114">
+        <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("images/apple-touch-icon-72x72.png")" sizes="72x72">
+        <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("images/apple-touch-icon-57x57.png")">
     </head>
 
     <body>
@@ -44,11 +41,14 @@
                         </a>
                     </div>
 					
-					<div class="header-phase">
-                    	<h1 class="page-title alpha"><strong>@{Messages("main.banner")(lang)}</strong> <span aria-hidden="true">alpha</span></h1>
-                    	<h2><a href="">@{Messages("main.banner.help")(lang)}</a></h2>
+                    <div class="header-phase">
+                    	<h1 class="page-title beta"><strong>@{Messages("main.banner")(lang)}</strong> <span aria-hidden="true">beta</span></h1>
+                    	<h2>
+                            <a href="">@{Messages("main.banner.help")(lang)}</a>
+                            <a href="@{Messages("main.banner.feedback.link")(lang)}">@{Messages("main.banner.feedback")(lang)}</a>
+                            @alternateLanguages()
+                        </h2>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -69,9 +69,7 @@
         </div>
 
         <div class="group js-footer" id="footer" role="contentinfo">
-            <div class="footer-wrapper carers-allowance-footer">
-                @footerCategories
-
+            <div class="footer-wrapper vehicles-online-footer">
                 <div class="footer-meta">
                     <div class="nav-wrapper">
                         <ul>
@@ -105,5 +103,21 @@
         <![endif]-->
 
         <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+
+            @if(play.Configuration.root().getBoolean("googleAnalytics.enabled")) {
+        <script>
+        	var _gaq = _gaq || [];
+        	_gaq.push(['_setSiteSpeedSampleRate', 5]);
+
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', '@play.Configuration.root().getString("googleAnalytics.id")', '@play.Configuration.root().getString("googleAnalytics.domain")');
+          ga('send', 'pageview');
+
+        </script>
+        }
     </body>
 </html>

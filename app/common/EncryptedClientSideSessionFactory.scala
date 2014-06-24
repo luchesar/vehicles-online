@@ -1,69 +1,78 @@
 package common
 
-import app.ConfigProperties._
-import utils.helpers.{CookieEncryption, CookieNameHashing}
-import org.apache.commons.codec.binary.Hex
 import java.security.SecureRandom
+
+import app.ConfigProperties._
 import com.google.inject.Inject
+import org.apache.commons.codec.binary.Hex
 import play.api.mvc.Cookie
-import play.api.mvc.SimpleResult
+import utils.helpers.{CookieEncryption, CookieNameHashGenerator}
 
 class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: CookieFlags,
                                                     encryption: CookieEncryption,
-                                                    cookieNameHashing: CookieNameHashing) extends ClientSideSessionFactory {
-
+                                                    cookieNameHashing: CookieNameHashGenerator) extends ClientSideSessionFactory {
   /**
    * Session secret key must not expire before any other cookie that relies on it.
    */
   private final val SessionSecretKeyLifetime = None
+  private val secureCookies: Boolean = getProperty("secureCookies", default = true)
+  private val sessionSecretKeySuffixKey: String = getProperty("sessionSecretKeySuffixKey", "FE291934-66BD-4500-B27F-517C7D77F26B")
 
-  val secureCookies: Boolean = getProperty("secureCookies", default = true)
+  override def newSessionCookiesIfNeeded(request: Traversable[Cookie]): Option[Seq[Cookie]] =
+    validateSessionCookies(request) match {
+      case Some((trackingId, sessionSecretKey)) => None
+      case _ =>
+        val sessionSecretKey = newSessionSecretKey
+        val sessionSecretKeyCipherText = encryption.encrypt(createSessionSecretKeySuffixCookieName + sessionSecretKey)
+        val trackingIdLengthChars = 20
+        val (prefixValue, suffixValue) = sessionSecretKeyCipherText.splitAt(trackingIdLengthChars)
 
-  override protected def newSession(result: SimpleResult): (SimpleResult, ClientSideSession) = {
-    val sessionSecretKey = newSessionSecretKey
+        val trackingIdCookie = Cookie(
+          name = ClientSideSessionFactory.TrackingIdCookieName,
+          value = prefixValue,
+          secure = secureCookies,
+          maxAge = SessionSecretKeyLifetime)
 
+        val sessionSecretKeySuffixCookie = Cookie(
+          name = createSessionSecretKeySuffixCookieName,
+          value = suffixValue,
+          secure = secureCookies,
+          maxAge = SessionSecretKeyLifetime)
 
-    val sessionSecretKeyPrefixCookieName = ClientSideSessionFactory.SessionIdCookieName
-    val sessionSecretKeyCipherText = encryption.encrypt(sessionSecretKeyCookieName + sessionSecretKey)
-    val (prefixValue, suffixValue) = sessionSecretKeyCipherText.splitAt(20)
+        Some(Seq(trackingIdCookie, sessionSecretKeySuffixCookie))
+    }
 
-    val sessionSecretKeyPrefixCookie = Cookie(
-      name = sessionSecretKeyPrefixCookieName,
-      value = prefixValue,
-      secure = secureCookies,
-      maxAge = SessionSecretKeyLifetime)
+  override def getSession(request: Traversable[Cookie]): ClientSideSession =
+    validateSessionCookies(request) match {
+      case Some((trackingId, sessionSecretKey)) => new EncryptedClientSideSession(trackingId, sessionSecretKey)
+      case _ => throw new InvalidSessionException("No session present in the request")
+    }
 
-    val sessionSecretKeySuffixCookie = Cookie(
-      name = sessionSecretKeyCookieName,
-      value = suffixValue,
-      secure = secureCookies,
-      maxAge = SessionSecretKeyLifetime)
+  private def validateSessionCookies(requestCookies: Traversable[Cookie]): Option[(String, String)] = {
+    val trackingIdCookie = requestCookies.find(_.name == ClientSideSessionFactory.TrackingIdCookieName)
+    val sessionSecretKeySuffixCookieName = createSessionSecretKeySuffixCookieName
+    val sessionSecretKeySuffixCookie = requestCookies.find(_.name == sessionSecretKeySuffixCookieName)
 
-    val clientSideSession = new EncryptedClientSideSession(prefixValue, sessionSecretKey)
-    val resultWithSessionSecretKeyCookie = result.withCookies(sessionSecretKeyPrefixCookie, sessionSecretKeySuffixCookie)
+    (trackingIdCookie, sessionSecretKeySuffixCookie) match {
+      case (Some(trackingId), Some(sessionSecretKeySuffix)) =>
+        val decrypted = encryption.decrypt(trackingId.value + sessionSecretKeySuffix.value)
+        val (cookieNameFromPayload, sessionSecretKey) = decrypted.splitAt(sessionSecretKeySuffixCookieName.length)
 
-    (resultWithSessionSecretKeyCookie, clientSideSession)
-  }
+        if (sessionSecretKeySuffixCookieName != cookieNameFromPayload)
+          throw new InvalidSessionException("The cookie name bytes from the payload must match the cookie name")
 
-  override def getSession(request: Traversable[Cookie]): Option[ClientSideSession] = {
-    val cookieName = sessionSecretKeyCookieName
-
-    for {
-      cookie <- request.find(_.name == cookieName)
-      trackingId <- request.find(_.name == ClientSideSessionFactory.SessionIdCookieName)
-    } yield {
-      val decrypted = encryption.decrypt(trackingId.value + cookie.value)
-      val (cookieNameFromPayload, sessionSecretKey) = decrypted.splitAt(cookieName.length)
-      assert(cookieName == cookieNameFromPayload, "The cookie name bytes from the payload must match the cookie name")
-
-      new EncryptedClientSideSession(trackingId.value, sessionSecretKey)
+        Some((trackingId.value, sessionSecretKey))
+      case (None, None) => None
+      case _ => throw new InvalidSessionException("Invalid session cookies coming from the request")
     }
   }
 
-  private def sessionSecretKeyCookieName(implicit cookieNameHashing: CookieNameHashing): String =
-    cookieNameHashing.hash("FE291934-66BD-4500-B27F-517C7D77F26B")
+  private def createSessionSecretKeySuffixCookieName: String = cookieNameHashing.hash(sessionSecretKeySuffixKey)
 
-  private def newSessionSecretKey = Hex.encodeHexString(getSecureRandomBytes(16))
+  private def newSessionSecretKey: String = {
+    val secretKeyLengthBytes = 16
+    Hex.encodeHexString(getSecureRandomBytes(secretKeyLengthBytes))
+  }
 
   private def getSecureRandomBytes(numberOfBytes: Int): Array[Byte] = {
     val random = new SecureRandom()

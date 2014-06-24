@@ -4,12 +4,11 @@ import models.domain.common.AddressAndPostcodeModel
 import play.api.libs.json.Json
 
 final case class AddressViewModel(uprn: Option[Long] = None, // Optional because if user is manually entering the address they will not be allowed to enter a UPRN, it is only populated by address lookup services.
-                            address: Seq[String])
+                                  address: Seq[String])
 
 object AddressViewModel {
   implicit val JsonFormat = Json.format[AddressViewModel]
 
-  def from(address: AddressAndPostcodeModel): AddressViewModel = {
-    AddressViewModel(address = address.toViewFormat)
-  }
+  def from(address: AddressAndPostcodeModel, postcode: String): AddressViewModel =
+    AddressViewModel(address = address.toViewFormat(postcode))
 }

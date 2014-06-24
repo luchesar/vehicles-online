@@ -99,6 +99,36 @@
 		}
 		*/
 	}
+	.read-only-input {
+		line-height: 1.31579;
+		padding: 0.25em 0 0.1em 0.4em;
+		width: 28.3rem;
+		border: 1px solid #777;
+		cursor: default;
+		
+		font: {
+			size:1.9rem;
+			weight: 400;
+		}
+		.ie & {
+			font-size: 19px;
+		}
+
+		.ie7 &, .ie8 & {
+			padding: 0.2em 0 0.4em 0.4em;
+			width: 283px;
+		}
+
+		@media screen and (max-width: $device-small) {
+				width: 100%;
+				@include box-sizing(border-box);
+			.ie7 &, .ie8 & {
+				width:97%;
+			}
+		}
+
+
+	}
 
 	textarea {
 	   	height: 6em;
@@ -157,6 +187,13 @@
 			input {
 				left:-25px;
 			}
+		}
+
+	}
+	label.form-checkbox {
+		cursor:pointer;
+		.ie6 & {
+			cursor:default;
 		}
 
 	}
@@ -306,4 +343,10 @@
 	   		clear:both;
 	   	}
 	}
+
+	//uppercase text inputs (class is applied to a parent wrapper)
+	.uppercase-input input {
+		@include to-uppercase;
+	}
+
 }

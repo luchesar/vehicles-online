@@ -11,6 +11,8 @@ object Dispose {
   final val ConsentId = "consent"
   final val LossOfRegistrationConsentId = "lossOfRegistrationConsent"
   final val DateOfDisposalYearsIntoThePast = 2
+  final val TodaysDateOfDisposalLabel = "todaysDateOfDisposalLabel"
+  final val TodaysDateOfDisposal = "todaysDateOfDisposal"
   final val BackId = "back"
   final val SubmitId = "submit"
 }

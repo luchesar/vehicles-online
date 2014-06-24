@@ -1,19 +1,15 @@
 import com.google.inject.Injector
 import com.typesafe.config.ConfigFactory
-import controllers.disposal_of_vehicle.routes
-import filters.EnsureSessionCreatedFilter
+import filters.{AccessLoggingFilter, EnsureSessionCreatedFilter}
 import java.io.File
 import java.util.UUID
-import javax.crypto.BadPaddingException
 import play.api._
-import play.api.Configuration
-import play.api.mvc._
 import play.api.mvc.Results._
-//import play.filters.gzip._
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
-import utils.helpers.CryptoHelper
+import play.api.mvc._
 import composition.Composition._
+import utils.helpers.ErrorStrategy
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
  * Application configuration is in a hierarchy of files:
@@ -30,7 +26,7 @@ import composition.Composition._
  * play -Dconfig.file=conf/application.test.conf run
  */
 
-object Global extends WithFilters(filters) with GlobalSettings {
+object Global extends WithFilters(filters: _*) with GlobalSettings {
 
   private lazy val injector: Injector = devInjector
 
@@ -64,13 +60,14 @@ object Global extends WithFilters(filters) with GlobalSettings {
     Future(NotFound(views.html.errors.onHandlerNotFound(request)))
   }
 
-  override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] = ex.getCause match {
-    case _: BadPaddingException  => CryptoHelper.handleApplicationSecretChange(request)
-    case _ => Future(Redirect(routes.Error.present()))
-  }
+  override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] =
+    ErrorStrategy(request, ex)
 
   override def doFilter(a: EssentialAction): EssentialAction = {
-    Filters(super.doFilter(a), devInjector.getInstance(classOf[EnsureSessionCreatedFilter]))
+    // TODO can we work out how to dependency inject into WithFilters?
+    // EnsureSessionCreatedFilter relies on IoC which in turn requires the configs to be read, but if we try to load it in the
+    // Global WithFilters the config is not yet loaded so will fail. One solution is to use this doFilter to append to the
+    // Global filters.
+    Filters(super.doFilter(a), devInjector.getInstance(classOf[EnsureSessionCreatedFilter]), devInjector.getInstance(classOf[AccessLoggingFilter]))
   }
 }
-
