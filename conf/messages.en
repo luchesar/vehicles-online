@@ -207,7 +207,7 @@ disposal_businessChooseYourAddress.backbutton = Back
 disposal_businessChooseYourAddress.submitbutton = Next
 disposal_businessChooseYourAddress.manualAddressEntry = My address is not in the list
 error.dropDownInvalid = Please select a value from the drop down list.
-disposal_businessChooseYourAddress_noaddressesfound = No addresses found for that postcode. Click the back button to enter a different postcode or enter an address manually
+disposal_businessChooseYourAddress_noaddressesfound = No addresses found for that postcode. Click the back button to enter a different postcode or click the link below to enter an address manually
 
 #page 3 - manual address entry
 disposal_enteraddressmanually.title = Enter address
