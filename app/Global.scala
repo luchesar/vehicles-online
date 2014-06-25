@@ -10,6 +10,7 @@ import play.api._
 import play.api.i18n.Lang
 import play.api.mvc.Results._
 import play.api.mvc._
+import services.csrf_prevention.CSRFPreventionFilter
 import utils.helpers.ErrorStrategy
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -80,6 +81,11 @@ object Global extends WithFilters(filters: _*) with GlobalSettings {
     // EnsureSessionCreatedFilter relies on IoC which in turn requires the configs to be read, but if we try to load it in the
     // Global WithFilters the config is not yet loaded so will fail. One solution is to use this doFilter to append to the
     // Global filters.
-    Filters(super.doFilter(a), devInjector.getInstance(classOf[EnsureSessionCreatedFilter]), devInjector.getInstance(classOf[AccessLoggingFilter]))
+    Filters(
+      super.doFilter(a),
+      devInjector.getInstance(classOf[EnsureSessionCreatedFilter]),
+      devInjector.getInstance(classOf[AccessLoggingFilter]),
+      devInjector.getInstance(classOf[CSRFPreventionFilter])
+    )
   }
 }

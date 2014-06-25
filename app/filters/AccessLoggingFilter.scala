@@ -14,7 +14,8 @@ import play.api.Logger
 class AccessLoggingFilter @Inject()(logger: ClfLogger) extends Filter {
   val accessLogger = Logger("dvla.common.AccessLogger")
 
-  override def apply(filter: (RequestHeader) => Future[SimpleResult])(requestHeader: RequestHeader): Future[SimpleResult] = {
+  override def apply(filter: (RequestHeader) => Future[SimpleResult])
+                    (requestHeader: RequestHeader): Future[SimpleResult] = {
     val requestTimestamp = new Date()
     filter(requestHeader).map {result =>
       val accessLogMessage = logger.clfEntry(requestTimestamp, requestHeader, result)

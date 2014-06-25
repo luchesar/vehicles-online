@@ -9,6 +9,7 @@ import scala.Some
 import play.api.mvc.SimpleResult
 
 class EnsureSessionCreatedFilter @Inject()(sessionFactory: ClientSideSessionFactory) extends Filter {
+
   def apply(nextFilter: (RequestHeader) => Future[SimpleResult])
            (requestHeader: RequestHeader): Future[SimpleResult] =
     sessionFactory.newSessionCookiesIfNeeded(requestHeader.cookies) match {
@@ -31,6 +32,5 @@ class EnsureSessionCreatedFilter @Inject()(sessionFactory: ClientSideSessionFact
         }
       case None => nextFilter(requestHeader)
     }
-
 
   }
