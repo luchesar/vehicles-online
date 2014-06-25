@@ -1,28 +1,7 @@
-@(form:play.api.data.Form[_])
+@(form: play.api.data.Form[_])(implicit lang: Lang)
 
-@mandatory() = @{
-        <p class="mandatory">Fields marked with <em>*</em> are mandatory</p>
+@import utils.helpers.FormExtensions._
+
+@if(form.anyMandatoryFields) {
+    <p class="mandatory">@Messages("mandatory")</p>
 }
-
-@{
-    def getMappings(mappings: Seq[Mapping[_]]):Seq[Mapping[_]] = {
-        // TODO move to helper and rewrite in a functional style, the solution may look like mappings.flatMap(_.mappings)
-        var m = mappings
-        for(a <- 0 to m.size){
-            m = m ++ m(a).mappings
-        }
-        m
-    }
-    def anyRequired(mappings: Seq[Mapping[_]]):Boolean = { // TODO move to helper and rewrite in a functional style.
-        for(mapping <- mappings){
-            if (mapping.constraints.exists(c => c != null && c.name.getOrElse("") == "constraint.required")) return true
-        }
-        false
-
-    }
-    if(anyRequired(getMappings(Seq(form.mapping)))){
-        mandatory()
-    }
-}
-
-

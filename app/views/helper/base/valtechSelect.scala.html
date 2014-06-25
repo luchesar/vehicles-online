@@ -1,5 +1,6 @@
 @(field: play.api.data.Field, defaultOptionMessage: String = "select_default", options: Seq[(String, String)], args: Map[Symbol, Any] = Map.empty)(implicit handler: helper.FieldConstructor, lang: Lang)
 
+@import constraints.common.Required.RequiredField
 @import play.api.templates.PlayMagic.toHtmlArgs
 @import utils.helpers.SelectHelper._
 @import views.html.helper.base.valtechLabel
@@ -9,7 +10,7 @@
 
     <select id="@field.id"
         name="@name"
-        @{if(field.constraints.find(_._1 == "constraint.required")) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
+        @{if(field.constraints.find(_._1 == RequiredField)) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
         @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
         @toHtmlArgs(htmlArgs)
     >

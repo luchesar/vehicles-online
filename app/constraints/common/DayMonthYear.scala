@@ -1,16 +1,18 @@
 package constraints.common
 
+import constraints.common.Required.RequiredField
 import models.{DayMonthYear => ModelsDMY}
 import org.joda.time.DateTime
-import play.api.data.validation.{Constraint, ValidationError, Valid, Invalid}
-import scala.util.Try
+import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import services.DateService
+
+import scala.util.Try
 
 object DayMonthYear {
   private final val MinYear = 999
   private final val MaxYear = 9999
 
-  def required: Constraint[Int] = Constraint[Int]("constraint.required") {
+  def required: Constraint[Int] = Constraint[Int](RequiredField) {
     case i if i > 0 => Valid
     case _ => Invalid(ValidationError("error.dropDownInvalid")) // TODO test coverage
   }
@@ -19,7 +21,7 @@ object DayMonthYear {
     def isValidDateTime(dmy: ModelsDMY) = Try(new DateTime(dmy.year, dmy.month, dmy.day, 0, 0)).isSuccess
     def isWithinYearBounds(dmy: ModelsDMY) = dmy.year > minYear && dmy.year < maxYear
 
-    Constraint("constraint.required") {
+    Constraint(RequiredField) {
       case dmy: ModelsDMY if isValidDateTime(dmy) && isWithinYearBounds(dmy)  => Valid
       case dmy: ModelsDMY => Invalid(ValidationError("error.invalid"))
       case _ => Invalid(ValidationError("error.required")) // TODO test coverage

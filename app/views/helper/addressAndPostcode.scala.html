@@ -1,8 +1,6 @@
 @(field: play.api.data.Field, args: Map[Symbol, Any] = Map.empty)(implicit lang: Lang)
 
 @import mappings.common.AddressLines.AddressLinesId
-@import utils.helpers.BaseTemplate._
-@import views.html.helper._
 
 <fieldset>
 @input(field,args.toSeq: _*){(id, name, value, htmlArgs) =>
