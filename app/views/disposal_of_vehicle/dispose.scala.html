@@ -1,13 +1,13 @@
 @(data: models.domain.disposal_of_vehicle.DisposeViewModel, disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel], dateService: services.DateService)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
 @import mappings.common.Mileage
-@import mappings.disposal_of_vehicle.Dispose._
-@import utils.helpers.BaseTemplate._
+@import mappings.disposal_of_vehicle.Dispose.{BackId, ConsentId, DateOfDisposalId, DateOfDisposalYearsIntoThePast, LossOfRegistrationConsentId, MileageId, SubmitId, TodaysDateOfDisposal}
+@import utils.helpers.BaseTemplate.fieldConstructor
+@import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
-@import views.html.helper._
+@import views.html.helper.{errorsSummary, form}
 @import views.html.helper.base.{valtechDeclareCheck, valtechInputText}
 @import views.html.helper.dates.inputDayMonthYear
-@import utils.helpers.CsrfHelper
 
 @main(
     title = Messages("disposal_dispose.title")

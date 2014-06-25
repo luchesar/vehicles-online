@@ -2,11 +2,11 @@
 
 @import controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress
 @import mappings.disposal_of_vehicle.BusinessChooseYourAddress.{AddressSelectId, BackId, EnterAddressManuallyButtonId, SelectId}
-@import utils.helpers.BaseTemplate._
-@import views.html.disposal_of_vehicle.main
-@import views.html.helper._
-@import views.html.helper.base._
+@import utils.helpers.BaseTemplate.fieldConstructor
 @import utils.helpers.CsrfHelper
+@import views.html.disposal_of_vehicle.main
+@import views.html.helper.base.valtechSelect
+@import views.html.helper.{errorsSummary, form}
 
 @main(title = Messages("disposal_businessChooseYourAddress_title")
 ) {
