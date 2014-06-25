@@ -15,13 +15,8 @@
 
     @form(action = BusinessChooseYourAddress.submit()) {
 
-    @CSRFHelper.hiddenFormField
+        @CSRFHelper.hiddenFormField
 
-        @{/*
-        	Removed according to changes 18/3/13
-        	<h2>@Messages("disposal_businessChooseYourAddress_legend")</h2>
-        */}
-        
     	<dl class="summary-detail-list">
         	<dt>@Messages("disposal_businessChooseYourAddress_businessName_label")</dt>
         	<dd>@Messages("disposal_businessChooseYourAddress_businessName", traderBusinessName)</dd>

@@ -18,7 +18,7 @@
 
     @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit()) {
 
-    @CSRFHelper.hiddenFormField
+        @CSRFHelper.hiddenFormField
 
 		<div class="two-col clearfix">
 		
@@ -55,15 +55,8 @@
 					<dt>@Messages("disposal_vehiclelookup.traderaddresslabel")</dt>
 					<dd>@for(addr <- data.traderAddress.address) {@addr<br/>}</dd>
 				</dl>
-                
-                @{/*
-				<div class="form-steps">
-					<a class="button-not-implemented" title="Edit disposal address" aria-disabled="true" disabled>@Messages("disposal_vehiclelookup.button2")</a></p>
-				</div>
-                */}
 			</div>
-			
-		
+
 		</div>
     }
 }

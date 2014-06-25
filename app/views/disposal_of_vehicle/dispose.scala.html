@@ -21,7 +21,6 @@
 
         <div class="two-col clearfix">
 
-
             <div class="disposal-form first-col uppercase-input">
                 <h2>@Messages("disposal_dispose.disposevehicleto")</h2>
 
@@ -78,11 +77,6 @@
                     <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present()" class="button-secondary">@Messages("disposal_dispose.backbutton")</a>
 
                     <div class="two-col-spacer">
-                    @{
-                        /*
-                                           <button type="reset" name="action" class="button-not-implemented" aria-disabled="true" disabled>@Messages("global.buttonnavback")</button>
-                                           */
-                    }
                     </div>
                 </div>
             </div>
@@ -96,28 +90,12 @@
                     <dd>@data.vehicleMake</dd>
                     <dt>@Messages("disposal_dispose.vehiclemodel")</dt>
                     <dd>@data.vehicleModel</dd>
-
-                    @{
-                        /*
-                                            Removed in changes 19/3/14
-                                        <dt>@Messages("disposal_dispose.vehiclekeeper")</dt>
-                                        <dd>
-                                            @data.keeperName<br />
-                                            @for(addr <- data.keeperAddress.address) {@addr<br/>}
-                                        </dd>
-                                        */
-                    }
                 </dl>
 
-
-
-
-                        <div class="alert-warning">
-            <p>@Messages("disposal_dispose.warning") &nbsp; <a href="https://www.gov.uk/contact">@Messages("disposal_dispose.warning.link")</a></p>
-        </div>
+                <div class="alert-warning">
+                    <p>@Messages("disposal_dispose.warning") &nbsp; <a href="https://www.gov.uk/contact">@Messages("disposal_dispose.warning.link")</a></p>
+                </div>
             </div>
-
-
         </div>
     }
 

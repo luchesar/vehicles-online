@@ -7,14 +7,16 @@ import com.google.inject.Injector
 import com.typesafe.config.ConfigFactory
 import composition.TestComposition.{filters => appFilters, _}
 import play.api._
-import play.api.mvc.Results._
+import play.api.i18n.Lang
 import play.api.mvc._
+import play.api.mvc.Results._
+import play.api.Play.current
 import services.csrf_prevention.CSRFPreventionFilter
 import utils.helpers.ErrorStrategy
 
+import filters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import filters._
 
 /**
  * Application configuration is in a hierarchy of files:
@@ -50,7 +52,18 @@ object TestGlobal extends GlobalSettings {
   }
 
   // 404 - page not found error http://alvinalexander.com/scala/handling-scala-play-framework-2-404-500-errors
-  override def onHandlerNotFound(request: RequestHeader): Future[SimpleResult] = Future(NotFound(views.html.errors.onHandlerNotFound(request)))
+  override def onHandlerNotFound(request: RequestHeader): Future[SimpleResult] = {
+    Future {
+      val playLangCookie = request.cookies.get(Play.langCookieName)
+      val value: String = playLangCookie match {
+        case Some(cookie) => cookie.value
+        case None => "en"
+      }
+      val lang: Lang = Lang(value)
+      Logger.warn(s"Broken link returning http code 404. uri: ${request.uri}")
+      NotFound(views.html.errors.onHandlerNotFound(request)(lang))
+    }
+  }
 
   override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] =
     ErrorStrategy(request, ex)
