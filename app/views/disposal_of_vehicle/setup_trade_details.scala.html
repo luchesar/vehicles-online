@@ -2,12 +2,12 @@
 
 @import controllers.disposal_of_vehicle.routes.SetUpTradeDetails
 @import mappings.common.Postcode
-@import mappings.disposal_of_vehicle.SetupTradeDetails._
-@import utils.helpers.BaseTemplate._
-@import utils.helpers._
+@import mappings.disposal_of_vehicle.SetupTradeDetails.{SubmitId, TraderNameId, TraderNameMaxLength, TraderPostcodeId}
+@import utils.helpers.BaseTemplate.fieldConstructor
+@import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
-@import views.html.helper._
-@import views.html.helper.base._
+@import views.html.helper.base.valtechInputText
+@import views.html.helper.form
 
 @main(
     title = Messages("disposal_setuptradedetails.title"),

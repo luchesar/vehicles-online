@@ -8,7 +8,7 @@
     <p>@Messages("micro_service_error.text")</p>
 
     <div class="form-steps">
-        @{ /* Note the reverse routing syntax for the hyperlink */ }
+        @* Note the reverse routing syntax for the hyperlink *@
         <a class="button" id="tryagain" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present()">@Messages("micro_service_error.back.button")</a>
         <a class="button" id="exit" href="@controllers.disposal_of_vehicle.routes.BeforeYouStart.present()">@Messages("micro_service_error.exit.button")</a>
     </div>

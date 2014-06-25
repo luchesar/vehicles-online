@@ -1,12 +1,12 @@
 @(data: models.domain.disposal_of_vehicle.TraderDetailsModel, vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
 @import mappings.common.{DocumentReferenceNumber, VehicleRegistrationNumber}
-@import mappings.disposal_of_vehicle.VehicleLookup._
-@import utils.helpers.BaseTemplate._
-@import utils.helpers._
+@import mappings.disposal_of_vehicle.VehicleLookup.{BackId, DocumentReferenceNumberId, ExitId, SubmitId, VehicleRegistrationNumberId}
+@import utils.helpers.BaseTemplate.fieldConstructor
+@import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
-@import views.html.helper._
-@import views.html.helper.base._
+@import views.html.helper.base.valtechInputText
+@import views.html.helper.form
 
 @main(
     title = Messages("disposal_vehiclelookup.title"),
