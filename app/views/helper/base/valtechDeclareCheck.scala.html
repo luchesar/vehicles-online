@@ -2,14 +2,14 @@
 
 @import constraints.common.Required.RequiredField
 @import play.api.templates.PlayMagic.toHtmlArgs
-@import views.html.helper._
-@import views.html.helper.base._
+@import views.html.helper.base.valtechLabelText
+@import views.html.helper.input
 
-@boxValue = @{ args.toMap.get('value).getOrElse("true") } @*TODO make a helper extension method for this.*@
+@boxValue = @{ args.toMap.getOrElse('value, "true") } @*TODO make a helper extension method for this.*@
 
 @input(field, args.toSeq: _*) { (id, name, value, htmlArgs) =>
 
-@*TODO make a helper extension method for this. This is really confusing as 'value' is being set in a separate method above *@
+@* TODO make a helper extension method for this. This is really confusing as 'value' is being set in a separate method above *@
 <label class="form-checkbox">
     <input type="checkbox"
            id="@id"
