@@ -7,5 +7,5 @@ import play.filters.gzip.GzipFilter
 
 object Composition {
   lazy val devInjector = Guice.createInjector(DevModule)
-  lazy val filters = Array(new CSRFPreventionFilter(), new GzipFilter())
+  lazy val filters = Array(new GzipFilter())
 }
