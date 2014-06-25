@@ -1,6 +1,6 @@
 @(data: models.domain.disposal_of_vehicle.TraderDetailsModel, vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
-@import helper._
+@import views.html.helper._
 @import utils.helpers.BaseTemplate._
 @import views.html.helper.base._
 @import utils.helpers._
@@ -8,8 +8,6 @@
 @import mappings.common.DocumentReferenceNumber
 @import mappings.common.VehicleRegistrationNumber
 @import views.html.disposal_of_vehicle.main
-@import views.html.common.alternateLanguages
-@import controllers.disposal_of_vehicle.routes.VehicleLookup
 
 @main(
     title = Messages("disposal_vehiclelookup.title")

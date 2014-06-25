@@ -1,10 +1,8 @@
 @(field: play.api.data.Field, defaultOptionMessage: String = "select_default", options: Seq[(String, String)], args: Map[Symbol, Any] = Map.empty)(implicit handler: helper.FieldConstructor, lang: Lang)
 
-@import views.html.helper.base.valtechLabel
-@import utils.helpers.CryptoHelper
-@import utils.helpers._
-@import utils.helpers.SelectHelper._
 @import play.api.templates.PlayMagic.toHtmlArgs
+@import utils.helpers.SelectHelper._
+@import views.html.helper.base.valtechLabel
 
 @helper.input(field, args.toSeq: _*) { (id, name, selectedKey, htmlArgs) =>
     @valtechLabel(field, args)

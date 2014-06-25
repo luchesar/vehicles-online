@@ -1,10 +1,7 @@
 @(field: play.api.data.Field, args: Map[Symbol, Any])(implicit handler: helper.FieldConstructor, lang: Lang)
 
-@import helper._
-@import utils.helpers.CryptoHelper
-@import utils.helpers._
+@import views.html.helper._
 @import views.html.helper.base._
-@import utils.helpers.HtmlArgsExtensions._
 @import play.api.templates.PlayMagic.toHtmlArgs
 
 @boxValue = @{ args.toMap.get('value).getOrElse("true") } @*TODO make a helper extension method for this.*@

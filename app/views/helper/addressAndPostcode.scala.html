@@ -1,13 +1,8 @@
 @(field: play.api.data.Field, args: Map[Symbol, Any] = Map.empty)(implicit lang: Lang)
 
-@import helper._
-@import utils.helpers.CryptoHelper
-@import utils.helpers._
-@import views.html.helper.base._
 @import utils.helpers.BaseTemplate._
+@import views.html.helper._
 @import mappings.common.AddressLines.AddressLinesId
-@import mappings.common.Postcode.PostcodeId
-@import mappings.common.Postcode
 
 <fieldset>
 @input(field,args.toSeq: _*){(id, name, value, htmlArgs) =>

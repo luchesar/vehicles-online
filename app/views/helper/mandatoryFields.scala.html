@@ -5,7 +5,8 @@
 }
 
 @{
-    def getMappings(mappings: Seq[Mapping[_]]):Seq[Mapping[_]] = { // TODO move to helper and rewrite in a functional style.
+    def getMappings(mappings: Seq[Mapping[_]]):Seq[Mapping[_]] = {
+        // TODO move to helper and rewrite in a functional style, the solution may look like mappings.flatMap(_.mappings)
         var m = mappings
         for(a <- 0 to m.size){
             m = m ++ m(a).mappings
