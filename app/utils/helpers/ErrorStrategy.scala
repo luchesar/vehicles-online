@@ -5,7 +5,7 @@ import javax.crypto.BadPaddingException
 
 import common.InvalidSessionException
 import controllers.disposal_of_vehicle.routes
-import filters.ClfLogger
+import filters.ClfEntryBuilder
 import play.api.Logger
 import play.api.libs.Codecs
 import play.api.mvc.Results._
@@ -15,7 +15,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 object ErrorStrategy {
   private final val AccessLogger = Logger("dvla.common.AccessLogger")
-  private final val ClfLogger = new ClfLogger()
+  private final val ClfLogger = new ClfEntryBuilder()
 
   def apply(request: RequestHeader, ex: Throwable)(implicit executionContext: ExecutionContext): Future[SimpleResult] = {
     val result = ex.getCause match {

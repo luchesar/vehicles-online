@@ -6,12 +6,13 @@ import services.csrf_prevention.CSRFPreventionFilter
 import play.filters.gzip.GzipFilter
 
 
-object Composition {
-  lazy val devInjector = Guice.createInjector(DevModule)
+trait Composition {
+  lazy val injector = Guice.createInjector(DevModule)
+
   lazy val filters = Array(
     new GzipFilter(),
-    devInjector.getInstance(classOf[EnsureSessionCreatedFilter]),
-    devInjector.getInstance(classOf[AccessLoggingFilter]),
-    devInjector.getInstance(classOf[CSRFPreventionFilter])
+    injector.getInstance(classOf[EnsureSessionCreatedFilter]),
+    injector.getInstance(classOf[AccessLoggingFilter]),
+    injector.getInstance(classOf[CSRFPreventionFilter])
   )
 }

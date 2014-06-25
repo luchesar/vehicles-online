@@ -20,5 +20,5 @@ final class SoapEndpointErrorUnitSpec extends UnitSpec {
     }
   }
 
-  private val soapEndpointError = new controllers.disposal_of_vehicle.SoapEndpointError()
+  private val soapEndpointError = injector.getInstance(classOf[controllers.disposal_of_vehicle.SoapEndpointError])
 }

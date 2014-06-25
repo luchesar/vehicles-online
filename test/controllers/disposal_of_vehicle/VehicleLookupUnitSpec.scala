@@ -3,7 +3,6 @@ package controllers.disposal_of_vehicle
 import common.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import helpers.common.CookieHelper
 import CookieHelper._
-import composition.TestComposition.{testInjector => injector}
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
 import helpers.WithApplication

@@ -2,7 +2,6 @@ package controllers.disposal_of_vehicle
 
 import helpers.common.CookieHelper
 import helpers.{WithApplication, UnitSpec}
-import composition.TestComposition.{testInjector => injector}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import services.fakes.FakeDateServiceImpl
 import play.api.test.Helpers._

@@ -1,16 +1,14 @@
 package services.csrf_prevention
 
-import play.api.mvc._
-import play.api.libs.iteratee._
-import play.api.mvc.BodyParsers.parse._
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.libs.Crypto
-import play.api.Logger
 import app.ConfigProperties._
 import common.ClientSideSessionFactory
-import scala.Some
+import play.api.libs.Crypto
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.libs.iteratee._
+import play.api.mvc.BodyParsers.parse._
+import play.api.mvc._
 import utils.helpers.AesEncryption
-import composition.Composition
+import common.CookieImplicits._
 
 final case class CSRFPreventionException(nestedException: Throwable) extends Exception(nestedException: Throwable)
 
@@ -22,7 +20,9 @@ final case class CSRFPreventionException(nestedException: Throwable) extends Exc
  * https://www.playframework.com/documentation/2.2.x/ScalaCsrf
  *
  */
-class CSRFPreventionAction(next: EssentialAction) extends EssentialAction {
+class CSRFPreventionAction(next: EssentialAction)
+                          (implicit clientSideSessionFactory: ClientSideSessionFactory)
+  extends EssentialAction {
 
   import CSRFPreventionAction._
 
@@ -30,11 +30,11 @@ class CSRFPreventionAction(next: EssentialAction) extends EssentialAction {
 
     // check if csrf prevention is switched on
     if (csrfPrevention) {
-
       if (requestHeader.method == "POST") {
-
-        val headerToken =
-          buildTokenWithReferer(clientSideSessionFactory.getSession(requestHeader.cookies).trackingId, requestHeader.headers)
+        val headerToken = buildTokenWithReferer(
+          requestHeader.cookies.trackingId,
+          requestHeader.headers
+        )
 
         if (requestHeader.contentType.get == "application/x-www-form-urlencoded") {
           checkBody(requestHeader, headerToken, next)
@@ -45,7 +45,7 @@ class CSRFPreventionAction(next: EssentialAction) extends EssentialAction {
       } else if (requestHeader.method == "GET" && requestHeader.accepts("text/html")) {
 
         // No token in header and we have to create one if not found, so create a new token
-        val newToken = buildTokenWithUri(clientSideSessionFactory.getSession(requestHeader.cookies).trackingId, requestHeader.uri)
+        val newToken = buildTokenWithUri(requestHeader.cookies.trackingId, requestHeader.uri)
 
         val newEncryptedToken = aesEncryption.encrypt(newToken)
 
@@ -100,14 +100,11 @@ class CSRFPreventionAction(next: EssentialAction) extends EssentialAction {
             }
         })
     }
-
   }
 
 }
 
 object CSRFPreventionAction {
-
-  implicit val clientSideSessionFactory = Composition.devInjector.getInstance(classOf[ClientSideSessionFactory])
 
   def aesEncryption = new AesEncryption()
 
@@ -120,20 +117,20 @@ object CSRFPreventionAction {
   val Delimiter = "-"
   
   // TODO : Trap the missing token exception differently?
-  implicit def getToken(implicit request: RequestHeader): CSRFPreventionToken = {
+  implicit def getToken(implicit request: RequestHeader, clientSideSessionFactory: ClientSideSessionFactory): CSRFPreventionToken = {
     Some(CSRFPreventionToken(Crypto.signToken(aesEncryption.encrypt(
-      buildTokenWithUri(clientSideSessionFactory.getSession(request.cookies).trackingId, request.uri))))).getOrElse(throw new CSRFPreventionException(throw new Throwable("No CSRF token found")))
+      buildTokenWithUri(request.cookies.trackingId, request.uri))))).getOrElse(throw new CSRFPreventionException(throw new Throwable("No CSRF token found")))
   }
 
-  private def buildTokenWithReferer(trackingId: String, requestHeaders: Headers) = {
+  def buildTokenWithReferer(trackingId: String, requestHeaders: Headers) = {
     trackingId + Delimiter + requestHeaders.get("Referer")
   }
 
-  private def buildTokenWithUri(trackingId: String, uri: String) = {
+  def buildTokenWithUri(trackingId: String, uri: String) = {
     trackingId + Delimiter + uri
   }
 
-  private def splitToken(token: String): (String, String) = {
+  def splitToken(token: String): (String, String) = {
     (token.split(Delimiter)(0), token.drop(token.indexOf(Delimiter) + 1))
   }
 

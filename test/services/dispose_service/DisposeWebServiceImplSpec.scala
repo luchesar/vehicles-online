@@ -10,8 +10,6 @@ import utils.helpers.Config
 
 class DisposeWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
-  import composition.TestComposition.{testInjector => injector}
-
   implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
   val disposeService = new DisposeWebServiceImpl(new Config() {
     override val disposeVehicleMicroServiceBaseUrl = s"http://localhost:$wireMockPort"

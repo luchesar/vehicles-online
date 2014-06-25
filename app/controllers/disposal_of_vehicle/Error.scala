@@ -1,11 +1,12 @@
 package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
+import common.ClientSideSessionFactory
 import play.api.Logger
 import play.api.mvc._
 import utils.helpers.CryptoHelper
 
-final class Error @Inject()() extends Controller {
+final class Error @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
   def present(exceptionDigest: String) = Action { implicit request =>
     Logger.debug("Error - Displaying generic error page")
     Ok(views.html.disposal_of_vehicle.error(exceptionDigest))

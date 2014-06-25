@@ -17,7 +17,7 @@ import scala.concurrent.Future
 import scala.language.existentials
 
 class AccessLoggingFilterSpec extends UnitSpec {
-  import filters.AccessLoggingFilterSpec.testDate
+  import AccessLoggingFilterSpec.testDate
 
   "Log an incoming request" in setUp() {
     case SetUp(filter, request, sessionFactory, nextFilter) =>
@@ -34,7 +34,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
         filter.logEntry should include("200")
         filter.logEntry should include("12345")
         filter.logEntry should include("98765")
-        filter.logEntry should include(s"[${ClfLogger.dateFormat.format(testDate)}]")
+        filter.logEntry should include(s"[${ClfEntryBuilder.dateFormat.format(testDate)}]")
       }
   }
 
@@ -109,16 +109,15 @@ class AccessLoggingFilterSpec extends UnitSpec {
     ))
   }
 
-
-  private val injector = Guice.createInjector(new ScalaModule {
-    override def configure(): Unit = bind[ClfLogger].toInstance(new TestClfLogger())
+  override lazy val injector = Guice.createInjector(new ScalaModule {
+    override def configure(): Unit = bind[ClfEntryBuilder].toInstance(new TestClfLogger())
   })
 
   private def testAccessLoggingFilter: TestAccessLoggingFilter = injector.getInstance(classOf[TestAccessLoggingFilter])
 
 }
 
-private class TestClfLogger extends ClfLogger {
+private class TestClfLogger extends ClfEntryBuilder {
   import filters.AccessLoggingFilterSpec.testDate
   var entry = ""
 
@@ -130,7 +129,7 @@ private class TestClfLogger extends ClfLogger {
   }
 }
 
-private class TestAccessLoggingFilter @Inject()(logger: ClfLogger)
+private class TestAccessLoggingFilter @Inject()(logger: ClfEntryBuilder)
   extends AccessLoggingFilter(logger)
   with MockitoSugar {
 

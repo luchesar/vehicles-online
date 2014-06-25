@@ -28,7 +28,7 @@ class AccessLoggingIntegrationSpec extends UiSpec with TestHarness with MockitoS
     "Log access that complete with success" in new WebBrowser {
       accessLogger.addAppender(appender)
       import scala.collection.JavaConversions._
-      accessLogger.iteratorForAppenders().map{ appender =>
+      accessLogger.iteratorForAppenders().foreach { appender =>
         println(appender)
       }
       val captor = ArgumentCaptor.forClass(classOf[ILoggingEvent])
@@ -36,7 +36,6 @@ class AccessLoggingIntegrationSpec extends UiSpec with TestHarness with MockitoS
       go to BeforeYouStartPage
 
       accessLogger.info("")
-
 
       appender.doAppend(captor.capture())
 

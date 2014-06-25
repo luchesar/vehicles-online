@@ -1,14 +1,8 @@
 package controllers.disposal_of_vehicle
 
-import helpers.UnitSpec
-import helpers.common.CookieHelper
-import play.api.test.Helpers._
+import helpers.{UnitSpec, WithApplication}
 import play.api.test.FakeRequest
-import helpers.WithApplication
-import pages.disposal_of_vehicle.DuplicateDisposalErrorPage
-import CookieHelper._
-import scala.Some
-import play.api.Play
+import play.api.test.Helpers._
 
 final class DuplicateDisposalErrorUnitSpec extends UnitSpec {
   "present" should {
@@ -19,5 +13,5 @@ final class DuplicateDisposalErrorUnitSpec extends UnitSpec {
     }
   }
 
-  private val duplicateDisposalError = new DuplicateDisposalError()
+  private val duplicateDisposalError = injector.getInstance(classOf[DuplicateDisposalError])
 }
