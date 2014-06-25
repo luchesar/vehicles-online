@@ -1,12 +1,10 @@
 @(field: play.api.data.Field, id: String, years: Seq[(String, String)], args: Map[Symbol, Any])(implicit lang: Lang)
 
-@import helper._
 @import utils.helpers.EmptyTemplate._
-@import views.html.helper._
 @import views.html.helper.base._
-@import utils.helpers.CryptoHelper
-@import scala.language.postfixOps
 @import views.html.helper.dateConstraintRequired
+
+@import scala.language.postfixOps
 
 <fieldset>
     @dateConstraintRequired(field, args) <!-- datePlaceholder -->

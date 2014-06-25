@@ -1,12 +1,12 @@
 @(businessChooseYourAddressForm: Form[models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel], traderBusinessName: String, traderPostcode: String, dropDownOptions: Seq[(String, String)])(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
-@import helper._
-@import utils.helpers.BaseTemplate._
-@import views.html.helper.base._
-@import utils.helpers._
-@import mappings.disposal_of_vehicle.BusinessChooseYourAddress.{AddressSelectId, EnterAddressManuallyButtonId, SelectId, BackId}
 @import controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress
+@import mappings.disposal_of_vehicle.BusinessChooseYourAddress.{AddressSelectId, BackId, EnterAddressManuallyButtonId, SelectId}
+@import utils.helpers.BaseTemplate._
+@import utils.helpers._
 @import views.html.disposal_of_vehicle.main
+@import views.html.helper._
+@import views.html.helper.base._
 
 @main(title = Messages("disposal_businessChooseYourAddress_title")
 ) {

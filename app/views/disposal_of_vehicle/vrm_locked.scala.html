@@ -1,11 +1,9 @@
 @(timeString: String)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
-@import helper._
 @import mappings.disposal_of_vehicle.VrmLocked._
 @import utils.helpers._
-@import views.html.common.alternateLanguages
-@import controllers.disposal_of_vehicle.routes.VrmLocked
 @import views.html.disposal_of_vehicle.main
+@import views.html.helper._
 
 @main(
     title = Messages("vrm_locked.title")

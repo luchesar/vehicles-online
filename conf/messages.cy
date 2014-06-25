@@ -209,6 +209,7 @@ disposal_vehiclelookup.vrninputlabel = Rhif cofrestru cerbyd
 disposal_vehiclelookup.backbutton = Holau
 disposal_vehiclelookup.button = Dod o hyd i
 disposal_vehiclelookup.button2 = Golygu
+disposal_vehiclelookup.exitbutton = Gadael
 disposal_vehiclelookup.tradernamelabel = Enw masnachwr
 disposal_vehiclelookup.traderaddresslabel = Gyfeiriad masnachwr
 error.validDocumentReferenceNumber = Rhaid rhif cyfeirnod y ddogfen fod yn rhif 11-digid
@@ -381,3 +382,5 @@ prototype.banner-part2=yn ein helpu i wella
 disposal_disposefailure.name=Methiant
 disposal_disposefailure.button3=Print
 ms.vehiclesService.response.unableToProcessApplication-address=DVLA, Longview Road, Morriston, Abertawe, SA6 7JL
+
+mandatory = Meysydd nad ydynt wedi''u labelu (dewisol) yn orfodol

@@ -5,12 +5,11 @@
         buttonAriaDisabled: String = "true",
         args: Map[Symbol, Any])(implicit handler: helper.FieldConstructor, lang: Lang)
 
-@import helper._
-@import utils.helpers.CryptoHelper
-@import utils.helpers._
-@import views.html.helper.base._
-@import utils.helpers.HtmlArgsExtensions._
+@import constraints.common.Required.RequiredField
 @import play.api.templates.PlayMagic.toHtmlArgs
+@import utils.helpers.HtmlArgsExtensions._
+@import views.html.helper._
+@import views.html.helper.base._
 
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
     @valtechLabel(field, args)
@@ -19,7 +18,7 @@
         id="@id"
         name="@name"
         value="@value"
-        @{if(field.constraints.find(_._1 == "constraint.required")) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
+        @{if(field.constraints.find(_._1 == RequiredField)) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
         @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
         @toHtmlArgs(htmlArgs.maxLengthRules.autoCompleteRules)
     >

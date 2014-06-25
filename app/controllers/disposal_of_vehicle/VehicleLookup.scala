@@ -19,6 +19,7 @@ import utils.helpers.FormExtensions._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import mappings.disposal_of_vehicle.RelatedCacheKeys
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
@@ -38,6 +39,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
   }
 
   def submit = Action.async { implicit request =>
+    println("*********************** submit called")
     form.bindFromRequest.fold(
       invalidForm =>
         Future {
@@ -54,6 +56,12 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         bruteForceAndLookup(convertToUpperCaseAndRemoveSpaces(validForm))
       }
     )
+  }
+
+  def exit = Action { implicit request =>
+
+    Redirect(routes.BeforeYouStart.present()).
+      discardingCookies(RelatedCacheKeys.FullSet)
   }
 
   private def convertToUpperCaseAndRemoveSpaces(model: VehicleLookupFormModel): VehicleLookupFormModel =
