@@ -14,21 +14,20 @@
     @errorsSummary(enterAddressManuallyForm)
 
     <div class="enter-address-manually uppercase-input">
-    @form(action = controllers.disposal_of_vehicle.routes.EnterAddressManually.submit()) {
+        @form(action = controllers.disposal_of_vehicle.routes.EnterAddressManually.submit()) {
+            @CSRFHelper.hiddenFormField
 
-        @CSRFHelper.hiddenFormField
+            @addressAndPostcode(enterAddressManuallyForm(AddressAndPostcodeId))
 
-        @addressAndPostcode(enterAddressManuallyForm(AddressAndPostcodeId))
-
-        @{
-            /* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */
+            @{
+                /* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */
+            }
+            <legend>@Messages("address.postcode.label")</legend>
+            <div class="read-only-input">@traderPostcode</div>
+            <div class="form-steps">
+                <button id="@NextId" type="submit" name="action" class="button">@Messages("disposal_enteraddressmanually.submitbutton")</button>
+                <a id="@BackId" class="button-secondary" href="@controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit()">@Messages("disposal_enteraddressmanually.backbutton")</a>
+            </div>
         }
-        <legend>@Messages("address.postcode.label")</legend>
-        <div class="read-only-input">@traderPostcode</div>
-        <div class="form-steps">
-            <button id="@NextId" type="submit" name="action" class="button">@Messages("disposal_enteraddressmanually.submitbutton")</button>
-            <a id="@BackId" class="button-secondary" href="@controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit()">@Messages("disposal_enteraddressmanually.backbutton")</a>
-        </div>
-    }
     </div>
 }
