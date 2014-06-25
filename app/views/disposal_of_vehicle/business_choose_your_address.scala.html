@@ -8,10 +8,10 @@
 @import views.html.helper.base.valtechSelect
 @import views.html.helper.{errorsSummary, form}
 
-@main(title = Messages("disposal_businessChooseYourAddress_title")
+@main(
+    title = Messages("disposal_businessChooseYourAddress_title"),
+    currentForm = Some(businessChooseYourAddressForm)
 ) {
-    @errorsSummary(businessChooseYourAddressForm)
-
     @form(action = BusinessChooseYourAddress.submit()) {
         @CsrfHelper.hiddenFormField
 

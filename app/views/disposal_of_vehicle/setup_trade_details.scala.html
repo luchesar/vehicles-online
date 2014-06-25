@@ -10,10 +10,9 @@
 @import views.html.helper.base._
 
 @main(
-    title = Messages("disposal_setuptradedetails.title")
+    title = Messages("disposal_setuptradedetails.title"),
+    currentForm = Some(traderLookupForm)
 ) {
-    @errorsSummary(traderLookupForm)
-
     @form(action = SetUpTradeDetails.submit) {
         @CsrfHelper.hiddenFormField
 

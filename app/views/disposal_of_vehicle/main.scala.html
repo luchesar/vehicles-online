@@ -10,9 +10,7 @@
         <div class="section-content">
             <h1>@title</h1>
 
-            @if(currentForm.isDefined) {
-                @errorsSummary(currentForm.get)
-            }
+            @errorsSummary(currentForm)
 
             @content
         </div>

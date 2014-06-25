@@ -10,10 +10,9 @@
 @import views.html.helper.dates.inputDayMonthYear
 
 @main(
-    title = Messages("disposal_dispose.title")
+    title = Messages("disposal_dispose.title"),
+    currentForm = Some(disposeForm)
 ) {
-    @errorsSummary(disposeForm)
-
     @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit()) {
         @CsrfHelper.hiddenFormField
 

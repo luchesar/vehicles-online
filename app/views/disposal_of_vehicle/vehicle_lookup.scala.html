@@ -9,9 +9,9 @@
 @import views.html.helper.base._
 
 @main(
-    title = Messages("disposal_vehiclelookup.title")
+    title = Messages("disposal_vehiclelookup.title"),
+    currentForm = Some(vehicleLookupForm)
 ) {
-    @errorsSummary(vehicleLookupForm)
     <div class="two-col clearfix">
         <div class="first-col">
             <div class="form-steps">

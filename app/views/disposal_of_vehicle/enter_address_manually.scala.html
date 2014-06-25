@@ -7,10 +7,9 @@
 @import views.html.helper.{addressAndPostcode, errorsSummary, form}
 
 @main(
-    title = Messages("disposal_enteraddressmanually.title")
+    title = Messages("disposal_enteraddressmanually.title"),
+    currentForm = Some(enterAddressManuallyForm)
 ) {
-    @errorsSummary(enterAddressManuallyForm)
-
     <div class="enter-address-manually uppercase-input">
         @form(action = controllers.disposal_of_vehicle.routes.EnterAddressManually.submit()) {
             @CsrfHelper.hiddenFormField
