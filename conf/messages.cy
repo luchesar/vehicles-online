@@ -377,7 +377,7 @@ language.cy.button = YAGNI
 language.en.button = English
 
 main.banner.feedback =Adborth
-main.banner.feedback.link=mailto\:VM@digital.dvla.gov.uk?Subject\=Gwerthu%20i''r%20adborth%20Masnach
+main.banner.feedback.link=mailto:VM@digital.dvla.gov.uk?Subject=Adborth%20ar%20gwerthu%20i%27r%20masnach
 prototype.banner-part2=yn ein helpu i wella
 disposal_disposefailure.name=Methiant
 disposal_disposefailure.button3=Print
