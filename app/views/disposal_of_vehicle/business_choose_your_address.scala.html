@@ -14,7 +14,6 @@
     @errorsSummary(businessChooseYourAddressForm)
 
     @form(action = BusinessChooseYourAddress.submit()) {
-
         @CSRFHelper.hiddenFormField
 
     	<dl class="summary-detail-list">
@@ -43,6 +42,5 @@
             }
             <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.present()" class="button-secondary">@Messages("disposal_businessChooseYourAddress.backbutton")</a>
         </div>
-
     }
 }
