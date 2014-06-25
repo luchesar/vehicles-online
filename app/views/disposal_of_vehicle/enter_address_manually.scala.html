@@ -1,10 +1,10 @@
 @(enterAddressManuallyForm: Form[models.domain.disposal_of_vehicle.EnterAddressManuallyModel], traderPostcode: String)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
-@import views.html.helper._
 @import mappings.common.AddressAndPostcode.AddressAndPostcodeId
-@import mappings.disposal_of_vehicle.EnterAddressManually.{NextId, BackId}
+@import mappings.disposal_of_vehicle.EnterAddressManually.{BackId, NextId}
 @import utils.helpers._
 @import views.html.disposal_of_vehicle.main
+@import views.html.helper._
 
 @main(
     title = Messages("disposal_enteraddressmanually.title")

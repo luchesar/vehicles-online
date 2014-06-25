@@ -1,14 +1,13 @@
 @(data: models.domain.disposal_of_vehicle.DisposeViewModel, disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel], dateService: services.DateService)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
-@import views.html.helper._
-@import helper.base.valtechDeclareCheck
-@import helper.base.valtechInputText
-@import helper.dates.inputDayMonthYear
 @import mappings.common.Mileage
 @import mappings.disposal_of_vehicle.Dispose._
 @import utils.helpers.BaseTemplate._
 @import utils.helpers._
 @import views.html.disposal_of_vehicle.main
+@import views.html.helper._
+@import views.html.helper.base.{valtechDeclareCheck, valtechInputText}
+@import views.html.helper.dates.inputDayMonthYear
 
 @main(
     title = Messages("disposal_dispose.title")

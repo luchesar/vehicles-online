@@ -1,11 +1,7 @@
 @(field: play.api.data.Field, args: Map[Symbol, Any])(implicit lang: Lang)
 
-@import views.html.helper.base.valtechInputText
 @import utils.helpers.BaseTemplate._
-@import views.html.helper.checkConstraintRequired
 @import views.html.helper._
-@import utils.helpers.CryptoHelper
-@import utils.helpers._
 @import views.html.helper.base._
 
 @input(field,args.toSeq: _*){(id, name, value, htmlArgs) =>
