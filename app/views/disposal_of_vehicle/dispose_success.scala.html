@@ -1,14 +1,9 @@
 @(data: models.domain.disposal_of_vehicle.DisposeViewModel, formModel: models.domain.disposal_of_vehicle.DisposeFormModel)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
 @import helper._
-@import utils.helpers.BaseTemplate._
-@import views.html.helper.base._
-@import views.html.common._
 @import mappings.disposal_of_vehicle.DisposeSuccess._
 @import utils.helpers._
-@import views.html.common.alternateLanguages
 @import views.html.disposal_of_vehicle.main
-@import controllers.disposal_of_vehicle.routes.DisposeSuccess
 
 @main(
     title = Messages("disposal_disposeconfirmation.title")
