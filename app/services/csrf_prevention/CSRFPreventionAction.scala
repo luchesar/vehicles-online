@@ -108,7 +108,7 @@ object CSRFPreventionAction {
 
   def aesEncryption = new AesEncryption()
 
-  def csrfPreventionTokenName: String = "csrf_prevention_Token"
+  def csrfPreventionTokenName: String = "csrf_prevention_token"
 
   def csrfPrevention = getProperty("csrf.prevention", default = true)
 
