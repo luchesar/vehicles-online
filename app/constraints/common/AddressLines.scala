@@ -1,12 +1,13 @@
 package constraints.common
 
+import constraints.common.Required.RequiredField
 import mappings.common.AddressLines._
 import models.domain.common.AddressLinesModel
-import play.api.data.validation.{ValidationError, Invalid, Valid, Constraint}
+import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 
 object AddressLines {
 
-  def validAddressLines: Constraint[AddressLinesModel] = Constraint[AddressLinesModel]("constraint.required") {
+  def validAddressLines: Constraint[AddressLinesModel] = Constraint[AddressLinesModel](RequiredField) {
     case input@AddressLinesModel(buildingNameOrNumber, _, _, _) =>
       // Regex states string must contain at least one number or letter, can also include punctuation.
       val format = """^(?=.*[a-zA-Z0-9])[A-Za-z0-9\s\-\,\.\/\\]*$""".r

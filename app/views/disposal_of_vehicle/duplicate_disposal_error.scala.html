@@ -1,8 +1,6 @@
 @()(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
-@import views.html.common.alternateLanguages
 @import views.html.disposal_of_vehicle.main
-@import controllers.disposal_of_vehicle.routes.DuplicateDisposalError
 
 @main(
     title = Messages("duplicate_disposal_error.title")

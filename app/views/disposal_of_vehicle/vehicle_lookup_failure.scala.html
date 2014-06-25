@@ -4,9 +4,7 @@
         maxAttempts: Int)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
 @import mappings.disposal_of_vehicle.VehicleLookupFailure._
-@import views.html.common.alternateLanguages
 @import views.html.disposal_of_vehicle.main
-@import controllers.disposal_of_vehicle.routes.VehicleLookupFailure
 
 @main(
     title = Messages("disposal_vehiclelookupfailure.title")
