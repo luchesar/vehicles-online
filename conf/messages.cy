@@ -159,7 +159,7 @@ disposal_businessChooseYourAddress.backbutton = Holau
 disposal_businessChooseYourAddress.submitbutton = Dewis
 disposal_businessChooseYourAddress.manualAddressEntry = Nid yw fy cyfeiriad yn y rhestr
 error.dropDownInvalid = Dewiswch werth o''r rhestr a ollyngir i lawr
-disposal_businessChooseYourAddress_noaddressesfound = Dim canlyniadau ar gyfer y cod post cyfeiriadau. Cliciwch ar y botwm yn ôl i fynd i mewn i god post wahanol neu roi cyfeiriad llaw
+disposal_businessChooseYourAddress_noaddressesfound = Dim canlyniadau ar gyfer y cod post cyfeiriadau. Cliciwch ar y botwm yn ôl i fynd i mewn i god post gwahanol neu cliciwch ar y ddolen isod i fynd i mewn cyfeiriad llaw
 
 #page 3 - manual address entry
 disposal_enteraddressmanually.title = Rhowch gyfeiriad llaw

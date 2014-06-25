@@ -3,10 +3,9 @@ package filters
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import play.api.mvc._
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
-import scala.Some
-import play.api.mvc.SimpleResult
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class EnsureSessionCreatedFilter @Inject()(sessionFactory: ClientSideSessionFactory) extends Filter {
 

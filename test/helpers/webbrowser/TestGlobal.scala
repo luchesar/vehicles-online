@@ -5,16 +5,15 @@ import java.util.UUID
 
 import com.google.inject.Injector
 import com.typesafe.config.ConfigFactory
-import composition.TestComposition.{filters => appFilters, _}
+import filters.WithFilters
+import composition.TestComposition.{testInjector, filters => appFilters}
+import play.api.Play.current
 import play.api._
 import play.api.i18n.Lang
-import play.api.mvc._
 import play.api.mvc.Results._
-import play.api.Play.current
-import services.csrf_prevention.CSRFPreventionFilter
+import play.api.mvc._
 import utils.helpers.ErrorStrategy
 
-import filters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -33,7 +32,7 @@ import scala.concurrent.Future
  * play -Dconfig.file=conf/application.test.conf run
  */
 
-object TestGlobal extends GlobalSettings {
+object TestGlobal extends WithFilters(appFilters) {
   private lazy val injector: Injector = testInjector
 
   /**
@@ -68,17 +67,6 @@ object TestGlobal extends GlobalSettings {
   override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] =
     ErrorStrategy(request, ex)
 
-  override def doFilter(a: EssentialAction): EssentialAction = {
-    // TODO can we work out how to dependency inject into WithFilters?
-    // EnsureSessionCreatedFilter relies on IoC which in turn requires the configs to be read, but if we try to load it in the
-    // Global WithFilters the config is not yet loaded so will fail. One solution is to use this doFilter to append to the
-    // Global filters.
-    Filters(
-      super.doFilter(a),
-      testInjector.getInstance(classOf[EnsureSessionCreatedFilter]),
-      testInjector.getInstance(classOf[AccessLoggingFilter]),
-      new CSRFPreventionFilter()
-    )
-  }
 }
+
 
