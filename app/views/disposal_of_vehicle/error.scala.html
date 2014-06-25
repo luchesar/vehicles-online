@@ -1,9 +1,9 @@
 @(exceptionDigest: String)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
-@import mappings.disposal_of_vehicle.Error._
-@import utils.helpers._
+@import mappings.disposal_of_vehicle.Error.SubmitId
+@import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
-@import views.html.helper._
+@import views.html.helper.form
 
 @main(
     title = Messages("error.title")
