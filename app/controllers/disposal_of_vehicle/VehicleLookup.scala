@@ -39,7 +39,6 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
   }
 
   def submit = Action.async { implicit request =>
-    println("*********************** submit called")
     form.bindFromRequest.fold(
       invalidForm =>
         Future {
@@ -59,7 +58,6 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
   }
 
   def exit = Action { implicit request =>
-
     Redirect(routes.BeforeYouStart.present()).
       discardingCookies(RelatedCacheKeys.FullSet)
   }
