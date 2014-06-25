@@ -3,8 +3,8 @@ import java.util.UUID
 
 import com.google.inject.Injector
 import com.typesafe.config.ConfigFactory
-import filters.{AccessLoggingFilter, EnsureSessionCreatedFilter}
-import composition.Composition._
+import composition.Composition.{filters => appFilters, devInjector}
+import filters.WithFilters
 import play.api.Play.current
 import play.api._
 import play.api.i18n.Lang
@@ -30,7 +30,7 @@ import scala.concurrent.Future
  * play -Dconfig.file=conf/application.test.conf run
  */
 
-object Global extends WithFilters(filters: _*) with GlobalSettings {
+object Global extends WithFilters(appFilters) {
 
   private lazy val injector: Injector = devInjector
 
@@ -75,11 +75,4 @@ object Global extends WithFilters(filters: _*) with GlobalSettings {
   override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] =
     ErrorStrategy(request, ex)
 
-  override def doFilter(a: EssentialAction): EssentialAction = {
-    // TODO can we work out how to dependency inject into WithFilters?
-    // EnsureSessionCreatedFilter relies on IoC which in turn requires the configs to be read, but if we try to load it in the
-    // Global WithFilters the config is not yet loaded so will fail. One solution is to use this doFilter to append to the
-    // Global filters.
-    Filters(super.doFilter(a), devInjector.getInstance(classOf[EnsureSessionCreatedFilter]), devInjector.getInstance(classOf[AccessLoggingFilter]))
-  }
 }

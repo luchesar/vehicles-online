@@ -5,7 +5,8 @@ import java.util.UUID
 
 import com.google.inject.Injector
 import com.typesafe.config.ConfigFactory
-import composition.TestComposition._
+import filters.WithFilters
+import composition.TestComposition.{testInjector, filters => appFilters}
 import play.api.Play.current
 import play.api._
 import play.api.i18n.Lang
@@ -31,7 +32,7 @@ import scala.concurrent.Future
  * play -Dconfig.file=conf/application.test.conf run
  */
 
-object TestGlobal extends WithFilters(filters: _*) with GlobalSettings {
+object TestGlobal extends WithFilters(appFilters) {
   private lazy val injector: Injector = testInjector
 
   /**
@@ -65,5 +66,7 @@ object TestGlobal extends WithFilters(filters: _*) with GlobalSettings {
 
   override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] =
     ErrorStrategy(request, ex)
+
 }
+
 

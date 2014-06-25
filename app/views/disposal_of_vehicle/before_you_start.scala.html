@@ -1,11 +1,9 @@
 @()(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
-@import controllers.disposal_of_vehicle.routes.{BeforeYouStart, SetUpTradeDetails}
+@import controllers.disposal_of_vehicle.routes.SetUpTradeDetails
 @import mappings.disposal_of_vehicle.BeforeYouStart._
 @import utils.helpers._
-@import views.html.common.alternateLanguages
 @import views.html.disposal_of_vehicle.main
-
 
 @main(
     title = Messages("disposal_beforeyoustart.title")
