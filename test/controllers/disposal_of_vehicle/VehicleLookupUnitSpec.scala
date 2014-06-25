@@ -32,7 +32,6 @@ import utils.helpers.Config
 import org.mockito.ArgumentCaptor
 import play.api.test.FakeRequest
 import helpers.JsonUtils.deserializeJsonToModel
-import play.api.Play
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -364,6 +363,24 @@ final class VehicleLookupUnitSpec extends UnitSpec {
           val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
           verify(mockVehiclesLookupService).callVehicleLookupService(any[VehicleDetailsRequest], trackingIdCaptor.capture())
           trackingIdCaptor.getValue should be(ClearTextClientSideSessionFactory.DefaultTrackingId)
+      }
+    }
+
+    "exit" should {
+      "redirect to BeforeYouStartPage" in new WithApplication {
+        val request = buildCorrectlyPopulatedRequest().
+          withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        val mockVehiclesLookupService = mock[VehicleLookupWebService]
+        val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
+        val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+        val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
+          bruteForceServiceImpl(permitted = true),
+          vehicleLookupServiceImpl)(clientSideSessionFactory
+          )
+        val result = vehiclesLookup.exit(request)
+        whenReady(result) {
+          r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+        }
       }
     }
 

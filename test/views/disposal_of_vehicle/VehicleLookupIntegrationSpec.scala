@@ -9,6 +9,7 @@ import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.common.ErrorPanel
 import pages.disposal_of_vehicle._
 import services.fakes.FakeAddressLookupService._
+import mappings.disposal_of_vehicle.RelatedCacheKeys
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -145,6 +146,31 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       click on back
 
       page.title should equal(EnterAddressManuallyPage.title)
+    }
+  }
+
+  "exit button" should {
+    "display before you start page" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to VehicleLookupPage
+
+      click on exit
+
+      page.title should equal(BeforeYouStartPage.title)
+    }
+
+    "remove redundant cookies" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to VehicleLookupPage
+
+      click on exit
+
+      // Verify the cookies identified by the full set of cache keys have been removed
+      RelatedCacheKeys.FullSet.foreach(cacheKey => {
+        webDriver.manage().getCookieNamed(cacheKey) should equal(null)
+      })
     }
   }
 
