@@ -39,7 +39,7 @@
                         <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.back()" class="button-secondary">@Messages("disposal_vehiclelookup.backbutton")</a>
                     }
                 </div>
-                <div class="step">
+                <div class="step exit-button">
                     @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.exit()) {
                         @CSRFHelper.hiddenFormField
                         <button id="@ExitId" type="submit" name="action" class="button">@Messages("disposal_vehiclelookup.exitbutton")</button>
