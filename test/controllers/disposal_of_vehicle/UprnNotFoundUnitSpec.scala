@@ -21,5 +21,5 @@ final class UprnNotFoundUnitSpec extends UnitSpec {
     }
   }
 
-  val uprnNotFound = new UprnNotFound()
+  val uprnNotFound = injector.getInstance(classOf[UprnNotFound])
 }

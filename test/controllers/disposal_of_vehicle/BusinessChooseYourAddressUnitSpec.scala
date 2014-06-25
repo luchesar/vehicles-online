@@ -1,22 +1,19 @@
 package controllers.disposal_of_vehicle
 
-import helpers.UnitSpec
+import common.ClientSideSessionFactory
+import helpers.{UnitSpec, WithApplication}
 import helpers.common.CookieHelper
+import helpers.common.CookieHelper._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import pages.disposal_of_vehicle._
 import play.api.mvc.Cookies
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import helpers.WithApplication
 import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
 import services.fakes.FakeAddressLookupWebServiceImpl
 import services.fakes.FakeAddressLookupWebServiceImpl._
-import common.ClientSideSessionFactory
-import composition.TestComposition.{testInjector => injector}
-import CookieHelper._
-import play.api.test.FakeRequest
-import play.api.Play
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {

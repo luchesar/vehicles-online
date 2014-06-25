@@ -9,7 +9,6 @@ import services.HttpHeaders
 import utils.helpers.Config
 
 class VehicleLookupWebServiceImplSpec  extends UnitSpec  with WireMockFixture {
-  import composition.TestComposition.{testInjector => injector}
 
   implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
   val lookupService = new VehicleLookupWebServiceImpl(new Config() {

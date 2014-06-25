@@ -37,11 +37,10 @@
                 'title -> Messages("")))
         </div>
         <br>
-        <legend>@Messages("addressAndPostcode.addressLines.postTown")</legend>
-        <div class="form-item">
+        <div class="form-item post-town">
         @valtechInputText(field(mappings.common.AddressLines.postTownId),
             args = Map(
-                '_label -> Messages("address.postTown.label"),
+                '_label -> Messages("addressAndPostcode.addressLines.postTown"),
                 '_showConstraints -> false,
                 'maxLength -> mappings.common.AddressLines.LineMaxLength.toString, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                 //'title -> Messages("address.buildingNameOrNumber.label"),

@@ -1,3 +1,16 @@
+import java.io.File
+import java.util.UUID
+
+import com.typesafe.config.ConfigFactory
+import composition.Composition
+import filters.WithFilters
+import play.api._
+import play.api.i18n.Lang
+import play.api.mvc.Results._
+import play.api.mvc.{SimpleResult, RequestHeader}
+import utils.helpers.ErrorStrategy
+
+import scala.concurrent.Future
 
 package object app {
 
@@ -25,4 +38,6 @@ package object app {
       case _ => default
     }
   }
+
+
 }

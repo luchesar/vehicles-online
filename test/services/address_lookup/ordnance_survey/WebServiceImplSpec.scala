@@ -17,8 +17,6 @@ final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
 
   implicit val noCookieFlags = new NoCookieFlags
 
-  import composition.TestComposition.{testInjector => injector}
-
   implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
   val addressLookupService = new services.address_lookup.ordnance_survey.WebServiceImpl(new Config() {
     override val ordnanceSurveyMicroServiceUrl = s"http://localhost:$wireMockPort"
