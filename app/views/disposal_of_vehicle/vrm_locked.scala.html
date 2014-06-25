@@ -14,13 +14,13 @@
     <div class="form-steps">
         <div class="step">
             @form(action = controllers.disposal_of_vehicle.routes.VrmLocked.newDisposal()) {
-            @CSRFHelper.hiddenFormField
+            @CsrfHelper.hiddenFormField
                 <button id="@NewDisposalId" type="submit" name="action" value="@NewDisposalAction" class="button">@Messages("vrm_locked.newdisposalbutton")</button>
             }
         </div>
         <div class="step">
             @form(action = controllers.disposal_of_vehicle.routes.VrmLocked.exit()) {
-            @CSRFHelper.hiddenFormField
+            @CsrfHelper.hiddenFormField
                 <button id="@ExitDisposalId" type="submit" name="action" value="@ExitAction" class="button">@Messages("vrm_locked.exit.button")</button>
             }
         </div>

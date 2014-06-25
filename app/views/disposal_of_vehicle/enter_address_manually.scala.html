@@ -13,7 +13,7 @@
 
     <div class="enter-address-manually uppercase-input">
         @form(action = controllers.disposal_of_vehicle.routes.EnterAddressManually.submit()) {
-            @CSRFHelper.hiddenFormField
+            @CsrfHelper.hiddenFormField
 
             @addressAndPostcode(enterAddressManuallyForm(AddressAndPostcodeId))
 

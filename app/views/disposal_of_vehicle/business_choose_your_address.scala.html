@@ -3,17 +3,17 @@
 @import controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress
 @import mappings.disposal_of_vehicle.BusinessChooseYourAddress.{AddressSelectId, BackId, EnterAddressManuallyButtonId, SelectId}
 @import utils.helpers.BaseTemplate._
-@import utils.helpers._
 @import views.html.disposal_of_vehicle.main
 @import views.html.helper._
 @import views.html.helper.base._
+@import utils.helpers.CsrfHelper
 
 @main(title = Messages("disposal_businessChooseYourAddress_title")
 ) {
     @errorsSummary(businessChooseYourAddressForm)
 
     @form(action = BusinessChooseYourAddress.submit()) {
-        @CSRFHelper.hiddenFormField
+        @CsrfHelper.hiddenFormField
 
     	<dl class="summary-detail-list">
         	<dt>@Messages("disposal_businessChooseYourAddress_businessName_label")</dt>

@@ -1,9 +1,9 @@
 @()(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
 @import controllers.disposal_of_vehicle.routes.SetUpTradeDetails
-@import mappings.disposal_of_vehicle.BeforeYouStart._
-@import utils.helpers._
+@import mappings.disposal_of_vehicle.BeforeYouStart.NextId
 @import views.html.disposal_of_vehicle.main
+@import utils.helpers.CsrfHelper
 
 @main(
     title = Messages("disposal_beforeyoustart.title")
@@ -16,7 +16,7 @@
     </ol>
 
     <div class="form-steps">
-        @CSRFHelper.hiddenFormField
+        @CsrfHelper.hiddenFormField
         @{
             /* Note the reverse routing syntax for the hyperlink */
         }

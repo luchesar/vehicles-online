@@ -9,7 +9,7 @@
     title = Messages("error.title")
 ){
     @form(action = controllers.disposal_of_vehicle.routes.Error.submit(exceptionDigest)) {
-        @CSRFHelper.hiddenFormField
+        @CsrfHelper.hiddenFormField
 
         <div class="form-steps">
             <button id="@SubmitId" type="submit" name="action" class="button">@Messages("error.button")</button>

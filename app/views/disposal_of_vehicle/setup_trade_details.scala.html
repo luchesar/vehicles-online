@@ -15,7 +15,7 @@
     @errorsSummary(traderLookupForm)
 
     @form(action = SetUpTradeDetails.submit) {
-        @CSRFHelper.hiddenFormField
+        @CsrfHelper.hiddenFormField
 
         <div class="uppercase-input">
 	        @valtechInputText(traderLookupForm(TraderNameId), args =

@@ -3,11 +3,11 @@
 @import mappings.common.Mileage
 @import mappings.disposal_of_vehicle.Dispose._
 @import utils.helpers.BaseTemplate._
-@import utils.helpers._
 @import views.html.disposal_of_vehicle.main
 @import views.html.helper._
 @import views.html.helper.base.{valtechDeclareCheck, valtechInputText}
 @import views.html.helper.dates.inputDayMonthYear
+@import utils.helpers.CsrfHelper
 
 @main(
     title = Messages("disposal_dispose.title")
@@ -15,7 +15,7 @@
     @errorsSummary(disposeForm)
 
     @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit()) {
-        @CSRFHelper.hiddenFormField
+        @CsrfHelper.hiddenFormField
 
         <div class="two-col clearfix">
 
@@ -63,7 +63,7 @@
 
                 <div class="step js-only">
                     <button id="@TodaysDateOfDisposal" type="button" name="action" class="button" onclick="AutoFillTodaysDate(@{dateService.today.day},
-                    @{dateService.today.month}, @{dateService.today.year}, '@{TodaysDateOfDisposal}', '@{DateOfDisposalId}_day', '@{DateOfDisposalId}_month',
+                    @{dateService.today.month}, @{dateService.today.year}, '@TodaysDateOfDisposal', '@{DateOfDisposalId}_day', '@{DateOfDisposalId}_month',
                     '@{DateOfDisposalId}_year')">@Messages("disposal_dispose.todays_date_of_disposal")</button>
                 </div>
 

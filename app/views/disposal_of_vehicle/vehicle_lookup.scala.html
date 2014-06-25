@@ -17,7 +17,7 @@
             <div class="form-steps">
                 <div class="step uppercase-input">
                     @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit()) {
-                        @CSRFHelper.hiddenFormField
+                        @CsrfHelper.hiddenFormField
                         <h2>@Messages("disposal_vehiclelookup.p1")</h2>
 
                         @valtechInputText(vehicleLookupForm(VehicleRegistrationNumberId), args =
@@ -41,7 +41,7 @@
                 </div>
                 <div class="step exit-button">
                     @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.exit()) {
-                        @CSRFHelper.hiddenFormField
+                        @CsrfHelper.hiddenFormField
                         <button id="@ExitId" type="submit" name="action" class="button">@Messages("disposal_vehiclelookup.exitbutton")</button>
                     }
                 </div>
