@@ -2,9 +2,9 @@
 
 @import mappings.common.AddressAndPostcode.AddressAndPostcodeId
 @import mappings.disposal_of_vehicle.EnterAddressManually.{BackId, NextId}
-@import utils.helpers._
+@import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
-@import views.html.helper._
+@import views.html.helper.{addressAndPostcode, errorsSummary, form}
 
 @main(
     title = Messages("disposal_enteraddressmanually.title")
