@@ -6,7 +6,6 @@ import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
 import play.api.test.FakeRequest
-import composition.TestComposition.{testInjector => injector}
 import helpers.WithApplication
 import services.fakes.FakeVehicleLookupWebService._
 import scala.Some

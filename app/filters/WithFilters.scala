@@ -1,9 +1,10 @@
 package filters
 
+import composition.Composition
 import play.api.GlobalSettings
-import play.api.mvc.{Filters, EssentialAction, EssentialFilter}
+import play.api.mvc.{EssentialAction, Filters}
 
-class WithFilters(filters: => Array[EssentialFilter]) extends GlobalSettings {
+trait WithFilters extends Composition with GlobalSettings {
   override def doFilter(a: EssentialAction): EssentialAction = {
     Filters(super.doFilter(a), filters: _*)
   }

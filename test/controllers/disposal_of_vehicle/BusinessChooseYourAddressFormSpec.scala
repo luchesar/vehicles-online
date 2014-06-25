@@ -4,7 +4,6 @@ import helpers.UnitSpec
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import services.fakes.FakeAddressLookupWebServiceImpl
 import services.fakes.FakeAddressLookupWebServiceImpl._
-import composition.TestComposition.{testInjector => injector}
 import common.ClientSideSessionFactory
 
 class BusinessChooseYourAddressFormSpec extends UnitSpec {
