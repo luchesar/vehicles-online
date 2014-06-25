@@ -1,6 +1,6 @@
 @(title: String)(content: Html)(implicit lang: Lang)
 
-@import views.html.common.alternateLanguages
+@import views.html.common.{alternateLanguages, feedback}
 
 <!DOCTYPE html>
     <!--[if IE 6]>         <html class="ie ie6" lang="en"> <![endif]-->
@@ -44,7 +44,7 @@
                     	<h1 class="page-title beta"><strong>@{Messages("main.banner")}</strong> <span aria-hidden="true">beta</span></h1>
                     	<h2>
                             <a href="">@{Messages("main.banner.help")}</a>
-                            <a href="@{Messages("main.banner.feedback.link")}">@{Messages("main.banner.feedback")}</a>
+                            @feedback()
                             @alternateLanguages()
                         </h2>
                     </div>

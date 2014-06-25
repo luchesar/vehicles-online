@@ -1,6 +1,6 @@
 @(title: String)(content: Html)(implicit lang: Lang)
     
-@import views.html.common.alternateLanguages
+@import views.html.common.{alternateLanguages, feedback}
 
 <!DOCTYPE html>
     <head>
@@ -10,6 +10,7 @@
 
     <body>
         <div id="wrapper content" class="group">
+            @feedback()
             @alternateLanguages()
             @content
         </div>
