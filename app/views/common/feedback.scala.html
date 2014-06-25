@@ -1,3 +1,5 @@
 @()(implicit lang: Lang)
 
-<a href="@{Messages("main.banner.feedback.link")}">@{Messages("main.banner.feedback")}</a>
+@import mappings.common.Feedback.FeedbackId
+
+<a id="@FeedbackId" href="@Messages("main.banner.feedback.link")">@Messages("main.banner.feedback")</a>
