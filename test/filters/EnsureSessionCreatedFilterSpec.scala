@@ -1,8 +1,11 @@
 package filters
 
+import com.google.inject.{Binder, Module, Guice}
+import com.tzavellas.sse.guice.ScalaModule
 import helpers.UnitSpec
 import common.{InvalidSessionException, ClientSideSessionFactory}
 import play.api.mvc._
+import services.fakes.FakeVehicleLookupWebService
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.mvc.Cookie
 import play.api.mvc.SimpleResult
@@ -101,9 +104,12 @@ class EnsureSessionCreatedFilterSpec extends UnitSpec {
 
   private def setUp(test: SetUp => Any) {
     val sessionFactory = mock[ClientSideSessionFactory]
+    val injector = Guice.createInjector(new ScalaModule {
+      override def configure(): Unit = bind[ClientSideSessionFactory].toInstance(sessionFactory)
+    })
 
     test(SetUp(
-      filter = new EnsureSessionCreatedFilter(sessionFactory),
+      filter = injector.getInstance(classOf[EnsureSessionCreatedFilter]),
       request = FakeRequest(),
       sessionFactory = sessionFactory,
       nextFilter = new MockFilter()

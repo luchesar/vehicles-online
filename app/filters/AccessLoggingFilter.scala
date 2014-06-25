@@ -1,15 +1,17 @@
 package filters
 
-import com.google.inject.Inject
-import play.api.mvc.{SimpleResult, RequestHeader, Filter}
-import scala.concurrent.Future
 import java.text.SimpleDateFormat
 import java.util.Date
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.http.HeaderNames._
+
+import com.google.inject.Inject
 import common.ClientSideSessionFactory
-import services.HttpHeaders._
 import play.api.Logger
+import play.api.http.HeaderNames._
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.mvc.{Filter, RequestHeader, SimpleResult}
+import services.HttpHeaders._
+
+import scala.concurrent.Future
 
 class AccessLoggingFilter @Inject()(logger: ClfLogger) extends Filter {
   val accessLogger = Logger("dvla.common.AccessLogger")
