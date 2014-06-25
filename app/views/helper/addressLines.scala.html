@@ -1,8 +1,8 @@
 @(field: play.api.data.Field, args: Map[Symbol, Any])(implicit lang: Lang)
 
-@import utils.helpers.BaseTemplate._
-@import views.html.helper._
-@import views.html.helper.base._
+@import utils.helpers.BaseTemplate.fieldConstructor
+@import views.html.helper.base.{valtechInputText, valtechLabelText}
+@import views.html.helper.input
 
 @input(field,args.toSeq: _*){(id, name, value, htmlArgs) =>
 
