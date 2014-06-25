@@ -62,7 +62,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
       hasEnglish should equal(false)
     }
 
-    "display mailto link that specifies a subject" in {
+    "display mailto link that specifies a subject" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
       val result = mailto.attribute("href").get
