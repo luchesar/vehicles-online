@@ -5,6 +5,7 @@ import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import services.fakes.FakeAddressLookupWebServiceImpl
 import services.fakes.FakeAddressLookupWebServiceImpl._
 import common.ClientSideSessionFactory
+import utils.helpers.Config
 
 class BusinessChooseYourAddressFormSpec extends UnitSpec {
   "form" should {
@@ -28,7 +29,8 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
     val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    new BusinessChooseYourAddress(addressLookupService)(clientSideSessionFactory)
+    val config: Config = mock[Config]
+    new BusinessChooseYourAddress(addressLookupService, config)(clientSideSessionFactory)
   }
 
   private def formWithValidDefaults(addressSelected: String = traderUprnValid.toString) = {

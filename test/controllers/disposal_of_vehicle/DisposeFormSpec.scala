@@ -145,7 +145,8 @@ final class DisposeFormSpec extends UnitSpec {
     })
     val disposeServiceImpl = new DisposeServiceImpl(new Config(), ws)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService)(clientSideSessionFactory)
+    val config: Config = mock[Config]
+    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService, config)(clientSideSessionFactory)
   }
 
   private def formWithValidDefaults(mileage: String = MileageValid,

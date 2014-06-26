@@ -158,7 +158,8 @@ final class DisposeUnitSpec extends UnitSpec {
       val mockWebServiceThrows = mock[DisposeService]
       when(mockWebServiceThrows.invoke(any[DisposeRequest], any[String])).thenReturn(Future.failed(new RuntimeException))
       val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-      val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateServiceStubbed())(clientSideSessionFactory)
+      val config: Config = mock[Config]
+      val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateServiceStubbed(), config)(clientSideSessionFactory)
       val result = dispose.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
@@ -277,7 +278,8 @@ final class DisposeUnitSpec extends UnitSpec {
         (200, None)
       })
       val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-      val dispose = new disposal_of_vehicle.Dispose(mockDisposeService, dateServiceStubbed())(clientSideSessionFactory)
+      val config: Config = mock[Config]
+      val dispose = new disposal_of_vehicle.Dispose(mockDisposeService, dateServiceStubbed(), config)(clientSideSessionFactory)
       val result = dispose.submit(request)
       whenReady(result) {
         r =>
@@ -558,7 +560,8 @@ final class DisposeUnitSpec extends UnitSpec {
 
   private def disposeController(disposeWebService: DisposeWebService, disposeService: DisposeService): Dispose = {
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    new disposal_of_vehicle.Dispose(disposeService, dateServiceStubbed())(clientSideSessionFactory)
+    val config: Config = mock[Config]
+    new disposal_of_vehicle.Dispose(disposeService, dateServiceStubbed(), config)(clientSideSessionFactory)
   }
 
 

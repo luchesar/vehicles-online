@@ -1,10 +1,11 @@
-@()(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+@(prototypeBannerVisible: Boolean)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
 @import mappings.disposal_of_vehicle.UprnNotFound.{ManualaddressbuttonId, SetuptradedetailsbuttonId}
 @import views.html.disposal_of_vehicle.main
 
 @main(
-    title = Messages("disposal_uprnnotfound.title")
+    title = Messages("disposal_uprnnotfound.title"),
+    prototypeBannerVisible = prototypeBannerVisible
 ) {
     <p>@Messages("disposal_uprnnotfound.p1")</p>
 
