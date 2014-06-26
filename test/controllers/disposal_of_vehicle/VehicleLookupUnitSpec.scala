@@ -329,9 +329,11 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       })
       val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
       val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val config: Config = mock[Config]
       val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
         bruteForceServiceImpl(permitted = true),
-        vehicleLookupServiceImpl)(clientSideSessionFactory
+        vehicleLookupServiceImpl,
+        config)(clientSideSessionFactory
       )
       val result = vehiclesLookup.submit(request)
 
@@ -352,10 +354,11 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       })
       val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
       val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val config: Config = mock[Config]
       val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
         bruteForceServiceImpl(permitted = true),
-        vehicleLookupServiceImpl)(clientSideSessionFactory
-        )
+        vehicleLookupServiceImpl,
+        config)(clientSideSessionFactory)
       val result = vehiclesLookup.submit(request)
 
       whenReady(result) {
@@ -373,9 +376,11 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         val mockVehiclesLookupService = mock[VehicleLookupWebService]
         val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
         val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+        val config: Config = mock[Config]
         val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
           bruteForceServiceImpl(permitted = true),
-          vehicleLookupServiceImpl)(clientSideSessionFactory
+          vehicleLookupServiceImpl,
+          config)(clientSideSessionFactory
           )
         val result = vehiclesLookup.submit(request)
         whenReady(result) {
@@ -388,11 +393,11 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest(postAction = "RUBBISH_ACTION")
       val mockVehiclesLookupService = mock[VehicleLookupWebService]
       val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
-      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val config: Config = mock[Config]
       val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
         bruteForceServiceImpl(permitted = true),
-        vehicleLookupServiceImpl)(clientSideSessionFactory
-        )
+        vehicleLookupServiceImpl, config)(clientSideSessionFactory)
       val result = vehiclesLookup.submit(request)
       val content = contentAsString(result)
       ActionNotAllowedMessage should equal(content)
@@ -405,11 +410,11 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = FakeRequest().withFormUrlEncodedBody()
       val mockVehiclesLookupService = mock[VehicleLookupWebService]
       val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
-      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val config: Config = mock[Config]
       val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
         bruteForceServiceImpl(permitted = true),
-        vehicleLookupServiceImpl)(clientSideSessionFactory
-        )
+        vehicleLookupServiceImpl, config)(clientSideSessionFactory)
       val result = vehiclesLookup.submit(request)
       val content = contentAsString(result)
       ActionNotAllowedMessage should equal(content)
@@ -462,10 +467,11 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-
+    val config: Config = mock[Config]
     new disposal_of_vehicle.VehicleLookup(
       bruteForceService = bruteForceService,
-      vehicleLookupService = vehicleLookupServiceImpl)(clientSideSessionFactory)
+      vehicleLookupService = vehicleLookupServiceImpl,
+      config)(clientSideSessionFactory)
   }
 
   private lazy val vehicleLookupError = {
@@ -476,10 +482,11 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(vehicleLookupWebService)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-
+    val config: Config = mock[Config]
     new disposal_of_vehicle.VehicleLookup(
       bruteForceService = bruteForceServiceImpl(permitted = permitted),
-      vehicleLookupService = vehicleLookupServiceImpl)(clientSideSessionFactory)
+      vehicleLookupService = vehicleLookupServiceImpl,
+      config)(clientSideSessionFactory)
   }
 
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = ReferenceNumberValid,

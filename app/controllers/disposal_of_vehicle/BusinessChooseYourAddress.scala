@@ -14,13 +14,14 @@ import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc._
 import services.address_lookup.AddressLookupService
+import utils.helpers.Config
 import utils.helpers.FormExtensions._
 import views.html.disposal_of_vehicle.business_choose_your_address
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)
+final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService, config: Config)
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   private[disposal_of_vehicle] val form = Form(
@@ -40,7 +41,8 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
           Ok(views.html.disposal_of_vehicle.business_choose_your_address(form.fill(),
             setupTradeDetailsModel.traderBusinessName,
             setupTradeDetailsModel.traderPostcode,
-            addresses))
+            addresses,
+            config.prototypeBannerVisible))
         }
       case None => Future {
         Redirect(routes.SetUpTradeDetails.present())
@@ -58,7 +60,8 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
               BadRequest(business_choose_your_address(formWithReplacedErrors(invalidForm),
                 setupTradeDetails.traderBusinessName,
                 setupTradeDetails.traderPostcode,
-                addresses))
+                addresses,
+                config.prototypeBannerVisible))
             }
           case None => Future {
             Logger.error("Failed to find dealer details, redirecting")

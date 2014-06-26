@@ -177,6 +177,8 @@ address.postcode.validation = Rhowch god post dilys
 addressAndPostcode.addressLines.line2 = Enwau strydoedd
 addressAndPostcode.addressLines.line3 = Ardal
 addressAndPostcode.addressLines.postTown = Postiwch y dref
+error.address.characterInvalid = Cyfeiriad yn cynnwys nodau annilys
+error.postTown.characterInvalid = Tref bost yn cynnwys nodau annilys
 
 #page 3 - uprn not found
 disposal_uprnnotfound.title = Gwall cod post yn cadarnhau

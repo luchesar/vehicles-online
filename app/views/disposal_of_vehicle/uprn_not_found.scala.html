@@ -1,17 +1,16 @@
-@()(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+@(prototypeBannerVisible: Boolean)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
-@import mappings.disposal_of_vehicle.UprnNotFound._
+@import mappings.disposal_of_vehicle.UprnNotFound.{ManualaddressbuttonId, SetuptradedetailsbuttonId}
 @import views.html.disposal_of_vehicle.main
 
 @main(
-    title = Messages("disposal_uprnnotfound.title")
+    title = Messages("disposal_uprnnotfound.title"),
+    prototypeBannerVisible = prototypeBannerVisible
 ) {
     <p>@Messages("disposal_uprnnotfound.p1")</p>
 
     <div class="form-steps">
-        @{
-            /* Note the reverse routing syntax for the hyperlink */
-        }
+        @* Note the reverse routing syntax for the hyperlink *@
         <a class="button" id="@SetuptradedetailsbuttonId" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.present()">@Messages("disposal_uprnnotfound.manualaddressbutton")</a>
         <a class="button" id="@ManualaddressbuttonId" href="@controllers.disposal_of_vehicle.routes.EnterAddressManually.present()">@Messages("disposal_uprnnotfound.setuptradedetailsbutton")</a>
     </div>

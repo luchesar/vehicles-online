@@ -61,6 +61,10 @@
  		}
  	}
 
+ 	dd {
+ 		margin:0;
+ 	}
+
  	// information items (1/2 columns - typically 2 columns)
  	// this could be a DL element, or a wrapping div
  	.summary-detail-list {
@@ -96,7 +100,7 @@
 		}
 		dd {
 			@include to-uppercase;
-			overflow: hidden;
+			overflow:hidden;
 
 			@media screen and (max-width: $device-small) {
 				clear:both;
@@ -112,7 +116,7 @@
 
 		// smaller width, more flexible container
 		&.summary-detail-list-flex {
-			@include summary-detail-list-flex();
+			@include summary-detail-list-flex;
 		}
 	}
 

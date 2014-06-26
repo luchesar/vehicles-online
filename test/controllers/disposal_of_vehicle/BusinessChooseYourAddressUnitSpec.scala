@@ -14,6 +14,7 @@ import play.api.test.Helpers._
 import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
 import services.fakes.FakeAddressLookupWebServiceImpl
 import services.fakes.FakeAddressLookupWebServiceImpl._
+import utils.helpers.Config
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
@@ -127,7 +128,8 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    new BusinessChooseYourAddress(addressLookupService)(clientSideSessionFactory)
+    val config: Config = mock[Config]
+    new BusinessChooseYourAddress(addressLookupService, config)(clientSideSessionFactory)
   }
 
   private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {

@@ -4,12 +4,12 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import play.api.Logger
 import play.api.mvc._
-import utils.helpers.CryptoHelper
+import utils.helpers.{Config, CryptoHelper}
 
-final class Error @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class Error @Inject()(config: Config)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
   def present(exceptionDigest: String) = Action { implicit request =>
     Logger.debug("Error - Displaying generic error page")
-    Ok(views.html.disposal_of_vehicle.error(exceptionDigest))
+    Ok(views.html.disposal_of_vehicle.error(exceptionDigest, config.prototypeBannerVisible))
   }
 
   // TODO is there a submit button that calls this? If it is unused then delete.

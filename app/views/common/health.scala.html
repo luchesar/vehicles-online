@@ -1,11 +1,11 @@
-@(now:String)(implicit lang: Lang)
+@(now: String, prototypeBannerVisible: Boolean)(implicit lang: Lang)
 
 @import views.html.common.{govMain, helpLine, protoType}
 
 @govMain("Alive") {
     <div class="carers-allowance">
 
-        @protoType()
+        @protoType(prototypeBannerVisible)
 
         @helpLine()
 

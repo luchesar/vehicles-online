@@ -1,12 +1,15 @@
-@(data: models.domain.disposal_of_vehicle.DisposeViewModel, formModel: models.domain.disposal_of_vehicle.DisposeFormModel)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+@(data: models.domain.disposal_of_vehicle.DisposeViewModel,
+        formModel: models.domain.disposal_of_vehicle.DisposeFormModel,
+        prototypeBannerVisible: Boolean)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
-@import mappings.disposal_of_vehicle.DisposeSuccess._
-@import utils.helpers._
+@import mappings.disposal_of_vehicle.DisposeSuccess.{ExitDisposalId, NewDisposalId}
+@import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
-@import views.html.helper._
+@import views.html.helper.form
 
 @main(
-    title = Messages("disposal_disposeconfirmation.title")
+    title = Messages("disposal_disposeconfirmation.title"),
+    prototypeBannerVisible = prototypeBannerVisible
 ){
     <div class="alert-complete">
         <h2>@Messages("disposal_disposeconfirmation.disposalComplete")</h2>
@@ -76,14 +79,14 @@
                 @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
                 <div class="step">
                     @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.newDisposal()) {
-                        @CSRFHelper.hiddenFormField
+                        @CsrfHelper.hiddenFormField
                         <button id="@NewDisposalId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
                     }
                 </div>
 
                 <div class="step">
                     @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.exit()) {
-                        @CSRFHelper.hiddenFormField
+                        @CsrfHelper.hiddenFormField
                         <button id="@ExitDisposalId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.exitbutton")</button>
                     }
                 </div>
