@@ -18,6 +18,13 @@ final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
       go to SetupTradeDetailsPage
       page.title should equal(SetupTradeDetailsPage.title)
     }
+
+    "display the progress of the page" taggedAs UiTag in new WebBrowser {
+      go to SetupTradeDetailsPage
+
+      page.source.contains("Step 2 of 6") should equal(true)
+    }
+
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
       go to SetupTradeDetailsPage
       val csrf: WebElement = webDriver.findElement(By.name(services.csrf_prevention.CSRFPreventionAction.csrfPreventionTokenName))

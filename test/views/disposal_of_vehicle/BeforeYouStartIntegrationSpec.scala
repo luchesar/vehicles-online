@@ -19,6 +19,12 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(BeforeYouStartPage.title)
     }
 
+    "display the progress of the page" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+
+      page.source.contains("Step 1 of 6") should equal(true)
+    }
+
     "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowser {
       def cacheSetup()(implicit webDriver: WebDriver) =
         CookieFactoryForUISpecs.setupTradeDetails().
