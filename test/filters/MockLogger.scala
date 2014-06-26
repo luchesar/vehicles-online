@@ -26,4 +26,6 @@ class MockLogger extends LoggerLike with MockitoSugar {
     Mockito.verify(logger, times(times1)).info(captor.capture())
     captor.getAllValues
   }
+
+  def reset(): Unit = Mockito.reset(logger)
 }
