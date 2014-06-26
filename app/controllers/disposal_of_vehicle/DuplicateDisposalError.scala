@@ -6,8 +6,8 @@ import common.ClientSideSessionFactory
 import play.api.mvc._
 import utils.helpers.Config
 
-final class DuplicateDisposalError @Inject()
-                                   (implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config)
+final class DuplicateDisposalError @Inject()(config: Config)
+                                   (implicit clientSideSessionFactory: ClientSideSessionFactory)
   extends Controller {
 
   def present = Action { implicit request =>
