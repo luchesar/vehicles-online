@@ -28,9 +28,9 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
     val responseUprn = if(uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
-    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    val config: Config = mock[Config]
-    new BusinessChooseYourAddress(addressLookupService, config)(clientSideSessionFactory)
+    implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    implicit val config: Config = mock[Config]
+    new BusinessChooseYourAddress(addressLookupService)
   }
 
   private def formWithValidDefaults(addressSelected: String = traderUprnValid.toString) = {
