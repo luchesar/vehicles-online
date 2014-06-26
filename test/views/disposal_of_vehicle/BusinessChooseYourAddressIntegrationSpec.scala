@@ -69,7 +69,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       csrf.getAttribute("value").size > 0 should equal(true)
     }
 
-    "display the 'Cymraeg' language button and not the 'English' language button when the language cookie is set to 'en'" taggedAs UiTag in new WebBrowser {
+    "display the 'Cymraeg' language button and not the 'English' language button when the language cookie is set to 'en'" taggedAs UiTag ignore new WebBrowser {
       go to BeforeYouStartPage // By default will load in English.
       CookieFactoryForUISpecs.withLanguageEn()
       go to BusinessChooseYourAddressPage
@@ -78,7 +78,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       hasEnglish should equal(false)
     }
 
-    "display the 'English' language button and not the 'Cymraeg' language button when the language cookie is set to 'cy'" taggedAs UiTag in new WebBrowser {
+    "display the 'English' language button and not the 'Cymraeg' language button when the language cookie is set to 'cy'" taggedAs UiTag ignore new WebBrowser {
       go to BeforeYouStartPage // By default will load in English.
       CookieFactoryForUISpecs.withLanguageCy()
       go to BusinessChooseYourAddressPage

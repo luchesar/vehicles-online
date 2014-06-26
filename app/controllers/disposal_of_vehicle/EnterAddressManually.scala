@@ -12,7 +12,7 @@ import play.api.mvc._
 import utils.helpers.Config
 import utils.helpers.FormExtensions._
 
-final class EnterAddressManually @Inject()(config: Config)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
 
   private[disposal_of_vehicle] val form = Form(
     mapping(
@@ -23,7 +23,7 @@ final class EnterAddressManually @Inject()(config: Config)(implicit clientSideSe
   def present = Action { implicit request =>
     request.cookies.getModel[SetupTradeDetailsModel] match {
       case Some(setupTradeDetails) =>
-        Ok(views.html.disposal_of_vehicle.enter_address_manually(form.fill(), traderPostcode = setupTradeDetails.traderPostcode, config.prototypeBannerVisible))
+        Ok(views.html.disposal_of_vehicle.enter_address_manually(form.fill(), traderPostcode = setupTradeDetails.traderPostcode))
       case None => Redirect(routes.SetUpTradeDetails.present())
     }
   }
@@ -33,7 +33,7 @@ final class EnterAddressManually @Inject()(config: Config)(implicit clientSideSe
       invalidForm =>
         request.cookies.getModel[SetupTradeDetailsModel] match {
           case Some(setupTradeDetails) =>
-            BadRequest(views.html.disposal_of_vehicle.enter_address_manually(formWithReplacedErrors(invalidForm), setupTradeDetails.traderPostcode, config.prototypeBannerVisible))
+            BadRequest(views.html.disposal_of_vehicle.enter_address_manually(formWithReplacedErrors(invalidForm), setupTradeDetails.traderPostcode))
           case None =>
             Logger.debug("Failed to find dealer name in cache, redirecting")
             Redirect(routes.SetUpTradeDetails.present())

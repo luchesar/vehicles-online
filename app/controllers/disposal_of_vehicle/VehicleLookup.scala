@@ -22,8 +22,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 
-final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService, config: Config)
-                                   (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService)
+                                   (implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
 
   private[disposal_of_vehicle] val form = Form(
     mapping(
@@ -34,7 +34,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
 
   def present = Action { implicit request =>
     request.cookies.getModel[TraderDetailsModel] match {
-      case Some(traderDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, form.fill(), config.prototypeBannerVisible))
+      case Some(traderDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, form.fill()))
       case None => Redirect(routes.SetUpTradeDetails.present())
     }
   }
@@ -60,7 +60,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
               replaceError(VehicleRegistrationNumberId, FormError(key = VehicleRegistrationNumberId, message = "error.restricted.validVrnOnly", args = Seq.empty)).
               replaceError(DocumentReferenceNumberId, FormError(key = DocumentReferenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
               distinctErrors
-              BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, formWithReplacedErrors, config.prototypeBannerVisible))
+              BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, formWithReplacedErrors))
             case None => Redirect(routes.SetUpTradeDetails.present())
           }
         },

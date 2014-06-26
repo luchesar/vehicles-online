@@ -7,6 +7,6 @@ import utils.helpers.Config
 
 final class MicroServiceError @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
   def present = Action { implicit request =>
-    Ok(views.html.disposal_of_vehicle.micro_service_error(config.prototypeBannerVisible))
+    Ok(views.html.disposal_of_vehicle.micro_service_error())
   }
 }

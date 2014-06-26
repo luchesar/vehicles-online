@@ -1,12 +1,11 @@
-@(request: RequestHeader,
-        prototypeBannerVisible: Boolean = false)(implicit lang: Lang)
+@(request: RequestHeader)(implicit lang: Lang, config: utils.helpers.Config)
 
 @import views.html.common.{govMain, protoType}
 
 @govMain(Messages("onHandlerNotFound.title")) {
     <div class="vehicles-online">
 
-        @protoType(prototypeBannerVisible)
+        @protoType()
 
         <section class="section-content">
             <h1>@Messages("onHandlerNotFound.header")</h1>

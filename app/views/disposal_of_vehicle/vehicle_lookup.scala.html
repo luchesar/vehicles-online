@@ -1,6 +1,7 @@
 @(data: models.domain.disposal_of_vehicle.TraderDetailsModel,
-  vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel],
-  prototypeBannerVisible: Boolean)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+        vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang,
+        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        config: utils.helpers.Config)
 
 @import mappings.common.{DocumentReferenceNumber, VehicleRegistrationNumber}
 @import mappings.disposal_of_vehicle.VehicleLookup.{BackId, DocumentReferenceNumberId, ExitId, SubmitId, VehicleRegistrationNumberId, VehicleLookupAction, ExitAction}
@@ -13,8 +14,7 @@
 @main(
     progress = Some(Messages("disposal_progress_4")),
     title = Messages("disposal_vehiclelookup.title"),
-    currentForm = Some(vehicleLookupForm),
-    prototypeBannerVisible = prototypeBannerVisible
+    currentForm = Some(vehicleLookupForm)
 ) {
 
 @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit()) {

@@ -16,8 +16,7 @@
 @main(
     progress = Some(Messages("disposal_progress_5")),
     title = Messages("disposal_dispose.title"),
-    currentForm = Some(disposeForm),
-    prototypeBannerVisible = config.prototypeBannerVisible
+    currentForm = Some(disposeForm)
 ) {
     @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit()) {
         @CsrfHelper.hiddenFormField

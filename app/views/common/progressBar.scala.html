@@ -1,0 +1,5 @@
+@(progress: Option[String])(implicit lang: Lang, config: utils.helpers.Config)
+
+@progress.map { p =>
+    <div>@p</div>
+}

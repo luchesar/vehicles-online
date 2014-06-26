@@ -3,6 +3,7 @@
 @import controllers.common.routes.AlternateLanguages.withLanguage
 @import mappings.common.AlternateLanguages.{CyId, EnId}
 
+@****** This has been commented out until the Welsh translations have been finalised
 @if(lang.code != CyId) {
       <a id="@CyId" href="@withLanguage(chosenLanguage = CyId)">@Messages("language.cy.button")</a>
 }
@@ -10,3 +11,4 @@
 @if(lang.code != EnId) {
       <a id="@EnId" href="@withLanguage(chosenLanguage = EnId)">@Messages("language.en.button")</a>
 }
+******@
