@@ -1,10 +1,12 @@
-@(prototypeBannerVisible: Boolean)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+@()(implicit lang: Lang,
+        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        config: utils.helpers.Config)
 
 @import views.html.disposal_of_vehicle.main
 
 @main(
     title = Messages("duplicate_disposal_error.title"),
-    prototypeBannerVisible = prototypeBannerVisible
+    prototypeBannerVisible = config.prototypeBannerVisible
 ){
     <p>@Messages("duplicate_disposal_error.text")</p>
 
