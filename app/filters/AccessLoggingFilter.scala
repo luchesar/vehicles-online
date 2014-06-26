@@ -1,5 +1,6 @@
 package filters
 
+import java.net.URI
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -22,8 +23,9 @@ class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder,
                     (requestHeader: RequestHeader): Future[SimpleResult] = {
     val requestTimestamp = new Date()
     filter(requestHeader).map {result =>
-      val accessLogMessage = clfEntryBuilder.clfEntry(requestTimestamp, requestHeader, result)
-      accessLogger.info(accessLogMessage)
+      val requestPath = new URI(requestHeader.uri).getPath
+      if (!AccessLoggingFilter.NonLoggingUrls.contains(requestPath))
+        accessLogger.info(clfEntryBuilder.clfEntry(requestTimestamp, requestHeader, result))
       result
     }
   }
@@ -59,6 +61,7 @@ class ClfEntryBuilder {
 
 object AccessLoggingFilter {
   final val AccessLoggerName = "AccessLogger"
+  final val NonLoggingUrls = Set("/healthcheck")
 }
 
 object ClfEntryBuilder {

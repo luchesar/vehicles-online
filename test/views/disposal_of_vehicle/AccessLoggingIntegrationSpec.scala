@@ -8,14 +8,13 @@ import composition.TestComposition
 import filters.AccessLoggingFilter._
 import filters.MockLogger
 import helpers.UiSpec
-import helpers.webbrowser.{TestHarness, WebBrowserDSL}
-import org.apache.http.client.methods.HttpPost
+import helpers.webbrowser.{TestHarness, WebBrowserDSL, WebDriverFactory}
+import org.apache.http.client.methods.{HttpGet, HttpPost}
 import org.apache.http.impl.client.HttpClients
 import org.scalatest.mock.MockitoSugar
 import pages.disposal_of_vehicle.{BeforeYouStartPage, BusinessChooseYourAddressPage}
 import play.api.LoggerLike
 import play.api.test.FakeApplication
-import scala.collection.JavaConversions._
 
 
 class AccessLoggingIntegrationSpec extends UiSpec with TestHarness with MockitoSugar  with WebBrowserDSL {
@@ -37,10 +36,47 @@ class AccessLoggingIntegrationSpec extends UiSpec with TestHarness with MockitoS
       httpResponse.close()
 
       val infoLogs = mockLogger.captureLogInfos(4)
-      for (log <- infoLogs) info("Log message:" + log)
-
       infoLogs.get(2) should include("""] "POST /disposal-of-vehicle/business-choose-your-address HTTP/1.1" 303""")
       infoLogs.get(3) should include("""] "GET /disposal-of-vehicle/error/""")
+    }
+
+    "Log access to unknown urls" in new WebBrowser(testApp) {
+      val httpClient = HttpClients.createDefault()
+      val post = new HttpPost(WebDriverFactory.testUrl + "/some/unknown/url")
+      val httpResponse = httpClient.execute(post)
+      httpResponse.close()
+
+      val infoLogs = mockLogger.captureLogInfos(6)
+
+      infoLogs.get(4) should include("""] "POST /some/unknown/url HTTP/1.1" 303""")
+      infoLogs.get(5) should include("""] "GET /disposal-of-vehicle/error/""")
+    }
+
+    "not log any access for the healthcheck url" in new WebBrowser(testApp) {
+      val httpClient = HttpClients.createDefault()
+      val post = new HttpGet(WebDriverFactory.testUrl + "/healthcheck")
+      val httpResponse = httpClient.execute(post)
+      httpResponse.close()
+
+      val infoLogs = mockLogger.captureLogInfos(6)
+    }
+
+    "not log any access for the healthcheck url with parameters" in new WebBrowser(testApp) {
+      val httpClient = HttpClients.createDefault()
+      val post = new HttpGet(WebDriverFactory.testUrl + "/healthcheck?param1=a&b=c")
+      val httpResponse = httpClient.execute(post)
+      httpResponse.close()
+
+      val infoLogs = mockLogger.captureLogInfos(6)
+    }
+
+    "log any access for the healthcheck url that has extra in the path or parameters" in new WebBrowser(testApp) {
+      val httpClient = HttpClients.createDefault()
+      val post = new HttpGet(WebDriverFactory.testUrl + "/healthcheck/some/extra")
+      val httpResponse = httpClient.execute(post)
+      httpResponse.close()
+
+      val infoLogs = mockLogger.captureLogInfos(7)
     }
   }
 
