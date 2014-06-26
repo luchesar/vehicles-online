@@ -1,5 +1,7 @@
 @(exceptionDigest: String,
-        prototypeBannerVisible: Boolean)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+        prototypeBannerVisible: Boolean)(implicit lang: Lang,
+        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        config: utils.helpers.Config)
 
 @import mappings.disposal_of_vehicle.Error.SubmitId
 @import utils.helpers.CsrfHelper
@@ -8,7 +10,7 @@
 
 @main(
     title = Messages("error.title"),
-    prototypeBannerVisible = prototypeBannerVisible
+    prototypeBannerVisible = config.prototypeBannerVisible
 ){
     @form(action = controllers.disposal_of_vehicle.routes.Error.submit(exceptionDigest)) {
         @CsrfHelper.hiddenFormField
