@@ -151,10 +151,20 @@
 		}
 	}
 
+
 	//vehicle lookup/find vehicle details
-	.trader-details dd {
-		.ie6 & {
-			clear:both;
+	.vehicle-lookup {
+		.trader-details dd {
+			.ie6 & {
+				clear:both;
+			}
+		}
+	}
+
+	//hide exit button in IE6 (double form posts do not work)
+	.exit-button button {
+		&.ie6 {
+			display:none;
 		}
 	}
 

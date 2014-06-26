@@ -55,11 +55,19 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
       hasEnglish should equal(true)
     }
 
-    "display the 'Cymraeg' language button and not the 'English' language button when the play language cookie does not exist (assumption that the browser default language is English)" taggedAs UiTag in new WebBrowser {
+    "display the 'Cymraeg' language button and not the 'English' language button and mailto when the play language cookie does not exist (assumption that the browser default language is English)" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
       hasCymraeg should equal(true)
       hasEnglish should equal(false)
+    }
+
+    "display mailto link that specifies a subject" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+
+      val result = mailto.attribute("href").get
+      result should include("mailto:")
+      result should include("Subject=")
     }
   }
 

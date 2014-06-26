@@ -13,14 +13,14 @@ import services.HttpHeaders._
 
 import scala.concurrent.Future
 
-class AccessLoggingFilter @Inject()(logger: ClfLogger) extends Filter {
+class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder) extends Filter {
   val accessLogger = Logger("dvla.common.AccessLogger")
 
   override def apply(filter: (RequestHeader) => Future[SimpleResult])
                     (requestHeader: RequestHeader): Future[SimpleResult] = {
     val requestTimestamp = new Date()
     filter(requestHeader).map {result =>
-      val accessLogMessage = logger.clfEntry(requestTimestamp, requestHeader, result)
+      val accessLogMessage = clfEntryBuilder.clfEntry(requestTimestamp, requestHeader, result)
       accessLogger.info(accessLogMessage)
       result
     }
@@ -28,7 +28,7 @@ class AccessLoggingFilter @Inject()(logger: ClfLogger) extends Filter {
 
 }
 
-class ClfLogger {
+class ClfEntryBuilder {
 
   def clfEntry(requestTimestamp: Date, request: RequestHeader, result: SimpleResult) : String = {
     val ipAddress = Seq(
@@ -46,7 +46,7 @@ class ClfLogger {
     val method = request.method
     val uri = request.uri
     val protocol = request.version
-    val date = s"[${ClfLogger.dateFormat.format(requestTimestamp)}]"
+    val date = s"[${ClfEntryBuilder.dateFormat.format(requestTimestamp)}]"
     val responseCode = result.header.status
     val responseLength = result.header.headers.get(CONTENT_LENGTH).getOrElse("-")
 
@@ -55,8 +55,6 @@ class ClfLogger {
 
 }
 
-object ClfLogger {
+object ClfEntryBuilder {
   val dateFormat = new SimpleDateFormat("dd/MMM/yyyy:hh:mm:ss +SSS")
 }
-
-

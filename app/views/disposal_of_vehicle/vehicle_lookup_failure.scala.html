@@ -3,7 +3,7 @@
         attempts: Int,
         maxAttempts: Int)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
-@import mappings.disposal_of_vehicle.VehicleLookupFailure._
+@import mappings.disposal_of_vehicle.VehicleLookupFailure.{BeforeYouStartId, VehicleLookupId}
 @import views.html.disposal_of_vehicle.main
 
 @main(

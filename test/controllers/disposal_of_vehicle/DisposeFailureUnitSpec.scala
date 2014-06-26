@@ -5,7 +5,6 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
-import composition.TestComposition.{testInjector => injector}
 import helpers.WithApplication
 import pages.disposal_of_vehicle.DisposeFailurePage
 import CookieHelper._

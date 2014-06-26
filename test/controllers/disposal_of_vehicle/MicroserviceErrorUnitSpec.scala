@@ -18,5 +18,5 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
     }
   }
 
-  private val microServiceError = new MicroServiceError()
+  private val microServiceError = injector.getInstance(classOf[MicroServiceError])
 }

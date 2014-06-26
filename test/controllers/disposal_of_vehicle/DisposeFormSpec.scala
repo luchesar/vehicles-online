@@ -19,7 +19,6 @@ import services.fakes.FakeResponse
 import services.DateService
 import scala.Some
 import common.ClientSideSessionFactory
-import composition.TestComposition.{testInjector => injector}
 import utils.helpers.Config
  
 final class DisposeFormSpec extends UnitSpec {

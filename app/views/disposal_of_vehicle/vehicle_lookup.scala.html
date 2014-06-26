@@ -1,23 +1,23 @@
 @(data: models.domain.disposal_of_vehicle.TraderDetailsModel, vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
 @import mappings.common.{DocumentReferenceNumber, VehicleRegistrationNumber}
-@import mappings.disposal_of_vehicle.VehicleLookup._
-@import utils.helpers.BaseTemplate._
-@import utils.helpers._
+@import mappings.disposal_of_vehicle.VehicleLookup.{BackId, DocumentReferenceNumberId, ExitId, SubmitId, VehicleRegistrationNumberId}
+@import utils.helpers.BaseTemplate.fieldConstructor
+@import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
-@import views.html.helper._
-@import views.html.helper.base._
+@import views.html.helper.base.valtechInputText
+@import views.html.helper.form
 
 @main(
-    title = Messages("disposal_vehiclelookup.title")
+    title = Messages("disposal_vehiclelookup.title"),
+    currentForm = Some(vehicleLookupForm)
 ) {
-    @errorsSummary(vehicleLookupForm)
     <div class="two-col clearfix">
         <div class="first-col">
             <div class="form-steps">
                 <div class="step uppercase-input">
                     @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit()) {
-                        @CSRFHelper.hiddenFormField
+                        @CsrfHelper.hiddenFormField
                         <h2>@Messages("disposal_vehiclelookup.p1")</h2>
 
                         @valtechInputText(vehicleLookupForm(VehicleRegistrationNumberId), args =
@@ -39,15 +39,15 @@
                         <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.back()" class="button-secondary">@Messages("disposal_vehiclelookup.backbutton")</a>
                     }
                 </div>
-                <div class="step">
+                <div class="step exit-button">
                     @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.exit()) {
-                        @CSRFHelper.hiddenFormField
+                        @CsrfHelper.hiddenFormField
                         <button id="@ExitId" type="submit" name="action" class="button">@Messages("disposal_vehiclelookup.exitbutton")</button>
                     }
                 </div>
             </div>
         </div>
-        <div id="TraderDetails" class="second-col TraderDetails">
+        <div id="trader-details" class="second-col trader-details">
             <h2>@Messages("disposal_vehiclelookup.p2")</h2>
 
             <dl class="summary-detail-list">

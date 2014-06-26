@@ -1,5 +1,6 @@
 package helpers.disposal_of_vehicle
 
+import composition.TestComposition
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
@@ -21,13 +22,12 @@ import services.fakes.FakeAddressLookupService.PostcodeValid
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
 import common.{ClientSideSessionFactory, CookieFlags, ClearTextClientSideSession}
-import composition.TestComposition.{testInjector => injector}
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
 import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
 import play.api.mvc.Cookie
 
-object CookieFactoryForUnitSpecs { // TODO can we make this more fluent by returning "this" at the end of the defs
+object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make this more fluent by returning "this" at the end of the defs
 
   implicit private val cookieFlags = injector.getInstance(classOf[CookieFlags])
   final val TrackingIdValue = "trackingId"

@@ -19,6 +19,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       page.title should equal(EnterAddressManuallyPage.title)
     }
+
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
@@ -28,6 +29,15 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
       csrf.getAttribute("type") should equal("hidden")
       csrf.getAttribute("name") should equal(services.csrf_prevention.CSRFPreventionAction.csrfPreventionTokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
+    }
+
+    "not display certain labels when rendered with base template" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      go to EnterAddressManuallyPage
+
+      page.source should not contain "addressAndPostcode"
     }
   }
 

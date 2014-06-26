@@ -15,7 +15,6 @@ import services.fakes.{FakeDateServiceImpl, FakeResponse}
 import services.fakes.FakeVehicleLookupWebService._
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import common.ClientSideSessionFactory
-import composition.TestComposition.{testInjector => injector}
 import services.brute_force_prevention.{BruteForcePreventionServiceImpl, BruteForcePreventionWebService, BruteForcePreventionService}
 import play.api.http.Status._
 import scala.Some

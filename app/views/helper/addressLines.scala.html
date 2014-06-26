@@ -1,12 +1,12 @@
 @(field: play.api.data.Field, args: Map[Symbol, Any])(implicit lang: Lang)
 
-@import utils.helpers.BaseTemplate._
-@import views.html.helper._
-@import views.html.helper.base._
+@import utils.helpers.BaseTemplate.fieldConstructor
+@import views.html.helper.base.{valtechInputText, valtechLabelText}
+@import views.html.helper.input
 
 @input(field,args.toSeq: _*){(id, name, value, htmlArgs) =>
 
-<legend> @valtechLabelText(field, args)</legend>
+<legend>@valtechLabelText(field, args)</legend>
     <div class="form-address-stack" id = "@id">
         <div class="form-item">
         @valtechInputText(field(mappings.common.AddressLines.BuildingNameOrNumberId),
@@ -37,11 +37,10 @@
                 'title -> Messages("")))
         </div>
         <br>
-        <legend>@Messages("addressAndPostcode.addressLines.postTown")</legend>
-        <div class="form-item">
+        <div class="form-item post-town">
         @valtechInputText(field(mappings.common.AddressLines.postTownId),
             args = Map(
-                '_label -> Messages("address.postTown.label"),
+                '_label -> Messages("addressAndPostcode.addressLines.postTown"),
                 '_showConstraints -> false,
                 'maxLength -> mappings.common.AddressLines.LineMaxLength.toString, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                 //'title -> Messages("address.buildingNameOrNumber.label"),

@@ -242,16 +242,21 @@
 
 	// styles a stacked address widget
 	.form-address-stack {
-	   	label {
-		   	@include sr-only;
+   	label {
+	   	@include sr-only;
+   	}
+   	.form-item {
+   		margin:0 0 10px 0;
+   		padding: {
+   			top:0;
+   			bottom:0;
+   		}
+	   	&.post-town label {
+	   		position:initial;
+	   		top:initial;
+	   		left:initial;
 	   	}
-	   	.form-item {
-	   		margin:0 0 10px 0;
-	   		padding: {
-	   			top:0;
-	   			bottom:0;
-	   		}
-	   	}
+   	}
 	}
 
 	// styles a national insurance number widget

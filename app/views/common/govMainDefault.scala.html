@@ -1,6 +1,6 @@
 @(title: String)(content: Html)(implicit lang: Lang)
 
-@import views.html.common.alternateLanguages
+@import views.html.common.{alternateLanguages, feedback}
 
 <!DOCTYPE html>
     <!--[if IE 6]>         <html class="ie ie6" lang="en"> <![endif]-->
@@ -41,10 +41,10 @@
                     </div>
 					
                     <div class="header-phase">
-                    	<h1 class="page-title beta"><strong>@{Messages("main.banner")(lang)}</strong> <span aria-hidden="true">beta</span></h1>
+                    	<h1 class="page-title beta"><strong>@{Messages("main.banner")}</strong> <span aria-hidden="true">beta</span></h1>
                     	<h2>
-                            <a href="">@{Messages("main.banner.help")(lang)}</a>
-                            <a href="@{Messages("main.banner.feedback.link")(lang)}">@{Messages("main.banner.feedback")(lang)}</a>
+                            <a href="">@{Messages("main.banner.help")}</a>
+                            @feedback()
                             @alternateLanguages()
                         </h2>
                     </div>
@@ -55,12 +55,12 @@
 
         <div id="global-cookie-message">
           <div class="cookie-message-wrapper">
-            <p>@{Messages("global.cookiemessage")(lang)}&nbsp;<a href="http://www.gov.uk/support/cookies">@{Messages("global.cookiefindoutmore")(lang)}</a></p>
+            <p>@{Messages("global.cookiemessage")}&nbsp;<a href="http://www.gov.uk/support/cookies">@{Messages("global.cookiefindoutmore")}</a></p>
           </div>
         </div>
 
         <div id="global-browser-prompt">
-            <p>@{Messages("global.browserprompt")(lang)}&nbsp;<a href="http://www.gov.uk/support/browsers">@{Messages("global.browserfindoutmore")(lang)}</a> <a href="#" class="dismiss" title="@{Messages("global.browserclosetitle")(lang)}">@{Messages("global.browserclosemessage")(lang)}</a></p>
+            <p>@{Messages("global.browserprompt")}&nbsp;<a href="http://www.gov.uk/support/browsers">@{Messages("global.browserfindoutmore")}</a> <a href="#" class="dismiss" title="@{Messages("global.browserclosetitle")}">@{Messages("global.browserclosemessage")}</a></p>
         </div>
 
         <div role="main" id="main">
@@ -72,11 +72,11 @@
                 <div class="footer-meta">
                     <div class="nav-wrapper">
                         <ul>
-                            <li><a href="https://www.gov.uk/help" target="_blank">@{Messages("footer.helpdesk")(lang)}</a></li>
-                            <li><a href="https://www.gov.uk/help/cookies" target="_blank">@{Messages("footer.privacypolicy")(lang)}</a></li>
-                            <li><a href="https://www.gov.uk/contact" target="_blank">@{Messages("footer.contact")(lang)}</a></li>
-                            <li><a href="https://www.gov.uk/cymraeg" target="_blank">@{Messages("footer.welsh")(lang)}</a></li>
-                            <li>@{Messages("footer.builtbyintro")(lang)}&nbsp;<a href="https://www.gov.uk/government/organisations/driver-and-vehicle-licensing-agency" target="_blank">@{Messages("footer.builtby")(lang)}</a></li>
+                            <li><a href="https://www.gov.uk/help" target="_blank">@{Messages("footer.helpdesk")}</a></li>
+                            <li><a href="https://www.gov.uk/help/cookies" target="_blank">@{Messages("footer.privacypolicy")}</a></li>
+                            <li><a href="https://www.gov.uk/contact" target="_blank">@{Messages("footer.contact")}</a></li>
+                            <li><a href="https://www.gov.uk/cymraeg" target="_blank">@{Messages("footer.welsh")}</a></li>
+                            <li>@{Messages("footer.builtbyintro")}&nbsp;<a href="https://www.gov.uk/government/organisations/driver-and-vehicle-licensing-agency" target="_blank">@{Messages("footer.builtby")}</a></li>
                         </ul>
                     </div>
 

@@ -1,12 +1,7 @@
 package controllers.disposal_of_vehicle
 
-import helpers.common.CookieHelper
-import CookieHelper._
-import composition.TestComposition.{testInjector => injector}
-import helpers.UnitSpec
-import helpers.WithApplication
+import helpers.{UnitSpec, WithApplication}
 import pages.disposal_of_vehicle._
-import play.api.Play
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 

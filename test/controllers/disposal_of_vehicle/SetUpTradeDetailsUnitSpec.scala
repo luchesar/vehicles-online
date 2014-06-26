@@ -7,7 +7,6 @@ import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
 import services.fakes.FakeAddressLookupService._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import composition.TestComposition.{testInjector => injector}
 import CookieHelper._
 import helpers.WithApplication
 import play.api.test.FakeRequest
