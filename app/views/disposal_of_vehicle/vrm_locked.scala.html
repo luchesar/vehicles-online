@@ -1,5 +1,6 @@
-@(timeString: String,
-        prototypeBannerVisible: Boolean)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+@(timeString: String)(implicit lang: Lang,
+        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        config: utils.helpers.Config)
 
 @import mappings.disposal_of_vehicle.VrmLocked.{ExitAction, ExitDisposalId, NewDisposalAction, NewDisposalId}
 @import utils.helpers.CsrfHelper
@@ -8,7 +9,7 @@
 
 @main(
     title = Messages("vrm_locked.title"),
-    prototypeBannerVisible = prototypeBannerVisible
+    prototypeBannerVisible = config.prototypeBannerVisible
 ) {
     <p>@Messages("vrm_locked.text1")</p>
     <p>@Messages("vrm_locked.text2")&nbsp;<span id='localTimeOfVrmLock' >@timeString</span></p>

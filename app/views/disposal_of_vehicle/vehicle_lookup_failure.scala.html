@@ -1,15 +1,16 @@
 @(data: models.domain.disposal_of_vehicle.VehicleLookupFormModel,
         responseCodeVehicleLookupMSErrorMessage: String,
         attempts: Int,
-        maxAttempts: Int,
-        prototypeBannerVisible: Boolean)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+        maxAttempts: Int)(implicit lang: Lang,
+        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        config: utils.helpers.Config)
 
 @import mappings.disposal_of_vehicle.VehicleLookupFailure.{BeforeYouStartId, VehicleLookupId}
 @import views.html.disposal_of_vehicle.main
 
 @main(
     title = Messages("disposal_vehiclelookupfailure.title"),
-    prototypeBannerVisible = prototypeBannerVisible
+    prototypeBannerVisible = config.prototypeBannerVisible
 ) {
     <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
     <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2")</p>

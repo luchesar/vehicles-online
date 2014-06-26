@@ -1,6 +1,7 @@
 @(data: models.domain.disposal_of_vehicle.TraderDetailsModel,
-        vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel],
-        prototypeBannerVisible: Boolean)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+        vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang,
+        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        config: utils.helpers.Config)
 
 @import mappings.common.{DocumentReferenceNumber, VehicleRegistrationNumber}
 @import mappings.disposal_of_vehicle.VehicleLookup.{BackId, DocumentReferenceNumberId, ExitId, SubmitId, VehicleRegistrationNumberId}
@@ -13,7 +14,7 @@
 @main(
     title = Messages("disposal_vehiclelookup.title"),
     currentForm = Some(vehicleLookupForm),
-    prototypeBannerVisible = prototypeBannerVisible
+    prototypeBannerVisible = config.prototypeBannerVisible
 ) {
     <div class="two-col clearfix">
         <div class="first-col">

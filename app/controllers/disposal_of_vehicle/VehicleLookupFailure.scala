@@ -10,7 +10,7 @@ import CookieImplicits.RichCookies
 import play.api.mvc.DiscardingCookie
 import utils.helpers.Config
 
-final class VehicleLookupFailure @Inject()(config: Config)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[BruteForcePreventionViewModel], request.cookies.getModel[VehicleLookupFormModel], request.cookies.getString(VehicleLookupResponseCodeCacheKey)) match {
@@ -36,8 +36,7 @@ final class VehicleLookupFailure @Inject()(config: Config)(implicit clientSideSe
       data = vehicleLookUpFormModelDetails,
       responseCodeVehicleLookupMSErrorMessage = vehicleLookupResponseCode,
       attempts = bruteForcePreventionViewModel.attempts,
-      maxAttempts = bruteForcePreventionViewModel.maxAttempts,
-      config.prototypeBannerVisible)
+      maxAttempts = bruteForcePreventionViewModel.maxAttempts)
     ).
     discardingCookies(DiscardingCookie(name = VehicleLookupResponseCodeCacheKey))
   }

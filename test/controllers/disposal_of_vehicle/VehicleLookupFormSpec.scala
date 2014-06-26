@@ -125,11 +125,10 @@ final class VehicleLookupFormSpec extends UnitSpec {
       new FakeResponse(status = fullResponse._1, fakeJson = responseAsJson)// Any call to a webservice will always return this successful response.
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(vehicleLookupWebService)
-    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    val config: Config = mock[Config]
+    implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    implicit val config: Config = mock[Config]
     new disposal_of_vehicle.VehicleLookup(bruteForceService = bruteForceServiceImpl,
-      vehicleLookupService = vehicleLookupServiceImpl,
-      config)(clientSideSessionFactory)
+      vehicleLookupService = vehicleLookupServiceImpl)
   }
 
   private def formWithValidDefaults(referenceNumber: String = ReferenceNumberValid,
