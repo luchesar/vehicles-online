@@ -25,7 +25,7 @@ object AddressLines {
         Invalid(ValidationError("error.postTown.characterInvalid"))
       else Valid
 
-    case _ => Invalid(ValidationError("error.address.buildingNameOrNumber.invalid")) // TODO test coverage
+    case _ => Invalid(ValidationError("error.address.buildingNameOrNumber.invalid"))
   }
 
 }

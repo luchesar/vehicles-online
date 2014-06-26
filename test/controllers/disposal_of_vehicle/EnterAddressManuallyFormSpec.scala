@@ -41,6 +41,10 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
       model.addressLinesModel.postTown should equal(postTownHypthens)
     }
 
+    "reject when all fields are blank" in {
+      formWithValidDefaults(buildingNameOrNumber = "", line2 = "", line3 = "", postTown = "").errors should have length 4
+    }
+
     "reject if post town is blank" in {
       formWithValidDefaults(postTown = "").errors should have length 2
     }
