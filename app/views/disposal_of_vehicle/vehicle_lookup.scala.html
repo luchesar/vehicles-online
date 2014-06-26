@@ -43,7 +43,9 @@
             <div class="form-steps">
                 <button id="@SubmitId" type="submit" name="action" value="@VehicleLookupAction" class="button">@Messages("disposal_vehiclelookup.button")</button>
                 <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.back()" class="button-secondary">@Messages("disposal_vehiclelookup.backbutton")</a>
-                <button id="@ExitId" type="submit" name="action" value="@ExitAction" class="button">@Messages("disposal_vehiclelookup.exitbutton")</button>
+                <div class="exit-button">
+                    <button id="@ExitId" type="submit" name="action" value="@ExitAction" class="button">@Messages("disposal_vehiclelookup.exitbutton")</button>
+                </div>
             </div>
         </div>
         <div id="trader-details" class="second-col trader-details">
