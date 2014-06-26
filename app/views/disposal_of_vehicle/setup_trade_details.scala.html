@@ -13,8 +13,7 @@
 
 @main(
     title = Messages("disposal_setuptradedetails.title"),
-    currentForm = Some(traderLookupForm),
-    prototypeBannerVisible = config.prototypeBannerVisible
+    currentForm = Some(traderLookupForm)
 ) {
     @form(action = SetUpTradeDetails.submit) {
         @CsrfHelper.hiddenFormField

@@ -9,8 +9,7 @@
 @import views.html.helper.form
 
 @main(
-    title = Messages("error.title"),
-    prototypeBannerVisible = config.prototypeBannerVisible
+    title = Messages("error.title")
 ){
     @form(action = controllers.disposal_of_vehicle.routes.Error.submit(exceptionDigest)) {
         @CsrfHelper.hiddenFormField

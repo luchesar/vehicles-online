@@ -1,6 +1,6 @@
-@(prototypeBannerVisible: Boolean)(implicit lang: Lang)
+@()(implicit lang: Lang, config: utils.helpers.Config)
 
-@if(prototypeBannerVisible) {
+@if(config.prototypeBannerVisible) {
     <div class="prototype">
         <p><strong>BETA:</strong> @Messages("prototype.banner") <a href="@Messages("prototype.link.source")" target="_blank">@Messages("prototype.link")</a> </p>
     </div>

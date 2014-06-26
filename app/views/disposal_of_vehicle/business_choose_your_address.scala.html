@@ -15,8 +15,7 @@
 
 @main(
     title = Messages("disposal_businessChooseYourAddress_title"),
-    currentForm = Some(businessChooseYourAddressForm),
-    prototypeBannerVisible = config.prototypeBannerVisible
+    currentForm = Some(businessChooseYourAddressForm)
 ) {
     @form(action = BusinessChooseYourAddress.submit()) {
         @CsrfHelper.hiddenFormField
