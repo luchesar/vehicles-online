@@ -1,5 +1,6 @@
-@(traderLookupForm: Form[models.domain.disposal_of_vehicle.SetupTradeDetailsModel],
-        prototypeBannerVisible: Boolean)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+@(traderLookupForm: Form[models.domain.disposal_of_vehicle.SetupTradeDetailsModel])(implicit lang: Lang,
+        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        config: utils.helpers.Config)
 
 @import controllers.disposal_of_vehicle.routes.SetUpTradeDetails
 @import mappings.common.Postcode
@@ -13,7 +14,7 @@
 @main(
     title = Messages("disposal_setuptradedetails.title"),
     currentForm = Some(traderLookupForm),
-    prototypeBannerVisible = prototypeBannerVisible
+    prototypeBannerVisible = config.prototypeBannerVisible
 ) {
     @form(action = SetUpTradeDetails.submit) {
         @CsrfHelper.hiddenFormField
