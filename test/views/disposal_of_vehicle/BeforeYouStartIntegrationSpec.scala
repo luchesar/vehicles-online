@@ -77,12 +77,6 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
       result should include("Subject=")
     }
 
-    "display prototype message when config set to true" taggedAs UiTag in new WebBrowser {
-      go to BeforeYouStartPage
-
-      page.source should include("""<div class="prototype">""")
-    }
-
     "not display prototype message when config set to false" taggedAs UiTag in new WebBrowser(app = fakeAppWithPrototypeFalse) {
       go to BeforeYouStartPage
 
