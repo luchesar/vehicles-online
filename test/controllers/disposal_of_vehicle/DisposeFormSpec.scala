@@ -17,7 +17,6 @@ import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeResponse
 import services.DateService
-import scala.Some
 import common.ClientSideSessionFactory
 import utils.helpers.Config
  
