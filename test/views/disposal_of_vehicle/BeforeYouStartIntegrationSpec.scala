@@ -88,12 +88,6 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
       page.source should not include """<div class="prototype">"""
     }
-
-    "display expected progress bar" taggedAs UiTag in new WebBrowser {
-      go to BeforeYouStartPage
-
-      page.source should include("""Step 1 of 6""")
-    }
   }
 
   "startNow button" should {
