@@ -1,9 +1,11 @@
 package composition
 
 import app.ConfigProperties._
+import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
+import filters.AccessLoggingFilter._
 import services._
-import play.api.Logger
+import play.api.{LoggerLike, Logger}
 import services.fakes._
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebService}
@@ -34,6 +36,7 @@ class TestModule() extends ScalaModule with MockitoSugar {
 
     bind[BruteForcePreventionWebService].to[FakeBruteForcePreventionWebServiceImpl].asEagerSingleton()
     bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
+    bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
   }
 
   private def ordnanceSurveyAddressLookup() = {
