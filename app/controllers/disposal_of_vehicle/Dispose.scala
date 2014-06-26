@@ -23,8 +23,9 @@ import utils.helpers.FormExtensions._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-final class Dispose @Inject()(webService: DisposeService, dateService: DateService, config: Config)
-                             (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class Dispose @Inject()(webService: DisposeService, dateService: DateService)
+                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
+                              config: Config) extends Controller {
 
   private[disposal_of_vehicle] val form = Form(
     mapping(
@@ -43,7 +44,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         request.cookies.getModel[VehicleDetailsModel] match {
           case (Some(vehicleDetails)) =>
             val disposeViewModel = createViewModel(traderDetails, vehicleDetails)
-            Ok(views.html.disposal_of_vehicle.dispose(disposeViewModel, form.fill(), dateService, config.prototypeBannerVisible))
+            Ok(views.html.disposal_of_vehicle.dispose(disposeViewModel, form.fill(), dateService))
           case _ => Redirect(routes.VehicleLookup.present())
         }
       case (_, Some(interstitial)) =>
@@ -62,7 +63,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
           (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleDetailsModel]) match {
             case (Some(traderDetails), Some(vehicleDetails)) =>
               val disposeViewModel = createViewModel(traderDetails, vehicleDetails)
-              BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors(invalidForm), dateService, config.prototypeBannerVisible))
+              BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors(invalidForm), dateService))
             case _ =>
               Logger.debug("Could not find expected data in cache on dispose submit - now redirecting...")
               Redirect(routes.SetUpTradeDetails.present())
