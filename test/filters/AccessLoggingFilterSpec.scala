@@ -8,6 +8,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import common.ClientSideSessionFactory
 import filters.AccessLoggingFilter._
 import helpers.UnitSpec
+import org.mockito.Mockito
 import play.api.LoggerLike
 import play.api.http.HeaderNames._
 import play.api.mvc._
@@ -88,6 +89,30 @@ class AccessLoggingFilterSpec extends UnitSpec {
       whenReady(filterResult) { result =>
         val loggerInfo = logger.captureLogInfo()
         loggerInfo should startWith("-")
+      }
+  }
+
+  "not log request to /healthcheck" in setUp() {
+    case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
+      whenReady(filter.apply(nextFilter)(FakeRequest("GET", "http://localhost/healthcheck"))) { result =>
+        Mockito.verifyNoMoreInteractions(logger.logger)
+      }
+  }
+
+  "not log request to /healthcheck with request parameters" in setUp() {
+    case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
+
+      whenReady(filter.apply(nextFilter)(FakeRequest("GET", "http://localhost/healthcheck?a=b&c=d"))) { result =>
+        Mockito.verifyNoMoreInteractions(logger.logger)
+      }
+  }
+
+  "log request with /healthcheck/some/axtra/path" in setUp() {
+    case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
+
+      val fakeRequest = FakeRequest("GET", "http://localhost/healthcheck/some/extra/path")
+      whenReady(filter.apply(nextFilter)(fakeRequest)) { result =>
+        logger.captureLogInfo()
       }
   }
 
