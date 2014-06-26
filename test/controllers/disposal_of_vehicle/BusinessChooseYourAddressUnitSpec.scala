@@ -2,7 +2,6 @@ package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
 import helpers.{UnitSpec, WithApplication}
-import helpers.common.CookieHelper
 import helpers.common.CookieHelper._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
@@ -127,9 +126,9 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     val responseUprn = if (uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
-    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    val config: Config = mock[Config]
-    new BusinessChooseYourAddress(addressLookupService, config)(clientSideSessionFactory)
+    implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    implicit val config: Config = mock[Config]
+    new BusinessChooseYourAddress(addressLookupService)
   }
 
   private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {

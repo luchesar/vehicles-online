@@ -1,10 +1,10 @@
 package composition
 
-import com.google.inject.{Injector, Guice}
-import filters.{AccessLoggingFilter, EnsureSessionCreatedFilter}
-import play.filters.gzip.GzipFilter
-import services.csrf_prevention.CSRFPreventionFilter
+import com.google.inject.util.Modules
+import com.google.inject.{Guice, Injector, Module}
 
 trait TestComposition extends Composition {
   override lazy val injector: Injector = Guice.createInjector(new TestModule())
+
+  def testModule(module: Module*) = Modules.`override`(new TestModule()).`with`(module: _*)
 }

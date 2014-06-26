@@ -1,7 +1,8 @@
 @(data: models.domain.disposal_of_vehicle.DisposeViewModel,
         disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel],
-        dateService: services.DateService,
-        prototypeBannerVisible: Boolean)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+        dateService: services.DateService)(implicit lang: Lang,
+        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        config: utils.helpers.Config)
 
 @import mappings.common.Mileage
 @import mappings.disposal_of_vehicle.Dispose.{BackId, ConsentId, DateOfDisposalId, DateOfDisposalYearsIntoThePast, LossOfRegistrationConsentId, MileageId, SubmitId, TodaysDateOfDisposal}
@@ -13,9 +14,10 @@
 @import views.html.helper.form
 
 @main(
+    progress = Some(Messages("disposal_progress_5")),
     title = Messages("disposal_dispose.title"),
     currentForm = Some(disposeForm),
-    prototypeBannerVisible = prototypeBannerVisible
+    prototypeBannerVisible = config.prototypeBannerVisible
 ) {
     @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit()) {
         @CsrfHelper.hiddenFormField

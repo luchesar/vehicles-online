@@ -307,10 +307,7 @@ datePlaceholder.October = Hydref
 datePlaceholder.November = Tachwedd
 datePlaceholder.December = Rhagfyr
 
-
-
 select_default = Dewiswch
-
 
 addressAndPostcode.addressLines.buildingNameOrNumber = Enw''r adeilad neu rif
 error.address.maxLengthOfLinesConcatenated = Gall gyfeiriad gael mwy na 120 o gymeriadau
@@ -321,6 +318,14 @@ error.validTraderBusinessName = Rhaid iddo fod rhwng dwy a 58 cymeriadau a ydynt
 error.address.buildingNameOrNumber.invalid = Enw''r adeilad neu rif - Rhaid iddo gynnwys o leiaf bedwar cymeriad
 error.address.postTown = Postiwch y dref - Angen hyd lleiaf o tri chymeriad
 error.address.postcode.invalid = Rhaid bod rhwng 5 ac 8 cymeriadau ac mewn fformat dilys, ee. PR2 8AE neu PR28AE
+
+# progress messages
+disposal_progress_1 = Cam 1 o 6
+disposal_progress_2 = Cam 2 o 6
+disposal_progress_3 = Cam 3 o 6
+disposal_progress_4 = Cam 3 o 6
+disposal_progress_5 = Cam 3 o 6
+disposal_progress_6 = Cam 3 o 6
 
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = Mae eich cais yn cael ei brosesu a dylech dderbyn llythyr cadarnhad o fewn pedair wythnos.

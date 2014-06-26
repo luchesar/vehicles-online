@@ -21,8 +21,9 @@ import views.html.disposal_of_vehicle.business_choose_your_address
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService, config: Config)
-                                               (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)
+                                               (implicit clientSideSessionFactory: ClientSideSessionFactory,
+                                                config: Config) extends Controller {
 
   private[disposal_of_vehicle] val form = Form(
     mapping(
@@ -41,8 +42,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
           Ok(views.html.disposal_of_vehicle.business_choose_your_address(form.fill(),
             setupTradeDetailsModel.traderBusinessName,
             setupTradeDetailsModel.traderPostcode,
-            addresses,
-            config.prototypeBannerVisible))
+            addresses))
         }
       case None => Future {
         Redirect(routes.SetUpTradeDetails.present())
@@ -60,8 +60,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
               BadRequest(business_choose_your_address(formWithReplacedErrors(invalidForm),
                 setupTradeDetails.traderBusinessName,
                 setupTradeDetails.traderPostcode,
-                addresses,
-                config.prototypeBannerVisible))
+                addresses))
             }
           case None => Future {
             Logger.error("Failed to find dealer details, redirecting")

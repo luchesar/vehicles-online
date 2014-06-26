@@ -12,9 +12,10 @@
 
 
 @main(
-title = Messages("disposal_vehiclelookup.title"),
-currentForm = Some(vehicleLookupForm),
-prototypeBannerVisible = prototypeBannerVisible
+    progress = Some(Messages("disposal_progress_4")),
+    title = Messages("disposal_vehiclelookup.title"),
+    currentForm = Some(vehicleLookupForm),
+    prototypeBannerVisible = prototypeBannerVisible
 ) {
 
 @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit()) {

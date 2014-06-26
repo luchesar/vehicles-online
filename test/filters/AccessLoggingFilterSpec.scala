@@ -2,11 +2,13 @@ package filters
 
 import java.util.Date
 
-import com.google.inject.{Guice, Inject}
+import com.google.inject.Guice
+import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
 import common.ClientSideSessionFactory
+import filters.AccessLoggingFilter._
 import helpers.UnitSpec
-import org.scalatest.mock.MockitoSugar
+import play.api.LoggerLike
 import play.api.http.HeaderNames._
 import play.api.mvc._
 import play.api.test.{FakeHeaders, FakeRequest}
@@ -20,26 +22,27 @@ class AccessLoggingFilterSpec extends UnitSpec {
   import AccessLoggingFilterSpec.testDate
 
   "Log an incoming request" in setUp() {
-    case SetUp(filter, request, sessionFactory, nextFilter) =>
+    case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
 
       val trackingIdCookie = Cookie(ClientSideSessionFactory.TrackingIdCookieName, "98765")
 
       val filterResult: Future[SimpleResult] = filter.apply(nextFilter)(request.withCookies(trackingIdCookie))
 
       whenReady(filterResult) { result =>
+        val loggerInfo = logger.captureLogInfo()
         info("The log entry should look like 127.0.0.1 - - [dd/MMM/yyyy:hh:mm:ss +SSS] \"GET / HTTP/1.1\" 200 12345 \"98765\"")
-        filter.logEntry should startWith("127.0.0.1")
-        filter.logEntry should include("GET /")
-        filter.logEntry should include("HTTP/1.1")
-        filter.logEntry should include("200")
-        filter.logEntry should include("12345")
-        filter.logEntry should include("98765")
-        filter.logEntry should include(s"[${ClfEntryBuilder.dateFormat.format(testDate)}]")
+        loggerInfo should startWith("127.0.0.1")
+        loggerInfo should include("GET /")
+        loggerInfo should include("HTTP/1.1")
+        loggerInfo should include("200")
+        loggerInfo should include("12345")
+        loggerInfo should include("98765")
+        loggerInfo should include(s"[${ClfEntryBuilder.dateFormat.format(testDate)}]")
       }
   }
 
   "Log an incoming request with ipAddress provided in XForwardedFor only" in setUp("127.0.0.3") {
-    case SetUp(filter, request, sessionFactory, nextFilter) =>
+    case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
 
       val filterResult: Future[SimpleResult] = filter.apply(nextFilter)(
         request
@@ -48,39 +51,43 @@ class AccessLoggingFilterSpec extends UnitSpec {
       )
 
       whenReady(filterResult) { result =>
-        filter.logEntry should startWith("127.0.0.2")
+        val loggerInfo = logger.captureLogInfo()
+        loggerInfo should startWith("127.0.0.2")
       }
   }
 
   "Log an incoming request with ipAddress provided in remoteAddress only" in setUp("127.0.0.3") {
-    case SetUp(filter, request, sessionFactory, nextFilter) =>
+    case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
 
       val filterResult: Future[SimpleResult] =
         filter.apply(nextFilter)(request.withHeaders(HttpHeaders.XRealIp -> "127.0.0.4"))
 
       whenReady(filterResult) { result =>
-        filter.logEntry should startWith("127.0.0.3")
+        val loggerInfo = logger.captureLogInfo()
+        loggerInfo should startWith("127.0.0.3")
       }
   }
 
   "Log an incoming request with ipAddress provided in XRealIp only" in setUp(null) {
-    case SetUp(filter, request, sessionFactory, nextFilter) =>
+    case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
 
       val filterResult: Future[SimpleResult] =
         filter.apply(nextFilter)(request.withHeaders(HttpHeaders.XRealIp -> "127.0.0.4"))
 
       whenReady(filterResult) { result =>
-        filter.logEntry should startWith("127.0.0.4")
+        val loggerInfo = logger.captureLogInfo()
+        loggerInfo should startWith("127.0.0.4")
       }
   }
 
   "Log an incoming request with no ipAddress provided" in setUp(null) {
-    case SetUp(filter, request, sessionFactory, nextFilter) =>
+    case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
 
       val filterResult: Future[SimpleResult] = filter.apply(nextFilter)(request)
 
       whenReady(filterResult) { result =>
-        filter.logEntry should startWith("-")
+        val loggerInfo = logger.captureLogInfo()
+        loggerInfo should startWith("-")
       }
   }
 
@@ -93,49 +100,43 @@ class AccessLoggingFilterSpec extends UnitSpec {
     }
   }
 
-  private case class SetUp(filter: TestAccessLoggingFilter,
+  private case class SetUp(filter: AccessLoggingFilter,
                            request: FakeRequest[_],
                            sessionFactory: ClientSideSessionFactory,
-                           nextFilter: MockFilter)
+                           nextFilter: MockFilter,
+                           logger: MockLogger)
 
   private def setUp(ipAddress: String = "127.0.0.1")(test: SetUp => Any) {
     val sessionFactory = mock[ClientSideSessionFactory]
+    val accessLogger = new MockLogger
+
+    class TestClfEntryBuilder extends ClfEntryBuilder {
+      import AccessLoggingFilterSpec.testDate
+
+      override def clfEntry(requestTimestamp: Date, request: RequestHeader, result: SimpleResult): String = {
+        val extendedResult = result.withHeaders(CONTENT_LENGTH -> "12345").
+          withHeaders(ClientSideSessionFactory.TrackingIdCookieName -> "98765")
+        super.clfEntry(testDate, request, extendedResult)
+      }
+    }
+
+    val injector = Guice.createInjector(testModule(new ScalaModule {
+      override def configure(): Unit = {
+        bind[ClfEntryBuilder].toInstance(new TestClfEntryBuilder())
+        bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(accessLogger)
+      }
+    }))
 
     test(SetUp(
-      filter = testAccessLoggingFilter,
+      filter = injector.getInstance(classOf[AccessLoggingFilter]),
       request = FakeRequest("GET", "/", FakeHeaders(), AnyContentAsEmpty, remoteAddress = ipAddress),
       sessionFactory = sessionFactory,
-      nextFilter = new MockFilter()
+      nextFilter = new MockFilter(),
+      logger = accessLogger
     ))
+
   }
 
-  override lazy val injector = Guice.createInjector(new ScalaModule {
-    override def configure(): Unit = bind[ClfEntryBuilder].toInstance(new TestClfLogger())
-  })
-
-  private def testAccessLoggingFilter: TestAccessLoggingFilter = injector.getInstance(classOf[TestAccessLoggingFilter])
-
-}
-
-private class TestClfLogger extends ClfEntryBuilder {
-  import filters.AccessLoggingFilterSpec.testDate
-  var entry = ""
-
-  override def clfEntry(requestTimestamp: Date, request: RequestHeader, result: SimpleResult): String = {
-    val extendedResult = result.withHeaders(CONTENT_LENGTH -> "12345").
-      withHeaders(ClientSideSessionFactory.TrackingIdCookieName -> "98765")
-    entry = super.clfEntry(testDate, request, extendedResult)
-    entry
-  }
-}
-
-private class TestAccessLoggingFilter @Inject()(logger: ClfEntryBuilder)
-  extends AccessLoggingFilter(logger)
-  with MockitoSugar {
-
-  override val accessLogger = mock[play.api.Logger]
-
-  def logEntry = logger.asInstanceOf[TestClfLogger].entry
 }
 
 private object AccessLoggingFilterSpec {

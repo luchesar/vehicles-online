@@ -22,6 +22,14 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       page.title should equal(BusinessChooseYourAddressPage.title)
     }
 
+    "display the progress of the page" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to BusinessChooseYourAddressPage
+
+      page.source.contains("Step 3 of 6") should equal(true)
+    }
+
     "redirect when no traderBusinessName is cached" taggedAs UiTag in new WebBrowser {
       go to BusinessChooseYourAddressPage
 
