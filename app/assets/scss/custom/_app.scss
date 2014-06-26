@@ -120,12 +120,6 @@
 		}
 	}
 
-
-	// add out of scope watermark
-	.out-of-scope {
-	  background:#FFF url(#{$image-path}out-of-scope-sml.gif) center center repeat;
-	}
-
 	// styles two column layout
 	.two-col {
 		@include clearfix;
@@ -155,9 +149,15 @@
 		}
 	}
 
+	.img-wrap {
+		@include img-multi-wrap(300px);
+	}
 
-	//vehicle lookup/find vehicle details
+	//vehicle lookup/enter vehicle details
 	.vehicle-lookup {
+		.first-col .form-steps {
+			margin-top:0;
+		}
 		.trader-details dd {
 			.ie6 & {
 				clear:both;
@@ -166,7 +166,7 @@
 	}
 
 	//hide exit button in IE6 (double form posts do not work)
-	.exit-button button {
+	.exit-button {
 		&.ie6 {
 			display:none;
 		}
