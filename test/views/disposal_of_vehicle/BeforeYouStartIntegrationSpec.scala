@@ -3,12 +3,13 @@ package views.disposal_of_vehicle
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
-import helpers.webbrowser.TestHarness
+import helpers.webbrowser.{TestGlobal, TestHarness}
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.WebDriver
 import pages.common.AlternateLanguages._
 import pages.disposal_of_vehicle.BeforeYouStartPage._
 import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage}
+import play.api.test.FakeApplication
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -69,6 +70,18 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
       result should include("mailto:")
       result should include("Subject=")
     }
+
+    "display prototype message when config set to true" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+
+      page.source should include("""<div class="prototype">""")
+    }
+
+    "not display prototype message when config set to false" taggedAs UiTag in new WebBrowser(app = fakeAppWithPrototypeFalse) {
+      go to BeforeYouStartPage
+
+      page.source should not include """<div class="prototype">"""
+    }
   }
 
   "startNow button" should {
@@ -80,4 +93,8 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(SetupTradeDetailsPage.title)
     }
   }
+
+  private val fakeAppWithPrototypeFalse = FakeApplication(
+    withGlobal = Some(TestGlobal),
+    additionalConfiguration = Map("prototype.disclaimer" -> "false"))
 }
