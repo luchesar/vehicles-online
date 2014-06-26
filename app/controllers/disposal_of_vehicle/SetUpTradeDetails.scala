@@ -9,9 +9,10 @@ import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import play.api.data.Forms._
 import play.api.data.{Form, FormError}
 import play.api.mvc._
+import utils.helpers.Config
 import utils.helpers.FormExtensions._
 
-final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class SetUpTradeDetails @Inject()(config: Config)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   private[disposal_of_vehicle] val form = Form(
     mapping(
@@ -21,7 +22,7 @@ final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: Cli
   )
 
   def present = Action { implicit request =>
-    Ok(views.html.disposal_of_vehicle.setup_trade_details(form.fill()))
+    Ok(views.html.disposal_of_vehicle.setup_trade_details(form.fill(), config.prototypeBannerVisible))
   }
 
   def submit = Action { implicit request =>
@@ -31,7 +32,7 @@ final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: Cli
           replaceError(TraderNameId, FormError(key = TraderNameId, message = "error.validTraderBusinessName", args = Seq.empty)).
           replaceError(TraderPostcodeId, FormError(key = TraderPostcodeId, message = "error.restricted.validPostcode", args = Seq.empty)).
           distinctErrors
-        BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors))
+        BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors, config.prototypeBannerVisible))
       },
       validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(SetupTradeDetailsModel.convertToUpperCase(validForm))
     )

@@ -1,4 +1,4 @@
-@(url:String)(implicit lang: Lang)
+@(url: String, prototypeBannerVisible: Boolean)(implicit lang: Lang)
 
 @import views.html.common.{govMain, helpLine, protoType}
 
@@ -6,7 +6,7 @@
 	
     <div class="carers-allowance">
 
-        @protoType()
+        @protoType(prototypeBannerVisible)
         
         @helpLine()
 

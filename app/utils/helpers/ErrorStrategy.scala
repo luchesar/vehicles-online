@@ -3,19 +3,21 @@ package utils.helpers
 import java.util.Date
 import javax.crypto.BadPaddingException
 
+import com.google.inject.Inject
+import com.google.inject.name.Named
 import common.InvalidSessionException
 import controllers.disposal_of_vehicle.routes
+import filters.AccessLoggingFilter.AccessLoggerName
 import filters.ClfEntryBuilder
-import play.api.Logger
 import play.api.libs.Codecs
 import play.api.mvc.Results._
 import play.api.mvc.{RequestHeader, SimpleResult}
+import play.api.{Logger, LoggerLike}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-object ErrorStrategy {
-  private final val AccessLogger = Logger("dvla.common.AccessLogger")
-  private final val ClfLogger = new ClfEntryBuilder()
+class ErrorStrategy @Inject()(clfEntryBuilder: ClfEntryBuilder,
+                              @Named(AccessLoggerName) accessLogger: LoggerLike) {
 
   def apply(request: RequestHeader, ex: Throwable)(implicit executionContext: ExecutionContext): Future[SimpleResult] = {
     val result = ex.getCause match {
@@ -27,7 +29,7 @@ object ErrorStrategy {
         Future(Redirect(routes.Error.present(exceptionDigest)))
     }
     result.map { result =>
-      AccessLogger.info(ClfLogger.clfEntry(new Date(), request, result))
+      accessLogger.info(clfEntryBuilder.clfEntry(new Date(), request, result))
     }
     result
   }

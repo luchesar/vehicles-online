@@ -17,13 +17,15 @@ import play.api.data.{Form, FormError}
 import play.api.mvc._
 import services.DateService
 import services.dispose_service.DisposeService
+import utils.helpers.Config
 import utils.helpers.FormExtensions._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 final class Dispose @Inject()(webService: DisposeService, dateService: DateService)
-                             (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
+                              config: Config) extends Controller {
 
   private[disposal_of_vehicle] val form = Form(
     mapping(

@@ -1,4 +1,6 @@
-@()(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+@()(implicit lang: Lang,
+        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        config: utils.helpers.Config)
 
 @import controllers.disposal_of_vehicle.routes.SetUpTradeDetails
 @import mappings.disposal_of_vehicle.BeforeYouStart.NextId
@@ -7,7 +9,8 @@
 
 @main(
     progress = Some(Messages("disposal_progress_1")),
-    title = Messages("disposal_beforeyoustart.title")
+    title = Messages("disposal_beforeyoustart.title"),
+    prototypeBannerVisible = config.prototypeBannerVisible
 ) {
     <p>@Messages("disposal_beforeyoustart.p1")</p>
     <ol class="list-standard">

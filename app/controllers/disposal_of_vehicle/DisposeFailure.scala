@@ -7,8 +7,9 @@ import mappings.disposal_of_vehicle.Dispose._
 import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeViewModel, TraderDetailsModel, VehicleDetailsModel}
 import play.api.Logger
 import play.api.mvc._
+import utils.helpers.Config
 
-final class DisposeFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class DisposeFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getModel[TraderDetailsModel],

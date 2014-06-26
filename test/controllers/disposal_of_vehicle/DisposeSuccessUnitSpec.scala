@@ -9,7 +9,6 @@ import helpers.UnitSpec
 import helpers.WithApplication
 import play.api.test.FakeRequest
 import CookieHelper._
-import play.api.Play
 
 final class DisposeSuccessUnitSpec extends UnitSpec {
   "present" should {

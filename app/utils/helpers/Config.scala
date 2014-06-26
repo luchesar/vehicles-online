@@ -28,4 +28,7 @@ class Config {
   val bruteForcePreventionServiceNameHeader: String = getProperty("bruteForcePrevention.headers.serviceName", "")
   val bruteForcePreventionMaxAttemptsHeader: Int = getProperty("bruteForcePrevention.headers.maxAttempts", 3)
   val bruteForcePreventionExpiryHeader: String = getProperty("bruteForcePrevention.headers.expiry", "")
+
+  // Prototype message in html
+  val prototypeBannerVisible: Boolean = getProperty("prototype.disclaimer", default = true)
 }

@@ -1,4 +1,6 @@
-@(enterAddressManuallyForm: Form[models.domain.disposal_of_vehicle.EnterAddressManuallyModel], traderPostcode: String)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+@(enterAddressManuallyForm: Form[models.domain.disposal_of_vehicle.EnterAddressManuallyModel],
+        traderPostcode: String,
+        prototypeBannerVisible: Boolean)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
 @import mappings.common.AddressAndPostcode.AddressAndPostcodeId
 @import mappings.disposal_of_vehicle.EnterAddressManually.{BackId, NextId}
@@ -9,7 +11,8 @@
 @main(
     progress = Some(Messages("disposal_progress_3")),
     title = Messages("disposal_enteraddressmanually.title"),
-    currentForm = Some(enterAddressManuallyForm)
+    currentForm = Some(enterAddressManuallyForm),
+    prototypeBannerVisible = prototypeBannerVisible
 ) {
     <div class="enter-address-manually uppercase-input">
         @form(action = controllers.disposal_of_vehicle.routes.EnterAddressManually.submit()) {

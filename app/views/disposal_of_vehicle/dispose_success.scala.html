@@ -1,4 +1,6 @@
-@(data: models.domain.disposal_of_vehicle.DisposeViewModel, formModel: models.domain.disposal_of_vehicle.DisposeFormModel)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+@(data: models.domain.disposal_of_vehicle.DisposeViewModel,
+        formModel: models.domain.disposal_of_vehicle.DisposeFormModel,
+        prototypeBannerVisible: Boolean)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
 @import mappings.disposal_of_vehicle.DisposeSuccess.{ExitDisposalId, NewDisposalId}
 @import utils.helpers.CsrfHelper
@@ -7,7 +9,8 @@
 
 @main(
     progress = Some(Messages("disposal_progress_6")),
-    title = Messages("disposal_disposeconfirmation.title")
+    title = Messages("disposal_disposeconfirmation.title"),
+    prototypeBannerVisible = prototypeBannerVisible
 ){
     <div class="alert-complete">
         <h2>@Messages("disposal_disposeconfirmation.disposalComplete")</h2>

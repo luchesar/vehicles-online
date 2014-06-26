@@ -126,9 +126,10 @@ final class VehicleLookupFormSpec extends UnitSpec {
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(vehicleLookupWebService)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-
+    val config: Config = mock[Config]
     new disposal_of_vehicle.VehicleLookup(bruteForceService = bruteForceServiceImpl,
-      vehicleLookupService = vehicleLookupServiceImpl)(clientSideSessionFactory)
+      vehicleLookupService = vehicleLookupServiceImpl,
+      config)(clientSideSessionFactory)
   }
 
   private def formWithValidDefaults(referenceNumber: String = ReferenceNumberValid,

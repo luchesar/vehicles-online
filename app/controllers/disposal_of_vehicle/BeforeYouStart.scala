@@ -5,8 +5,9 @@ import common.ClientSideSessionFactory
 import common.CookieImplicits.RichSimpleResult
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import play.api.mvc._
+import utils.helpers.Config
 
-final class BeforeYouStart @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class BeforeYouStart @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
 
   def present = Action { implicit request =>
     Ok(views.html.disposal_of_vehicle.before_you_start()).
