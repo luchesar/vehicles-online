@@ -1,4 +1,9 @@
-@(businessChooseYourAddressForm: Form[models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel], traderBusinessName: String, traderPostcode: String, dropDownOptions: Seq[(String, String)])(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+@(businessChooseYourAddressForm: Form[models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel],
+        traderBusinessName: String,
+        traderPostcode: String,
+        dropDownOptions: Seq[(String, String)])(implicit lang: Lang,
+        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        config: utils.helpers.Config)
 
 @import controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress
 @import mappings.disposal_of_vehicle.BusinessChooseYourAddress.{AddressSelectId, BackId, EnterAddressManuallyButtonId, SelectId}
@@ -9,8 +14,10 @@
 @import views.html.helper.form
 
 @main(
+    progress = Some(Messages("disposal_progress_3")),
     title = Messages("disposal_businessChooseYourAddress_title"),
-    currentForm = Some(businessChooseYourAddressForm)
+    currentForm = Some(businessChooseYourAddressForm),
+    prototypeBannerVisible = config.prototypeBannerVisible
 ) {
     @form(action = BusinessChooseYourAddress.submit()) {
         @CsrfHelper.hiddenFormField

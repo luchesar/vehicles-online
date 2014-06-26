@@ -24,6 +24,15 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(title)
     }
 
+    "display the progress of the page" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      go to DisposePage
+
+      page.source.contains("Step 5 of 6") should equal(true)
+    }
+
     "redirect when no vehicleDetailsModel is cached" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.dealerDetails()

@@ -8,14 +8,15 @@ import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._
 import models.domain.disposal_of_vehicle.{BruteForcePreventionViewModel, TraderDetailsModel}
 import play.api.Logger
 import play.api.mvc._
+import utils.helpers.Config
 import scala.Some
 
-final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class VrmLocked @Inject()(config: Config)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
   def present = Action { implicit request =>
       request.cookies.getModel[BruteForcePreventionViewModel] match {
         case Some(viewModel) =>
           Logger.debug(s"VrmLocked - Displaying the vrm locked error page")
-          Ok(views.html.disposal_of_vehicle.vrm_locked(viewModel.dateTimeISOChronology))
+          Ok(views.html.disposal_of_vehicle.vrm_locked(viewModel.dateTimeISOChronology, config.prototypeBannerVisible))
         case None =>
           Logger.debug("VrmLocked - Can't find cookie for BruteForcePreventionViewModel")
           Redirect(routes.VehicleLookup.present())

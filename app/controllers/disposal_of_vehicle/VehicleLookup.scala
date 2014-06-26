@@ -15,13 +15,14 @@ import play.api.data.{Form, FormError}
 import play.api.mvc._
 import services.brute_force_prevention.BruteForcePreventionService
 import services.vehicle_lookup.VehicleLookupService
+import utils.helpers.Config
 import utils.helpers.FormExtensions._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 
-final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService)
+final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService, config: Config)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   private[disposal_of_vehicle] val form = Form(
@@ -33,12 +34,24 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
 
   def present = Action { implicit request =>
     request.cookies.getModel[TraderDetailsModel] match {
-      case Some(traderDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, form.fill()))
+      case Some(traderDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, form.fill(), config.prototypeBannerVisible))
       case None => Redirect(routes.SetUpTradeDetails.present())
     }
   }
 
   def submit = Action.async { implicit request =>
+    val formData = request.body.asFormUrlEncoded.getOrElse(Map.empty[String, Seq[String]])
+    val actionValue = formData.get("action").flatMap(_.headOption)
+    actionValue match {
+      case Some("lookup") =>
+        vehicleLookup
+      case Some("exit") =>
+        exit
+      case _ => Future{BadRequest(ActionNotAllowedMessage)} // TODO redirect to error page ?
+    }
+  }
+
+  private def vehicleLookup(implicit request: Request[AnyContent]): Future[SimpleResult] = {
     form.bindFromRequest.fold(
       invalidForm =>
         Future {
@@ -47,7 +60,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
               replaceError(VehicleRegistrationNumberId, FormError(key = VehicleRegistrationNumberId, message = "error.restricted.validVrnOnly", args = Seq.empty)).
               replaceError(DocumentReferenceNumberId, FormError(key = DocumentReferenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
               distinctErrors
-              BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, formWithReplacedErrors))
+              BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, formWithReplacedErrors, config.prototypeBannerVisible))
             case None => Redirect(routes.SetUpTradeDetails.present())
           }
         },
@@ -57,9 +70,9 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     )
   }
 
-  def exit = Action { implicit request =>
-    Redirect(routes.BeforeYouStart.present()).
-      discardingCookies(RelatedCacheKeys.FullSet)
+  private def exit(implicit request: Request[AnyContent]): Future[SimpleResult] = {
+    Future {Redirect(routes.BeforeYouStart.present()).
+      discardingCookies(RelatedCacheKeys.FullSet)}
   }
 
   private def convertToUpperCaseAndRemoveSpaces(model: VehicleLookupFormModel): VehicleLookupFormModel =

@@ -31,6 +31,7 @@ import utils.helpers.Config
 import org.mockito.ArgumentCaptor
 import play.api.test.FakeRequest
 import helpers.JsonUtils.deserializeJsonToModel
+import mappings.disposal_of_vehicle.VehicleLookup.{VehicleLookupAction, ExitAction, ActionNotAllowedMessage}
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -328,9 +329,11 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       })
       val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
       val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val config: Config = mock[Config]
       val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
         bruteForceServiceImpl(permitted = true),
-        vehicleLookupServiceImpl)(clientSideSessionFactory
+        vehicleLookupServiceImpl,
+        config)(clientSideSessionFactory
       )
       val result = vehiclesLookup.submit(request)
 
@@ -351,10 +354,11 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       })
       val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
       val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val config: Config = mock[Config]
       val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
         bruteForceServiceImpl(permitted = true),
-        vehicleLookupServiceImpl)(clientSideSessionFactory
-        )
+        vehicleLookupServiceImpl,
+        config)(clientSideSessionFactory)
       val result = vehiclesLookup.submit(request)
 
       whenReady(result) {
@@ -367,19 +371,55 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "exit" should {
       "redirect to BeforeYouStartPage" in new WithApplication {
-        val request = buildCorrectlyPopulatedRequest().
+        val request = buildCorrectlyPopulatedRequest(postAction = ExitAction).
           withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
         val mockVehiclesLookupService = mock[VehicleLookupWebService]
         val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
         val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+        val config: Config = mock[Config]
         val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
           bruteForceServiceImpl(permitted = true),
-          vehicleLookupServiceImpl)(clientSideSessionFactory
+          vehicleLookupServiceImpl,
+          config)(clientSideSessionFactory
           )
-        val result = vehiclesLookup.exit(request)
+        val result = vehiclesLookup.submit(request)
         whenReady(result) {
           r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
         }
+      }
+    }
+
+    "display action not allowed when trying to submit with incorrect action" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(postAction = "RUBBISH_ACTION")
+      val mockVehiclesLookupService = mock[VehicleLookupWebService]
+      val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
+      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val config: Config = mock[Config]
+      val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
+        bruteForceServiceImpl(permitted = true),
+        vehicleLookupServiceImpl, config)(clientSideSessionFactory)
+      val result = vehiclesLookup.submit(request)
+      val content = contentAsString(result)
+      ActionNotAllowedMessage should equal(content)
+      whenReady(result) {
+        r => r.header.status should equal(BAD_REQUEST)
+      }
+    }
+
+    "handle a form post in which no action is specified" in new WithApplication {
+      val request = FakeRequest().withFormUrlEncodedBody()
+      val mockVehiclesLookupService = mock[VehicleLookupWebService]
+      val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
+      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      val config: Config = mock[Config]
+      val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
+        bruteForceServiceImpl(permitted = true),
+        vehicleLookupServiceImpl, config)(clientSideSessionFactory)
+      val result = vehiclesLookup.submit(request)
+      val content = contentAsString(result)
+      ActionNotAllowedMessage should equal(content)
+      whenReady(result) {
+        r => r.header.status should equal(BAD_REQUEST)
       }
     }
 
@@ -427,10 +467,11 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-
+    val config: Config = mock[Config]
     new disposal_of_vehicle.VehicleLookup(
       bruteForceService = bruteForceService,
-      vehicleLookupService = vehicleLookupServiceImpl)(clientSideSessionFactory)
+      vehicleLookupService = vehicleLookupServiceImpl,
+      config)(clientSideSessionFactory)
   }
 
   private lazy val vehicleLookupError = {
@@ -441,16 +482,19 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(vehicleLookupWebService)
     val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-
+    val config: Config = mock[Config]
     new disposal_of_vehicle.VehicleLookup(
       bruteForceService = bruteForceServiceImpl(permitted = permitted),
-      vehicleLookupService = vehicleLookupServiceImpl)(clientSideSessionFactory)
+      vehicleLookupService = vehicleLookupServiceImpl,
+      config)(clientSideSessionFactory)
   }
 
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = ReferenceNumberValid,
                                              registrationNumber: String = RegistrationNumberValid,
-                                             consent: String = ConsentValid) = {
+                                             consent: String = ConsentValid,
+                                             postAction: String = VehicleLookupAction) = {
     FakeRequest().withFormUrlEncodedBody(
+      "action" -> postAction,
       DocumentReferenceNumberId -> referenceNumber,
       VehicleRegistrationNumberId -> registrationNumber,
       ConsentId -> consent)

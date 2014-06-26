@@ -4,6 +4,7 @@ import com.google.inject.Guice
 import filters.{AccessLoggingFilter, EnsureSessionCreatedFilter}
 import services.csrf_prevention.CSRFPreventionFilter
 import play.filters.gzip.GzipFilter
+import utils.helpers.ErrorStrategy
 
 
 trait Composition {
@@ -15,4 +16,6 @@ trait Composition {
     injector.getInstance(classOf[AccessLoggingFilter]),
     injector.getInstance(classOf[CSRFPreventionFilter])
   )
+
+  lazy val errorStrategy = injector.getInstance(classOf[ErrorStrategy])
 }

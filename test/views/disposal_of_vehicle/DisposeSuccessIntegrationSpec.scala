@@ -20,6 +20,16 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       page.title should equal(DisposeSuccessPage.title)
     }
+
+    "display the progress of the page" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      go to DisposeSuccessPage
+
+      page.source.contains("Step 6 of 6") should equal(true)
+    }
+
     "redirect when no details are cached" taggedAs UiTag in new WebBrowser {
       go to DisposeSuccessPage
 

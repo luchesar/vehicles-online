@@ -1,7 +1,9 @@
-@(data: models.domain.disposal_of_vehicle.TraderDetailsModel, vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+@(data: models.domain.disposal_of_vehicle.TraderDetailsModel,
+  vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel],
+  prototypeBannerVisible: Boolean)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
 
 @import mappings.common.{DocumentReferenceNumber, VehicleRegistrationNumber}
-@import mappings.disposal_of_vehicle.VehicleLookup.{BackId, DocumentReferenceNumberId, ExitId, SubmitId, VehicleRegistrationNumberId}
+@import mappings.disposal_of_vehicle.VehicleLookup.{BackId, DocumentReferenceNumberId, ExitId, SubmitId, VehicleRegistrationNumberId, VehicleLookupAction, ExitAction}
 @import utils.helpers.BaseTemplate.fieldConstructor
 @import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
@@ -9,46 +11,42 @@
 @import views.html.helper.form
 
 @main(
+    progress = Some(Messages("disposal_progress_4")),
     title = Messages("disposal_vehiclelookup.title"),
-    currentForm = Some(vehicleLookupForm)
+    currentForm = Some(vehicleLookupForm),
+    prototypeBannerVisible = prototypeBannerVisible
 ) {
+
+@form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit()) {
+    @CsrfHelper.hiddenFormField
+
     <div class="two-col clearfix vehicle-lookup">
-        <div class="first-col">
+        <div class="first-col uppercase-input">
+            <h2>@Messages("disposal_vehiclelookup.p1")</h2>
+
+            @valtechInputText(vehicleLookupForm(VehicleRegistrationNumberId), args =
+            Map('_label -> Messages("disposal_vehiclelookup.vrninputlabel"),
+            'maxLength -> VehicleRegistrationNumber.MaxLength,
+            '_showConstraints -> false))
+
+            @valtechInputText(vehicleLookupForm(DocumentReferenceNumberId), args =
+            Map('_label -> Messages("disposal_vehiclelookup.refnumlabel"),
+            '_showConstraints -> false,
+            //'pattern -> ReferenceNumber.Pattern, // [SKW] Taken off HTML5 validation - for accessibility Tony removed have 'title text as the screen reader reads it twice, the knock-on effect is that our custom validation messages aren't displayed so the user has no idea what is wrong.
+            'maxLength -> DocumentReferenceNumber.MaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+            //'title -> Messages("error.validDocumentReferenceNumber")
+            'title -> Messages("")
+            ))
+
+            <div class="img-wrap img-wrap-mobile">
+            	<h2>@Messages("disposal_vehiclelookup.img.h2")</h2>
+            	<img src="@routes.Assets.at("images/document-reference number.png")" alt="@Messages("disposal_vehiclelookup.img.alt")" />
+            </div>
+
             <div class="form-steps">
-                <div class="step uppercase-input">
-                    @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit()) {
-                        @CsrfHelper.hiddenFormField
-                        <h2>@Messages("disposal_vehiclelookup.p1")</h2>
-
-                        @valtechInputText(vehicleLookupForm(VehicleRegistrationNumberId), args =
-                            Map('_label -> Messages("disposal_vehiclelookup.vrninputlabel"),
-                            'maxLength -> VehicleRegistrationNumber.MaxLength,
-                            '_showConstraints -> false))
-
-                        @valtechInputText(vehicleLookupForm(DocumentReferenceNumberId), args =
-                            Map('_label -> Messages("disposal_vehiclelookup.refnumlabel"),
-                            '_showConstraints -> false,
-                            //'pattern -> ReferenceNumber.Pattern, // [SKW] Taken off HTML5 validation - for accessibility Tony removed have 'title text as the screen reader reads it twice, the knock-on effect is that our custom validation messages aren't displayed so the user has no idea what is wrong.
-                            'maxLength -> DocumentReferenceNumber.MaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-                            //'title -> Messages("error.validDocumentReferenceNumber")
-                            'title -> Messages("")
-                        ))
-
-                        <div class="img-wrap img-wrap-mobile">
-	                        <h2>@Messages("disposal_vehiclelookup.img.h2")</h2>
-	                        <img src="@routes.Assets.at("images/document-reference number.png")" alt="@Messages("disposal_vehiclelookup.img.alt")" />
-	                      </div>
-
-                        <button id="@SubmitId" type="submit" name="action" class="button">@Messages("disposal_vehiclelookup.button")</button>
-                        <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.back()" class="button-secondary">@Messages("disposal_vehiclelookup.backbutton")</a>
-                    }
-                </div>
-                <div class="step exit-button">
-                    @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.exit()) {
-                        @CsrfHelper.hiddenFormField
-                        <button id="@ExitId" type="submit" name="action" class="button">@Messages("disposal_vehiclelookup.exitbutton")</button>
-                    }
-                </div>
+                <button id="@SubmitId" type="submit" name="action" value="@VehicleLookupAction" class="button">@Messages("disposal_vehiclelookup.button")</button>
+                <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.back()" class="button-secondary">@Messages("disposal_vehiclelookup.backbutton")</a>
+                <button id="@ExitId" type="submit" name="action" value="@ExitAction" class="button exit-button">@Messages("disposal_vehiclelookup.exitbutton")</button>
             </div>
 
         </div>
@@ -68,4 +66,5 @@
 
         </div>
     </div>
+}
 }
