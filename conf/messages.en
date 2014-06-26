@@ -225,6 +225,8 @@ address.postcode.validation = Enter a valid postcode
 addressAndPostcode.addressLines.line2 = Street name
 addressAndPostcode.addressLines.line3 = Area
 addressAndPostcode.addressLines.postTown = Post town
+error.address.characterInvalid = Address contains invalid characters
+error.postTown.characterInvalid = Post town contains invalid characters
 
 #page 3 - uprn not found
 disposal_uprnnotfound.title = Error confirming postcode

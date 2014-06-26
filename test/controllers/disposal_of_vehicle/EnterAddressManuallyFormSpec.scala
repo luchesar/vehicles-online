@@ -29,7 +29,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
       val buildingNameOrNumberHypthens = "1-12"
       val line2Hypthens = "address line - 2"
       val line3Hypthens = "address line - 3"
-      val postTownHypthens = "address line - 4"
+      val postTownHypthens = "address-line"
       val model = formWithValidDefaults(
         buildingNameOrNumber = buildingNameOrNumberHypthens,
         line2 = line2Hypthens,
@@ -42,8 +42,12 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
       model.addressLinesModel.postTown should equal(postTownHypthens)
     }
 
-    "reject if line 4 is blank" in {
+    "reject if post town is blank" in {
       formWithValidDefaults(postTown = "").errors should have length 2
+    }
+
+    "reject if post town contains numbers" in {
+      formWithValidDefaults(postTown = "123456").errors should have length 1
     }
 
     "reject if buildingNameOrNumber is blank" in {
