@@ -1,4 +1,4 @@
-@(title: String, currentForm: Option[Form[_]] = None)(content: Html)(implicit lang: Lang)
+@(progress: Option[String] = None, title: String, currentForm: Option[Form[_]] = None)(content: Html)(implicit lang: Lang)
 
 @import views.html.common.{govMain, protoType}
 @import views.html.helper.errorsSummary
@@ -6,6 +6,10 @@
 @govMain(title) {
     <div class="vehicles-online">
         @protoType()
+
+        <div>
+            @progress
+        </div>
 
         <div class="section-content">
             <h1>@title</h1>
