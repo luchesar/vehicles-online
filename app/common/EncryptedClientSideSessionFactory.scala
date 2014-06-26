@@ -39,7 +39,10 @@ class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: Cookie
           secure = secureCookies,
           maxAge = SessionSecretKeyLifetime)
 
-        Some(Seq(trackingIdCookie, sessionSecretKeySuffixCookie))
+        // Force English language until Welsh translation is finalised
+        val langCookie = Cookie("PLAY_LANG", "en")
+
+        Some(Seq(trackingIdCookie, sessionSecretKeySuffixCookie, langCookie))
     }
 
   override def getSession(request: Traversable[Cookie]): ClientSideSession =
