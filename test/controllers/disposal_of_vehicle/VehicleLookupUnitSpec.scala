@@ -37,8 +37,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
   "present" should {
     "display the page" in new WithApplication {
-
-
       present.futureValue.header.status should equal(play.api.http.Status.OK)
     }
 
@@ -88,6 +86,14 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "display prototype message when config set to true" in new WithApplication {
       contentAsString(present) should include("""<div class="prototype">""")
+    }
+
+    "not display prototype message when config set to false" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess, isPrototypeBannerVisible = false).present(request)
+
+      contentAsString(result) should not include """<div class="prototype">"""
     }
   }
 
