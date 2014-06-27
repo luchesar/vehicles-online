@@ -10,7 +10,6 @@ import controllers.disposal_of_vehicle.routes.BeforeYouStart
 
 final class Help @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
   def present = Action { implicit request =>
-    println("*** referer: "+ request.headers.get("Referer").getOrElse("No Referer in header"))
     val origin = request.headers.get("Referer").getOrElse("No Referer in header")
     Ok(views.html.common.help()).
       withCookie(HelpCacheKey, origin) // Save the previous page URL (from the referer header) into a cookie.
