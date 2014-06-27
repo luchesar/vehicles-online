@@ -5,7 +5,7 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import mappings.common.Help.HelpCacheKey
-import org.mockito.Mockito._
+import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
