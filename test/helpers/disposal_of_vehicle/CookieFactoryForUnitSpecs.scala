@@ -176,4 +176,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
 
   def preventGoingToDisposePage(payload: String = "") =
     createCookie(PreventGoingToDisposePageCacheKey, payload)
+
+  def disposeSurveyUrl(surveyUrl: String) =
+    createCookie(SurveyRequestTriggerDateCookieKey, surveyUrl)
 }

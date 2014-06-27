@@ -31,4 +31,7 @@ class Config {
 
   // Prototype message in html
   val isPrototypeBannerVisible: Boolean = getProperty("prototype.disclaimer", default = true)
+
+  // Prototype survey URL
+  val prototypeSurveyUrl: String = getProperty("survey.url", "")
 }
