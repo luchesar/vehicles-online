@@ -363,6 +363,7 @@ disposal.help.p2.1 = If you require any help using it then please contact Julie 
 disposal.help.p2.2 = send an email
 disposal.help.email =  mailto:julie.riseley@dvla.gsi.gov.uk?Subject=Sell%20to%20the%20Trade%20Help
 disposal.help.exit_button = Exit
+disposal.help.back_button = Back
 
 
 # micro-service response codes

@@ -336,6 +336,7 @@ disposal.help.p2.1 = Os oes angen unrhyw help ei ddefnyddio, yna, cysylltwch â 
 disposal.help.p2.2 = anfon e-bost
 disposal.help.email =  mailto:julie.riseley@dvla.gsi.gov.uk?Subject=Sell%20to%20the%20Trade%20Help
 disposal.help.exit_button = Allanfa
+disposal.help.back_button = Yn ôl
 
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = Mae eich cais yn cael ei brosesu a dylech dderbyn llythyr cadarnhad o fewn pedair wythnos.

@@ -3,6 +3,7 @@ token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
 config: utils.helpers.Config)
 
 @import mappings.disposal_of_vehicle.Help.ExitId
+@import mappings.disposal_of_vehicle.Help.BackId
 @import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
 
@@ -16,6 +17,7 @@ title = Messages("disposal.help.title")
     @CsrfHelper.hiddenFormField
     @* Note the reverse routing syntax for the hyperlink *@
 
-    <a id="@ExitId" href="@controllers.disposal_of_vehicle.routes.BeforeYouStart.present()" class="button exit-button">@Messages("disposal.help.exit_button")</a>
+    <input type="button" id="@BackId" value=@Messages("disposal.help.back_button") onclick="window.history.go(-1)" class="button"/>
+    <a id="@ExitId" href="@controllers.disposal_of_vehicle.routes.BeforeYouStart.present()" class="button-secondary">@Messages("disposal.help.exit_button")</a>
 </div>
 }
