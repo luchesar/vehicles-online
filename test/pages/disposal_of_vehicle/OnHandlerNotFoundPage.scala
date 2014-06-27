@@ -11,4 +11,5 @@ object OnHandlerNotFoundPage extends Page with WebBrowserDSL {
 
   def tryAgain(implicit driver: WebDriver): Element = find(id(TryAgainId)).get
   def exit(implicit driver: WebDriver): Element = find(id(ExitId)).get
+
 }
