@@ -1,10 +1,12 @@
 package views.disposal_of_vehicle
 
-import helpers.UiSpec
+import helpers.{WithApplication, UiSpec}
 import helpers.tags.UiTag
 import helpers.webbrowser.{WebDriverFactory, TestHarness}
 import pages.disposal_of_vehicle.{BeforeYouStartPage, OnHandlerNotFoundPage}
 import mappings.disposal_of_vehicle.OnHandlerNotFound.TryAgainId
+import play.api.test.Helpers._
+import scala.Some
 
 final class OnHandlerNotFoundIntegrationSpec extends UiSpec with TestHarness {
   "go to not found page" should {
@@ -37,6 +39,16 @@ final class OnHandlerNotFoundIntegrationSpec extends UiSpec with TestHarness {
       go to OnHandlerNotFoundPage
 
       click on OnHandlerNotFoundPage.tryAgain
+
+      page.title should equal(BeforeYouStartPage.title)
+    }
+  }
+
+  "exit" should {
+    "redirect to BeforeYouStartPage" taggedAs UiTag in new WebBrowser {
+      go to OnHandlerNotFoundPage
+
+      click on OnHandlerNotFoundPage.exit
 
       page.title should equal(BeforeYouStartPage.title)
     }
