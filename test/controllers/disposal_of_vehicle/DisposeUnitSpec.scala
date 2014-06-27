@@ -103,7 +103,7 @@ final class DisposeUnitSpec extends UnitSpec {
     "not display prototype message when config set to false" in new WithApplication {
       val config: Config = {
         val config = mock[Config]
-        when(config.prototypeBannerVisible).thenReturn(false)
+        when(config.isPrototypeBannerVisible).thenReturn(false)
         config
       }
       val request = FakeRequest().
@@ -588,7 +588,7 @@ final class DisposeUnitSpec extends UnitSpec {
 
   private val config: Config = {
     val config = mock[Config]
-    when(config.prototypeBannerVisible).thenReturn(true)
+    when(config.isPrototypeBannerVisible).thenReturn(true)
     config
   }
 

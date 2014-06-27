@@ -458,7 +458,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
   private def vehicleLookupResponseGenerator(fullResponse: (Int, Option[VehicleDetailsResponse]),
                                              bruteForceService: BruteForcePreventionService = bruteForceServiceImpl(permitted = true),
-                                             prototypeBannerVisible: Boolean = true) = {
+                                             isPrototypeBannerVisible: Boolean = true) = {
     val (status, vehicleDetailsResponse) = fullResponse
     val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
     when(ws.callVehicleLookupService(any[VehicleDetailsRequest], any[String])).thenReturn(Future {
@@ -471,7 +471,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
-    when(config.prototypeBannerVisible).thenReturn(prototypeBannerVisible)
+    when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible)
     new disposal_of_vehicle.VehicleLookup(
       bruteForceService = bruteForceService,
       vehicleLookupService = vehicleLookupServiceImpl)

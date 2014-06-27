@@ -19,10 +19,7 @@ import org.mockito.Mockito._
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
     "display the page if dealer details cached" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = businessChooseYourAddressWithUprnFound.present(request)
-      whenReady(result, timeout) {
+      whenReady(present, timeout) {
         r => r.header.status should equal(OK)
       }
     }
@@ -38,10 +35,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "display unselected field when cookie does not exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = businessChooseYourAddressWithUprnFound.present(request)
-      val content = contentAsString(result)
+      val content = contentAsString(present)
       content should include(TraderBusinessNameValid)
       content should not include "selected"
     }
@@ -55,23 +49,17 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "display expected progress bar" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = businessChooseYourAddressWithUprnFound.present(request)
-      contentAsString(result) should include("Step 3 of 6")
+      contentAsString(present) should include("Step 3 of 6")
     }
 
     "display prototype message when config set to true" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = businessChooseYourAddressWithUprnFound.present(request)
-      contentAsString(result) should include("""<div class="prototype">""")
+      contentAsString(present) should include("""<div class="prototype">""")
     }
 
     "not display prototype message when config set to false" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = businessChooseYourAddressWithFakeWebService(prototypeBannerVisible = false).present(request)
+      val result = businessChooseYourAddressWithFakeWebService(isPrototypeBannerVisible = false).present(request)
       contentAsString(result) should not include """<div class="prototype">"""
     }
   }
@@ -143,14 +131,14 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
   }
 
-  private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true, prototypeBannerVisible: Boolean = true) = {
+  private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true, isPrototypeBannerVisible: Boolean = true) = {
     val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress else responseValidForPostcodeToAddressNotFound
     val responseUprn = if (uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
-    when(config.prototypeBannerVisible).thenReturn(prototypeBannerVisible)
+    when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible)
     new BusinessChooseYourAddress(addressLookupService)
   }
 
@@ -164,4 +152,9 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
   private val businessChooseYourAddressWithUprnNotFound = businessChooseYourAddressWithFakeWebService(uprnFound = false)
 
+  private lazy val present = {
+    val request = FakeRequest().
+      withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+    businessChooseYourAddressWithUprnFound.present(request)
+  }
 }

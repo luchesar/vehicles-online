@@ -10,6 +10,10 @@ final class DuplicateDisposalErrorUnitSpec extends UnitSpec {
       status(present) should equal(OK)
     }
 
+    "not display progress bar" in new WithApplication {
+      contentAsString(present) should not include "Step "
+    }
+
     "display prototype message when config set to true" in new WithApplication {
       contentAsString(present) should include("""<div class="prototype">""")
     }

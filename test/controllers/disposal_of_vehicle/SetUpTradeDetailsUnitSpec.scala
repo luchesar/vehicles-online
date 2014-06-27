@@ -38,6 +38,14 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
       content should not include TraderBusinessNameValid
       content should not include PostcodeValid
     }
+
+    "display expected progress bar" in new WithApplication {
+      contentAsString(present) should include("Step 2 of 6")
+    }
+
+    "display prototype message when config set to true" in new WithApplication {
+      contentAsString(present) should include("""<div class="prototype">""")
+    }
   }
 
   "submit" should {
