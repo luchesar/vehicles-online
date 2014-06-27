@@ -56,5 +56,5 @@ final class AlternateLanguagesUnitSpec extends UnitSpec {
     }
   }
 
-  private val request = FakeRequest().withHeaders("Referer" -> BeforeYouStartPage.address)
+  private val request = FakeRequest().withHeaders(REFERER -> BeforeYouStartPage.address)
 }

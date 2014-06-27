@@ -40,7 +40,7 @@ final class HelpUnitSpec extends UnitSpec {
     "write help cookie" in new WithApplication {
       val origin = SetupTradeDetailsPage.address
       val request = FakeRequest().
-        withHeaders(newHeaders = ("Referer", origin))
+        withHeaders(REFERER -> origin)
       // Set the previous page.
       val result = help.present(request)
       whenReady(result) {
