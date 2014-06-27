@@ -1,12 +1,11 @@
 package views.disposal_of_vehicle
 
-import helpers.{WithApplication, UiSpec}
+import helpers.UiSpec
 import helpers.tags.UiTag
-import helpers.webbrowser.{WebDriverFactory, TestHarness}
-import pages.disposal_of_vehicle.{BeforeYouStartPage, OnHandlerNotFoundPage}
+import helpers.webbrowser.{TestHarness, WebDriverFactory}
 import mappings.disposal_of_vehicle.OnHandlerNotFound.TryAgainId
-import play.api.test.Helpers._
-import scala.Some
+import pages.disposal_of_vehicle.OnHandlerNotFoundPage.{exit, tryAgain, hasTryAgain}
+import pages.disposal_of_vehicle.{BeforeYouStartPage, OnHandlerNotFoundPage}
 
 final class OnHandlerNotFoundIntegrationSpec extends UiSpec with TestHarness {
   "go to not found page" should {
@@ -22,15 +21,16 @@ final class OnHandlerNotFoundIntegrationSpec extends UiSpec with TestHarness {
     "not display the try again button" taggedAs UiTag in new WebBrowser {
       go to OnHandlerNotFoundPage
 
-      webDriver.getPageSource shouldNot contain(TryAgainId)
+      page.source should not contain TryAgainId
     }
   }
+
   "javascript enabled" should {
     // This test needs to run with javaScript enabled.
     "display the try again button" taggedAs UiTag in new WebBrowser(webDriver = WebDriverFactory.webDriver(targetBrowser = "htmlUnit", javascriptEnabled = true)) {
       go to OnHandlerNotFoundPage
 
-      assert(OnHandlerNotFoundPage.tryAgain.isDisplayed == true)
+      hasTryAgain should equal(true)
     }
 
     // This test needs to run with javaScript enabled.
@@ -38,7 +38,7 @@ final class OnHandlerNotFoundIntegrationSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       go to OnHandlerNotFoundPage
 
-      click on OnHandlerNotFoundPage.tryAgain
+      click on tryAgain
 
       page.title should equal(BeforeYouStartPage.title)
     }
@@ -48,7 +48,7 @@ final class OnHandlerNotFoundIntegrationSpec extends UiSpec with TestHarness {
     "redirect to BeforeYouStartPage" taggedAs UiTag in new WebBrowser {
       go to OnHandlerNotFoundPage
 
-      click on OnHandlerNotFoundPage.exit
+      click on exit
 
       page.title should equal(BeforeYouStartPage.title)
     }
