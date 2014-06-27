@@ -1,11 +1,14 @@
 package filters
 
+import java.net.URI
 import java.text.SimpleDateFormat
 import java.util.Date
 
 import com.google.inject.Inject
+import com.google.inject.name.Named
 import common.ClientSideSessionFactory
-import play.api.Logger
+import filters.AccessLoggingFilter.AccessLoggerName
+import play.api.LoggerLike
 import play.api.http.HeaderNames._
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.{Filter, RequestHeader, SimpleResult}
@@ -13,15 +16,16 @@ import services.HttpHeaders._
 
 import scala.concurrent.Future
 
-class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder) extends Filter {
-  val accessLogger = Logger("dvla.common.AccessLogger")
+class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder,
+                                    @Named(AccessLoggerName) accessLogger: LoggerLike) extends Filter {
 
   override def apply(filter: (RequestHeader) => Future[SimpleResult])
                     (requestHeader: RequestHeader): Future[SimpleResult] = {
     val requestTimestamp = new Date()
     filter(requestHeader).map {result =>
-      val accessLogMessage = clfEntryBuilder.clfEntry(requestTimestamp, requestHeader, result)
-      accessLogger.info(accessLogMessage)
+      val requestPath = new URI(requestHeader.uri).getPath
+      if (!AccessLoggingFilter.NonLoggingUrls.contains(requestPath))
+        accessLogger.info(clfEntryBuilder.clfEntry(requestTimestamp, requestHeader, result))
       result
     }
   }
@@ -53,6 +57,11 @@ class ClfEntryBuilder {
     s"""$ipAddress - - $date "$method $uri $protocol" $responseCode $responseLength "$trackingId" """
   }
 
+}
+
+object AccessLoggingFilter {
+  final val AccessLoggerName = "AccessLogger"
+  final val NonLoggingUrls = Set("/healthcheck")
 }
 
 object ClfEntryBuilder {

@@ -17,7 +17,6 @@ import services.fakes.FakeDateServiceImpl._
 import services.fakes.FakeDisposeWebServiceImpl._
 import services.fakes.FakeResponse
 import services.DateService
-import scala.Some
 import common.ClientSideSessionFactory
 import utils.helpers.Config
  
@@ -144,9 +143,9 @@ final class DisposeFormSpec extends UnitSpec {
       new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
     })
     val disposeServiceImpl = new DisposeServiceImpl(new Config(), ws)
-    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    val config: Config = mock[Config]
-    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService, config)(clientSideSessionFactory)
+    implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    implicit val config: Config = mock[Config]
+    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService)
   }
 
   private def formWithValidDefaults(mileage: String = MileageValid,

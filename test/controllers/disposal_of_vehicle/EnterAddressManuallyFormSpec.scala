@@ -19,7 +19,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
 
     "accept if form is valid with only mandatory filled in" in {
       val model = formWithValidDefaults(line2 = "", line3 = "").get.addressAndPostcodeModel
-      
+
       model.addressLinesModel.buildingNameOrNumber should equal(BuildingNameOrNumberValid)
     }
   }
@@ -45,6 +45,10 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
 
     "reject if post town contains numbers" in {
       formWithValidDefaults(postTown = "123456").errors should have length 1
+    }
+
+    "reject if post town starts with spaces" in {
+      formWithValidDefaults(postTown = " Swansea").errors should have length 1
     }
 
     "reject if buildingNameOrNumber is blank" in {

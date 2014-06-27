@@ -1,13 +1,13 @@
 @(data: models.domain.disposal_of_vehicle.DisposeViewModel,
-        formModel: models.domain.disposal_of_vehicle.DisposeFormModel,
-        prototypeBannerVisible: Boolean)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+        formModel: models.domain.disposal_of_vehicle.DisposeFormModel)(implicit lang: Lang,
+        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        config: utils.helpers.Config)
 
 @import mappings.disposal_of_vehicle.DisposeFailure.{SetupTradeDetailsId, VehicleLookupId}
 @import views.html.disposal_of_vehicle.main
 
 @main(
-    title = Messages("disposal_disposefailure.title"),
-    prototypeBannerVisible = prototypeBannerVisible
+    title = Messages("disposal_disposefailure.title")
 ) {
     <div class="alert-failed">
         <h2>Disposal failure</h2>

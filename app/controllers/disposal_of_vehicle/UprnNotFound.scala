@@ -5,8 +5,8 @@ import common.ClientSideSessionFactory
 import play.api.mvc._
 import utils.helpers.Config
 
-final class UprnNotFound @Inject()(config: Config)(implicit clientSideSessionFactory: ClientSideSessionFactory)  extends Controller {
+final class UprnNotFound @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config)  extends Controller {
   def present = Action { implicit request =>
-    Ok(views.html.disposal_of_vehicle.uprn_not_found(config.prototypeBannerVisible))
+    Ok(views.html.disposal_of_vehicle.uprn_not_found())
   }
 }

@@ -1,6 +1,7 @@
 @(data: models.domain.disposal_of_vehicle.DisposeViewModel,
-        formModel: models.domain.disposal_of_vehicle.DisposeFormModel,
-        prototypeBannerVisible: Boolean)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+        formModel: models.domain.disposal_of_vehicle.DisposeFormModel)(implicit lang: Lang,
+        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        config: utils.helpers.Config)
 
 @import mappings.disposal_of_vehicle.DisposeSuccess.{ExitDisposalId, NewDisposalId}
 @import utils.helpers.CsrfHelper
@@ -8,8 +9,8 @@
 @import views.html.helper.form
 
 @main(
-    title = Messages("disposal_disposeconfirmation.title"),
-    prototypeBannerVisible = prototypeBannerVisible
+    progress = Some(Messages("disposal_progress_6")),
+    title = Messages("disposal_disposeconfirmation.title")
 ){
     <div class="alert-complete">
         <h2>@Messages("disposal_disposeconfirmation.disposalComplete")</h2>
@@ -32,15 +33,6 @@
                 <dt>@Messages("disposal_disposeconfirmation.vehiclemodel")</dt>
                 <dd>@data.vehicleModel</dd>
 
-                @{/*
-                    removed 17/3/14
-                <dt>@Messages("disposal_disposeconfirmation.vehiclekeeper")</dt>
-                <dd>
-                    @data.keeperName<br />
-                    @for(addr <- data.keeperAddress.address) {@addr<br/>}
-                </dd>
-                */}
-
                 <dt>@Messages("disposal_disposeconfirmation.disposedto")</dt>
                 <dd>
                     @data.dealerName<br />
@@ -51,28 +43,10 @@
                 <dd>
                     @{formModel.dateOfDisposal.`dd/MM/yyyy`}
                 </dd>
-
-                @{/*
-                    removed 17/3/14
-                @if(formModel.mileage != None) {
-                    <dt>@Messages("disposal_disposeconfirmation.mileage")</dt>
-                    <dd>@{formModel.mileage}</dd>
-                } else {
-                    <dt>@Messages("disposal_disposeconfirmation.mileage")</dt>
-                    <dd>@Messages("disposal_disposeconfirmation.noMileageEntered")</dd>
-                }
-                */}
             </dl>
         </div>
 
         <div class="second-col">
-            @{/*
-            <h2>@Messages("disposal_disposeconfirmation.exkeeper")</h2>
-
-            <p><strong>@Messages("disposal_disposeconfirmation.exkeeperlettersend")</strong><br />
-            @data.keeperName<br />
-            @for(addr <- data.keeperAddress.address) {@addr<br/>}</p>
-            */}
             <p>@Messages("disposal_disposeconfirmation.exkeeper")</p>
 
             <div class="form-steps">

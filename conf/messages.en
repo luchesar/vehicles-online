@@ -243,6 +243,8 @@ disposal_vehiclelookup.p1 = Vehicle being sold
 disposal_vehiclelookup.p2 = Vehicle will be sold to
 disposal_vehiclelookup.warning.p1 = Do not dispose of a vehicle with a personal registration unless the current keeper understands that the registration will be disposed of along with the vehicle.
 disposal_vehiclelookup.warning.p2 = Retain or transfer personal registrations before disposing to the trade.
+disposal_vehiclelookup.img.h2 = V5C document reference number
+disposal_vehiclelookup.img.alt = V5C document reference number
 disposal_vehiclelookup.refnumlabel = Latest V5C document reference number
 disposal_vehiclelookup.vrninputlabel = Vehicle registration mark
 disposal_vehiclelookup.backbutton = Back
@@ -345,6 +347,14 @@ error.validTraderBusinessName = Must be between 2 and 58 characters and only con
 error.address.buildingNameOrNumber.invalid = Building name or number - Must contain a minimum of four characters
 error.address.postTown = Post town - Requires a minimum length of three characters
 error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. PR2 8AE or PR28AE
+
+# progress messages
+disposal_progress_1 = Step 1 of 6
+disposal_progress_2 = Step 2 of 6
+disposal_progress_3 = Step 3 of 6
+disposal_progress_4 = Step 4 of 6
+disposal_progress_5 = Step 5 of 6
+disposal_progress_6 = Step 6 of 6
 
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = The application is being processed.

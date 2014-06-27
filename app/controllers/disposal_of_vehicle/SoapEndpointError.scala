@@ -5,8 +5,8 @@ import common.ClientSideSessionFactory
 import play.api.mvc._
 import utils.helpers.Config
 
-final class SoapEndpointError @Inject()(config: Config)(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class SoapEndpointError @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
   def present = Action { implicit request =>
-    Ok(views.html.disposal_of_vehicle.soap_endpoint_error(config.prototypeBannerVisible))
+    Ok(views.html.disposal_of_vehicle.soap_endpoint_error())
   }
 }

@@ -206,6 +206,8 @@ disposal_vehiclelookup.p1 = Dod o hyd i gerbyd
 disposal_vehiclelookup.p2 = Bydd cerbyd yn cael ei werthu i
 disposal_vehiclelookup.warning.p1 = Peidiwch â gwaredu cerbyd gyda chofrestru personol oni bai bod y ceidwad ar hyn o bryd yn deall y bydd y cofrestriad yn cael eu gwaredu ynghyd â''r cerbyd.
 disposal_vehiclelookup.warning.p2 = Cadw neu drosglwyddo cofrestriadau personol cyn cael gwared i''r fasnach.
+disposal_vehiclelookup.img.h2 = V5C document reference number
+disposal_vehiclelookup.img.alt = V5C document reference number
 disposal_vehiclelookup.refnumlabel = V5C Rhif cyfeirnod y ddogfen
 disposal_vehiclelookup.vrninputlabel = Rhif cofrestru cerbyd
 disposal_vehiclelookup.backbutton = Holau
@@ -307,10 +309,7 @@ datePlaceholder.October = Hydref
 datePlaceholder.November = Tachwedd
 datePlaceholder.December = Rhagfyr
 
-
-
 select_default = Dewiswch
-
 
 addressAndPostcode.addressLines.buildingNameOrNumber = Enw''r adeilad neu rif
 error.address.maxLengthOfLinesConcatenated = Gall gyfeiriad gael mwy na 120 o gymeriadau
@@ -321,6 +320,14 @@ error.validTraderBusinessName = Rhaid iddo fod rhwng dwy a 58 cymeriadau a ydynt
 error.address.buildingNameOrNumber.invalid = Enw''r adeilad neu rif - Rhaid iddo gynnwys o leiaf bedwar cymeriad
 error.address.postTown = Postiwch y dref - Angen hyd lleiaf o tri chymeriad
 error.address.postcode.invalid = Rhaid bod rhwng 5 ac 8 cymeriadau ac mewn fformat dilys, ee. PR2 8AE neu PR28AE
+
+# progress messages
+disposal_progress_1 = Cam 1 o 6
+disposal_progress_2 = Cam 2 o 6
+disposal_progress_3 = Cam 3 o 6
+disposal_progress_4 = Cam 3 o 6
+disposal_progress_5 = Cam 3 o 6
+disposal_progress_6 = Cam 3 o 6
 
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = Mae eich cais yn cael ei brosesu a dylech dderbyn llythyr cadarnhad o fewn pedair wythnos.

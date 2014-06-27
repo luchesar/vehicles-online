@@ -157,9 +157,9 @@ final class DisposeUnitSpec extends UnitSpec {
       val disposeResponseThrows = mock[(Int, Option[DisposeResponse])]
       val mockWebServiceThrows = mock[DisposeService]
       when(mockWebServiceThrows.invoke(any[DisposeRequest], any[String])).thenReturn(Future.failed(new RuntimeException))
-      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-      val config: Config = mock[Config]
-      val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateServiceStubbed(), config)(clientSideSessionFactory)
+      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      implicit val config: Config = mock[Config]
+      val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateServiceStubbed())
       val result = dispose.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
@@ -277,9 +277,9 @@ final class DisposeUnitSpec extends UnitSpec {
       when(mockDisposeService.invoke(any(classOf[DisposeRequest]), any[String])).thenReturn(Future[(Int, Option[DisposeResponse])] {
         (200, None)
       })
-      val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-      val config: Config = mock[Config]
-      val dispose = new disposal_of_vehicle.Dispose(mockDisposeService, dateServiceStubbed(), config)(clientSideSessionFactory)
+      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      implicit val config: Config = mock[Config]
+      val dispose = new disposal_of_vehicle.Dispose(mockDisposeService, dateServiceStubbed())
       val result = dispose.submit(request)
       whenReady(result) {
         r =>
@@ -559,9 +559,9 @@ final class DisposeUnitSpec extends UnitSpec {
   }
 
   private def disposeController(disposeWebService: DisposeWebService, disposeService: DisposeService): Dispose = {
-    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    val config: Config = mock[Config]
-    new disposal_of_vehicle.Dispose(disposeService, dateServiceStubbed(), config)(clientSideSessionFactory)
+    implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    implicit val config: Config = mock[Config]
+    new disposal_of_vehicle.Dispose(disposeService, dateServiceStubbed())
   }
 
 

@@ -37,3 +37,26 @@
 @mixin to-uppercase {
 	text-transform:uppercase;
 }
+
+//img wrapper to show-hide mobile/desktop images
+@mixin img-multi-wrap($max-width){
+	img {
+		max-width:$max-width;
+	}
+	&.img-wrap-mobile {
+		display:none;
+	}
+	@media screen and (max-width:$device-small) {
+		&.img-wrap-mobile {
+			display:block;
+			img {
+				display:block;
+				margin:0 auto 2.2em auto;
+				text-align:center;
+			}	
+		}
+		&.img-wrap-desktop {
+			display:none;
+		}
+	}
+}

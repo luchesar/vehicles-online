@@ -1,8 +1,11 @@
 package composition
 
 import app.ConfigProperties._
+import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
 import common._
+import filters.AccessLoggingFilter._
+import play.api.{LoggerLike, Logger}
 import services.address_lookup._
 import services.brute_force_prevention._
 import services.dispose_service.{DisposeService, DisposeServiceImpl, DisposeWebService, DisposeWebServiceImpl}
@@ -47,5 +50,6 @@ object DevModule extends ScalaModule {
 
     bind[BruteForcePreventionWebService].to[brute_force_prevention.WebServiceImpl].asEagerSingleton()
     bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
+    bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
   }
 }

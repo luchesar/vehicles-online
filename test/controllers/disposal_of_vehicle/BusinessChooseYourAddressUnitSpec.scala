@@ -2,7 +2,6 @@ package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
 import helpers.{UnitSpec, WithApplication}
-import helpers.common.CookieHelper
 import helpers.common.CookieHelper._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
@@ -15,6 +14,7 @@ import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
 import services.fakes.FakeAddressLookupWebServiceImpl
 import services.fakes.FakeAddressLookupWebServiceImpl._
 import utils.helpers.Config
+import org.mockito.Mockito._
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
@@ -52,6 +52,27 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
+    }
+
+    "display expected progress bar" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+      val result = businessChooseYourAddressWithUprnFound.present(request)
+      contentAsString(result) should include("Step 3 of 6")
+    }
+
+    "display prototype message when config set to true" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+      val result = businessChooseYourAddressWithUprnFound.present(request)
+      contentAsString(result) should include("""<div class="prototype">""")
+    }
+
+    "not display prototype message when config set to false" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+      val result = businessChooseYourAddressWithFakeWebService(prototypeBannerVisible = false).present(request)
+      contentAsString(result) should not include """<div class="prototype">"""
     }
   }
 
@@ -122,14 +143,15 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
   }
 
-  private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
+  private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true, prototypeBannerVisible: Boolean = true) = {
     val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress else responseValidForPostcodeToAddressNotFound
     val responseUprn = if (uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
-    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    val config: Config = mock[Config]
-    new BusinessChooseYourAddress(addressLookupService, config)(clientSideSessionFactory)
+    implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    implicit val config: Config = mock[Config]
+    when(config.prototypeBannerVisible).thenReturn(prototypeBannerVisible)
+    new BusinessChooseYourAddress(addressLookupService)
   }
 
   private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {

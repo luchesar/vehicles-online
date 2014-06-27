@@ -8,8 +8,8 @@
 @import views.html.disposal_of_vehicle.main
 
 @main(
-    title = Messages("disposal_beforeyoustart.title"),
-    prototypeBannerVisible = config.prototypeBannerVisible
+    progress = Some(Messages("disposal_progress_1")),
+    title = Messages("disposal_beforeyoustart.title")
 ) {
     <p>@Messages("disposal_beforeyoustart.p1")</p>
     <ol class="list-standard">

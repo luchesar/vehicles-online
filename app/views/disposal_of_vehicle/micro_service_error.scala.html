@@ -1,10 +1,11 @@
-@(prototypeBannerVisible: Boolean)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+@()(implicit lang: Lang,
+        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        config: utils.helpers.Config)
 
 @import views.html.disposal_of_vehicle.main
 
 @main(
-    title = Messages("micro_service_error.title"),
-    prototypeBannerVisible = prototypeBannerVisible
+    title = Messages("micro_service_error.title")
 ){
     <p>@Messages("micro_service_error.text")</p>
 
