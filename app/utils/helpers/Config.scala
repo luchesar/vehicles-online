@@ -30,5 +30,5 @@ class Config {
   val bruteForcePreventionExpiryHeader: String = getProperty("bruteForcePrevention.headers.expiry", "")
 
   // Prototype message in html
-  val prototypeBannerVisible: Boolean = getProperty("prototype.disclaimer", default = true)
+  val isPrototypeBannerVisible: Boolean = getProperty("prototype.disclaimer", default = true)
 }

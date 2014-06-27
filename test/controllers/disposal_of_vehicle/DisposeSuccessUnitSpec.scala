@@ -1,7 +1,9 @@
 package controllers.disposal_of_vehicle
 
+import common.ClientSideSessionFactory
 import helpers.common.CookieHelper
 import mappings.common.PreventGoingToDisposePage._
+import org.mockito.Mockito._
 import play.api.test.Helpers._
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
@@ -9,6 +11,7 @@ import helpers.UnitSpec
 import helpers.WithApplication
 import play.api.test.FakeRequest
 import CookieHelper._
+import utils.helpers.Config
 
 final class DisposeSuccessUnitSpec extends UnitSpec {
   "present" should {
@@ -91,6 +94,17 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
 
     "display prototype message when config set to true" in new WithApplication {
       contentAsString(present) should include("""<div class="prototype">""")
+    }
+
+    "not display prototype message when config set to false" in new WithApplication {
+      val request = FakeRequest()
+      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      implicit val config: Config = mock[Config]
+      when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
+      val disposeSuccessPrototypeNotVisible = new DisposeSuccess()
+
+      val result = disposeSuccessPrototypeNotVisible.present(request)
+      contentAsString(result) should not include """<div class="prototype">"""
     }
   }
 

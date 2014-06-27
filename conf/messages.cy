@@ -329,6 +329,15 @@ disposal_progress_4 = Cam 3 o 6
 disposal_progress_5 = Cam 3 o 6
 disposal_progress_6 = Cam 3 o 6
 
+# help
+disposal.help.title = Help
+disposal.help.p1 = Mae'r gwasanaeth hwn yng Ngham Beta Preifat
+disposal.help.p2.1 = Os oes angen unrhyw help ei ddefnyddio, yna, cysylltwch â Julie Riseley ar 01792 788410 neu
+disposal.help.p2.2 = anfon e-bost
+disposal.help.email =  mailto:julie.riseley@dvla.gsi.gov.uk?Subject=Sell%20to%20the%20Trade%20Help
+disposal.help.exit_button = Allanfa
+disposal.help.back_button = Yn ôl
+
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = Mae eich cais yn cael ei brosesu a dylech dderbyn llythyr cadarnhad o fewn pedair wythnos.
 ms.vehiclesService.response.unableToProcessApplication = Nid ydym yn gallu prosesu eich cais ar hyn o bryd. Os gwelwch yn dda anfon y V5C / 3 i'r cyfeiriad canlynol; DVLA, Longview Road, Morriston, Swansea, SA6 7JL
