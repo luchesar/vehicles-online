@@ -2,17 +2,16 @@ package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
 import helpers.UnitSpec
-import helpers.common.CookieHelper
-import mappings.disposal_of_vehicle.SetupTradeDetails._
-import org.mockito.Mockito._
-import pages.disposal_of_vehicle._
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import mappings.disposal_of_vehicle.SetupTradeDetails
+import SetupTradeDetails.{TraderNameMaxLength, SetupTradeDetailsCacheKey, TraderNameId, TraderPostcodeId}
+import org.mockito.Mockito.when
+import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
 import play.api.test.Helpers._
-import services.fakes.FakeAddressLookupService._
+import services.fakes.FakeAddressLookupService.{TraderBusinessNameValid, PostcodeValid}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import CookieHelper._
 import helpers.WithApplication
 import play.api.test.FakeRequest
-import play.api.Play
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import utils.helpers.Config
 import scala.Some

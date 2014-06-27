@@ -1,7 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import helpers.UnitSpec
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.AddressSelectId
 import services.fakes.FakeAddressLookupWebServiceImpl
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress

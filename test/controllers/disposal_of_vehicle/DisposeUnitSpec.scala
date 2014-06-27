@@ -1,30 +1,54 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
-import helpers.common.CookieHelper
-import CookieHelper._
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
 import helpers.WithApplication
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.common.AddressLines.BuildingNameOrNumberHolder
 import mappings.common.AddressLines.LineMaxLength
-import mappings.disposal_of_vehicle.Dispose._
+import mappings.disposal_of_vehicle.Dispose.DisposeFormTimestampIdCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
+import mappings.disposal_of_vehicle.Dispose.MileageId
+import mappings.disposal_of_vehicle.Dispose.DateOfDisposalId
+import mappings.disposal_of_vehicle.Dispose.ConsentId
+import mappings.disposal_of_vehicle.Dispose.LossOfRegistrationConsentId
 import models.DayMonthYear
-import models.domain.disposal_of_vehicle._
-import org.mockito.Matchers._
-import org.mockito.Mockito._
-import pages.disposal_of_vehicle._
+import models.domain.disposal_of_vehicle.{DisposeResponse, DisposeRequest, DisposalAddressDto}
+import org.mockito.Matchers.any
+import org.mockito.Mockito.{when, verify, times}
+import pages.disposal_of_vehicle.SetupTradeDetailsPage
+import pages.disposal_of_vehicle.DisposeSuccessPage
+import pages.disposal_of_vehicle.MicroServiceErrorPage
+import pages.disposal_of_vehicle.DuplicateDisposalErrorPage
+import pages.disposal_of_vehicle.SoapEndpointErrorPage
+import pages.disposal_of_vehicle.DisposeFailurePage
+import pages.disposal_of_vehicle.VehicleLookupPage
 import play.api.libs.json.Json
 import play.api.test.Helpers._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import services.DateService
 import services.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeService}
-import services.fakes.FakeAddressLookupService._
-import services.fakes.FakeDateServiceImpl._
-import services.fakes.FakeDisposeWebServiceImpl._
-import services.fakes.FakeVehicleLookupWebService._
+import services.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
+import services.fakes.FakeAddressLookupService.Line2Valid
+import services.fakes.FakeAddressLookupService.Line3Valid
+import services.fakes.FakeAddressLookupService.PostcodeValidWithSpace
+import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
+import services.fakes.FakeAddressLookupService.PostTownValid
+import services.fakes.FakeAddressLookupService.PostcodeValid
+import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import services.fakes.FakeDisposeWebServiceImpl.disposeResponseFailureWithDuplicateDisposal
+import services.fakes.FakeDisposeWebServiceImpl.disposeResponseApplicationBeingProcessed
+import services.fakes.FakeDisposeWebServiceImpl.disposeResponseUnableToProcessApplication
+import services.fakes.FakeDisposeWebServiceImpl.disposeResponseUndefinedError
+import services.fakes.FakeDisposeWebServiceImpl.MileageValid
+import services.fakes.FakeDisposeWebServiceImpl.disposeResponseSuccess
+import services.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
 import services.fakes.{FakeDisposeWebServiceImpl, FakeResponse}
 import utils.helpers.Config
 import org.mockito.ArgumentCaptor
@@ -146,7 +170,8 @@ final class DisposeUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeModel()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
-      val disposeFailure = disposeController(disposeWebService = disposeWebService(disposeServiceStatus = OK, disposeServiceResponse = Some(disposeResponseFailureWithDuplicateDisposal)))
+      val disposeFailure = disposeController(disposeWebService =
+        disposeWebService(disposeServiceStatus = OK, disposeServiceResponse = Some(disposeResponseFailureWithDuplicateDisposal)))
       val result = disposeFailure.submit(request)
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(DuplicateDisposalErrorPage.address))

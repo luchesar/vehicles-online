@@ -47,4 +47,3 @@ final class DisposeFailureUnitSpec extends UnitSpec {
     disposeFailure.present(request)
   }
 }
-

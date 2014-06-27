@@ -3,7 +3,7 @@ package controllers.common
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import controllers.common.AlternateLanguages.withLanguage
 import helpers.{UnitSpec, WithApplication}
-import mappings.common.AlternateLanguages._
+import mappings.common.AlternateLanguages.{CyId, EnId}
 import pages.disposal_of_vehicle.BeforeYouStartPage
 import play.api.Play
 import play.api.test.FakeRequest
