@@ -43,7 +43,7 @@
                     <div class="header-phase">
                     	<h1 class="page-title beta"><strong>@{Messages("main.banner")}</strong> <span aria-hidden="true">beta</span></h1>
                     	<h2>
-                            <a href="">@{Messages("main.banner.help")}</a>
+                            <a href="@controllers.disposal_of_vehicle.routes.Help.present()">@{Messages("main.banner.help")}</a>
                             @feedback()
                             @alternateLanguages()
                         </h2>

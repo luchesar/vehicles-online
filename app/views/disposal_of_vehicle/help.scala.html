@@ -1,0 +1,21 @@
+@()(implicit lang: Lang,
+token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+config: utils.helpers.Config)
+
+@import mappings.disposal_of_vehicle.Help.ExitId
+@import utils.helpers.CsrfHelper
+@import views.html.disposal_of_vehicle.main
+
+@main(
+title = Messages("disposal.help.title")
+) {
+<p>@Messages("disposal.help.p1")</p>
+<p>@Messages("disposal.help.p2.1") <a href=@Messages("disposal.help.email")>@Messages("disposal.help.p2.2") </a></p>
+
+<div class="form-steps">
+    @CsrfHelper.hiddenFormField
+    @* Note the reverse routing syntax for the hyperlink *@
+
+    <a id="@ExitId" href="@controllers.disposal_of_vehicle.routes.BeforeYouStart.present()" class="button exit-button">@Messages("disposal.help.exit_button")</a>
+</div>
+}

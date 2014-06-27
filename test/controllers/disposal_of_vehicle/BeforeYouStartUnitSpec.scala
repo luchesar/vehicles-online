@@ -1,9 +1,8 @@
 package controllers.disposal_of_vehicle
 
-import helpers.webbrowser.TestGlobal
 import helpers.{UnitSpec, WithApplication}
 import pages.disposal_of_vehicle._
-import play.api.test.{FakeApplication, FakeRequest}
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
 
 final class BeforeYouStartUnitSpec extends UnitSpec {
