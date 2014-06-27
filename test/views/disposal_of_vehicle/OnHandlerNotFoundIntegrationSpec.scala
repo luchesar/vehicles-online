@@ -21,7 +21,7 @@ final class OnHandlerNotFoundIntegrationSpec extends UiSpec with TestHarness {
     "not display the try again button" taggedAs UiTag in new WebBrowser {
       go to OnHandlerNotFoundPage
 
-      page.source should not contain TryAgainId
+      hasTryAgain should equal(true)
     }
   }
 
