@@ -1,8 +1,10 @@
 package controllers.disposal_of_vehicle
 
+import common.ClientSideSessionFactory
 import helpers.UnitSpec
 import helpers.common.CookieHelper
 import mappings.disposal_of_vehicle.SetupTradeDetails._
+import org.mockito.Mockito._
 import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
 import services.fakes.FakeAddressLookupService._
@@ -12,6 +14,7 @@ import helpers.WithApplication
 import play.api.test.FakeRequest
 import play.api.Play
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
+import utils.helpers.Config
 import scala.Some
 import helpers.JsonUtils.deserializeJsonToModel
 
@@ -45,6 +48,17 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
     "display prototype message when config set to true" in new WithApplication {
       contentAsString(present) should include("""<div class="prototype">""")
+    }
+
+    "not display prototype message when config set to false" in new WithApplication {
+      val request = FakeRequest()
+      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      implicit val config: Config = mock[Config]
+      when(config.isPrototypeBannerVisible).thenReturn(false)
+      val setUpTradeDetailsPrototypeNotVisible = new SetUpTradeDetails()
+
+      val result = setUpTradeDetailsPrototypeNotVisible.present(request)
+      contentAsString(result) should not include """<div class="prototype">"""
     }
   }
 
