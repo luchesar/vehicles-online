@@ -17,7 +17,6 @@ import org.mockito.Mockito._
 import pages.disposal_of_vehicle._
 import play.api.libs.json.Json
 import play.api.test.Helpers._
-import scala.Some
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import services.DateService
@@ -81,6 +80,40 @@ final class DisposeUnitSpec extends UnitSpec {
       contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("consent", checked = false))
       contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("lossOfRegistrationConsent", checked = false))
       content should not include "selected" // No drop downs should be selected
+    }
+
+    "display expected progress bar" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+      val result = disposeController(disposeWebService = disposeWebService()).present(request)
+      contentAsString(result) should include("Step 5 of 6")
+    }
+
+    "display prototype message when config set to true" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+      val result = disposeController(disposeWebService = disposeWebService()).present(request)
+      contentAsString(result) should include("""<div class="prototype">""")
+    }
+
+    "not display prototype message when config set to false" in new WithApplication {
+      val config: Config = {
+        val config = mock[Config]
+        when(config.isPrototypeBannerVisible).thenReturn(false)
+        config
+      }
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+      val webService: DisposeWebService = disposeWebService()
+      val disposeService = new DisposeServiceImpl(config, webService)
+      val result = disposeController(disposeWebService = webService, disposeService = disposeService)(config).present(request)
+      contentAsString(result) should not include """<div class="prototype">"""
     }
   }
 
@@ -522,7 +555,7 @@ final class DisposeUnitSpec extends UnitSpec {
     dateService
   }
 
-  private def buildCorrectlyPopulatedRequest = {
+  private val buildCorrectlyPopulatedRequest = {
     import mappings.common.DayMonthYear._
     FakeRequest().withFormUrlEncodedBody(
       MileageId -> MileageValid,
@@ -553,14 +586,20 @@ final class DisposeUnitSpec extends UnitSpec {
     disposeWebService
   }
 
+  private val config: Config = {
+    val config = mock[Config]
+    when(config.isPrototypeBannerVisible).thenReturn(true)
+    config
+  }
+
   private def disposeController(disposeWebService: DisposeWebService): Dispose = {
-    val disposeService = new DisposeServiceImpl(new Config(), disposeWebService)
+    val disposeService = new DisposeServiceImpl(config, disposeWebService)
     disposeController(disposeWebService, disposeService)
   }
 
-  private def disposeController(disposeWebService: DisposeWebService, disposeService: DisposeService): Dispose = {
+  private def disposeController(disposeWebService: DisposeWebService, disposeService: DisposeService)(implicit config: Config = config): Dispose = {
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    implicit val config: Config = mock[Config]
+
     new disposal_of_vehicle.Dispose(disposeService, dateServiceStubbed())
   }
 

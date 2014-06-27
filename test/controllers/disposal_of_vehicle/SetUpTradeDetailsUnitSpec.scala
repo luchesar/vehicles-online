@@ -16,11 +16,10 @@ import scala.Some
 import helpers.JsonUtils.deserializeJsonToModel
 
 final class SetUpTradeDetailsUnitSpec extends UnitSpec {
+
   "present" should {
     "display the page" in new WithApplication {
-      val request = FakeRequest()
-      val result = setUpTradeDetails.present(request)
-      whenReady(result) {
+      whenReady(present) {
         r => r.header.status should equal(OK)
       }
     }
@@ -35,11 +34,17 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
     }
 
     "display empty fields when cookie does not exist" in new WithApplication {
-      val request = FakeRequest()
-      val result = setUpTradeDetails.present(request)
-      val content = contentAsString(result)
+      val content = contentAsString(present)
       content should not include TraderBusinessNameValid
       content should not include PostcodeValid
+    }
+
+    "display expected progress bar" in new WithApplication {
+      contentAsString(present) should include("Step 2 of 6")
+    }
+
+    "display prototype message when config set to true" in new WithApplication {
+      contentAsString(present) should include("""<div class="prototype">""")
     }
   }
 
@@ -105,5 +110,10 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
   private val setUpTradeDetails = {
     injector.getInstance(classOf[SetUpTradeDetails])
+  }
+
+  private lazy val present = {
+    val request = FakeRequest()
+    setUpTradeDetails.present(request)
   }
 }

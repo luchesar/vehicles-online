@@ -14,14 +14,17 @@ import play.api.Play
 final class VrmLockedUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      val dateService = new FakeDateServiceImpl
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel(dateTimeISOChronology = dateService.dateTimeISOChronology))
-      val result = vrmLocked.present(request)
-
-      whenReady(result) {
+      whenReady(present) {
         r => r.header.status should equal(play.api.http.Status.OK)
       }
+    }
+
+    "not display progress bar" in new WithApplication {
+      contentAsString(present) should not include "Step "
+    }
+
+    "display prototype message when config set to true" in new WithApplication {
+      contentAsString(present) should include("""<div class="prototype">""")
     }
   }
 
@@ -58,4 +61,10 @@ final class VrmLockedUnitSpec extends UnitSpec {
   }
 
   private val vrmLocked = injector.getInstance(classOf[VrmLocked])
+  private lazy val present = {
+    val dateService = new FakeDateServiceImpl
+    val request = FakeRequest().
+      withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel(dateTimeISOChronology = dateService.dateTimeISOChronology))
+    vrmLocked.present(request)
+  }
 }

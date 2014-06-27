@@ -7,11 +7,21 @@ import play.api.test.Helpers._
 final class DuplicateDisposalErrorUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      val newFakeRequest = FakeRequest()
-      val result = duplicateDisposalError.present(newFakeRequest)
-      status(result) should equal(OK)
+      status(present) should equal(OK)
+    }
+
+    "not display progress bar" in new WithApplication {
+      contentAsString(present) should not include "Step "
+    }
+
+    "display prototype message when config set to true" in new WithApplication {
+      contentAsString(present) should include("""<div class="prototype">""")
     }
   }
 
-  private val duplicateDisposalError = injector.getInstance(classOf[DuplicateDisposalError])
+  private lazy val present = {
+    val duplicateDisposalError = injector.getInstance(classOf[DuplicateDisposalError])
+    val newFakeRequest = FakeRequest()
+    duplicateDisposalError.present(newFakeRequest)
+  }
 }

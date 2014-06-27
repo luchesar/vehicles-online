@@ -13,13 +13,24 @@ import play.api.Play
 final class UprnNotFoundUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      val request = FakeRequest()
-      val result = uprnNotFound.present(request)
-      whenReady(result) {
+      whenReady(present) {
         r => r.header.status should equal(OK)
       }
     }
+
+    "not display progress bar" in new WithApplication {
+      contentAsString(present) should not include "Step "
+    }
+
+    "display prototype message when config set to true" in new WithApplication {
+      contentAsString(present) should include("""<div class="prototype">""")
+    }
   }
 
-  val uprnNotFound = injector.getInstance(classOf[UprnNotFound])
+  private val uprnNotFound = injector.getInstance(classOf[UprnNotFound])
+
+  private lazy val present = {
+    val request = FakeRequest()
+    uprnNotFound.present(request)
+  }
 }

@@ -14,15 +14,18 @@ import scala.Some
 import play.api.Play
 
 final class VehicleLookupFailureUnitSpec extends UnitSpec {
+  private lazy val present = {
+    val request = FakeRequest().
+      withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+      withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel()).
+      withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+      withCookies(CookieFactoryForUnitSpecs.vehicleLookupResponseCode())
+    vehicleLookupFailure.present(request)
+  }
+
   "present" should {
     "display the page" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleLookupResponseCode())
-      val result = vehicleLookupFailure.present(request)
-      whenReady(result) {
+      whenReady(present) {
         r => r.header.status should equal(OK)
       }
     }
@@ -69,6 +72,14 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
+    }
+
+    "not display progress bar" in new WithApplication {
+      contentAsString(present) should not include "Step "
+    }
+
+    "display prototype message when config set to true" in new WithApplication {
+      contentAsString(present) should include("""<div class="prototype">""")
     }
   }
 

@@ -7,6 +7,11 @@
 	    display:none;
 	}
 
+	body.js-enabled & .no-js-only {
+		// Hides .no-js-only if .js-enabled is applied to <body>
+	    display:none;
+	}
+
 	legend {
 		font: {
 			size: 1.9rem;

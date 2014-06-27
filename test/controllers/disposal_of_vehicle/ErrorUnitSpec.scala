@@ -13,14 +13,17 @@ final class ErrorUnitSpec extends UnitSpec {
 
   "present" should {
     "display the page" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
-      val result = errorController.present(ErrorPage.exceptionDigest)(request)
-      whenReady(result) {
+      whenReady(present) {
         r => r.header.status should equal(OK)
       }
+    }
+
+    "not display progress bar" in new WithApplication {
+      contentAsString(present) should not include "Step "
+    }
+
+    "display prototype message when config set to true" in new WithApplication {
+      contentAsString(present) should include("""<div class="prototype">""")
     }
   }
 
@@ -28,4 +31,12 @@ final class ErrorUnitSpec extends UnitSpec {
 
 
   private val errorController = injector.getInstance(classOf[Error])
+
+  private lazy val present = {
+    val request = FakeRequest().
+      withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
+      withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+      withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+    errorController.present(ErrorPage.exceptionDigest)(request)
+  }
 }
