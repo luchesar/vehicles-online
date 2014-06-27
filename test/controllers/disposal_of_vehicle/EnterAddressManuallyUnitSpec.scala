@@ -70,9 +70,9 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
       when(config.isPrototypeBannerVisible).thenReturn(false)
-      val enterAddressManuallyErrorPrototypeNotVisible = new EnterAddressManually()
+      val enterAddressManuallyPrototypeNotVisible = new EnterAddressManually()
 
-      val result = enterAddressManuallyErrorPrototypeNotVisible.present(request)
+      val result = enterAddressManuallyPrototypeNotVisible.present(request)
       contentAsString(result) should not include """<div class="prototype">"""
     }
   }
