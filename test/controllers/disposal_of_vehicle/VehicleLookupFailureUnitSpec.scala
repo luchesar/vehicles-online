@@ -1,27 +1,22 @@
 package controllers.disposal_of_vehicle
 
+import common.ClientSideSessionFactory
 import helpers.UnitSpec
 import helpers.common.CookieHelper
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import org.mockito.Mockito._
 import pages.disposal_of_vehicle._
 import play.api.test.Helpers._
 import play.api.test.FakeRequest
 import helpers.WithApplication
 import services.fakes.FakeVehicleLookupWebService._
+import utils.helpers.Config
 import scala.Some
 import CookieHelper._
 import scala.Some
 import play.api.Play
 
 final class VehicleLookupFailureUnitSpec extends UnitSpec {
-  private lazy val present = {
-    val request = FakeRequest().
-      withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-      withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel()).
-      withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
-      withCookies(CookieFactoryForUnitSpecs.vehicleLookupResponseCode())
-    vehicleLookupFailure.present(request)
-  }
 
   "present" should {
     "display the page" in new WithApplication {
@@ -81,6 +76,17 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
     "display prototype message when config set to true" in new WithApplication {
       contentAsString(present) should include("""<div class="prototype">""")
     }
+
+    "not display prototype message when config set to false" in new WithApplication {
+      val request = FakeRequest()
+      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      implicit val config: Config = mock[Config]
+      when(config.isPrototypeBannerVisible).thenReturn(false)
+      val vehicleLookupFailurePrototypeNotVisible = new VehicleLookupFailure()
+
+      val result = vehicleLookupFailurePrototypeNotVisible.present(request)
+      contentAsString(result) should not include """<div class="prototype">"""
+    }
   }
 
   "submit" should {
@@ -105,5 +111,13 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
   
   private val vehicleLookupFailure = {
     injector.getInstance(classOf[VehicleLookupFailure])
+  }
+  private lazy val present = {
+    val request = FakeRequest().
+      withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+      withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel()).
+      withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
+      withCookies(CookieFactoryForUnitSpecs.vehicleLookupResponseCode())
+    vehicleLookupFailure.present(request)
   }
 }
