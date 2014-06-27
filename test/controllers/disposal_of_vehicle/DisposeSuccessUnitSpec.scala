@@ -2,15 +2,15 @@ package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
 import helpers.common.CookieHelper
-import mappings.common.PreventGoingToDisposePage._
-import org.mockito.Mockito._
+import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
+import org.mockito.Mockito.when
 import play.api.test.Helpers._
-import pages.disposal_of_vehicle._
+import pages.disposal_of_vehicle.{VehicleLookupPage, SetupTradeDetailsPage, BeforeYouStartPage}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
 import helpers.WithApplication
 import play.api.test.FakeRequest
-import CookieHelper._
+import CookieHelper.fetchCookiesFromHeaders
 import utils.helpers.Config
 
 final class DisposeSuccessUnitSpec extends UnitSpec {

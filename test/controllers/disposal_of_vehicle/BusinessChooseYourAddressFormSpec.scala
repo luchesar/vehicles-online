@@ -3,7 +3,11 @@ package controllers.disposal_of_vehicle
 import helpers.UnitSpec
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import services.fakes.FakeAddressLookupWebServiceImpl
-import services.fakes.FakeAddressLookupWebServiceImpl._
+import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
+import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddressNotFound
+import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
+import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound
 import common.ClientSideSessionFactory
 import utils.helpers.Config
 
