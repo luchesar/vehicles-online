@@ -2,19 +2,23 @@ package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
 import helpers.{UnitSpec, WithApplication}
-import helpers.common.CookieHelper._
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
-import pages.disposal_of_vehicle._
+import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage, UprnNotFoundPage}
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
 import services.fakes.FakeAddressLookupWebServiceImpl
-import services.fakes.FakeAddressLookupWebServiceImpl._
+import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
+import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddressNotFound
+import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
+import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound
 import utils.helpers.Config
-import org.mockito.Mockito._
+import org.mockito.Mockito.when
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
