@@ -34,7 +34,7 @@ final class DisposeFailureUnitSpec extends UnitSpec {
       val request = FakeRequest()
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
-      when(config.isPrototypeBannerVisible).thenReturn(false)
+      when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
       val disposeFailurePrototypeNotVisible = new DisposeFailure()
 
       val result = disposeFailurePrototypeNotVisible.present(request)

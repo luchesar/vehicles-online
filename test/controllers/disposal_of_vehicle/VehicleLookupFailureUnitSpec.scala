@@ -81,7 +81,7 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
       val request = FakeRequest()
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
-      when(config.isPrototypeBannerVisible).thenReturn(false)
+      when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
       val vehicleLookupFailurePrototypeNotVisible = new VehicleLookupFailure()
 
       val result = vehicleLookupFailurePrototypeNotVisible.present(request)

@@ -477,7 +477,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
-    when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible)
+    when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
     new disposal_of_vehicle.VehicleLookup(
       bruteForceService = bruteForceService,
       vehicleLookupService = vehicleLookupServiceImpl)

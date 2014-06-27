@@ -138,7 +138,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
-    when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible)
+    when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
     new BusinessChooseYourAddress(addressLookupService)
   }
 
