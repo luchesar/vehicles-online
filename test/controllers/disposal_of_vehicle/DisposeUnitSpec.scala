@@ -101,18 +101,15 @@ final class DisposeUnitSpec extends UnitSpec {
     }
 
     "not display prototype message when config set to false" in new WithApplication {
-      val config: Config = {
-        val config = mock[Config]
-        when(config.isPrototypeBannerVisible).thenReturn(false)
-        config
-      }
+      implicit val config = mock[Config]
+      when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val webService: DisposeWebService = disposeWebService()
       val disposeService = new DisposeServiceImpl(config, webService)
-      val result = disposeController(disposeWebService = webService, disposeService = disposeService)(config).present(request)
+      val result = disposeController(disposeWebService = webService, disposeService = disposeService).present(request)
       contentAsString(result) should not include """<div class="prototype">"""
     }
   }

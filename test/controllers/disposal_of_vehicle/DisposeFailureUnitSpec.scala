@@ -1,18 +1,13 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
-import helpers.common.CookieHelper
-import org.mockito.Mockito._
+import org.mockito.Mockito.when
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
 import helpers.WithApplication
-import pages.disposal_of_vehicle.DisposeFailurePage
-import CookieHelper._
 import utils.helpers.Config
-import scala.Some
-import play.api.Play
 
 final class DisposeFailureUnitSpec extends UnitSpec {
   "present" should {
@@ -34,7 +29,7 @@ final class DisposeFailureUnitSpec extends UnitSpec {
       val request = FakeRequest()
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
-      when(config.isPrototypeBannerVisible).thenReturn(false)
+      when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
       val disposeFailurePrototypeNotVisible = new DisposeFailure()
 
       val result = disposeFailurePrototypeNotVisible.present(request)

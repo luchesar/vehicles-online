@@ -1,13 +1,12 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
-import helpers.webbrowser.TestGlobal
 import helpers.{UnitSpec, WithApplication}
-import pages.disposal_of_vehicle._
+import pages.disposal_of_vehicle.SetupTradeDetailsPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import utils.helpers.Config
-import org.mockito.Mockito._
+import org.mockito.Mockito.when
 
 final class BeforeYouStartUnitSpec extends UnitSpec {
   "present" should {
@@ -30,7 +29,7 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
       val request = FakeRequest()
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
-      when(config.isPrototypeBannerVisible).thenReturn(false)
+      when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
       val beforeYouStartPrototypeNotVisible = new BeforeYouStart()
 
       val result = beforeYouStartPrototypeNotVisible.present(request)
