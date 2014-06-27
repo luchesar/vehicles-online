@@ -355,6 +355,9 @@ vrm_locked.text3.2 = 0300 790 6801
 onHandlerNotFound.title=Ni all y dudalen ar gael
 onHandlerNotFound.header=Ni all y dudalen ar gael
 onHandlerNotFound.body=Gwnewch yn siŵr eich bod wedi mynd i mewn i''r cyfeiriad gwe cywir, neu archwilio GOV.UK i ddod o hyd i''r wybodaeth rydych ei hangen.
+onHandlerNotFound.noJavascript=Os ydych yn dymuno ceisio eto dewiswch y botwm ôl ar eich porwr, os nad dewiswch "Gadael" i adael y gwasanaeth.
+onHandlerNotFound.back.button=Ceisiwch eto
+onHandlerNotFound.exit.button=Gadael
 
 error.title = Mae gwall wedi digwydd na ellir ei adennill
 error.button = Dechrau eto
