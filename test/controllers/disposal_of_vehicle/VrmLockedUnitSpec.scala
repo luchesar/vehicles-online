@@ -1,18 +1,15 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
-import helpers.common.CookieHelper
 import helpers.{WithApplication, UnitSpec}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import org.mockito.Mockito._
+import org.mockito.Mockito.when
 import services.fakes.FakeDateServiceImpl
 import play.api.test.Helpers._
 import utils.helpers.Config
 import scala.Some
-import pages.disposal_of_vehicle.{VrmLockedPage, BeforeYouStartPage, VehicleLookupPage, SetupTradeDetailsPage}
+import pages.disposal_of_vehicle.{BeforeYouStartPage, VehicleLookupPage, SetupTradeDetailsPage}
 import play.api.test.FakeRequest
-import CookieHelper._
-import play.api.Play
 
 final class VrmLockedUnitSpec extends UnitSpec {
   "present" should {
