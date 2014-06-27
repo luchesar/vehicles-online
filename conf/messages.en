@@ -356,6 +356,16 @@ disposal_progress_4 = Step 4 of 6
 disposal_progress_5 = Step 5 of 6
 disposal_progress_6 = Step 6 of 6
 
+# help
+disposal.help.title = Help
+disposal.help.p1 = This service is in Private Beta Phase
+disposal.help.p2.1 = If you require any help using it then please contact Julie Riseley on 01792 788410 or
+disposal.help.p2.2 = send an email
+disposal.help.email =  mailto:julie.riseley@dvla.gsi.gov.uk?Subject=Sell%20to%20the%20Trade%20Help
+disposal.help.exit_button = Exit
+disposal.help.back_button = Back
+
+
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = The application is being processed.
 ms.vehiclesService.response.unableToProcessApplication = We are not able to process the application at this time. Please send the V5C/3 to the following address;

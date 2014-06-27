@@ -63,6 +63,8 @@ POST        /disposal-of-vehicle/vrm-locked/exit                        @control
 GET         /disposal-of-vehicle/error/:exceptionDigest                 @controllers.disposal_of_vehicle.Error.present(exceptionDigest)
 POST        /disposal-of-vehicle/error/:exceptionDigest                 @controllers.disposal_of_vehicle.Error.submit(exceptionDigest)
 
+GET         /disposal-of-vehicle/help                                   @controllers.disposal_of_vehicle.Help.present
+
 GET         /with-language/:chosenLanguage                              controllers.common.AlternateLanguages.withLanguage(chosenLanguage: String)
 
 GET         /healthcheck                                                @controllers.common.HealthCheck.respond
