@@ -37,11 +37,9 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
   "present" should {
     "display the page" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
-      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
 
-      result.futureValue.header.status should equal(play.api.http.Status.OK)
+
+      present.futureValue.header.status should equal(play.api.http.Status.OK)
     }
 
     "redirect to setupTradeDetails page when user has not set up a trader for disposal" in new WithApplication {
@@ -82,6 +80,14 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val content = contentAsString(result)
       content should not include ReferenceNumberValid
       content should not include RegistrationNumberValid
+    }
+
+    "display progress bar" in new WithApplication {
+      contentAsString(present) should include ("Step 4 of 6")
+    }
+
+    "display prototype message when config set to true" in new WithApplication {
+      contentAsString(present) should include("""<div class="prototype">""")
     }
   }
 
@@ -450,7 +456,9 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     )
   }
 
-  private def vehicleLookupResponseGenerator(fullResponse: (Int, Option[VehicleDetailsResponse]), bruteForceService: BruteForcePreventionService = bruteForceServiceImpl(permitted = true)) = {
+  private def vehicleLookupResponseGenerator(fullResponse: (Int, Option[VehicleDetailsResponse]),
+                                             bruteForceService: BruteForcePreventionService = bruteForceServiceImpl(permitted = true),
+                                             prototypeBannerVisible: Boolean = true) = {
     val (status, vehicleDetailsResponse) = fullResponse
     val ws: VehicleLookupWebService = mock[VehicleLookupWebService]
     when(ws.callVehicleLookupService(any[VehicleDetailsRequest], any[String])).thenReturn(Future {
@@ -463,6 +471,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
+    when(config.prototypeBannerVisible).thenReturn(prototypeBannerVisible)
     new disposal_of_vehicle.VehicleLookup(
       bruteForceService = bruteForceService,
       vehicleLookupService = vehicleLookupServiceImpl)
@@ -491,5 +500,11 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       DocumentReferenceNumberId -> referenceNumber,
       VehicleRegistrationNumberId -> registrationNumber,
       ConsentId -> consent)
+  }
+
+  private lazy val present = {
+    val request = FakeRequest().
+      withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+    vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
   }
 }
