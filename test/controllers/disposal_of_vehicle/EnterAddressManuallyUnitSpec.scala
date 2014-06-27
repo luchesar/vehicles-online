@@ -21,10 +21,7 @@ import services.fakes.FakeAddressLookupService._
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = enterAddressManually.present(request)
-      whenReady(result) {
+      whenReady(present) {
         r => r.header.status should equal(OK)
       }
     }
@@ -58,6 +55,14 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       content should not include Line2Valid
       content should not include Line3Valid
       content should not include PostTownValid
+    }
+
+    "display expected progress bar" in new WithApplication {
+      contentAsString(present) should include("Step 3 of 6")
+    }
+
+    "display prototype message when config set to true" in new WithApplication {
+      contentAsString(present) should include("""<div class="prototype">""")
     }
   }
 
@@ -279,4 +284,10 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       s"$AddressAndPostcodeId.$AddressLinesId.$postTownId" -> postTown,
       s"$AddressAndPostcodeId.$PostcodeId" -> postCode).
       withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+
+  private lazy val present = {
+    val request = FakeRequest().
+      withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+    enterAddressManually.present(request)
+  }
 }
