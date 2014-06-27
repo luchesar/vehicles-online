@@ -4,7 +4,7 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import controllers.common.AlternateLanguages.withLanguage
 import helpers.{UnitSpec, WithApplication}
 import mappings.common.AlternateLanguages._
-import pages.disposal_of_vehicle._
+import pages.disposal_of_vehicle.BeforeYouStartPage
 import play.api.Play
 import play.api.test.FakeRequest
 import play.api.test.Helpers._

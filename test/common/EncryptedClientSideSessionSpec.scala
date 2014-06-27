@@ -1,7 +1,7 @@
 package common
 
 import play.api.test.FakeApplication
-import utils.helpers._
+import utils.helpers.{AesEncryption, CookieEncryption, NoEncryption, NoHashGenerator, CookieNameHashGenerator, Sha1HashGenerator}
 import helpers.webbrowser.TestGlobal
 import helpers.{UnitSpec, WithApplication}
 
