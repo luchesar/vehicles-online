@@ -3,11 +3,19 @@ package services.fakes
 import FakeDateServiceImpl._
 import models.DayMonthYear
 import services.DateService
+import org.joda.time.{Instant, DateTime}
 
 final class FakeDateServiceImpl extends DateService {
-  override def today = DayMonthYear(DateOfDisposalDayValid.toInt, DateOfDisposalMonthValid.toInt, DateOfDisposalYearValid.toInt)
 
-  override def dateTimeISOChronology: String = new org.joda.time.DateTime(
+  override def today = DayMonthYear(
+    DateOfDisposalDayValid.toInt,
+    DateOfDisposalMonthValid.toInt,
+    DateOfDisposalYearValid.toInt
+  )
+
+  override def now = Instant.now()
+
+  override def dateTimeISOChronology: String = new DateTime(
     DateOfDisposalYearValid.toInt,
     DateOfDisposalMonthValid.toInt,
     DateOfDisposalDayValid.toInt,
