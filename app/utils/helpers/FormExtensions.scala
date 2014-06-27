@@ -6,6 +6,7 @@ import play.api.data._
 import play.api.data.format.Formatter
 import play.api.data.validation.Constraints
 import scala.language.implicitConversions
+import scala.annotation.tailrec
 
 object FormExtensions {
   implicit def formBinding[T](form: Form[T]) = new RichForm[T](form)
@@ -33,7 +34,7 @@ object FormExtensions {
   }
 
   def trimmedText(minLength: Int = 0, maxLength: Int = Int.MaxValue, additionalTrimChars: Seq[Char] = Nil): Mapping[String] =
-    textWithTransform(trim(_, additionalTrimChars))(minLength, maxLength)
+    textWithTransform(trimWithAdditionalChars(_, additionalTrimChars))(minLength, maxLength)
 
   def textWithTransform(transform: String => String)(minLength: Int = 0, maxLength: Int = Int.MaxValue): Mapping[String] = {
     val formatter = of[String](transformedStringFormat(transform))
@@ -46,6 +47,9 @@ object FormExtensions {
     }
   }
 
+  def nonEmptyTextWithTransform(transform: String => String)(minLength: Int = 0, maxLength: Int = Int.MaxValue): Mapping[String] =
+    textWithTransform(transform)(minLength, maxLength) verifying Constraints.nonEmpty
+
   /**
    * The nonEmpty variant of TrimmedText applies the additional constraint that the text is empty
    */
@@ -56,7 +60,7 @@ object FormExtensions {
    * trim function that accepts additional chars to trim.
    * Code based on Scala's trim implementation (as it should be optimized)
    */
-  private def trim(value: String, trimChars: Seq[Char]): String = {
+  def trimWithAdditionalChars(value: String, trimChars: Seq[Char]): String = {
     var len: Int = value.length
     var st: Int = 0
     val `val`: Array[Char] = value.toCharArray
@@ -78,4 +82,13 @@ object FormExtensions {
     def unbind(key: String, value: String) = Map(key -> value)
   }
 
+  def trimNonWhiteListedChars(charRegEx: String)(input: String): String = {
+    // TODO This is not very efficient. Think about how to do it better
+    val whitelist = ("^(" + charRegEx + ")$").r
+    def negativeMatch = { char: Char => !whitelist.pattern.matcher(char.toString).matches }
+    input.
+      dropWhile(negativeMatch).
+      reverse.dropWhile(negativeMatch).
+      reverse
+  }
 }

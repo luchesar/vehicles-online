@@ -195,6 +195,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "submit removes commas, but still applies the min length rule" in new WithApplication {
+      utils.helpers.FormExtensions.trimNonWhiteListedChars("""[A-Za-z0-9\-]""")(",, m...,,,,   ") should equal("m")
       val result = enterAddressManually.submit(requestWithValidDefaults(
         buildingName = "m...,,,,   "  // This should be a min length of 4 chars
       ))
