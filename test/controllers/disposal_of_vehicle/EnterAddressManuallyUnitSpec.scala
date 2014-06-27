@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import common.ClientSideSessionFactory
 import helpers.common.CookieHelper
 import CookieHelper._
 import helpers.JsonUtils.deserializeJsonToModel
@@ -11,10 +12,12 @@ import mappings.common.AddressLines._
 import mappings.common.Postcode._
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import models.domain.disposal_of_vehicle.{EnterAddressManuallyModel, TraderDetailsModel}
+import org.mockito.Mockito._
 import pages.disposal_of_vehicle._
 import play.api.mvc.SimpleResult
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import utils.helpers.Config
 import scala.concurrent.Future
 import services.fakes.FakeAddressLookupService._
 
@@ -60,6 +63,17 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
 
     "display prototype message when config set to true" in new WithApplication {
       contentAsString(present) should include("""<div class="prototype">""")
+    }
+
+    "not display prototype message when config set to false" in new WithApplication {
+      val request = FakeRequest()
+      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      implicit val config: Config = mock[Config]
+      when(config.isPrototypeBannerVisible).thenReturn(false)
+      val enterAddressManuallyErrorPrototypeNotVisible = new EnterAddressManually()
+
+      val result = enterAddressManuallyErrorPrototypeNotVisible.present(request)
+      contentAsString(result) should not include """<div class="prototype">"""
     }
   }
 
