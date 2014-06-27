@@ -46,8 +46,8 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
       formWithValidDefaults(postTown = "123456").errors should have length 1
     }
 
-    "reject if post town starts with spaces" in {
-      formWithValidDefaults(postTown = " Swansea").errors should have length 1
+    "accept if post town starts with spaces" in {
+      formWithValidDefaults(postTown = " Swansea").get.addressAndPostcodeModel.addressLinesModel.postTown should equal("Swansea")
     }
 
     "reject if buildingNameOrNumber is blank" in {

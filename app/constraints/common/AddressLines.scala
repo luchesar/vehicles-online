@@ -11,10 +11,14 @@ object AddressLines {
     case input: AddressLinesModel =>
       // Regex states string must contain at least one number or letter, can also include punctuation.
       val addressLinesFormat = """^[a-zA-Z0-9][A-Za-z0-9\s\-\,\.\/\\]*$""".r
+
+      // TODO FIX THIS CODE WHICH DOESN'T DO WHAT YOU MIGHT EXPECT
+
       val addressLines = input.toViewFormat.dropRight(1).mkString
 
       // Post town cannot contain numbers, can also include punctuation.
       val postTownFormat = """^[a-zA-Z][A-Za-z\s\-\,\.\/\\]*$""".r
+
       val postTown = input.toViewFormat.last.mkString
 
       if (input.totalCharacters > MaxLengthOfLinesConcatenated)

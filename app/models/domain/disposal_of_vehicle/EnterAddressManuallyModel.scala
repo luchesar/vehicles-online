@@ -7,24 +7,25 @@ import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCac
 
 final case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcodeModel) {
   def stripCharsNotAccepted: EnterAddressManuallyModel = {
+
     @tailrec
-    def stripEndOfLine(inputLine: Option[String]): Option[String] = inputLine match {
+    def stripCharactersNotAllowed(inputLine: Option[String]): Option[String] = inputLine match {
       case Some(line) =>
         val whitelist = """^[A-Za-z0-9\s\-]*$""".r
         line.takeRight(1) match {
-          case lastChar if !whitelist.pattern.matcher(lastChar).matches => stripEndOfLine(Some(line.dropRight(1)))
+          case lastChar if !whitelist.pattern.matcher(lastChar).matches => stripCharactersNotAllowed(Some(line.dropRight(1)))
           case _ => inputLine
         }
       case _ => None
     }
 
-    val buildingNameOrNumber = stripEndOfLine(Some(addressAndPostcodeModel.addressLinesModel.buildingNameOrNumber))
+    val buildingNameOrNumber = stripCharactersNotAllowed(Some(addressAndPostcodeModel.addressLinesModel.buildingNameOrNumber))
     require(buildingNameOrNumber.isDefined, "Address buildingNameOrNumber must have content")
 
-    val line2 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line2)
-    val line3 = stripEndOfLine(addressAndPostcodeModel.addressLinesModel.line3)
+    val line2 = stripCharactersNotAllowed(addressAndPostcodeModel.addressLinesModel.line2)
+    val line3 = stripCharactersNotAllowed(addressAndPostcodeModel.addressLinesModel.line3)
     
-    val postTown = stripEndOfLine(Some(addressAndPostcodeModel.addressLinesModel.postTown))
+    val postTown = stripCharactersNotAllowed(Some(addressAndPostcodeModel.addressLinesModel.postTown))
     require(postTown.isDefined, "Address postTown must have content")
 
     copy(addressAndPostcodeModel = addressAndPostcodeModel.copy(addressLinesModel = AddressLinesModel(buildingNameOrNumber.get, line2, line3, postTown.get)))
