@@ -1,6 +1,7 @@
 @(title: String)(content: Html)(implicit lang: Lang)
     
 @import views.html.common.{alternateLanguages, feedback}
+@import mappings.common.Help.HelpId
 
 <!DOCTYPE html>
     <head>
@@ -10,6 +11,7 @@
 
     <body>
         <div id="wrapper content" class="group">
+            <a id="@HelpId" href="@controllers.common.routes.Help.present()">@{Messages("main.banner.help")}</a>
             @feedback()
             @alternateLanguages()
             @content

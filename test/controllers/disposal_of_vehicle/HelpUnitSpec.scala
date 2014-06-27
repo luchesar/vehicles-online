@@ -1,6 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
+import controllers.common.Help
 import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito.when
 import play.api.test.FakeRequest

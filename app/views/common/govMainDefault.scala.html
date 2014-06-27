@@ -1,6 +1,7 @@
 @(title: String)(content: Html)(implicit lang: Lang)
 
 @import views.html.common.{alternateLanguages, feedback}
+@import mappings.common.Help.HelpId
 
 <!DOCTYPE html>
     <!--[if IE 6]>         <html class="ie ie6" lang="en"> <![endif]-->
@@ -43,7 +44,7 @@
                     <div class="header-phase">
                     	<h1 class="page-title beta"><strong>@{Messages("main.banner")}</strong> <span aria-hidden="true">beta</span></h1>
                     	<h2>
-                            <a href="@controllers.disposal_of_vehicle.routes.Help.present()">@{Messages("main.banner.help")}</a>
+                            <a id="@HelpId" href="@controllers.common.routes.Help.present()">@{Messages("main.banner.help")}</a>
                             @feedback()
                             @alternateLanguages()
                         </h2>
