@@ -17,7 +17,7 @@ title = Messages("disposal.help.title")
     @CsrfHelper.hiddenFormField
     @* Note the reverse routing syntax for the hyperlink *@
 
-    <input type="button" id="@BackId" value=@Messages("disposal.help.back_button") onclick="window.history.go(-1)" class="button"/>
+    <input type="button" id="@BackId" value=@Messages("disposal.help.back_button") onclick="window.history.go(-1)" class="button js-only"/>
     <a id="@ExitId" href="@controllers.disposal_of_vehicle.routes.BeforeYouStart.present()" class="button-secondary">@Messages("disposal.help.exit_button")</a>
 </div>
 }
