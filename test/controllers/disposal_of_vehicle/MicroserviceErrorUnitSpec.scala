@@ -13,10 +13,17 @@ import play.api.Play
 final class MicroserviceErrorUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      val result = microServiceError.present(FakeRequest())
-      status(result) should equal(OK)
+      status(present) should equal(OK)
+    }
+
+    "display prototype message when config set to true" in new WithApplication {
+      contentAsString(present) should include("""<div class="prototype">""")
     }
   }
 
   private val microServiceError = injector.getInstance(classOf[MicroServiceError])
+
+  private lazy val present = {
+    microServiceError.present(FakeRequest())
+  }
 }

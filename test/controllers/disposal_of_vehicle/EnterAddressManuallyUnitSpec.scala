@@ -47,10 +47,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "display empty fields when cookie does not exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = enterAddressManually.present(request)
-      val content = contentAsString(result)
+      val content = contentAsString(present)
       content should not include BuildingNameOrNumberValid
       content should not include Line2Valid
       content should not include Line3Valid
@@ -250,7 +247,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     injector.getInstance(classOf[EnterAddressManually])
   }
 
-  val traderDetailsCookieName = "traderDetails"
+  private val traderDetailsCookieName = "traderDetails"
 
   private def validateAddressCookieValues(result: Future[SimpleResult], buildingName: String, line2: String, line3: String, postTown: String, postCode: String = PostcodeValid) = {
 
