@@ -24,10 +24,12 @@ object AddressLines {
   final val Line3Index = 2
   final val emptyLine = ""
 
+  private def fieldTransform(s: String) = trimNonWhiteListedChars("""[A-Za-z0-9]""")(s.toUpperCase)
+
   def addressLines: Mapping[AddressLinesModel] = mapping(
-    BuildingNameOrNumberId -> nonEmptyTrimmedText(minLength = BuildingNameOrNumberMinLength, maxLength = LineMaxLength),
-    Line2Id -> optional(trimmedText(maxLength = LineMaxLength)),
-    Line3Id -> optional(trimmedText(maxLength = LineMaxLength)),
-    postTownId -> nonEmptyTrimmedText(minLength = PostTownMinLength, maxLength = LineMaxLength)
+    BuildingNameOrNumberId -> nonEmptyTextWithTransform(fieldTransform)(minLength = BuildingNameOrNumberMinLength, maxLength = LineMaxLength),
+    Line2Id -> optional(textWithTransform(fieldTransform)(maxLength = LineMaxLength)),
+    Line3Id -> optional(textWithTransform(fieldTransform)(maxLength = LineMaxLength)),
+    postTownId -> nonEmptyTextWithTransform(fieldTransform)(minLength = PostTownMinLength, maxLength = LineMaxLength)
   )(AddressLinesModel.apply)(AddressLinesModel.unapply)
 }

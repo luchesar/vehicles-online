@@ -134,7 +134,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to Dispose after a valid submission of mandatory fields only" in new WithApplication {
+    "redirect to Dispose after a valid submission of mandatory fields" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$postTownId" -> PostTownValid,
@@ -192,6 +192,16 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         line3 = "ST. JOHNS",
         postTown = "MY T.OWN"
       )
+    }
+
+    "submit removes commas, but still applies the min length rule" in new WithApplication {
+      utils.helpers.FormExtensions.trimNonWhiteListedChars("""[A-Za-z0-9\-]""")(",, m...,,,,   ") should equal("m")
+      val result = enterAddressManually.submit(requestWithValidDefaults(
+        buildingName = "m...,,,,   "  // This should be a min length of 4 chars
+      ))
+      whenReady(result) {
+        r => r.header.status should equal(BAD_REQUEST)
+      }
     }
 
     "submit does not accept an address containing only full stops" in new WithApplication {

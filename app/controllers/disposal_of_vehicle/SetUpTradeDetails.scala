@@ -34,7 +34,7 @@ final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: Cli
           distinctErrors
         BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors))
       },
-      validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(SetupTradeDetailsModel.convertToUpperCase(validForm))
+      validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(validForm)
     )
   }
 }

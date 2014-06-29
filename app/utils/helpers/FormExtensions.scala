@@ -1,14 +1,12 @@
 package utils.helpers
 
 import constraints.common.Required.RequiredField
-import play.api.data.{Mapping, Form, FormError}
-
-import scala.language.implicitConversions
-import play.api.data.format.Formatter
 import play.api.data.Forms._
-import play.api.data.FormError
-import scala.Some
+import play.api.data._
+import play.api.data.format.Formatter
 import play.api.data.validation.Constraints
+import scala.language.implicitConversions
+import scala.annotation.tailrec
 
 object FormExtensions {
   implicit def formBinding[T](form: Form[T]) = new RichForm[T](form)
@@ -35,20 +33,26 @@ object FormExtensions {
       form.mapping.mappings.exists(m => m.constraints.exists(c => c.name == Some(RequiredField)))
   }
 
-  def trimmedText(minLength: Int = 0, maxLength: Int = Int.MaxValue, additionalTrimChars: Seq[Char] = Nil): Mapping[String] = {
-    val formatter = of[String](trimmedStringFormat(additionalTrimChars))
+  def trimmedText(minLength: Int = 0, maxLength: Int = Int.MaxValue, additionalTrimChars: Seq[Char] = Nil): Mapping[String] =
+    textWithTransform(trimWithAdditionalChars(_, additionalTrimChars))(minLength, maxLength)
+
+  def textWithTransform(transform: String => String)(minLength: Int = 0, maxLength: Int = Int.MaxValue): Mapping[String] = {
+    val formatter = of[String](transformedStringFormat(transform))
 
     (minLength, maxLength) match {
       case (0, Int.MaxValue) => formatter
       case (min, Int.MaxValue) => formatter verifying Constraints.minLength(min)
-      case (0, max) => {println("yeah"); formatter verifying Constraints.maxLength(max)}
-      case (min, max) => formatter verifying (Constraints.minLength(min), Constraints.maxLength(max))
+      case (0, max) => formatter verifying Constraints.maxLength(max)
+      case (min, max) => formatter verifying(Constraints.minLength(min), Constraints.maxLength(max))
     }
   }
 
+  def nonEmptyTextWithTransform(transform: String => String)(minLength: Int = 0, maxLength: Int = Int.MaxValue): Mapping[String] =
+    textWithTransform(transform)(minLength, maxLength) verifying Constraints.nonEmpty
+
   /**
-    * The nonEmpty variant of TrimmedText applies the additional constraint that the text is empty
-    */
+   * The nonEmpty variant of TrimmedText applies the additional constraint that the text is empty
+   */
   def nonEmptyTrimmedText(minLength: Int = 0, maxLength: Int = Int.MaxValue, additionalTrimChars: Seq[Char] = Nil): Mapping[String] =
     trimmedText(minLength, maxLength, additionalTrimChars) verifying Constraints.nonEmpty
 
@@ -56,7 +60,7 @@ object FormExtensions {
    * trim function that accepts additional chars to trim.
    * Code based on Scala's trim implementation (as it should be optimized)
    */
-  private def trim(value: String, trimChars: Seq[Char]): String = {
+  def trimWithAdditionalChars(value: String, trimChars: Seq[Char]): String = {
     var len: Int = value.length
     var st: Int = 0
     val `val`: Array[Char] = value.toCharArray
@@ -69,14 +73,22 @@ object FormExtensions {
     return if (((st > 0) || (len < value.length))) value.substring(st, len) else value
   }
 
-  private def trimmedStringFormat(trimChars: Seq[Char]): Formatter[String] = new Formatter[String] {
+  private def transformedStringFormat(transform: String => String): Formatter[String] = new Formatter[String] {
     def bind(key: String, data: Map[String, String]) = {
-      val value = data.get(key).map(trim(_, trimChars))
+      val value = data.get(key).map(transform(_))
       value.toRight(Seq(FormError(key, "error.required", Nil)))
     }
 
     def unbind(key: String, value: String) = Map(key -> value)
   }
 
-
+  def trimNonWhiteListedChars(charRegEx: String)(input: String): String = {
+    // TODO This is not very efficient. Think about how to do it better
+    val whitelist = ("^(" + charRegEx + ")$").r
+    def negativeMatch = { char: Char => !whitelist.pattern.matcher(char.toString).matches }
+    input.
+      dropWhile(negativeMatch).
+      reverse.dropWhile(negativeMatch).
+      reverse
+  }
 }
