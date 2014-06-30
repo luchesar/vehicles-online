@@ -194,7 +194,28 @@
 		}
 	}
 
-	// styles form elements in a line
+	//stacked address
+	.form-address-stack {
+		label {
+			@include sr-only;
+		}
+		.form-item {
+			margin:0 0 10px 0;
+			padding: {
+				top:0;
+			}
+			display: inline-block;
+			margin: {
+				right:5px;
+				bottom:0;
+			}
+		}
+	}
+
+
+
+
+	//form elements in a line
 	.form-inline {
    	.form-item {
    		display: inline-block;
