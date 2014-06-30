@@ -68,24 +68,6 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       csrf.getAttribute("name") should equal(services.csrf_prevention.CSRFPreventionAction.csrfPreventionTokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
-
-    "display the 'Cymraeg' language button and not the 'English' language button when the language cookie is set to 'en'" taggedAs UiTag ignore new WebBrowser {
-      go to BeforeYouStartPage // By default will load in English.
-      CookieFactoryForUISpecs.withLanguageEn()
-      go to BusinessChooseYourAddressPage
-
-      hasCymraeg should equal(true)
-      hasEnglish should equal(false)
-    }
-
-    "display the 'English' language button and not the 'Cymraeg' language button when the language cookie is set to 'cy'" taggedAs UiTag ignore new WebBrowser {
-      go to BeforeYouStartPage // By default will load in English.
-      CookieFactoryForUISpecs.withLanguageCy()
-      go to BusinessChooseYourAddressPage
-
-      hasCymraeg should equal(false)
-      hasEnglish should equal(true)
-    }
   }
 
   "manualAddress button" should {
