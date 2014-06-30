@@ -35,4 +35,7 @@ class Config {
   // Prototype survey URL
   val prototypeSurveyUrl: String = getProperty("survey.url", "")
   val prototypeSurveyPrepositionInterval: Long = getDurationProperty("survey.interval", 7.days.toMillis)
+
+  // Google analytics
+  val googleAnalyticsEnabled: Boolean = getProperty("googleAnalytics.enabled", default = true)
 }
