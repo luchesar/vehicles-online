@@ -195,7 +195,7 @@ traderName = Trader name
 traderPostcode = Postcode
 
 #page 3
-disposal_businessChooseYourAddress_title = Select your trade address
+disposal_businessChooseYourAddress_title = Select your Trader address
 disposal_businessChooseYourAddress_legend = Set up trade details
 disposal_businessChooseYourAddress_businessName_label = Trader name
 disposal_businessChooseYourAddress_businessName = {0}
@@ -207,7 +207,7 @@ disposal_businessChooseYourAddress.backbutton = Back
 disposal_businessChooseYourAddress.submitbutton = Next
 disposal_businessChooseYourAddress.manualAddressEntry = My address is not in the list
 error.dropDownInvalid = Please select a value from the drop down list.
-disposal_businessChooseYourAddress_noaddressesfound = No addresses found for that postcode. Click the back button to enter a different postcode or click the link below to enter an address manually
+disposal_businessChooseYourAddress_noaddressesfound = No addresses found for that postcode. Click the link below to enter an address manually
 
 #page 3 - manual address entry
 disposal_enteraddressmanually.title = Enter address
@@ -229,7 +229,7 @@ error.address.characterInvalid = Address contains invalid characters
 error.postTown.characterInvalid = Post town contains invalid characters
 
 #page 3 - uprn not found
-disposal_uprnnotfound.title = Error confirming postcode
+disposal_uprnnotfound.title = Error confirming post code
 disposal_uprnnotfound.p1 = An error has occurred validating your postcode. Please re-enter or enter your details manually
 disposal_uprnnotfound.manualaddressbutton = Set-up trade details
 disposal_uprnnotfound.setuptradedetailsbutton = Manually enter address
@@ -245,7 +245,7 @@ disposal_vehiclelookup.warning.p1 = Do not dispose of a vehicle with a personal 
 disposal_vehiclelookup.warning.p2 = Retain or transfer personal registrations before disposing to the trade.
 disposal_vehiclelookup.img.h2 = V5C document reference number
 disposal_vehiclelookup.img.alt = V5C document reference number
-disposal_vehiclelookup.refnumlabel = Latest V5C document reference number
+disposal_vehiclelookup.refnumlabel = Latest V5C Document Reference Number
 disposal_vehiclelookup.vrninputlabel = Vehicle registration mark
 disposal_vehiclelookup.backbutton = Back
 disposal_vehiclelookup.button = Next
@@ -297,7 +297,8 @@ disposal_disposeconfirmation.vehiclemake = Make
 disposal_disposeconfirmation.vehiclemodel = Model
 disposal_disposeconfirmation.vehiclekeeper = Keeper
 disposal_disposeconfirmation.disposedto = Sold to
-disposal_disposeconfirmation.exkeeper = A letter will be sent to the name and address on the V5C within 4 weeks. If they do not receive a letter in this time they must contact DVLA Customer Enquiries on 0300 790 6802 as they could still be liable for this vehicle. Please print this page and pass to the customer.
+disposal_disposeconfirmation.exkeeper = A letter will be sent to the name and address on the V5C within 4 weeks. If they do not receive a letter in this time they must contact DVLA Customer Enquiries on 0300 790 6802 as they could still be liable for this vehicle. 
+disposal_disposeconfirmation.exkeeper-p2 = Please print this page and pass to the customer.
 disposal_disposeconfirmation.sendbutton = Send
 disposal_disposeconfirmation.transactionid = {0}
 disposal_disposeconfirmation.transactionid_label = Transaction id
@@ -309,7 +310,7 @@ disposal_disposeconfirmation.newdisposalbutton = Sell another vehicle
 disposal_disposeconfirmation.disposaldate = Date of sale
 disposal_disposeconfirmation.mileage = Mileage
 disposal_disposeconfirmation.noMileageEntered = No mileage entered
-disposal_disposeconfirmation.exitbutton = Exit
+disposal_disposeconfirmation.exitbutton = Finish
 disposal_disposeconfirmation.survey = 
 
 #page 7 - dispose failure
@@ -358,7 +359,8 @@ disposal_progress_6 = Step 6 of 6
 
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = The application is being processed.
-ms.vehiclesService.response.unableToProcessApplication = We are not able to process the application at this time. Please send the V5C/3 to the following address;
+ms.vehiclesService.response.unableToProcessApplication-title = Transaction Unsuccessful
+ms.vehiclesService.response.unableToProcessApplication = We are unable to process the transaction at this time. Please send the V5C/3 to the following address;
 ms.vehiclesService.response.unableToProcessApplication-address = DVLA, Longview Road, Morriston, Swansea, SA6 7JL
 
 #micro-service error page
