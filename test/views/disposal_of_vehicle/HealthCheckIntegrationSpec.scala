@@ -8,7 +8,7 @@ import play.mvc.Http.Status
 
 class HealthCheckIntegrationSpec extends UiSpec with TestHarness {
   "Accessing the /healthcheck url" should {
-    "return 200 for GET and PUT" in new WebBrowser {
+    "return 200 for GET and POST" in new WebBrowser {
       var httpResponse = execute(new HttpGet(WebDriverFactory.testUrl + "/healthcheck"))
       try httpResponse.getStatusLine.getStatusCode should be(Status.OK)
       finally httpResponse.close()
