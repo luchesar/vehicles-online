@@ -1,7 +1,7 @@
 package pages.common
 
 import helpers.webbrowser.{Element, WebBrowserDSL}
-import mappings.common.Help._
+import mappings.common.Help.HelpId
 import org.openqa.selenium.WebDriver
 
 object HelpPanel extends WebBrowserDSL {

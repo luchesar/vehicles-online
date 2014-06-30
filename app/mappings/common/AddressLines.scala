@@ -10,7 +10,7 @@ object AddressLines {
   final val BuildingNameOrNumberId = "buildingNameOrNumber"
   final val Line2Id = "line2"
   final val Line3Id = "line3"
-  final val postTownId = "postTown"
+  final val PostTownId = "postTown"
   final val BuildingNameOrNumberMinLength = 4
   final val PostTownMinLength = 3
   final val LineMaxLength = 30
@@ -30,6 +30,6 @@ object AddressLines {
     BuildingNameOrNumberId -> nonEmptyTextWithTransform(fieldTransform)(minLength = BuildingNameOrNumberMinLength, maxLength = LineMaxLength),
     Line2Id -> optional(textWithTransform(fieldTransform)(maxLength = LineMaxLength)),
     Line3Id -> optional(textWithTransform(fieldTransform)(maxLength = LineMaxLength)),
-    postTownId -> nonEmptyTextWithTransform(fieldTransform)(minLength = PostTownMinLength, maxLength = LineMaxLength)
+    PostTownId -> nonEmptyTextWithTransform(fieldTransform)(minLength = PostTownMinLength, maxLength = LineMaxLength)
   )(AddressLinesModel.apply)(AddressLinesModel.unapply)
 }

@@ -8,7 +8,7 @@ import helpers.UnitSpec
 import helpers.WithApplication
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.common.AddressAndPostcode.AddressAndPostcodeId
-import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, postTownId, Line2Id, Line3Id}
+import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, PostTownId, Line2Id, Line3Id}
 import mappings.common.Postcode.PostcodeId
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import models.domain.disposal_of_vehicle.{EnterAddressManuallyModel, TraderDetailsModel}
@@ -137,7 +137,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     "redirect to Dispose after a valid submission of mandatory fields" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
-        s"$AddressAndPostcodeId.$AddressLinesId.$postTownId" -> PostTownValid,
+        s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> PostTownValid,
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually.submit(request)
@@ -219,7 +219,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> Line2Valid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> Line3Valid,
-        s"$AddressAndPostcodeId.$AddressLinesId.$postTownId" -> PostTownValid,
+        s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> PostTownValid,
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid)
       val result = enterAddressManually.submit(request)
       whenReady(result) {
@@ -247,7 +247,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     "collapse error messages for buildingNameOrNumber" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> "",
-        s"$AddressAndPostcodeId.$AddressLinesId.$postTownId" -> PostTownValid,
+        s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> PostTownValid,
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually.submit(request)
@@ -258,7 +258,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     "collapse error messages for post town" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
-        s"$AddressAndPostcodeId.$AddressLinesId.$postTownId" -> "",
+        s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> "",
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually.submit(request)
@@ -302,7 +302,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> buildingName,
       s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> line2,
       s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> line3,
-      s"$AddressAndPostcodeId.$AddressLinesId.$postTownId" -> postTown,
+      s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> postTown,
       s"$AddressAndPostcodeId.$PostcodeId" -> postCode).
       withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
 
