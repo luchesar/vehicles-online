@@ -9,7 +9,6 @@ import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeViewModel, Tr
 import play.api.mvc._
 import services.DateService
 import common.CookieImplicits._
-import scala.concurrent.duration._
 import utils.helpers.Config
 
 final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -57,7 +56,7 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
 
   def survey = Action { implicit request =>
     Redirect(Call("GET", config.prototypeSurveyUrl)).
-      withCookie(SurveyRequestTriggerDateCookieKey, dateService.now.getMillis.toString)
+      withCookie(SurveyRequestTriggerDateCacheKey, dateService.now.getMillis.toString)
   }
 
   private def createViewModel(traderDetails: TraderDetailsModel,
@@ -78,9 +77,9 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
       Some(config.prototypeSurveyUrl.trim)
     else None
 
-    request.cookies.getString(SurveyRequestTriggerDateCookieKey) match {
+    request.cookies.getString(SurveyRequestTriggerDateCacheKey) match {
       case Some(lastSurveyMillis) =>
-        if ((lastSurveyMillis.toLong + 7.days.toMillis) < dateService.now.getMillis) url
+        if ((lastSurveyMillis.toLong + config.prototypeSurveyPrepositionInterval) < dateService.now.getMillis) url
         else None
       case None => url
     }

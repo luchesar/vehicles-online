@@ -310,7 +310,7 @@ disposal_disposeconfirmation.disposaldate = Date of sale
 disposal_disposeconfirmation.mileage = Mileage
 disposal_disposeconfirmation.noMileageEntered = No mileage entered
 disposal_disposeconfirmation.exitbutton = Exit
-disposal_disposeconfirmation.survey = 
+disposal_disposeconfirmation.survey = Take a survey
 
 #page 7 - dispose failure
 disposal_disposefailure.title = Sell a vehicle into the motor trade: failure

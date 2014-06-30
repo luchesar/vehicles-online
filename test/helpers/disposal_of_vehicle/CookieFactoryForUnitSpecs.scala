@@ -186,5 +186,5 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
   }
 
   def disposeSurveyUrl(surveyUrl: String) =
-    createCookie(SurveyRequestTriggerDateCookieKey, surveyUrl)
+    createCookie(SurveyRequestTriggerDateCacheKey, surveyUrl)
 }

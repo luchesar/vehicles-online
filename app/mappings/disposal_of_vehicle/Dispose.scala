@@ -15,5 +15,5 @@ object Dispose {
   final val TodaysDateOfDisposal = "todaysDateOfDisposal"
   final val BackId = "back"
   final val SubmitId = "submit"
-  final val SurveyRequestTriggerDateCookieKey = "surveyRequestTriggerDateCookie"
+  final val SurveyRequestTriggerDateCacheKey = "surveyRequestTriggerDate"
 }

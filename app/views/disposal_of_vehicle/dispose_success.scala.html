@@ -79,17 +79,16 @@
                 <div class="step" hint="@url">
                     @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.survey()) {
                     @CsrfHelper.hiddenFormField
-                    <button id="@DisposalSurveyId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.exitbutton")</button>
+                    <button id="@DisposalSurveyId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.survey")</button>
                     }
                 </div>
                 }
 
                 <br />
 
-                @{/* US154 Remove survey link,
-                TODO URL tbc, but this will be coming back in a future user story.
+                @surveyUrl.map { url =>
                 <a href="#" class="button-text">@Messages("disposal_disposeconfirmation.survey")</a>
-                */}
+                }
             </div>
         </div>
     </div>

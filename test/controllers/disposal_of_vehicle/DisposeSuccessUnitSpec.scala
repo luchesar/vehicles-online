@@ -3,6 +3,7 @@ package controllers.disposal_of_vehicle
 import com.tzavellas.sse.guice.ScalaModule
 import common.ClientSideSessionFactory
 import helpers.common.CookieHelper
+import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import org.joda.time.Instant
 import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
 import org.mockito.Mockito.when
@@ -20,6 +21,7 @@ import scala.concurrent.duration._
 
 final class DisposeSuccessUnitSpec extends UnitSpec {
   implicit val dateService = new DateServiceImpl
+  val testDuration = 7.days.toMillis
 
   "present" should {
     "display the page" in new WithApplication {
@@ -115,64 +117,52 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "offer the survey on first successful dispose" in new WithApplication {
-      implicit val config = mock[Config]
-      val surveyUrl = "http://test/survey/url"
-      when(config.prototypeSurveyUrl).thenReturn(surveyUrl)
+      implicit val config = mockSurveyConfig()
 
       val disposeSuccess = disposeWithMockConfig(config)
 
-      contentAsString(disposeSuccess.present(requestFullyPopulated)) should include(surveyUrl)
+      contentAsString(disposeSuccess.present(requestFullyPopulated)) should include(config.prototypeSurveyUrl)
     }
 
     "not offer the survey for one just after the initial survey offering" in new WithApplication {
-      implicit val config: Config = mock[Config]
-      val surveyUrl = "http://test/survey/url"
-      when(config.prototypeSurveyUrl).thenReturn(surveyUrl)
+      implicit val config = mockSurveyConfig()
 
       val aMomentAgo = (Instant.now.getMillis - 100).toString
 
       val disposeSuccess = disposeWithMockConfig(config)
       contentAsString(disposeSuccess.present(
         requestFullyPopulated.withCookies(CookieFactoryForUnitSpecs.disposeSurveyUrl(aMomentAgo))
-      )) should not include surveyUrl
+      )) should not include config.prototypeSurveyUrl
     }
 
     "offer the survey one week after the first offering" in new WithApplication {
-      implicit val config: Config = mock[Config]
-      val surveyUrl = "http://test/survey/url"
-      when(config.prototypeSurveyUrl).thenReturn(surveyUrl)
+      implicit val config = mockSurveyConfig()
 
-      val moreThen7daysAgo = (Instant.now.getMillis - 7.days.toMillis - 1.minute.toMillis).toString
+      val moreThen7daysAgo = (Instant.now.getMillis - config.prototypeSurveyPrepositionInterval - 1.minute.toMillis).toString
 
       val disposeSuccess = disposeWithMockConfig(config)
       contentAsString(disposeSuccess.present(
         requestFullyPopulated.withCookies(CookieFactoryForUnitSpecs.disposeSurveyUrl(moreThen7daysAgo))
-      )) should include(surveyUrl)
+      )) should include(config.prototypeSurveyUrl)
     }
 
     "not offer the survey one week after the first offering" in new WithApplication {
-      implicit val config: Config = mock[Config]
-      val surveyUrl = "http://test/survey/url"
-      when(config.prototypeSurveyUrl).thenReturn(surveyUrl)
+      implicit val config = mockSurveyConfig()
 
-      val lessThen7daysАgo = (Instant.now.getMillis - 7.days.toMillis + 1.minute.toMillis).toString
+      val lessThen7daysАgo = (Instant.now.getMillis - config.prototypeSurveyPrepositionInterval + 1.minute.toMillis).toString
 
       val disposeSuccess = disposeWithMockConfig(config)
       contentAsString(disposeSuccess.present(
         requestFullyPopulated.withCookies(CookieFactoryForUnitSpecs.disposeSurveyUrl(lessThen7daysАgo))
-      )) should not include surveyUrl
+      )) should not include config.prototypeSurveyUrl
     }
 
     "not offer the survey if the survey url is not set in the config" in new WithApplication {
       implicit val config: Config = mock[Config]
       when(config.prototypeSurveyUrl).thenReturn("")
+      when(config.prototypeSurveyPrepositionInterval).thenReturn(testDuration)
       contentAsString(present) should not include "survey"
     }
-
-    def disposeWithMockConfig(config: Config): DisposeSuccess =
-      testInjector(new ScalaModule() {
-        override def configure(): Unit = bind[Config].toInstance(config)
-      }).getInstance(classOf[DisposeSuccess])
   }
 
   "newDisposal" should {
@@ -276,6 +266,25 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     }
   }
 
+  "survey" should {
+    "set the surveyRequestTriggerDate to the current date" in new WithApplication {
+      val result = disposeWithMockConfig(mockSurveyConfig("http://www.google.com")).survey(requestFullyPopulated)
+      whenReady(result) {r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        val surveyTime = cookies.find(_.name == SurveyRequestTriggerDateCacheKey).get.value.toLong
+        surveyTime should be <= System.currentTimeMillis()
+        surveyTime should be > System.currentTimeMillis() - 1000
+      }
+    }
+
+    "redirect to the prototype survey url" in new WithApplication {
+      val result = disposeWithMockConfig(mockSurveyConfig("http://www.google.com")).survey(requestFullyPopulated)
+      whenReady(result) {r =>
+        r.header.headers.get(LOCATION) should equal(Some("http://www.google.com"))
+      }
+    }
+  }
+
   private val disposeSuccess = injector.getInstance(classOf[DisposeSuccess])
   private val requestFullyPopulated = FakeRequest().
     withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
@@ -286,4 +295,17 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
     withCookies(CookieFactoryForUnitSpecs.disposeModel())
   private lazy val present = disposeSuccess.present(requestFullyPopulated)
+
+  def disposeWithMockConfig(config: Config): DisposeSuccess =
+    testInjector(new ScalaModule() {
+      override def configure(): Unit = bind[Config].toInstance(config)
+    }).getInstance(classOf[DisposeSuccess])
+
+  def mockSurveyConfig(url: String = "http://test/survery/url"): Config = {
+    val config = mock[Config]
+    val surveyUrl = url
+    when(config.prototypeSurveyUrl).thenReturn(surveyUrl)
+    when(config.prototypeSurveyPrepositionInterval).thenReturn(testDuration)
+    config
+  }
 }
