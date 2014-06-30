@@ -7,4 +7,5 @@ trait TestComposition extends Composition {
   override lazy val injector: Injector = Guice.createInjector(new TestModule())
 
   def testModule(module: Module*) = Modules.`override`(new TestModule()).`with`(module: _*)
+  def testInjector(module: Module*) = Guice.createInjector(testModule(module: _*))
 }

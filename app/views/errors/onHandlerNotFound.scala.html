@@ -5,10 +5,9 @@
 
 @govMainDefault(Messages("onHandlerNotFound.title")) {
     <div class="vehicles-online">
-
         @protoType()
 
-        <section class="section-content">
+        <div class="section-content">
             <h1>@Messages("onHandlerNotFound.header")</h1>
             <p>@Messages("onHandlerNotFound.body")</p>
             <p class="no-js-only">@Messages("onHandlerNotFound.noJavascript")</p>
@@ -17,8 +16,7 @@
                 <a id="@TryAgainId" href="javascript:history.back()" class="button js-only">@Messages("onHandlerNotFound.back.button")</a>
 
                 <a id="@ExitId" href="@controllers.disposal_of_vehicle.routes.BeforeYouStart.present()" class="button-secondary">@Messages("onHandlerNotFound.exit.button")</a>
-
             </div>
-        </section>
+        </div>
     </div>
 }

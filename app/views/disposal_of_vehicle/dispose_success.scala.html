@@ -1,9 +1,12 @@
 @(data: models.domain.disposal_of_vehicle.DisposeViewModel,
-        formModel: models.domain.disposal_of_vehicle.DisposeFormModel)(implicit lang: Lang,
-        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
-        config: utils.helpers.Config)
+  formModel: models.domain.disposal_of_vehicle.DisposeFormModel,
+  surveyUrl: Option[String]
+)(implicit lang: Lang,
+  token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+  config: utils.helpers.Config
+)
 
-@import mappings.disposal_of_vehicle.DisposeSuccess.{ExitDisposalId, NewDisposalId}
+@import mappings.disposal_of_vehicle.DisposeSuccess.{ExitDisposalId, NewDisposalId, DisposalSurveyId}
 @import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
 @import views.html.helper.form
@@ -72,12 +75,20 @@
                     <button id="printDisposalSuccess" type="button" name="action" value="printDisposalSuccess" class="button js-only print-button">@Messages("global.buttonnavprint")</button>
                 </div>
 
+                @surveyUrl.map { url =>
+                <div class="step" hint="@url">
+                    @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.survey()) {
+                    @CsrfHelper.hiddenFormField
+                    <button id="@DisposalSurveyId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.survey")</button>
+                    }
+                </div>
+                }
+
                 <br />
 
-                @{/* US154 Remove survey link,
-                TODO URL tbc, but this will be coming back in a future user story.
+                @surveyUrl.map { url =>
                 <a href="#" class="button-text">@Messages("disposal_disposeconfirmation.survey")</a>
-                */}
+                }
             </div>
         </div>
     </div>

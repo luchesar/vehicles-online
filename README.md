@@ -26,14 +26,6 @@ separate projects:
 These services are mocked for automated testing, but must be running locally for manual testing/development of dependant
 components within the presentation layer.
 
-### Secrets
-
-All static private keys are held in the `secret-repository` project.
-
-These keys are stored as encrypted config files allowing them to be checked into source control.
-
-Some projects require unencrypted versions of these config files to run; the decryption process is described later.
-
 Development environment
 -----------------------
 
@@ -43,8 +35,7 @@ Development environment
     -   `vehicles-dispose-fulfil`
     -   `vehicles-lookup`
     -   `secret-repository`
-    -   `locate-api-master`
-    -   `ordnance-survey`
+    -   `os-address-lookup`
 
 2.  JDK 1.7 must be installed
 
@@ -64,7 +55,7 @@ Development environment
 
 6.  Decrypt secret keys:
 
-        cd vehicles-online
+        cd secret-repository
         ./setup XYZ
 
     *where `XYZ` is an offline secret key obtained through a trusted team member*

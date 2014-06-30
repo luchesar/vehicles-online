@@ -184,4 +184,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
     val value = origin
     createCookie(key, value)
   }
+
+  def disposeSurveyUrl(surveyUrl: String) =
+    createCookie(SurveyRequestTriggerDateCacheKey, surveyUrl)
 }
