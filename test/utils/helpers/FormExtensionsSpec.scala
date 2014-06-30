@@ -65,6 +65,7 @@ final class FormExtensionsSpec extends UnitSpec {
 
   "trimmed text mapping" should {
     import utils.helpers.FormExtensions.trimmedText
+
     "remove leading and trailing spaces, carriage returns and line feeds by default" in {
       val form = Form(
         "value" -> trimmedText()
@@ -73,16 +74,16 @@ final class FormExtensionsSpec extends UnitSpec {
       form.hasErrors should equal(false)
       form.get should equal("foo")
     }
+
     "not remove commas by default" in {
       val form = Form(
         "value" -> trimmedText()
       ).bind(Map("value" -> ",foo,"))
 
-      var fo = ""
-      fo.trim
       form.hasErrors should equal(false)
       form.get should equal(",foo,")
     }
+
     "trim characters provided as additional arguments" in {
       val form = Form(
         "value" -> trimmedText(additionalTrimChars = Seq(','))
@@ -91,6 +92,7 @@ final class FormExtensionsSpec extends UnitSpec {
       form.hasErrors should equal(false)
       form.get should equal("foo")
     }
+
     "exclude trimmed characters from the min length" in {
       val validForm = Form(
         "value" -> trimmedText(minLength = 3)
@@ -104,6 +106,7 @@ final class FormExtensionsSpec extends UnitSpec {
 
       invalidForm.errors.length should equal(1)
     }
+
     "exclude trimmed characters from the max length" in {
       val validForm = Form(
         "value" -> trimmedText(maxLength = 3)
@@ -116,6 +119,27 @@ final class FormExtensionsSpec extends UnitSpec {
       ).bind(Map("value" -> "  foob   "))
 
       invalidForm.errors.length should equal(1)
+    }
+  }
+
+  "transformer" should {
+
+    "uppercase test" in {
+      val form = Form(
+        "value" -> textWithTransform(_.toUpperCase.trim)()
+      ).bind(Map("value" -> "foo  "))
+
+      form.hasErrors should equal(false)
+      form.get should equal("FOO")
+    }
+
+    "applies length validation after transform" in {
+      val form = Form(
+        "value" -> textWithTransform{s => "" }(minLength = 1)
+      ).bind(Map("value" -> "foo  "))
+
+      form.hasErrors should equal(true)
+      form.errors(0).message should equal("error.minLength")
     }
   }
 

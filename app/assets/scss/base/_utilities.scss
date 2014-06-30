@@ -1,62 +1,62 @@
 
 
 @function phase-colour($phase) {
-	@if $phase == "alpha" { @return $alpha-colour; }
-	@if $phase == "beta" { @return $beta-colour; }
+    @if $phase == "alpha" { @return $alpha-colour; }
+    @if $phase == "beta" { @return $beta-colour; }
 }
 
 @mixin clearfix {
-	&:before,
-	&:after {
-	    content: " ";
-	    display: table;
-	}
-	&:after {
-		clear: both;
-	}
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
 }
 
 // CSS for hiding elements visually but not for screen readers
 @mixin sr-only {
-	position: absolute;
-	top:0;
-	left:-9999px;
+    position: absolute;
+    top:0;
+    left:-9999px;
 }
 
 // summery detail (playback info after user-input)
 // provides smaller width, more flexible container with a single/full column row
 @mixin summary-detail-list-flex {
-	@media screen and (min-width:$device-medium) {
-		max-width:500px;
-	}
-	@media screen and (min-width:$device-large) {
-		max-width:55%;
-	}	
+    @media screen and (min-width:$device-medium) {
+        max-width:500px;
+    }
+    @media screen and (min-width:$device-large) {
+        max-width:55%;
+    }
 }
 
 @mixin to-uppercase {
-	text-transform:uppercase;
+    text-transform:uppercase;
 }
 
 //img wrapper to show-hide mobile/desktop images
 @mixin img-multi-wrap($max-width){
-	img {
-		max-width:$max-width;
-	}
-	&.img-wrap-mobile {
-		display:none;
-	}
-	@media screen and (max-width:$device-small) {
-		&.img-wrap-mobile {
-			display:block;
-			img {
-				display:block;
-				margin:0 auto 2.2em auto;
-				text-align:center;
-			}	
-		}
-		&.img-wrap-desktop {
-			display:none;
-		}
-	}
+    img {
+        max-width:$max-width;
+    }
+    &.img-wrap-mobile {
+        display:none;
+    }
+    @media screen and (max-width:$device-small) {
+        &.img-wrap-mobile {
+            display:block;
+            img {
+                display:block;
+                margin:0 auto 2.2em auto;
+                text-align:center;
+            }
+        }
+        &.img-wrap-desktop {
+            display:none;
+        }
+    }
 }
