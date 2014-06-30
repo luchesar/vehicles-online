@@ -1,3 +1,19 @@
+//enter address manually
+.enter-address-manually {
+	label {
+		@include sr-only;
+	}
+	.post-town label {
+ 		position:initial;
+ 		top:initial;
+ 		left:initial;
+		.ie7 & {
+			display: inline;
+			float:left;
+   	}
+	}
+}
+
 //vehicle lookup/enter vehicle details
 .vehicle-lookup {
     .first-col .form-steps {

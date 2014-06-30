@@ -24,7 +24,7 @@ class Config {
   // Brute force prevention config
   val bruteForcePreventionMicroServiceBaseUrl: String = getProperty("bruteForcePreventionMicroServiceBase", "NOT FOUND")
   val bruteForcePreventionTimeout: Int = getProperty("bruteForcePrevention.requesttimeout", (5 seconds).toMillis.toInt)
-  val bruteForcePreventionEnabled: Boolean = getProperty("bruteForcePrevention.enabled", default = true)
+  val isBruteForcePreventionEnabled: Boolean = getProperty("bruteForcePrevention.enabled", default = true)
   val bruteForcePreventionServiceNameHeader: String = getProperty("bruteForcePrevention.headers.serviceName", "")
   val bruteForcePreventionMaxAttemptsHeader: Int = getProperty("bruteForcePrevention.headers.maxAttempts", 3)
   val bruteForcePreventionExpiryHeader: String = getProperty("bruteForcePrevention.headers.expiry", "")
@@ -37,5 +37,5 @@ class Config {
   val prototypeSurveyPrepositionInterval: Long = getDurationProperty("survey.interval", 7.days.toMillis)
 
   // Google analytics
-  val googleAnalyticsEnabled: Boolean = getProperty("googleAnalytics.enabled", default = true)
+  val isGoogleAnalyticsEnabled: Boolean = getProperty("googleAnalytics.enabled", default = true)
 }
