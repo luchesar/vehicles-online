@@ -64,6 +64,10 @@
     dd {
         margin:0;
     }
+    
+    .img-wrap {
+      @include img-multi-wrap(300px);
+    }
 
     // information list
     // this could be a DL element, or a wrapping div
@@ -147,10 +151,5 @@
             }
         }
     }
-
-    .img-wrap {
-        @include img-multi-wrap(300px);
-    }
-
     
 }
