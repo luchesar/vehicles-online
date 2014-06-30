@@ -8,7 +8,5 @@ object VehicleRegistrationNumber {
   final val MinLength = 2
   final val MaxLength = 8
 
-  def registrationNumber: Mapping[String] = {
-    nonEmptyText(MinLength, MaxLength) verifying validRegistrationNumber
-  }
+  def registrationNumber: Mapping[String] = nonEmptyText(MinLength, MaxLength) verifying validRegistrationNumber
 }
