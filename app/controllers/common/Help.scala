@@ -9,6 +9,7 @@ import mappings.common.Help.HelpCacheKey
 import controllers.disposal_of_vehicle.routes.BeforeYouStart
 
 final class Help @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
+
   def present = Action { implicit request =>
     val origin = request.headers.get(REFERER).getOrElse("No Referer in header")
     Ok(views.html.common.help()).
