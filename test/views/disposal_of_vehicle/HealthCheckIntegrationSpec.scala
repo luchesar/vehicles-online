@@ -12,7 +12,7 @@ class HealthCheckIntegrationSpec extends UiSpec with TestHarness {
       var httpResponse = execute(new HttpGet(WebDriverFactory.testUrl + "/healthcheck"))
       try httpResponse.getStatusLine.getStatusCode should be(Status.OK)
       finally httpResponse.close()
-
+      // TODO: the test below doesn't seem valid as there is no POST for this in the routes file.
       httpResponse = execute(new HttpPost(WebDriverFactory.testUrl + "/healthcheck"))
       try httpResponse.getStatusLine.getStatusCode should be (Status.OK)
       finally httpResponse.close()
