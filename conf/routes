@@ -42,7 +42,6 @@ POST        /disposal-of-vehicle/dispose                                @control
 GET         /disposal-of-vehicle/dispose-success                        @controllers.disposal_of_vehicle.DisposeSuccess.present
 POST        /disposal-of-vehicle/dispose-success/new-disposal           @controllers.disposal_of_vehicle.DisposeSuccess.newDisposal
 POST        /disposal-of-vehicle/dispose-success/exit                   @controllers.disposal_of_vehicle.DisposeSuccess.exit
-POST        /disposal-of-vehicle/dispose-success/survey                   @controllers.disposal_of_vehicle.DisposeSuccess.survey
 
 GET         /disposal-of-vehicle/dispose-failure                        @controllers.disposal_of_vehicle.DisposeFailure.present
 

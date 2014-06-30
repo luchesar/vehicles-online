@@ -75,19 +75,10 @@
                     <button id="printDisposalSuccess" type="button" name="action" value="printDisposalSuccess" class="button js-only print-button">@Messages("global.buttonnavprint")</button>
                 </div>
 
-                @surveyUrl.map { url =>
-                <div class="step" hint="@url">
-                    @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.survey()) {
-                    @CsrfHelper.hiddenFormField
-                    <button id="@DisposalSurveyId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.survey")</button>
-                    }
-                </div>
-                }
-
                 <br />
 
                 @surveyUrl.map { url =>
-                <a href="#" class="button-text">@Messages("disposal_disposeconfirmation.survey")</a>
+                <a href="@url" class="button-text">@Messages("disposal_disposeconfirmation.survey")</a>
                 }
             </div>
         </div>
