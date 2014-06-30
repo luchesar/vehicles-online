@@ -357,6 +357,7 @@ footer{
   }
 }
 
+//hide specific elements/sections
 body #global-user-location,
 body .related-positioning,
 #global-header .header-phase h1 span,
@@ -369,12 +370,10 @@ body .actions,
 .found_location,
 .loading_location,
 .location_error,
-
-/*hide some specific form labels (to avoid showing placeholder and label text)*/
 .enter-address-manually legend,
 .enter-address-manually label,
 .form-inline label,
-
+.trader-details .img-wrap-desktop,
 #global-cookie-message,
 #global-browser-prompt,
 .report-a-problem-toggle,
