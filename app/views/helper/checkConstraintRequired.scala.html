@@ -2,7 +2,7 @@
 
 @import views.html.helper.base.valtechLabelText
 
-@showLabel = @{ args.toMap.get('_showLabel).getOrElse(true) == true } @* TODO move to an extension method *@
+@showLabel = @{ args.toMap.getOrElse('_showLabel, true) == true } @* TODO move to an extension method *@
 
 @if(showLabel) {
     <p>

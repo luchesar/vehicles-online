@@ -4,20 +4,19 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
-import mappings.common.DayMonthYear._
+import mappings.common.DayMonthYear.{DayId, MonthId, YearId}
 import mappings.common.Mileage
-import mappings.disposal_of_vehicle.Dispose._
+import mappings.disposal_of_vehicle.Dispose.{DateOfDisposalId, MileageId, ConsentId, LossOfRegistrationConsentId}
 import models.DayMonthYear
 import models.domain.disposal_of_vehicle.DisposeRequest
-import org.mockito.Matchers._
-import org.mockito.Mockito._
+import org.mockito.Matchers.any
+import org.mockito.Mockito.when
 import play.api.libs.json.Json
 import services.dispose_service.{DisposeWebService, DisposeServiceImpl}
-import services.fakes.FakeDateServiceImpl._
-import services.fakes.FakeDisposeWebServiceImpl._
+import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import services.fakes.FakeDisposeWebServiceImpl.{MileageValid, ConsentValid, disposeResponseSuccess}
 import services.fakes.FakeResponse
 import services.DateService
-import scala.Some
 import common.ClientSideSessionFactory
 import utils.helpers.Config
  
@@ -144,8 +143,9 @@ final class DisposeFormSpec extends UnitSpec {
       new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
     })
     val disposeServiceImpl = new DisposeServiceImpl(new Config(), ws)
-    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService)(clientSideSessionFactory)
+    implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    implicit val config: Config = mock[Config]
+    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService)
   }
 
   private def formWithValidDefaults(mileage: String = MileageValid,

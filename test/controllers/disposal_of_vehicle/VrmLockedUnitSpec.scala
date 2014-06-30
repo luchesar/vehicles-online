@@ -1,27 +1,41 @@
 package controllers.disposal_of_vehicle
 
-import helpers.common.CookieHelper
+import common.ClientSideSessionFactory
 import helpers.{WithApplication, UnitSpec}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import org.mockito.Mockito.when
 import services.fakes.FakeDateServiceImpl
 import play.api.test.Helpers._
+import utils.helpers.Config
 import scala.Some
-import pages.disposal_of_vehicle.{VrmLockedPage, BeforeYouStartPage, VehicleLookupPage, SetupTradeDetailsPage}
+import pages.disposal_of_vehicle.{BeforeYouStartPage, VehicleLookupPage, SetupTradeDetailsPage}
 import play.api.test.FakeRequest
-import CookieHelper._
-import play.api.Play
 
 final class VrmLockedUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      val dateService = new FakeDateServiceImpl
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel(dateTimeISOChronology = dateService.dateTimeISOChronology))
-      val result = vrmLocked.present(request)
-
-      whenReady(result) {
+      whenReady(present) {
         r => r.header.status should equal(play.api.http.Status.OK)
       }
+    }
+
+    "not display progress bar" in new WithApplication {
+      contentAsString(present) should not include "Step "
+    }
+
+    "display prototype message when config set to true" in new WithApplication {
+      contentAsString(present) should include("""<div class="prototype">""")
+    }
+
+    "not display prototype message when config set to false" in new WithApplication {
+      val request = FakeRequest()
+      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      implicit val config: Config = mock[Config]
+      when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
+      val vrmLockedPrototypeNotVisible = new VrmLocked()
+
+      val result = vrmLockedPrototypeNotVisible.present(request)
+      contentAsString(result) should not include """<div class="prototype">"""
     }
   }
 
@@ -58,4 +72,10 @@ final class VrmLockedUnitSpec extends UnitSpec {
   }
 
   private val vrmLocked = injector.getInstance(classOf[VrmLocked])
+  private lazy val present = {
+    val dateService = new FakeDateServiceImpl
+    val request = FakeRequest().
+      withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel(dateTimeISOChronology = dateService.dateTimeISOChronology))
+    vrmLocked.present(request)
+  }
 }

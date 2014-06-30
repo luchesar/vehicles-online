@@ -22,6 +22,15 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(VehicleLookupPage.title)
     }
 
+    "display the progress of the page" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      go to VehicleLookupPage
+
+      page.source.contains("Step 4 of 6") should equal(true)
+    }
+
     "Redirect when no traderBusinessName is cached" taggedAs UiTag in new WebBrowser {
       go to VehicleLookupPage
 

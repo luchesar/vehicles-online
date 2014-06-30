@@ -1,6 +1,9 @@
-@(data: models.domain.disposal_of_vehicle.DisposeViewModel, formModel: models.domain.disposal_of_vehicle.DisposeFormModel)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+@(data: models.domain.disposal_of_vehicle.DisposeViewModel,
+        formModel: models.domain.disposal_of_vehicle.DisposeFormModel)(implicit lang: Lang,
+        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        config: utils.helpers.Config)
 
-@import mappings.disposal_of_vehicle.DisposeFailure._
+@import mappings.disposal_of_vehicle.DisposeFailure.{SetupTradeDetailsId, VehicleLookupId}
 @import views.html.disposal_of_vehicle.main
 
 @main(

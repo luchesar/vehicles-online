@@ -9,9 +9,10 @@ import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import play.api.data.Forms._
 import play.api.data.{Form, FormError}
 import play.api.mvc._
+import utils.helpers.Config
 import utils.helpers.FormExtensions._
 
-final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
 
   private[disposal_of_vehicle] val form = Form(
     mapping(
@@ -33,7 +34,7 @@ final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: Cli
           distinctErrors
         BadRequest(views.html.disposal_of_vehicle.setup_trade_details(formWithReplacedErrors))
       },
-      validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(SetupTradeDetailsModel.convertToUpperCase(validForm))
+      validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(validForm)
     )
   }
 }

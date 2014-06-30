@@ -1,7 +1,3 @@
-function recordOutboundLink(e) {
-    return _gat._getTrackerByName()._trackEvent(this.href, "Outbound Links"), setTimeout('document.location = "' + this.href + '"', 100), !1
-}
-
 function setCookie(e, t, n) {
     var r = e + "=" + t + "; path=/";
     if (n) {
@@ -21,7 +17,7 @@ function getCookie(e) {
     }
     return null
 }
-var Alphagov = {
+var vehiclesOnline = {
     daysInMsec: function (e) {
         return e * 24 * 60 * 60 * 1e3
     },
@@ -46,12 +42,12 @@ var Alphagov = {
     delete_cookie: function (e) {
         if (document.cookie && document.cookie !== "") {
             var t = new Date;
-            t.setTime(t.getTime() - Alphagov.daysInMsec(1)), document.cookie = e + "=; expires=" + t.toGMTString() + "; domain=" + Alphagov.cookie_domain() + "; path=/"
+            t.setTime(t.getTime() - vehiclesOnline.daysInMsec(1)), document.cookie = e + "=; expires=" + t.toGMTString() + "; domain=" + vehiclesOnline.cookie_domain() + "; path=/"
         }
     },
     write_cookie: function (e, t) {
         var n = new Date;
-        n.setTime(n.getTime() + Alphagov.daysInMsec(120)), document.cookie = e + "=" + encodeURIComponent(t) + "; expires=" + n.toGMTString() + "; domain=" + Alphagov.cookie_domain() + "; path=/"
+        n.setTime(n.getTime() + vehiclesOnline.daysInMsec(120)), document.cookie = e + "=" + encodeURIComponent(t) + "; expires=" + n.toGMTString() + "; domain=" + vehiclesOnline.cookie_domain() + "; path=/"
     }
 };
 

@@ -177,6 +177,8 @@ address.postcode.validation = Rhowch god post dilys
 addressAndPostcode.addressLines.line2 = Enwau strydoedd
 addressAndPostcode.addressLines.line3 = Ardal
 addressAndPostcode.addressLines.postTown = Postiwch y dref
+error.address.characterInvalid = Cyfeiriad yn cynnwys nodau annilys
+error.postTown.characterInvalid = Tref bost yn cynnwys nodau annilys
 
 #page 3 - uprn not found
 disposal_uprnnotfound.title = Gwall cod post yn cadarnhau
@@ -204,6 +206,8 @@ disposal_vehiclelookup.p1 = Dod o hyd i gerbyd
 disposal_vehiclelookup.p2 = Bydd cerbyd yn cael ei werthu i
 disposal_vehiclelookup.warning.p1 = Peidiwch â gwaredu cerbyd gyda chofrestru personol oni bai bod y ceidwad ar hyn o bryd yn deall y bydd y cofrestriad yn cael eu gwaredu ynghyd â''r cerbyd.
 disposal_vehiclelookup.warning.p2 = Cadw neu drosglwyddo cofrestriadau personol cyn cael gwared i''r fasnach.
+disposal_vehiclelookup.img.h2 = V5C document reference number
+disposal_vehiclelookup.img.alt = V5C document reference number
 disposal_vehiclelookup.refnumlabel = V5C Rhif cyfeirnod y ddogfen
 disposal_vehiclelookup.vrninputlabel = Rhif cofrestru cerbyd
 disposal_vehiclelookup.backbutton = Holau
@@ -305,10 +309,7 @@ datePlaceholder.October = Hydref
 datePlaceholder.November = Tachwedd
 datePlaceholder.December = Rhagfyr
 
-
-
 select_default = Dewiswch
-
 
 addressAndPostcode.addressLines.buildingNameOrNumber = Enw''r adeilad neu rif
 error.address.maxLengthOfLinesConcatenated = Gall gyfeiriad gael mwy na 120 o gymeriadau
@@ -319,6 +320,23 @@ error.validTraderBusinessName = Rhaid iddo fod rhwng dwy a 58 cymeriadau a ydynt
 error.address.buildingNameOrNumber.invalid = Enw''r adeilad neu rif - Rhaid iddo gynnwys o leiaf bedwar cymeriad
 error.address.postTown = Postiwch y dref - Angen hyd lleiaf o tri chymeriad
 error.address.postcode.invalid = Rhaid bod rhwng 5 ac 8 cymeriadau ac mewn fformat dilys, ee. PR2 8AE neu PR28AE
+
+# progress messages
+disposal_progress_1 = Cam 1 o 6
+disposal_progress_2 = Cam 2 o 6
+disposal_progress_3 = Cam 3 o 6
+disposal_progress_4 = Cam 3 o 6
+disposal_progress_5 = Cam 3 o 6
+disposal_progress_6 = Cam 3 o 6
+
+# help
+disposal.help.title = Help
+disposal.help.p1 = Mae'r gwasanaeth hwn yng Ngham Beta Preifat
+disposal.help.p2.1 = Os oes angen unrhyw help ei ddefnyddio, yna, cysylltwch â Julie Riseley ar 01792 788410 neu
+disposal.help.p2.2 = anfon e-bost
+disposal.help.email =  mailto:julie.riseley@dvla.gsi.gov.uk?Subject=Sell%20to%20the%20Trade%20Help
+disposal.help.exit_button = Allanfa
+disposal.help.back_button = Yn ôl
 
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = Mae eich cais yn cael ei brosesu a dylech dderbyn llythyr cadarnhad o fewn pedair wythnos.
@@ -353,6 +371,9 @@ vrm_locked.text3.2 = 0300 790 6801
 onHandlerNotFound.title=Ni all y dudalen ar gael
 onHandlerNotFound.header=Ni all y dudalen ar gael
 onHandlerNotFound.body=Gwnewch yn siŵr eich bod wedi mynd i mewn i''r cyfeiriad gwe cywir, neu archwilio GOV.UK i ddod o hyd i''r wybodaeth rydych ei hangen.
+onHandlerNotFound.noJavascript=Os ydych yn dymuno ceisio eto dewiswch y botwm ôl ar eich porwr, os nad dewiswch "Gadael" i adael y gwasanaeth.
+onHandlerNotFound.back.button=Ceisiwch eto
+onHandlerNotFound.exit.button=Gadael
 
 error.title = Mae gwall wedi digwydd na ellir ei adennill
 error.button = Dechrau eto

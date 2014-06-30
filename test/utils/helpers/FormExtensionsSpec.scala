@@ -4,6 +4,8 @@ import helpers.UnitSpec
 import play.api.data.Forms._
 import play.api.data._
 import utils.helpers.FormExtensions._
+import play.api.data.FormError
+import play.api.data.FormError
 
 final class FormExtensionsSpec extends UnitSpec {
   "anyMandatoryFields" should {
@@ -58,6 +60,86 @@ final class FormExtensionsSpec extends UnitSpec {
       val form = createForm(errors = Seq(errorForId1, errorForId1, errorForId1))
       val expectedForm = createForm(errors = Seq(errorForId1))
       form.distinctErrors should equal(expectedForm)
+    }
+  }
+
+  "trimmed text mapping" should {
+    import utils.helpers.FormExtensions.trimmedText
+
+    "remove leading and trailing spaces, carriage returns and line feeds by default" in {
+      val form = Form(
+        "value" -> trimmedText()
+      ).bind(Map("value" -> " \n\r foo  \r\n "))
+
+      form.hasErrors should equal(false)
+      form.get should equal("foo")
+    }
+
+    "not remove commas by default" in {
+      val form = Form(
+        "value" -> trimmedText()
+      ).bind(Map("value" -> ",foo,"))
+
+      form.hasErrors should equal(false)
+      form.get should equal(",foo,")
+    }
+
+    "trim characters provided as additional arguments" in {
+      val form = Form(
+        "value" -> trimmedText(additionalTrimChars = Seq(','))
+      ).bind(Map("value" -> ",foo,"))
+
+      form.hasErrors should equal(false)
+      form.get should equal("foo")
+    }
+
+    "exclude trimmed characters from the min length" in {
+      val validForm = Form(
+        "value" -> trimmedText(minLength = 3)
+      ).bind(Map("value" -> "  foo  "))
+
+      validForm.errors.length should equal(0)
+
+      val invalidForm = Form(
+        "value" -> trimmedText(minLength = 3)
+      ).bind(Map("value" -> "  fo   "))
+
+      invalidForm.errors.length should equal(1)
+    }
+
+    "exclude trimmed characters from the max length" in {
+      val validForm = Form(
+        "value" -> trimmedText(maxLength = 3)
+      ).bind(Map("value" -> "  foo  "))
+
+      validForm.errors.length should equal(0)
+
+      val invalidForm = Form(
+        "value" -> trimmedText(maxLength = 3)
+      ).bind(Map("value" -> "  foob   "))
+
+      invalidForm.errors.length should equal(1)
+    }
+  }
+
+  "transformer" should {
+
+    "uppercase test" in {
+      val form = Form(
+        "value" -> textWithTransform(_.toUpperCase.trim)()
+      ).bind(Map("value" -> "foo  "))
+
+      form.hasErrors should equal(false)
+      form.get should equal("FOO")
+    }
+
+    "applies length validation after transform" in {
+      val form = Form(
+        "value" -> textWithTransform{s => "" }(minLength = 1)
+      ).bind(Map("value" -> "foo  "))
+
+      form.hasErrors should equal(true)
+      form.errors(0).message should equal("error.minLength")
     }
   }
 

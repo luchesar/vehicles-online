@@ -1,229 +1,155 @@
 // app/prototype specific styling
 
 #{$htmlNamespace} {
-   	background: $white;
-   	margin: 0 auto;
-   	max-width: 980px;
+    background: $white;
+    margin: 0 auto;
+    max-width: 980px;
 
    	@media screen and (max-width: $device-small) {
-   		border-top: 10px solid phase-colour($phase);
-   	}
-
-	.section-content {
-		padding: 1.7em 1em 0 1em;
-		margin-bottom:4em;
-		@include clearfix;
-    .ie7 & {
-    	display:inline-block;
+        border-top: 10px solid phase-colour($phase);
     }
-	}
 
-	h1 {
-   	@include heading-36;
-   	font-weight: 700;
-   	margin-bottom:0.4em;
-   	.ie & {
-	   	font-size: 36px;
-   	}
- 	}
+    .section-content {
+        padding: 1.7em 1em 0 1em;
+        margin-bottom:4em;
+        @include clearfix;
+        .ie7 & {
+            display:inline-block;
+        }
+    }
 
- 	h2 {
- 		@include core-24;
- 		font-weight: 700;
- 		margin-bottom:0.6em;
- 		.ie & {
-		   	font-size: 24px;
-	   	}
- 	}
+    h1 {
+        @include heading-36;
+        font-weight: 700;
+        margin-bottom:0.4em;
+        .ie & {
+            font-size: 36px;
+        }
+    }
 
- 	p {
- 		@include copy-19;
-	 	.ie & {
-		 	font-size:19px;
-	 	}
+    h2 {
+        @include core-24;
+        font-weight: 700;
+        margin-bottom:0.6em;
+        .ie & {
+            font-size: 24px;
+        }
+    }
 
-	 	&.link-manual-address {
-	 		position: relative;
-		 	top:-0.3em;
-	 	}
- 	}
+    p {
+        @include copy-19;
+        .ie & {
+            font-size:19px;
+        }
 
- 	ol, ul {
- 		@include copy-19;
- 		list-style:none;
- 		padding-left:25px;
- 		&.list-standard {
-	 		list-style: decimal;
-	 		list-style-position: outside;
-	 		li {
-		 		margin-bottom:1em;
-	 		}
- 		}
- 	}
+        &.link-manual-address {
+            position: relative;
+            top:-0.3em;
+        }
+    }
 
- 	// information items (1/2 columns - typically 2 columns)
- 	// this could be a DL element, or a wrapping div
- 	.summary-detail-list {
- 		@include clearfix;
- 		margin:23px 0 20px 0;
-		margin:2.3rem 0 2rem 0;
-		//padding:10px;
-		//padding:1rem;
-		//background:$grey-3;
+    ol, ul {
+        @include copy-19;
+        list-style:none;
+        padding-left:25px;
+        &.list-standard {
+            list-style: decimal;
+            list-style-position: outside;
+            li {
+                margin-bottom:1em;
+            }
+        }
+    }
 
-		p {
-			margin:0;
-		}
+    dd {
+        margin:0;
+    }
+    
+    .img-wrap {
+      @include img-multi-wrap(300px);
+    }
 
-		dt, dd {
-			@include copy-19;
-			margin-bottom:0;
+    // information list
+    // this could be a DL element, or a wrapping div
+    .summary-detail-list {
+        @include clearfix;
+        margin:23px 0 20px 0;
+        margin:2.3rem 0 2rem 0;
+        //padding:10px;
+        //padding:1rem;
+        //background:$grey-3;
 
-			.ie & {
-				font-size:17px;
-			}
-		}
-		dt {
-			float:left;
-			width:190px;
-			font-weight:bold;
-			clear:left;
+        p {
+            margin:0;
+        }
 
-			@media screen and (max-width: $device-small) {
-				padding-top:0;
-				margin-bottom:0;
-			}
-		}
-		dd {
-			@include to-uppercase;
-			overflow: hidden;
+        dt, dd {
+            @include copy-19;
+            margin-bottom:0;
 
-			@media screen and (max-width: $device-small) {
-				clear:both;
-			}
-		}
+            .ie & {
+                font-size:17px;
+            }
+        }
+        dt {
+            float:left;
+            width:190px;
+            font-weight:bold;
+            clear:left;
 
-		.ie6 & {
-			dt,dd {
-				float:none;
-			}
+            @media screen and (max-width: $device-small) {
+                padding-top:0;
+                margin-bottom:0;
+            }
+        }
+        dd {
+            @include to-uppercase;
+            overflow:hidden;
 
-		}
+            @media screen and (max-width: $device-small) {
+                clear:both;
+            }
+        }
 
-		// smaller width, more flexible container
-		&.summary-detail-list-flex {
-			@include summary-detail-list-flex();
-		}
-	}
+        .ie6 & {
+            dt,dd {
+                float:none;
+            }
+        }
 
+        // smaller width, more flexible container
+        &.summary-detail-list-flex {
+            @include summary-detail-list-flex;
+        }
+    }
 
-	// add out of scope watermark
-	.out-of-scope {
-	  background:#FFF url(#{$image-path}out-of-scope-sml.gif) center center repeat;
-	}
+    // styles two column layout
+    .two-col {
+        @include clearfix;
+        width:100%; //failsafe
 
-	// styles two column layout
-	.two-col {
-		@include clearfix;
-		width:100%; //failsafe
-
-		.first-col {
-			@include clearfix;
-			width:47%;
-			float:left;
-			@media screen and (max-width: $device-small) {
-				float:none;
-				width:100%;
-				clear:both;
-				margin-bottom:2em;
-			}
-		}
-		.second-col {
-			@include clearfix;
-			width:47%;
-			float:right;
-			@media screen and (max-width: $device-small) {
-				float:none;
-				width:100%;
-				clear:both;
-				margin-bottom:2em;
-			}
-		}
-	}
-
-
-	//vehicle lookup/find vehicle details
-	.vehicle-lookup {
-		.trader-details dd {
-			.ie6 & {
-				clear:both;
-			}
-		}
-	}
-
-	//hide exit button in IE6 (double form posts do not work)
-	.exit-button button {
-		&.ie6 {
-			display:none;
-		}
-	}
-
-	.disposal-date {
-		legend {
-			margin-top:20px;
-		}
-		.ie6 & {
-			.form-date .form-item {
-				float:left;
-			}
-		}
-
-	}
-
-  //progress indicator
-  nav.progress-indicator {
-  	padding-left: 0.5em;
-	  border-top: 1px solid $grey-3;
-	  border-bottom: 3px solid $grey-3;
-	  margin: 0em -1em 0em -1em;
-	  display:inline-block;
-	  width:100%;
-	  ol {
-	  	list-style-type: decimal;
-	    list-style-position: inside;
-	    margin: 0;
-	    padding: 0;
-	    margin-bottom: -3px;
-
-	    @media (max-width: 640px) {
-        margin: 0.5em 0; 
-      }
-	  }
-	  li {
-	  	float: left;
-	    margin: 0 0.5em;
-	    padding: 0.75em 0;
-
-      @media (max-width: 900px) {
-      	font-size: 100%;
-      }
-      @media (max-width: 640px) {
-      	width: 75%;
-        padding: 0.25em;
-      }
-      &.active {
-    		@media (min-width: 641px) {
-	        border-bottom: 3px solid $turquoise;
-	        position: relative;
-	        top: 3px;
-	        margin-top: -3px; 
-	      }
-	      @media (max-width: 640px) {
-	      	border: 0;
-	        font-weight: bold;
-	        color: #28a197;
-	      }
-      }
-	  }
-  }
+        .first-col {
+            @include clearfix;
+            width:47%;
+            float:left;
+            @media screen and (max-width: $device-small) {
+                float:none;
+                width:100%;
+                clear:both;
+                margin-bottom:2em;
+            }
+        }
+        .second-col {
+            @include clearfix;
+            width:47%;
+            float:right;
+            @media screen and (max-width: $device-small) {
+                float:none;
+                width:100%;
+                clear:both;
+                margin-bottom:2em;
+            }
+        }
+    }
+    
 }

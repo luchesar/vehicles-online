@@ -2,26 +2,28 @@ package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
 import helpers.{UnitSpec, WithApplication}
-import helpers.common.CookieHelper
-import helpers.common.CookieHelper._
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
-import pages.disposal_of_vehicle._
+import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage, UprnNotFoundPage}
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
 import services.fakes.FakeAddressLookupWebServiceImpl
-import services.fakes.FakeAddressLookupWebServiceImpl._
+import FakeAddressLookupWebServiceImpl.traderUprnValid
+import FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
+import FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddressNotFound
+import FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
+import FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound
+import utils.helpers.Config
+import org.mockito.Mockito.when
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
     "display the page if dealer details cached" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = businessChooseYourAddressWithUprnFound.present(request)
-      whenReady(result, timeout) {
+      whenReady(present, timeout) {
         r => r.header.status should equal(OK)
       }
     }
@@ -37,10 +39,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "display unselected field when cookie does not exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = businessChooseYourAddressWithUprnFound.present(request)
-      val content = contentAsString(result)
+      val content = contentAsString(present)
       content should include(TraderBusinessNameValid)
       content should not include "selected"
     }
@@ -51,6 +50,21 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
+    }
+
+    "display expected progress bar" in new WithApplication {
+      contentAsString(present) should include("Step 3 of 6")
+    }
+
+    "display prototype message when config set to true" in new WithApplication {
+      contentAsString(present) should include("""<div class="prototype">""")
+    }
+
+    "not display prototype message when config set to false" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+      val result = businessChooseYourAddressWithFakeWebService(isPrototypeBannerVisible = false).present(request)
+      contentAsString(result) should not include """<div class="prototype">"""
     }
   }
 
@@ -121,13 +135,15 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
   }
 
-  private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
+  private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true, isPrototypeBannerVisible: Boolean = true) = {
     val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress else responseValidForPostcodeToAddressNotFound
     val responseUprn = if (uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
-    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    new BusinessChooseYourAddress(addressLookupService)(clientSideSessionFactory)
+    implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    implicit val config: Config = mock[Config]
+    when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
+    new BusinessChooseYourAddress(addressLookupService)
   }
 
   private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {
@@ -140,4 +156,9 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
   private val businessChooseYourAddressWithUprnNotFound = businessChooseYourAddressWithFakeWebService(uprnFound = false)
 
+  private lazy val present = {
+    val request = FakeRequest().
+      withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+    businessChooseYourAddressWithUprnFound.present(request)
+  }
 }

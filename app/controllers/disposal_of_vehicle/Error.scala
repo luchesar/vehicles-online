@@ -4,9 +4,9 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import play.api.Logger
 import play.api.mvc._
-import utils.helpers.CryptoHelper
+import utils.helpers.{Config, CryptoHelper}
 
-final class Error @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class Error @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
   def present(exceptionDigest: String) = Action { implicit request =>
     Logger.debug("Error - Displaying generic error page")
     Ok(views.html.disposal_of_vehicle.error(exceptionDigest))
@@ -17,4 +17,5 @@ final class Error @Inject()(implicit clientSideSessionFactory: ClientSideSession
     Logger.debug("Error submit called - now removing full set of cookies and redirecting to Start page")
     CryptoHelper.discardAllCookies
   }
+
 }

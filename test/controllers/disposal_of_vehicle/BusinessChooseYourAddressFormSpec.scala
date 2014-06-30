@@ -1,10 +1,15 @@
 package controllers.disposal_of_vehicle
 
 import helpers.UnitSpec
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.AddressSelectId
 import services.fakes.FakeAddressLookupWebServiceImpl
-import services.fakes.FakeAddressLookupWebServiceImpl._
+import FakeAddressLookupWebServiceImpl.traderUprnValid
+import FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
+import FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddressNotFound
+import FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
+import FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound
 import common.ClientSideSessionFactory
+import utils.helpers.Config
 
 class BusinessChooseYourAddressFormSpec extends UnitSpec {
   "form" should {
@@ -27,8 +32,9 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
     val responseUprn = if(uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
-    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    new BusinessChooseYourAddress(addressLookupService)(clientSideSessionFactory)
+    implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    implicit val config: Config = mock[Config]
+    new BusinessChooseYourAddress(addressLookupService)
   }
 
   private def formWithValidDefaults(addressSelected: String = traderUprnValid.toString) = {

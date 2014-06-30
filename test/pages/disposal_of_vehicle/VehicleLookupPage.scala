@@ -1,9 +1,9 @@
 package pages.disposal_of_vehicle
 
-import org.openqa.selenium.WebDriver
 import helpers.webbrowser._
-import services.fakes.FakeVehicleLookupWebService._
 import mappings.disposal_of_vehicle.VehicleLookup._
+import org.openqa.selenium.WebDriver
+import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 
 object VehicleLookupPage extends Page with WebBrowserDSL {

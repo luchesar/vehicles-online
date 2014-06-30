@@ -1,21 +1,23 @@
-@(traderLookupForm: Form[models.domain.disposal_of_vehicle.SetupTradeDetailsModel])(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+@(traderLookupForm: Form[models.domain.disposal_of_vehicle.SetupTradeDetailsModel])(implicit lang: Lang,
+        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        config: utils.helpers.Config)
 
 @import controllers.disposal_of_vehicle.routes.SetUpTradeDetails
 @import mappings.common.Postcode
-@import mappings.disposal_of_vehicle.SetupTradeDetails._
-@import utils.helpers.BaseTemplate._
-@import utils.helpers._
+@import mappings.disposal_of_vehicle.SetupTradeDetails.{SubmitId, TraderNameId, TraderNameMaxLength, TraderPostcodeId}
+@import utils.helpers.BaseTemplate.fieldConstructor
+@import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
-@import views.html.helper._
-@import views.html.helper.base._
+@import views.html.helper.base.valtechInputText
+@import views.html.helper.form
 
 @main(
-    title = Messages("disposal_setuptradedetails.title")
+    progress = Some(Messages("disposal_progress_2")),
+    title = Messages("disposal_setuptradedetails.title"),
+    currentForm = Some(traderLookupForm)
 ) {
-    @errorsSummary(traderLookupForm)
-
     @form(action = SetUpTradeDetails.submit) {
-        @CSRFHelper.hiddenFormField
+        @CsrfHelper.hiddenFormField
 
         <div class="uppercase-input">
 	        @valtechInputText(traderLookupForm(TraderNameId), args =

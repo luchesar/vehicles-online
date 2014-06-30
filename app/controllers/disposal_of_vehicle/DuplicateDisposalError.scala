@@ -4,9 +4,10 @@ import javax.inject.Inject
 
 import common.ClientSideSessionFactory
 import play.api.mvc._
+import utils.helpers.Config
 
-final class DuplicateDisposalError @Inject()
-                                   (implicit clientSideSessionFactory: ClientSideSessionFactory)
+final class DuplicateDisposalError @Inject()()
+                                   (implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config)
   extends Controller {
 
   def present = Action { implicit request =>

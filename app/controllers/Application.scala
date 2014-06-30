@@ -12,5 +12,5 @@ object Application extends Controller {
   def index = Action {
     Redirect(startUrl)
   }
-  
+
 }

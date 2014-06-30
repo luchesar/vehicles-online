@@ -1,19 +1,22 @@
-@(enterAddressManuallyForm: Form[models.domain.disposal_of_vehicle.EnterAddressManuallyModel], traderPostcode: String)(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+@(enterAddressManuallyForm: Form[models.domain.disposal_of_vehicle.EnterAddressManuallyModel],
+        traderPostcode: String)(implicit lang: Lang,
+        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        config: utils.helpers.Config)
 
 @import mappings.common.AddressAndPostcode.AddressAndPostcodeId
 @import mappings.disposal_of_vehicle.EnterAddressManually.{BackId, NextId}
-@import utils.helpers._
+@import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
-@import views.html.helper._
+@import views.html.helper.{addressAndPostcode, form}
 
 @main(
-    title = Messages("disposal_enteraddressmanually.title")
+    progress = Some(Messages("disposal_progress_3")),
+    title = Messages("disposal_enteraddressmanually.title"),
+    currentForm = Some(enterAddressManuallyForm)
 ) {
-    @errorsSummary(enterAddressManuallyForm)
-
     <div class="enter-address-manually uppercase-input">
         @form(action = controllers.disposal_of_vehicle.routes.EnterAddressManually.submit()) {
-            @CSRFHelper.hiddenFormField
+            @CsrfHelper.hiddenFormField
 
             @addressAndPostcode(enterAddressManuallyForm(AddressAndPostcodeId))
 

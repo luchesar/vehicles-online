@@ -1,14 +1,14 @@
 package controllers.disposal_of_vehicle
 
 import helpers.UnitSpec
-import mappings.disposal_of_vehicle.SetupTradeDetails._
-import services.fakes.FakeAddressLookupService._
+import mappings.disposal_of_vehicle.SetupTradeDetails.{TraderNameId, TraderPostcodeId}
+import services.fakes.FakeAddressLookupService.{TraderBusinessNameValid, PostcodeValid}
 
 final class SetUpTradeDetailsFormSpec extends UnitSpec {
   "form" should {
     "accept if form is valid with all fields filled in" in {
       val model = formWithValidDefaults(traderBusinessName = TraderBusinessNameValid, traderPostcode = PostcodeValid).get
-      model.traderBusinessName should equal(TraderBusinessNameValid)
+      model.traderBusinessName should equal(TraderBusinessNameValid.toUpperCase)
       model.traderPostcode should equal(PostcodeValid)
     }
   }
@@ -36,7 +36,7 @@ final class SetUpTradeDetailsFormSpec extends UnitSpec {
 
     "accept if trader business name is valid" in {
       formWithValidDefaults(traderBusinessName = TraderBusinessNameValid, traderPostcode = PostcodeValid).
-        get.traderBusinessName should equal(TraderBusinessNameValid)
+        get.traderBusinessName should equal(TraderBusinessNameValid.toUpperCase)
     }
   }
 

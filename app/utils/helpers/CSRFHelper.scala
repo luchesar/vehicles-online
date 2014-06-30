@@ -3,7 +3,7 @@ package utils.helpers
 import app.ConfigProperties._
 import play.api.templates.{Html, HtmlFormat}
 
-object CSRFHelper {
+object CsrfHelper {
 
   val csrfPrevention = getProperty("csrf.prevention", default = true)
 

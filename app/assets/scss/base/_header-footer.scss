@@ -260,7 +260,7 @@ input:focus, textarea:focus, select:focus {
       margin-bottom:15px;
     }
   }
-  background-color: #0b0c0c;
+  background-color: $header-colour;
   width: 100%;
   .header-wrapper {
     max-width: 990px;
@@ -401,8 +401,8 @@ input:focus, textarea:focus, select:focus {
 }
 
 .beta-notice {
-  background-color: #f47738;
-  color: #fff;
+  background-color: $orange;
+  color: $white;
 }
 
 #footer {

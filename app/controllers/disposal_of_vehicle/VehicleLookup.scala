@@ -15,6 +15,7 @@ import play.api.data.{Form, FormError}
 import play.api.mvc._
 import services.brute_force_prevention.BruteForcePreventionService
 import services.vehicle_lookup.VehicleLookupService
+import utils.helpers.Config
 import utils.helpers.FormExtensions._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -22,7 +23,7 @@ import scala.concurrent.Future
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService)
-                                   (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+                                   (implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
 
   private[disposal_of_vehicle] val form = Form(
     mapping(
@@ -39,6 +40,18 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
   }
 
   def submit = Action.async { implicit request =>
+    val formData = request.body.asFormUrlEncoded.getOrElse(Map.empty[String, Seq[String]])
+    val actionValue = formData.get("action").flatMap(_.headOption)
+    actionValue match {
+      case Some("lookup") =>
+        vehicleLookup
+      case Some("exit") =>
+        exit
+      case _ => Future{BadRequest(ActionNotAllowedMessage)} // TODO redirect to error page ?
+    }
+  }
+
+  private def vehicleLookup(implicit request: Request[AnyContent]): Future[SimpleResult] = {
     form.bindFromRequest.fold(
       invalidForm =>
         Future {
@@ -57,9 +70,9 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     )
   }
 
-  def exit = Action { implicit request =>
-    Redirect(routes.BeforeYouStart.present()).
-      discardingCookies(RelatedCacheKeys.FullSet)
+  private def exit(implicit request: Request[AnyContent]): Future[SimpleResult] = {
+    Future {Redirect(routes.BeforeYouStart.present()).
+      discardingCookies(RelatedCacheKeys.FullSet)}
   }
 
   private def convertToUpperCaseAndRemoveSpaces(model: VehicleLookupFormModel): VehicleLookupFormModel =

@@ -11,7 +11,7 @@ import play.api._
 import play.api.i18n.Lang
 import play.api.mvc.Results._
 import play.api.mvc._
-import utils.helpers.ErrorStrategy
+import utils.helpers.{Config, ErrorStrategy}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -63,12 +63,13 @@ trait GlobalLike extends WithFilters with GlobalSettings with Composition {
         case Some(cookie) => cookie.value
         case None => "en"
       }
-      val lang: Lang = Lang(value)
+      implicit val lang: Lang = Lang(value)
+      implicit val config = injector.getInstance(classOf[Config])
       Logger.warn(s"Broken link returning http code 404. uri: ${request.uri}")
-      NotFound(views.html.errors.onHandlerNotFound(request)(lang))
+      NotFound(views.html.errors.onHandlerNotFound(request))
     }
   }
 
   override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] =
-    ErrorStrategy(request, ex)
+    errorStrategy(request, ex)
 }

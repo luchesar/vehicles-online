@@ -20,6 +20,15 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
       page.title should equal(EnterAddressManuallyPage.title)
     }
 
+    "display the progress of the page" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      go to EnterAddressManuallyPage
+
+      page.source.contains("Step 3 of 6") should equal(true)
+    }
+
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()

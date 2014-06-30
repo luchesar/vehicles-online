@@ -1,10 +1,6 @@
-@()(implicit lang: Lang)
+@()(implicit lang: Lang, config: utils.helpers.Config)
 
-@* TODO I don't think this if will be very efficient as it reads from the config EVERY time (unless some caching is
-* going on in Play). A better solution may involve reading it into a val along with the others in utils.helpers.Config values,
-* and passing it through the controller to here.
-*@
-@if(play.Configuration.root().getBoolean("prototype.disclaimer", true)) {
+@if(config.isPrototypeBannerVisible) {
     <div class="prototype">
         <p><strong>BETA:</strong> @Messages("prototype.banner") <a href="@Messages("prototype.link.source")" target="_blank">@Messages("prototype.link")</a> </p>
     </div>

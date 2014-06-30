@@ -4,19 +4,20 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
-import helpers.disposal_of_vehicle.InvalidVRMFormat._
-import helpers.disposal_of_vehicle.ValidVRMFormat._
-import mappings.disposal_of_vehicle.VehicleLookup._
-import models.domain.disposal_of_vehicle._
-import org.mockito.Matchers._
-import org.mockito.Mockito._
+import helpers.disposal_of_vehicle.InvalidVRMFormat.allInvalidVrmFormats
+import helpers.disposal_of_vehicle.ValidVRMFormat.allValidVrmFormats
+import mappings.disposal_of_vehicle.VehicleLookup.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
+import models.domain.disposal_of_vehicle.{VehicleDetailsRequest, VehicleDetailsResponse}
+import org.mockito.Matchers.{any, anyString}
+import org.mockito.Mockito.when
 import play.api.libs.json.{JsValue, Json}
 import services.fakes.{FakeDateServiceImpl, FakeResponse}
-import services.fakes.FakeVehicleLookupWebService._
+import services.fakes.FakeVehicleLookupWebService
+import FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid, ConsentValid, vehicleDetailsResponseSuccess}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import common.ClientSideSessionFactory
 import services.brute_force_prevention.{BruteForcePreventionServiceImpl, BruteForcePreventionWebService, BruteForcePreventionService}
-import play.api.http.Status._
+import play.api.http.Status.OK
 import scala.Some
 import utils.helpers.Config
 import helpers.common.RandomVrmGenerator
@@ -125,10 +126,10 @@ final class VehicleLookupFormSpec extends UnitSpec {
       new FakeResponse(status = fullResponse._1, fakeJson = responseAsJson)// Any call to a webservice will always return this successful response.
     })
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(vehicleLookupWebService)
-    val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-
+    implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    implicit val config: Config = mock[Config]
     new disposal_of_vehicle.VehicleLookup(bruteForceService = bruteForceServiceImpl,
-      vehicleLookupService = vehicleLookupServiceImpl)(clientSideSessionFactory)
+      vehicleLookupService = vehicleLookupServiceImpl)
   }
 
   private def formWithValidDefaults(referenceNumber: String = ReferenceNumberValid,

@@ -8,9 +8,10 @@ import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._
 import models.domain.disposal_of_vehicle.{BruteForcePreventionViewModel, TraderDetailsModel}
 import play.api.Logger
 import play.api.mvc._
+import utils.helpers.Config
 import scala.Some
 
-final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
   def present = Action { implicit request =>
       request.cookies.getModel[BruteForcePreventionViewModel] match {
         case Some(viewModel) =>

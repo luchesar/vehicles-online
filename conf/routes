@@ -34,7 +34,6 @@ POST        /disposal-of-vehicle/enter-address-manually                 @control
 
 GET         /disposal-of-vehicle/vehicle-lookup                         @controllers.disposal_of_vehicle.VehicleLookup.present
 POST        /disposal-of-vehicle/vehicle-lookup                         @controllers.disposal_of_vehicle.VehicleLookup.submit
-POST        /disposal-of-vehicle/vehicle-lookup/exit                    @controllers.disposal_of_vehicle.VehicleLookup.exit
 GET         /disposal-of-vehicle/vehicle-lookup-back                    @controllers.disposal_of_vehicle.VehicleLookup.back
 
 GET         /disposal-of-vehicle/dispose                                @controllers.disposal_of_vehicle.Dispose.present
@@ -64,4 +63,9 @@ POST        /disposal-of-vehicle/vrm-locked/exit                        @control
 GET         /disposal-of-vehicle/error/:exceptionDigest                 @controllers.disposal_of_vehicle.Error.present(exceptionDigest)
 POST        /disposal-of-vehicle/error/:exceptionDigest                 @controllers.disposal_of_vehicle.Error.submit(exceptionDigest)
 
+GET         /disposal-of-vehicle/help                                   @controllers.common.Help.present
+POST        /disposal-of-vehicle/help                                   @controllers.common.Help.back
+
 GET         /with-language/:chosenLanguage                              controllers.common.AlternateLanguages.withLanguage(chosenLanguage: String)
+
+GET         /healthcheck                                                @controllers.common.HealthCheck.respond

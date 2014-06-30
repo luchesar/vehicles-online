@@ -1,19 +1,25 @@
-@(businessChooseYourAddressForm: Form[models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel], traderBusinessName: String, traderPostcode: String, dropDownOptions: Seq[(String, String)])(implicit lang: Lang, token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken)
+@(businessChooseYourAddressForm: Form[models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel],
+        traderBusinessName: String,
+        traderPostcode: String,
+        dropDownOptions: Seq[(String, String)])(implicit lang: Lang,
+        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        config: utils.helpers.Config)
 
 @import controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress
 @import mappings.disposal_of_vehicle.BusinessChooseYourAddress.{AddressSelectId, BackId, EnterAddressManuallyButtonId, SelectId}
-@import utils.helpers.BaseTemplate._
-@import utils.helpers._
+@import utils.helpers.BaseTemplate.fieldConstructor
+@import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
-@import views.html.helper._
-@import views.html.helper.base._
+@import views.html.helper.base.valtechSelect
+@import views.html.helper.form
 
-@main(title = Messages("disposal_businessChooseYourAddress_title")
+@main(
+    progress = Some(Messages("disposal_progress_3")),
+    title = Messages("disposal_businessChooseYourAddress_title"),
+    currentForm = Some(businessChooseYourAddressForm)
 ) {
-    @errorsSummary(businessChooseYourAddressForm)
-
     @form(action = BusinessChooseYourAddress.submit()) {
-        @CSRFHelper.hiddenFormField
+        @CsrfHelper.hiddenFormField
 
     	<dl class="summary-detail-list">
         	<dt>@Messages("disposal_businessChooseYourAddress_businessName_label")</dt>

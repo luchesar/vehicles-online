@@ -1,48 +1,53 @@
 package controllers.disposal_of_vehicle
 
 import helpers.UnitSpec
-import mappings.common.AddressAndPostcode._
-import mappings.common.AddressLines._
-import mappings.common.Postcode._
-import services.fakes.FakeAddressLookupService._
+import mappings.common.AddressAndPostcode.AddressAndPostcodeId
+import mappings.common.AddressLines.{AddressLinesId, LineMaxLength, BuildingNameOrNumberId, Line2Id, Line3Id, postTownId}
+import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 
 final class EnterAddressManuallyFormSpec extends UnitSpec {
   "form" should {
     "accept if form is valid with all fields filled in" in {
       val model = formWithValidDefaults().get.addressAndPostcodeModel
-      model.addressLinesModel.buildingNameOrNumber should equal(BuildingNameOrNumberValid)
 
-      model.addressLinesModel.line2 should equal(Some(Line2Valid))
-      model.addressLinesModel.line3 should equal(Some(Line3Valid))
-      model.addressLinesModel.postTown should equal(PostTownValid)
+      model.addressLinesModel.buildingNameOrNumber should equal(BuildingNameOrNumberValid.toUpperCase)
+      model.addressLinesModel.line2 should equal(Some(Line2Valid.toUpperCase))
+      model.addressLinesModel.line3 should equal(Some(Line3Valid.toUpperCase))
+      model.addressLinesModel.postTown should equal(PostTownValid.toUpperCase)
     }
 
     "accept if form is valid with only mandatory filled in" in {
       val model = formWithValidDefaults(line2 = "", line3 = "").get.addressAndPostcodeModel
-      model.addressLinesModel.buildingNameOrNumber should equal(BuildingNameOrNumberValid)
+
+      model.addressLinesModel.buildingNameOrNumber should equal(BuildingNameOrNumberValid.toUpperCase)
     }
   }
 
   "address lines" should {
     "accept if form address lines contain hyphens" in {
-      val buildingNameOrNumberHypthens = "1-12"
-      val line2Hypthens = "address line - 2"
-      val line3Hypthens = "address line - 3"
-      val postTownHypthens = "address line - 4"
-      val model = formWithValidDefaults(
-        buildingNameOrNumber = buildingNameOrNumberHypthens,
-        line2 = line2Hypthens,
-        line3 = line3Hypthens,
-        postTown = postTownHypthens).get.addressAndPostcodeModel
+      val model = formWithValidDefaults(buildingNameOrNumber = buildingNameOrNumberHypthens,line2 = line2Hypthens,line3 = line3Hypthens, postTown = postTownHypthens)
+        .get.addressAndPostcodeModel
 
-      model.addressLinesModel.buildingNameOrNumber should equal(buildingNameOrNumberHypthens)
-      model.addressLinesModel.line2 should equal(Some(line2Hypthens))
-      model.addressLinesModel.line3 should equal(Some(line3Hypthens))
-      model.addressLinesModel.postTown should equal(postTownHypthens)
+      model.addressLinesModel.buildingNameOrNumber should equal(buildingNameOrNumberHypthens.toUpperCase)
+      model.addressLinesModel.line2 should equal(Some(line2Hypthens.toUpperCase))
+      model.addressLinesModel.line3 should equal(Some(line3Hypthens.toUpperCase))
+      model.addressLinesModel.postTown should equal(postTownHypthens.toUpperCase)
     }
 
-    "reject if line 4 is blank" in {
+    "reject when all fields are blank" in {
+      formWithValidDefaults(buildingNameOrNumber = "", line2 = "", line3 = "", postTown = "").errors should have length 4
+    }
+
+    "reject if post town is blank" in {
       formWithValidDefaults(postTown = "").errors should have length 2
+    }
+
+    "reject if post town contains numbers" in {
+      formWithValidDefaults(postTown = "123456").errors should have length 1
+    }
+
+    "accept if post town starts with spaces" in {
+      formWithValidDefaults(postTown = " Swansea").get.addressAndPostcodeModel.addressLinesModel.postTown should equal("SWANSEA")
     }
 
     "reject if buildingNameOrNumber is blank" in {
@@ -82,11 +87,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     }
 
     "reject if total length of all address lines is more than maxLengthOfLinesConcatenated" in {
-      formWithValidDefaults(buildingNameOrNumber = "a" * LineMaxLength + 1,
-        line2 = "b" * LineMaxLength,
-        line3 = "c" * LineMaxLength,
-        postTown = "d" * LineMaxLength
-      ).errors should have length 1
+      formWithValidDefaults(buildingNameOrNumber = "a" * LineMaxLength + 1,line2 = "b" * LineMaxLength,line3 = "c" * LineMaxLength, postTown = "d" * LineMaxLength).errors should have length 1
     }
 
     "reject if any line contains html chevrons" in {
@@ -110,4 +111,9 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
       )
     )
   }
+
+  val buildingNameOrNumberHypthens = "1-12"
+  val line2Hypthens = "address line - 2"
+  val line3Hypthens = "address line - 3"
+  val postTownHypthens = "address-line"
 }

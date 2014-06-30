@@ -9,9 +9,10 @@ import play.api.Logger
 import play.api.data.Forms._
 import play.api.data.{Form, FormError}
 import play.api.mvc._
+import utils.helpers.Config
 import utils.helpers.FormExtensions._
 
-final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
 
   private[disposal_of_vehicle] val form = Form(
     mapping(
@@ -40,12 +41,11 @@ final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: 
       validForm =>
         request.cookies.getModel[SetupTradeDetailsModel] match {
           case Some(setupTradeDetails) =>
-            val updatedForm = validForm.stripCharsNotAccepted.toUpperCase
-            val traderAddress = AddressViewModel.from(updatedForm.addressAndPostcodeModel, setupTradeDetails.traderPostcode)
+            val traderAddress = AddressViewModel.from(validForm.addressAndPostcodeModel, setupTradeDetails.traderPostcode)
             val traderDetailsModel = TraderDetailsModel(traderName = setupTradeDetails.traderBusinessName, traderAddress = traderAddress)
 
             Redirect(routes.VehicleLookup.present()).
-              withCookie(updatedForm).
+              withCookie(validForm).
               withCookie(traderDetailsModel)
           case None =>
             Logger.debug("Failed to find dealer name in cache on submit, redirecting")
