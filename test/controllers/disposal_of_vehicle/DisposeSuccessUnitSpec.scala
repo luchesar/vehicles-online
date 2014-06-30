@@ -1,24 +1,19 @@
 package controllers.disposal_of_vehicle
 
-import com.google.inject.Guice
-import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
 import common.ClientSideSessionFactory
-import filters.AccessLoggingFilter._
 import helpers.common.CookieHelper
-import mappings.common.PreventGoingToDisposePage._
-import mappings.disposal_of_vehicle.Dispose._
 import org.joda.time.Instant
-import org.mockito.Mockito._
-import play.api.LoggerLike
+import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
+import org.mockito.Mockito.when
 import play.api.test.Helpers._
-import pages.disposal_of_vehicle._
+import pages.disposal_of_vehicle.{VehicleLookupPage, SetupTradeDetailsPage, BeforeYouStartPage}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
 import helpers.WithApplication
 import play.api.test.FakeRequest
-import CookieHelper._
 import services.DateServiceImpl
+import CookieHelper.fetchCookiesFromHeaders
 import utils.helpers.Config
 
 import scala.concurrent.duration._
@@ -171,7 +166,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     "not offer the survey if the survey url is not set in the config" in new WithApplication {
       implicit val config: Config = mock[Config]
       when(config.prototypeSurveyUrl).thenReturn("")
-      contentAsString(present) should not include("survey")
+      contentAsString(present) should not include "survey"
     }
 
     def disposeWithMockConfig(config: Config): DisposeSuccess =

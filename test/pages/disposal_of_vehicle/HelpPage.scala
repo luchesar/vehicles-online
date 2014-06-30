@@ -10,4 +10,6 @@ object HelpPage extends Page with WebBrowserDSL {
   final override val title: String = "Help"
 
   def exit(implicit driver: WebDriver): Element = find(id(ExitId)).get
+
+  def back(implicit driver: WebDriver): Element = find(id(BackId)).get
 }

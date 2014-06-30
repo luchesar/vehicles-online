@@ -4,17 +4,17 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
-import mappings.common.DayMonthYear._
+import mappings.common.DayMonthYear.{DayId, MonthId, YearId}
 import mappings.common.Mileage
-import mappings.disposal_of_vehicle.Dispose._
+import mappings.disposal_of_vehicle.Dispose.{DateOfDisposalId, MileageId, ConsentId, LossOfRegistrationConsentId}
 import models.DayMonthYear
 import models.domain.disposal_of_vehicle.DisposeRequest
-import org.mockito.Matchers._
-import org.mockito.Mockito._
+import org.mockito.Matchers.any
+import org.mockito.Mockito.when
 import play.api.libs.json.Json
 import services.dispose_service.{DisposeWebService, DisposeServiceImpl}
-import services.fakes.FakeDateServiceImpl._
-import services.fakes.FakeDisposeWebServiceImpl._
+import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import services.fakes.FakeDisposeWebServiceImpl.{MileageValid, ConsentValid, disposeResponseSuccess}
 import services.fakes.FakeResponse
 import services.DateService
 import common.ClientSideSessionFactory

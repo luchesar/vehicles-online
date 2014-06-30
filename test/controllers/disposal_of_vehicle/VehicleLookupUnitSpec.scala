@@ -1,29 +1,50 @@
 package controllers.disposal_of_vehicle
 
 import common.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
-import helpers.common.CookieHelper
-import CookieHelper._
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
 import helpers.WithApplication
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import mappings.disposal_of_vehicle.VehicleLookup._
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
+import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
+import mappings.disposal_of_vehicle.VehicleLookup.ConsentId
 import models.domain.disposal_of_vehicle.{VehicleLookupFormModel, VehicleDetailsResponse, VehicleDetailsRequest}
-import org.mockito.Matchers._
-import org.mockito.Mockito._
-import pages.disposal_of_vehicle._
+import org.mockito.Matchers.any
+import org.mockito.Mockito.{when, verify}
+import pages.disposal_of_vehicle.MicroServiceErrorPage
+import pages.disposal_of_vehicle.DisposePage
+import pages.disposal_of_vehicle.SetupTradeDetailsPage
+import pages.disposal_of_vehicle.VehicleLookupFailurePage
+import pages.disposal_of_vehicle.EnterAddressManuallyPage
+import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
+import pages.disposal_of_vehicle.BeforeYouStartPage
+import pages.disposal_of_vehicle.VrmLockedPage
 import play.api.libs.json.{JsValue, Json}
 import play.api.test.Helpers._
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.brute_force_prevention.{BruteForcePreventionServiceImpl, BruteForcePreventionService, BruteForcePreventionWebService}
-import services.fakes.FakeAddressLookupService._
-import services.fakes.FakeAddressLookupWebServiceImpl._
+import services.fakes.FakeAddressLookupService
+import FakeAddressLookupService.{TraderBusinessNameValid, BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
+import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.{FakeDateServiceImpl, FakeResponse}
-import services.fakes.FakeVehicleLookupWebService._
+import services.fakes.FakeVehicleLookupWebService
+import FakeVehicleLookupWebService.ReferenceNumberValid
+import FakeVehicleLookupWebService.RegistrationNumberValid
+import FakeVehicleLookupWebService.RegistrationNumberWithSpaceValid
+import FakeVehicleLookupWebService.vehicleDetailsResponseNotFoundResponseCode
+import FakeVehicleLookupWebService.vehicleDetailsResponseVRMNotFound
+import FakeVehicleLookupWebService.vehicleDetailsResponseDocRefNumberNotLatest
+import FakeVehicleLookupWebService.vehicleDetailsServerDown
+import FakeVehicleLookupWebService.vehicleDetailsNoResponse
+import FakeVehicleLookupWebService.vehicleDetailsResponseSuccess
+import FakeVehicleLookupWebService.ConsentValid
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
-import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
+import FakeBruteForcePreventionWebServiceImpl.{VrmLocked, VrmAttempt2, responseFirstAttempt, responseSecondAttempt, VrmThrows}
 import play.api.libs.ws.Response
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import mappings.common.DocumentReferenceNumber

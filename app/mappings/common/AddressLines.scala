@@ -3,6 +3,7 @@ package mappings.common
 import play.api.data.Mapping
 import play.api.data.Forms._
 import models.domain.common.AddressLinesModel
+import utils.helpers.FormExtensions._
 
 object AddressLines {
   final val AddressLinesId = "addressLines"
@@ -24,9 +25,9 @@ object AddressLines {
   final val emptyLine = ""
 
   def addressLines: Mapping[AddressLinesModel] = mapping(
-    BuildingNameOrNumberId -> nonEmptyText(minLength = BuildingNameOrNumberMinLength, maxLength = LineMaxLength),
-    Line2Id -> optional(text(maxLength = LineMaxLength)),
-    Line3Id -> optional(text(maxLength = LineMaxLength)),
-    postTownId -> nonEmptyText(minLength = PostTownMinLength, maxLength = LineMaxLength)
+    BuildingNameOrNumberId -> nonEmptyTrimmedText(minLength = BuildingNameOrNumberMinLength, maxLength = LineMaxLength),
+    Line2Id -> optional(trimmedText(maxLength = LineMaxLength)),
+    Line3Id -> optional(trimmedText(maxLength = LineMaxLength)),
+    postTownId -> nonEmptyTrimmedText(minLength = PostTownMinLength, maxLength = LineMaxLength)
   )(AddressLinesModel.apply)(AddressLinesModel.unapply)
 }

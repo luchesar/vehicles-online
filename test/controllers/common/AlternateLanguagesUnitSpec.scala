@@ -3,8 +3,8 @@ package controllers.common
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import controllers.common.AlternateLanguages.withLanguage
 import helpers.{UnitSpec, WithApplication}
-import mappings.common.AlternateLanguages._
-import pages.disposal_of_vehicle._
+import mappings.common.AlternateLanguages.{CyId, EnId}
+import pages.disposal_of_vehicle.BeforeYouStartPage
 import play.api.Play
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -56,5 +56,5 @@ final class AlternateLanguagesUnitSpec extends UnitSpec {
     }
   }
 
-  private val request = FakeRequest().withHeaders("Referer" -> BeforeYouStartPage.address)
+  private val request = FakeRequest().withHeaders(REFERER -> BeforeYouStartPage.address)
 }

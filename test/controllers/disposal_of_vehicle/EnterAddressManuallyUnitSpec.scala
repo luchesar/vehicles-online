@@ -2,24 +2,24 @@ package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
 import helpers.common.CookieHelper
-import CookieHelper._
+import CookieHelper.fetchCookiesFromHeaders
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.WithApplication
-import helpers.disposal_of_vehicle._
-import mappings.common.AddressAndPostcode._
-import mappings.common.AddressLines._
-import mappings.common.Postcode._
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import mappings.common.AddressAndPostcode.AddressAndPostcodeId
+import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, postTownId, Line2Id, Line3Id}
+import mappings.common.Postcode.PostcodeId
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import models.domain.disposal_of_vehicle.{EnterAddressManuallyModel, TraderDetailsModel}
-import org.mockito.Mockito._
-import pages.disposal_of_vehicle._
+import org.mockito.Mockito.when
+import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage}
 import play.api.mvc.SimpleResult
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import utils.helpers.Config
 import scala.concurrent.Future
-import services.fakes.FakeAddressLookupService._
+import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
   "present" should {

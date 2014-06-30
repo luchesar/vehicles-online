@@ -1,13 +1,10 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
-import helpers.common.CookieHelper
-import CookieHelper._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import org.mockito.Mockito._
+import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.ErrorPage
-import play.api.Play
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import utils.helpers.Config

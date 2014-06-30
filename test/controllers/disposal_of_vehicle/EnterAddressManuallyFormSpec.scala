@@ -1,10 +1,9 @@
 package controllers.disposal_of_vehicle
 
 import helpers.UnitSpec
-import mappings.common.AddressAndPostcode._
-import mappings.common.AddressLines._
-import mappings.common.Postcode._
-import services.fakes.FakeAddressLookupService._
+import mappings.common.AddressAndPostcode.AddressAndPostcodeId
+import mappings.common.AddressLines.{AddressLinesId, LineMaxLength, BuildingNameOrNumberId, Line2Id, Line3Id, postTownId}
+import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 
 final class EnterAddressManuallyFormSpec extends UnitSpec {
   "form" should {
@@ -47,8 +46,8 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
       formWithValidDefaults(postTown = "123456").errors should have length 1
     }
 
-    "reject if post town starts with spaces" in {
-      formWithValidDefaults(postTown = " Swansea").errors should have length 1
+    "accept if post town starts with spaces" in {
+      formWithValidDefaults(postTown = " Swansea").get.addressAndPostcodeModel.addressLinesModel.postTown should equal("Swansea")
     }
 
     "reject if buildingNameOrNumber is blank" in {

@@ -1,6 +1,9 @@
 @(title: String)(content: Html)(implicit lang: Lang)
 
 @import views.html.common.{alternateLanguages, feedback}
+@import mappings.common.Help.HelpId
+@import play.api.Play
+@import play.api.Play.current
 
 <!DOCTYPE html>
     <!--[if IE 6]>         <html class="ie ie6" lang="en"> <![endif]-->
@@ -16,8 +19,10 @@
 
         <link rel="stylesheet" href="@routes.Assets.at("screen.min.css")" media="screen" type="text/css">
 
-        <link rel="stylesheet" href="https://assets.digital.cabinet-office.gov.uk/static/fonts-607c54f71c7c1f98257595cedaa13a34.css" media="all" type="text/css">
-
+        @if(!Play.isTest) {
+            @* Do not fetch external assets when testing. Ideally we should have asset local and in version control *@
+            <link rel="stylesheet" href="https://assets.digital.cabinet-office.gov.uk/static/fonts-607c54f71c7c1f98257595cedaa13a34.css" media="all" type="text/css">
+        }
         <link rel="stylesheet" href="@routes.Assets.at("print.min.css")" media="print" type="text/css">
 
         <link rel="shortcut icon" href="@routes.Assets.at("images/favicon.ico")" type="image/x-icon">
@@ -43,7 +48,7 @@
                     <div class="header-phase">
                     	<h1 class="page-title beta"><strong>@{Messages("main.banner")}</strong> <span aria-hidden="true">beta</span></h1>
                     	<h2>
-                            <a href="@controllers.disposal_of_vehicle.routes.Help.present()">@{Messages("main.banner.help")}</a>
+                            <a id="@HelpId" href="@controllers.common.routes.Help.present()">@{Messages("main.banner.help")}</a>
                             @feedback()
                             @alternateLanguages()
                         </h2>
@@ -79,10 +84,13 @@
                             <li>@{Messages("footer.builtbyintro")}&nbsp;<a href="https://www.gov.uk/government/organisations/driver-and-vehicle-licensing-agency" target="_blank">@{Messages("footer.builtby")}</a></li>
                         </ul>
                     </div>
-
-                    <div class="copyright">
-                        <a href="http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm" target="_blank">&copy; Crown Copyright</a>
-                    </div>
+                    @if(!Play.isTest) {
+                        @* Do not fetch external assets when testing. Ideally we should have asset local and in version control *@
+                        <div class="copyright">
+                            <a href="http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm" target="_blank">&copy;
+                                Crown Copyright</a>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
