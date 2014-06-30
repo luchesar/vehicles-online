@@ -1,14 +1,20 @@
 package views.disposal_of_vehicle
 
 import helpers.tags.UiTag
-import pages.disposal_of_vehicle.VehicleLookupPage._
+import pages.disposal_of_vehicle.VehicleLookupPage.{happyPath, tryLockedVrm, back, exit}
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.common.ErrorPanel
-import pages.disposal_of_vehicle._
-import services.fakes.FakeAddressLookupService._
+import pages.disposal_of_vehicle.BeforeYouStartPage
+import pages.disposal_of_vehicle.VehicleLookupPage
+import pages.disposal_of_vehicle.SetupTradeDetailsPage
+import pages.disposal_of_vehicle.DisposePage
+import pages.disposal_of_vehicle.VrmLockedPage
+import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
+import pages.disposal_of_vehicle.EnterAddressManuallyPage
+import services.fakes.FakeAddressLookupService.addressWithUprn
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
@@ -186,5 +192,6 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
       setupTradeDetails().
-      dealerDetails()
+      dealerDetails().
+      preventGoingToDisposePage("")
 }

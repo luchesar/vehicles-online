@@ -10,7 +10,6 @@ import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
-import mappings.disposal_of_vehicle.VehicleLookup.ConsentId
 import models.domain.disposal_of_vehicle.{VehicleLookupFormModel, VehicleDetailsResponse, VehicleDetailsRequest}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{when, verify}
@@ -41,7 +40,6 @@ import FakeVehicleLookupWebService.vehicleDetailsResponseDocRefNumberNotLatest
 import FakeVehicleLookupWebService.vehicleDetailsServerDown
 import FakeVehicleLookupWebService.vehicleDetailsNoResponse
 import FakeVehicleLookupWebService.vehicleDetailsResponseSuccess
-import FakeVehicleLookupWebService.ConsentValid
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import FakeBruteForcePreventionWebServiceImpl.{VrmLocked, VrmAttempt2, responseFirstAttempt, responseSecondAttempt, VrmThrows}
@@ -76,6 +74,23 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val content = contentAsString(result)
       content should include(ReferenceNumberValid)
       content should include(RegistrationNumberValid)
+    }
+
+    "not display exit button when PreventGoingToDisposePageCacheKey cookie is missing" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+      val result = vehicleLookupResponseGenerator().present(request)
+      val content = contentAsString(result)
+      content should not include """button id="exit""""
+    }
+
+    "display exit button when PreventGoingToDisposePageCacheKey cookie is present" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.preventGoingToDisposePage(""))
+      val result = vehicleLookupResponseGenerator().present(request)
+      val content = contentAsString(result)
+      content should include("""button id="exit"""")
     }
 
     "display data captured in previous pages" in new WithApplication {
@@ -179,7 +194,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "return a bad request if dealer details are in cache and no details are entered" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(referenceNumber = "", registrationNumber = "", consent = "").
+      val request = buildCorrectlyPopulatedRequest(referenceNumber = "", registrationNumber = "").
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator().submit(request)
 
@@ -188,7 +203,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to setupTradeDetails page if dealer details are not in cache and no details are entered" in new WithApplication {
 
-      val request = buildCorrectlyPopulatedRequest(referenceNumber = "", registrationNumber = "", consent = "")
+      val request = buildCorrectlyPopulatedRequest(referenceNumber = "", registrationNumber = "")
       val result = vehicleLookupResponseGenerator().submit(request)
 
       result.futureValue.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -450,7 +465,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         r => r.header.status should equal(BAD_REQUEST)
       }
     }
-
   }
 
   private def responseThrows: Future[Response] = Future {
@@ -520,13 +534,11 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = ReferenceNumberValid,
                                              registrationNumber: String = RegistrationNumberValid,
-                                             consent: String = ConsentValid,
                                              postAction: String = VehicleLookupAction) = {
     FakeRequest().withFormUrlEncodedBody(
       "action" -> postAction,
       DocumentReferenceNumberId -> referenceNumber,
-      VehicleRegistrationNumberId -> registrationNumber,
-      ConsentId -> consent)
+      VehicleRegistrationNumberId -> registrationNumber)
   }
 
   private lazy val present = {
