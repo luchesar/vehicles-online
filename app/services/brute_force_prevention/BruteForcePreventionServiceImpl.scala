@@ -16,7 +16,7 @@ final class BruteForcePreventionServiceImpl @Inject()(config: Config, ws: BruteF
 
   override def isVrmLookupPermitted(vrm: String): Future[Option[BruteForcePreventionViewModel]] =
   // TODO US270 this if-statement is a temporary feature toggle until all developers have Redis setup locally.
-    if (config.bruteForcePreventionEnabled) {
+    if (config.isBruteForcePreventionEnabled) {
       ws.callBruteForce(vrm).map {
         resp =>
           def permitted = {
