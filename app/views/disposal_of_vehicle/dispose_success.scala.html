@@ -64,7 +64,7 @@
                 <div class="step">
                     @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.exit()) {
                         @CsrfHelper.hiddenFormField
-                        <button id="@ExitDisposalId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.exitbutton")</button>
+                        <button id="@ExitDisposalId" type="submit" name="action" class="button" showSurvey="http://google.com" onclick="window.open('http://yahoo.com', '_blank');">@Messages("disposal_disposeconfirmation.exitbutton")</button>
                     }
                 </div>
 
@@ -72,14 +72,14 @@
                     @{/* TODO implemented JS and SCSS only. May need Scala work for unique ID? */
                     /* TODO do we need 'value'? */
                     }
-                    <button id="printDisposalSuccess" type="button" name="action" value="printDisposalSuccess" class="button js-only print-button">@Messages("global.buttonnavprint")</button>
+                    
+                    <button id="printDisposalSuccess" type="button" name="action" value="printDisposalSuccess" class="button js-only print-button">@Messages("global.buttonnavprint")</button>         
+
                 </div>
 
                 <br />
 
-                @surveyUrl.map { url =>
-                <a href="@url" class="button-text">@Messages("disposal_disposeconfirmation.survey")</a>
-                }
+                
             </div>
         </div>
     </div>
