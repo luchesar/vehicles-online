@@ -1,6 +1,6 @@
-// any template related styles, ie header, footer, prototype banners, etc 
+//any template related styles, ie header, footer, prototype banners, etc 
 
-// main content wrapper
+//main content wrapper
 #main {
     background:#FFF;
     border-bottom: 10px solid phase-colour($phase);
@@ -9,7 +9,7 @@
     display: block;
 }
 
-// coloured prototype banner
+//coloured prototype banner
 .prototype {
     padding: 0.7em 1em 0 1em;
     background-color: phase-colour($phase);
@@ -42,7 +42,7 @@
     }
 }
 
-/* Header title */
+//header title
 .header-global {
     .page-title {
         color: #fff;

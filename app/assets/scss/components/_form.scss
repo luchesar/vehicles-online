@@ -1,13 +1,13 @@
-// all things forms
+//forms
 
 #{$htmlNamespace} {
 
-	// Hides .js-only if .js-enabled not applied to <body>
+	//Hides .js-only if .js-enabled not applied to <body>
 	body:not(.js-enabled) &  .js-only {
 	  display:none;
 	}
 
-	// Hides .no-js-only if .js-enabled is applied to <body>
+	//Hides .no-js-only if .js-enabled is applied to <body>
 	body.js-enabled & .no-js-only {
 	  display:none;
 	}
@@ -158,7 +158,7 @@
 		padding: 0;
 	}
 
-	// style labels for checkboxes and radio widgets
+	//style labels for checkboxes and radio widgets
 	.form-checkbox,
 	.form-radio {
 		position:relative;
@@ -251,7 +251,7 @@
    	}
 	}
 
-	// container for action buttons at the base of a page
+	//container for action buttons at the base of a page
 	.form-steps {
 	  margin-top: 2.2em;
 	  clear: both;

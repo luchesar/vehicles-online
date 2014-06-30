@@ -1,7 +1,7 @@
-// Colours for the site, as per:
-// http://alphagov.github.com/design/gov.uk.colours/
+//Colours for the site, as per:
+//http://alphagov.github.com/design/gov.uk.colours/
 
-// Departmental colours 
+//Departmental colours 
 $attorney-generals-office: #9f1888;
 $cabinet-office: #005abb;
 $department-for-business-innovation-skills: #003479;
@@ -26,17 +26,17 @@ $northern-ireland-office: #002663;
 $office-of-the-advocate-general-for-scotland: #002663;
 $office-of-the-leader-of-the-house-of-lords: #9c132e;
 $scotland-office: #002663;
-// Note: the 'the' part here will get dropped
+//Note: the 'the' part here will get dropped
 $the-office-of-the-leader-of-the-house-of-commons: #317023;
 $uk-export-finance: #005747;
 $uk-trade-investment: #C80651;
 $wales-office: #a33038;
 
-// Brand colours
+//Brand colours
 $govuk-blue: #005ea5;
 $mainstream-brand: $govuk-blue;
 
-// Standard palette, colours
+//Standard palette, colours
 $purple: #2e358b;
 $purple-50: #9799c4;
 $purple-25: #d5d6e7;
@@ -80,7 +80,7 @@ $light-blue: #2b8cc4;
 $light-blue-50: #96c6e2;
 $light-blue-25: #d5e8f3;
 
-// Standard palette, greys
+//Standard palette, greys
 $black: #0b0c0c;
 $grey-1: #6f777b;
 $grey-2: #bfc1c3;
@@ -88,7 +88,14 @@ $grey-3: #dee0e2;
 $grey-4: #f8f8f8;
 $white: #fff;
 
-// Semantic colour names
+//form elements
+$form-element-bg: #f9f9f9;
+$form-element-border: #BFC1C3;
+
+//error page/elements
+$error-bg: #fef7f7;
+
+//Semantic colour names
 $link-colour: $govuk-blue;
 $link-active-colour: #2e8aca;
 $link-hover-colour: #2e8aca;

@@ -1,4 +1,4 @@
-// app/prototype specific styling
+//app/prototype specific styling
 
 #{$htmlNamespace} {
     background: $white;
@@ -69,8 +69,8 @@
       @include img-multi-wrap(300px);
     }
 
-    // information list
-    // this could be a DL element, or a wrapping div
+    //information list
+    //this could be a DL element, or a wrapping div
     .summary-detail-list {
         @include clearfix;
         margin:23px 0 20px 0;
@@ -117,13 +117,13 @@
             }
         }
 
-        // smaller width, more flexible container
+        //smaller width, more flexible container
         &.summary-detail-list-flex {
             @include summary-detail-list-flex;
         }
     }
 
-    // styles two column layout
+    //styles two column layout
     .two-col {
         @include clearfix;
         width:100%; //failsafe
