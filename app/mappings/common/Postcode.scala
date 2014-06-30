@@ -13,4 +13,5 @@ object Postcode {
   def postcode: Mapping[String] = {
     nonEmptyTextWithTransform(_.toUpperCase.trim)(MinLength, MaxLength) verifying validPostcode
   }
+
 }

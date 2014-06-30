@@ -9,7 +9,5 @@ object DocumentReferenceNumber {
   final val MaxLength = 11
   final val Pattern = s"\\d{$MinLength,$MaxLength}" // Digits only with specified size.
 
-  def referenceNumber: Mapping[String] = {
-    nonEmptyText(MinLength, MaxLength) verifying NumberOnly.rules
-  }
+  def referenceNumber: Mapping[String] = nonEmptyText(MinLength, MaxLength) verifying NumberOnly.rules
 }
