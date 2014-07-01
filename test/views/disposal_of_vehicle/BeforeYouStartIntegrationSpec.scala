@@ -6,6 +6,7 @@ import helpers.tags.UiTag
 import helpers.webbrowser.{TestGlobal, TestHarness}
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.WebDriver
+import pages.common.AlternateLanguages._
 import pages.disposal_of_vehicle.BeforeYouStartPage._
 import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage}
 import play.api.test.FakeApplication
@@ -21,7 +22,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
     "display the progress of the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
-      page.source.contains(progressStep) should equal(true)
+      page.source.contains("Step 1 of 6") should equal(true)
     }
 
     "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowser {

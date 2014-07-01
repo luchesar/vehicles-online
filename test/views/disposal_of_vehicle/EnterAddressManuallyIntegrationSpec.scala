@@ -26,7 +26,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       go to EnterAddressManuallyPage
 
-      page.source.contains(progressStep) should equal(true)
+      page.source.contains("Step 3 of 6") should equal(true)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {

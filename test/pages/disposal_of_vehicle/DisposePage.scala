@@ -8,10 +8,9 @@ import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposa
 import services.fakes.FakeDisposeWebServiceImpl.MileageValid
 
 object DisposePage extends Page with WebBrowserDSL {
-  override val url = WebDriverFactory.testUrl + address.substring(1)
-  final override val title = "Complete & confirm"
   final val address = "/disposal-of-vehicle/dispose"
-  final val progressStep = "Step 5 of 6"
+  override val url: String = WebDriverFactory.testUrl + address.substring(1)
+  final override val title: String = "Complete & confirm"
 
   def mileage(implicit driver: WebDriver): TextField = textField(id(MileageId))
 

@@ -6,10 +6,9 @@ import org.openqa.selenium.WebDriver
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 
 object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
-  override val url = WebDriverFactory.testUrl + address.substring(1)
-  final override val title = "Select your trade address"
-  final val address = "/disposal-of-vehicle/business-choose-your-address"
-  final val progressStep = "Step 3 of 6"
+  final val address: String = "/disposal-of-vehicle/business-choose-your-address"
+  override val url: String = WebDriverFactory.testUrl + address.substring(1)
+  final override val title = "Select your Trader address"
   final val titleCy = "Dewiswch eich cyfeiriad masnach"
 
   def chooseAddress(implicit driver: WebDriver): SingleSel = singleSel(id(AddressSelectId))

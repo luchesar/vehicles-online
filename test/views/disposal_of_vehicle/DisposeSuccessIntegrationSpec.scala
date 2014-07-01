@@ -27,7 +27,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposeSuccessPage
 
-      page.source.contains(progressStep) should equal(true)
+      page.source.contains("Step 6 of 6") should equal(true)
     }
 
     "redirect when no details are cached" taggedAs UiTag in new WebBrowser {

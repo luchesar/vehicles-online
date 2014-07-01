@@ -7,11 +7,11 @@ import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.common.ErrorPanel
 import pages.disposal_of_vehicle.BusinessChooseYourAddressPage.{sadPath, happyPath, manualAddress, back}
-import pages.disposal_of_vehicle.BusinessChooseYourAddressPage._
 import pages.disposal_of_vehicle._
 import services.fakes.FakeAddressLookupService.PostcodeValid
 import mappings.disposal_of_vehicle.EnterAddressManually._
 import services.fakes.FakeAddressLookupService
+import pages.common.AlternateLanguages._
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -27,7 +27,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       cacheSetup()
       go to BusinessChooseYourAddressPage
 
-      page.source.contains(progressStep) should equal(true)
+      page.source.contains("Step 3 of 6") should equal(true)
     }
 
     "redirect when no traderBusinessName is cached" taggedAs UiTag in new WebBrowser {
