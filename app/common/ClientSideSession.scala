@@ -8,4 +8,3 @@ trait ClientSideSession {
   def getCookieValue(cookie: Cookie): String
   val trackingId: String
 }
-

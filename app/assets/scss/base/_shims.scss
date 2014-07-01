@@ -1,5 +1,5 @@
-/* Cross-browser shims
-	Ways of normalising properties across browsers.
+/*  Cross-browser shims
+    Ways of normalising properties across browsers.
 */
 @import "_conditionals";
 
@@ -13,38 +13,38 @@
 */
 
 @mixin inline-block($min-height: "") {
-  display: -moz-inline-stack;
-  display: inline-block;
+    display: -moz-inline-stack;
+    display: inline-block;
 
-  @if $min-height != "" {
-    min-height: $min-height;
-  }
-
-  @include ie-lte(7) {
-    zoom: 1;
-    display: inline;
-  }
-
-  @include ie(6) {
     @if $min-height != "" {
-      height: $min-height;
+        min-height: $min-height;
     }
-  }
+
+    @include ie-lte(7) {
+        zoom: 1;
+        display: inline;
+    }
+
+    @include ie(6) {
+        @if $min-height != "" {
+            height: $min-height;
+        }
+    }
 }
 
 
 /*Contain floats usage:
-	.this-has-floated-children {
+  .this-has-floated-children {
     @extend %contain-floats;
   }
 */
 %contain-floats {
-  &:after {
-    content: "";
-    display: block;
-    clear: both;
-  }
-  @include ie-lte(7) {
-    zoom: 1;
-  }
+    &:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+    @include ie-lte(7) {
+        zoom: 1;
+    }
 }

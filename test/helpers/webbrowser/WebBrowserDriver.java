@@ -8,4 +8,3 @@ final public class WebBrowserDriver extends EventFiringWebDriver {
         super(WebDriverFactory.webDriver());
     }
 }
-

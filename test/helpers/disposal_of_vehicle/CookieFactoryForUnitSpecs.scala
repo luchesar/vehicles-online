@@ -1,16 +1,20 @@
 package helpers.disposal_of_vehicle
 
 import composition.TestComposition
+import common.{ClientSideSessionFactory, CookieFlags, ClearTextClientSideSession}
+import mappings.common.Help.HelpCacheKey
 import mappings.disposal_of_vehicle.Dispose._
-import mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
-import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
+import mappings.disposal_of_vehicle.Dispose.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey}
 import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup._
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
+import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
 import models.DayMonthYear
+import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 import models.domain.disposal_of_vehicle._
+import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import pages.disposal_of_vehicle.HelpPage
 import play.api.libs.json.{Writes, Json}
 import services.fakes.FakeAddressLookupService._
@@ -20,14 +24,9 @@ import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
 import services.fakes.FakeAddressLookupWebServiceImpl._
 import services.fakes.FakeAddressLookupService.PostcodeValid
-import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
-import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
-import common.{ClientSideSessionFactory, CookieFlags, ClearTextClientSideSession}
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
-import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
+import mappings.common.PreventGoingToDisposePage.{PreventGoingToDisposePageCacheKey, DisposeOccurredCacheKey}
 import play.api.mvc.Cookie
-import mappings.common.Help.HelpCacheKey
 
 object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make this more fluent by returning "this" at the end of the defs
 
@@ -178,6 +177,8 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
 
   def preventGoingToDisposePage(payload: String = "") =
     createCookie(PreventGoingToDisposePageCacheKey, payload)
+
+  def disposeOccurred = createCookie(DisposeOccurredCacheKey, "")
 
   def help(origin: String = HelpPage.address) = {
     val key = HelpCacheKey

@@ -1,7 +1,6 @@
 package helpers.steps.hooks
 
-import cucumber.api.java.After
-import cucumber.api.java.Before
+import cucumber.api.java.{After, Before}
 import play.api.test.TestServer
 import play.api.test.FakeApplication
 import helpers.webbrowser.TestGlobal

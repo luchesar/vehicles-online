@@ -43,7 +43,6 @@ trait WireMockFixture extends Suite with SuiteMixin with BeforeAndAfterEach {
         sentRequestsUrls += request.getUrl
       }
     })
-
     sentRequestsUrls
   }
 
@@ -55,7 +54,7 @@ trait WireMockFixture extends Suite with SuiteMixin with BeforeAndAfterEach {
         sentRequestsResponses += ((request, response))
       }
     })
-
     sentRequestsResponses
   }
+
 }

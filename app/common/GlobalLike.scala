@@ -9,9 +9,9 @@ import filters.WithFilters
 import play.api.Play.current
 import play.api._
 import play.api.i18n.Lang
-import play.api.mvc.Results._
+import play.api.mvc.Results.NotFound
 import play.api.mvc._
-import utils.helpers.{Config, ErrorStrategy}
+import utils.helpers.Config
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

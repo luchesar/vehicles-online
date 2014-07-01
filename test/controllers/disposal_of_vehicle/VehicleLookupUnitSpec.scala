@@ -1,16 +1,19 @@
 package controllers.disposal_of_vehicle
 
+import com.tzavellas.sse.guice.ScalaModule
 import common.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
 import helpers.WithApplication
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
 import models.domain.disposal_of_vehicle.{VehicleLookupFormModel, VehicleDetailsResponse, VehicleDetailsRequest}
+import org.joda.time.Instant
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{when, verify}
 import pages.disposal_of_vehicle.MicroServiceErrorPage
@@ -23,6 +26,7 @@ import pages.disposal_of_vehicle.BeforeYouStartPage
 import pages.disposal_of_vehicle.VrmLockedPage
 import play.api.libs.json.{JsValue, Json}
 import play.api.test.Helpers._
+import services.DateServiceImpl
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import services.brute_force_prevention.{BruteForcePreventionServiceImpl, BruteForcePreventionService, BruteForcePreventionWebService}
@@ -50,9 +54,12 @@ import utils.helpers.Config
 import org.mockito.ArgumentCaptor
 import play.api.test.FakeRequest
 import helpers.JsonUtils.deserializeJsonToModel
+import scala.concurrent.duration._
 import mappings.disposal_of_vehicle.VehicleLookup.{VehicleLookupAction, ExitAction, ActionNotAllowedMessage}
 
 final class VehicleLookupUnitSpec extends UnitSpec {
+  val testDuration = 7.days.toMillis
+  implicit val dateService = new DateServiceImpl
 
   "present" should {
     "display the page" in new WithApplication {
@@ -76,7 +83,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       content should include(RegistrationNumberValid)
     }
 
-    "not display exit button when PreventGoingToDisposePageCacheKey cookie is missing" in new WithApplication {
+    "not display exit button when DisposeOccurredCacheKey cookie is missing" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator().present(request)
@@ -84,10 +91,10 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       content should not include """button id="exit""""
     }
 
-    "display exit button when PreventGoingToDisposePageCacheKey cookie is present" in new WithApplication {
+    "display exit button when DisposeOccurredCacheKey cookie is present" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.preventGoingToDisposePage(""))
+        withCookies(CookieFactoryForUnitSpecs.disposeOccurred)
       val result = vehicleLookupResponseGenerator().present(request)
       val content = contentAsString(result)
       content should include("""button id="exit"""")
@@ -130,6 +137,74 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val result = vehicleLookupResponseGenerator(isPrototypeBannerVisible = false).present(request)
 
       contentAsString(result) should not include """<div class="prototype">"""
+    }
+
+    "offer the survey on first successful dispose" in new WithApplication {
+      val request = FakeRequest()
+        .withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        .withCookies(CookieFactoryForUnitSpecs.disposeOccurred)
+      implicit val config = mockSurveyConfig()
+
+      val vehiclesLookup = lookupWithMockConfig(config)
+
+      contentAsString(vehiclesLookup.present(request)) should include(config.prototypeSurveyUrl)
+    }
+
+    "not offer the survey for one just after the initial survey offering" in new WithApplication {
+      implicit val config = mockSurveyConfig()
+      val aMomentAgo = (Instant.now.getMillis - 100).toString
+
+      val request = FakeRequest()
+        .withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        .withCookies(CookieFactoryForUnitSpecs.disposeSurveyUrl(aMomentAgo))
+        .withCookies(CookieFactoryForUnitSpecs.disposeOccurred)
+
+      val vehiclesLookup = lookupWithMockConfig(config)
+      contentAsString(vehiclesLookup.present(request)) should not include config.prototypeSurveyUrl
+    }
+
+    "offer the survey one week after the first offering" in new WithApplication {
+      implicit val config = mockSurveyConfig()
+
+      val moreThen7daysAgo = (Instant.now.getMillis - config.prototypeSurveyPrepositionInterval - 1.minute.toMillis).toString
+      val request = FakeRequest()
+        .withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        .withCookies(CookieFactoryForUnitSpecs.disposeSurveyUrl(moreThen7daysAgo))
+        .withCookies(CookieFactoryForUnitSpecs.disposeOccurred)
+
+      val vehiclesLookup = lookupWithMockConfig(config)
+      contentAsString(vehiclesLookup.present(request)) should include(config.prototypeSurveyUrl)
+    }
+
+    "not offer the survey one week after the first offering" in new WithApplication {
+      implicit val config = mockSurveyConfig()
+
+      val lessThen7daysАgo = (Instant.now.getMillis - config.prototypeSurveyPrepositionInterval + 1.minute.toMillis).toString
+      val request = FakeRequest()
+        .withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        .withCookies(CookieFactoryForUnitSpecs.disposeSurveyUrl(lessThen7daysАgo))
+        .withCookies(CookieFactoryForUnitSpecs.disposeOccurred)
+
+      val vehiclesLookup = lookupWithMockConfig(config)
+      contentAsString(vehiclesLookup.present(request)) should not include config.prototypeSurveyUrl
+    }
+
+    "not offer the survey if the survey url is not set in the config" in new WithApplication {
+      implicit val config: Config = mock[Config]
+      when(config.prototypeSurveyUrl).thenReturn("")
+      when(config.prototypeSurveyPrepositionInterval).thenReturn(testDuration)
+
+      val request = FakeRequest()
+        .withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+        .withCookies(CookieFactoryForUnitSpecs.disposeOccurred)
+
+      val vehiclesLookup = testInjector(new ScalaModule() {
+        override def configure(): Unit = bind[Config].toInstance(config)
+      }).getInstance(classOf[VehicleLookup])
+
+      val result = vehiclesLookup.present(request)
+
+      contentAsString(result) should not include "survey"
     }
   }
 
@@ -378,9 +453,14 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
+      implicit val surveyUrl = new SurveyUrl()(clientSideSessionFactory, config, new FakeDateServiceImpl)
+
       val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
         bruteForceServiceImpl(permitted = true),
-        vehicleLookupServiceImpl)
+        vehicleLookupServiceImpl,
+        surveyUrl = surveyUrl,
+        dateService = dateService
+      )
       val result = vehiclesLookup.submit(request)
 
       whenReady(result) {
@@ -401,9 +481,13 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
+      implicit val surveyUrl = new SurveyUrl()(clientSideSessionFactory, config, new FakeDateServiceImpl)
       val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
         bruteForceServiceImpl(permitted = true),
-        vehicleLookupServiceImpl)
+        vehicleLookupServiceImpl,
+        surveyUrl = surveyUrl,
+        dateService = dateService
+      )
       val result = vehiclesLookup.submit(request)
 
       whenReady(result) {
@@ -422,12 +506,29 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
         implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
         implicit val config: Config = mock[Config]
+        implicit val surveyUrl = new SurveyUrl()(clientSideSessionFactory, config, new FakeDateServiceImpl)
         val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
           bruteForceServiceImpl(permitted = true),
-          vehicleLookupServiceImpl)
+          vehicleLookupServiceImpl,
+          surveyUrl = surveyUrl,
+          dateService = dateService
+        )
         val result = vehiclesLookup.submit(request)
         whenReady(result) {
           r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+        }
+      }
+
+      "set the surveyRequestTriggerDate to the current date" in new WithApplication {
+        val request = buildCorrectlyPopulatedRequest(postAction = ExitAction)
+          .withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
+          .withCookies(CookieFactoryForUnitSpecs.preventGoingToDisposePage(""))
+        val result = lookupWithMockConfig(mockSurveyConfig("http://www.google.com")).submit(request)
+        whenReady(result) {r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          val surveyTime = cookies.find(_.name == SurveyRequestTriggerDateCacheKey).get.value.toLong
+          surveyTime should be <= System.currentTimeMillis()
+          surveyTime should be > System.currentTimeMillis() - 1000
         }
       }
     }
@@ -438,9 +539,13 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
+      implicit val surveyUrl = new SurveyUrl()(clientSideSessionFactory, config, new FakeDateServiceImpl)
       val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
         bruteForceServiceImpl(permitted = true),
-        vehicleLookupServiceImpl)
+        vehicleLookupServiceImpl,
+        surveyUrl = surveyUrl,
+        dateService = dateService
+      )
       val result = vehiclesLookup.submit(request)
       val content = contentAsString(result)
       ActionNotAllowedMessage should equal(content)
@@ -455,9 +560,13 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
+      implicit val surveyUrl = new SurveyUrl()(clientSideSessionFactory, config, new FakeDateServiceImpl)
       val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
         bruteForceServiceImpl(permitted = true),
-        vehicleLookupServiceImpl)
+        vehicleLookupServiceImpl,
+        surveyUrl = surveyUrl,
+        dateService = dateService
+      )
       val result = vehiclesLookup.submit(request)
       val content = contentAsString(result)
       ActionNotAllowedMessage should equal(content)
@@ -512,10 +621,15 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(ws)
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
+    implicit val surveyUrl = new SurveyUrl()(clientSideSessionFactory, config, new FakeDateServiceImpl)
     when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
+    when(config.prototypeSurveyUrl).thenReturn("http://fake/survey/url")
     new disposal_of_vehicle.VehicleLookup(
       bruteForceService = bruteForceService,
-      vehicleLookupService = vehicleLookupServiceImpl)
+      vehicleLookupService = vehicleLookupServiceImpl,
+      surveyUrl = surveyUrl,
+      dateService = dateService
+    )
   }
 
   private lazy val vehicleLookupError = {
@@ -527,9 +641,13 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(vehicleLookupWebService)
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
+    implicit val surveyUrl = new SurveyUrl()(clientSideSessionFactory, config, new FakeDateServiceImpl)
     new disposal_of_vehicle.VehicleLookup(
       bruteForceService = bruteForceServiceImpl(permitted = permitted),
-      vehicleLookupService = vehicleLookupServiceImpl)
+      vehicleLookupService = vehicleLookupServiceImpl,
+      surveyUrl = surveyUrl,
+      dateService = dateService
+    )
   }
 
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = ReferenceNumberValid,
@@ -545,5 +663,18 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val request = FakeRequest().
       withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
     vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
+  }
+
+  def lookupWithMockConfig(config: Config): VehicleLookup =
+    testInjector(new ScalaModule() {
+      override def configure(): Unit = bind[Config].toInstance(config)
+    }).getInstance(classOf[VehicleLookup])
+
+  def mockSurveyConfig(url: String = "http://test/survey/url"): Config = {
+    val config = mock[Config]
+    val surveyUrl = url
+    when(config.prototypeSurveyUrl).thenReturn(surveyUrl)
+    when(config.prototypeSurveyPrepositionInterval).thenReturn(testDuration)
+    config
   }
 }

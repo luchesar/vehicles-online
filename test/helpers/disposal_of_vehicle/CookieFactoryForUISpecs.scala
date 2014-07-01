@@ -1,25 +1,27 @@
 package helpers.disposal_of_vehicle
 
+import mappings.common.AlternateLanguages._
+import models.DayMonthYear
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
-import models.DayMonthYear
-import models.domain.disposal_of_vehicle._
+import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
+import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
+import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
+import models.domain.disposal_of_vehicle.{SetupTradeDetailsModel, BusinessChooseYourAddressModel, EnterAddressManuallyModel}
+import models.domain.disposal_of_vehicle.{AddressViewModel, TraderDetailsModel, BruteForcePreventionViewModel}
+import models.domain.disposal_of_vehicle.{VehicleLookupFormModel, VehicleDetailsModel, DisposeFormModel, DisposeModel}
 import org.openqa.selenium.{WebDriver, Cookie}
 import play.api.libs.json.{Writes, Json}
-import services.fakes.FakeAddressLookupService._
-import services.fakes.FakeAddressLookupService.PostcodeValid
-import services.fakes.FakeDisposeWebServiceImpl._
-import services.fakes.FakeVehicleLookupWebService._
-import services.fakes.FakeAddressLookupWebServiceImpl._
+import services.fakes.FakeAddressLookupService.{TraderBusinessNameValid, Line2Valid, Line3Valid, PostTownValid}
+import services.fakes.FakeAddressLookupService.{PostcodeValid, BuildingNameOrNumberValid, addressWithoutUprn}
+import services.fakes.FakeDisposeWebServiceImpl.TransactionIdValid
+import services.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid, VehicleModelValid, KeeperNameValid}
+import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.{FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
-import mappings.disposal_of_vehicle.EnterAddressManually._
-import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
-import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
 import play.api.Play
 import play.api.Play.current
-import mappings.common.AlternateLanguages._
 
 object CookieFactoryForUISpecs {
   private def addCookie[A](key: String, value: A)(implicit tjs: Writes[A], webDriver: WebDriver): Unit = {
@@ -60,7 +62,8 @@ object CookieFactoryForUISpecs {
 
   def enterAddressManually()(implicit webDriver: WebDriver) = {
     val key = EnterAddressManuallyCacheKey
-    val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
+    val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(
+      addressLinesModel = AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
       line2 = Some(Line2Valid),
       line3 = Some(Line3Valid),
       postTown = PostTownValid)))
@@ -161,6 +164,12 @@ object CookieFactoryForUISpecs {
     val key = mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
     val value = url
     addCookie(key, value)
+    this
+  }
+
+  def disposeOccurred(implicit webDriver: WebDriver) = {
+    val key = mappings.common.PreventGoingToDisposePage.DisposeOccurredCacheKey
+    addCookie(key, "")
     this
   }
 }

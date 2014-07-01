@@ -4,7 +4,7 @@ import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
-import mappings.common.PreventGoingToDisposePage._
+import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.disposal_of_vehicle.DisposeSuccessPage._
 import pages.disposal_of_vehicle._
@@ -117,7 +117,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(VehicleLookupPage.title)
     }
 
-    "remove redundant cookies" taggedAs UiTag in new WebBrowser {
+    "remove and retain cookies" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposeSuccessPage
@@ -134,7 +134,11 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
         webDriver.manage().getCookieNamed(cacheKey) should not equal null
       })
 
+      // Verify that the back button prevention cookie is present
       webDriver.manage().getCookieNamed(PreventGoingToDisposePageCacheKey) should not equal null
+
+      // Verify that the dispose occurred is present
+      webDriver.manage().getCookieNamed(DisposeOccurredCacheKey) should not equal null
     }
   }
 

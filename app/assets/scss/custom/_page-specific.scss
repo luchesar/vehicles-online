@@ -1,20 +1,16 @@
 //enter address manually
 .enter-address-manually {
-	label {
-		@include sr-only;
-	}
-	.post-town label {
- 		position:relative;
- 		top:0;
- 		left:0;
- 		.ie7 &,
- 		.ie8 & {
- 			//position:relative;
-		}
-		.ie7 & {
-			width:100%;
-   	}
-	}
+    label {
+        @include sr-only;
+    }
+    .post-town label {
+        position:relative;
+        top:0;
+        left:0;
+        .ie7 & {
+            width:100%;
+        }
+    }
 }
 
 //vehicle lookup/enter vehicle details

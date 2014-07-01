@@ -1,7 +1,7 @@
 package services.dispose_service
 
 import play.api.Logger
-import play.api.http.Status._
+import play.api.http.Status.OK
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.Config
@@ -31,4 +31,3 @@ final class DisposeServiceImpl @Inject()(config: Config, ws: DisposeWebService) 
     }
   }
 }
-

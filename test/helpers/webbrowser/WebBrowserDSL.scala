@@ -215,7 +215,8 @@ trait WebBrowserDSL {
         case e: org.openqa.selenium.NoSuchElementException => None
       }
     
-    def findAllElements(implicit driver: WebDriver): Iterator[Element] = driver.findElements(by).asScala.toIterator.map { e => createTypedElement(e) }
+    def findAllElements(implicit driver: WebDriver): Iterator[Element] =
+      driver.findElements(by).asScala.toIterator.map { e => createTypedElement(e) }
     
     def webElement(implicit driver: WebDriver): WebElement = {
       try {

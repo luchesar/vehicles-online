@@ -12,4 +12,3 @@ final class WebBrowserHooks(webBrowserDriver: WebBrowserDriver) {
     webDriver.quit()
   }
 }
-
