@@ -54,13 +54,41 @@
             </div>
         </div>
 
+<<<<<<< HEAD
         <div class="second-col">
             <h2>@Messages("disposal_disposeconfirmation.disposaldetails")</h2>
+=======
+            <div class="step">
+                @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.exit()) {
+                @CsrfHelper.hiddenFormField
+
+                @surveyUrl match {
+                  case Some(url) => {
+                        <button id="@ExitDisposalId"
+                                type="submit"
+                                name="action"
+                                onclick="window.open('@url', '_blank');"
+                                class="button">@Messages("disposal_disposeconfirmation.exitbutton")</button>
+                  }
+
+                  case None => {
+                        <button id="@ExitDisposalId"
+                                type="submit"
+                                name="action"
+                                class="button">@Messages("disposal_disposeconfirmation.exitbutton")</button>
+                  }
+                }
+
+
+                }
+            </div>
+>>>>>>> 4a2ba5b7db5adbc6a09e7f1cdedd496c0e362c94
 
             <dl class="summary-detail-list">
                 <dt>@Messages("disposal_disposeconfirmation.registrationNumber_label")</dt>
                 <dd>@Messages("disposal_disposeconfirmation.registrationNumber", data.registrationNumber)</dd>
 
+<<<<<<< HEAD
                 <dt>@Messages("disposal_disposeconfirmation.vehiclemake")</dt>
                 <dd>@data.vehicleMake</dd>
 
@@ -78,6 +106,22 @@
                     @{formModel.dateOfDisposal.`dd/MM/yyyy`}
                 </dd>
             </dl>
+=======
+            <!--@surveyUrl.map { url =>-->
+            <!--<div class="step" hint="@url">-->
+                <!--@form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.exit()) {-->
+                <!--@CsrfHelper.hiddenFormField-->
+                <!--<button id="@DisposalSurveyId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.exit")</button>-->
+                <!--}-->
+            <!--</div>-->
+            <!--}-->
+<!---->
+            <!--<br />-->
+<!---->
+            <!--@surveyUrl.map { url =>-->
+            <!--<a href="#" class="button-text">@Messages("disposal_disposeconfirmation.survey")</a>-->
+            <!--}-->
+>>>>>>> 4a2ba5b7db5adbc6a09e7f1cdedd496c0e362c94
         </div>
 
     </div>

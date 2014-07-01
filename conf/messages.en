@@ -410,7 +410,7 @@ vrm_locked.exit.button=Exit
 onHandlerNotFound.title=This page cannot be found
 onHandlerNotFound.header=This page cannot be found
 onHandlerNotFound.body=We are unable to find the page you have requested, this event has been logged for investigation.
-onHandlerNotFound.noJavascript= If you wish to try again select the back button on your browser, if not select "Exit" to leave the service.
+onHandlerNotFound.noJavascript=If you wish to try again select the back button on your browser, if not select "Exit" to leave the service.
 onHandlerNotFound.back.button=Try again
 onHandlerNotFound.exit.button=Exit
 
