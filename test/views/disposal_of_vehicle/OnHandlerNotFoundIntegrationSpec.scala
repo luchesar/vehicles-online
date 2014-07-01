@@ -3,8 +3,7 @@ package views.disposal_of_vehicle
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.webbrowser.{TestHarness, WebDriverFactory}
-import mappings.disposal_of_vehicle.OnHandlerNotFound.TryAgainId
-import pages.disposal_of_vehicle.OnHandlerNotFoundPage.{exit, tryAgain, hasTryAgain}
+import pages.disposal_of_vehicle.OnHandlerNotFoundPage.{hasTryAgain, tryAgain}
 import pages.disposal_of_vehicle.{BeforeYouStartPage, OnHandlerNotFoundPage}
 
 final class OnHandlerNotFoundIntegrationSpec extends UiSpec with TestHarness {
@@ -45,12 +44,12 @@ final class OnHandlerNotFoundIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "exit" should {
-    "redirect to BeforeYouStartPage" taggedAs UiTag in new WebBrowser {
+    "link to the expected external page" taggedAs UiTag in new WebBrowser {
       go to OnHandlerNotFoundPage
 
-      click on exit
-
-      page.title should equal(BeforeYouStartPage.title)
+      // We should not test navigating to a real URL as that is adding an external dependency, instead just look for
+      // the presence of the URL and trust that the browser can handle it.
+      page.source should include( """href="https://www.gov.uk/browse/driving"""")
     }
   }
 }

@@ -22,7 +22,7 @@ final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
     "display the progress of the page" taggedAs UiTag in new WebBrowser {
       go to SetupTradeDetailsPage
 
-      page.source.contains("Step 2 of 6") should equal(true)
+      page.source.contains(progressStep) should equal(true)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {

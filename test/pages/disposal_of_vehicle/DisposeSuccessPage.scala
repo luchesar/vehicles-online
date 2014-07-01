@@ -1,13 +1,14 @@
 package pages.disposal_of_vehicle
 
+import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
+import mappings.disposal_of_vehicle.DisposeSuccess.{ExitDisposalId, NewDisposalId}
 import org.openqa.selenium.WebDriver
-import helpers.webbrowser._
-import mappings.disposal_of_vehicle.DisposeSuccess._
 
 object DisposeSuccessPage extends Page with WebBrowserDSL {
+  override val url = WebDriverFactory.testUrl + address.substring(1)
+  final override val title = "Sell a vehicle into the motor trade: summary"
   final val address = "/disposal-of-vehicle/dispose-success"
-  override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  final override val title: String = "Sell a vehicle into the motor trade: summary"
+  final val progressStep = "Step 6 of 6"
 
   def newDisposal(implicit driver: WebDriver): Element = find(id(NewDisposalId)).get
 

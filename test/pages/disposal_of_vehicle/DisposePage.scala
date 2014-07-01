@@ -1,16 +1,17 @@
 package pages.disposal_of_vehicle
 
+import helpers.webbrowser.{Checkbox, Element, Page, SingleSel, TextField, WebBrowserDSL, WebDriverFactory}
+import mappings.common.DayMonthYear.{DayId, MonthId, YearId}
+import mappings.disposal_of_vehicle.Dispose.{BackId, ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId, SubmitId, TodaysDateOfDisposal}
 import org.openqa.selenium.WebDriver
-import helpers.webbrowser._
-import services.fakes.FakeDateServiceImpl._
-import mappings.disposal_of_vehicle.Dispose._
-import mappings.common.DayMonthYear._
-import services.fakes.FakeDisposeWebServiceImpl._
+import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import services.fakes.FakeDisposeWebServiceImpl.MileageValid
 
 object DisposePage extends Page with WebBrowserDSL {
+  override val url = WebDriverFactory.testUrl + address.substring(1)
+  final override val title = "Complete & confirm"
   final val address = "/disposal-of-vehicle/dispose"
-  override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  final override val title: String = "Complete & confirm"
+  final val progressStep = "Step 5 of 6"
 
   def mileage(implicit driver: WebDriver): TextField = textField(id(MileageId))
 
