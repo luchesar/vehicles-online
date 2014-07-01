@@ -1,8 +1,8 @@
-// button styling and their variants
+//button styling and their variants
 
 #{$htmlNamespace} {
 
-	// define base button styles for all buttons which can be included using the @extend 
+	//define base button styles for all buttons which can be included using the @extend 
 	%button {
 		text-align: center;
 		border:0;
@@ -57,7 +57,7 @@
 	     
 	}
 
-	// primary button (generally green in colour)
+	//primary button (generally green in colour)
 	.button {
 		@extend %button;
 		color: $white;
@@ -77,7 +77,7 @@
 	   
 	}
 	
-	// secondary button (usually grey)
+	//secondary button (usually grey)
 	.button-secondary {
 	   @extend %button;
 	   background: $grey-3;
@@ -92,7 +92,7 @@
 	   
     }
     
-    // secondary button (usually grey)
+    //secondary button (usually grey)
 	.button-warning {
 	   @extend %button;
 	   background: $red;
@@ -107,7 +107,7 @@
 	   
     }
 	
-	// button that looks like a text link
+	//button that looks like a text link
 	.button-text {
 	   @extend %button;
 	   background: none;
@@ -126,7 +126,7 @@
 	   
 	}
 	
-	// button styling for "out of scope"
+	//button styling for "out of scope"
 	.button-not-implemented {
 		@extend %button;
 		background: lighten($baby-pink, 10%);

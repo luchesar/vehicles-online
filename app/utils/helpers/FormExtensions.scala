@@ -6,7 +6,6 @@ import play.api.data._
 import play.api.data.format.Formatter
 import play.api.data.validation.Constraints
 import scala.language.implicitConversions
-import scala.annotation.tailrec
 
 object FormExtensions {
   implicit def formBinding[T](form: Form[T]) = new RichForm[T](form)
@@ -51,7 +50,7 @@ object FormExtensions {
     textWithTransform(transform)(minLength, maxLength) verifying Constraints.nonEmpty
 
   /**
-   * The nonEmpty variant of TrimmedText applies the additional constraint that the text is empty
+   * The nonEmpty variant of trimmedText applies the additional constraint that the text is empty
    */
   def nonEmptyTrimmedText(minLength: Int = 0, maxLength: Int = Int.MaxValue, additionalTrimChars: Seq[Char] = Nil): Mapping[String] =
     trimmedText(minLength, maxLength, additionalTrimChars) verifying Constraints.nonEmpty
@@ -73,15 +72,12 @@ object FormExtensions {
     return if (((st > 0) || (len < value.length))) value.substring(st, len) else value
   }
 
-  private def transformedStringFormat(transform: String => String): Formatter[String] = new Formatter[String] {
-    def bind(key: String, data: Map[String, String]) = {
-      val value = data.get(key).map(transform(_))
-      value.toRight(Seq(FormError(key, "error.required", Nil)))
-    }
-
-    def unbind(key: String, value: String) = Map(key -> value)
-  }
-
+  /**
+   * Removes leading and trailing characters that do not match a regular expression
+   * @param charRegEx A regular expression that can be matched to a single character (e.g. [A-Z]). The anchors are not needed.
+   * @param input Value to apply the regular expressions
+   * @return
+   */
   def trimNonWhiteListedChars(charRegEx: String)(input: String): String = {
     // TODO This is not very efficient. Think about how to do it better
     val whitelist = ("^(" + charRegEx + ")$").r
@@ -90,5 +86,14 @@ object FormExtensions {
       dropWhile(negativeMatch).
       reverse.dropWhile(negativeMatch).
       reverse
+  }
+
+  private def transformedStringFormat(transform: String => String): Formatter[String] = new Formatter[String] {
+    def bind(key: String, data: Map[String, String]) = {
+      val value = data.get(key).map(transform(_))
+      value.toRight(Seq(FormError(key, "error.required", Nil)))
+    }
+
+    def unbind(key: String, value: String) = Map(key -> value)
   }
 }

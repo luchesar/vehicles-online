@@ -264,23 +264,14 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
           cookies.exists(c => c.name == PreventGoingToDisposePageCacheKey) should equal(true)
       }
     }
-  }
 
-  "survey" should {
     "set the surveyRequestTriggerDate to the current date" in new WithApplication {
-      val result = disposeWithMockConfig(mockSurveyConfig("http://www.google.com")).survey(requestFullyPopulated)
+      val result = disposeWithMockConfig(mockSurveyConfig("http://www.google.com")).exit(requestFullyPopulated)
       whenReady(result) {r =>
         val cookies = fetchCookiesFromHeaders(r)
         val surveyTime = cookies.find(_.name == SurveyRequestTriggerDateCacheKey).get.value.toLong
         surveyTime should be <= System.currentTimeMillis()
         surveyTime should be > System.currentTimeMillis() - 1000
-      }
-    }
-
-    "redirect to the prototype survey url" in new WithApplication {
-      val result = disposeWithMockConfig(mockSurveyConfig("http://www.google.com")).survey(requestFullyPopulated)
-      whenReady(result) {r =>
-        r.header.headers.get(LOCATION) should equal(Some("http://www.google.com"))
       }
     }
   }

@@ -1,4 +1,4 @@
-
+//utilities
 
 @function phase-colour($phase) {
     @if $phase == "alpha" { @return $alpha-colour; }
@@ -16,15 +16,15 @@
     }
 }
 
-// CSS for hiding elements visually but not for screen readers
+//CSS for hiding elements visually but not for screen readers
 @mixin sr-only {
     position: absolute;
     top:0;
     left:-9999px;
 }
 
-// summery detail (playback info after user-input)
-// provides smaller width, more flexible container with a single/full column row
+//summery detail (playback info after user-input)
+//provides smaller width, more flexible container with a single/full column row
 @mixin summary-detail-list-flex {
     @media screen and (min-width:$device-medium) {
         max-width:500px;

@@ -1,5 +1,5 @@
 @(data: models.domain.disposal_of_vehicle.TraderDetailsModel,
-        vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel])(implicit lang: Lang,
+        vehicleLookupForm: Form[models.domain.disposal_of_vehicle.VehicleLookupFormModel], displayExitButton: Boolean)(implicit lang: Lang,
         token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
         config: utils.helpers.Config)
 
@@ -45,7 +45,9 @@
                 <div class="form-steps">
                     <button id="@SubmitId" type="submit" name="action" value="@VehicleLookupAction" class="button">@Messages("disposal_vehiclelookup.button")</button>
                     <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.back()" class="button-secondary">@Messages("disposal_vehiclelookup.backbutton")</a>
-                    <button id="@ExitId" type="submit" name="action" value="@ExitAction" class="button exit-button">@Messages("disposal_vehiclelookup.exitbutton")</button>
+                    @if(displayExitButton) {
+                        <button id="@ExitId" type="submit" name="action" value="@ExitAction" class="button-secondary exit-button">@Messages("disposal_vehiclelookup.exitbutton")</button>
+                    }
                 </div>
 
             </div>

@@ -4,12 +4,15 @@
 		@include sr-only;
 	}
 	.post-town label {
- 		position:initial;
- 		top:initial;
- 		left:initial;
+ 		position:relative;
+ 		top:0;
+ 		left:0;
+ 		.ie7 &,
+ 		.ie8 & {
+ 			//position:relative;
+		}
 		.ie7 & {
-			display: inline;
-			float:left;
+			width:100%;
    	}
 	}
 }
@@ -22,7 +25,7 @@
     //hide exit button in IE6/IE7 (double form posts do not work)
     .exit-button {
         .ie6 &,
-        ie7 & {
+        .ie7 & {
             display:none;
         }
     }
