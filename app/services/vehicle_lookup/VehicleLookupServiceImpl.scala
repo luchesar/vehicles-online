@@ -3,8 +3,7 @@ package services.vehicle_lookup
 import play.api.Logger
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-import models.domain.disposal_of_vehicle._
-import models.domain.disposal_of_vehicle.VehicleDetailsResponse
+import models.domain.disposal_of_vehicle.{VehicleDetailsRequest, VehicleDetailsResponse}
 import javax.inject.Inject
 import play.api.http.Status
 
@@ -18,4 +17,3 @@ final class VehicleLookupServiceImpl @Inject()(ws: VehicleLookupWebService) exte
     }
   }
 }
-
