@@ -1,6 +1,6 @@
 package common
 
-import app.ConfigProperties._
+import app.ConfigProperties.getProperty
 import com.google.inject.Inject
 import play.api.mvc.Cookie
 
