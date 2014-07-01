@@ -1,17 +1,26 @@
 package composition
 
-import app.ConfigProperties._
+import app.ConfigProperties.getProperty
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
-import common._
-import filters.AccessLoggingFilter._
+import common.CookieFlags
+import common.CookieFlagsFromConfig
+import common.ClientSideSessionFactory
+import common.EncryptedClientSideSessionFactory
+import common.ClearTextClientSideSessionFactory
+import filters.AccessLoggingFilter.AccessLoggerName
 import play.api.{LoggerLike, Logger}
-import services.address_lookup._
-import services.brute_force_prevention._
+import services.address_lookup.{AddressLookupWebService, AddressLookupService, ordnance_survey, gds}
+import services.brute_force_prevention.BruteForcePreventionWebService
+import services.brute_force_prevention.BruteForcePreventionService
+import services.brute_force_prevention.BruteForcePreventionServiceImpl
 import services.dispose_service.{DisposeService, DisposeServiceImpl, DisposeWebService, DisposeWebServiceImpl}
-import services.vehicle_lookup.{VehicleLookupService, VehicleLookupServiceImpl, VehicleLookupWebService, VehicleLookupWebServiceImpl}
+import services.vehicle_lookup.VehicleLookupService
+import services.vehicle_lookup.VehicleLookupServiceImpl
+import services.vehicle_lookup.VehicleLookupWebService
+import services.vehicle_lookup.VehicleLookupWebServiceImpl
 import services.{DateService, DateServiceImpl, brute_force_prevention}
-import utils.helpers._
+import utils.helpers.{CookieEncryption, AesEncryption, CookieNameHashGenerator, Sha1HashGenerator}
 
 /**
  * Provides real implementations of traits
