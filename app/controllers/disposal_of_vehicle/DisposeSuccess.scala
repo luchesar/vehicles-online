@@ -1,14 +1,14 @@
 package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
-import common.{CookieImplicits, ClientSideSessionFactory}
-import mappings.common.PreventGoingToDisposePage._
-import mappings.disposal_of_vehicle.Dispose._
+import common.ClientSideSessionFactory
+import common.CookieImplicits._
+import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
+import mappings.disposal_of_vehicle.Dispose.{DisposeFormRegistrationNumberCacheKey, DisposeFormTransactionIdCacheKey, SurveyRequestTriggerDateCacheKey}
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeViewModel, TraderDetailsModel, VehicleDetailsModel}
 import play.api.mvc._
 import services.DateService
-import common.CookieImplicits._
 import utils.helpers.Config
 
 final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -44,7 +44,8 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
       case (Some(traderDetails), Some(vehicleDetails)) =>
         Redirect(routes.VehicleLookup.present()).
           discardingCookies(RelatedCacheKeys.DisposeSet).
-          withCookie(PreventGoingToDisposePageCacheKey, "")
+          withCookie(PreventGoingToDisposePageCacheKey, "").
+          withCookie(DisposeOccurredCacheKey, "")
       case _ => Redirect(routes.SetUpTradeDetails.present())
     }
   }
@@ -74,7 +75,7 @@ class SurveyUrl @Inject()(implicit clientSideSessionFactory: ClientSideSessionFa
                           config: Config,
                           dateService: DateService)
   extends (Request[_] => Option[String]) {
-  import CookieImplicits._
+  import common.CookieImplicits._
 
   def apply(request: Request[_]): Option[String] = {
     def url = if (!config.prototypeSurveyUrl.trim.isEmpty)

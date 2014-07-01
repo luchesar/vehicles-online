@@ -83,7 +83,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       content should include(RegistrationNumberValid)
     }
 
-    "not display exit button when PreventGoingToDisposePageCacheKey cookie is missing" in new WithApplication {
+    "not display exit button when DisposeOccurredCacheKey cookie is missing" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator().present(request)
@@ -91,10 +91,10 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       content should not include """button id="exit""""
     }
 
-    "display exit button when PreventGoingToDisposePageCacheKey cookie is present" in new WithApplication {
+    "display exit button when DisposeOccurredCacheKey cookie is present" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.preventGoingToDisposePage(""))
+        withCookies(CookieFactoryForUnitSpecs.disposeOccurred)
       val result = vehicleLookupResponseGenerator().present(request)
       val content = contentAsString(result)
       content should include("""button id="exit"""")
@@ -142,7 +142,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     "offer the survey on first successful dispose" in new WithApplication {
       val request = FakeRequest()
         .withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
-        .withCookies(CookieFactoryForUnitSpecs.preventGoingToDisposePage(""))
+        .withCookies(CookieFactoryForUnitSpecs.disposeOccurred)
       implicit val config = mockSurveyConfig()
 
       val vehiclesLookup = lookupWithMockConfig(config)
@@ -157,8 +157,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = FakeRequest()
         .withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
         .withCookies(CookieFactoryForUnitSpecs.disposeSurveyUrl(aMomentAgo))
-        .withCookies(CookieFactoryForUnitSpecs.preventGoingToDisposePage(""))
-
+        .withCookies(CookieFactoryForUnitSpecs.disposeOccurred)
 
       val vehiclesLookup = lookupWithMockConfig(config)
       contentAsString(vehiclesLookup.present(request)) should not include config.prototypeSurveyUrl
@@ -171,7 +170,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = FakeRequest()
         .withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
         .withCookies(CookieFactoryForUnitSpecs.disposeSurveyUrl(moreThen7daysAgo))
-        .withCookies(CookieFactoryForUnitSpecs.preventGoingToDisposePage(""))
+        .withCookies(CookieFactoryForUnitSpecs.disposeOccurred)
 
       val vehiclesLookup = lookupWithMockConfig(config)
       contentAsString(vehiclesLookup.present(request)) should include(config.prototypeSurveyUrl)
@@ -184,7 +183,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = FakeRequest()
         .withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
         .withCookies(CookieFactoryForUnitSpecs.disposeSurveyUrl(lessThen7daysАgo))
-        .withCookies(CookieFactoryForUnitSpecs.preventGoingToDisposePage(""))
+        .withCookies(CookieFactoryForUnitSpecs.disposeOccurred)
 
       val vehiclesLookup = lookupWithMockConfig(config)
       contentAsString(vehiclesLookup.present(request)) should not include config.prototypeSurveyUrl
@@ -197,7 +196,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
       val request = FakeRequest()
         .withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
-        .withCookies(CookieFactoryForUnitSpecs.preventGoingToDisposePage(""))
+        .withCookies(CookieFactoryForUnitSpecs.disposeOccurred)
 
       val vehiclesLookup = testInjector(new ScalaModule() {
         override def configure(): Unit = bind[Config].toInstance(config)

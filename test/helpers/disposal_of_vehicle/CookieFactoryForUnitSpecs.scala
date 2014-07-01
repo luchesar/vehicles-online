@@ -25,7 +25,7 @@ import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
 import common.{ClientSideSessionFactory, CookieFlags, ClearTextClientSideSession}
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
-import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
+import mappings.common.PreventGoingToDisposePage.{PreventGoingToDisposePageCacheKey, DisposeOccurredCacheKey}
 import play.api.mvc.Cookie
 import mappings.common.Help.HelpCacheKey
 
@@ -178,6 +178,8 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
 
   def preventGoingToDisposePage(payload: String = "") =
     createCookie(PreventGoingToDisposePageCacheKey, payload)
+
+  def disposeOccurred = createCookie(DisposeOccurredCacheKey, "")
 
   def help(origin: String = HelpPage.address) = {
     val key = HelpCacheKey
