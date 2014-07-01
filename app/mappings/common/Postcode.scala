@@ -1,8 +1,8 @@
 package mappings.common
 
 import play.api.data.Mapping
-import play.api.data.Forms._
 import constraints.common.Postcode.validPostcode
+import utils.helpers.FormExtensions._
 
 object Postcode {
   final val PostcodeId = "postcode"
@@ -11,6 +11,7 @@ object Postcode {
   final val MaxLength = 8
 
   def postcode: Mapping[String] = {
-    nonEmptyText(MinLength, MaxLength) verifying validPostcode
+    nonEmptyTextWithTransform(_.toUpperCase.trim)(MinLength, MaxLength) verifying validPostcode
   }
+
 }

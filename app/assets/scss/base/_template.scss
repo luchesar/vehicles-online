@@ -1,49 +1,48 @@
-// any template related styles, ie header, footer, prototype banners, etc 
+//any template related styles, ie header, footer, prototype banners, etc 
 
-// main content wrapper
+//main content wrapper
 #main {
-	background:#FFF;
-	border-bottom: 10px solid phase-colour($phase);
+    background:#FFF;
+    border-bottom: 10px solid phase-colour($phase);
     margin:0;
     padding:0;
     display: block;
 }
 
-// coloured prototype banner
+//coloured prototype banner
 .prototype {
-	padding: 0.7em 1em 0 1em;
-	background-color: phase-colour($phase);
+    padding: 0.7em 1em 0 1em;
+    background-color: phase-colour($phase);
 
-	@media screen and (max-width: $device-small) {
-     	margin: .9em .9em 0 .9em;
-     	padding-bottom: 0.7em;
+    @media screen and (max-width: $device-small) {
+        margin: .9em .9em 0 .9em;
+        padding-bottom: 0.7em;
     }
 
     p {
-    	margin: 0 !important;
-    	padding: 0 0 8px 0 !important;
-    	line-height: 1.2em;
-    	color: #fff;
-    	font: {
-    		size: 1.5rem !important;
-    		weight: 600 !important;
-    	}
-    	.ie & {
-		   font-size: 15px !important;
-	   	}
+        margin: 0 !important;
+        padding: 0 0 8px 0 !important;
+        line-height: 1.2em;
+        color: #fff;
+        font: {
+            size: 1.5rem !important;
+            weight: 600 !important;
+        }
+        .ie & {
+           font-size: 15px !important;
+        }
     }
 
     a, a:visited {
-    	color: #FFF;
-    	text-decoration: underline;
-    	&:hover {
-		   color: #000;
-	   	}
+        color: #FFF;
+        text-decoration: underline;
+        &:hover {
+            color: #000;
+        }
     }
-
 }
 
-/* Header title */
+//header title
 .header-global {
     .page-title {
         color: #fff;
@@ -51,7 +50,7 @@
         width: auto;
         //text-align: right;
         span {
-        	display: inline-block;
+            display: inline-block;
             width: auto;
             margin-left: .75em;
             letter-spacing: 0.2em;
@@ -82,76 +81,74 @@
 }
 
 #global-header {
-	.header-logo {
-		float:left;
-		margin-right:80px !important;
-		//margin-right:0 !important;
-		margin-bottom:10px !important;
-		width:auto !important;
-	}
+    .header-logo {
+        float:left;
+        margin-right:80px !important;
+        //margin-right:0 !important;
+        margin-bottom:10px !important;
+        width:auto !important;
+    }
 }
 
 .header-phase {
-	float:left;
-	margin-left:15px;
-	margin-bottom:8px;
-	h1.page-title {
-		@include bold-19;
-		position: relative;
-		padding-right:6em;
-		
-		@media screen and (max-width: $device-small) {
-        	padding-right:7em;
+    float:left;
+    margin-left:15px;
+    margin-bottom:8px;
+    h1.page-title {
+        @include bold-19;
+        position: relative;
+        padding-right:6em;
+
+        @media screen and (max-width: $device-small) {
+            padding-right:7em;
         }
-	}
-	h2 {
-		@include bold-14;
-		margin-top:5px;
-		a {
-			color:$white;
-			text-decoration: none;
-			margin-right: 1em;
-			&:visited {
-				color:$white;
-			}
-			&:hover {
-				text-decoration: underline;
-			}
-		}
-	}
+    }
+    h2 {
+        @include bold-14;
+        margin-top:5px;
+        a {
+            color:$white;
+            text-decoration: none;
+            margin-right: 1em;
+            &:visited {
+                color:$white;
+            }
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
 }
-
-
 
 /* Header - Global Overrides - inc !important overrides */
 html {
-	background: #dee0e2!important;
+    background: #dee0e2!important;
 }
 
 #global-header .header-wrapper {
-	padding: 0.5em 1px !important;
+    padding: 0.5em 1px !important;
 }
 
 .vehicles-online-footer {
-	padding-top: 30px !important; 
-	padding-bottom: 30px !important;
-	.footer-meta {
-		border-top: none !important; 
-		padding-top: 0 !important; 
-		padding-bottom: 0 !important; 
-		margin-top: 0 !important;
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+    .footer-meta {
+        border-top: none !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        margin-top: 0 !important;
 
-		ul {
-		 	@media screen and (max-width: 640px) {
-    		text-align: center;
-    	}
-	  }
-		.copyright {
-			position: relative; top: 2px;
-		}
-	}
+        ul {
+            @media screen and (max-width: 640px) {
+                text-align: center;
+            }
+        }
+        .copyright {
+            position: relative; top: 2px;
+        }
+    }
 }
 
 #global-header #logo img {
-	left:-212px !important;
+    left:-212px !important;
 }

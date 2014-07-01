@@ -3,7 +3,6 @@ require.config({
         'jquery': 'jquery/jquery-1.9.1',
         'jquery-migrate': 'jquery/jquery-migrate-1.2.1.min',
         'header-footer-only': 'gov/header-footer-only'
-        //'stageprompt': 'stageprompt-2.0.1'
     }
 });
 
@@ -15,25 +14,6 @@ require(["jquery", "jquery-migrate", "header-footer-only"],function($) {
     }
 
     $(function() {
-        // view more / view less
-        /*
-        $('.helper-more').click(function(){
-            $(this).toggleClass("helper-less")
-            $(this).next(".helper-info").slideToggle("medium");
-
-            if ($(this).text() === 'Close')
-            {
-                $(this).text('Show example');
-            }
-            else
-            {
-                $(this).text('Close');
-            }
-        });
-        */
-
-        // Nino auto jump
-        // $('.ni-number input, .sort-code input').autotab_magic();
 
         // Disabled clicking on disabled buttons
         $('.button-not-implemented').click(function() {
@@ -60,24 +40,6 @@ require(["jquery", "jquery-migrate", "header-footer-only"],function($) {
 
     });
 
-    /*
-    $(document).ready(function() {
-        if (typeof console !== 'undefined') {
-            console.log("document on ready " + areCookiesEnabled() );
-        }
-
-        if (areCookiesEnabled())  {
-            $('#no-cookies').toggle(false);
-            $('#content').toggle(true);
-        }else{
-            $('#no-cookies').toggle(true);
-            $('#content').toggle(false);
-        }
-    });
-    */
-
-
-
     function areCookiesEnabled(){
         var cookieEnabled = (navigator.cookieEnabled) ? true : false;
 
@@ -87,10 +49,6 @@ require(["jquery", "jquery-migrate", "header-footer-only"],function($) {
             cookieEnabled = (document.cookie.indexOf("testcookie") != -1) ? true : false;
         }
         return (cookieEnabled);
-    }
-
-    function trackEvent(category, action, label, value, noninteraction){
-        _gaq.push(['_trackEvent',category,action].concat(opt(label)).concat(opt(value)).concat(opt(noninteraction)));
     }
 
     function opt(v){

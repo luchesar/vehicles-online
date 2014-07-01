@@ -1,26 +1,25 @@
 package controllers.disposal_of_vehicle
 
 import helpers.UnitSpec
-import mappings.common.AddressAndPostcode._
-import mappings.common.AddressLines._
-import mappings.common.Postcode._
-import services.fakes.FakeAddressLookupService._
+import mappings.common.AddressAndPostcode.AddressAndPostcodeId
+import mappings.common.AddressLines.{AddressLinesId, LineMaxLength, BuildingNameOrNumberId, Line2Id, Line3Id, postTownId}
+import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 
 final class EnterAddressManuallyFormSpec extends UnitSpec {
   "form" should {
     "accept if form is valid with all fields filled in" in {
       val model = formWithValidDefaults().get.addressAndPostcodeModel
 
-      model.addressLinesModel.buildingNameOrNumber should equal(BuildingNameOrNumberValid)
-      model.addressLinesModel.line2 should equal(Some(Line2Valid))
-      model.addressLinesModel.line3 should equal(Some(Line3Valid))
-      model.addressLinesModel.postTown should equal(PostTownValid)
+      model.addressLinesModel.buildingNameOrNumber should equal(BuildingNameOrNumberValid.toUpperCase)
+      model.addressLinesModel.line2 should equal(Some(Line2Valid.toUpperCase))
+      model.addressLinesModel.line3 should equal(Some(Line3Valid.toUpperCase))
+      model.addressLinesModel.postTown should equal(PostTownValid.toUpperCase)
     }
 
     "accept if form is valid with only mandatory filled in" in {
       val model = formWithValidDefaults(line2 = "", line3 = "").get.addressAndPostcodeModel
 
-      model.addressLinesModel.buildingNameOrNumber should equal(BuildingNameOrNumberValid)
+      model.addressLinesModel.buildingNameOrNumber should equal(BuildingNameOrNumberValid.toUpperCase)
     }
   }
 
@@ -29,10 +28,10 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
       val model = formWithValidDefaults(buildingNameOrNumber = buildingNameOrNumberHypthens,line2 = line2Hypthens,line3 = line3Hypthens, postTown = postTownHypthens)
         .get.addressAndPostcodeModel
 
-      model.addressLinesModel.buildingNameOrNumber should equal(buildingNameOrNumberHypthens)
-      model.addressLinesModel.line2 should equal(Some(line2Hypthens))
-      model.addressLinesModel.line3 should equal(Some(line3Hypthens))
-      model.addressLinesModel.postTown should equal(postTownHypthens)
+      model.addressLinesModel.buildingNameOrNumber should equal(buildingNameOrNumberHypthens.toUpperCase)
+      model.addressLinesModel.line2 should equal(Some(line2Hypthens.toUpperCase))
+      model.addressLinesModel.line3 should equal(Some(line3Hypthens.toUpperCase))
+      model.addressLinesModel.postTown should equal(postTownHypthens.toUpperCase)
     }
 
     "reject when all fields are blank" in {
@@ -47,8 +46,8 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
       formWithValidDefaults(postTown = "123456").errors should have length 1
     }
 
-    "reject if post town starts with spaces" in {
-      formWithValidDefaults(postTown = " Swansea").errors should have length 1
+    "accept if post town starts with spaces" in {
+      formWithValidDefaults(postTown = " Swansea").get.addressAndPostcodeModel.addressLinesModel.postTown should equal("SWANSEA")
     }
 
     "reject if buildingNameOrNumber is blank" in {

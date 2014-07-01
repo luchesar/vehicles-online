@@ -1,4 +1,4 @@
-// standard alert messages and their variants
+//standard alert messages and their variants
 
 #{$htmlNamespace} {
 
@@ -73,7 +73,7 @@
 		}
 	}
 	
-	// error alert message
+	//error alert message
 	.alert-error {
 	  @extend .alert;
 	  border-color: $mellow-red;
@@ -208,7 +208,7 @@
 	    }
 	}
 	
-	// error summary message
+	//error summary message
 	.validation-summary {
 	    @extend .alert-error;
 	    margin: 1em 18% 1em -1em;

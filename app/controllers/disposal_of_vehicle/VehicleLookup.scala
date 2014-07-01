@@ -3,12 +3,20 @@ package controllers.disposal_of_vehicle
 import com.google.inject.Inject
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import common.{ClientSideSessionFactory, LogFormats}
-import mappings.common.DocumentReferenceNumber._
+import mappings.common.DocumentReferenceNumber.referenceNumber
 import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
-import mappings.common.VehicleRegistrationNumber._
-import mappings.disposal_of_vehicle.VehicleLookup._
-import models.domain.common.BruteForcePreventionResponse._
-import models.domain.disposal_of_vehicle._
+import mappings.common.VehicleRegistrationNumber.registrationNumber
+import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
+import mappings.disposal_of_vehicle.VehicleLookup.ActionNotAllowedMessage
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
+import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import models.domain.disposal_of_vehicle.TraderDetailsModel
+import models.domain.disposal_of_vehicle.VehicleDetailsDto
+import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
+import models.domain.disposal_of_vehicle.VehicleDetailsModel
+import models.domain.disposal_of_vehicle.VehicleDetailsRequest
+import models.domain.disposal_of_vehicle.VehicleDetailsResponse
 import play.api.Logger
 import play.api.data.Forms._
 import play.api.data.{Form, FormError}
@@ -34,7 +42,8 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
 
   def present = Action { implicit request =>
     request.cookies.getModel[TraderDetailsModel] match {
-      case Some(traderDetails) => Ok(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, form.fill()))
+      case Some(traderDetails) =>
+        Ok(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, form.fill(), shouldDisplayExitButton))
       case None => Redirect(routes.SetUpTradeDetails.present())
     }
   }
@@ -51,6 +60,13 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     }
   }
 
+  private def shouldDisplayExitButton(implicit request: Request[AnyContent], clientSideSessionFactory: ClientSideSessionFactory): Boolean = {
+    val session = clientSideSessionFactory.getSession(request.cookies)
+    val encryptedCookieName = session.nameCookie(PreventGoingToDisposePageCacheKey).value
+    val displayExitButton = request.cookies.exists(c => c.name == encryptedCookieName)
+    displayExitButton
+  }
+
   private def vehicleLookup(implicit request: Request[AnyContent]): Future[SimpleResult] = {
     form.bindFromRequest.fold(
       invalidForm =>
@@ -60,7 +76,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
               replaceError(VehicleRegistrationNumberId, FormError(key = VehicleRegistrationNumberId, message = "error.restricted.validVrnOnly", args = Seq.empty)).
               replaceError(DocumentReferenceNumberId, FormError(key = DocumentReferenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
               distinctErrors
-              BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, formWithReplacedErrors))
+              BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, formWithReplacedErrors, shouldDisplayExitButton))
             case None => Redirect(routes.SetUpTradeDetails.present())
           }
         },

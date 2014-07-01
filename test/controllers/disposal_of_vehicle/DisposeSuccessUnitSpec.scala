@@ -1,16 +1,28 @@
 package controllers.disposal_of_vehicle
 
+import com.tzavellas.sse.guice.ScalaModule
+import common.ClientSideSessionFactory
 import helpers.common.CookieHelper
-import mappings.common.PreventGoingToDisposePage._
+import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
+import org.joda.time.Instant
+import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
+import org.mockito.Mockito.when
 import play.api.test.Helpers._
-import pages.disposal_of_vehicle._
+import pages.disposal_of_vehicle.{VehicleLookupPage, SetupTradeDetailsPage, BeforeYouStartPage}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
 import helpers.WithApplication
 import play.api.test.FakeRequest
-import CookieHelper._
+import services.DateServiceImpl
+import CookieHelper.fetchCookiesFromHeaders
+import utils.helpers.Config
+
+import scala.concurrent.duration._
 
 final class DisposeSuccessUnitSpec extends UnitSpec {
+  implicit val dateService = new DateServiceImpl
+  val testDuration = 7.days.toMillis
+
   "present" should {
     "display the page" in new WithApplication {
       whenReady(present) {
@@ -91,6 +103,65 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
 
     "display prototype message when config set to true" in new WithApplication {
       contentAsString(present) should include("""<div class="prototype">""")
+    }
+
+    "not display prototype message when config set to false" in new WithApplication {
+      val request = FakeRequest()
+      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+      implicit val config: Config = mock[Config]
+      when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
+      val disposeSuccessPrototypeNotVisible = new DisposeSuccess()
+
+      val result = disposeSuccessPrototypeNotVisible.present(request)
+      contentAsString(result) should not include """<div class="prototype">"""
+    }
+
+    "offer the survey on first successful dispose" in new WithApplication {
+      implicit val config = mockSurveyConfig()
+
+      val disposeSuccess = disposeWithMockConfig(config)
+
+      contentAsString(disposeSuccess.present(requestFullyPopulated)) should include(config.prototypeSurveyUrl)
+    }
+
+    "not offer the survey for one just after the initial survey offering" in new WithApplication {
+      implicit val config = mockSurveyConfig()
+
+      val aMomentAgo = (Instant.now.getMillis - 100).toString
+
+      val disposeSuccess = disposeWithMockConfig(config)
+      contentAsString(disposeSuccess.present(
+        requestFullyPopulated.withCookies(CookieFactoryForUnitSpecs.disposeSurveyUrl(aMomentAgo))
+      )) should not include config.prototypeSurveyUrl
+    }
+
+    "offer the survey one week after the first offering" in new WithApplication {
+      implicit val config = mockSurveyConfig()
+
+      val moreThen7daysAgo = (Instant.now.getMillis - config.prototypeSurveyPrepositionInterval - 1.minute.toMillis).toString
+
+      val disposeSuccess = disposeWithMockConfig(config)
+      contentAsString(disposeSuccess.present(
+        requestFullyPopulated.withCookies(CookieFactoryForUnitSpecs.disposeSurveyUrl(moreThen7daysAgo))
+      )) should include(config.prototypeSurveyUrl)
+    }
+
+    "not offer the survey one week after the first offering" in new WithApplication {
+      implicit val config = mockSurveyConfig()
+
+      val lessThen7daysАgo = (Instant.now.getMillis - config.prototypeSurveyPrepositionInterval + 1.minute.toMillis).toString
+
+      val disposeSuccess = disposeWithMockConfig(config)
+      contentAsString(disposeSuccess.present(
+        requestFullyPopulated.withCookies(CookieFactoryForUnitSpecs.disposeSurveyUrl(lessThen7daysАgo))
+      )) should not include config.prototypeSurveyUrl
+    }
+
+    "not offer the survey if the survey url is not set in the config" in new WithApplication {
+      implicit val config: Config = mock[Config]
+      when(config.prototypeSurveyUrl).thenReturn("")
+      when(config.prototypeSurveyPrepositionInterval).thenReturn(testDuration)
+      contentAsString(present) should not include "survey"
     }
   }
 
@@ -193,6 +264,16 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
           cookies.exists(c => c.name == PreventGoingToDisposePageCacheKey) should equal(true)
       }
     }
+
+    "set the surveyRequestTriggerDate to the current date" in new WithApplication {
+      val result = disposeWithMockConfig(mockSurveyConfig("http://www.google.com")).exit(requestFullyPopulated)
+      whenReady(result) {r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        val surveyTime = cookies.find(_.name == SurveyRequestTriggerDateCacheKey).get.value.toLong
+        surveyTime should be <= System.currentTimeMillis()
+        surveyTime should be > System.currentTimeMillis() - 1000
+      }
+    }
   }
 
   private val disposeSuccess = injector.getInstance(classOf[DisposeSuccess])
@@ -205,4 +286,17 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
     withCookies(CookieFactoryForUnitSpecs.disposeModel())
   private lazy val present = disposeSuccess.present(requestFullyPopulated)
+
+  def disposeWithMockConfig(config: Config): DisposeSuccess =
+    testInjector(new ScalaModule() {
+      override def configure(): Unit = bind[Config].toInstance(config)
+    }).getInstance(classOf[DisposeSuccess])
+
+  def mockSurveyConfig(url: String = "http://test/survery/url"): Config = {
+    val config = mock[Config]
+    val surveyUrl = url
+    when(config.prototypeSurveyUrl).thenReturn(surveyUrl)
+    when(config.prototypeSurveyPrepositionInterval).thenReturn(testDuration)
+    config
+  }
 }

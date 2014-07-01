@@ -206,7 +206,7 @@ disposal_vehiclelookup.p1 = Dod o hyd i gerbyd
 disposal_vehiclelookup.p2 = Bydd cerbyd yn cael ei werthu i
 disposal_vehiclelookup.warning.p1 = Peidiwch â gwaredu cerbyd gyda chofrestru personol oni bai bod y ceidwad ar hyn o bryd yn deall y bydd y cofrestriad yn cael eu gwaredu ynghyd â''r cerbyd.
 disposal_vehiclelookup.warning.p2 = Cadw neu drosglwyddo cofrestriadau personol cyn cael gwared i''r fasnach.
-disposal_vehiclelookup.img.h2 = V5C document reference number
+disposal_vehiclelookup.img.h2 = Help ddod o hyd i eich rhif cyfeirnod y ddogfen V5C?
 disposal_vehiclelookup.img.alt = V5C document reference number
 disposal_vehiclelookup.refnumlabel = V5C Rhif cyfeirnod y ddogfen
 disposal_vehiclelookup.vrninputlabel = Rhif cofrestru cerbyd
@@ -329,6 +329,15 @@ disposal_progress_4 = Cam 3 o 6
 disposal_progress_5 = Cam 3 o 6
 disposal_progress_6 = Cam 3 o 6
 
+# help
+disposal.help.title = Help
+disposal.help.p1 = Mae'r gwasanaeth hwn yng Ngham Beta Preifat
+disposal.help.p2.1 = Os oes angen unrhyw help ei ddefnyddio, yna, cysylltwch â Julie Riseley ar 01792 788410 neu
+disposal.help.p2.2 = anfon e-bost
+disposal.help.email =  mailto:julie.riseley@dvla.gsi.gov.uk?Subject=Sell%20to%20the%20Trade%20Help
+disposal.help.exit_button = Allanfa
+disposal.help.back_button = Yn ôl
+
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = Mae eich cais yn cael ei brosesu a dylech dderbyn llythyr cadarnhad o fewn pedair wythnos.
 ms.vehiclesService.response.unableToProcessApplication = Nid ydym yn gallu prosesu eich cais ar hyn o bryd. Os gwelwch yn dda anfon y V5C / 3 i'r cyfeiriad canlynol; DVLA, Longview Road, Morriston, Swansea, SA6 7JL
@@ -362,6 +371,9 @@ vrm_locked.text3.2 = 0300 790 6801
 onHandlerNotFound.title=Ni all y dudalen ar gael
 onHandlerNotFound.header=Ni all y dudalen ar gael
 onHandlerNotFound.body=Gwnewch yn siŵr eich bod wedi mynd i mewn i''r cyfeiriad gwe cywir, neu archwilio GOV.UK i ddod o hyd i''r wybodaeth rydych ei hangen.
+onHandlerNotFound.noJavascript=Os ydych yn dymuno ceisio eto dewiswch y botwm ôl ar eich porwr, os nad dewiswch "Gadael" i adael y gwasanaeth.
+onHandlerNotFound.back.button=Ceisiwch eto
+onHandlerNotFound.exit.button=Gadael
 
 error.title = Mae gwall wedi digwydd na ellir ei adennill
 error.button = Dechrau eto
@@ -386,7 +398,7 @@ language.cy.button = YAGNI
 language.en.button = English
 
 main.banner.feedback =Adborth
-main.banner.feedback.link=mailto:VM@digital.dvla.gov.uk?Subject=Adborth%20ar%20gwerthu%20i%27r%20masnach
+main.banner.feedback.link=mailto:vm.feedback@digital.dvla.gov.uk?Subject=Adborth%20ar%20gwerthu%20i%27r%20masnach
 prototype.banner-part2=yn ein helpu i wella
 disposal_disposefailure.name=Methiant
 disposal_disposefailure.button3=Print

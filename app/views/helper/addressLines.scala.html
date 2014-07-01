@@ -7,7 +7,7 @@
 @input(field,args.toSeq: _*){(id, name, value, htmlArgs) =>
 
 <legend>@valtechLabelText(field, args)</legend>
-    <div class="form-address-stack" id="@id">
+    <div id="@id">
         <div class="form-item">
         @valtechInputText(field(mappings.common.AddressLines.BuildingNameOrNumberId),
             args = Map(

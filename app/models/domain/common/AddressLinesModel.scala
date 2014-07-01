@@ -7,8 +7,13 @@ case class AddressLinesModel(buildingNameOrNumber: String,
                              line2: Option[String] = None,
                              line3: Option[String] = None,
                              postTown: String) {
-  def toViewFormat: Seq[String] = Seq(Some(buildingNameOrNumber.toUpperCase), line2.map(_.toUpperCase),
-    line3.map(_.toUpperCase), Some(postTown.toUpperCase)).flatten
+
+  def toViewFormat: Seq[String] = Seq(
+    Some(buildingNameOrNumber.toUpperCase),
+    line2.map(_.toUpperCase),
+    line3.map(_.toUpperCase),
+    Some(postTown.toUpperCase)
+  ).flatten
 
   def totalCharacters = toViewFormat.map(_.length).sum
 }

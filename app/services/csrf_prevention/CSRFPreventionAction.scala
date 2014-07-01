@@ -9,6 +9,7 @@ import play.api.mvc.BodyParsers.parse._
 import play.api.mvc._
 import utils.helpers.AesEncryption
 import common.CookieImplicits._
+import play.api.http.HeaderNames.REFERER
 
 final case class CSRFPreventionException(nestedException: Throwable) extends Exception(nestedException: Throwable)
 
@@ -115,7 +116,7 @@ object CSRFPreventionAction {
   case class CSRFPreventionToken(value: String)
 
   val Delimiter = "-"
-  
+
   // TODO : Trap the missing token exception differently?
   implicit def getToken(implicit request: RequestHeader, clientSideSessionFactory: ClientSideSessionFactory): CSRFPreventionToken = {
     Some(CSRFPreventionToken(Crypto.signToken(aesEncryption.encrypt(
@@ -123,7 +124,7 @@ object CSRFPreventionAction {
   }
 
   def buildTokenWithReferer(trackingId: String, requestHeaders: Headers) = {
-    trackingId + Delimiter + requestHeaders.get("Referer")
+    trackingId + Delimiter + requestHeaders.get(REFERER)
   }
 
   def buildTokenWithUri(trackingId: String, uri: String) = {

@@ -6,7 +6,7 @@
 main.banner = Sell a vehicle into the motor trade
 main.banner.help = Help
 main.banner.feedback = Feedback
-main.banner.feedback.link = mailto:VM@digital.dvla.gov.uk?Subject=Sell%20to%20the%20Trade%20feedback
+main.banner.feedback.link = mailto:vm.feedback@digital.dvla.gov.uk?Subject=Sell%20to%20the%20Trade%20feedback
 
 global.cookiemessage = GOV.UK uses cookies to make the site simpler.
 global.cookiefindoutmore = Find out more about cookies
@@ -243,7 +243,7 @@ disposal_vehiclelookup.p1 = Vehicle being sold
 disposal_vehiclelookup.p2 = Vehicle will be sold to
 disposal_vehiclelookup.warning.p1 = Do not dispose of a vehicle with a personal registration unless the current keeper understands that the registration will be disposed of along with the vehicle.
 disposal_vehiclelookup.warning.p2 = Retain or transfer personal registrations before disposing to the trade.
-disposal_vehiclelookup.img.h2 = V5C document reference number
+disposal_vehiclelookup.img.h2 = Help finding your V5C document reference number?
 disposal_vehiclelookup.img.alt = V5C document reference number
 disposal_vehiclelookup.refnumlabel = Latest V5C Document Reference Number
 disposal_vehiclelookup.vrninputlabel = Vehicle registration mark
@@ -310,8 +310,13 @@ disposal_disposeconfirmation.newdisposalbutton = Sell another vehicle
 disposal_disposeconfirmation.disposaldate = Date of sale
 disposal_disposeconfirmation.mileage = Mileage
 disposal_disposeconfirmation.noMileageEntered = No mileage entered
+<<<<<<< HEAD
 disposal_disposeconfirmation.exitbutton = Finish
 disposal_disposeconfirmation.survey = 
+=======
+disposal_disposeconfirmation.exitbutton = Exit
+disposal_disposeconfirmation.survey = Take a survey
+>>>>>>> a8f01367386615413dabb56489eb098b0d1a980a
 
 #page 7 - dispose failure
 disposal_disposefailure.title = Sell a vehicle into the motor trade: failure
@@ -357,6 +362,16 @@ disposal_progress_4 = Step 4 of 6
 disposal_progress_5 = Step 5 of 6
 disposal_progress_6 = Step 6 of 6
 
+# help
+disposal.help.title = Help
+disposal.help.p1 = This service is in Private Beta Phase
+disposal.help.p2.1 = If you require any help using it then please contact Julie Riseley on 01792 788410 or
+disposal.help.p2.2 = send an email
+disposal.help.email =  mailto:julie.riseley@dvla.gsi.gov.uk?Subject=Sell%20to%20the%20Trade%20Help
+disposal.help.exit_button = Exit
+disposal.help.back_button = Back
+
+
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed = The application is being processed.
 ms.vehiclesService.response.unableToProcessApplication-title = Transaction Unsuccessful
@@ -394,7 +409,10 @@ vrm_locked.exit.button=Exit
 # 404 onHandlerNotFound
 onHandlerNotFound.title=This page cannot be found
 onHandlerNotFound.header=This page cannot be found
-onHandlerNotFound.body=Please check that you have entered the correct web address, or explore GOV.UK to find the information you need.
+onHandlerNotFound.body=We are unable to find the page you have requested, this event has been logged for investigation.
+onHandlerNotFound.noJavascript= If you wish to try again select the back button on your browser, if not select "Exit" to leave the service.
+onHandlerNotFound.back.button=Try again
+onHandlerNotFound.exit.button=Exit
 
 error.title=An unrecoverable error has occurred
 error.button=Start again

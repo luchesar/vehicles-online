@@ -2,7 +2,7 @@ package controllers.common
 
 import helpers.UnitSpec
 import play.api.test.FakeRequest
-import play.mvc.Http.Status._
+import play.mvc.Http.Status.OK
 
 class HealthCheckSpec extends UnitSpec {
 

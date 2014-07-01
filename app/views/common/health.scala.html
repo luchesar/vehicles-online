@@ -1,8 +1,8 @@
 @(now: String)(implicit lang: Lang, config: utils.helpers.Config)
 
-@import views.html.common.{govMain, helpLine, protoType}
+@import views.html.common.{govMainDefault, helpLine, protoType}
 
-@govMain("Alive") {
+@govMainDefault("Alive") {
     <div class="carers-allowance">
 
         @protoType()

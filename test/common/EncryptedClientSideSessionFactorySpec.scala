@@ -1,6 +1,6 @@
 package common
 
-import utils.helpers._
+import utils.helpers.{NoEncryption, CookieEncryption, NoHashGenerator, CookieNameHashGenerator}
 import helpers.UnitSpec
 import play.api.mvc.Cookie
 

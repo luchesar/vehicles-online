@@ -2,16 +2,16 @@
 @import '_conditionals.scss';
 @import '_device-pixels.scss';
 
-//  GOV.UK typography palettes
+//GOV.UK typography palettes
 
-//  ANATOMY OF A TYPE STYLE
-//  -----------------------
-//  These are a collection of graphic styles. They are deliberately
-//  abstracted from semantic HTML context to enable flexible re-use.
-//  Although there is a lot of duplication within this file, as long
-//  as you GZIP your CSS it shouldnt cause any bloat.
+//ANATOMY OF A TYPE STYLE
+//-----------------------
+//These are a collection of graphic styles. They are deliberately
+//abstracted from semantic HTML context to enable flexible re-use.
+//Although there is a lot of duplication within this file, as long
+//as you GZIP your CSS it shouldnt cause any bloat.
 
-// CORE FONTS - NEW TRANSPORT
+//CORE FONTS - NEW TRANSPORT
 
 $is-print: false !default;
 
@@ -311,9 +311,8 @@ $is-print: false !default;
   }
 }
 
-// External link styles for all font sizes
-
-// Private mixin for use solely by those below
+//External link styles for all font sizes
+//Private mixin for use solely by those below
 
 @mixin external-link-size($content, $top, $top-hover: top) {
   &:after {

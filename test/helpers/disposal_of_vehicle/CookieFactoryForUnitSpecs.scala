@@ -11,6 +11,7 @@ import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BusinessChooseYour
 import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
 import models.DayMonthYear
 import models.domain.disposal_of_vehicle._
+import pages.disposal_of_vehicle.HelpPage
 import play.api.libs.json.{Writes, Json}
 import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeDateServiceImpl._
@@ -26,6 +27,7 @@ import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForc
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
 import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
 import play.api.mvc.Cookie
+import mappings.common.Help.HelpCacheKey
 
 object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make this more fluent by returning "this" at the end of the defs
 
@@ -176,4 +178,13 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
 
   def preventGoingToDisposePage(payload: String = "") =
     createCookie(PreventGoingToDisposePageCacheKey, payload)
+
+  def help(origin: String = HelpPage.address) = {
+    val key = HelpCacheKey
+    val value = origin
+    createCookie(key, value)
+  }
+
+  def disposeSurveyUrl(surveyUrl: String) =
+    createCookie(SurveyRequestTriggerDateCacheKey, surveyUrl)
 }
