@@ -5,7 +5,6 @@ import play.api.data.Forms._
 import play.api.data._
 import utils.helpers.FormExtensions._
 import play.api.data.FormError
-import play.api.data.FormError
 
 final class FormExtensionsSpec extends UnitSpec {
   "anyMandatoryFields" should {
