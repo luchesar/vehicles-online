@@ -1,8 +1,5 @@
 //GOV.UK font stacks, referred to in typography.scss
 
-
-//Font stack weirdness
-//
 //To ensure embedded fonts fall back to appropriate
 //system fonts (eg, bold embedded font falls back to
 //bold system font, without anyone getting horrible
@@ -11,30 +8,27 @@
 //than with the usual font-family.
 
 //New Transport Light
-
 $NTA-Light:
-  "nta", 
-  Arial,
-  sans-serif;
+    "nta", 
+    Arial,
+    sans-serif;
 
 //New Transport Light with Tabular
-
 $NTA-Light-Tabular:
-  "ntatabularnumbers",
-  "nta", 
-  Arial,
-  sans-serif;
+    "ntatabularnumbers",
+    "nta", 
+    Arial,
+    sans-serif;
 
 //Helvetica Regular
-
 @font-face {
-  font-family: GDS-Logo;
-  src: local("HelveticaNeue"),
-       local("Helvetica Neue"),
-       local("Arial"),
-       local("Helvetica");
+    font-family: GDS-Logo;
+    src: local("HelveticaNeue"),
+         local("Helvetica Neue"),
+         local("Arial"),
+         local("Helvetica");
 }
 
 $Helvetica-Regular:
-  "GDS-Logo",
-  sans-serif;
+    "GDS-Logo",
+    sans-serif;

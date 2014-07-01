@@ -2,7 +2,7 @@
 
 //main content wrapper
 #main {
-    background:#FFF;
+    background:$white;
     border-bottom: 10px solid phase-colour($phase);
     margin:0;
     padding:0;
@@ -23,7 +23,7 @@
         margin: 0 !important;
         padding: 0 0 8px 0 !important;
         line-height: 1.2em;
-        color: #fff;
+        color: $white;
         font: {
             size: 1.5rem !important;
             weight: 600 !important;
@@ -34,10 +34,10 @@
     }
 
     a, a:visited {
-        color: #FFF;
+        color: $white;
         text-decoration: underline;
         &:hover {
-            color: #000;
+            color: $black-1;
         }
     }
 }
@@ -45,7 +45,7 @@
 //header title
 .header-global {
     .page-title {
-        color: #fff;
+        color: $white;
         padding: .3em 1.5rem 0 0;
         width: auto;
         //text-align: right;
@@ -67,9 +67,9 @@
             
         }
         &.alpha {
-          span {
-            background: phase-colour($phase);
-          }
+            span {
+                background: phase-colour($phase);
+            }
         }
         &.beta {
             span {
@@ -122,7 +122,7 @@
 
 /* Header - Global Overrides - inc !important overrides */
 html {
-    background: #dee0e2!important;
+    background: $grey-3!important;
 }
 
 #global-header .header-wrapper {
