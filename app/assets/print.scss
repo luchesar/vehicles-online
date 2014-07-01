@@ -73,8 +73,8 @@ section> #global-header {
         right: 0;
         width: 15%;
         @media (max-width: 640px) {
-          font-size: 1.2rem;
-          line-height: 1.25;
+            font-size: 1.2rem;
+            line-height: 1.25;
         }
     }
 }
@@ -119,10 +119,10 @@ article {
         font-weight: 400;
         text-transform: none;
         padding-top: 7pt;
-            @media (max-width: 640px) {
-                font-size: 1.6rem;
-                line-height: 1.25;
-            }
+        @media (max-width: 640px) {
+            font-size: 1.6rem;
+            line-height: 1.25;
+        }
     }
     h3 {
         font-family: "nta",Arial,sans-serif;
@@ -130,10 +130,10 @@ article {
         line-height: 1.25;
         font-weight: 300;
         text-transform: none;
-            @media (max-width: 640px) {
-                font-size: 1.4rem;
-                line-height: 1.14286;
-            }
+        @media (max-width: 640px) {
+            font-size: 1.4rem;
+            line-height: 1.14286;
+        }
     }
     p {
         font-family: "nta",Arial,sans-serif;
@@ -141,15 +141,15 @@ article {
         line-height: 1.42857;
         font-weight: 400;
         text-transform: none;
-            @media (max-width: 640px) {
-                font-size: 1.2rem;
-                line-height: 1.25;
-            }
+        @media (max-width: 640px) {
+            font-size: 1.2rem;
+            line-height: 1.25;
+        }
     }
     li {
         line-height: 1.5em;
         p {
-          margin: 0;
+            margin: 0;
         }
     }
     h4 {
@@ -158,10 +158,10 @@ article {
         line-height: 1.42857;
         font-weight: 400;
         text-transform: none;
-            @media (max-width: 640px) {
-                font-size: 1.2rem;
-                line-height: 1.25;
-            }
+        @media (max-width: 640px) {
+            font-size: 1.2rem;
+            line-height: 1.25;
+        }
     }
     table {
         border: 1pt solid #7d7d7d;
@@ -200,10 +200,10 @@ article {
         padding-left: 13pt;
         list-style-image: none;
         list-style-type: disc;
-            @media (max-width: 640px) {
-                font-size: 1.2rem;
-                line-height: 1.25;
-            }
+        @media (max-width: 640px) {
+            font-size: 1.2rem;
+            line-height: 1.25;
+        }
     }
     .contact, .info-notice, .help-notice {
       border: 1pt solid #7d7d7d;
@@ -342,6 +342,7 @@ label {
     display:block !important;
     width:100%;
 }
+
 input {
     margin-bottom:10px;
 }
@@ -352,9 +353,9 @@ select {
 }
 
 footer{
-  ul {
-    padding-left:0;
-  }
+    ul {
+        padding-left:0;
+    }
 }
 
 //hide specific elements/sections
