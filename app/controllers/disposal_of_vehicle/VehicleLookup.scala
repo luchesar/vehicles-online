@@ -4,7 +4,7 @@ import com.google.inject.Inject
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import common.{ClientSideSessionFactory, LogFormats}
 import mappings.common.DocumentReferenceNumber.referenceNumber
-import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
+import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import mappings.common.VehicleRegistrationNumber.registrationNumber
 import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
@@ -62,7 +62,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
 
   private def shouldDisplayExitButton(implicit request: Request[AnyContent], clientSideSessionFactory: ClientSideSessionFactory): Boolean = {
     val session = clientSideSessionFactory.getSession(request.cookies)
-    val encryptedCookieName = session.nameCookie(PreventGoingToDisposePageCacheKey).value
+    val encryptedCookieName = session.nameCookie(DisposeOccurredCacheKey).value
     val displayExitButton = request.cookies.exists(c => c.name == encryptedCookieName)
     displayExitButton
   }

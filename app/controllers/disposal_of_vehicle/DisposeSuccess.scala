@@ -2,8 +2,10 @@ package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
-import mappings.common.PreventGoingToDisposePage._
-import mappings.disposal_of_vehicle.Dispose._
+import mappings.common.PreventGoingToDisposePage.{PreventGoingToDisposePageCacheKey, DisposeOccurredCacheKey}
+import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
+import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeViewModel, TraderDetailsModel, VehicleDetailsModel}
 import play.api.mvc._
@@ -43,7 +45,8 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
       case (Some(traderDetails), Some(vehicleDetails)) =>
         Redirect(routes.VehicleLookup.present()).
           discardingCookies(RelatedCacheKeys.DisposeSet).
-          withCookie(PreventGoingToDisposePageCacheKey, "")
+          withCookie(PreventGoingToDisposePageCacheKey, "").
+          withCookie(DisposeOccurredCacheKey, "")
       case _ => Redirect(routes.SetUpTradeDetails.present())
     }
   }
