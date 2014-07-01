@@ -1,12 +1,10 @@
 package helpers.steps_javascript_enabled
 
 import pages.disposal_of_vehicle._
-import cucumber.api.java.en.Given
-import cucumber.api.java.en.When
-import cucumber.api.java.en.Then
+import cucumber.api.java.en.{Given, When, Then}
 import org.scalatest.Matchers
 import org.openqa.selenium.WebDriver
-import helpers.webbrowser.{WebBrowserDriverWIthJavaScript, WebBrowserDSL, WebBrowserDriver}
+import helpers.webbrowser.{WebBrowserDriverWIthJavaScript, WebBrowserDSL}
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import pages.disposal_of_vehicle.DisposePage._
 import services.fakes.FakeDateServiceImpl._

@@ -7,12 +7,8 @@ import org.openqa.selenium.WebDriver
 import cucumber.api.java.en._
 import pages.disposal_of_vehicle._
 import pages.common.ErrorPanel
-import scala.collection.JavaConversions._
 import common.{ClearTextClientSideSessionFactory, NoCookieFlags, EncryptedClientSideSessionFactory}
-import common.CookieImplicits.RichCookies
 import utils.helpers.{CookieNameHashGenerator, Sha1HashGenerator, AesEncryption, CookieEncryption}
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
-import play.api.mvc.Cookie
 import helpers.common.RandomVrmGenerator
 
 // TODO - Store input as variables

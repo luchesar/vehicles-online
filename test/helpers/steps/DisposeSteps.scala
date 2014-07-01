@@ -2,15 +2,13 @@ package helpers.steps
 
 import pages.disposal_of_vehicle._
 import cucumber.api.java.en.{When, Given, Then}
-import org.scalatest.Matchers
-import services.fakes.FakeDateServiceImpl._
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
-import org.openqa.selenium.WebDriver
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
-import org.scalatest.time.{Seconds, Span}
-import org.scalatest.concurrent.Eventually._
-import pages.disposal_of_vehicle.DisposePage._
+import org.openqa.selenium.WebDriver
+import org.scalatest.Matchers
 import pages.common.ErrorPanel
+import pages.disposal_of_vehicle.DisposePage._
+import services.fakes.FakeDateServiceImpl._
 
 final class DisposeSteps(webBrowserDriver:WebBrowserDriver) extends WebBrowserDSL with Matchers {
 
