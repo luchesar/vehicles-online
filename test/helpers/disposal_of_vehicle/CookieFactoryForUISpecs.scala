@@ -1,39 +1,27 @@
 package helpers.disposal_of_vehicle
 
+import mappings.common.AlternateLanguages._
+import models.DayMonthYear
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
-import models.DayMonthYear
-import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
-import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel
-import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
-import models.domain.disposal_of_vehicle.AddressViewModel
-import models.domain.disposal_of_vehicle.TraderDetailsModel
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
-import models.domain.disposal_of_vehicle.VehicleDetailsModel
-import models.domain.disposal_of_vehicle.DisposeFormModel
-import models.domain.disposal_of_vehicle.DisposeModel
+import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
+import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
+import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
+import models.domain.disposal_of_vehicle.{SetupTradeDetailsModel, BusinessChooseYourAddressModel, EnterAddressManuallyModel}
+import models.domain.disposal_of_vehicle.{AddressViewModel, TraderDetailsModel, BruteForcePreventionViewModel}
+import models.domain.disposal_of_vehicle.{VehicleLookupFormModel, VehicleDetailsModel, DisposeFormModel, DisposeModel}
 import org.openqa.selenium.{WebDriver, Cookie}
 import play.api.libs.json.{Writes, Json}
-import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
-import services.fakes.FakeAddressLookupService.Line2Valid
-import services.fakes.FakeAddressLookupService.Line3Valid
-import services.fakes.FakeAddressLookupService.PostTownValid
-import services.fakes.FakeAddressLookupService.PostcodeValid
-import services.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
-import services.fakes.FakeAddressLookupService.addressWithoutUprn
+import services.fakes.FakeAddressLookupService.{TraderBusinessNameValid, Line2Valid, Line3Valid, PostTownValid}
+import services.fakes.FakeAddressLookupService.{PostcodeValid, BuildingNameOrNumberValid, addressWithoutUprn}
 import services.fakes.FakeDisposeWebServiceImpl.TransactionIdValid
 import services.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid, VehicleModelValid, KeeperNameValid}
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.{FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
-import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
-import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import play.api.Play
 import play.api.Play.current
-import mappings.common.AlternateLanguages._
 
 object CookieFactoryForUISpecs {
   private def addCookie[A](key: String, value: A)(implicit tjs: Writes[A], webDriver: WebDriver): Unit = {
