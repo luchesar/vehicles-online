@@ -6,6 +6,7 @@ import mappings.disposal_of_vehicle.DisposeSuccess._
 
 object DisposeSuccessPage extends Page with WebBrowserDSL {
   final val address = "/disposal-of-vehicle/dispose-success"
+  final val progressStep = "Step 6 of 6"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Sell a vehicle into the motor trade: summary"
 

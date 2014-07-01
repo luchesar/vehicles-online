@@ -7,6 +7,7 @@ import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 
 object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
   final val address: String = "/disposal-of-vehicle/business-choose-your-address"
+  final val progressStep = "Step 3 of 6"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title = "Select your trade address"
   final val titleCy = "Dewiswch eich cyfeiriad masnach"

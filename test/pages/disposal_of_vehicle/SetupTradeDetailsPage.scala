@@ -7,6 +7,7 @@ import mappings.disposal_of_vehicle.SetupTradeDetails._
 
 object SetupTradeDetailsPage extends Page with WebBrowserDSL {
   final val address = "/disposal-of-vehicle/setup-trade-details"
+  final val progressStep = "Step 2 of 6"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Provide your Trader details" 
 

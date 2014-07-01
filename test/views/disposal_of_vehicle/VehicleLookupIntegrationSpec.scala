@@ -7,13 +7,8 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.common.ErrorPanel
-import pages.disposal_of_vehicle.BeforeYouStartPage
-import pages.disposal_of_vehicle.VehicleLookupPage
-import pages.disposal_of_vehicle.SetupTradeDetailsPage
-import pages.disposal_of_vehicle.DisposePage
-import pages.disposal_of_vehicle.VrmLockedPage
-import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
-import pages.disposal_of_vehicle.EnterAddressManuallyPage
+import pages.disposal_of_vehicle.{BeforeYouStartPage, VehicleLookupPage, SetupTradeDetailsPage, DisposePage, VrmLockedPage, BusinessChooseYourAddressPage, EnterAddressManuallyPage}
+import pages.disposal_of_vehicle.VehicleLookupPage._
 import services.fakes.FakeAddressLookupService.addressWithUprn
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 
@@ -34,7 +29,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       go to VehicleLookupPage
 
-      page.source.contains("Step 4 of 6") should equal(true)
+      page.source.contains(progressStep) should equal(true)
     }
 
     "Redirect when no traderBusinessName is cached" taggedAs UiTag in new WebBrowser {
