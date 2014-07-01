@@ -21,16 +21,16 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
     }
 
     "return the same args when key maxLength is not present and test mode" in new WithApplication {
-      val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal) // Override validationOff to check the behaviour of the production code.
-
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
+      // Override validationOff to check the behaviour of the production code.
       val result = richHtmlArgs.maxLengthRules
 
       result should equal(htmlArgsMinimal)
     }
 
     "add key maxLength with default value to args not present and not in test mode" in new WithApplication {
-      val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal, validationOff = false) // Override validationOff to check the behaviour of the production code.
-
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal, validationOff = false)
+      // Override validationOff to check the behaviour of the production code.
       val result = richHtmlArgs.maxLengthRules
 
       result should equal(htmlArgsWithMaxLength)

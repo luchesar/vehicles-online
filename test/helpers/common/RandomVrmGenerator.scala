@@ -4,7 +4,6 @@ import util.Random
 import scala.collection.immutable.NumericRange.Inclusive
 
 object RandomVrmGenerator {
-
   private final val letters: Inclusive[Char] = 'A' to 'Z'
   private final val numbers: Inclusive[Char] = '0' to '9'
 
