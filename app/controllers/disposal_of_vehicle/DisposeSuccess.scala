@@ -1,7 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
+import common.{CookieImplicits, ClientSideSessionFactory}
 import mappings.common.PreventGoingToDisposePage._
 import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.RelatedCacheKeys
@@ -13,6 +13,7 @@ import utils.helpers.Config
 
 final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                      config: Config,
+                                     surveyUrl: SurveyUrl,
                                      dateService: DateService) extends Controller {
 
   def present = Action { implicit request =>
@@ -32,7 +33,7 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
            Some(transactionId),
            registrationNumber
          )
-         Ok(views.html.disposal_of_vehicle.dispose_success(disposeViewModel, disposeFormModel, prototypeServeryUrl(request))).
+         Ok(views.html.disposal_of_vehicle.dispose_success(disposeViewModel, disposeFormModel, surveyUrl(request))).
            discardingCookies(RelatedCacheKeys.DisposeOnlySet) // TODO US320 test for this
        case _ => Redirect(routes.VehicleLookup.present()) // US320 the user has pressed back button after being on dispose-success and pressing new dispose.
      }
@@ -67,8 +68,15 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
       transactionId = transactionId,
       registrationNumber = registrationNumber
     )
+}
 
-  private def prototypeServeryUrl(request: Request[_]): Option[String] = {
+class SurveyUrl @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+                          config: Config,
+                          dateService: DateService)
+  extends (Request[_] => Option[String]) {
+  import CookieImplicits._
+
+  def apply(request: Request[_]): Option[String] = {
     def url = if (!config.prototypeSurveyUrl.trim.isEmpty)
       Some(config.prototypeSurveyUrl.trim)
     else None
