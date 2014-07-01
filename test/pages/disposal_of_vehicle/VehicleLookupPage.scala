@@ -7,10 +7,10 @@ import services.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, Registr
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 
 object VehicleLookupPage extends Page with WebBrowserDSL {
+  override val url = WebDriverFactory.testUrl + address.substring(1)
+  final override val title = "Enter vehicle details"
   final val address = "/disposal-of-vehicle/vehicle-lookup"
   final val progressStep = "Step 4 of 6"
-  override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  final override val title: String = "Enter vehicle details"
 
   def vehicleRegistrationNumber(implicit driver: WebDriver): TextField = textField(id(VehicleRegistrationNumberId))
 
@@ -22,7 +22,8 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
 
   def findVehicleDetails(implicit driver: WebDriver): Element = find(id(SubmitId)).get
 
-  def happyPath(referenceNumber: String = ReferenceNumberValid, registrationNumber: String = RegistrationNumberValid)(implicit driver: WebDriver) = {
+  def happyPath(referenceNumber: String = ReferenceNumberValid,
+                registrationNumber: String = RegistrationNumberValid)(implicit driver: WebDriver) = {
     go to VehicleLookupPage
     documentReferenceNumber.value = referenceNumber
     VehicleLookupPage.vehicleRegistrationNumber.value = registrationNumber

@@ -6,10 +6,10 @@ import org.openqa.selenium.WebDriver
 import services.fakes.FakeAddressLookupService.{PostcodeInvalid, PostcodeValid, TraderBusinessNameValid}
 
 object SetupTradeDetailsPage extends Page with WebBrowserDSL {
+  override val url = WebDriverFactory.testUrl + address.substring(1)
+  final override val title = "Provide your Trader details"
   final val address = "/disposal-of-vehicle/setup-trade-details"
   final val progressStep = "Step 2 of 6"
-  override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  final override val title: String = "Provide your Trader details"
 
   def traderName(implicit driver: WebDriver): TextField = textField(id(TraderNameId))
 
@@ -17,7 +17,8 @@ object SetupTradeDetailsPage extends Page with WebBrowserDSL {
 
   def lookup(implicit driver: WebDriver): Element = find(id(SubmitId)).get
 
-  def happyPath(traderBusinessName: String = TraderBusinessNameValid, traderBusinessPostcode: String = PostcodeValid)(implicit driver: WebDriver) = {
+  def happyPath(traderBusinessName: String = TraderBusinessNameValid,
+                traderBusinessPostcode: String = PostcodeValid)(implicit driver: WebDriver) = {
     go to SetupTradeDetailsPage
     traderName enter traderBusinessName
     traderPostcode enter traderBusinessPostcode
