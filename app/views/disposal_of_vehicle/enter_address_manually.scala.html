@@ -1,6 +1,6 @@
 @(enterAddressManuallyForm: Form[models.domain.disposal_of_vehicle.EnterAddressManuallyModel],
         traderPostcode: String)(implicit lang: Lang,
-        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        token: services.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
 @import mappings.common.AddressAndPostcode.AddressAndPostcodeId
