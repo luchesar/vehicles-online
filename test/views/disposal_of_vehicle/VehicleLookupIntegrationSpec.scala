@@ -188,5 +188,5 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     CookieFactoryForUISpecs.
       setupTradeDetails().
       dealerDetails().
-      preventGoingToDisposePage("")
+      disposeOccurred
 }
