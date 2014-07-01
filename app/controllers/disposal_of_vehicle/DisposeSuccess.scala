@@ -2,19 +2,18 @@ package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
-import mappings.common.PreventGoingToDisposePage.{PreventGoingToDisposePageCacheKey, DisposeOccurredCacheKey}
-import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
-import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
-import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
+import common.CookieImplicits._
+import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
+import mappings.disposal_of_vehicle.Dispose.{DisposeFormRegistrationNumberCacheKey, DisposeFormTransactionIdCacheKey, SurveyRequestTriggerDateCacheKey}
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeViewModel, TraderDetailsModel, VehicleDetailsModel}
 import play.api.mvc._
 import services.DateService
-import common.CookieImplicits._
 import utils.helpers.Config
 
 final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                      config: Config,
+                                     surveyUrl: SurveyUrl,
                                      dateService: DateService) extends Controller {
 
   def present = Action { implicit request =>
@@ -34,7 +33,7 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
            Some(transactionId),
            registrationNumber
          )
-         Ok(views.html.disposal_of_vehicle.dispose_success(disposeViewModel, disposeFormModel, prototypeServeryUrl(request))).
+         Ok(views.html.disposal_of_vehicle.dispose_success(disposeViewModel, disposeFormModel, surveyUrl(request))).
            discardingCookies(RelatedCacheKeys.DisposeOnlySet) // TODO US320 test for this
        case _ => Redirect(routes.VehicleLookup.present()) // US320 the user has pressed back button after being on dispose-success and pressing new dispose.
      }
@@ -70,8 +69,15 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
       transactionId = transactionId,
       registrationNumber = registrationNumber
     )
+}
 
-  private def prototypeServeryUrl(request: Request[_]): Option[String] = {
+class SurveyUrl @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+                          config: Config,
+                          dateService: DateService)
+  extends (Request[_] => Option[String]) {
+  import common.CookieImplicits._
+
+  def apply(request: Request[_]): Option[String] = {
     def url = if (!config.prototypeSurveyUrl.trim.isEmpty)
       Some(config.prototypeSurveyUrl.trim)
     else None

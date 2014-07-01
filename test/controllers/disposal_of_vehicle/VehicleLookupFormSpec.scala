@@ -1,28 +1,30 @@
 package controllers.disposal_of_vehicle
 
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
+import common.ClientSideSessionFactory
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
+import helpers.common.RandomVrmGenerator
 import helpers.disposal_of_vehicle.InvalidVRMFormat.allInvalidVrmFormats
 import helpers.disposal_of_vehicle.ValidVRMFormat.allValidVrmFormats
 import mappings.disposal_of_vehicle.VehicleLookup.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
 import models.domain.disposal_of_vehicle.{VehicleDetailsRequest, VehicleDetailsResponse}
 import org.mockito.Matchers.{any, anyString}
 import org.mockito.Mockito.when
-import play.api.libs.json.{JsValue, Json}
-import services.fakes.{FakeDateServiceImpl, FakeResponse}
-import services.fakes.FakeVehicleLookupWebService
-import FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid, ConsentValid, vehicleDetailsResponseSuccess}
-import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
-import common.ClientSideSessionFactory
-import services.brute_force_prevention.{BruteForcePreventionServiceImpl, BruteForcePreventionWebService, BruteForcePreventionService}
 import play.api.http.Status.OK
-import scala.Some
+import play.api.libs.json.{JsValue, Json}
+import services.DateServiceImpl
+import services.brute_force_prevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
+import services.fakes.FakeVehicleLookupWebService.{ConsentValid, ReferenceNumberValid, RegistrationNumberValid, vehicleDetailsResponseSuccess}
+import services.fakes.{FakeDateServiceImpl, FakeResponse, FakeVehicleLookupWebService}
+import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import utils.helpers.Config
-import helpers.common.RandomVrmGenerator
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{ExecutionContext, Future}
 
 final class VehicleLookupFormSpec extends UnitSpec {
+  implicit val dateService = new DateServiceImpl
+
   "form" should {
     "accept when all fields contain valid responses" in {
       formWithValidDefaults().get.referenceNumber should equal(ReferenceNumberValid)
@@ -128,8 +130,9 @@ final class VehicleLookupFormSpec extends UnitSpec {
     val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(vehicleLookupWebService)
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
+    implicit val surveyUrl = new SurveyUrl()(clientSideSessionFactory, config, new FakeDateServiceImpl)
     new disposal_of_vehicle.VehicleLookup(bruteForceService = bruteForceServiceImpl,
-      vehicleLookupService = vehicleLookupServiceImpl)
+      vehicleLookupService = vehicleLookupServiceImpl, surveyUrl, dateService)
   }
 
   private def formWithValidDefaults(referenceNumber: String = ReferenceNumberValid,

@@ -109,6 +109,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
       val request = FakeRequest()
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
+      implicit val surveyUrl = new SurveyUrl()
       when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
       val disposeSuccessPrototypeNotVisible = new DisposeSuccess()
 

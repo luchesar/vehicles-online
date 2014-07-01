@@ -6,6 +6,7 @@ import common.{ClientSideSessionFactory, LogFormats}
 import mappings.common.DocumentReferenceNumber.referenceNumber
 import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import mappings.common.VehicleRegistrationNumber.registrationNumber
+import mappings.disposal_of_vehicle.Dispose._
 import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.ActionNotAllowedMessage
@@ -21,6 +22,7 @@ import play.api.Logger
 import play.api.data.Forms._
 import play.api.data.{Form, FormError}
 import play.api.mvc._
+import services.DateService
 import services.brute_force_prevention.BruteForcePreventionService
 import services.vehicle_lookup.VehicleLookupService
 import utils.helpers.Config
@@ -30,8 +32,12 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 
-final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService, vehicleLookupService: VehicleLookupService)
-                                   (implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
+final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService,
+                                    vehicleLookupService: VehicleLookupService,
+                                    surveyUrl: SurveyUrl,
+                                    dateService: DateService)
+                                   (implicit clientSideSessionFactory: ClientSideSessionFactory,
+                                    config: Config) extends Controller {
 
   private[disposal_of_vehicle] val form = Form(
     mapping(
@@ -43,7 +49,12 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
   def present = Action { implicit request =>
     request.cookies.getModel[TraderDetailsModel] match {
       case Some(traderDetails) =>
-        Ok(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, form.fill(), shouldDisplayExitButton))
+        Ok(views.html.disposal_of_vehicle.vehicle_lookup(
+          traderDetails,
+          form.fill(),
+          shouldDisplayExitButton,
+          surveyUrl(request)
+        ))
       case None => Redirect(routes.SetUpTradeDetails.present())
     }
   }
@@ -76,7 +87,12 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
               replaceError(VehicleRegistrationNumberId, FormError(key = VehicleRegistrationNumberId, message = "error.restricted.validVrnOnly", args = Seq.empty)).
               replaceError(DocumentReferenceNumberId, FormError(key = DocumentReferenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
               distinctErrors
-              BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(traderDetails, formWithReplacedErrors, shouldDisplayExitButton))
+              BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(
+                traderDetails,
+                formWithReplacedErrors,
+                shouldDisplayExitButton,
+                surveyUrl(request)
+              ))
             case None => Redirect(routes.SetUpTradeDetails.present())
           }
         },
@@ -87,8 +103,11 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
   }
 
   private def exit(implicit request: Request[AnyContent]): Future[SimpleResult] = {
-    Future {Redirect(routes.BeforeYouStart.present()).
-      discardingCookies(RelatedCacheKeys.FullSet)}
+    Future {
+      Redirect(routes.BeforeYouStart.present())
+        .discardingCookies(RelatedCacheKeys.FullSet)
+        .withCookie(SurveyRequestTriggerDateCacheKey, dateService.now.getMillis.toString)
+    }
   }
 
   private def convertToUpperCaseAndRemoveSpaces(model: VehicleLookupFormModel): VehicleLookupFormModel =
