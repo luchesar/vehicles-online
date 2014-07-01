@@ -11,6 +11,7 @@ import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceI
 import play.api.libs.ws.Response
 import scala.Some
 import utils.helpers.Config
+import scala.util.Try
 
 final class BruteForcePreventionServiceImplSpec extends UnitSpec {
   "isVrmLookupPermitted" should {
@@ -36,11 +37,13 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
       }
     }
 
-    "return None when webservice call throws" in {
+    "fail future when webservice call throws" in {
       val service = bruteForceServiceImpl(permitted = true)
-      whenReady(service.isVrmLookupPermitted(VrmThrows)) {
-        r => r should equal(None)
-      }
+      val result = service.isVrmLookupPermitted(VrmThrows)
+
+      Try(
+        whenReady(result){ r => fail("whenReady should throw") }
+      ).isFailure should equal(true)
     }
   }
 

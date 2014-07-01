@@ -9,7 +9,7 @@ object CsrfHelper {
 
   def hiddenFormField(implicit token: services.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken): Html = {
     if (csrfPrevention) {
-      Html(s"""<input type="hidden" name="${services.csrf_prevention.CsrfPreventionAction.tokenName}" value="${HtmlFormat.escape(token.value)}"/>""")
+      Html(s"""<input type="hidden" name="${services.csrf_prevention.CsrfPreventionAction.TokenName}" value="${HtmlFormat.escape(token.value)}"/>""")
     } else {
       Html("")
     }

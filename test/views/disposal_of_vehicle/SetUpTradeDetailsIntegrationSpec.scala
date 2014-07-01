@@ -27,9 +27,9 @@ final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
       go to SetupTradeDetailsPage
-      val csrf: WebElement = webDriver.findElement(By.name(services.csrf_prevention.CsrfPreventionAction.tokenName))
+      val csrf: WebElement = webDriver.findElement(By.name(services.csrf_prevention.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
-      csrf.getAttribute("name") should equal(services.csrf_prevention.CsrfPreventionAction.tokenName)
+      csrf.getAttribute("name") should equal(services.csrf_prevention.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
   }

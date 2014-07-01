@@ -108,7 +108,7 @@ class CsrfPreventionAction(next: EssentialAction)
 
 object CsrfPreventionAction {
 
-  private final val TokenName = "csrf_prevention_token"
+  final val TokenName = "csrf_prevention_token"
   private final val Delimiter = "-"
 
   lazy val preventionEnabled = getProperty("csrf.prevention", default = true)
