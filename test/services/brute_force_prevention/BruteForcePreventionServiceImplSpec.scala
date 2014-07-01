@@ -17,24 +17,22 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
     "return true when response status is 200 OK" in {
       val service = bruteForceServiceImpl(permitted = true)
       whenReady(service.isVrmLookupPermitted(RegistrationNumberValid), timeout) {
-        case Some(viewModel) =>
+        case viewModel =>
           viewModel.permitted should equal(true)
           viewModel.attempts should equal(1)
           viewModel.maxAttempts should equal(3)
           viewModel.dateTimeISOChronology should startWith("1970-11-25T00:00:00.000")
-        case None => fail("Return values was not a Some")
       }
     }
 
     "return false when response status is not 200 OK" in {
       val service = bruteForceServiceImpl(permitted = false)
       whenReady(service.isVrmLookupPermitted(RegistrationNumberValid)) {
-        case Some(viewModel) =>
+        case viewModel =>
           viewModel.permitted should equal(false)
           viewModel.attempts should equal(1)
           viewModel.maxAttempts should equal(3)
           viewModel.dateTimeISOChronology should startWith("1970-11-25T00:00:00.000")
-        case None => fail("Return values was not a Some")
       }
     }
 
@@ -44,7 +42,6 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
         r => r should equal(None)
       }
     }
-
   }
 
   private def responseThrows: Future[Response] = Future {

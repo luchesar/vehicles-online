@@ -14,37 +14,40 @@ import services.DateService
 final class BruteForcePreventionServiceImpl @Inject()(config: Config, ws: BruteForcePreventionWebService, dateService: DateService) extends BruteForcePreventionService {
   private val maxAttempts: Int = config.bruteForcePreventionMaxAttemptsHeader.toInt
 
-  override def isVrmLookupPermitted(vrm: String): Future[Option[BruteForcePreventionViewModel]] =
+  override def isVrmLookupPermitted(vrm: String): Future[BruteForcePreventionViewModel] =
   // TODO US270 this if-statement is a temporary feature toggle until all developers have Redis setup locally.
     if (config.isBruteForcePreventionEnabled) {
-      ws.callBruteForce(vrm).map {
-        resp =>
-          def permitted = {
-            val bruteForcePreventionResponse: Option[BruteForcePreventionResponse] = Json.fromJson[BruteForcePreventionResponse](resp.json).asOpt
-            bruteForcePreventionResponse match {
-              case Some(model) => Some(BruteForcePreventionViewModel.fromResponse(permitted = true, model, dateService, maxAttempts = maxAttempts))
-              case _ =>
-                Logger.error(s"Brute force prevention service returned invalid Json: ${resp.json}")
-                None
-            }
+      val returnedFuture = scala.concurrent.Promise[BruteForcePreventionViewModel]
+      ws.callBruteForce(vrm).map { resp =>
+        def permitted(): Unit = {
+          Json.fromJson[BruteForcePreventionResponse](resp.json).asOpt match {
+            case Some(model) =>
+              val resultModel = BruteForcePreventionViewModel.fromResponse(
+                permitted = true,
+                model,
+                dateService,
+                maxAttempts
+              )
+              returnedFuture.success(resultModel)
+            case _ =>
+              Logger.error(s"Brute force prevention service returned invalid Json: ${resp.json}")
+              returnedFuture.failure(new Exception("TODO"))
           }
-          def notPermitted = Some(BruteForcePreventionViewModel.fromResponse(permitted = false, BruteForcePreventionResponse(attempts = 0), dateService, maxAttempts = maxAttempts))
-          def unknownPermission = {
-            Logger.error(s"Brute force prevention service returned status: ${resp.status}")
-            None
-          }
-          resp.status match {
-            case play.api.http.Status.OK => permitted
-            case play.api.http.Status.FORBIDDEN => notPermitted
-            case _ => unknownPermission
-          }
+        }
+        def notPermitted = BruteForcePreventionViewModel.fromResponse(permitted = false, BruteForcePreventionResponse(attempts = 0), dateService, maxAttempts = maxAttempts)
+        resp.status match {
+          case play.api.http.Status.OK => permitted()
+          case play.api.http.Status.FORBIDDEN => returnedFuture.success(notPermitted)
+          case _ => returnedFuture.failure(new Exception("unknownPermission"))
+        }
       }.recover {
         case e: Throwable =>
           Logger.error(s"Brute force prevention service throws: ${e.getStackTraceString}")
-          None
+          returnedFuture.failure(e)
       }
+      returnedFuture.future
     }
     else Future {
-      Some(BruteForcePreventionViewModel.fromResponse(permitted = true, BruteForcePreventionResponse(attempts = 0), dateService, maxAttempts = maxAttempts))
+      BruteForcePreventionViewModel.fromResponse(permitted = true, BruteForcePreventionResponse(attempts = 0), dateService, maxAttempts = maxAttempts)
     }
 }

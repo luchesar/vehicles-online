@@ -10,5 +10,4 @@ object LogFormats {
       else input.length / 2
     anonymousChar * (input.length - startOfNonAnonymizedText) + input.takeRight(startOfNonAnonymizedText)
   }
-
 }

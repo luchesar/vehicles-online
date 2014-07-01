@@ -125,20 +125,16 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
 
   private def bruteForceAndLookup(formModel: VehicleLookupFormModel)
                                  (implicit request: Request[_]): Future[SimpleResult] =
-    bruteForceService.isVrmLookupPermitted(formModel.registrationNumber).map { response =>
-      response // TODO US270 @Lawrence please code review the way we are using map, the lambda (I think we could use _ but it looks strange to read) and flatmap
-    } flatMap {
-      case Some(bruteForcePreventionViewModel) =>
-        // US270: The security micro-service will return a Forbidden (403) message when the vrm is locked, we have hidden that logic as a boolean.
-        if (bruteForcePreventionViewModel.permitted) lookupVehicleResult(formModel, bruteForcePreventionViewModel)
-        else Future {
-          val registrationNumber = LogFormats.anonymize(formModel.registrationNumber)
-          Logger.warn(s"BruteForceService locked out vrm: $registrationNumber")
-          Redirect(routes.VrmLocked.present()).
-            withCookie(bruteForcePreventionViewModel)
-        }
-      case None => Future {
-        Redirect(routes.MicroServiceError.present())
+
+    bruteForceService.isVrmLookupPermitted(formModel.registrationNumber).flatMap { bruteForcePreventionViewModel =>
+      // TODO US270 @Lawrence please code review the way we are using map, the lambda (I think we could use _ but it looks strange to read) and flatmap
+      // US270: The security micro-service will return a Forbidden (403) message when the vrm is locked, we have hidden that logic as a boolean.
+      if (bruteForcePreventionViewModel.permitted) lookupVehicleResult(formModel, bruteForcePreventionViewModel)
+      else Future {
+        val registrationNumber = LogFormats.anonymize(formModel.registrationNumber)
+        Logger.warn(s"BruteForceService locked out vrm: $registrationNumber")
+        Redirect(routes.VrmLocked.present()).
+          withCookie(bruteForcePreventionViewModel)
       }
     } recover {
       case exception: Throwable =>

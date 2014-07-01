@@ -8,6 +8,6 @@ class CSRFPreventionFilter @Inject()(implicit clientSideSessionFactory: ClientSi
   extends EssentialFilter {
 
   def apply(next: EssentialAction): EssentialAction = {
-    new CSRFPreventionAction(next)
+    new CsrfPreventionAction(next)
   }
 }
