@@ -4,7 +4,9 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits._
 import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
-import mappings.disposal_of_vehicle.Dispose.{DisposeFormRegistrationNumberCacheKey, DisposeFormTransactionIdCacheKey, SurveyRequestTriggerDateCacheKey}
+import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
+import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeViewModel, TraderDetailsModel, VehicleDetailsModel}
 import play.api.mvc._

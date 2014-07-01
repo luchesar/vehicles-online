@@ -17,5 +17,4 @@ final class Error @Inject()()(implicit clientSideSessionFactory: ClientSideSessi
     Logger.debug("Error submit called - now removing full set of cookies and redirecting to Start page")
     CryptoHelper.discardAllCookies
   }
-
 }

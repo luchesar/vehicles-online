@@ -4,6 +4,7 @@ import app.ConfigProperties.getProperty
 import com.google.inject.Inject
 import play.api.mvc.Cookie
 import scala.concurrent.duration.DurationInt
+import scala.language.postfixOps
 
 trait CookieFlags {
   def applyToCookie(cookie: Cookie): Cookie

@@ -6,7 +6,7 @@ import common.{ClientSideSessionFactory, LogFormats}
 import mappings.common.DocumentReferenceNumber.referenceNumber
 import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import mappings.common.VehicleRegistrationNumber.registrationNumber
-import mappings.disposal_of_vehicle.Dispose._
+import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.ActionNotAllowedMessage
@@ -26,7 +26,7 @@ import services.DateService
 import services.brute_force_prevention.BruteForcePreventionService
 import services.vehicle_lookup.VehicleLookupService
 import utils.helpers.Config
-import utils.helpers.FormExtensions._
+import utils.helpers.FormExtensions.formBinding
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -189,7 +189,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     val vehicleDetailsRequest = VehicleDetailsRequest(
       referenceNumber = model.referenceNumber,
       registrationNumber = model.registrationNumber,
-      userName = request.cookies.getModel[TraderDetailsModel].map(_.traderName).getOrElse("")
+      userName = request.cookies.getModel[TraderDetailsModel].fold("")(_.traderName)
     )
     vehicleLookupService.invoke(vehicleDetailsRequest, trackingId).map {
       case (responseStatusVehicleLookupMS: Int, vehicleDetailsResponse: Option[VehicleDetailsResponse]) =>

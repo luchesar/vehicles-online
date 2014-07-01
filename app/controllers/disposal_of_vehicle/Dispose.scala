@@ -16,7 +16,15 @@ import mappings.disposal_of_vehicle.Dispose.LossOfRegistrationConsentId
 import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeFormTimestampIdCacheKey
-import models.domain.disposal_of_vehicle._
+import models.domain.disposal_of_vehicle.DisposeFormModel
+import models.domain.disposal_of_vehicle.TraderDetailsModel
+import models.domain.disposal_of_vehicle.VehicleDetailsModel
+import models.domain.disposal_of_vehicle.DisposeViewModel
+import models.domain.disposal_of_vehicle.DisposeRequest
+import models.domain.disposal_of_vehicle.DisposeResponse
+import models.domain.disposal_of_vehicle.DisposeModel
+import models.domain.disposal_of_vehicle.DisposalAddressDto
+import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.data.Forms._
@@ -25,7 +33,7 @@ import play.api.mvc._
 import services.DateService
 import services.dispose_service.DisposeService
 import utils.helpers.Config
-import utils.helpers.FormExtensions._
+import utils.helpers.FormExtensions.formBinding
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

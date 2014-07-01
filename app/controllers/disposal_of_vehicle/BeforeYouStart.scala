@@ -18,5 +18,4 @@ final class BeforeYouStart @Inject()()(implicit clientSideSessionFactory: Client
   def submit = Action { implicit request =>
     Redirect(routes.SetUpTradeDetails.present())
   }
-
 }

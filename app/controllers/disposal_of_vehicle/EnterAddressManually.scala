@@ -10,9 +10,10 @@ import play.api.data.Forms._
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import utils.helpers.Config
-import utils.helpers.FormExtensions._
+import utils.helpers.FormExtensions.formBinding
 
-final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
+final class EnterAddressManually @Inject()()
+                                 (implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
 
   private[disposal_of_vehicle] val form = Form(
     mapping(
@@ -62,4 +63,3 @@ final class EnterAddressManually @Inject()()(implicit clientSideSessionFactory: 
       replaceError("addressAndPostcode.postcode", FormError("addressAndPostcode.postcode", "error.address.postcode.invalid")).
       distinctErrors
 }
-

@@ -10,10 +10,14 @@ import CookieImplicits.RichCookies
 import play.api.mvc.DiscardingCookie
 import utils.helpers.Config
 
-final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
+final class VehicleLookupFailure @Inject()()
+                                 (implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
 
   def present = Action { implicit request =>
-    (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[BruteForcePreventionViewModel], request.cookies.getModel[VehicleLookupFormModel], request.cookies.getString(VehicleLookupResponseCodeCacheKey)) match {
+    (request.cookies.getModel[TraderDetailsModel],
+      request.cookies.getModel[BruteForcePreventionViewModel],
+      request.cookies.getModel[VehicleLookupFormModel],
+      request.cookies.getString(VehicleLookupResponseCodeCacheKey)) match {
       case (Some(dealerDetails), Some(bruteForcePreventionResponse), Some(vehicleLookUpFormModelDetails), Some(vehicleLookupResponseCode)) =>
         displayVehicleLookupFailure(vehicleLookUpFormModelDetails, bruteForcePreventionResponse, vehicleLookupResponseCode)
       case _ => Redirect(routes.SetUpTradeDetails.present())

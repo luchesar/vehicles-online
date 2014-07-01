@@ -2,6 +2,7 @@ package utils.helpers
 
 import app.ConfigProperties._
 import scala.concurrent.duration.DurationInt
+import scala.language.postfixOps
 
 class Config {
   // Micro-service config

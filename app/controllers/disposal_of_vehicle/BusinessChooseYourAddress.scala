@@ -15,7 +15,7 @@ import play.api.i18n.Lang
 import play.api.mvc._
 import services.address_lookup.AddressLookupService
 import utils.helpers.Config
-import utils.helpers.FormExtensions._
+import utils.helpers.FormExtensions.formBinding
 import views.html.disposal_of_vehicle.business_choose_your_address
 
 import scala.concurrent.ExecutionContext.Implicits.global
