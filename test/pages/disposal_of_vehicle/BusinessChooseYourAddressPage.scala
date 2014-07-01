@@ -1,9 +1,9 @@
 package pages.disposal_of_vehicle
 
+import helpers.webbrowser.{Element, Page, SingleSel, WebBrowserDSL, WebDriverFactory}
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.{AddressSelectId, BackId, EnterAddressManuallyButtonId, SelectId}
 import org.openqa.selenium.WebDriver
-import helpers.webbrowser._
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 
 object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
   final val address: String = "/disposal-of-vehicle/business-choose-your-address"

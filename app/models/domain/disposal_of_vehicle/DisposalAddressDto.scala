@@ -13,17 +13,19 @@ object DisposalAddressDto {
   def from(addressViewModel: AddressViewModel): DisposalAddressDto = {
 
     val trimRequired = linesOverMaxLength(addressViewModel.address)
-    val addressMandatoryLines = if (addressViewModel.address.size == 2) AddressViewModel(addressViewModel.uprn, Seq(BuildingNameOrNumberHolder) ++ addressViewModel.address)
-                                    else addressViewModel
+    val addressMandatoryLines = if (addressViewModel.address.size == 2) AddressViewModel(addressViewModel.uprn,
+                                  Seq(BuildingNameOrNumberHolder) ++ addressViewModel.address)
+                                else addressViewModel
 
-    if (trimRequired) rebuildDisposalAddressDto(addressMandatoryLines) else buildStandardDisposalAddressDto(addressMandatoryLines)
+    if (trimRequired) rebuildDisposalAddressDto(addressMandatoryLines)
+    else buildStandardDisposalAddressDto(addressMandatoryLines)
   }
 
   @tailrec
   private def linesOverMaxLength(address: Seq[String]): Boolean = {
     if (address.isEmpty) false
     else if (address.head.size > LineMaxLength) true
-         else linesOverMaxLength(address.tail)
+    else linesOverMaxLength(address.tail)
   }
 
   private def buildStandardDisposalAddressDto(addressViewModel: AddressViewModel): DisposalAddressDto = {
@@ -34,7 +36,6 @@ object DisposalAddressDto {
 
   private def rebuildDisposalAddressDto(addressViewModel: AddressViewModel): DisposalAddressDto = {
     val address = assignEmptyLines(addressViewModel.address)
-
     val isLine2Empty = address(Line2Index) == emptyLine
     val isLine3Empty = address(Line3Index) == emptyLine
     val isBuildingNameOrNumberOverMax = address(BuildingNameOrNumberIndex).size > LineMaxLength
@@ -76,6 +77,6 @@ object DisposalAddressDto {
   private def trimLines(address: Seq[String], accumulatedAddress: Seq[String]) : Seq[String] = {
     if (address.isEmpty) accumulatedAddress
     else if (address.head.size > LineMaxLength) trimLines(address.tail, accumulatedAddress :+ address.head.substring(0, LineMaxLength))
-         else trimLines(address.tail, accumulatedAddress :+ address.head)
+    else trimLines(address.tail, accumulatedAddress :+ address.head)
   }
 }
