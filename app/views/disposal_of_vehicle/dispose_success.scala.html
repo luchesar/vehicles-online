@@ -64,7 +64,25 @@ title = Messages("disposal_disposeconfirmation.title")
             <div class="step">
                 @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.exit()) {
                 @CsrfHelper.hiddenFormField
-                <button id="@ExitDisposalId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.exitbutton")</button>
+
+                @surveyUrl match {
+                  case Some(url) => {
+                        <button id="@ExitDisposalId"
+                                type="submit"
+                                name="action"
+                                onclick="window.open('@url', '_blank');"
+                                class="button">@Messages("disposal_disposeconfirmation.exitbutton")</button>
+                  }
+
+                  case None => {
+                        <button id="@ExitDisposalId"
+                                type="submit"
+                                name="action"
+                                class="button">@Messages("disposal_disposeconfirmation.exitbutton")</button>
+                  }
+                }
+
+
                 }
             </div>
 
@@ -75,20 +93,20 @@ title = Messages("disposal_disposeconfirmation.title")
                 <button id="printDisposalSuccess" type="button" name="action" value="printDisposalSuccess" class="button js-only print-button">@Messages("global.buttonnavprint")</button>
             </div>
 
-            @surveyUrl.map { url =>
-            <div class="step" hint="@url">
-                @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.exit()) {
-                @CsrfHelper.hiddenFormField
-                <button id="@DisposalSurveyId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.exit")</button>
-                }
-            </div>
-            }
-
-            <br />
-
-            @surveyUrl.map { url =>
-            <a href="#" class="button-text">@Messages("disposal_disposeconfirmation.survey")</a>
-            }
+            <!--@surveyUrl.map { url =>-->
+            <!--<div class="step" hint="@url">-->
+                <!--@form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.exit()) {-->
+                <!--@CsrfHelper.hiddenFormField-->
+                <!--<button id="@DisposalSurveyId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.exit")</button>-->
+                <!--}-->
+            <!--</div>-->
+            <!--}-->
+<!---->
+            <!--<br />-->
+<!---->
+            <!--@surveyUrl.map { url =>-->
+            <!--<a href="#" class="button-text">@Messages("disposal_disposeconfirmation.survey")</a>-->
+            <!--}-->
         </div>
     </div>
 </div>
