@@ -2,7 +2,7 @@ package controllers.disposal_of_vehicle
 
 import helpers.UnitSpec
 import mappings.common.AddressAndPostcode.AddressAndPostcodeId
-import mappings.common.AddressLines.{AddressLinesId, LineMaxLength, BuildingNameOrNumberId, Line2Id, Line3Id, postTownId}
+import mappings.common.AddressLines.{AddressLinesId, LineMaxLength, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
 import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 
 final class EnterAddressManuallyFormSpec extends UnitSpec {
@@ -107,7 +107,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> buildingNameOrNumber,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> line2,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> line3,
-        s"$AddressAndPostcodeId.$AddressLinesId.$postTownId" -> postTown
+        s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> postTown
       )
     )
   }

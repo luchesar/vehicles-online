@@ -1,9 +1,9 @@
 package pages.disposal_of_vehicle
 
-import helpers.webbrowser._
-import mappings.disposal_of_vehicle.VehicleLookup._
+import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
+import mappings.disposal_of_vehicle.VehicleLookup.{BackId, DocumentReferenceNumberId, ExitId, SubmitId, VehicleRegistrationNumberId}
 import org.openqa.selenium.WebDriver
-import services.fakes.FakeVehicleLookupWebService._
+import services.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 
 object VehicleLookupPage extends Page with WebBrowserDSL {

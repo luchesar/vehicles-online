@@ -1,8 +1,8 @@
 package pages.disposal_of_vehicle
 
+import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
+import mappings.disposal_of_vehicle.DisposeSuccess.{ExitDisposalId, NewDisposalId}
 import org.openqa.selenium.WebDriver
-import helpers.webbrowser._
-import mappings.disposal_of_vehicle.DisposeSuccess._
 
 object DisposeSuccessPage extends Page with WebBrowserDSL {
   final val address = "/disposal-of-vehicle/dispose-success"

@@ -1,9 +1,8 @@
 package pages.disposal_of_vehicle
 
+import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
+import mappings.disposal_of_vehicle.BeforeYouStart.NextId
 import org.openqa.selenium.WebDriver
-import helpers.webbrowser._
-import mappings.disposal_of_vehicle.BeforeYouStart._
-import mappings.common.AlternateLanguages._
 
 object BeforeYouStartPage extends Page with WebBrowserDSL {
   final val address = "/disposal-of-vehicle/before-you-start"

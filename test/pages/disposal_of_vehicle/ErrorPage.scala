@@ -1,6 +1,6 @@
 package pages.disposal_of_vehicle
 
-import helpers.webbrowser._
+import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
 import mappings.disposal_of_vehicle.Error.SubmitId
 import org.openqa.selenium.WebDriver
 
