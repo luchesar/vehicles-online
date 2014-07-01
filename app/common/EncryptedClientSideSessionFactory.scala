@@ -2,7 +2,7 @@ package common
 
 import java.security.SecureRandom
 
-import app.ConfigProperties._
+import app.ConfigProperties.getProperty
 import com.google.inject.Inject
 import org.apache.commons.codec.binary.Hex
 import play.api.mvc.Cookie

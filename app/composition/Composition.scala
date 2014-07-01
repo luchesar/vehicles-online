@@ -6,7 +6,6 @@ import services.csrf_prevention.CSRFPreventionFilter
 import play.filters.gzip.GzipFilter
 import utils.helpers.ErrorStrategy
 
-
 trait Composition {
   lazy val injector = Guice.createInjector(DevModule)
 
