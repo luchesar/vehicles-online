@@ -51,7 +51,7 @@
         }
         
         h2 {
-            color:$black;
+            color:$black-2;
             margin-bottom:0.4em;
         }
         .emphasized {
@@ -115,9 +115,9 @@
         ul, 
         p {
             @include bold-19;
-            color:#000;
+            color:$black-1;
             a {
-                color:#000;
+                color:$black-1;
             }
         }
     }
@@ -128,7 +128,7 @@
         border:none;
         text-align: center;
         h1, h2, h3, p, ul {
-            color:#FFF;
+            color:$white;
         }
         h1, h2, h3 {
             display: inline-block;
@@ -153,7 +153,7 @@
         border:none;
         text-align: center;
         h1, h2, h3, p, ul {
-            color:#FFF;
+            color:$white;
         }
         h1, h2, h3 {
             display: inline-block;

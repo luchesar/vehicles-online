@@ -17,7 +17,7 @@
             size: 1.9rem;
             weight: 400;
         }
-        color:$black;
+        color:$black-2;
         line-height: 1.2em;
         padding-bottom: .3em;
         .ie & {
@@ -87,7 +87,7 @@
         line-height: 1.31579;
         padding: 0.25em 0 0.1em 0.4em;
         width: 28.3rem;
-        border: 1px solid #777;
+        border: 1px solid $grey-5;
         cursor: default;
         font: {
             size:1.9rem;

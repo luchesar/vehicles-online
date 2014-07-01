@@ -80,13 +80,13 @@
     .button-secondary {
         @extend %button;
         background: $grey-3;
-        color: $black;
-        @include box-shadow(0 2px 0 darken(#dee0e2, 20%)); 
+        color: $black-2;
+        @include box-shadow(0 2px 0 darken($grey-3, 20%)); 
 
         &:hover,
         &:active {
             background: darken($grey-3, 5%);
-            color: $black;
+            color: $black-2;
         }
     }
         

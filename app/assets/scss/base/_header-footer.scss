@@ -61,11 +61,11 @@ html, body, div, h1, h2, h3, h4, h5, h6, article, aside, footer, header, hgroup,
 }
 
 html {
-    background: #fff;
+    background: $white;
 }
 
 body {
-    color: #0b0c0c;
+    color: $black-2;
     line-height: 1.5;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
@@ -87,12 +87,12 @@ fieldset {
 }
 
 a {
-    color: #2e3191;
+    color: $purple-2;
     &:visited {
-        color: #2e3191;
+        color: $purple-2;
     }
     &:hover, &:active {
-        color: #2e8aca;
+        color: $link-active-colour;
     }
     &[rel="external"] {
         &:after {
@@ -219,29 +219,29 @@ input[type="search"] {
 a {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0.3);
     &:focus {
-        background-color: #ffbf47;
-        outline: 3px solid #ffbf47;
+        background-color: $yellow;
+        outline: 3px solid $yellow;
     }
 }
 
 input:focus, 
 textarea:focus, 
 select:focus {
-    outline: 3px solid #ffbf47;
+    outline: 3px solid $yellow;
 }
 
 #global-header {
     background-color: $header-colour;
     width: 100%;
     input:focus {
-        outline: 3px solid #ffbf47;
+        outline: 3px solid $yellow;
     }
     h1 a:focus {
         background-color: transparent;
         outline: none;
     }
     a:focus {
-        color: #0b0c0c;
+        color: $black-2;
     }
     .header-wrapper {
       &:after {
@@ -373,7 +373,7 @@ select:focus {
 }
 
 #global-cookie-message {
-    background-color: #d5e8f3;
+    background-color: $light-blue-25;
     .cookie-message-wrapper {
         margin:0 auto;
     }
@@ -384,7 +384,7 @@ select:focus {
 }
 
 #global-browser-prompt {
-    background-color: #d5e8f3;
+    background-color: $light-blue-25;
     p {
         position: relative;
         padding-right: 20px;
@@ -411,8 +411,8 @@ select:focus {
 }
 
 #footer {
-    background-color: #dee0e2;
-    border-top: 1px solid #a1acb2;
+    background-color: $grey-3;
+    border-top: 1px solid $grey-6;
     .footer-wrapper {
         max-width: 960px;
         margin: 0 auto;
@@ -425,9 +425,9 @@ select:focus {
         margin:0 1.5rem 0 0;
     }
     a {
-        color: #454a4c;
+        color: $grey-7;
         &:hover {
-            color: #171819;
+            color: $black-3;
         }
     }
     h2 {
@@ -437,15 +437,15 @@ select:focus {
         line-height: 1.25;
         font-weight: 400;
         text-transform: none;
-        color: #454a4c;
+        color: $grey-7;
         margin: 0;
     }
 
     .footer-meta {
         clear: both;
         font-size: 0;
-        color: #454a4c;
-        border: 1px solid #a1acb2;
+        color: $grey-7;
+        border: 1px solid $grey-6;
         border-width: 1px 0 0 0;
         margin: 60px 0 0 0;
         margin: 6rem 0 0 0;
