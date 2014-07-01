@@ -25,7 +25,8 @@ final class AddressLinesModelSpec extends UnitSpec {
     }
 
     "return expected length when only mandatory fields are filled" in {
-      AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid, postTown = PostTownValid).totalCharacters should equal(BuildingNameOrNumberValid.length + PostTownValid.length)
+      AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid, postTown = PostTownValid)
+        .totalCharacters should equal(BuildingNameOrNumberValid.length + PostTownValid.length)
     }
 
     "return expected length when some fields are not filled" in {
@@ -39,7 +40,10 @@ final class AddressLinesModelSpec extends UnitSpec {
       AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
         line2 = Some(Line2Valid),
         line3 = Some(Line3Valid),
-        postTown = PostTownValid).totalCharacters should equal(BuildingNameOrNumberValid.length + Line2Valid.length + Line3Valid.length + PostTownValid.length)
+        postTown = PostTownValid).totalCharacters should equal(BuildingNameOrNumberValid.length +
+                                                               Line2Valid.length +
+                                                               Line3Valid.length +
+                                                               PostTownValid.length)
     }
   }
 }
