@@ -3,12 +3,19 @@ package controllers.disposal_of_vehicle
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import constraints.common.DayMonthYear._
-import mappings.common.Consent._
+import constraints.common.DayMonthYear.{validDate, after, notInFuture}
+import mappings.common.Consent.consent
 import mappings.common.DayMonthYear.dayMonthYear
 import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
-import mappings.common.Mileage._
-import mappings.disposal_of_vehicle.Dispose._
+import mappings.common.Mileage.mileage
+import mappings.disposal_of_vehicle.Dispose.MileageId
+import mappings.disposal_of_vehicle.Dispose.DateOfDisposalId
+import mappings.disposal_of_vehicle.Dispose.DateOfDisposalYearsIntoThePast
+import mappings.disposal_of_vehicle.Dispose.ConsentId
+import mappings.disposal_of_vehicle.Dispose.LossOfRegistrationConsentId
+import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormTimestampIdCacheKey
 import models.domain.disposal_of_vehicle._
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger

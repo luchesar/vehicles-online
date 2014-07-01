@@ -4,8 +4,8 @@ import javax.inject.Inject
 
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import common.{ClientSideSession, ClientSideSessionFactory}
-import mappings.common.DropDown._
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
+import mappings.common.DropDown.addressDropDown
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.AddressSelectId
 import mappings.disposal_of_vehicle.EnterAddressManually._
 import models.domain.disposal_of_vehicle.{BusinessChooseYourAddressModel, SetupTradeDetailsModel, TraderDetailsModel}
 import play.api.Logger
