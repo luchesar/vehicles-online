@@ -33,7 +33,9 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
           vehicleDetailsModel().
           disposeFormModel().
           disposeTransactionId().
-          vehicleRegistrationNumber()
+          vehicleRegistrationNumber().
+          preventGoingToDisposePage("").
+          disposeOccurred
 
       go to BeforeYouStartPage
       cacheSetup()

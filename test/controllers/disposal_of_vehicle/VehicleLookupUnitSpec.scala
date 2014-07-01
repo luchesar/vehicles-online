@@ -76,7 +76,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       content should include(RegistrationNumberValid)
     }
 
-    "not display exit button when PreventGoingToDisposePageCacheKey cookie is missing" in new WithApplication {
+    "not display exit button when DisposeOccurredCacheKey cookie is missing" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator().present(request)
@@ -84,10 +84,10 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       content should not include """button id="exit""""
     }
 
-    "display exit button when PreventGoingToDisposePageCacheKey cookie is present" in new WithApplication {
+    "display exit button when DisposeOccurredCacheKey cookie is present" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.preventGoingToDisposePage(""))
+        withCookies(CookieFactoryForUnitSpecs.disposeOccurred)
       val result = vehicleLookupResponseGenerator().present(request)
       val content = contentAsString(result)
       content should include("""button id="exit"""")
