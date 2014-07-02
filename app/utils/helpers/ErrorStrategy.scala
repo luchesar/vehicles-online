@@ -10,7 +10,7 @@ import controllers.disposal_of_vehicle.routes
 import filters.AccessLoggingFilter.AccessLoggerName
 import filters.ClfEntryBuilder
 import play.api.libs.Codecs
-import play.api.mvc.Results._
+import play.api.mvc.Results.Redirect
 import play.api.mvc.{RequestHeader, SimpleResult}
 import play.api.{Logger, LoggerLike}
 
@@ -19,7 +19,8 @@ import scala.concurrent.{ExecutionContext, Future}
 class ErrorStrategy @Inject()(clfEntryBuilder: ClfEntryBuilder,
                               @Named(AccessLoggerName) accessLogger: LoggerLike) {
 
-  def apply(request: RequestHeader, ex: Throwable)(implicit executionContext: ExecutionContext): Future[SimpleResult] = {
+  def apply(request: RequestHeader, ex: Throwable)
+           (implicit executionContext: ExecutionContext): Future[SimpleResult] = {
     val result = ex.getCause match {
       case _: BadPaddingException => CryptoHelper.handleApplicationSecretChange(request)
       case _: InvalidSessionException => CryptoHelper.handleApplicationSecretChange(request)

@@ -1,6 +1,7 @@
 package utils.helpers
 
 object LabelHelper {
+
   // Display a label above the field.
   // If '_label key is in the args list then return the label
   // else return the field's id

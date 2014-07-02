@@ -12,7 +12,9 @@ object CookieImplicits {
 
   implicit class RichCookies[A](val requestCookies: Traversable[Cookie]) extends AnyVal {
 
-    def getModel[B](implicit fromJson: Reads[B], cacheKey: CacheKey[B], clientSideSessionFactory: ClientSideSessionFactory): Option[B] = {
+    def getModel[B](implicit fromJson: Reads[B],
+                    cacheKey: CacheKey[B],
+                    clientSideSessionFactory: ClientSideSessionFactory): Option[B] = {
       val session = clientSideSessionFactory.getSession(requestCookies)
       val cookieName = session.nameCookie(cacheKey.value).value
       requestCookies.find(_.name == cookieName).map { cookie =>
@@ -48,7 +50,8 @@ object CookieImplicits {
     }
 
     def withCookie(key: String, value: String)
-                  (implicit request: Request[_], clientSideSessionFactory: ClientSideSessionFactory): SimpleResult = {
+                  (implicit request: Request[_],
+                   clientSideSessionFactory: ClientSideSessionFactory): SimpleResult = {
       val session = clientSideSessionFactory.getSession(request.cookies)
       val cookieName = session.nameCookie(key)
       val cookie = session.newCookie(cookieName, value)
@@ -56,11 +59,13 @@ object CookieImplicits {
     }
 
     def discardingCookie(key: String)
-                        (implicit request: Request[_], clientSideSessionFactory: ClientSideSessionFactory): SimpleResult =
+                        (implicit request: Request[_],
+                         clientSideSessionFactory: ClientSideSessionFactory): SimpleResult =
       discardingCookies(Set(key))
 
     def discardingCookies(keys: Set[String])
-                         (implicit request: Request[_], clientSideSessionFactory: ClientSideSessionFactory): SimpleResult = {
+                         (implicit request: Request[_],
+                          clientSideSessionFactory: ClientSideSessionFactory): SimpleResult = {
       val session = clientSideSessionFactory.getSession(request.cookies)
       val cookieNames = keys.map(session.nameCookie)
       val discardingCookies = cookieNames.map(name => DiscardingCookie(name.value)).toSeq
@@ -69,7 +74,10 @@ object CookieImplicits {
   }
 
   implicit class RichForm[A](val f: Form[A]) extends AnyVal {
-    def fill()(implicit request: Request[_], fromJson: Reads[A], cacheKey: CacheKey[A], clientSideSessionFactory: ClientSideSessionFactory): Form[A] =
+    def fill()(implicit request: Request[_],
+               fromJson: Reads[A],
+               cacheKey: CacheKey[A],
+               clientSideSessionFactory: ClientSideSessionFactory): Form[A] =
       request.cookies.getModel[A] match {
         case Some(v) => f.fill(v) // Found cookie so fill the form with the cached data.
         case _ => f // No cookie found so return a blank form.

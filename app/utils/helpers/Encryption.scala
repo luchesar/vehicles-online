@@ -27,9 +27,9 @@ class Sha1HashGenerator extends HashGenerator {
   private final val BitsPerHexCharacter = 4
   private final val CharactersInHexedSha1 = Sha1SizeInBits / BitsPerHexCharacter
 
-  override def hash(clearText: String): String = Codecs.sha1(clearText)
-
   override val digestStringLength: Int = CharactersInHexedSha1
+
+  override def hash(clearText: String): String = Codecs.sha1(clearText)
 }
 
 class NoHashGenerator extends HashGenerator {
@@ -41,7 +41,7 @@ class AesEncryption extends Encryption {
   // TODO decide which strength of AES encryption to use
   // in order to use AES 256 bit (uses a 32 byte key (32 * 8 = 256 bit)) you must install the unlimited strength policy jar
   // files into the jre at the moment we are using AES 128 bit (uses a 16 byte key (16 * 8 = 128 bit))
-//  private val secretKey256Bit = applicationSecretKey256Bit.take(256 / 8)
+  //  private val secretKey256Bit = applicationSecretKey256Bit.take(256 / 8)
   private val secretKey128Bit = applicationSecretKey256Bit.take(128 / 8)
 
   private lazy val applicationSecretKey256Bit: Array[Byte] = {
@@ -52,10 +52,12 @@ class AesEncryption extends Encryption {
         val decodedKeySizeInBytes = keySizeInBits / 8
         val applicationSecret = Base64.decodeBase64(base64EncodedApplicationSecret)
 
-        if (applicationSecret.length != decodedKeySizeInBytes) {
-          throw new Exception(s"Application secret key must be $keySizeInBits bits ($decodedKeySizeInBytes decoded bytes). " +
-            s"Actual size in bytes was ${applicationSecret.length}.")
-        }
+        if (applicationSecret.length != decodedKeySizeInBytes)
+          throw new Exception(
+            s"Application secret key must be $keySizeInBits" +
+            s" bits ($decodedKeySizeInBytes decoded bytes). " +
+            s"Actual size in bytes was ${applicationSecret.length}."
+          )
 
         applicationSecret
       case None =>
@@ -63,14 +65,15 @@ class AesEncryption extends Encryption {
     }
   }
 
-  private final val initializationVectorSizeInBytes = 128 / 8
+  private final val InitializationVectorSizeInBytes = 128 / 8
   private lazy val provider: Option[String] = getConfig("application.crypto.provider")
   private lazy val transformation: String = getConfig("application.crypto.aes.transformation").getOrElse("AES")
   private lazy val secretKeySpec = new SecretKeySpec(secretKey128Bit, "AES")
 
   override def decrypt(cipherText: String): String = {
     val initializationVectorWithCipherBytes = Base64.decodeBase64(cipherText)
-    val (initializationVectorBytes, cipherBytes) = initializationVectorWithCipherBytes.splitAt(initializationVectorSizeInBytes)
+    val (initializationVectorBytes, cipherBytes) =
+      initializationVectorWithCipherBytes.splitAt(InitializationVectorSizeInBytes)
     val initializationVector = new IvParameterSpec(initializationVectorBytes)
     val cipher = provider.fold(Cipher.getInstance(transformation))(p => Cipher.getInstance(transformation, p))
     cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, initializationVector)
@@ -79,7 +82,7 @@ class AesEncryption extends Encryption {
   }
 
   override def encrypt(clearText: String): String = {
-    val initializationVectorBytes = getSecureRandomBytes(initializationVectorSizeInBytes)
+    val initializationVectorBytes = getSecureRandomBytes(InitializationVectorSizeInBytes)
     val initializationVector = new IvParameterSpec(initializationVectorBytes)
     val cipher = provider.fold(Cipher.getInstance(transformation))(p => Cipher.getInstance(transformation, p))
     cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, initializationVector)
@@ -96,7 +99,6 @@ class AesEncryption extends Encryption {
   }
 
   private def getConfig(key: String) = Play.maybeApplication.flatMap(_.configuration.getString(key))
-
 }
 
 class NoEncryption extends Encryption {

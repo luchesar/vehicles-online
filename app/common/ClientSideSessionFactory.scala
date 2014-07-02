@@ -4,7 +4,6 @@ import play.api.mvc.Cookie
 
 trait ClientSideSessionFactory {
   def getSession(request: Traversable[Cookie]): ClientSideSession
-
   def newSessionCookiesIfNeeded(request: Traversable[Cookie]): Option[Seq[Cookie]]
 }
 

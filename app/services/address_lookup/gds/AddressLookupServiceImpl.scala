@@ -1,29 +1,30 @@
 package services.address_lookup.gds
 
+import javax.inject.Inject
+
 import models.domain.disposal_of_vehicle.AddressViewModel
 import play.api.Logger
-import scala.concurrent.{Future, ExecutionContext}
-import ExecutionContext.Implicits.global
-import javax.inject.Inject
+import play.api.i18n.Lang
 import play.api.libs.ws.Response
 import services.address_lookup.gds.domain.Address
 import services.address_lookup.gds.domain.JsonFormats.addressFormat
-import services.address_lookup.{AddressLookupWebService, AddressLookupService}
-import play.api.i18n.Lang
+import services.address_lookup.{AddressLookupService, AddressLookupWebService}
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
   extends AddressLookupService {
 
-  private def extractFromJson(resp: Response): Seq[Address] = {
+  private def extractFromJson(resp: Response): Seq[Address] =
     try resp.json.as[Seq[Address]]
     catch {
       case e: Throwable => Seq.empty //  return empty seq given invalid json
     }
-  }
 
   override def fetchAddressesForPostcode(postcode: String, trackingId: String)
                                         (implicit lang: Lang): Future[Seq[(String, String)]] = {
-    def sort(addresses: Seq[Address]) = {
+    def sort(addresses: Seq[Address]): Seq[Address] = {
       addresses.sortBy(addressDpa => {
         val buildingNumber = addressDpa.houseNumber.getOrElse("0")
         val buildingNumberSanitised = buildingNumber.replaceAll("[^0-9]", "") // Sanitise building number as it could contain letters which would cause toInt to throw e.g. 107a.
@@ -56,8 +57,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
       Some(AddressViewModel(uprn = Some(addresses.head.presentation.uprn.toLong), address = addresses.head.toViewModel)) // Translate to view model.
     }
 
-    ws.callUprnWebService(uprn, trackingId).map {
-      resp =>
+    ws.callUprnWebService(uprn, trackingId).map { resp =>
         Logger.debug(s"Http response code from GDS postcode lookup service was: ${ resp.status }")
         if (resp.status == play.api.http.Status.OK) toViewModel(resp)
         else None
