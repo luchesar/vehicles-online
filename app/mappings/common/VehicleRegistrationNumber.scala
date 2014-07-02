@@ -1,7 +1,7 @@
 package mappings.common
 
 import play.api.data.Mapping
-import play.api.data.Forms._
+import play.api.data.Forms.nonEmptyText
 import constraints.disposal_of_vehicle.RegistrationNumber.validRegistrationNumber
 
 object VehicleRegistrationNumber {

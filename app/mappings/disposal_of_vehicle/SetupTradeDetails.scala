@@ -2,7 +2,7 @@ package mappings.disposal_of_vehicle
 
 import constraints.disposal_of_vehicle.TraderBusinessName
 import play.api.data.Mapping
-import utils.helpers.FormExtensions._
+import utils.helpers.FormExtensions.nonEmptyTextWithTransform
 
 object SetupTradeDetails {
   final val TraderNameMaxLength = 58
@@ -13,7 +13,9 @@ object SetupTradeDetails {
   final val SetupTradeDetailsCacheKey = "setupTraderDetails"
   final val SubmitId = "submit"
 
-  def traderBusinessName (minLength: Int = TraderNameMinLength, maxLength: Int = TraderNameMaxLength): Mapping[String] = {
-    nonEmptyTextWithTransform(_.toUpperCase.trim)(minLength, maxLength) verifying TraderBusinessName.validTraderBusinessName
+  def traderBusinessName (minLength: Int = TraderNameMinLength,
+                          maxLength: Int = TraderNameMaxLength): Mapping[String] = {
+    nonEmptyTextWithTransform(_.toUpperCase.trim)(minLength, maxLength)
+      .verifying(TraderBusinessName.validTraderBusinessName)
   }
 }

@@ -1,7 +1,7 @@
 package mappings.common
 
 import play.api.data.Mapping
-import play.api.data.Forms._
+import play.api.data.Forms.{optional, number}
 
 object Mileage {
   private final val minLength = 1
