@@ -37,7 +37,7 @@
 
         <a href="#main" class="visuallyhidden">Skip to main content</a>
 
-        <div role="banner" id="global-header">
+        <div role="banner" class="global-header" id="global-header">
             <div class="header-wrapper">
                 <div class="header-global">
                     <div class="header-logo">
@@ -65,15 +65,11 @@
           </div>
         </div>
 
-        <div id="global-browser-prompt">
-            <p>@{Messages("global.browserprompt")}&nbsp;<a href="http://www.gov.uk/support/browsers">@{Messages("global.browserfindoutmore")}</a> <a href="#" class="dismiss" title="@{Messages("global.browserclosetitle")}">@{Messages("global.browserclosemessage")}</a></p>
-        </div>
-
         <div role="main" id="main">
            @content
         </div>
 
-        <div class="group js-footer" id="footer" role="contentinfo">
+        <div class="footer" id="footer" role="contentinfo">
             <div class="footer-wrapper vehicles-online-footer">
                 <div class="footer-meta">
                     <div class="nav-wrapper">
