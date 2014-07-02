@@ -1,13 +1,13 @@
 package services.dispose_service
 
-import common.LogFormats
 import javax.inject.Inject
+import common.LogFormats
 import models.domain.disposal_of_vehicle.{DisposeRequest, DisposeResponse}
 import play.api.Logger
 import play.api.http.Status.OK
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
 import utils.helpers.Config
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 final class DisposeServiceImpl @Inject()(config: Config, ws: DisposeWebService) extends DisposeService {
 
