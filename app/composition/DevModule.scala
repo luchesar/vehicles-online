@@ -3,17 +3,17 @@ package composition
 import app.ConfigProperties.getProperty
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
+import common.ClearTextClientSideSessionFactory
+import common.ClientSideSessionFactory
 import common.CookieFlags
 import common.CookieFlagsFromConfig
-import common.ClientSideSessionFactory
 import common.EncryptedClientSideSessionFactory
-import common.ClearTextClientSideSessionFactory
 import filters.AccessLoggingFilter.AccessLoggerName
 import play.api.{LoggerLike, Logger}
 import services.address_lookup.{AddressLookupWebService, AddressLookupService, ordnance_survey, gds}
-import services.brute_force_prevention.BruteForcePreventionWebService
 import services.brute_force_prevention.BruteForcePreventionService
 import services.brute_force_prevention.BruteForcePreventionServiceImpl
+import services.brute_force_prevention.BruteForcePreventionWebService
 import services.dispose_service.{DisposeService, DisposeServiceImpl, DisposeWebService, DisposeWebServiceImpl}
 import services.vehicle_lookup.VehicleLookupService
 import services.vehicle_lookup.VehicleLookupServiceImpl
@@ -53,9 +53,8 @@ object DevModule extends ScalaModule {
       bind[CookieEncryption].toInstance(new AesEncryption with CookieEncryption)
       bind[CookieNameHashGenerator].toInstance(new Sha1HashGenerator with CookieNameHashGenerator)
       bind[ClientSideSessionFactory].to[EncryptedClientSideSessionFactory].asEagerSingleton()
-    } else {
+    } else
       bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
-    }
 
     bind[BruteForcePreventionWebService].to[brute_force_prevention.WebServiceImpl].asEagerSingleton()
     bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()

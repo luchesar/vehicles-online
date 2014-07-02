@@ -1,22 +1,25 @@
 package common
 
 import java.security.SecureRandom
-
 import app.ConfigProperties.getProperty
 import com.google.inject.Inject
 import org.apache.commons.codec.binary.Hex
 import play.api.mvc.Cookie
 import utils.helpers.{CookieEncryption, CookieNameHashGenerator}
 
-class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: CookieFlags,
-                                                    encryption: CookieEncryption,
-                                                    cookieNameHashing: CookieNameHashGenerator) extends ClientSideSessionFactory {
+class EncryptedClientSideSessionFactory @Inject()()
+                                        (implicit cookieFlags: CookieFlags,
+                                         encryption: CookieEncryption,
+                                         cookieNameHashing: CookieNameHashGenerator) extends ClientSideSessionFactory {
+  import EncryptedClientSideSessionFactory._
+
   /**
    * Session secret key must not expire before any other cookie that relies on it.
    */
   private final val SessionSecretKeyLifetime = None
   private val secureCookies: Boolean = getProperty("secureCookies", default = true)
-  private val sessionSecretKeySuffixKey: String = getProperty("sessionSecretKeySuffixKey", "FE291934-66BD-4500-B27F-517C7D77F26B")
+  private val sessionSecretKeySuffixKey: String =
+    getProperty(SessionSecretKeySuffixKey, SessionSecretKeySuffixDefaultValue)
 
   override def newSessionCookiesIfNeeded(request: Traversable[Cookie]): Option[Seq[Cookie]] =
     validateSessionCookies(request) match {
@@ -31,13 +34,15 @@ class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: Cookie
           name = ClientSideSessionFactory.TrackingIdCookieName,
           value = prefixValue,
           secure = secureCookies,
-          maxAge = SessionSecretKeyLifetime)
+          maxAge = SessionSecretKeyLifetime
+        )
 
         val sessionSecretKeySuffixCookie = Cookie(
           name = createSessionSecretKeySuffixCookieName,
           value = suffixValue,
           secure = secureCookies,
-          maxAge = SessionSecretKeyLifetime)
+          maxAge = SessionSecretKeyLifetime
+        )
 
         // Force English language until Welsh translation is finalised
         val langCookie = Cookie("PLAY_LANG", "en")
@@ -83,4 +88,10 @@ class EncryptedClientSideSessionFactory @Inject()()(implicit cookieFlags: Cookie
     random.nextBytes(bytes)
     bytes
   }
+}
+
+object EncryptedClientSideSessionFactory {
+  private final val SessionSecretKeySuffixKey = "sessionSecretKeySuffixKey"
+  private final val SessionSecretKeySuffixDefaultValue = "FE291934-66BD-4500-B27F-517C7D77F26B"
+
 }

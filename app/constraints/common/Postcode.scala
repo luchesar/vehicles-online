@@ -17,5 +17,4 @@ object Postcode {
     if (whitelist.pattern.matcher(input).matches) Valid
     else Invalid(ValidationError("error.restricted.validPostcode"))
   }
-
 }

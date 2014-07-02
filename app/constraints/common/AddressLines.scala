@@ -1,7 +1,7 @@
 package constraints.common
 
 import constraints.common.Required.RequiredField
-import mappings.common.AddressLines._
+import mappings.common.AddressLines.MaxLengthOfLinesConcatenated
 import models.domain.common.AddressLinesModel
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 
@@ -31,5 +31,4 @@ object AddressLines {
 
     case _ => Invalid(ValidationError("error.address.buildingNameOrNumber.invalid"))
   }
-
 }

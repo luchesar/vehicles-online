@@ -1,6 +1,6 @@
 package constraints.common
 
-import play.api.data.validation.{ValidationError, Invalid, Valid, Constraint}
+import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 
 object DropDown {
 
@@ -9,5 +9,4 @@ object DropDown {
       if (dropDownOptions.contains(input)) Valid
       else Invalid(ValidationError("error.dropDownInvalid"))
     }
-
 }

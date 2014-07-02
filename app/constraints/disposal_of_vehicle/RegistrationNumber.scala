@@ -19,5 +19,4 @@ object RegistrationNumber {
     if (whitelist.pattern.matcher(input.replace(" ", "")).matches) Valid
     else Invalid(ValidationError("error.restricted.validVrnOnly"))
   }
-
 }

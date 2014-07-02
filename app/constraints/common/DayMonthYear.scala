@@ -5,7 +5,6 @@ import models.{DayMonthYear => ModelsDMY}
 import org.joda.time.DateTime
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import services.DateService
-
 import scala.util.Try
 
 object DayMonthYear {
@@ -41,5 +40,4 @@ object DayMonthYear {
       case _ => Invalid(ValidationError("error.notInFuture"))
     }
   }
-
 }
