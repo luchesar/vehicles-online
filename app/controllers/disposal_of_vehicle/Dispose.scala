@@ -143,7 +143,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
             get
       }.recover {
         case e: Throwable =>
-          Logger.warn(s"Dispose micro-service call failed. Exception: " + e.toString.take(45))
+          Logger.warn(s"Dispose micro-service call failed.", e)
           Redirect(routes.MicroServiceError.present())
       }
     }

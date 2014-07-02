@@ -11,7 +11,9 @@ import play.api.libs.json.Json
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
 import services.DateService
 
-final class BruteForcePreventionServiceImpl @Inject()(config: Config, ws: BruteForcePreventionWebService, dateService: DateService) extends BruteForcePreventionService {
+final class BruteForcePreventionServiceImpl @Inject()(config: Config,
+                                                      ws: BruteForcePreventionWebService,
+                                                      dateService: DateService) extends BruteForcePreventionService {
   private val maxAttempts: Int = config.bruteForcePreventionMaxAttemptsHeader.toInt
 
   override def isVrmLookupPermitted(vrm: String): Future[BruteForcePreventionViewModel] =

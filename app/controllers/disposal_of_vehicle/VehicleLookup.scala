@@ -159,6 +159,11 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       Redirect(routes.MicroServiceError.present())
     }
 
+    def microServiceThrowableResult(message: String, t: Throwable) = {
+      Logger.error(message, t)
+      Redirect(routes.MicroServiceError.present())
+    }
+
     def createResultFromVehicleLookupResponse(vehicleDetailsResponse: VehicleDetailsResponse)(implicit request: Request[_]) =
       vehicleDetailsResponse.responseCode match {
         case Some(responseCode) => vehicleNotFoundResult(responseCode) // There is only a response code when there is a problem.
@@ -195,7 +200,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
           withCookie(model).
           withCookie(bruteForcePreventionViewModel)
     }.recover {
-      case e: Throwable => microServiceErrorResult(message = s"VehicleLookup Web service call failed. Exception " + e.toString.take(45))
+      case e: Throwable => microServiceThrowableResult(message = s"VehicleLookup Web service call failed.", e)
     }
   }
 }
