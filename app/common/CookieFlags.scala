@@ -22,5 +22,6 @@ final class CookieFlagsFromConfig @Inject()() extends CookieFlags {
   override def applyToCookie(cookie: Cookie): Cookie =
     cookie.copy(
       secure = secureCookies,
-      maxAge = Some(cookieMaxAgeSeconds))
+      maxAge = Some(cookieMaxAgeSeconds)
+    )
 }
