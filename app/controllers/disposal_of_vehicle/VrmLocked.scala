@@ -6,11 +6,12 @@ import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import models.domain.disposal_of_vehicle.{BruteForcePreventionViewModel, TraderDetailsModel}
 import play.api.Logger
-import play.api.mvc._
+import play.api.mvc.{Action, Controller}
 import utils.helpers.Config
-import scala.Some
 
-final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
+final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+                                  config: Config) extends Controller {
+
   def present = Action { implicit request =>
       request.cookies.getModel[BruteForcePreventionViewModel] match {
         case Some(viewModel) =>
@@ -24,7 +25,8 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
 
   def newDisposal = Action { implicit request =>
     request.cookies.getModel[TraderDetailsModel] match {
-      case (Some(traderDetails)) => Redirect(routes.VehicleLookup.present()).discardingCookies(RelatedCacheKeys.DisposeSet)
+      case (Some(traderDetails)) =>
+        Redirect(routes.VehicleLookup.present()).discardingCookies(RelatedCacheKeys.DisposeSet)
       case _ => Redirect(routes.SetUpTradeDetails.present())
     }
   }

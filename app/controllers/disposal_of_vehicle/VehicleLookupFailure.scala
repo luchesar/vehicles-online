@@ -1,25 +1,32 @@
 package controllers.disposal_of_vehicle
 
-import play.api.Logger
-import play.api.mvc._
 import com.google.inject.Inject
+import common.ClientSideSessionFactory
+import common.CookieImplicits.RichCookies
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
 import models.domain.disposal_of_vehicle.{BruteForcePreventionViewModel, TraderDetailsModel, VehicleLookupFormModel}
-import mappings.disposal_of_vehicle.VehicleLookup._
-import common.{ClientSideSessionFactory, CookieImplicits}
-import CookieImplicits.RichCookies
-import play.api.mvc.DiscardingCookie
+import play.api.Logger
+import play.api.mvc.{Action, AnyContent, Controller, DiscardingCookie, Request}
 import utils.helpers.Config
 
 final class VehicleLookupFailure @Inject()()
-                                 (implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
+                                 (implicit clientSideSessionFactory: ClientSideSessionFactory,
+                                  config: Config) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getModel[TraderDetailsModel],
       request.cookies.getModel[BruteForcePreventionViewModel],
       request.cookies.getModel[VehicleLookupFormModel],
       request.cookies.getString(VehicleLookupResponseCodeCacheKey)) match {
-      case (Some(dealerDetails), Some(bruteForcePreventionResponse), Some(vehicleLookUpFormModelDetails), Some(vehicleLookupResponseCode)) =>
-        displayVehicleLookupFailure(vehicleLookUpFormModelDetails, bruteForcePreventionResponse, vehicleLookupResponseCode)
+      case (Some(dealerDetails),
+            Some(bruteForcePreventionResponse),
+            Some(vehicleLookUpFormModelDetails),
+            Some(vehicleLookupResponseCode)) =>
+        displayVehicleLookupFailure(
+          vehicleLookUpFormModelDetails,
+          bruteForcePreventionResponse,
+          vehicleLookupResponseCode
+        )
       case _ => Redirect(routes.SetUpTradeDetails.present())
     }
   }

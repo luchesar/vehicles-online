@@ -6,31 +6,30 @@ import common.{ClientSideSessionFactory, LogFormats}
 import mappings.common.DocumentReferenceNumber.referenceNumber
 import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import mappings.common.VehicleRegistrationNumber.registrationNumber
+import mappings.disposal_of_vehicle.RelatedCacheKeys
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
-import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
-import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.ActionNotAllowedMessage
+import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
+import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
 import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.VehicleDetailsDto
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.VehicleDetailsRequest
 import models.domain.disposal_of_vehicle.VehicleDetailsResponse
-import play.api.Logger
+import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
+import play.api.Logger
 import play.api.mvc.{Action, AnyContent, Controller, Request, SimpleResult}
-import services.DateService
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import services.brute_force_prevention.BruteForcePreventionService
+import services.DateService
 import services.vehicle_lookup.VehicleLookupService
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import mappings.disposal_of_vehicle.RelatedCacheKeys
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService,
                                     vehicleLookupService: VehicleLookupService,
