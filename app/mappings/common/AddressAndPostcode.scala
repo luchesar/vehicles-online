@@ -1,12 +1,11 @@
 package mappings.common
 
 import play.api.data.Mapping
-import play.api.data.Forms._
+import play.api.data.Forms.mapping
 import constraints.common
-import common.AddressLines._
-import mappings.common.Uprn._
-import mappings.common.AddressLines._
-import mappings.common.Postcode._
+import common.AddressLines.validAddressLines
+import mappings.common.Uprn.{uprn, UprnId}
+import mappings.common.AddressLines.{addressLines, AddressLinesId}
 import models.domain.common.AddressAndPostcodeModel
 
 object AddressAndPostcode {

@@ -1,9 +1,9 @@
 package mappings.common
 
 import play.api.data.Mapping
-import play.api.data.Forms._
+import play.api.data.Forms.{mapping, optional}
 import models.domain.common.AddressLinesModel
-import utils.helpers.FormExtensions._
+import utils.helpers.FormExtensions.{trimNonWhiteListedChars, nonEmptyTextWithTransform, textWithTransform}
 
 object AddressLines {
   final val AddressLinesId = "addressLines"
@@ -27,7 +27,8 @@ object AddressLines {
   private def fieldTransform(s: String) = trimNonWhiteListedChars("""[A-Za-z0-9]""")(s.toUpperCase)
 
   def addressLines: Mapping[AddressLinesModel] = mapping(
-    BuildingNameOrNumberId -> nonEmptyTextWithTransform(fieldTransform)(minLength = BuildingNameOrNumberMinLength, maxLength = LineMaxLength),
+    BuildingNameOrNumberId ->
+      nonEmptyTextWithTransform(fieldTransform)(minLength = BuildingNameOrNumberMinLength, maxLength = LineMaxLength),
     Line2Id -> optional(textWithTransform(fieldTransform)(maxLength = LineMaxLength)),
     Line3Id -> optional(textWithTransform(fieldTransform)(maxLength = LineMaxLength)),
     PostTownId -> nonEmptyTextWithTransform(fieldTransform)(minLength = PostTownMinLength, maxLength = LineMaxLength)
