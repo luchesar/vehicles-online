@@ -1,4 +1,4 @@
-//forms
+//Forms
 
 #{$htmlNamespace} {
 
@@ -10,6 +10,11 @@
     //Hides .no-js-only if .js-enabled is applied to <body>
     body.js-enabled & .no-js-only {
         display:none;
+    }
+
+    fieldset {
+        border: none;
+        padding: 0;
     }
 
     legend {
@@ -137,6 +142,11 @@
          min-width:0;
         }
     }
+    input:focus, 
+    textarea:focus, 
+    select:focus {
+        outline: 3px solid $yellow;
+    }
 
     .form-item {
         margin:0 0 1.5em 0;
@@ -194,9 +204,6 @@
             }
         }
     }
-
-
-
 
     //form elements in a line
     .form-inline {

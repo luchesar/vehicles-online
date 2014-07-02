@@ -1,4 +1,5 @@
-//device pixels mixin
+//Device pixels mixin
+
 @mixin device-pixel-ratio($ratio: 2) {
     @media only screen and (-webkit-min-device-pixel-ratio: $ratio),
     only screen and (min--moz-device-pixel-ratio: $ratio),

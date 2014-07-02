@@ -7,11 +7,9 @@ object CsrfHelper {
 
   val csrfPrevention = getProperty("csrf.prevention", default = true)
 
-  def hiddenFormField(implicit token: services.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken): Html = {
+  def hiddenFormField(implicit token: services.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken): Html =
     if (csrfPrevention) {
-      Html(s"""<input type="hidden" name="${services.csrf_prevention.CsrfPreventionAction.TokenName}" value="${HtmlFormat.escape(token.value)}"/>""")
-    } else {
-      Html("")
-    }
-  }
+      val csrfTokenName = services.csrf_prevention.CsrfPreventionAction.TokenName
+      Html(s"""<input type="hidden" name="${csrfTokenName}" value="${HtmlFormat.escape(token.value)}"/>""")
+    } else Html("")
 }

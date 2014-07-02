@@ -1,6 +1,6 @@
 package models.domain.common
 
-import mappings.common.AddressLines._
+import mappings.common.AddressLines.AddressLinesCacheKey
 import play.api.libs.json.Json
 
 case class AddressLinesModel(buildingNameOrNumber: String,

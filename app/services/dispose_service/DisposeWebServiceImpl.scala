@@ -12,11 +12,9 @@ final class DisposeWebServiceImpl @Inject()(config: Config)  extends DisposeWebS
   private val endPoint: String = s"${config.disposeVehicleMicroServiceBaseUrl}/vehicles/dispose/v1"
   private val requestTimeout: Int = config.disposeMsRequestTimeout
 
-  override def callDisposeService(request: DisposeRequest, trackingId: String): Future[Response] = {
-    WS.
-      url(endPoint).
-      withHeaders(HttpHeaders.TrackingId -> trackingId).
-      withRequestTimeout(requestTimeout).
-      post(Json.toJson(request))
-  }
+  override def callDisposeService(request: DisposeRequest, trackingId: String): Future[Response] =
+    WS.url(endPoint)
+      .withHeaders(HttpHeaders.TrackingId -> trackingId)
+      .withRequestTimeout(requestTimeout)
+      .post(Json.toJson(request))
 }

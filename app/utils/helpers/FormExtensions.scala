@@ -1,10 +1,11 @@
 package utils.helpers
 
 import constraints.common.Required.RequiredField
-import play.api.data.Forms._
-import play.api.data._
+import play.api.data.Forms.of
+import play.api.data.{Form, FormError, Mapping}
 import play.api.data.format.Formatter
 import play.api.data.validation.Constraints
+
 import scala.language.implicitConversions
 
 object FormExtensions {
@@ -14,6 +15,7 @@ object FormExtensions {
 
   // Extension method for forms.
   class RichForm[T](form: Form[T]) {
+
     private def replaceError(newError: FormError, matcher: FormError => Boolean): Form[T] = {
       val errorToReplace = form.errors.find(matcher)
       errorToReplace match {
@@ -24,7 +26,8 @@ object FormExtensions {
 
     def replaceError(key: String, newError: FormError): Form[T] = replaceError(newError, { e => e.key == key})
 
-    def replaceError(key: String, message: String, newError: FormError): Form[T] = replaceError(newError, { e => e.key == key && e.message == message})
+    def replaceError(key: String, message: String, newError: FormError): Form[T] =
+      replaceError(newError, { e => e.key == key && e.message == message})
 
     def distinctErrors: Form[T] = form.copy(errors = form.errors.distinct)
 
@@ -32,10 +35,13 @@ object FormExtensions {
       form.mapping.mappings.exists(m => m.constraints.exists(c => c.name == Some(RequiredField)))
   }
 
-  def trimmedText(minLength: Int = 0, maxLength: Int = Int.MaxValue, additionalTrimChars: Seq[Char] = Nil): Mapping[String] =
+  def trimmedText(minLength: Int = 0,
+                  maxLength: Int = Int.MaxValue,
+                  additionalTrimChars: Seq[Char] = Nil): Mapping[String] =
     textWithTransform(trimWithAdditionalChars(_, additionalTrimChars))(minLength, maxLength)
 
-  def textWithTransform(transform: String => String)(minLength: Int = 0, maxLength: Int = Int.MaxValue): Mapping[String] = {
+  def textWithTransform(transform: String => String)
+                       (minLength: Int = 0, maxLength: Int = Int.MaxValue): Mapping[String] = {
     val formatter = of[String](transformedStringFormat(transform))
 
     (minLength, maxLength) match {
@@ -46,13 +52,16 @@ object FormExtensions {
     }
   }
 
-  def nonEmptyTextWithTransform(transform: String => String)(minLength: Int = 0, maxLength: Int = Int.MaxValue): Mapping[String] =
+  def nonEmptyTextWithTransform(transform: String => String)
+                               (minLength: Int = 0, maxLength: Int = Int.MaxValue): Mapping[String] =
     textWithTransform(transform)(minLength, maxLength) verifying Constraints.nonEmpty
 
   /**
    * The nonEmpty variant of trimmedText applies the additional constraint that the text is empty
    */
-  def nonEmptyTrimmedText(minLength: Int = 0, maxLength: Int = Int.MaxValue, additionalTrimChars: Seq[Char] = Nil): Mapping[String] =
+  def nonEmptyTrimmedText(minLength: Int = 0,
+                          maxLength: Int = Int.MaxValue,
+                          additionalTrimChars: Seq[Char] = Nil): Mapping[String] =
     trimmedText(minLength, maxLength, additionalTrimChars) verifying Constraints.nonEmpty
 
   /**
@@ -69,7 +78,7 @@ object FormExtensions {
     while ((st < len) && ((`val`(len - 1) <= ' ') || trimChars.contains(`val`(len - 1)))) {
       len -= 1
     }
-    return if (((st > 0) || (len < value.length))) value.substring(st, len) else value
+    if ((st > 0) || (len < value.length)) value.substring(st, len) else value
   }
 
   /**
@@ -90,7 +99,7 @@ object FormExtensions {
 
   private def transformedStringFormat(transform: String => String): Formatter[String] = new Formatter[String] {
     def bind(key: String, data: Map[String, String]) = {
-      val value = data.get(key).map(transform(_))
+      val value = data.get(key).map(dataValue => transform(dataValue))
       value.toRight(Seq(FormError(key, "error.required", Nil)))
     }
 
