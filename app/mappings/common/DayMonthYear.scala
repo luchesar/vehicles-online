@@ -20,5 +20,6 @@ object DayMonthYear {
     MonthId -> number(max = MaxMonthsInYear).verifying(required),
     YearId -> number.verifying(required),
     HourId -> optional(number(min = 0, max = MaxHoursInDay)),
-    MinutesId -> optional(number(min = 0, max = MaxMinutesInHour)))(models.DayMonthYear.apply)(models.DayMonthYear.unapply)
+    MinutesId -> optional(number(min = 0, max = MaxMinutesInHour))
+  )(models.DayMonthYear.apply)(models.DayMonthYear.unapply)
 }

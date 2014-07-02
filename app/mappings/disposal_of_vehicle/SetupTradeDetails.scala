@@ -15,6 +15,7 @@ object SetupTradeDetails {
 
   def traderBusinessName (minLength: Int = TraderNameMinLength,
                           maxLength: Int = TraderNameMaxLength): Mapping[String] = {
-    nonEmptyTextWithTransform(_.toUpperCase.trim)(minLength, maxLength) verifying TraderBusinessName.validTraderBusinessName
+    nonEmptyTextWithTransform(_.toUpperCase.trim)(minLength, maxLength)
+      .verifying(TraderBusinessName.validTraderBusinessName)
   }
 }
