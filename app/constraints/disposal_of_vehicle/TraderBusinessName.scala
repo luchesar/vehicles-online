@@ -9,4 +9,5 @@ object TraderBusinessName {
     if (whitelist.pattern.matcher(restrictedString).matches) Valid
     else Invalid(ValidationError("error.validTraderBusinessName"))
   }
+
 }
