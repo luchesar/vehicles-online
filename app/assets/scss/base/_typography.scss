@@ -1,18 +1,79 @@
-@import '_font_stack.scss';
-@import '_conditionals.scss';
-@import '_device-pixels.scss';
+@import '_font_stack';
+@import '_conditionals';
+@import '_device-pixels';
+
+
+//common elements
+
+ol, ul {
+    list-style: inherit;
+}
+
+nav {
+    ol, ul {
+        list-style: inherit;
+    }
+}
+
+a {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.3);
+    color: $purple-2;
+    &:visited {
+        color: $purple-2;
+    }
+    &:hover, &:active {
+        color: $link-active-colour;
+    }
+    &:focus {
+        background-color: $yellow;
+        outline: 3px solid $yellow;
+    }
+    &[rel="external"] {
+        &:after {
+            background-image: url(https://assets.digital.cabinet-office.gov.uk/static/external-link-4247fe6cbf644abe4092032a36a5837e.png);
+            background-repeat: no-repeat;
+            content: "\A0\A0\A0\A0";
+            background-position: right 6px;
+        }
+        &:hover:after {
+            background-position: right -382px;
+        }
+    }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 20 / 10), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    a[rel="external"]:after {
+        background-image: url(https://assets.digital.cabinet-office.gov.uk/static/external-link-24x24-d888ebcab9570f3a9e2d96f852ac841e.png);
+        background-size: 12px 400px;
+    }
+}
+
+@media (max-width: 640px) {
+    a[rel="external"] {
+        &:after {
+            content: "\A0\A0\A0\A0\A0";
+            background-position: right 3px;
+        }
+        &:hover:after {
+            background-position: right -385px;
+        }
+    }
+}
+
+b, strong {
+    font-weight: 600;
+}
+
+
 
 //GOV.UK typography palettes
-
-//ANATOMY OF A TYPE STYLE
-//-----------------------
-//These are a collection of graphic styles. They are deliberately
-//abstracted from semantic HTML context to enable flexible re-use.
+//
+//These mixins are deliberately abstracted
+//from semantic HTML context to enable flexible re-use.
 //Although there is a lot of duplication within this file, as long
 //as you GZIP your CSS it shouldnt cause any bloat.
 
 //CORE FONTS - NEW TRANSPORT
-
 $is-print: false !default;
 
 @mixin core-80($line-height: (80 / 80), $line-height-640: (55 / 53), $tabular-numbers: false) {
@@ -308,91 +369,5 @@ $is-print: false !default;
     @include media(tablet){
         padding-top: 5px;
         padding-bottom: 5px;
-    }
-}
-
-//External link styles for all font sizes
-//Private mixin for use solely by those below
-
-@mixin external-link-size($content, $top, $top-hover: top) {
-    &:after {
-        content: $content;
-        background-position: right $top;
-    }
-
-    @if $top-hover == top {
-        $top-hover: $top
-    }
-
-    &:hover:after {
-        background-position: right $top-hover;
-    }
-}
-
-@mixin external-link-12-no-hover {
-    @include external-link-size($content: "\A0\A0\A0\A0\A0\A0\A0\A0", $top: 0px);
-}
-
-@mixin external-link-12 {
-    @include external-link-size($content: "\A0\A0\A0\A0\A0\A0\A0\A0", $top: 0px, $top-hover: -388px);
-}
-
-@mixin external-link-13-no-hover {
-    @include external-link-size($content: "\A0\A0\A0\A0\A0", $top: 1px);
-}
-
-@mixin external-link-13 {
-    @include external-link-size($content: "\A0\A0\A0\A0\A0", $top: 1px, $top-hover: -387px);
-}
-
-@mixin external-link-14 {
-    @include external-link-size($content: "\A0\A0\A0\A0\A0", $top: 1px, $top-hover: -387px);
-}
-
-@mixin external-link-14-bold-no-hover {
-    @include external-link-size($content: "\A0\A0\A0\A0\A0\A0", $top: 2px);
-}
-
-@mixin external-link-16 {
-    @include external-link-size($content: "\A0\A0\A0\A0\A0", $top: 3px, $top-hover: -385px);
-}
-
-@mixin external-link-16-bold-no-hover {
-    @include external-link-size($content: "\A0\A0\A0\A0\A0\A0", $top: 3px);
-}
-
-@mixin external-link-19-no-hover {
-    @include external-link-size($content: "\A0\A0\A0\A0", $top: 6px);
-}
-
-@mixin external-link-19 {
-    @include external-link-size($content: "\A0\A0\A0\A0", $top: 6px, $top-hover: -382px);
-}
-
-@mixin external-link-19-bold-no-hover {
-    @include external-link-size($content: "\A0\A0\A0\A0\A0\A0", $top: 6px);
-}
-
-@mixin external-link-default {
-    &:after {
-      background-image: image-url("external-link.png");
-      background-repeat: no-repeat;
-
-      @include device-pixel-ratio() {
-          background-image: image-url("external-link-24x24.png");
-          background-size: 12px 400px;
-      }
-    }
-}
-
-@mixin external-link-heading {
-    &:after {
-      background-image: image-url("external-link-black-12x12.png");
-      background-repeat: no-repeat;
-
-      @include device-pixel-ratio() {
-          background-image: image-url("external-link-black-24x24.png");
-          background-size: 12px 400px;
-      }
     }
 }

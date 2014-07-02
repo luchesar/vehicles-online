@@ -1,6 +1,5 @@
-/*  CSS3 Mixins
-    Manage vendor prefixes in one place
-*/
+//CSS3 Mixins
+//Manage vendor prefixes in one place
 
 @mixin border-radius($radius) {
     -webkit-border-radius: $radius;

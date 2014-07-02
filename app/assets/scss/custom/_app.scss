@@ -1,4 +1,4 @@
-//app/prototype specific styling
+//App/prototype specific
 
 #{$htmlNamespace} {
     background: $white;
@@ -123,7 +123,7 @@
         }
     }
 
-    //styles two column layout
+    //two column layout
     .two-col {
         @include clearfix;
         width:100%; //failsafe
@@ -151,5 +151,4 @@
             }
         }
     }
-    
 }

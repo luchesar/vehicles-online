@@ -1,4 +1,76 @@
-//any template related styles, ie header, footer, prototype banners, etc 
+//main template - html, body, wrapper, prototype banner
+
+@-ms-viewport {
+    width: device-width;
+}
+
+@-o-viewport {
+    width: device-width;
+}
+
+@font-face {
+    font-family: GDS-Logo;
+    src: local("HelveticaNeue"), local("Helvetica Neue"), local("Arial"), local("Helvetica");
+}
+
+@-ms-viewport {
+    width: device-width;
+}
+
+@-o-viewport {
+    width: device-width;
+}
+
+html, body, button, input, table, td, th {
+    font-family:$NTA-Light;
+}
+
+html, body, div, h1, h2, h3, h4, h5, h6, article, aside, footer, header, hgroup, nav, section {
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+
+html {
+    background: $grey-3;
+    font-size: 62.5%;
+    overflow-y: scroll;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+    color: $black-2;
+    line-height: 1.5;
+    font-weight: 400;
+    font-size: 160%;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+button {
+    *overflow: visible;
+}
+
+//hidden, visually hidden elements - screen reader friendly
+.hidden {
+    display: none;
+    visibility: hidden;
+}
+
+.visuallyhidden {
+    position: absolute;
+    left: -9999em;
+    &.focusable {
+        &:active, &:focus {
+            clip: auto;
+            height: auto;
+            margin: 0;
+            overflow: visible;
+            position: static;
+            width: auto;
+        }
+    }
+}
 
 //main content wrapper
 #main {
@@ -10,26 +82,27 @@
 }
 
 //coloured prototype banner
-.prototype {
-    padding: 0.7em 1em 0 1em;
+#{$htmlNamespace} .prototype {
+    padding: 0.750em 1em 0 1em;
     background-color: phase-colour($phase);
 
     @media screen and (max-width: $device-small) {
         margin: .9em .9em 0 .9em;
+        padding-top:0.7em;
         padding-bottom: 0.7em;
     }
 
     p {
-        margin: 0 !important;
-        padding: 0 0 8px 0 !important;
+        margin: 0;
+        padding: 0 0 8px 0;
         line-height: 1.2em;
         color: $white;
         font: {
-            size: 1.5rem !important;
-            weight: 600 !important;
+            size: 1.5rem;
+            weight: 600;
         }
         .ie & {
-           font-size: 15px !important;
+           font-size: 15px;
         }
     }
 
@@ -40,115 +113,4 @@
             color: $black-1;
         }
     }
-}
-
-//header title
-.header-global {
-    .page-title {
-        color: $white;
-        padding: .3em 1.5rem 0 0;
-        width: auto;
-        //text-align: right;
-        span {
-            display: inline-block;
-            width: auto;
-            margin-left: .75em;
-            letter-spacing: 0.2em;
-            font-weight: 700;
-            font-size: 1.4rem;
-            text-transform: uppercase;
-            padding: 6px 10px 4px 10px;
-            position: absolute;
-            top: 2px;
-            right:15px;
-            .ie & {
-                font-size: 14px;
-            }
-            
-        }
-        &.alpha {
-            span {
-                background: phase-colour($phase);
-            }
-        }
-        &.beta {
-            span {
-                background: phase-colour($phase);
-            }
-        }
-
-    }
-}
-
-#global-header {
-    .header-logo {
-        float:left;
-        margin-right:80px !important;
-        //margin-right:0 !important;
-        margin-bottom:10px !important;
-        width:auto !important;
-    }
-}
-
-.header-phase {
-    float:left;
-    margin-left:15px;
-    margin-bottom:8px;
-    h1.page-title {
-        @include bold-19;
-        position: relative;
-        padding-right:6em;
-
-        @media screen and (max-width: $device-small) {
-            padding-right:7em;
-        }
-    }
-    h2 {
-        @include bold-14;
-        margin-top:5px;
-        a {
-            color:$white;
-            text-decoration: none;
-            margin-right: 1em;
-            &:visited {
-                color:$white;
-            }
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-    }
-}
-
-/* Header - Global Overrides - inc !important overrides */
-html {
-    background: $grey-3!important;
-}
-
-#global-header .header-wrapper {
-    padding: 0.5em 1px !important;
-}
-
-.vehicles-online-footer {
-    padding-top: 30px !important;
-    padding-bottom: 30px !important;
-    .footer-meta {
-        border-top: none !important;
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-        margin-top: 0 !important;
-
-        ul {
-            @media screen and (max-width: 640px) {
-                text-align: center;
-            }
-        }
-        .copyright {
-            position: relative; top: 2px;
-        }
-    }
-}
-
-#global-header #logo img {
-    left:-212px !important;
 }
