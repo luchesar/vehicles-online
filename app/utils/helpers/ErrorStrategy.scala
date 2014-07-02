@@ -10,7 +10,7 @@ import controllers.disposal_of_vehicle.routes
 import filters.AccessLoggingFilter.AccessLoggerName
 import filters.ClfEntryBuilder
 import play.api.libs.Codecs
-import play.api.mvc.Results._
+import play.api.mvc.Results.Redirect
 import play.api.mvc.{RequestHeader, SimpleResult}
 import play.api.{Logger, LoggerLike}
 

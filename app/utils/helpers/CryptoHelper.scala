@@ -4,7 +4,7 @@ import play.api.mvc.{DiscardingCookie, RequestHeader, SimpleResult}
 import play.api.Logger
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import scala.concurrent.{ExecutionContext, Future}
-import play.api.mvc.Results._
+import play.api.mvc.Results.Redirect
 import controllers.disposal_of_vehicle.routes
 import ExecutionContext.Implicits.global
 

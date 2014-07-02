@@ -1,6 +1,6 @@
 package utils.helpers
 
-import app.ConfigProperties._
+import app.ConfigProperties.{getProperty, getDurationProperty}
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
 

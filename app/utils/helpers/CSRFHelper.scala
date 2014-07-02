@@ -1,6 +1,6 @@
 package utils.helpers
 
-import app.ConfigProperties._
+import app.ConfigProperties.getProperty
 import play.api.templates.{Html, HtmlFormat}
 
 object CsrfHelper {
