@@ -1,7 +1,7 @@
 package mappings.common
 
+import play.api.data.Forms.{number, optional}
 import play.api.data.Mapping
-import play.api.data.Forms.{optional, number}
 
 object Uprn {
   final val UprnId = "uprn"

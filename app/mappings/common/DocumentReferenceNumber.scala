@@ -1,8 +1,8 @@
 package mappings.common
 
-import play.api.data.Mapping
-import play.api.data.Forms.nonEmptyText
 import constraints.NumberOnly
+import play.api.data.Forms.nonEmptyText
+import play.api.data.Mapping
 
 object DocumentReferenceNumber {
   final val MinLength = 11
