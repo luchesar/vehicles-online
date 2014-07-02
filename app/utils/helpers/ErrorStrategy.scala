@@ -19,7 +19,8 @@ import scala.concurrent.{ExecutionContext, Future}
 class ErrorStrategy @Inject()(clfEntryBuilder: ClfEntryBuilder,
                               @Named(AccessLoggerName) accessLogger: LoggerLike) {
 
-  def apply(request: RequestHeader, ex: Throwable)(implicit executionContext: ExecutionContext): Future[SimpleResult] = {
+  def apply(request: RequestHeader, ex: Throwable)
+           (implicit executionContext: ExecutionContext): Future[SimpleResult] = {
     val result = ex.getCause match {
       case _: BadPaddingException => CryptoHelper.handleApplicationSecretChange(request)
       case _: InvalidSessionException => CryptoHelper.handleApplicationSecretChange(request)

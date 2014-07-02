@@ -11,7 +11,5 @@ object CsrfHelper {
     if (csrfPrevention) {
       val csrfTokenName = services.csrf_prevention.CsrfPreventionAction.TokenName
       Html(s"""<input type="hidden" name="${csrfTokenName}" value="${HtmlFormat.escape(token.value)}"/>""")
-    } else {
-      Html("")
-    }
+    } else Html("")
 }

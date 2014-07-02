@@ -1,10 +1,11 @@
 package utils.helpers
 
 import constraints.common.Required.RequiredField
-import play.api.data.Forms._
-import play.api.data._
+import play.api.data.Forms.of
+import play.api.data.{Form, FormError, Mapping}
 import play.api.data.format.Formatter
 import play.api.data.validation.Constraints
+
 import scala.language.implicitConversions
 
 object FormExtensions {
