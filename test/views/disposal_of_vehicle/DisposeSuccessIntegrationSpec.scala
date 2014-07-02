@@ -3,13 +3,13 @@ package views.disposal_of_vehicle
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
-import helpers.webbrowser.{TestGlobal, TestHarness}
+import helpers.webbrowser.TestHarness
 import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.disposal_of_vehicle.DisposeSuccessPage._
 import pages.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import play.api.test.FakeApplication
+import helpers.disposal_of_vehicle.ProgressBar.{fakeApplicationWithProgressBarTrue, fakeApplicationWithProgressBarFalse}
 
 final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -187,12 +187,4 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       disposeFormModel().
       disposeTransactionId().
       vehicleRegistrationNumber()
-
-  private val fakeApplicationWithProgressBarFalse = FakeApplication(
-    withGlobal = Some(TestGlobal),
-    additionalConfiguration = Map("progressBar.enabled" -> "false"))
-
-  private val fakeApplicationWithProgressBarTrue = FakeApplication(
-    withGlobal = Some(TestGlobal),
-    additionalConfiguration = Map("progressBar.enabled" -> "true"))
 }

@@ -4,11 +4,11 @@ import helpers.tags.UiTag
 import pages.disposal_of_vehicle.EnterAddressManuallyPage._
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
-import helpers.webbrowser.{TestGlobal, TestHarness}
+import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.common.ErrorPanel
 import pages.disposal_of_vehicle._
-import play.api.test.FakeApplication
+import helpers.disposal_of_vehicle.ProgressBar.{fakeApplicationWithProgressBarTrue, fakeApplicationWithProgressBarFalse}
 
 final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -91,12 +91,4 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.setupTradeDetails()
-
-  private val fakeApplicationWithProgressBarFalse = FakeApplication(
-    withGlobal = Some(TestGlobal),
-    additionalConfiguration = Map("progressBar.enabled" -> "false"))
-
-  private val fakeApplicationWithProgressBarTrue = FakeApplication(
-    withGlobal = Some(TestGlobal),
-    additionalConfiguration = Map("progressBar.enabled" -> "true"))
 }

@@ -4,7 +4,7 @@ import helpers.tags.UiTag
 import pages.disposal_of_vehicle.DisposePage._
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
-import helpers.webbrowser.{TestGlobal, WebDriverFactory, TestHarness}
+import helpers.webbrowser.{WebDriverFactory, TestHarness}
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.common.ErrorPanel
 import pages.disposal_of_vehicle._
@@ -12,7 +12,7 @@ import services.fakes.FakeDateServiceImpl._
 import mappings.disposal_of_vehicle.Dispose._
 import org.scalatest.time.{Seconds, Span}
 import org.scalatest.concurrent.Eventually._
-import play.api.test.FakeApplication
+import helpers.disposal_of_vehicle.ProgressBar.{fakeApplicationWithProgressBarFalse, fakeApplicationWithProgressBarTrue}
 
 final class DisposeIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -241,12 +241,4 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       dealerDetails().
       vehicleDetailsModel()
   }
-
-  private val fakeApplicationWithProgressBarFalse = FakeApplication(
-    withGlobal = Some(TestGlobal),
-    additionalConfiguration = Map("progressBar.enabled" -> "false"))
-
-  private val fakeApplicationWithProgressBarTrue = FakeApplication(
-    withGlobal = Some(TestGlobal),
-    additionalConfiguration = Map("progressBar.enabled" -> "true"))
 }
