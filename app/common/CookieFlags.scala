@@ -4,7 +4,6 @@ import app.ConfigProperties.getProperty
 import com.google.inject.Inject
 import play.api.mvc.Cookie
 import scala.concurrent.duration.DurationInt
-import scala.language.postfixOps
 
 trait CookieFlags {
   def applyToCookie(cookie: Cookie): Cookie
@@ -16,7 +15,7 @@ final class NoCookieFlags extends CookieFlags {
 
 final class CookieFlagsFromConfig @Inject()() extends CookieFlags {
 
-  private val cookieMaxAgeSeconds = getProperty("cookieMaxAge", (30 minutes).toSeconds.toInt)
+  private val cookieMaxAgeSeconds = getProperty("cookieMaxAge", 30.minutes.toSeconds.toInt)
   private val secureCookies = getProperty("secureCookies", default = true)
 
   override def applyToCookie(cookie: Cookie): Cookie =

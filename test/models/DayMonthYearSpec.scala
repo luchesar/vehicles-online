@@ -3,8 +3,8 @@ package models
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import scala.util.Try
-import scala.language.postfixOps
 import helpers.UnitSpec
+import scala.language.postfixOps
 
 final class DayMonthYearSpec extends UnitSpec {
   "DayMonthYear" should {

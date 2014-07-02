@@ -4,7 +4,6 @@ import helpers.webbrowser.TestGlobal
 import play.api.test.{FakeApplication, WithApplication}
 import play.api.mvc.Cookie
 import scala.concurrent.duration.DurationInt
-import scala.language.postfixOps
 import helpers.UnitSpec
 
 final class CookieFlagsSpec extends UnitSpec {
@@ -22,7 +21,7 @@ final class CookieFlagsSpec extends UnitSpec {
     }
   }
 
-  private final val TenMinutesInSeconds = (10 minutes).toSeconds.toInt
+  private final val TenMinutesInSeconds = 10.minutes.toSeconds.toInt
 
   private val fakeAppWithCookieConfig = FakeApplication(
     withGlobal = Some(TestGlobal),

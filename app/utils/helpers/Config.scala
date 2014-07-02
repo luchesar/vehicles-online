@@ -2,7 +2,6 @@ package utils.helpers
 
 import app.ConfigProperties.{getProperty, getDurationProperty}
 import scala.concurrent.duration.DurationInt
-import scala.language.postfixOps
 
 class Config {
   // Micro-service config
@@ -11,19 +10,19 @@ class Config {
 
   // Ordnance survey config
   val ordnanceSurveyMicroServiceUrl: String = getProperty("ordnancesurvey.ms.url", "NOT FOUND")
-  val ordnanceSurveyRequestTimeout: Int = getProperty("ordnancesurvey.requesttimeout", (5 seconds).toMillis.toInt)
+  val ordnanceSurveyRequestTimeout: Int = getProperty("ordnancesurvey.requesttimeout", 5.seconds.toMillis.toInt)
 
   // GDS address lookup config
   val gdsAddressLookupBaseUrl: String = getProperty("gdsaddresslookup.baseurl", "")
   val gdsAddressLookupAuthorisation: String = getProperty("gdsaddresslookup.authorisation", "")
-  val gdsAddressLookupRequestTimeout: Int = getProperty("gdsaddresslookup.requesttimeout", (5 seconds).toMillis.toInt)
+  val gdsAddressLookupRequestTimeout: Int = getProperty("gdsaddresslookup.requesttimeout", 5.seconds.toMillis.toInt)
 
   // Dispose
-  val disposeMsRequestTimeout: Int = getProperty("dispose.ms.requesttimeout", (5 seconds).toMillis.toInt)
+  val disposeMsRequestTimeout: Int = getProperty("dispose.ms.requesttimeout", 5.seconds.toMillis.toInt)
 
   // Brute force prevention config
   val bruteForcePreventionMicroServiceBaseUrl: String = getProperty("bruteForcePreventionMicroServiceBase", "NOT FOUND")
-  val bruteForcePreventionTimeout: Int = getProperty("bruteForcePrevention.requesttimeout", (5 seconds).toMillis.toInt)
+  val bruteForcePreventionTimeout: Int = getProperty("bruteForcePrevention.requesttimeout", 5.seconds.toMillis.toInt)
   val isBruteForcePreventionEnabled: Boolean = getProperty("bruteForcePrevention.enabled", default = true)
   val bruteForcePreventionServiceNameHeader: String = getProperty("bruteForcePrevention.headers.serviceName", "")
   val bruteForcePreventionMaxAttemptsHeader: Int = getProperty("bruteForcePrevention.headers.maxAttempts", 3)
