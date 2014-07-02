@@ -27,13 +27,14 @@ import models.domain.disposal_of_vehicle.DisposalAddressDto
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
-import play.api.data.Forms._
+import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import services.DateService
 import services.dispose_service.DisposeService
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
+import views.html.disposal_of_vehicle.dispose
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -59,7 +60,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         request.cookies.getModel[VehicleDetailsModel] match {
           case (Some(vehicleDetails)) =>
             val disposeViewModel = createViewModel(traderDetails, vehicleDetails)
-            Ok(views.html.disposal_of_vehicle.dispose(disposeViewModel, form.fill(), dateService))
+            Ok(dispose(disposeViewModel, form.fill(), dateService))
           case _ => Redirect(routes.VehicleLookup.present())
         }
       case (_, Some(interstitial)) =>
@@ -78,7 +79,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
           (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleDetailsModel]) match {
             case (Some(traderDetails), Some(vehicleDetails)) =>
               val disposeViewModel = createViewModel(traderDetails, vehicleDetails)
-              BadRequest(views.html.disposal_of_vehicle.dispose(disposeViewModel, formWithReplacedErrors(invalidForm), dateService))
+              BadRequest(dispose(disposeViewModel, formWithReplacedErrors(invalidForm), dateService))
             case _ =>
               Logger.debug("Could not find expected data in cache on dispose submit - now redirecting...")
               Redirect(routes.SetUpTradeDetails.present())
@@ -101,24 +102,31 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     // When the user doesn't select a value from the drop-down then the mapping will fail to match on an Int before
     // it gets to the constraints, so we need to replace the error type with one that will give a relevant message.
     val dateOfDisposalError = FormError("dateOfDisposal", "error.dateOfDisposal")
-    form.
-      replaceError("dateOfDisposal.day", dateOfDisposalError).
-      replaceError("dateOfDisposal.month", dateOfDisposalError).
-      replaceError("dateOfDisposal.year", dateOfDisposalError).
-      replaceError("dateOfDisposal", dateOfDisposalError).
-      replaceError(ConsentId, "error.required", FormError(key = ConsentId, message = "disposal_dispose.consent.notgiven", args = Seq.empty)).
-      replaceError(LossOfRegistrationConsentId, "error.required", FormError(key = LossOfRegistrationConsentId, message = "disposal_dispose.loss_of_registration.consent.notgiven", args = Seq.empty)).
-      distinctErrors
+    form.replaceError("dateOfDisposal.day", dateOfDisposalError)
+      .replaceError("dateOfDisposal.month", dateOfDisposalError)
+      .replaceError("dateOfDisposal.year", dateOfDisposalError)
+      .replaceError("dateOfDisposal", dateOfDisposalError)
+      .replaceError(
+        ConsentId,
+        "error.required",
+        FormError(key = ConsentId, message = "disposal_dispose.consent.notgiven", args = Seq.empty)
+      ).replaceError(
+        LossOfRegistrationConsentId,
+        "error.required",
+        FormError(key = LossOfRegistrationConsentId,
+        message = "disposal_dispose.loss_of_registration.consent.notgiven",
+        args = Seq.empty)
+      ).distinctErrors
   }
 
-  private def createViewModel(traderDetails: TraderDetailsModel, vehicleDetails: VehicleDetailsModel): DisposeViewModel = {
+  private def createViewModel(traderDetails: TraderDetailsModel,
+                              vehicleDetails: VehicleDetailsModel): DisposeViewModel =
     DisposeViewModel(
       registrationNumber = vehicleDetails.registrationNumber,
       vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
       dealerName = traderDetails.traderName,
       dealerAddress = traderDetails.traderAddress)
-  }
 
   private def disposeAction(webService: DisposeService, disposeFormModel: DisposeFormModel, trackingId: String)
                            (implicit request: Request[AnyContent]): Future[SimpleResult] = {
@@ -148,18 +156,18 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       }
     }
 
-    def storeResponseInCache(response: Option[DisposeResponse], nextPage: SimpleResult): SimpleResult = {
+    def storeResponseInCache(response: Option[DisposeResponse], nextPage: SimpleResult): SimpleResult =
       response match {
         case Some(o) =>
           val nextPageWithTransactionId =
             if (!o.transactionId.isEmpty) nextPage.withCookie(DisposeFormTransactionIdCacheKey, o.transactionId)
             else nextPage
 
-          if (!o.registrationNumber.isEmpty) nextPageWithTransactionId.withCookie(DisposeFormRegistrationNumberCacheKey, o.registrationNumber)
+          if (!o.registrationNumber.isEmpty)
+            nextPageWithTransactionId.withCookie(DisposeFormRegistrationNumberCacheKey, o.registrationNumber)
           else nextPageWithTransactionId
         case None => nextPage
       }
-    }
 
     def transactionTimestamp(nextPage: SimpleResult) = {
       val transactionTimestamp = dateService.today.toDateTime.get
@@ -168,7 +176,8 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       nextPage.withCookie(DisposeFormTimestampIdCacheKey, isoDateTimeString)
     }
 
-    def buildDisposeMicroServiceRequest(disposeModel: DisposeModel, traderDetails: TraderDetailsModel): DisposeRequest = {
+    def buildDisposeMicroServiceRequest(disposeModel: DisposeModel,
+                                        traderDetails: TraderDetailsModel): DisposeRequest = {
       val dateTime = disposeModel.dateOfDisposal.toDateTime.get
       val formatter = ISODateTimeFormat.dateTime()
       val isoDateTimeString = formatter.print(dateTime)
@@ -181,7 +190,8 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         transactionTimestamp = ISODateTimeFormat.dateTime().print(dateService.today.toDateTime.get),
         prConsent = disposeModel.lossOfRegistrationConsent.toBoolean,
         keeperConsent = disposeModel.consent.toBoolean,
-        mileage = disposeModel.mileage)
+        mileage = disposeModel.mileage
+      )
     }
 
     def handleResponseCode(disposeResponseCode: String): Call =

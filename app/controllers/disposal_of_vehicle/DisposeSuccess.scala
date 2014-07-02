@@ -2,14 +2,14 @@ package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
-import common.CookieImplicits._
+import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeViewModel, TraderDetailsModel, VehicleDetailsModel}
-import play.api.mvc._
+import play.api.mvc.{Action, Controller, Request}
 import services.DateService
 import utils.helpers.Config
 
@@ -77,7 +77,6 @@ class SurveyUrl @Inject()(implicit clientSideSessionFactory: ClientSideSessionFa
                           config: Config,
                           dateService: DateService)
   extends (Request[_] => Option[String]) {
-  import common.CookieImplicits._
 
   def apply(request: Request[_]): Option[String] = {
     def url = if (!config.prototypeSurveyUrl.trim.isEmpty)

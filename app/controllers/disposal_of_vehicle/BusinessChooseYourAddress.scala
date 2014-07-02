@@ -1,25 +1,23 @@
 package controllers.disposal_of_vehicle
 
-import javax.inject.Inject
-
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import common.{ClientSideSession, ClientSideSessionFactory}
+import javax.inject.Inject
 import mappings.common.DropDown.addressDropDown
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.AddressSelectId
-import mappings.disposal_of_vehicle.EnterAddressManually._
+import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
 import models.domain.disposal_of_vehicle.{BusinessChooseYourAddressModel, SetupTradeDetailsModel, TraderDetailsModel}
-import play.api.Logger
-import play.api.data.Forms._
+import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
-import play.api.mvc._
+import play.api.Logger
+import play.api.mvc.{Action, Controller, Request}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import services.address_lookup.AddressLookupService
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
 import views.html.disposal_of_vehicle.business_choose_your_address
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 
 final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,

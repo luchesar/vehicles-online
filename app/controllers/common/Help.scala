@@ -3,12 +3,13 @@ package controllers.common
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
-import play.api.mvc._
-import utils.helpers.Config
-import mappings.common.Help.HelpCacheKey
 import controllers.disposal_of_vehicle.routes.BeforeYouStart
+import mappings.common.Help.HelpCacheKey
+import play.api.mvc.{Action, Controller}
+import utils.helpers.Config
 
-final class Help @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
+final class Help @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+                             config: Config) extends Controller {
 
   def present = Action { implicit request =>
     val origin = request.headers.get(REFERER).getOrElse("No Referer in header")

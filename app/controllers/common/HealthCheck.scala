@@ -7,5 +7,4 @@ class HealthCheck extends Controller {
   def respond = Action { request =>
     Ok("")
   }
-
 }

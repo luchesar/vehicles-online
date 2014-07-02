@@ -2,7 +2,6 @@ package common
 
 import java.io.File
 import java.util.UUID
-
 import com.typesafe.config.ConfigFactory
 import composition.Composition
 import filters.WithFilters
@@ -12,7 +11,6 @@ import play.api.i18n.Lang
 import play.api.mvc.Results.NotFound
 import play.api.mvc._
 import utils.helpers.Config
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
