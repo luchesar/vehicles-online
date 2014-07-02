@@ -4,7 +4,7 @@ import helpers.tags.UiTag
 import pages.disposal_of_vehicle.VehicleLookupPage.{happyPath, tryLockedVrm, back, exit}
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
-import helpers.webbrowser.{TestGlobal, TestHarness}
+import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.common.ErrorPanel
 import pages.disposal_of_vehicle.BeforeYouStartPage
@@ -16,7 +16,7 @@ import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
 import pages.disposal_of_vehicle.EnterAddressManuallyPage
 import services.fakes.FakeAddressLookupService.addressWithUprn
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import play.api.test.FakeApplication
+import helpers.disposal_of_vehicle.ProgressBar.{fakeApplicationWithProgressBarTrue, fakeApplicationWithProgressBarFalse}
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -204,12 +204,4 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       setupTradeDetails().
       dealerDetails().
       disposeOccurred
-
-  private val fakeApplicationWithProgressBarFalse = FakeApplication(
-    withGlobal = Some(TestGlobal),
-    additionalConfiguration = Map("progressBar.enabled" -> "false"))
-
-  private val fakeApplicationWithProgressBarTrue = FakeApplication(
-    withGlobal = Some(TestGlobal),
-    additionalConfiguration = Map("progressBar.enabled" -> "true"))
 }

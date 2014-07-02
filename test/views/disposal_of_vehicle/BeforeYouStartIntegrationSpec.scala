@@ -3,13 +3,13 @@ package views.disposal_of_vehicle
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
-import helpers.webbrowser.{TestGlobal, TestHarness}
+import helpers.webbrowser.TestHarness
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.WebDriver
 import pages.common.AlternateLanguages._
 import pages.disposal_of_vehicle.BeforeYouStartPage._
 import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage}
-import play.api.test.FakeApplication
+import helpers.disposal_of_vehicle.ProgressBar.{fakeApplicationWithProgressBarTrue, fakeApplicationWithProgressBarFalse}
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -62,12 +62,4 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(SetupTradeDetailsPage.title)
     }
   }
-
-  private val fakeApplicationWithProgressBarFalse = FakeApplication(
-    withGlobal = Some(TestGlobal),
-    additionalConfiguration = Map("progressBar.enabled" -> "false"))
-
-  private val fakeApplicationWithProgressBarTrue = FakeApplication(
-    withGlobal = Some(TestGlobal),
-    additionalConfiguration = Map("progressBar.enabled" -> "true"))
 }
