@@ -1,9 +1,9 @@
 package mappings.common
 
-import play.api.data.Mapping
-import play.api.data.Forms.{mapping, optional}
 import models.domain.common.AddressLinesModel
-import utils.helpers.FormExtensions.{trimNonWhiteListedChars, nonEmptyTextWithTransform, textWithTransform}
+import play.api.data.Forms.{mapping, optional}
+import play.api.data.Mapping
+import utils.helpers.FormExtensions.{nonEmptyTextWithTransform, textWithTransform, trimNonWhiteListedChars}
 
 object AddressLines {
   final val AddressLinesId = "addressLines"

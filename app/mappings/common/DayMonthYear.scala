@@ -1,8 +1,8 @@
 package mappings.common
 
-import play.api.data.Mapping
-import play.api.data.Forms.{number, optional, mapping}
 import constraints.common.DayMonthYear.required
+import play.api.data.Forms.{mapping, number, optional}
+import play.api.data.Mapping
 
 object DayMonthYear {
   final val DayId = "day"
