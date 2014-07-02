@@ -21,9 +21,9 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
       go to VrmLockedPage
-      val csrf: WebElement = webDriver.findElement(By.name(services.csrf_prevention.CSRFPreventionAction.csrfPreventionTokenName))
+      val csrf: WebElement = webDriver.findElement(By.name(services.csrf_prevention.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
-      csrf.getAttribute("name") should equal(services.csrf_prevention.CSRFPreventionAction.csrfPreventionTokenName)
+      csrf.getAttribute("name") should equal(services.csrf_prevention.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
 

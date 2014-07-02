@@ -4,7 +4,6 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel._
 import models.domain.disposal_of_vehicle.{BruteForcePreventionViewModel, TraderDetailsModel}
 import play.api.Logger
 import play.api.mvc._

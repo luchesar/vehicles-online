@@ -33,5 +33,4 @@ class ErrorStrategy @Inject()(clfEntryBuilder: ClfEntryBuilder,
     }
     result
   }
-
 }

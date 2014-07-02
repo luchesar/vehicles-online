@@ -10,27 +10,28 @@ import play.api.mvc._
 import utils.helpers.AesEncryption
 import common.CookieImplicits._
 import play.api.http.HeaderNames.REFERER
+import scala.util.Try
 
 final case class CSRFPreventionException(nestedException: Throwable) extends Exception(nestedException: Throwable)
 
 /**
  * This class is based upon the Play's v2.2 CSRF protection. It has been stripped of code not relevant to this project, and
- * project specific exception handling and encryption has been added. The unmarshalling and onward streaming in the
+ * project specific exception handling and aesEncryption has been added. The unmarshalling and onward streaming in the
  * checkBody method is as Play intended it apart from the token comparison.
  *
  * https://www.playframework.com/documentation/2.2.x/ScalaCsrf
  *
  */
-class CSRFPreventionAction(next: EssentialAction)
+class CsrfPreventionAction(next: EssentialAction)
                           (implicit clientSideSessionFactory: ClientSideSessionFactory)
   extends EssentialAction {
 
-  import CSRFPreventionAction._
+  import CsrfPreventionAction._
 
   def apply(requestHeader: RequestHeader) = {
 
     // check if csrf prevention is switched on
-    if (csrfPrevention) {
+    if (preventionEnabled) {
       if (requestHeader.method == "POST") {
         val headerToken = buildTokenWithReferer(
           requestHeader.cookies.trackingId,
@@ -82,7 +83,7 @@ class CSRFPreventionAction(next: EssentialAction)
               _ => false,
               // valid token found
               body => (for {
-                values <- identity(body).get(csrfPreventionTokenName)
+                values <- identity(body).get(TokenName)
                 token <- values.headOption
               } yield {
                 val decryptedExtractedSignedToken = aesEncryption.decrypt(Crypto.extractSignedToken(token).getOrElse(
@@ -105,34 +106,38 @@ class CSRFPreventionAction(next: EssentialAction)
 
 }
 
-object CSRFPreventionAction {
+object CsrfPreventionAction {
 
-  def aesEncryption = new AesEncryption()
+  final val TokenName = "csrf_prevention_token"
+  private final val Delimiter = "-"
 
-  def csrfPreventionTokenName: String = "csrf_prevention_token"
+  lazy val preventionEnabled = getProperty("csrf.prevention", default = true)
 
-  def csrfPrevention = getProperty("csrf.prevention", default = true)
+  case class CsrfPreventionToken(value: String)
 
-  case class CSRFPreventionToken(value: String)
-
-  val Delimiter = "-"
+  private val aesEncryption = new AesEncryption()
 
   // TODO : Trap the missing token exception differently?
-  implicit def getToken(implicit request: RequestHeader, clientSideSessionFactory: ClientSideSessionFactory): CSRFPreventionToken = {
-    Some(CSRFPreventionToken(Crypto.signToken(aesEncryption.encrypt(
-      buildTokenWithUri(request.cookies.trackingId, request.uri))))).getOrElse(throw new CSRFPreventionException(throw new Throwable("No CSRF token found")))
-  }
+  implicit def getToken(implicit request: RequestHeader, clientSideSessionFactory: ClientSideSessionFactory): CsrfPreventionToken =
+    Try {
+      CsrfPreventionToken(
+        Crypto.signToken(
+          aesEncryption.encrypt(
+            buildTokenWithUri(request.cookies.trackingId, request.uri)
+          )
+        )
+      )
+    }.getOrElse(throw new CSRFPreventionException(new Throwable("No CSRF token found")))
 
-  def buildTokenWithReferer(trackingId: String, requestHeaders: Headers) = {
+  private def buildTokenWithReferer(trackingId: String, requestHeaders: Headers) = {
     trackingId + Delimiter + requestHeaders.get(REFERER)
   }
 
-  def buildTokenWithUri(trackingId: String, uri: String) = {
+  private def buildTokenWithUri(trackingId: String, uri: String) = {
     trackingId + Delimiter + uri
   }
 
-  def splitToken(token: String): (String, String) = {
+  private def splitToken(token: String): (String, String) = {
     (token.split(Delimiter)(0), token.drop(token.indexOf(Delimiter) + 1))
   }
-
 }

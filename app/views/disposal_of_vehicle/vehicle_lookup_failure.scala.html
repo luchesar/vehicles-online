@@ -2,7 +2,7 @@
         responseCodeVehicleLookupMSErrorMessage: String,
         attempts: Int,
         maxAttempts: Int)(implicit lang: Lang,
-        token: services.csrf_prevention.CSRFPreventionAction.CSRFPreventionToken,
+        token: services.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
 @import mappings.disposal_of_vehicle.VehicleLookupFailure.{BeforeYouStartId, VehicleLookupId}

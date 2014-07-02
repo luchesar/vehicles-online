@@ -10,7 +10,7 @@ import play.api.data.Forms._
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import utils.helpers.Config
-import utils.helpers.FormExtensions._
+import utils.helpers.FormExtensions.formBinding
 
 final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
 

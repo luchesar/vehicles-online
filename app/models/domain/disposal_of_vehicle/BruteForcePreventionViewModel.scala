@@ -11,7 +11,7 @@ object BruteForcePreventionViewModel {
     BruteForcePreventionViewModel(permitted,
       attempts = response.attempts + 1,
       maxAttempts = maxAttempts,
-      dateTimeISOChronology = dateService.dateTimeISOChronology // Save the time we locked incase we need to display it on a page e.g. vrm-locked page.
+      dateTimeISOChronology = dateService.dateTimeISOChronology // Save the time we locked in case we need to display it on a page e.g. vrm-locked page.
     )
   }
 

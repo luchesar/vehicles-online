@@ -3,8 +3,7 @@ package common
 import app.ConfigProperties.getProperty
 import com.google.inject.Inject
 import play.api.mvc.Cookie
-
-import scala.concurrent.duration._
+import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
 
 trait CookieFlags {
