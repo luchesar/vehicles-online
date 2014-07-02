@@ -10,8 +10,8 @@ trait Composition {
   lazy val injector = Guice.createInjector(DevModule)
 
   lazy val filters = Array(
-    new GzipFilter(),
     injector.getInstance(classOf[EnsureSessionCreatedFilter]),
+    new GzipFilter(),
     injector.getInstance(classOf[AccessLoggingFilter]),
     injector.getInstance(classOf[CsrfPreventionFilter])
   )
