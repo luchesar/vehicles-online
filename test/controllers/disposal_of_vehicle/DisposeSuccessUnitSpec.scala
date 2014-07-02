@@ -12,12 +12,13 @@ import pages.disposal_of_vehicle.{VehicleLookupPage, SetupTradeDetailsPage, Befo
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
 import helpers.WithApplication
-import play.api.test.FakeRequest
+import play.api.test.{FakeApplication, FakeRequest}
 import services.DateServiceImpl
 import CookieHelper.fetchCookiesFromHeaders
 import utils.helpers.Config
 
 import scala.concurrent.duration._
+import helpers.webbrowser.TestGlobal
 
 final class DisposeSuccessUnitSpec extends UnitSpec {
   implicit val dateService = new DateServiceImpl
@@ -95,10 +96,6 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
-    }
-
-    "display expected progress bar" in new WithApplication {
-      contentAsString(present) should include("Step 6 of 6")
     }
 
     "display prototype message when config set to true" in new WithApplication {

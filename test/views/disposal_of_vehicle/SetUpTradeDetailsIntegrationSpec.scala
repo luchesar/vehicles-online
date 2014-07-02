@@ -2,7 +2,7 @@ package views.disposal_of_vehicle
 
 import helpers.UiSpec
 import helpers.tags.UiTag
-import helpers.webbrowser.TestHarness
+import helpers.webbrowser.{TestGlobal, TestHarness}
 import mappings.disposal_of_vehicle.SetupTradeDetails
 import org.openqa.selenium.{WebElement, By}
 import pages.common.Accessibility
@@ -11,6 +11,7 @@ import pages.disposal_of_vehicle.SetupTradeDetailsPage._
 import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import pages.common.AlternateLanguages._
+import play.api.test.FakeApplication
 
 final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
   "got to page" should {
@@ -19,10 +20,16 @@ final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(SetupTradeDetailsPage.title)
     }
 
-    "display the progress of the page" taggedAs UiTag in new WebBrowser {
+    "display the progress of the page when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
       go to SetupTradeDetailsPage
 
       page.source.contains("Step 2 of 6") should equal(true)
+    }
+
+    "display the progress of the page when progress bar is set to false" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarFalse) {
+      go to SetupTradeDetailsPage
+
+      page.source.contains("Step 2 of 6") should equal(false)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
@@ -65,4 +72,12 @@ final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
       Accessibility.ariaInvalidPresent(SetupTradeDetails.TraderPostcodeId) should equal(true)
     }
   }
+
+  private val fakeApplicationWithProgressBarFalse = FakeApplication(
+    withGlobal = Some(TestGlobal),
+    additionalConfiguration = Map("progressBar.enabled" -> "false"))
+
+  private val fakeApplicationWithProgressBarTrue = FakeApplication(
+    withGlobal = Some(TestGlobal),
+    additionalConfiguration = Map("progressBar.enabled" -> "true"))
 }

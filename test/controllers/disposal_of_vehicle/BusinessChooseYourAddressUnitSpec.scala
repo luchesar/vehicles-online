@@ -8,7 +8,7 @@ import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage, UprnNotFoundPage}
 import play.api.mvc.Cookies
-import play.api.test.FakeRequest
+import play.api.test.{FakeApplication, FakeRequest}
 import play.api.test.Helpers._
 import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
 import services.fakes.FakeAddressLookupWebServiceImpl
@@ -19,6 +19,7 @@ import FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
 import FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound
 import utils.helpers.Config
 import org.mockito.Mockito.when
+import helpers.webbrowser.TestGlobal
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
@@ -50,10 +51,6 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       whenReady(result) {
         r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
-    }
-
-    "display expected progress bar" in new WithApplication {
-      contentAsString(present) should include("Step 3 of 6")
     }
 
     "display prototype message when config set to true" in new WithApplication {

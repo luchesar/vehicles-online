@@ -3,7 +3,7 @@ package views.disposal_of_vehicle
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
-import helpers.webbrowser.TestHarness
+import helpers.webbrowser.{TestGlobal, TestHarness}
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.common.ErrorPanel
 import pages.disposal_of_vehicle.BusinessChooseYourAddressPage.{sadPath, happyPath, manualAddress, back}
@@ -12,6 +12,7 @@ import services.fakes.FakeAddressLookupService.PostcodeValid
 import mappings.disposal_of_vehicle.EnterAddressManually._
 import services.fakes.FakeAddressLookupService
 import pages.common.AlternateLanguages._
+import play.api.test.FakeApplication
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -22,12 +23,20 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       page.title should equal(BusinessChooseYourAddressPage.title)
     }
 
-    "display the progress of the page" taggedAs UiTag in new WebBrowser {
+    "display the progress of the page when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
 
       page.source.contains("Step 3 of 6") should equal(true)
+    }
+
+    "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarFalse) {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to BusinessChooseYourAddressPage
+
+      page.source.contains("Step 3 of 6") should equal(false)
     }
 
     "redirect when no traderBusinessName is cached" taggedAs UiTag in new WebBrowser {
@@ -127,4 +136,12 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.setupTradeDetails()
+
+  private val fakeApplicationWithProgressBarFalse = FakeApplication(
+    withGlobal = Some(TestGlobal),
+    additionalConfiguration = Map("progressBar.enabled" -> "false"))
+
+  private val fakeApplicationWithProgressBarTrue = FakeApplication(
+    withGlobal = Some(TestGlobal),
+    additionalConfiguration = Map("progressBar.enabled" -> "true"))
 }

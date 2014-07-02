@@ -3,21 +3,17 @@ package controllers.disposal_of_vehicle
 import common.ClientSideSessionFactory
 import helpers.{UnitSpec, WithApplication}
 import pages.disposal_of_vehicle.SetupTradeDetailsPage
-import play.api.test.FakeRequest
+import play.api.test.{FakeApplication, FakeRequest}
 import play.api.test.Helpers._
 import utils.helpers.Config
 import org.mockito.Mockito.when
+import helpers.webbrowser.TestGlobal
 
 final class BeforeYouStartUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
       val result = beforeYouStart.present(FakeRequest())
       status(result) should equal(OK)
-    }
-
-    "display expected progress bar" in new WithApplication {
-      val result = beforeYouStart.present(FakeRequest())
-      contentAsString(result) should include("Step 1 of 6")
     }
 
     "display prototype message when config set to true" in new WithApplication {

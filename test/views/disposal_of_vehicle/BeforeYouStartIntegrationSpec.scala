@@ -19,10 +19,16 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(BeforeYouStartPage.title)
     }
 
-    "display the progress of the page" taggedAs UiTag in new WebBrowser {
+    "display the progress of the page when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
       go to BeforeYouStartPage
 
       page.source.contains("Step 1 of 6") should equal(true)
+    }
+
+    "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarFalse) {
+      go to BeforeYouStartPage
+
+      page.source.contains("Step 1 of 6") should equal(false)
     }
 
     "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowser {
@@ -57,7 +63,11 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  private val fakeAppWithPrototypeFalse = FakeApplication(
+  private val fakeApplicationWithProgressBarFalse = FakeApplication(
     withGlobal = Some(TestGlobal),
-    additionalConfiguration = Map("prototype.disclaimer" -> "false"))
+    additionalConfiguration = Map("progressBar.enabled" -> "false"))
+
+  private val fakeApplicationWithProgressBarTrue = FakeApplication(
+    withGlobal = Some(TestGlobal),
+    additionalConfiguration = Map("progressBar.enabled" -> "true"))
 }

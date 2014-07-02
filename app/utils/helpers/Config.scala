@@ -38,4 +38,7 @@ class Config {
 
   // Google analytics
   val isGoogleAnalyticsEnabled: Boolean = getProperty("googleAnalytics.enabled", default = true)
+
+  // Progress step indicator
+  val isProgressBarEnabled: Boolean = getProperty("progressBar.enabled", default = true)
 }

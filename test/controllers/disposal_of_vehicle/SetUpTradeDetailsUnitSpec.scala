@@ -11,11 +11,12 @@ import play.api.test.Helpers._
 import services.fakes.FakeAddressLookupService.{TraderBusinessNameValid, PostcodeValid}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.WithApplication
-import play.api.test.FakeRequest
+import play.api.test.{FakeApplication, FakeRequest}
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import utils.helpers.Config
 import scala.Some
 import helpers.JsonUtils.deserializeJsonToModel
+import helpers.webbrowser.TestGlobal
 
 final class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
@@ -39,10 +40,6 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
       val content = contentAsString(present)
       content should not include TraderBusinessNameValid
       content should not include PostcodeValid
-    }
-
-    "display expected progress bar" in new WithApplication {
-      contentAsString(present) should include("Step 2 of 6")
     }
 
     "display prototype message when config set to true" in new WithApplication {

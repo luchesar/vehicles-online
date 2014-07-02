@@ -3,12 +3,13 @@ package views.disposal_of_vehicle
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
-import helpers.webbrowser.TestHarness
+import helpers.webbrowser.{TestGlobal, TestHarness}
 import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.disposal_of_vehicle.DisposeSuccessPage._
 import pages.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.RelatedCacheKeys
+import play.api.test.FakeApplication
 
 final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -21,13 +22,22 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(DisposeSuccessPage.title)
     }
 
-    "display the progress of the page" taggedAs UiTag in new WebBrowser {
+    "display the progress of the page when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
       go to BeforeYouStartPage
       cacheSetup()
 
       go to DisposeSuccessPage
 
       page.source.contains("Step 6 of 6") should equal(true)
+    }
+
+    "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarFalse) {
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      go to DisposeSuccessPage
+
+      page.source.contains("Step 6 of 6") should equal(false)
     }
 
     "redirect when no details are cached" taggedAs UiTag in new WebBrowser {
@@ -177,4 +187,12 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       disposeFormModel().
       disposeTransactionId().
       vehicleRegistrationNumber()
+
+  private val fakeApplicationWithProgressBarFalse = FakeApplication(
+    withGlobal = Some(TestGlobal),
+    additionalConfiguration = Map("progressBar.enabled" -> "false"))
+
+  private val fakeApplicationWithProgressBarTrue = FakeApplication(
+    withGlobal = Some(TestGlobal),
+    additionalConfiguration = Map("progressBar.enabled" -> "true"))
 }

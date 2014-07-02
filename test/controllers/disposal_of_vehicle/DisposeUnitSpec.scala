@@ -55,8 +55,9 @@ import services.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, Registr
 import services.fakes.{FakeDisposeWebServiceImpl, FakeResponse}
 import utils.helpers.Config
 import org.mockito.ArgumentCaptor
-import play.api.test.FakeRequest
+import play.api.test.{FakeApplication, FakeRequest}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs.TrackingIdValue
+import helpers.webbrowser.TestGlobal
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
@@ -107,15 +108,6 @@ final class DisposeUnitSpec extends UnitSpec {
       contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("consent", checked = false))
       contentWithCarriageReturnsAndSpacesRemoved should include(buildCheckboxHtml("lossOfRegistrationConsent", checked = false))
       content should not include "selected" // No drop downs should be selected
-    }
-
-    "display expected progress bar" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
-      val result = disposeController(disposeWebService = disposeWebService()).present(request)
-      contentAsString(result) should include("Step 5 of 6")
     }
 
     "display prototype message when config set to true" in new WithApplication {

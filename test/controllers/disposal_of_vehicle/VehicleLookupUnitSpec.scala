@@ -52,10 +52,11 @@ import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForc
 import mappings.common.DocumentReferenceNumber
 import utils.helpers.Config
 import org.mockito.ArgumentCaptor
-import play.api.test.FakeRequest
+import play.api.test.{FakeApplication, FakeRequest}
 import helpers.JsonUtils.deserializeJsonToModel
 import scala.concurrent.duration._
 import mappings.disposal_of_vehicle.VehicleLookup.{VehicleLookupAction, ExitAction, ActionNotAllowedMessage}
+import helpers.webbrowser.TestGlobal
 
 final class VehicleLookupUnitSpec extends UnitSpec {
   val testDuration = 7.days.toMillis
@@ -121,10 +122,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val content = contentAsString(result)
       content should not include ReferenceNumberValid
       content should not include RegistrationNumberValid
-    }
-
-    "display progress bar" in new WithApplication {
-      contentAsString(present) should include ("Step 4 of 6")
     }
 
     "display prototype message when config set to true" in new WithApplication {

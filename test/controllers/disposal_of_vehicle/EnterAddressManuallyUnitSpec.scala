@@ -15,11 +15,12 @@ import models.domain.disposal_of_vehicle.{EnterAddressManuallyModel, TraderDetai
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage}
 import play.api.mvc.SimpleResult
-import play.api.test.FakeRequest
+import play.api.test.{FakeApplication, FakeRequest}
 import play.api.test.Helpers._
 import utils.helpers.Config
 import scala.concurrent.Future
 import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
+import helpers.webbrowser.TestGlobal
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
   "present" should {
@@ -55,10 +56,6 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       content should not include Line2Valid
       content should not include Line3Valid
       content should not include PostTownValid
-    }
-
-    "display expected progress bar" in new WithApplication {
-      contentAsString(present) should include("Step 3 of 6")
     }
 
     "display prototype message when config set to true" in new WithApplication {
