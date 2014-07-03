@@ -6,6 +6,7 @@ import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.ErrorPage
 import play.api.test.FakeRequest
+import play.api.test.Helpers.{OK, contentAsString}
 import play.api.test.Helpers._
 import utils.helpers.Config
 
@@ -13,8 +14,8 @@ final class ErrorUnitSpec extends UnitSpec {
 
   "present" should {
     "display the page" in new WithApplication {
-      whenReady(present) {
-        r => r.header.status should equal(OK)
+      whenReady(present) { r =>
+        r.header.status should equal(OK)
       }
     }
 
@@ -23,7 +24,7 @@ final class ErrorUnitSpec extends UnitSpec {
     }
 
     "display prototype message when config set to true" in new WithApplication {
-      contentAsString(present) should include("""<div class="prototype">""")
+      contentAsString(present) should include(PrototypeHtml)
     }
 
     "not display prototype message when config set to false" in new WithApplication {
@@ -34,14 +35,15 @@ final class ErrorUnitSpec extends UnitSpec {
       val errorPrototypeNotVisible = new Error()
 
       val result = errorPrototypeNotVisible.present(ErrorPage.exceptionDigest)(request)
-      contentAsString(result) should not include """<div class="prototype">"""
+      contentAsString(result) should not include PrototypeHtml
     }
   }
 
   // TODO please add test for 'submit'.
 
-
   private val errorController = injector.getInstance(classOf[Error])
+
+  private final val PrototypeHtml = """<div class="prototype">"""
 
   private lazy val present = {
     val request = FakeRequest().
