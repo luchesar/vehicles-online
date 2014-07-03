@@ -1,65 +1,65 @@
 package controllers.disposal_of_vehicle
 
 import com.tzavellas.sse.guice.ScalaModule
-import common.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import Common.ExitButtonHtml
 import Common.PrototypeHtml
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import common.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import controllers.disposal_of_vehicle
-import helpers.UnitSpec
-import helpers.WithApplication
-import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import mappings.disposal_of_vehicle.Dispose._
-import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
-import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
-import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
-import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
-import models.domain.disposal_of_vehicle.{VehicleLookupFormModel, VehicleDetailsResponse, VehicleDetailsRequest}
-import org.joda.time.Instant
-import org.mockito.Matchers.any
-import org.mockito.Mockito.{when, verify}
-import pages.disposal_of_vehicle.MicroServiceErrorPage
-import pages.disposal_of_vehicle.DisposePage
-import pages.disposal_of_vehicle.SetupTradeDetailsPage
-import pages.disposal_of_vehicle.VehicleLookupFailurePage
-import pages.disposal_of_vehicle.EnterAddressManuallyPage
-import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
-import pages.disposal_of_vehicle.BeforeYouStartPage
-import pages.disposal_of_vehicle.VrmLockedPage
-import play.api.libs.json.{JsValue, Json}
-import play.api.test.Helpers.{LOCATION, BAD_REQUEST, contentAsString, defaultAwaitTimeout}
-import services.DateServiceImpl
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
-import services.brute_force_prevention.BruteForcePreventionServiceImpl
-import services.brute_force_prevention.BruteForcePreventionService
-import services.brute_force_prevention.BruteForcePreventionWebService
 import services.fakes.FakeAddressLookupService
-import FakeAddressLookupService.{TraderBusinessNameValid, BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
-import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
-import services.fakes.{FakeDateServiceImpl, FakeResponse}
 import services.fakes.FakeVehicleLookupWebService
+import FakeAddressLookupService.{TraderBusinessNameValid, BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 import FakeVehicleLookupWebService.ReferenceNumberValid
 import FakeVehicleLookupWebService.RegistrationNumberValid
 import FakeVehicleLookupWebService.RegistrationNumberWithSpaceValid
-import FakeVehicleLookupWebService.vehicleDetailsResponseNotFoundResponseCode
-import FakeVehicleLookupWebService.vehicleDetailsResponseVRMNotFound
-import FakeVehicleLookupWebService.vehicleDetailsResponseDocRefNumberNotLatest
-import FakeVehicleLookupWebService.vehicleDetailsServerDown
 import FakeVehicleLookupWebService.vehicleDetailsNoResponse
+import FakeVehicleLookupWebService.vehicleDetailsResponseDocRefNumberNotLatest
+import FakeVehicleLookupWebService.vehicleDetailsResponseNotFoundResponseCode
 import FakeVehicleLookupWebService.vehicleDetailsResponseSuccess
-import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
-import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
-import FakeBruteForcePreventionWebServiceImpl.{VrmLocked, VrmAttempt2, responseFirstAttempt, responseSecondAttempt, VrmThrows}
-import play.api.libs.ws.Response
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
-import mappings.common.DocumentReferenceNumber
-import utils.helpers.Config
-import org.mockito.ArgumentCaptor
-import play.api.test.FakeRequest
+import FakeVehicleLookupWebService.vehicleDetailsResponseVRMNotFound
+import FakeVehicleLookupWebService.vehicleDetailsServerDown
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.JsonUtils.deserializeJsonToModel
-import scala.concurrent.duration.DurationInt
+import helpers.UnitSpec
+import helpers.WithApplication
+import mappings.common.DocumentReferenceNumber
+import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
+import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.{VehicleLookupAction, ExitAction, ActionNotAllowedMessage}
+import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
+import models.domain.disposal_of_vehicle.{VehicleLookupFormModel, VehicleDetailsResponse, VehicleDetailsRequest}
+import org.joda.time.Instant
+import org.mockito.ArgumentCaptor
+import org.mockito.Matchers.any
+import org.mockito.Mockito.{when, verify}
+import pages.disposal_of_vehicle.BeforeYouStartPage
+import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
+import pages.disposal_of_vehicle.DisposePage
+import pages.disposal_of_vehicle.EnterAddressManuallyPage
+import pages.disposal_of_vehicle.MicroServiceErrorPage
+import pages.disposal_of_vehicle.SetupTradeDetailsPage
+import pages.disposal_of_vehicle.VehicleLookupFailurePage
+import pages.disposal_of_vehicle.VrmLockedPage
+import play.api.libs.json.{JsValue, Json}
+import play.api.libs.ws.Response
+import play.api.test.FakeRequest
+import play.api.test.Helpers.{LOCATION, BAD_REQUEST, contentAsString, defaultAwaitTimeout}
+import scala.concurrent.duration.DurationInt
+import scala.concurrent.{ExecutionContext, Future}
+import ExecutionContext.Implicits.global
+import services.brute_force_prevention.BruteForcePreventionService
+import services.brute_force_prevention.BruteForcePreventionServiceImpl
+import services.brute_force_prevention.BruteForcePreventionWebService
+import services.DateServiceImpl
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
+import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import services.fakes.{FakeDateServiceImpl, FakeResponse}
+import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
+import utils.helpers.Config
+import FakeBruteForcePreventionWebServiceImpl.{VrmLocked, VrmAttempt2, responseFirstAttempt, responseSecondAttempt, VrmThrows}
 
 final class VehicleLookupUnitSpec extends UnitSpec {
   val testDuration = 7.days.toMillis

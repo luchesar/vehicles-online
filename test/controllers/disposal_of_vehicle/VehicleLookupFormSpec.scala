@@ -2,20 +2,22 @@ package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
 import controllers.disposal_of_vehicle
-import helpers.UnitSpec
 import helpers.common.RandomVrmGenerator
 import helpers.disposal_of_vehicle.InvalidVRMFormat.allInvalidVrmFormats
 import helpers.disposal_of_vehicle.ValidVRMFormat.allValidVrmFormats
+import helpers.UnitSpec
 import mappings.disposal_of_vehicle.VehicleLookup.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
 import models.domain.disposal_of_vehicle.{VehicleDetailsRequest, VehicleDetailsResponse}
 import org.mockito.Matchers.{any, anyString}
 import org.mockito.Mockito.when
 import play.api.http.Status.OK
 import play.api.libs.json.{JsValue, Json}
-import services.DateServiceImpl
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import services.brute_force_prevention.BruteForcePreventionService
 import services.brute_force_prevention.BruteForcePreventionServiceImpl
 import services.brute_force_prevention.BruteForcePreventionWebService
+import services.DateServiceImpl
 import services.fakes.FakeVehicleLookupWebService.ConsentValid
 import services.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
 import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
@@ -23,8 +25,6 @@ import services.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseSuccess
 import services.fakes.{FakeDateServiceImpl, FakeResponse}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import utils.helpers.Config
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 
 final class VehicleLookupFormSpec extends UnitSpec {
   implicit val dateService = new DateServiceImpl

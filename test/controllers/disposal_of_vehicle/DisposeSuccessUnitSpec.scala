@@ -2,20 +2,18 @@ package controllers.disposal_of_vehicle
 
 import com.tzavellas.sse.guice.ScalaModule
 import common.ClientSideSessionFactory
-import Common.PrototypeHtml
-import helpers.common.CookieHelper
+import controllers.disposal_of_vehicle.Common.PrototypeHtml
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import helpers.{UnitSpec, WithApplication}
+import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import org.joda.time.Instant
-import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
 import org.mockito.Mockito.when
-import play.api.test.Helpers.{OK, LOCATION, contentAsString, defaultAwaitTimeout}
-import pages.disposal_of_vehicle.{VehicleLookupPage, SetupTradeDetailsPage, BeforeYouStartPage}
-import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import helpers.UnitSpec
-import helpers.WithApplication
+import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage, VehicleLookupPage}
 import play.api.test.FakeRequest
+import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout}
 import services.DateServiceImpl
-import CookieHelper.fetchCookiesFromHeaders
 import utils.helpers.Config
 import scala.concurrent.duration.DurationInt
 

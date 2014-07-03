@@ -2,21 +2,20 @@ package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
 import Common.PrototypeHtml
-import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import helpers.JsonUtils.deserializeJsonToModel
+import helpers.UnitSpec
+import helpers.WithApplication
 import mappings.disposal_of_vehicle.SetupTradeDetails
-import SetupTradeDetails.{TraderNameMaxLength, SetupTradeDetailsCacheKey, TraderNameId, TraderPostcodeId}
+import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
+import play.api.test.FakeRequest
 import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, contentAsString, defaultAwaitTimeout}
 import services.fakes.FakeAddressLookupService.{TraderBusinessNameValid, PostcodeValid}
-import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import helpers.WithApplication
-import play.api.test.FakeRequest
-import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
+import SetupTradeDetails.{TraderNameMaxLength, SetupTradeDetailsCacheKey, TraderNameId, TraderPostcodeId}
 import utils.helpers.Config
-import scala.Some
-import helpers.JsonUtils.deserializeJsonToModel
 
 final class SetUpTradeDetailsUnitSpec extends UnitSpec {
 

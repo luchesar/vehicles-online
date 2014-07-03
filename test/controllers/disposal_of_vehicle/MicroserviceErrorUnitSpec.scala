@@ -1,12 +1,11 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
-import Common.PrototypeHtml
-import helpers.UnitSpec
+import controllers.disposal_of_vehicle.Common.PrototypeHtml
+import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito.when
-import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout, status}
 import play.api.test.FakeRequest
-import helpers.WithApplication
+import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout, status}
 import utils.helpers.Config
 
 final class MicroserviceErrorUnitSpec extends UnitSpec {

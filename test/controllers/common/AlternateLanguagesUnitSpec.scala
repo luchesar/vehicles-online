@@ -1,13 +1,13 @@
 package controllers.common
 
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import controllers.common.AlternateLanguages.withLanguage
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.{UnitSpec, WithApplication}
 import mappings.common.AlternateLanguages.{CyId, EnId}
 import pages.disposal_of_vehicle.BeforeYouStartPage
 import play.api.Play
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{SEE_OTHER, LOCATION, REFERER}
+import play.api.test.Helpers.{LOCATION, REFERER, SEE_OTHER}
 
 final class AlternateLanguagesUnitSpec extends UnitSpec {
   "withLanguageCy" should {

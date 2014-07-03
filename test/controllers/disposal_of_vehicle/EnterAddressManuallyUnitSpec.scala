@@ -4,10 +4,10 @@ import common.ClientSideSessionFactory
 import Common.PrototypeHtml
 import helpers.common.CookieHelper
 import CookieHelper.fetchCookiesFromHeaders
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.WithApplication
-import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.common.AddressAndPostcode.AddressAndPostcodeId
 import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, PostTownId, Line2Id, Line3Id}
 import mappings.common.Postcode.PostcodeId
@@ -18,13 +18,13 @@ import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage}
 import play.api.mvc.SimpleResult
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, contentAsString, defaultAwaitTimeout}
-import utils.helpers.Config
 import scala.concurrent.Future
 import services.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
 import services.fakes.FakeAddressLookupService.Line2Valid
 import services.fakes.FakeAddressLookupService.Line3Valid
-import services.fakes.FakeAddressLookupService.PostTownValid
 import services.fakes.FakeAddressLookupService.PostcodeValid
+import services.fakes.FakeAddressLookupService.PostTownValid
+import utils.helpers.Config
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
   "present" should {

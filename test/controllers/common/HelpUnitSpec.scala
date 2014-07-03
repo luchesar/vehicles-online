@@ -9,7 +9,7 @@ import mappings.common.Help.HelpCacheKey
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage}
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{OK, REFERER, LOCATION, status, contentAsString, defaultAwaitTimeout}
+import play.api.test.Helpers.{LOCATION, OK, REFERER, contentAsString, defaultAwaitTimeout, status}
 import utils.helpers.Config
 
 final class HelpUnitSpec extends UnitSpec {

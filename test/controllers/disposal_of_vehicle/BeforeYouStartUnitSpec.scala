@@ -1,12 +1,12 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
-import Common.PrototypeHtml
+import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.SetupTradeDetailsPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{OK, LOCATION, status, contentAsString, defaultAwaitTimeout}
+import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout, status}
 import utils.helpers.Config
 
 final class BeforeYouStartUnitSpec extends UnitSpec {

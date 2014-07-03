@@ -1,69 +1,69 @@
 package controllers.disposal_of_vehicle
 
-import common.ClientSideSessionFactory
-import Common.PrototypeHtml
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
-import controllers.disposal_of_vehicle
-import helpers.UnitSpec
-import helpers.WithApplication
-import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.common.AddressLines
 import AddressLines.BuildingNameOrNumberHolder
 import AddressLines.LineMaxLength
-import mappings.disposal_of_vehicle.Dispose.DisposeFormTimestampIdCacheKey
-import mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey
-import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
-import mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
-import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
-import mappings.disposal_of_vehicle.Dispose.MileageId
-import mappings.disposal_of_vehicle.Dispose.DateOfDisposalId
-import mappings.disposal_of_vehicle.Dispose.ConsentId
-import mappings.disposal_of_vehicle.Dispose.LossOfRegistrationConsentId
-import models.DayMonthYear
-import models.domain.disposal_of_vehicle.{DisposeResponse, DisposeRequest, DisposalAddressDto}
-import org.mockito.Matchers.any
-import org.mockito.Mockito.{when, verify, times}
-import pages.disposal_of_vehicle.SetupTradeDetailsPage
-import pages.disposal_of_vehicle.DisposeSuccessPage
-import pages.disposal_of_vehicle.MicroServiceErrorPage
-import pages.disposal_of_vehicle.DuplicateDisposalErrorPage
-import pages.disposal_of_vehicle.SoapEndpointErrorPage
-import pages.disposal_of_vehicle.DisposeFailurePage
-import pages.disposal_of_vehicle.VehicleLookupPage
-import play.api.libs.json.Json
-import play.api.test.Helpers.BAD_REQUEST
-import play.api.test.Helpers.INTERNAL_SERVER_ERROR
-import play.api.test.Helpers.LOCATION
-import play.api.test.Helpers.OK
-import play.api.test.Helpers.SERVICE_UNAVAILABLE
-import play.api.test.Helpers.contentAsString
-import play.api.test.Helpers.defaultAwaitTimeout
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import services.DateService
-import services.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeService}
+import common.ClientSideSessionFactory
+import Common.PrototypeHtml
+import controllers.disposal_of_vehicle
+import services.fakes.FakeDisposeWebServiceImpl
 import services.fakes.FakeAddressLookupService
 import FakeAddressLookupService.BuildingNameOrNumberValid
 import FakeAddressLookupService.Line2Valid
 import FakeAddressLookupService.Line3Valid
-import FakeAddressLookupService.PostcodeValidWithSpace
-import FakeAddressLookupService.TraderBusinessNameValid
-import FakeAddressLookupService.PostTownValid
 import FakeAddressLookupService.PostcodeValid
-import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
-import services.fakes.FakeDisposeWebServiceImpl
-import FakeDisposeWebServiceImpl.disposeResponseFailureWithDuplicateDisposal
+import FakeAddressLookupService.PostcodeValidWithSpace
+import FakeAddressLookupService.PostTownValid
+import FakeAddressLookupService.TraderBusinessNameValid
 import FakeDisposeWebServiceImpl.disposeResponseApplicationBeingProcessed
+import FakeDisposeWebServiceImpl.disposeResponseFailureWithDuplicateDisposal
+import FakeDisposeWebServiceImpl.disposeResponseSuccess
 import FakeDisposeWebServiceImpl.disposeResponseUnableToProcessApplication
 import FakeDisposeWebServiceImpl.disposeResponseUndefinedError
 import FakeDisposeWebServiceImpl.MileageValid
-import FakeDisposeWebServiceImpl.disposeResponseSuccess
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs.TrackingIdValue
+import helpers.UnitSpec
+import helpers.WithApplication
+import mappings.disposal_of_vehicle.Dispose.ConsentId
+import mappings.disposal_of_vehicle.Dispose.DateOfDisposalId
+import mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormTimestampIdCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey
+import mappings.disposal_of_vehicle.Dispose.LossOfRegistrationConsentId
+import mappings.disposal_of_vehicle.Dispose.MileageId
+import models.DayMonthYear
+import models.domain.disposal_of_vehicle.{DisposeResponse, DisposeRequest, DisposalAddressDto}
+import org.mockito.ArgumentCaptor
+import org.mockito.Matchers.any
+import org.mockito.Mockito.{when, verify, times}
+import pages.disposal_of_vehicle.DisposeFailurePage
+import pages.disposal_of_vehicle.DisposeSuccessPage
+import pages.disposal_of_vehicle.DuplicateDisposalErrorPage
+import pages.disposal_of_vehicle.MicroServiceErrorPage
+import pages.disposal_of_vehicle.SetupTradeDetailsPage
+import pages.disposal_of_vehicle.SoapEndpointErrorPage
+import pages.disposal_of_vehicle.VehicleLookupPage
+import play.api.libs.json.Json
+import play.api.test.FakeRequest
+import play.api.test.Helpers.BAD_REQUEST
+import play.api.test.Helpers.contentAsString
+import play.api.test.Helpers.defaultAwaitTimeout
+import play.api.test.Helpers.INTERNAL_SERVER_ERROR
+import play.api.test.Helpers.LOCATION
+import play.api.test.Helpers.OK
+import play.api.test.Helpers.SERVICE_UNAVAILABLE
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import services.DateService
+import services.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeService}
+import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
 import services.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
 import services.fakes.{FakeDisposeWebServiceImpl, FakeResponse}
 import utils.helpers.Config
-import org.mockito.ArgumentCaptor
-import play.api.test.FakeRequest
-import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs.TrackingIdValue
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {

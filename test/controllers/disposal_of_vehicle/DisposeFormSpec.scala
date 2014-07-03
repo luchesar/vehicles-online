@@ -1,24 +1,24 @@
 package controllers.disposal_of_vehicle
 
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
+import common.ClientSideSessionFactory
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
 import mappings.common.DayMonthYear.{DayId, MonthId, YearId}
 import mappings.common.Mileage
-import mappings.disposal_of_vehicle.Dispose.{DateOfDisposalId, MileageId, ConsentId, LossOfRegistrationConsentId}
+import mappings.disposal_of_vehicle.Dispose.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
 import models.DayMonthYear
 import models.domain.disposal_of_vehicle.DisposeRequest
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import play.api.libs.json.Json
-import services.dispose_service.{DisposeWebService, DisposeServiceImpl}
-import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
-import services.fakes.FakeDisposeWebServiceImpl.{MileageValid, ConsentValid, disposeResponseSuccess}
-import services.fakes.FakeResponse
 import services.DateService
-import common.ClientSideSessionFactory
+import services.dispose_service.{DisposeServiceImpl, DisposeWebService}
+import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import services.fakes.FakeDisposeWebServiceImpl.{ConsentValid, MileageValid, disposeResponseSuccess}
+import services.fakes.FakeResponse
 import utils.helpers.Config
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
  
 final class DisposeFormSpec extends UnitSpec {
   "form" should {

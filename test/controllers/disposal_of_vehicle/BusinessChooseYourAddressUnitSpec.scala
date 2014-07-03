@@ -2,25 +2,25 @@ package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
 import Common.PrototypeHtml
-import helpers.{UnitSpec, WithApplication}
+import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
+import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddressNotFound
+import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
+import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound
+import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import helpers.{UnitSpec, WithApplication}
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.{BusinessChooseYourAddressCacheKey, AddressSelectId}
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
+import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage, UprnNotFoundPage}
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, SET_COOKIE, contentAsString}
 import play.api.test.Helpers._
+import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, SET_COOKIE, contentAsString}
 import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
 import services.fakes.FakeAddressLookupWebServiceImpl
-import FakeAddressLookupWebServiceImpl.traderUprnValid
-import FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
-import FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddressNotFound
-import FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
-import FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound
 import utils.helpers.Config
-import org.mockito.Mockito.when
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
