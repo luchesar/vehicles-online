@@ -1,12 +1,12 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
+import Common.PrototypeHtml
 import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.SetupTradeDetailsPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{OK, LOCATION, status, contentAsString}
-import play.api.test.Helpers._
+import play.api.test.Helpers.{OK, LOCATION, status, contentAsString, defaultAwaitTimeout}
 import utils.helpers.Config
 
 final class BeforeYouStartUnitSpec extends UnitSpec {
@@ -18,7 +18,7 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
 
     "display prototype message when config set to true" in new WithApplication {
       val result = beforeYouStart.present(FakeRequest())
-      contentAsString(result) should include("""<div class="prototype">""")
+      contentAsString(result) should include(PrototypeHtml)
     }
 
     "not display prototype message when config set to false" in new WithApplication {
@@ -29,7 +29,7 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
       val beforeYouStartPrototypeNotVisible = new BeforeYouStart()
 
       val result = beforeYouStartPrototypeNotVisible.present(request)
-      contentAsString(result) should not include """<div class="prototype">"""
+      contentAsString(result) should not include PrototypeHtml
     }
   }
 

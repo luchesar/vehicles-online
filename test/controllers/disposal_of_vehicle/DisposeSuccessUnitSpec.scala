@@ -2,13 +2,13 @@ package controllers.disposal_of_vehicle
 
 import com.tzavellas.sse.guice.ScalaModule
 import common.ClientSideSessionFactory
+import Common.PrototypeHtml
 import helpers.common.CookieHelper
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import org.joda.time.Instant
 import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
 import org.mockito.Mockito.when
-import play.api.test.Helpers.{OK, LOCATION, contentAsString}
-import play.api.test.Helpers._
+import play.api.test.Helpers.{OK, LOCATION, contentAsString, defaultAwaitTimeout}
 import pages.disposal_of_vehicle.{VehicleLookupPage, SetupTradeDetailsPage, BeforeYouStartPage}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
@@ -98,7 +98,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "display prototype message when config set to true" in new WithApplication {
-      contentAsString(present) should include("""<div class="prototype">""")
+      contentAsString(present) should include(PrototypeHtml)
     }
 
     "not display prototype message when config set to false" in new WithApplication {
@@ -110,7 +110,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
       val disposeSuccessPrototypeNotVisible = new DisposeSuccess()
 
       val result = disposeSuccessPrototypeNotVisible.present(request)
-      contentAsString(result) should not include """<div class="prototype">"""
+      contentAsString(result) should not include PrototypeHtml
     }
 
     "offer the survey on first successful dispose" in new WithApplication {

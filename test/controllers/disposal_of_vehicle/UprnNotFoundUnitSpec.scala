@@ -1,9 +1,10 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
+import Common.PrototypeHtml
 import helpers.UnitSpec
 import org.mockito.Mockito.when
-import play.api.test.Helpers._
+import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout}
 import play.api.test.FakeRequest
 import helpers.WithApplication
 import utils.helpers.Config
@@ -11,8 +12,8 @@ import utils.helpers.Config
 final class UprnNotFoundUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      whenReady(present) {
-        r => r.header.status should equal(OK)
+      whenReady(present) { r =>
+        r.header.status should equal(OK)
       }
     }
 
@@ -21,7 +22,7 @@ final class UprnNotFoundUnitSpec extends UnitSpec {
     }
 
     "display prototype message when config set to true" in new WithApplication {
-      contentAsString(present) should include("""<div class="prototype">""")
+      contentAsString(present) should include(PrototypeHtml)
     }
 
     "not display prototype message when config set to false" in new WithApplication {
@@ -32,7 +33,7 @@ final class UprnNotFoundUnitSpec extends UnitSpec {
       val uprnNotFoundPrototypeNotVisible = new UprnNotFound()
 
       val result = uprnNotFoundPrototypeNotVisible.present(request)
-      contentAsString(result) should not include """<div class="prototype">"""
+      contentAsString(result) should not include PrototypeHtml
     }
   }
 

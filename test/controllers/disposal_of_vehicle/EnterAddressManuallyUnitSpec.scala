@@ -1,6 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
+import Common.PrototypeHtml
 import helpers.common.CookieHelper
 import CookieHelper.fetchCookiesFromHeaders
 import helpers.JsonUtils.deserializeJsonToModel
@@ -62,7 +63,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "display prototype message when config set to true" in new WithApplication {
-      contentAsString(present) should include("""<div class="prototype">""")
+      contentAsString(present) should include(PrototypeHtml)
     }
 
     "not display prototype message when config set to false" in new WithApplication {
@@ -73,7 +74,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val enterAddressManuallyPrototypeNotVisible = new EnterAddressManually()
 
       val result = enterAddressManuallyPrototypeNotVisible.present(request)
-      contentAsString(result) should not include """<div class="prototype">"""
+      contentAsString(result) should not include PrototypeHtml
     }
   }
 

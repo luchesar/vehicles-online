@@ -1,6 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
+import Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
@@ -30,8 +31,13 @@ import pages.disposal_of_vehicle.SoapEndpointErrorPage
 import pages.disposal_of_vehicle.DisposeFailurePage
 import pages.disposal_of_vehicle.VehicleLookupPage
 import play.api.libs.json.Json
-import play.api.test.Helpers.{OK, LOCATION, INTERNAL_SERVER_ERROR, BAD_REQUEST, SERVICE_UNAVAILABLE, contentAsString}
-import play.api.test.Helpers._
+import play.api.test.Helpers.BAD_REQUEST
+import play.api.test.Helpers.INTERNAL_SERVER_ERROR
+import play.api.test.Helpers.LOCATION
+import play.api.test.Helpers.OK
+import play.api.test.Helpers.SERVICE_UNAVAILABLE
+import play.api.test.Helpers.contentAsString
+import play.api.test.Helpers.defaultAwaitTimeout
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import services.DateService
@@ -118,7 +124,7 @@ final class DisposeUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val result = disposeController(disposeWebService = disposeWebService()).present(request)
-      contentAsString(result) should include("""<div class="prototype">""")
+      contentAsString(result) should include(PrototypeHtml)
     }
 
     "not display prototype message when config set to false" in new WithApplication {
@@ -131,7 +137,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val webService: DisposeWebService = disposeWebService()
       val disposeService = new DisposeServiceImpl(config, webService)
       val result = disposeController(disposeWebService = webService, disposeService = disposeService).present(request)
-      contentAsString(result) should not include """<div class="prototype">"""
+      contentAsString(result) should not include PrototypeHtml
     }
   }
 

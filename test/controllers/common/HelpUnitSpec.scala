@@ -1,6 +1,7 @@
 package controllers.common
 
 import common.ClientSideSessionFactory
+import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
@@ -8,8 +9,7 @@ import mappings.common.Help.HelpCacheKey
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage}
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{OK, REFERER, LOCATION, status, contentAsString}
-import play.api.test.Helpers._
+import play.api.test.Helpers.{OK, REFERER, LOCATION, status, contentAsString, defaultAwaitTimeout}
 import utils.helpers.Config
 
 final class HelpUnitSpec extends UnitSpec {
@@ -72,7 +72,6 @@ final class HelpUnitSpec extends UnitSpec {
     }
   }
 
-  private final val PrototypeHtml = """<div class="prototype">"""
   private val help = injector.getInstance(classOf[Help])
   private lazy val present = help.present(FakeRequest())
 }

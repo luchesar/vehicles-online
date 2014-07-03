@@ -2,6 +2,8 @@ package controllers.disposal_of_vehicle
 
 import com.tzavellas.sse.guice.ScalaModule
 import common.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import Common.ExitButtonHtml
+import Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import controllers.disposal_of_vehicle
 import helpers.UnitSpec
@@ -25,8 +27,7 @@ import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
 import pages.disposal_of_vehicle.BeforeYouStartPage
 import pages.disposal_of_vehicle.VrmLockedPage
 import play.api.libs.json.{JsValue, Json}
-import play.api.test.Helpers.{LOCATION, BAD_REQUEST, contentAsString}
-import play.api.test.Helpers._
+import play.api.test.Helpers.{LOCATION, BAD_REQUEST, contentAsString, defaultAwaitTimeout}
 import services.DateServiceImpl
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
@@ -584,9 +585,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
   }
-
-  private final val ExitButtonHtml = """button id="exit""""
-  private final val PrototypeHtml = """<div class="prototype">"""
 
   private def responseThrows: Future[Response] = Future {
     throw new RuntimeException("This error is generated deliberately by a test")

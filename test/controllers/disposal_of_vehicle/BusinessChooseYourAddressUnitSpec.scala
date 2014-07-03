@@ -1,6 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
+import Common.PrototypeHtml
 import helpers.{UnitSpec, WithApplication}
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
@@ -54,14 +55,14 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "display prototype message when config set to true" in new WithApplication {
-      contentAsString(present) should include("""<div class="prototype">""")
+      contentAsString(present) should include(PrototypeHtml)
     }
 
     "not display prototype message when config set to false" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithFakeWebService(isPrototypeBannerVisible = false).present(request)
-      contentAsString(result) should not include """<div class="prototype">"""
+      contentAsString(result) should not include PrototypeHtml
     }
   }
 
@@ -130,7 +131,8 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
   }
 
-  private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true, isPrototypeBannerVisible: Boolean = true) = {
+  private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true,
+                                                          isPrototypeBannerVisible: Boolean = true) = {
     val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress else responseValidForPostcodeToAddressNotFound
     val responseUprn = if (uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)

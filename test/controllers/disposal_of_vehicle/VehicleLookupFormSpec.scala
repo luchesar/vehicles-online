@@ -13,14 +13,18 @@ import org.mockito.Mockito.when
 import play.api.http.Status.OK
 import play.api.libs.json.{JsValue, Json}
 import services.DateServiceImpl
-import services.brute_force_prevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
-import services.fakes.FakeVehicleLookupWebService.{ConsentValid, ReferenceNumberValid, RegistrationNumberValid, vehicleDetailsResponseSuccess}
-import services.fakes.{FakeDateServiceImpl, FakeResponse, FakeVehicleLookupWebService}
+import services.brute_force_prevention.BruteForcePreventionService
+import services.brute_force_prevention.BruteForcePreventionServiceImpl
+import services.brute_force_prevention.BruteForcePreventionWebService
+import services.fakes.FakeVehicleLookupWebService.ConsentValid
+import services.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
+import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
+import services.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseSuccess
+import services.fakes.{FakeDateServiceImpl, FakeResponse}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import utils.helpers.Config
-
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
 final class VehicleLookupFormSpec extends UnitSpec {
   implicit val dateService = new DateServiceImpl
@@ -145,5 +149,4 @@ final class VehicleLookupFormSpec extends UnitSpec {
       )
     )
   }
-
 }

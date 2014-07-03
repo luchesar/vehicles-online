@@ -1,10 +1,10 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
+import Common.PrototypeHtml
 import org.mockito.Mockito.when
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{OK, contentAsString}
-import play.api.test.Helpers._
+import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
 import helpers.WithApplication
@@ -23,7 +23,7 @@ final class DisposeFailureUnitSpec extends UnitSpec {
     }
 
     "display prototype message when config set to true" in new WithApplication {
-      contentAsString(present) should include("""<div class="prototype">""")
+      contentAsString(present) should include(PrototypeHtml)
     }
 
     "not display prototype message when config set to false" in new WithApplication {
@@ -34,7 +34,7 @@ final class DisposeFailureUnitSpec extends UnitSpec {
       val disposeFailurePrototypeNotVisible = new DisposeFailure()
 
       val result = disposeFailurePrototypeNotVisible.present(request)
-      contentAsString(result) should not include """<div class="prototype">"""
+      contentAsString(result) should not include PrototypeHtml
     }
   }
 

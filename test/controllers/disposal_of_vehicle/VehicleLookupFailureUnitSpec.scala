@@ -1,11 +1,12 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
+import Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage, BeforeYouStartPage}
-import play.api.test.Helpers._
+import play.api.test.Helpers.{OK, LOCATION, contentAsString, defaultAwaitTimeout}
 import play.api.test.FakeRequest
 import helpers.WithApplication
 import utils.helpers.Config
@@ -103,8 +104,6 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
       }
     }
   }
-
-  private final val PrototypeHtml = """<div class="prototype">"""
 
   private val vehicleLookupFailure = {
     injector.getInstance(classOf[VehicleLookupFailure])

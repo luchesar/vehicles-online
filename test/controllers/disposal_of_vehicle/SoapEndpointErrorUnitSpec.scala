@@ -1,10 +1,10 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
+import Common.PrototypeHtml
 import helpers.UnitSpec
 import org.mockito.Mockito.when
-import play.api.test.Helpers.{OK, contentAsString}
-import play.api.test.Helpers._
+import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout}
 import play.api.test.FakeRequest
 import helpers.WithApplication
 import utils.helpers.Config
@@ -22,7 +22,7 @@ final class SoapEndpointErrorUnitSpec extends UnitSpec {
     }
 
     "display prototype message when config set to true" in new WithApplication {
-      contentAsString(present) should include(prototypeHtml)
+      contentAsString(present) should include(PrototypeHtml)
     }
 
     "not display prototype message when config set to false" in new WithApplication {
@@ -33,11 +33,10 @@ final class SoapEndpointErrorUnitSpec extends UnitSpec {
       val soapEndpointErrorPrototypeNotVisible = new SoapEndpointError()
 
       val result = soapEndpointErrorPrototypeNotVisible.present(request)
-      contentAsString(result) should not include prototypeHtml
+      contentAsString(result) should not include PrototypeHtml
     }
   }
 
-  private final val prototypeHtml = """<div class="prototype">"""
   private val soapEndpointError = injector.getInstance(classOf[SoapEndpointError])
   private lazy val present = soapEndpointError.present(FakeRequest())
 }

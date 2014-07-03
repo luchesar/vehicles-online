@@ -1,14 +1,14 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
+import Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import mappings.disposal_of_vehicle.SetupTradeDetails
 import SetupTradeDetails.{TraderNameMaxLength, SetupTradeDetailsCacheKey, TraderNameId, TraderPostcodeId}
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
-import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, contentAsString}
-import play.api.test.Helpers._
+import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, contentAsString, defaultAwaitTimeout}
 import services.fakes.FakeAddressLookupService.{TraderBusinessNameValid, PostcodeValid}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.WithApplication
@@ -89,14 +89,16 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
     "replace max length error message for traderBusinessName with standard error message (US158)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (TraderNameMaxLength + 1))
       val result = setUpTradeDetails.submit(request)
-      val count = "Must be between 2 and 58 characters and only contain valid characters".r.findAllIn(contentAsString(result)).length
+      val count = "Must be between 2 and 58 characters and only contain valid characters".
+        r.findAllIn(contentAsString(result)).length
       count should equal(2)
     }
 
     "replace required and min length error messages for traderBusinessName with standard error message (US158)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "")
       val result = setUpTradeDetails.submit(request)
-      val count = "Must be between 2 and 58 characters and only contain valid characters".r.findAllIn(contentAsString(result)).length
+      val count = "Must be between 2 and 58 characters and only contain valid characters".
+        r.findAllIn(contentAsString(result)).length
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
       // the page and once above the field.
     }
@@ -111,9 +113,8 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
     }
   }
 
-  private final val PrototypeHtml = """<div class="prototype">"""
-
-  private def buildCorrectlyPopulatedRequest(dealerName: String = TraderBusinessNameValid, dealerPostcode: String = PostcodeValid) = {
+  private def buildCorrectlyPopulatedRequest(dealerName: String = TraderBusinessNameValid,
+                                             dealerPostcode: String = PostcodeValid) = {
     FakeRequest().withFormUrlEncodedBody(
       TraderNameId -> dealerName,
       TraderPostcodeId -> dealerPostcode)

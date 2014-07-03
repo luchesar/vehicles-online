@@ -1,12 +1,12 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
+import Common.PrototypeHtml
 import helpers.{WithApplication, UnitSpec}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import org.mockito.Mockito.when
 import services.fakes.FakeDateServiceImpl
-import play.api.test.Helpers.{LOCATION, contentAsString}
-import play.api.test.Helpers._
+import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import utils.helpers.Config
 import scala.Some
 import pages.disposal_of_vehicle.{BeforeYouStartPage, VehicleLookupPage, SetupTradeDetailsPage}
@@ -73,7 +73,6 @@ final class VrmLockedUnitSpec extends UnitSpec {
   }
 
   private val vrmLocked = injector.getInstance(classOf[VrmLocked])
-  private final val PrototypeHtml = """<div class="prototype">"""
 
   private lazy val present = {
     val dateService = new FakeDateServiceImpl

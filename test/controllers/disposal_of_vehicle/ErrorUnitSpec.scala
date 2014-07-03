@@ -1,13 +1,13 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
+import Common.PrototypeHtml
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.ErrorPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{OK, contentAsString}
-import play.api.test.Helpers._
+import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout}
 import utils.helpers.Config
 
 final class ErrorUnitSpec extends UnitSpec {
@@ -42,8 +42,6 @@ final class ErrorUnitSpec extends UnitSpec {
   // TODO please add test for 'submit'.
 
   private val errorController = injector.getInstance(classOf[Error])
-
-  private final val PrototypeHtml = """<div class="prototype">"""
 
   private lazy val present = {
     val request = FakeRequest().
