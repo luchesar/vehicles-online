@@ -12,7 +12,7 @@ import services.fakes.FakeDateServiceImpl._
 import mappings.disposal_of_vehicle.Dispose._
 import org.scalatest.time.{Seconds, Span}
 import org.scalatest.concurrent.Eventually._
-import helpers.disposal_of_vehicle.ProgressBar.{fakeApplicationWithProgressBarFalse, fakeApplicationWithProgressBarTrue}
+import helpers.disposal_of_vehicle.ProgressBar._
 
 final class DisposeIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -31,7 +31,7 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposePage
 
-      page.source.contains("Step 5 of 6") should equal(true)
+      page.source.contains(ProgressStep(5)) should equal(true)
     }
 
     "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarFalse) {
@@ -40,7 +40,7 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposePage
 
-      page.source.contains("Step 6 of 6") should equal(false)
+      page.source.contains(ProgressStep(5)) should equal(false)
     }
 
     "redirect when no vehicleDetailsModel is cached" taggedAs UiTag in new WebBrowser {

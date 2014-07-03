@@ -8,7 +8,7 @@ import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.common.ErrorPanel
 import pages.disposal_of_vehicle._
-import helpers.disposal_of_vehicle.ProgressBar.{fakeApplicationWithProgressBarTrue, fakeApplicationWithProgressBarFalse}
+import helpers.disposal_of_vehicle.ProgressBar._
 
 final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -27,7 +27,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       go to EnterAddressManuallyPage
 
-      page.source.contains("Step 3 of 6") should equal(true)
+      page.source.contains(ProgressStep(3)) should equal(true)
     }
 
     "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarFalse) {
@@ -36,7 +36,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       go to EnterAddressManuallyPage
 
-      page.source.contains("Step 3 of 6") should equal(false)
+      page.source.contains(ProgressStep(3)) should equal(false)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {

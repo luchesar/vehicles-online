@@ -16,7 +16,7 @@ import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
 import pages.disposal_of_vehicle.EnterAddressManuallyPage
 import services.fakes.FakeAddressLookupService.addressWithUprn
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import helpers.disposal_of_vehicle.ProgressBar.{fakeApplicationWithProgressBarTrue, fakeApplicationWithProgressBarFalse}
+import helpers.disposal_of_vehicle.ProgressBar._
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -35,7 +35,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       go to VehicleLookupPage
 
-      page.source.contains("Step 4 of 6") should equal(true)
+      page.source.contains(ProgressStep(4)) should equal(true)
     }
 
     "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarFalse) {
@@ -44,7 +44,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       go to VehicleLookupPage
 
-      page.source.contains("Step 4 of 6") should equal(false)
+      page.source.contains(ProgressStep(4)) should equal(false)
     }
 
     "Redirect when no traderBusinessName is cached" taggedAs UiTag in new WebBrowser {

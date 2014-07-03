@@ -9,7 +9,7 @@ import org.openqa.selenium.WebDriver
 import pages.common.AlternateLanguages._
 import pages.disposal_of_vehicle.BeforeYouStartPage._
 import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage}
-import helpers.disposal_of_vehicle.ProgressBar.{fakeApplicationWithProgressBarTrue, fakeApplicationWithProgressBarFalse}
+import helpers.disposal_of_vehicle.ProgressBar._
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -22,13 +22,13 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
     "display the progress of the page when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
       go to BeforeYouStartPage
 
-      page.source.contains("Step 1 of 6") should equal(true)
+      page.source.contains(ProgressStep(1)) should equal(true)
     }
 
     "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarFalse) {
       go to BeforeYouStartPage
 
-      page.source.contains("Step 1 of 6") should equal(false)
+      page.source.contains(ProgressStep(1)) should equal(false)
     }
 
     "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowser {

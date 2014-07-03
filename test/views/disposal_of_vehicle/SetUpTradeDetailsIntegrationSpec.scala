@@ -10,7 +10,7 @@ import pages.common.ErrorPanel
 import pages.disposal_of_vehicle.SetupTradeDetailsPage._
 import pages.disposal_of_vehicle._
 import pages.common.AlternateLanguages._
-import helpers.disposal_of_vehicle.ProgressBar.{fakeApplicationWithProgressBarTrue, fakeApplicationWithProgressBarFalse}
+import helpers.disposal_of_vehicle.ProgressBar._
 
 final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
   "got to page" should {
@@ -22,13 +22,13 @@ final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
     "display the progress of the page when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
       go to SetupTradeDetailsPage
 
-      page.source.contains("Step 2 of 6") should equal(true)
+      page.source.contains(ProgressStep(2)) should equal(true)
     }
 
     "display the progress of the page when progress bar is set to false" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarFalse) {
       go to SetupTradeDetailsPage
 
-      page.source.contains("Step 2 of 6") should equal(false)
+      page.source.contains(ProgressStep(2)) should equal(false)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
