@@ -1,16 +1,15 @@
 package filters
 
-import com.google.inject.{Binder, Module, Guice}
+import com.google.inject.Guice
 import com.tzavellas.sse.guice.ScalaModule
 import helpers.UnitSpec
 import common.{InvalidSessionException, ClientSideSessionFactory}
-import play.api.mvc._
-import services.fakes.FakeVehicleLookupWebService
+import play.api.mvc.{RequestHeader, Results, Cookies}
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.mvc.Cookie
 import play.api.mvc.SimpleResult
-import org.mockito.Mockito._
-import org.mockito.Matchers._
+import org.mockito.Mockito.{when, verify, never}
+import org.mockito.Matchers.any
 import play.api.test.FakeRequest
 import play.api.http.HeaderNames
 import ExecutionContext.Implicits.global

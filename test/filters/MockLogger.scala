@@ -1,7 +1,7 @@
 package filters
 
 import org.mockito.{Mockito, ArgumentCaptor}
-import org.mockito.Mockito._
+import org.mockito.Mockito.{when, times}
 import org.scalatest.mock.MockitoSugar
 import org.slf4j.Logger
 import play.api.LoggerLike

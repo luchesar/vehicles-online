@@ -2,31 +2,28 @@ package filters
 
 import java.util.Date
 
+import AccessLoggingFilterSpec.testDate
 import com.google.inject.Guice
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
 import common.ClientSideSessionFactory
-import filters.AccessLoggingFilter._
+import filters.AccessLoggingFilter.AccessLoggerName
 import helpers.UnitSpec
 import org.mockito.Mockito
 import play.api.LoggerLike
-import play.api.http.HeaderNames._
-import play.api.mvc._
+import play.api.http.HeaderNames.CONTENT_LENGTH
+import play.api.mvc.{Cookie, SimpleResult, RequestHeader, Results, AnyContentAsEmpty}
 import play.api.test.{FakeHeaders, FakeRequest}
 import services.HttpHeaders
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.existentials
 
 class AccessLoggingFilterSpec extends UnitSpec {
-  import AccessLoggingFilterSpec.testDate
 
   "Log an incoming request" in setUp() {
     case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
-
       val trackingIdCookie = Cookie(ClientSideSessionFactory.TrackingIdCookieName, "98765")
-
       val filterResult: Future[SimpleResult] = filter.apply(nextFilter)(request.withCookies(trackingIdCookie))
 
       whenReady(filterResult) { result =>
@@ -159,9 +156,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
       nextFilter = new MockFilter(),
       logger = accessLogger
     ))
-
   }
-
 }
 
 private object AccessLoggingFilterSpec {
