@@ -44,7 +44,9 @@ final class MainUiSpec extends UiSpec with TestHarness {
       result should include("Subject=")
     }
 
-    "not display prototype message when config set to false" taggedAs UiTag in new WebBrowser(app = fakeAppWithPrototypeFalse) {
+    abstract class PrototypeFalse extends WebBrowser(app = fakeAppWithPrototypeFalse)
+
+    "not display prototype message when config set to false" taggedAs UiTag in new PrototypeFalse {
       go to BeforeYouStartPage
 
       page.source should not include """<div class="prototype">"""

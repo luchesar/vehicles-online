@@ -1,12 +1,12 @@
 package views.disposal_of_vehicle
 
-import helpers.tags.UiTag
-import pages.disposal_of_vehicle.DisposeFailurePage._
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
-import pages.disposal_of_vehicle._
+import pages.disposal_of_vehicle.DisposeFailurePage.{setuptradedetails, vehiclelookup}
+import pages.disposal_of_vehicle.{BeforeYouStartPage, DisposeFailurePage, SetupTradeDetailsPage, VehicleLookupPage}
 
 final class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -56,5 +56,4 @@ final class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
       disposeFormModel().
       disposeTransactionId().
       vehicleRegistrationNumber()
-
 }

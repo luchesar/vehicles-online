@@ -1,12 +1,12 @@
 package views.disposal_of_vehicle
 
-import helpers.tags.UiTag
-import pages.disposal_of_vehicle.MicroServiceErrorPage.{tryAgain, exit}
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
-import pages.disposal_of_vehicle._
+import pages.disposal_of_vehicle.MicroServiceErrorPage.{exit, tryAgain}
+import pages.disposal_of_vehicle.{BeforeYouStartPage, MicroServiceErrorPage, SetupTradeDetailsPage, VehicleLookupPage}
 
 final class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {

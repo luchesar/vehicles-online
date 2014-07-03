@@ -4,10 +4,10 @@ import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
-import org.openqa.selenium.WebDriver
-import pages.disposal_of_vehicle.VehicleLookupFailurePage._
-import pages.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.VehicleLookup._
+import org.openqa.selenium.WebDriver
+import pages.disposal_of_vehicle.VehicleLookupFailurePage.{beforeYouStart, vehicleLookup}
+import pages.disposal_of_vehicle._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
 
 final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
