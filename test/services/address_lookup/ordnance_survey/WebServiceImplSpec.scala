@@ -3,17 +3,17 @@ package services.address_lookup.ordnance_survey
 import common.{ClientSideSessionFactory, NoCookieFlags}
 import helpers.{UnitSpec, WireMockFixture}
 import org.scalatest.concurrent.PatienceConfiguration.Interval
-import org.scalatest.time.SpanSugar._
+import scala.concurrent.duration.DurationInt
 import play.api.i18n.Lang
 import services.HttpHeaders
-import services.fakes.FakeAddressLookupService._
+import services.fakes.FakeAddressLookupService.{PostcodeValid, PostcodeValidWithSpace}
 import utils.helpers.Config
-import com.github.tomakehurst.wiremock.client.WireMock._
+import com.github.tomakehurst.wiremock.client.WireMock.{getRequestedFor, urlEqualTo, equalTo}
 
 final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
 
   val trackingIdValue = "trackingIdValue"
-  val interval = Interval(50 millis)
+  val interval = Interval(50.millis)
 
   implicit val noCookieFlags = new NoCookieFlags
 

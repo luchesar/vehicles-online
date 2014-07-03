@@ -1,22 +1,21 @@
 package services.address_lookup.gds
 
-import services.fakes.{FakeResponse, FakeAddressLookupWebServiceImpl}
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
-import services.address_lookup.{AddressLookupService, gds}
-import org.mockito.Mockito._
-import play.api.libs.ws.Response
-import services.address_lookup.gds.domain.Address
-import play.api.libs.json.{JsValue, Json}
-import services.address_lookup.gds.domain.JsonFormats.addressFormat
+import common.ClearTextClientSideSessionFactory.DefaultTrackingId
 import helpers.UnitSpec
+import org.mockito.Mockito.when
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Second, Span}
-import services.fakes.FakeAddressLookupWebServiceImpl.gdsAddress
-import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
-import services.fakes.FakeAddressLookupService._
-import play.api.http.Status.{OK, NOT_FOUND}
-import common.ClearTextClientSideSessionFactory
+import play.api.http.Status.{NOT_FOUND, OK}
+import play.api.libs.json.{JsValue, Json}
+import play.api.libs.ws.Response
+import services.address_lookup.gds.domain.Address
+import services.address_lookup.gds.domain.JsonFormats.addressFormat
+import services.address_lookup.{AddressLookupService, gds}
+import services.fakes.FakeAddressLookupService.PostcodeValid
+import services.fakes.FakeAddressLookupWebServiceImpl.{gdsAddress, traderUprnValid}
+import services.fakes.{FakeAddressLookupWebServiceImpl, FakeResponse}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 final class GdsPostcodeLookupSpec extends UnitSpec {
 
@@ -30,7 +29,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
     "return empty seq when cannot connect to micro-service" in {
       val service = addressServiceMock(responseTimeout)
 
-      val result = service.fetchAddressesForPostcode(PostcodeValid, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressesForPostcode(PostcodeValid, DefaultTrackingId)
 
       whenReady(result, Timeout(Span(1, Second))) { _ shouldBe empty }
     }
@@ -38,7 +37,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
     "return empty seq when response throws" in {
       val service = addressServiceMock(responseThrows)
 
-      val result = service.fetchAddressesForPostcode(PostcodeValid, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressesForPostcode(PostcodeValid, DefaultTrackingId)
 
       whenReady(result, Timeout(Span(1, Second))) { _ shouldBe empty }
     }
@@ -47,7 +46,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson("INVALID")
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressesForPostcode(PostcodeValid, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressesForPostcode(PostcodeValid, DefaultTrackingId)
 
       whenReady(result, timeout) { _ shouldBe empty }
     }
@@ -57,7 +56,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(NOT_FOUND, inputAsJson))
 
-      val result = service.fetchAddressesForPostcode(PostcodeValid, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressesForPostcode(PostcodeValid, DefaultTrackingId)
 
       whenReady(result) { _ shouldBe empty }
     }
@@ -68,7 +67,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(expectedResults)
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressesForPostcode(PostcodeValid, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressesForPostcode(PostcodeValid, DefaultTrackingId)
 
       whenReady(result) { _ shouldBe empty }
     }
@@ -79,7 +78,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressesForPostcode(PostcodeValid, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressesForPostcode(PostcodeValid, DefaultTrackingId)
 
       whenReady(result) { _ shouldBe Seq(expected) }
     }
@@ -90,7 +89,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressesForPostcode(PostcodeValid, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressesForPostcode(PostcodeValid, DefaultTrackingId)
 
       whenReady(result) { _ shouldBe Seq(expected, expected, expected) }
     }
@@ -109,7 +108,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressesForPostcode(PostcodeValid, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressesForPostcode(PostcodeValid, DefaultTrackingId)
 
       whenReady(result) { _ shouldBe expected }
     }
@@ -128,7 +127,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressesForPostcode(PostcodeValid, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressesForPostcode(PostcodeValid, DefaultTrackingId)
 
       whenReady(result) { _ shouldBe expected }
     }
@@ -138,7 +137,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
     "return None when cannot connect to micro-service" in {
       val service = addressServiceMock(responseTimeout)
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString, DefaultTrackingId)
 
       whenReady(result) { _ shouldBe None }
     }
@@ -146,7 +145,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
     "return None when response throws" in {
       val service = addressServiceMock(responseThrows)
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString, DefaultTrackingId)
 
       whenReady(result) { _ shouldBe None }
     }
@@ -155,7 +154,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson("INVALID")
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString, DefaultTrackingId)
 
       whenReady(result) { _ shouldBe None }
     }
@@ -165,7 +164,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(NOT_FOUND, inputAsJson))
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString, DefaultTrackingId)
 
       whenReady(result) { _ shouldBe None }
     }
@@ -174,18 +173,20 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       val inputAsJson = Json.toJson(Seq.empty)
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString, DefaultTrackingId)
 
       whenReady(result) { _ shouldBe None }
     }
 
     "return AddressViewModel when micro-service returns a single address" in {
-      val expected = Seq(s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $PostcodeValid")
+      val expected = Seq(
+        s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $PostcodeValid"
+      )
       val input: Seq[Address] = Seq(gdsAddress())
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString, DefaultTrackingId)
 
       whenReady(result) {
         case Some(addressViewModel) =>
@@ -196,12 +197,14 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
     }
 
     "return AddressViewModel of the first in the seq when micro-service returns many addresses" in {
-      val expected = Seq(s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $PostcodeValid")
+      val expected = Seq(
+        s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $PostcodeValid"
+      )
       val input: Seq[Address] = Seq(gdsAddress(), gdsAddress(), gdsAddress())
       val inputAsJson = Json.toJson(input)
       val service = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString, DefaultTrackingId)
 
       whenReady(result) {
         case Some(addressViewModel) =>
@@ -213,7 +216,9 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
   }
   private def addressServiceMock(response: Future[Response]): AddressLookupService = {
     // Using the real address lookup service but passing in a fake web service that returns the responses we specify.
-    new gds.AddressLookupServiceImpl(new FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService = response, responseOfUprnWebService = response))
+    new gds.AddressLookupServiceImpl(
+      new FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService = response, responseOfUprnWebService = response)
+    )
   }
 
   private def response(statusCode: Int, inputAsJson: JsValue) = Future {
@@ -228,7 +233,9 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
 
   private val responseTimeout = Future {
     val response = mock[Response]
-    when(response.status).thenThrow(new java.util.concurrent.TimeoutException("This error is generated deliberately by a test"))
+    when(response.status).thenThrow(
+      new java.util.concurrent.TimeoutException("This error is generated deliberately by a test")
+    )
     response
   }
 }

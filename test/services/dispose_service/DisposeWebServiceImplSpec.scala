@@ -1,9 +1,9 @@
 package services.dispose_service
 
-import com.github.tomakehurst.wiremock.client.WireMock._
+import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
 import common.ClientSideSessionFactory
-import helpers.{WireMockFixture, UnitSpec}
-import models.domain.disposal_of_vehicle.{VehicleDetailsRequest, DisposalAddressDto, DisposeRequest}
+import helpers.{UnitSpec, WireMockFixture}
+import models.domain.disposal_of_vehicle.{DisposalAddressDto, DisposeRequest}
 import play.api.libs.json.Json
 import services.HttpHeaders
 import utils.helpers.Config

@@ -1,19 +1,23 @@
 package services.address_lookup.ordnance_survey
 
-import services.fakes.FakeAddressLookupWebServiceImpl
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
-import services.address_lookup._
+import common.ClearTextClientSideSessionFactory
+import helpers.UnitSpec
+import models.domain.disposal_of_vehicle.{UprnToAddressResponse, PostcodeToAddressResponse}
+import play.api.http.Status.{OK, NOT_FOUND}
 import play.api.libs.json.Json
 import play.api.libs.json.JsValue
-import helpers.UnitSpec
-import services.fakes.FakeResponse
-import services.fakes.FakeAddressLookupWebServiceImpl._
-import play.api.http.Status._
 import play.api.libs.ws.Response
-import models.domain.disposal_of_vehicle.{UprnToAddressResponse, PostcodeToAddressResponse}
-import common.ClearTextClientSideSessionFactory
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import services.address_lookup.AddressLookupService
 import services.fakes.FakeAddressLookupService.PostcodeValid
+import services.fakes.FakeAddressLookupWebServiceImpl
+import services.fakes.FakeAddressLookupWebServiceImpl.postcodeToAddressResponseValid
+import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
+import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
+import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import services.fakes.FakeAddressLookupWebServiceImpl.uprnToAddressResponseValid
+import services.fakes.FakeResponse
 
 final class OSAddressLookupServiceSpec extends UnitSpec {
 
@@ -130,7 +134,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
 
   private def addressServiceMock(response: Future[Response]): AddressLookupService = {
     // Using the real address lookup service but passing in a fake web service that returns the responses we specify.
-    new ordnance_survey.AddressLookupServiceImpl(
+    new AddressLookupServiceImpl(
       new FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService = response, responseOfUprnWebService = response)
     )
   }

@@ -1,17 +1,18 @@
 package services.brute_force_prevention
 
 import helpers.UnitSpec
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
-import services.fakes.{FakeDateServiceImpl, FakeVehicleLookupWebService, FakeResponse}
 import org.mockito.Mockito._
-import FakeVehicleLookupWebService.RegistrationNumberValid
-import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
-import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
 import play.api.libs.ws.Response
-import scala.Some
-import utils.helpers.Config
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.util.Try
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.responseFirstAttempt
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.responseSecondAttempt
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmThrows
+import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
+import services.fakes.{FakeDateServiceImpl, FakeResponse}
+import utils.helpers.Config
 
 final class BruteForcePreventionServiceImplSpec extends UnitSpec {
   "isVrmLookupPermitted" should {
@@ -59,12 +60,14 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
       when(bruteForcePreventionWebService.callBruteForce(RegistrationNumberValid)).thenReturn(Future {
         new FakeResponse(status = status, fakeJson = responseFirstAttempt)
       })
-      when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmAttempt2)).thenReturn(Future {
-        new FakeResponse(status = status, fakeJson = responseSecondAttempt)
-      })
-      when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmLocked)).thenReturn(Future {
-        new FakeResponse(status = status)
-      })
+      when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmAttempt2))
+        .thenReturn(Future {
+          new FakeResponse(status = status, fakeJson = responseSecondAttempt)
+        })
+      when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmLocked))
+        .thenReturn(Future {
+          new FakeResponse(status = status)
+        })
       when(bruteForcePreventionWebService.callBruteForce(VrmThrows)).thenReturn(responseThrows)
 
       bruteForcePreventionWebService
