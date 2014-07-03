@@ -81,5 +81,4 @@ final class SetUpTradeDetailsFormSpec extends UnitSpec {
       )
     )
   }
-
 }

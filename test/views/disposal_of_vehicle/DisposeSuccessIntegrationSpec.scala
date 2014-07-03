@@ -2,7 +2,7 @@ package views.disposal_of_vehicle
 
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
-import helpers.disposal_of_vehicle.ProgressBar.ProgressStep
+import helpers.disposal_of_vehicle.ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
@@ -28,7 +28,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposeSuccessPage
 
-      page.source.contains(ProgressStep(6)) should equal(true)
+      page.source.contains(progressStep(6)) should equal(true)
     }
 
     "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new ProgressBarFalse {
@@ -37,7 +37,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposeSuccessPage
 
-      page.source.contains(ProgressStep(6)) should equal(false)
+      page.source.contains(progressStep(6)) should equal(false)
     }
 
     "redirect when no details are cached" taggedAs UiTag in new WebBrowser {
@@ -111,9 +111,9 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       cacheSetup()
 
       go to DisposeSuccessPage
-      val csrf: WebElement = webDriver.findElement(By.name(services.csrf_prevention.CsrfPreventionAction.TokenName))
+      val csrf: WebElement = webDriver.findElement(By.name(filters.csrf_prevention.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
-      csrf.getAttribute("name") should equal(services.csrf_prevention.CsrfPreventionAction.TokenName)
+      csrf.getAttribute("name") should equal(filters.csrf_prevention.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
   }

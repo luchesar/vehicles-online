@@ -5,7 +5,7 @@ import helpers.tags.UiTag
 import helpers.webbrowser.{TestHarness, WebDriverFactory}
 import pages.disposal_of_vehicle.OnHandlerNotFoundPage.{exit, hasTryAgain, tryAgain}
 import pages.disposal_of_vehicle.{BeforeYouStartPage, OnHandlerNotFoundPage}
-import helpers.disposal_of_vehicle.ProgressBar._
+import helpers.disposal_of_vehicle.ProgressBar.progressStep
 
 final class OnHandlerNotFoundIntegrationSpec extends UiSpec with TestHarness {
   "go to not found page" should {
@@ -15,10 +15,10 @@ final class OnHandlerNotFoundIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(OnHandlerNotFoundPage.title)
     }
 
-    "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
+    "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
       go to OnHandlerNotFoundPage
 
-      page.title should not contain ProgressStep
+      page.title should not contain progressStep
     }
   }
 

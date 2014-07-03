@@ -4,12 +4,12 @@ import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
-import mappings.disposal_of_vehicle.VehicleLookup._
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
 import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.VehicleLookupFailurePage.{beforeYouStart, vehicleLookup}
 import pages.disposal_of_vehicle._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
-import helpers.disposal_of_vehicle.ProgressBar._
+import helpers.disposal_of_vehicle.ProgressBar.progressStep
 
 final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -23,13 +23,13 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       page.title should equal(VehicleLookupFailurePage.title)
     }
 
-    "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
+    "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
       go to BeforeYouStartPage
       cacheSetup()
 
       go to VehicleLookupFailurePage
 
-      page.title should not contain ProgressStep
+      page.title should not contain progressStep
     }
 
     "redirect to setuptrade details if cache is empty on page load" taggedAs UiTag in new WebBrowser {

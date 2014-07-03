@@ -4,7 +4,7 @@ import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
-import helpers.disposal_of_vehicle.ProgressBar._
+import helpers.disposal_of_vehicle.ProgressBar.progressStep
 import pages.disposal_of_vehicle.UprnNotFoundPage.{manualAddress, setupTradeDetails}
 import pages.disposal_of_vehicle.{BeforeYouStartPage, EnterAddressManuallyPage, SetupTradeDetailsPage, UprnNotFoundPage}
 
@@ -16,10 +16,10 @@ final class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(UprnNotFoundPage.title)
     }
 
-    "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
+    "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
       go to UprnNotFoundPage
 
-      page.title should not contain ProgressStep
+      page.title should not contain progressStep
     }
   }
 

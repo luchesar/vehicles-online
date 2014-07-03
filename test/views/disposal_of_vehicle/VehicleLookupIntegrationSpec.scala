@@ -1,7 +1,7 @@
 package views.disposal_of_vehicle
 
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
-import helpers.disposal_of_vehicle.ProgressBar.ProgressStep
+import helpers.disposal_of_vehicle.ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.UiSpec
 import helpers.webbrowser.TestHarness
@@ -20,7 +20,6 @@ import services.fakes.FakeAddressLookupService.addressWithUprn
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
-
   "go to page" should {
     "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
@@ -37,7 +36,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       go to VehicleLookupPage
 
-      page.source.contains(ProgressStep(4)) should equal(true)
+      page.source.contains(progressStep(4)) should equal(true)
     }
 
     "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new ProgressBarFalse {
@@ -46,7 +45,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       go to VehicleLookupPage
 
-      page.source.contains(ProgressStep(4)) should equal(false)
+      page.source.contains(progressStep(4)) should equal(false)
     }
 
     "Redirect when no traderBusinessName is cached" taggedAs UiTag in new WebBrowser {
@@ -63,9 +62,9 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
       go to VehicleLookupPage
-      val csrf: WebElement = webDriver.findElement(By.name(services.csrf_prevention.CsrfPreventionAction.TokenName))
+      val csrf: WebElement = webDriver.findElement(By.name(filters.csrf_prevention.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
-      csrf.getAttribute("name") should equal(services.csrf_prevention.CsrfPreventionAction.TokenName)
+      csrf.getAttribute("name") should equal(filters.csrf_prevention.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
   }

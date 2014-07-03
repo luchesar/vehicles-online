@@ -1,7 +1,7 @@
 package views.disposal_of_vehicle
 
 import helpers.UiSpec
-import helpers.disposal_of_vehicle.ProgressBar.ProgressStep
+import helpers.disposal_of_vehicle.ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import mappings.disposal_of_vehicle.SetupTradeDetails
@@ -20,20 +20,20 @@ final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
     "display the progress of the page when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
       go to SetupTradeDetailsPage
 
-      page.source.contains(ProgressStep(2)) should equal(true)
+      page.source.contains(progressStep(2)) should equal(true)
     }
 
     "display the progress of the page when progress bar is set to false" taggedAs UiTag in new ProgressBarFalse {
       go to SetupTradeDetailsPage
 
-      page.source.contains(ProgressStep(2)) should equal(false)
+      page.source.contains(progressStep(2)) should equal(false)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
       go to SetupTradeDetailsPage
-      val csrf: WebElement = webDriver.findElement(By.name(services.csrf_prevention.CsrfPreventionAction.TokenName))
+      val csrf: WebElement = webDriver.findElement(By.name(filters.csrf_prevention.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
-      csrf.getAttribute("name") should equal(services.csrf_prevention.CsrfPreventionAction.TokenName)
+      csrf.getAttribute("name") should equal(filters.csrf_prevention.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
   }

@@ -3,7 +3,7 @@ package composition
 import com.google.inject.Guice
 import filters.{AccessLoggingFilter, EnsureSessionCreatedFilter}
 import play.filters.gzip.GzipFilter
-import services.csrf_prevention.CsrfPreventionFilter
+import filters.csrf_prevention.CsrfPreventionFilter
 import utils.helpers.ErrorStrategy
 
 trait Composition {

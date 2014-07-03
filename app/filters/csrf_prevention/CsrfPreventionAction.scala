@@ -1,4 +1,4 @@
-package services.csrf_prevention
+package filters.csrf_prevention
 
 import app.ConfigProperties.getProperty
 import common.ClientSideSessionFactory

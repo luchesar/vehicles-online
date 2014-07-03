@@ -8,7 +8,7 @@ import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import pages.disposal_of_vehicle.ErrorPage.startAgain
-import helpers.disposal_of_vehicle.ProgressBar._
+import helpers.disposal_of_vehicle.ProgressBar.progressStep
 
 final class ErrorIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -21,13 +21,13 @@ final class ErrorIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(ErrorPage.title)
     }
 
-    "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
+    "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue  {
       go to BeforeYouStartPage
       cacheSetup()
 
       go to ErrorPage
 
-      page.title should not contain ProgressStep
+      page.title should not contain progressStep
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
@@ -35,9 +35,9 @@ final class ErrorIntegrationSpec extends UiSpec with TestHarness {
       cacheSetup()
 
       go to ErrorPage
-      val csrf: WebElement = webDriver.findElement(By.name(services.csrf_prevention.CsrfPreventionAction.TokenName))
+      val csrf: WebElement = webDriver.findElement(By.name(filters.csrf_prevention.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
-      csrf.getAttribute("name") should equal(services.csrf_prevention.CsrfPreventionAction.TokenName)
+      csrf.getAttribute("name") should equal(filters.csrf_prevention.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
   }
