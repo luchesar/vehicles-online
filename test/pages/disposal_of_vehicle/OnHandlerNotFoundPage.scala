@@ -9,9 +9,5 @@ object OnHandlerNotFoundPage extends Page with WebBrowserDSL {
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "This page cannot be found"
 
-  def tryAgain(implicit driver: WebDriver): Element = find(id(TryAgainId)).get
-
   def exit(implicit driver: WebDriver): Element = find(id(ExitId)).get
-
-  def hasTryAgain(implicit driver: WebDriver): Boolean = find(id(TryAgainId)).isDefined
 }
