@@ -7,23 +7,23 @@ import mappings.disposal_of_vehicle.SetupTradeDetails
 import SetupTradeDetails.{TraderNameMaxLength, SetupTradeDetailsCacheKey, TraderNameId, TraderPostcodeId}
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
+import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, contentAsString}
 import play.api.test.Helpers._
 import services.fakes.FakeAddressLookupService.{TraderBusinessNameValid, PostcodeValid}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.WithApplication
-import play.api.test.{FakeApplication, FakeRequest}
+import play.api.test.FakeRequest
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import utils.helpers.Config
 import scala.Some
 import helpers.JsonUtils.deserializeJsonToModel
-import helpers.webbrowser.TestGlobal
 
 final class SetUpTradeDetailsUnitSpec extends UnitSpec {
 
   "present" should {
     "display the page" in new WithApplication {
-      whenReady(present) {
-        r => r.header.status should equal(OK)
+      whenReady(present) { r =>
+        r.header.status should equal(OK)
       }
     }
 
@@ -43,7 +43,7 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
     }
 
     "display prototype message when config set to true" in new WithApplication {
-      contentAsString(present) should include("""<div class="prototype">""")
+      contentAsString(present) should include(PrototypeHtml)
     }
 
     "not display prototype message when config set to false" in new WithApplication {
@@ -54,7 +54,7 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
       val setUpTradeDetailsPrototypeNotVisible = new SetUpTradeDetails()
 
       val result = setUpTradeDetailsPrototypeNotVisible.present(request)
-      contentAsString(result) should not include """<div class="prototype">"""
+      contentAsString(result) should not include PrototypeHtml
     }
   }
 
@@ -81,8 +81,8 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
     "return a bad request if no details are entered" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "", dealerPostcode = "")
       val result = setUpTradeDetails.submit(request)
-      whenReady(result) {
-        r => r.header.status should equal(BAD_REQUEST)
+      whenReady(result) { r =>
+        r.header.status should equal(BAD_REQUEST)
       }
     }
 
@@ -104,13 +104,14 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
     "write cookie when the form is completed successfully" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = setUpTradeDetails.submit(request)
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain (SetupTradeDetailsCacheKey)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.map(_.name) should contain (SetupTradeDetailsCacheKey)
       }
     }
   }
+
+  private final val PrototypeHtml = """<div class="prototype">"""
 
   private def buildCorrectlyPopulatedRequest(dealerName: String = TraderBusinessNameValid, dealerPostcode: String = PostcodeValid) = {
     FakeRequest().withFormUrlEncodedBody(

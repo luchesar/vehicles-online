@@ -23,7 +23,7 @@ final class HelpUnitSpec extends UnitSpec {
     }
 
     "display prototype message when config set to true" in new WithApplication {
-      contentAsString(present) should include( """<div class="prototype">""")
+      contentAsString(present) should include(PrototypeHtml)
     }
 
     "not display prototype message when config set to false" in new WithApplication {
@@ -35,7 +35,7 @@ final class HelpUnitSpec extends UnitSpec {
       val helpPrototypeNotVisible = new Help()
 
       val result = helpPrototypeNotVisible.present(request)
-      contentAsString(result) should not include """<div class="prototype">"""
+      contentAsString(result) should not include PrototypeHtml
     }
 
     "write help cookie" in new WithApplication {
@@ -44,10 +44,9 @@ final class HelpUnitSpec extends UnitSpec {
         withHeaders(REFERER -> origin)
       // Set the previous page.
       val result = help.present(request)
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.find(_.name == HelpCacheKey).get.value should equal(origin)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.find(_.name == HelpCacheKey).get.value should equal(origin)
       }
     }
   }
@@ -73,6 +72,7 @@ final class HelpUnitSpec extends UnitSpec {
     }
   }
 
+  private final val PrototypeHtml = """<div class="prototype">"""
   private val help = injector.getInstance(classOf[Help])
   private lazy val present = help.present(FakeRequest())
 }
