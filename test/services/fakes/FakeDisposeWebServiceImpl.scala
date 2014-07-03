@@ -1,17 +1,18 @@
 package services.fakes
 
-import FakeDisposeWebServiceImpl._
-import FakeVehicleLookupWebService._
-import models.domain.disposal_of_vehicle._
+import models.domain.disposal_of_vehicle.{DisposeRequest, DisposeResponse}
 import play.api.Logger
-import play.api.http.Status._
+import play.api.http.Status.OK
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
+import services.dispose_service.DisposeWebService
+import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import services.dispose_service.DisposeWebService
 
 final class FakeDisposeWebServiceImpl extends DisposeWebService {
+  import FakeDisposeWebServiceImpl._
+
   override def callDisposeService(request: DisposeRequest, trackingId: String): Future[Response] = Future {
     val disposeResponse: DisposeResponse = {
       request.referenceNumber match {
@@ -78,7 +79,6 @@ object FakeDisposeWebServiceImpl {
       registrationNumber = "",
       auditId = "",
       responseCode = Some("undefined"))
-
 
   final val ConsentValid = "true"
   final val MileageValid = "20000"

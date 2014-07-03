@@ -1,14 +1,15 @@
 package services.fakes
 
-import FakeVehicleLookupWebService._
-import models.domain.disposal_of_vehicle._
-import play.api.http.Status._
+import models.domain.disposal_of_vehicle.{VehicleDetailsDto, VehicleDetailsRequest, VehicleDetailsResponse}
+import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
 import play.api.libs.json.Json
+import services.vehicle_lookup.VehicleLookupWebService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import services.vehicle_lookup.VehicleLookupWebService
 
 final class FakeVehicleLookupWebService extends VehicleLookupWebService {
+  import services.fakes.FakeVehicleLookupWebService._
+
   override def callVehicleLookupService(request: VehicleDetailsRequest, trackingId: String) = Future {
     val (responseStatus, response) = {
       request.referenceNumber match {
@@ -47,7 +48,10 @@ object FakeVehicleLookupWebService {
   }
 
   val vehicleDetailsResponseDocRefNumberNotLatest: (Int, Option[VehicleDetailsResponse]) = {
-    (OK, Some(VehicleDetailsResponse(responseCode = Some("vehicle_lookup_document_record_mismatch"), vehicleDetailsDto = None)))
+    (OK, Some(VehicleDetailsResponse(
+      responseCode = Some("vehicle_lookup_document_record_mismatch"),
+      vehicleDetailsDto = None
+    )))
   }
 
   val vehicleDetailsResponseNotFoundResponseCode: (Int, Option[VehicleDetailsResponse]) = {

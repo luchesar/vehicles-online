@@ -1,6 +1,6 @@
 package services.vehicle_lookup
 
-import com.github.tomakehurst.wiremock.client.WireMock._
+import com.github.tomakehurst.wiremock.client.WireMock.{postRequestedFor, urlEqualTo, equalTo}
 import common.ClientSideSessionFactory
 import helpers.{UnitSpec, WireMockFixture}
 import models.domain.disposal_of_vehicle.VehicleDetailsRequest

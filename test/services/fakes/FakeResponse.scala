@@ -4,13 +4,12 @@ import play.api.libs.json.JsValue
 import play.api.libs.ws.Response
 import scala.xml.Elem
 
-final class FakeResponse(
-                    override val status: Int,
-                    override val statusText: String = "",
-                    headers: Map[String, String] = Map.empty,
-                    fakeBody: Option[String] = None,
-                    fakeXml: Option[Elem] = None,
-                    fakeJson: Option[JsValue] = None) extends Response(null) {
+final class FakeResponse(override val status: Int,
+                         override val statusText: String = "",
+                         headers: Map[String, String] = Map.empty,
+                         fakeBody: Option[String] = None,
+                         fakeXml: Option[Elem] = None,
+                         fakeJson: Option[JsValue] = None) extends Response(null) {
 
   override def getAHCResponse = throw new NotImplementedError("getAHCResponse is not available on a fake response")
   override def header(key: String): Option[String] = headers.get(key)

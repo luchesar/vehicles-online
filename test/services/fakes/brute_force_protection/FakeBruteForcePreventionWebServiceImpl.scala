@@ -1,15 +1,16 @@
 package services.fakes.brute_force_protection
 
-import FakeBruteForcePreventionWebServiceImpl._
-import play.api.http.Status._
+import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 import services.brute_force_prevention.BruteForcePreventionWebService
 import services.fakes.FakeResponse
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 final class FakeBruteForcePreventionWebServiceImpl() extends BruteForcePreventionWebService {
+  import FakeBruteForcePreventionWebServiceImpl._
+
   override def callBruteForce(vrm: String): Future[Response] = Future {
     vrm match {
       case VrmLocked => new FakeResponse(status = FORBIDDEN)

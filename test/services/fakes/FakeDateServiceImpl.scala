@@ -1,11 +1,11 @@
 package services.fakes
 
-import FakeDateServiceImpl._
 import models.DayMonthYear
+import org.joda.time.{DateTime, Instant}
 import services.DateService
-import org.joda.time.{Instant, DateTime}
 
 final class FakeDateServiceImpl extends DateService {
+  import FakeDateServiceImpl._
 
   override def today = DayMonthYear(
     DateOfDisposalDayValid.toInt,
