@@ -1,12 +1,11 @@
 package helpers.steps.hooks
 
 import cucumber.api.java.{After, Before}
-import play.api.test.TestServer
-import play.api.test.FakeApplication
 import helpers.webbrowser.TestGlobal
-import TestServerHooks._
+import play.api.test.{FakeApplication, TestServer}
 
 final class TestServerHooks {
+  import TestServerHooks._
   private val testServer: TestServer = TestServer(port = port, application = fakeAppWithTestGlobal)
 
   @Before(order = 500)

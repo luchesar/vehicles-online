@@ -1,15 +1,21 @@
 package helpers.steps.disposal_of_vehicle
 
 import app.ConfigProperties._
-import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
-import org.scalatest.Matchers
-import org.openqa.selenium.WebDriver
-import cucumber.api.java.en._
-import pages.disposal_of_vehicle._
-import pages.common.ErrorPanel
 import common.{ClearTextClientSideSessionFactory, NoCookieFlags, EncryptedClientSideSessionFactory}
-import utils.helpers.{CookieNameHashGenerator, Sha1HashGenerator, AesEncryption, CookieEncryption}
+import cucumber.api.java.en.{Given, When, Then}
 import helpers.common.RandomVrmGenerator
+import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
+import org.openqa.selenium.WebDriver
+import org.scalatest.Matchers
+import pages.common.ErrorPanel
+import pages.disposal_of_vehicle.BeforeYouStartPage
+import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
+import pages.disposal_of_vehicle.DisposePage
+import pages.disposal_of_vehicle.DisposeSuccessPage
+import pages.disposal_of_vehicle.EnterAddressManuallyPage
+import pages.disposal_of_vehicle.SetupTradeDetailsPage
+import pages.disposal_of_vehicle.VehicleLookupPage
+import utils.helpers.{CookieNameHashGenerator, Sha1HashGenerator, AesEncryption, CookieEncryption}
 
 // TODO - Store input as variables
 
