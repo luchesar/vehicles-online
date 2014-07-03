@@ -5,6 +5,7 @@ import helpers.{WithApplication, UnitSpec}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import org.mockito.Mockito.when
 import services.fakes.FakeDateServiceImpl
+import play.api.test.Helpers.{LOCATION, contentAsString}
 import play.api.test.Helpers._
 import utils.helpers.Config
 import scala.Some
@@ -14,8 +15,8 @@ import play.api.test.FakeRequest
 final class VrmLockedUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      whenReady(present) {
-        r => r.header.status should equal(play.api.http.Status.OK)
+      whenReady(present) { r =>
+        r.header.status should equal(play.api.http.Status.OK)
       }
     }
 
@@ -24,7 +25,7 @@ final class VrmLockedUnitSpec extends UnitSpec {
     }
 
     "display prototype message when config set to true" in new WithApplication {
-      contentAsString(present) should include("""<div class="prototype">""")
+      contentAsString(present) should include(PrototypeHtml)
     }
 
     "not display prototype message when config set to false" in new WithApplication {
@@ -35,7 +36,7 @@ final class VrmLockedUnitSpec extends UnitSpec {
       val vrmLockedPrototypeNotVisible = new VrmLocked()
 
       val result = vrmLockedPrototypeNotVisible.present(request)
-      contentAsString(result) should not include """<div class="prototype">"""
+      contentAsString(result) should not include PrototypeHtml
     }
   }
 
@@ -45,16 +46,16 @@ final class VrmLockedUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vrmLocked.newDisposal(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
 
     "redirect to setup trade details page after the new disposal button is clicked when the expected data is not in the cookies" in new WithApplication {
       val request = FakeRequest()
       val result = vrmLocked.newDisposal(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
   }
@@ -65,17 +66,21 @@ final class VrmLockedUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vrmLocked.exit(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
       }
     }
   }
 
   private val vrmLocked = injector.getInstance(classOf[VrmLocked])
+  private final val PrototypeHtml = """<div class="prototype">"""
+
   private lazy val present = {
     val dateService = new FakeDateServiceImpl
     val request = FakeRequest().
-      withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel(dateTimeISOChronology = dateService.dateTimeISOChronology))
+      withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel(
+        dateTimeISOChronology = dateService.dateTimeISOChronology)
+      )
     vrmLocked.present(request)
   }
 }

@@ -15,8 +15,8 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
 
   "present" should {
     "display the page" in new WithApplication {
-      whenReady(present) {
-        r => r.header.status should equal(OK)
+      whenReady(present) { r =>
+        r.header.status should equal(OK)
       }
     }
 
@@ -26,8 +26,8 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupResponseCode())
       val result = vehicleLookupFailure.present(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
 
@@ -37,8 +37,8 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupResponseCode())
       val result = vehicleLookupFailure.present(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
 
@@ -48,8 +48,8 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupResponseCode())
       val result = vehicleLookupFailure.present(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
 
@@ -59,8 +59,8 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
       val result = vehicleLookupFailure.present(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
 
@@ -69,7 +69,7 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
     }
 
     "display prototype message when config set to true" in new WithApplication {
-      contentAsString(present) should include("""<div class="prototype">""")
+      contentAsString(present) should include(PrototypeHtml)
     }
 
     "not display prototype message when config set to false" in new WithApplication {
@@ -80,7 +80,7 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
       val vehicleLookupFailurePrototypeNotVisible = new VehicleLookupFailure()
 
       val result = vehicleLookupFailurePrototypeNotVisible.present(request)
-      contentAsString(result) should not include """<div class="prototype">"""
+      contentAsString(result) should not include PrototypeHtml
     }
   }
 
@@ -90,23 +90,26 @@ final class VehicleLookupFailureUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
       val result = vehicleLookupFailure.submit(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
 
     "redirect to setuptraderdetails on submit when cache is empty" in new WithApplication {
       val request = FakeRequest()
       val result = vehicleLookupFailure.submit(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
       }
     }
   }
-  
+
+  private final val PrototypeHtml = """<div class="prototype">"""
+
   private val vehicleLookupFailure = {
     injector.getInstance(classOf[VehicleLookupFailure])
   }
+
   private lazy val present = {
     val request = FakeRequest().
       withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
