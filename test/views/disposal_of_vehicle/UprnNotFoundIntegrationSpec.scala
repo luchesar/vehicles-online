@@ -4,9 +4,9 @@ import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
-import pages.disposal_of_vehicle.UprnNotFoundPage._
-import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.ProgressBar._
+import pages.disposal_of_vehicle.UprnNotFoundPage.{manualAddress, setupTradeDetails}
+import pages.disposal_of_vehicle.{BeforeYouStartPage, EnterAddressManuallyPage, SetupTradeDetailsPage, UprnNotFoundPage}
 
 final class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {

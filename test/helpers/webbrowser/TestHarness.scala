@@ -1,5 +1,6 @@
 package helpers.webbrowser
 
+import helpers.disposal_of_vehicle.ProgressBar.{fakeApplicationWithProgressBarFalse, fakeApplicationWithProgressBarTrue}
 import play.api.test._
 import org.openqa.selenium.WebDriver
 import org.specs2.mutable.Around
@@ -31,6 +32,14 @@ trait TestHarness {
       }
     }
   }
+
+  abstract class ProgressBarTrue extends WebBrowser(app = fakeApplicationWithProgressBarTrue)
+  abstract class ProgressBarFalse extends WebBrowser(app = fakeApplicationWithProgressBarFalse)
+
+  abstract class HtmlUnitWithJs extends WebBrowser(webDriver = WebDriverFactory.webDriver(
+    targetBrowser = "htmlUnit",
+    javascriptEnabled = true)
+  )
 
   object WebBrowser {
     private lazy val fakeAppWithTestGlobal: FakeApplication = FakeApplication(withGlobal = Some(TestGlobal))

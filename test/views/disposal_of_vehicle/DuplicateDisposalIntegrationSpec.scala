@@ -1,13 +1,17 @@
 package views.disposal_of_vehicle
 
-import helpers.tags.UiTag
-import pages.disposal_of_vehicle.DuplicateDisposalErrorPage.{exit, tryAgain}
-import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.tags.UiTag
+import helpers.UiSpec
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
-import pages.disposal_of_vehicle._
 import helpers.disposal_of_vehicle.ProgressBar._
+import pages.disposal_of_vehicle.BeforeYouStartPage
+import pages.disposal_of_vehicle.DuplicateDisposalErrorPage
+import pages.disposal_of_vehicle.DuplicateDisposalErrorPage.{exit, tryAgain}
+import pages.disposal_of_vehicle.MicroServiceErrorPage
+import pages.disposal_of_vehicle.SetupTradeDetailsPage
+import pages.disposal_of_vehicle.VehicleLookupPage
 
 final class DuplicateDisposalIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {

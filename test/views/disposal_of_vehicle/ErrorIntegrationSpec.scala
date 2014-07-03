@@ -3,7 +3,7 @@ package views.disposal_of_vehicle
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
-import pages.disposal_of_vehicle._
+import pages.disposal_of_vehicle.{BeforeYouStartPage, ErrorPage}
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs

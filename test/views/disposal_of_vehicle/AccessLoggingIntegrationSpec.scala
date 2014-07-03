@@ -5,7 +5,7 @@ import com.google.inject.{Guice, Injector}
 import com.tzavellas.sse.guice.ScalaModule
 import common.GlobalLike
 import composition.TestComposition
-import filters.AccessLoggingFilter._
+import filters.AccessLoggingFilter.AccessLoggerName
 import filters.MockLogger
 import helpers.UiSpec
 import helpers.webbrowser.{TestHarness, WebBrowserDSL, WebDriverFactory}

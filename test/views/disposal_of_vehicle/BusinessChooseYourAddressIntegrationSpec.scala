@@ -1,18 +1,21 @@
 package views.disposal_of_vehicle
 
-import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
+import helpers.UiSpec
+import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
 import helpers.webbrowser.TestHarness
-import helpers.disposal_of_vehicle.ProgressBar._
+import helpers.disposal_of_vehicle.ProgressBar.ProgressStep
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.common.ErrorPanel
-import pages.disposal_of_vehicle.BusinessChooseYourAddressPage.{sadPath, happyPath, manualAddress, back}
-import pages.disposal_of_vehicle._
-import services.fakes.FakeAddressLookupService.PostcodeValid
-import mappings.disposal_of_vehicle.EnterAddressManually._
+import pages.disposal_of_vehicle.BeforeYouStartPage
+import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
+import pages.disposal_of_vehicle.BusinessChooseYourAddressPage.{back, happyPath, manualAddress, sadPath}
+import pages.disposal_of_vehicle.EnterAddressManuallyPage
+import pages.disposal_of_vehicle.SetupTradeDetailsPage
+import pages.disposal_of_vehicle.VehicleLookupPage
 import services.fakes.FakeAddressLookupService
-import pages.common.AlternateLanguages._
+import services.fakes.FakeAddressLookupService.PostcodeValid
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -23,7 +26,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       page.title should equal(BusinessChooseYourAddressPage.title)
     }
 
-    "display the progress of the page when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
+    "display the progress of the page when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
@@ -31,7 +34,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       page.source.contains(ProgressStep(3)) should equal(true)
     }
 
-    "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarFalse) {
+    "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new ProgressBarFalse {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
@@ -59,9 +62,15 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       SetupTradeDetailsPage.happyPath()
 
       BusinessChooseYourAddressPage.getListCount should equal(4) // The first option is the "Please select..." and the other options are the addresses.
-      page.source should include(s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $PostcodeValid")
-      page.source should include(s"presentationProperty stub, 456, property stub, street stub, town stub, area stub, $PostcodeValid")
-      page.source should include(s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $PostcodeValid")
+      page.source should include(
+        s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $PostcodeValid"
+      )
+      page.source should include(
+        s"presentationProperty stub, 456, property stub, street stub, town stub, area stub, $PostcodeValid"
+      )
+      page.source should include(
+        s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $PostcodeValid"
+      )
     }
 
     "display 'No addresses found' message when address service returns no addresses" taggedAs UiTag in new WebBrowser {
@@ -122,8 +131,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
     "remove redundant EnterAddressManually cookie (as we are now in an alternate history)" taggedAs UiTag in new WebBrowser {
       def cacheSetupVisitedEnterAddressManuallyPage()(implicit webDriver: WebDriver) =
-        CookieFactoryForUISpecs.setupTradeDetails().
-          enterAddressManually()
+        CookieFactoryForUISpecs.setupTradeDetails().enterAddressManually()
 
       go to BeforeYouStartPage
       cacheSetupVisitedEnterAddressManuallyPage()

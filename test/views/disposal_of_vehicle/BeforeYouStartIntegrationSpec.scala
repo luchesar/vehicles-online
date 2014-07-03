@@ -1,15 +1,14 @@
 package views.disposal_of_vehicle
 
-import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.disposal_of_vehicle.ProgressBar.ProgressStep
 import helpers.tags.UiTag
+import helpers.UiSpec
 import helpers.webbrowser.TestHarness
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.WebDriver
-import pages.common.AlternateLanguages._
-import pages.disposal_of_vehicle.BeforeYouStartPage._
+import pages.disposal_of_vehicle.BeforeYouStartPage.startNow
 import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage}
-import helpers.disposal_of_vehicle.ProgressBar._
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -19,13 +18,13 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(BeforeYouStartPage.title)
     }
 
-    "display the progress of the page when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
+    "display the progress of the page when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
       go to BeforeYouStartPage
 
       page.source.contains(ProgressStep(1)) should equal(true)
     }
 
-    "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarFalse) {
+    "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new ProgressBarFalse {
       go to BeforeYouStartPage
 
       page.source.contains(ProgressStep(1)) should equal(false)

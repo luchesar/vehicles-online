@@ -5,10 +5,10 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
-import pages.disposal_of_vehicle.{VehicleLookupPage, BeforeYouStartPage, HelpPage}
 import pages.common.HelpPanel.help
 import pages.disposal_of_vehicle.HelpPage.{back, exit}
 import helpers.disposal_of_vehicle.ProgressBar._
+import pages.disposal_of_vehicle.{BeforeYouStartPage, HelpPage, VehicleLookupPage}
 
 final class HelpIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {

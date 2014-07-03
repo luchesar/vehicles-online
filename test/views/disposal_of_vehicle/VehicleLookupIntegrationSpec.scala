@@ -1,24 +1,26 @@
 package views.disposal_of_vehicle
 
-import helpers.tags.UiTag
-import pages.disposal_of_vehicle.VehicleLookupPage.{happyPath, tryLockedVrm, back, exit}
-import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.disposal_of_vehicle.ProgressBar.ProgressStep
+import helpers.tags.UiTag
+import helpers.UiSpec
 import helpers.webbrowser.TestHarness
+import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.common.ErrorPanel
 import pages.disposal_of_vehicle.BeforeYouStartPage
-import pages.disposal_of_vehicle.VehicleLookupPage
-import pages.disposal_of_vehicle.SetupTradeDetailsPage
-import pages.disposal_of_vehicle.DisposePage
-import pages.disposal_of_vehicle.VrmLockedPage
 import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
+import pages.disposal_of_vehicle.DisposePage
 import pages.disposal_of_vehicle.EnterAddressManuallyPage
+import pages.disposal_of_vehicle.SetupTradeDetailsPage
+import pages.disposal_of_vehicle.VehicleLookupPage
+import pages.disposal_of_vehicle.VehicleLookupPage.{happyPath, tryLockedVrm, back, exit}
+import pages.disposal_of_vehicle.VrmLockedPage
 import services.fakes.FakeAddressLookupService.addressWithUprn
-import mappings.disposal_of_vehicle.RelatedCacheKeys
-import helpers.disposal_of_vehicle.ProgressBar._
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
+
+
   "go to page" should {
     "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
@@ -29,7 +31,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(VehicleLookupPage.title)
     }
 
-    "display the progress of the page when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
+    "display the progress of the page when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -38,7 +40,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       page.source.contains(ProgressStep(4)) should equal(true)
     }
 
-    "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarFalse) {
+    "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new ProgressBarFalse {
       go to BeforeYouStartPage
       cacheSetup()
 

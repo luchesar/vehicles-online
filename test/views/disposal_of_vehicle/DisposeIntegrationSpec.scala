@@ -1,18 +1,32 @@
 package views.disposal_of_vehicle
 
-import helpers.tags.UiTag
-import pages.disposal_of_vehicle.DisposePage._
-import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
-import helpers.webbrowser.{WebDriverFactory, TestHarness}
-import org.openqa.selenium.{By, WebElement, WebDriver}
-import pages.common.ErrorPanel
-import pages.disposal_of_vehicle._
-import services.fakes.FakeDateServiceImpl._
-import mappings.disposal_of_vehicle.Dispose._
+import helpers.disposal_of_vehicle.ProgressBar.ProgressStep
+import helpers.tags.UiTag
+import helpers.UiSpec
+import helpers.webbrowser.TestHarness
+import mappings.disposal_of_vehicle.Dispose.TodaysDateOfDisposal
+import org.openqa.selenium.{By, WebDriver}
+import org.scalatest.concurrent.Eventually.{eventually, PatienceConfig, scaled}
 import org.scalatest.time.{Seconds, Span}
-import org.scalatest.concurrent.Eventually._
-import helpers.disposal_of_vehicle.ProgressBar._
+import pages.common.ErrorPanel
+import pages.disposal_of_vehicle.BeforeYouStartPage
+import pages.disposal_of_vehicle.DisposePage
+import pages.disposal_of_vehicle.DisposePage.back
+import pages.disposal_of_vehicle.DisposePage.consent
+import pages.disposal_of_vehicle.DisposePage.dateOfDisposalDay
+import pages.disposal_of_vehicle.DisposePage.dateOfDisposalMonth
+import pages.disposal_of_vehicle.DisposePage.dateOfDisposalYear
+import pages.disposal_of_vehicle.DisposePage.dispose
+import pages.disposal_of_vehicle.DisposePage.happyPath
+import pages.disposal_of_vehicle.DisposePage.lossOfRegistrationConsent
+import pages.disposal_of_vehicle.DisposePage.sadPath
+import pages.disposal_of_vehicle.DisposePage.title
+import pages.disposal_of_vehicle.DisposePage.useTodaysDate
+import pages.disposal_of_vehicle.DisposeSuccessPage
+import pages.disposal_of_vehicle.SetupTradeDetailsPage
+import pages.disposal_of_vehicle.VehicleLookupPage
+import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
 
 final class DisposeIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -25,7 +39,7 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(title)
     }
 
-    "display the progress of the page when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
+    "display the progress of the page when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -34,7 +48,7 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       page.source.contains(ProgressStep(5)) should equal(true)
     }
 
-    "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarFalse) {
+    "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new ProgressBarFalse {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -72,12 +86,11 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       cacheSetup()
 
       go to DisposePage
-      val csrf: WebElement = webDriver.findElement(By.name(services.csrf_prevention.CsrfPreventionAction.TokenName))
+      val csrf = webDriver.findElement(By.name(services.csrf_prevention.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
       csrf.getAttribute("name") should equal(services.csrf_prevention.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
-
   }
 
   "dispose button" should {
@@ -92,13 +105,11 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     // This test needs to run with javaScript enabled.
-    "display DisposeSuccess page on correct submission with javascript enabled" taggedAs UiTag in new WebBrowser(webDriver = WebDriverFactory.webDriver(targetBrowser = "htmlUnit", javascriptEnabled = true)) {
+    "display DisposeSuccess page on correct submission with javascript enabled" taggedAs UiTag in new HtmlUnitWithJs {
       go to BeforeYouStartPage
-      cacheSetup().
-        vehicleLookupFormModel()
+      cacheSetup().vehicleLookupFormModel()
 
       happyPath
-
 
       // We want to wait for the javascript to execute and redirect to the next page. For build servers we may need to
       // wait longer than the default.
@@ -109,10 +120,9 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
 
     // This test needs to run with javaScript enabled.
-    "display DisposeSuccess page on correct submission when a user auto populates the date of disposal with javascript enabled" taggedAs UiTag in new WebBrowser(webDriver = WebDriverFactory.webDriver(targetBrowser = "htmlUnit", javascriptEnabled = true)) {
+    "display DisposeSuccess page on correct submission when a user auto populates the date of disposal with javascript enabled" taggedAs UiTag in new HtmlUnitWithJs {
       go to BeforeYouStartPage
-      cacheSetup().
-        vehicleLookupFormModel()
+      cacheSetup().vehicleLookupFormModel()
       go to DisposePage
 
       click on useTodaysDate
@@ -124,7 +134,6 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       click on consent
       click on lossOfRegistrationConsent
       click on dispose
-
 
       // We want to wait for the javascript to execute and redirect to the next page. For build servers we may need to
       // wait longer than the default.
@@ -223,7 +232,7 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
   "use today's date" should {
     // This test needs to run with javaScript enabled.
-    "fill in the date fields" taggedAs UiTag in new WebBrowser(webDriver = WebDriverFactory.webDriver(targetBrowser = "htmlUnit", javascriptEnabled = true)) {
+    "fill in the date fields" taggedAs UiTag in new HtmlUnitWithJs {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposePage
@@ -236,9 +245,8 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  private def cacheSetup()(implicit webDriver: WebDriver) = {
+  private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
       dealerDetails().
       vehicleDetailsModel()
-  }
 }

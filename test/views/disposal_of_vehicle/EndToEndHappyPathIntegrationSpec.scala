@@ -1,9 +1,14 @@
 package views.disposal_of_vehicle
 
-import helpers.UiSpec
 import helpers.tags.UiTag
+import helpers.UiSpec
 import helpers.webbrowser.TestHarness
-import pages.disposal_of_vehicle._
+import pages.disposal_of_vehicle.BeforeYouStartPage
+import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
+import pages.disposal_of_vehicle.DisposePage
+import pages.disposal_of_vehicle.DisposeSuccessPage
+import pages.disposal_of_vehicle.SetupTradeDetailsPage
+import pages.disposal_of_vehicle.VehicleLookupPage
 import services.fakes.FakeAddressLookupService
 
 class EndToEndHappyPathIntegrationSpec extends UiSpec with TestHarness {

@@ -2,7 +2,7 @@ package views.disposal_of_vehicle
 
 import helpers.UiSpec
 import helpers.webbrowser.{TestHarness, WebDriverFactory}
-import org.apache.http.client.methods._
+import org.apache.http.client.methods.{CloseableHttpResponse, HttpGet, HttpPost, HttpPut, HttpRequestBase}
 import org.apache.http.impl.client.HttpClients
 import play.mvc.Http.Status
 

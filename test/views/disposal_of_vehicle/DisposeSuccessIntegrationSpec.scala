@@ -2,14 +2,14 @@ package views.disposal_of_vehicle
 
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.disposal_of_vehicle.ProgressBar.ProgressStep
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
-import org.openqa.selenium.{By, WebElement, WebDriver}
-import pages.disposal_of_vehicle.DisposeSuccessPage._
-import pages.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import helpers.disposal_of_vehicle.ProgressBar._
+import org.openqa.selenium.{By, WebDriver, WebElement}
+import pages.disposal_of_vehicle.DisposeSuccessPage.{exitDisposal, newDisposal}
+import pages.disposal_of_vehicle.{BeforeYouStartPage, DisposeSuccessPage, SetupTradeDetailsPage, VehicleLookupPage}
 
 final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -22,7 +22,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(DisposeSuccessPage.title)
     }
 
-    "display the progress of the page when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
+    "display the progress of the page when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -31,7 +31,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       page.source.contains(ProgressStep(6)) should equal(true)
     }
 
-    "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarFalse) {
+    "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new ProgressBarFalse {
       go to BeforeYouStartPage
       cacheSetup()
 

@@ -1,16 +1,14 @@
 package views.disposal_of_vehicle
 
 import helpers.UiSpec
+import helpers.disposal_of_vehicle.ProgressBar.ProgressStep
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import mappings.disposal_of_vehicle.SetupTradeDetails
-import org.openqa.selenium.{WebElement, By}
-import pages.common.Accessibility
-import pages.common.ErrorPanel
-import pages.disposal_of_vehicle.SetupTradeDetailsPage._
+import org.openqa.selenium.{By, WebElement}
+import pages.common.{Accessibility, ErrorPanel}
+import pages.disposal_of_vehicle.SetupTradeDetailsPage.happyPath
 import pages.disposal_of_vehicle._
-import pages.common.AlternateLanguages._
-import helpers.disposal_of_vehicle.ProgressBar._
 
 final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
   "got to page" should {
@@ -19,13 +17,13 @@ final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
       page.title should equal(SetupTradeDetailsPage.title)
     }
 
-    "display the progress of the page when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
+    "display the progress of the page when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
       go to SetupTradeDetailsPage
 
       page.source.contains(ProgressStep(2)) should equal(true)
     }
 
-    "display the progress of the page when progress bar is set to false" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarFalse) {
+    "display the progress of the page when progress bar is set to false" taggedAs UiTag in new ProgressBarFalse {
       go to SetupTradeDetailsPage
 
       page.source.contains(ProgressStep(2)) should equal(false)

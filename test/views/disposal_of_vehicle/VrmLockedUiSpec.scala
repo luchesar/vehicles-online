@@ -1,14 +1,14 @@
 package views.disposal_of_vehicle
 
-import helpers.tags.UiTag
-import pages.disposal_of_vehicle.VrmLockedPage._
 import helpers.UiSpec
-import helpers.webbrowser.TestHarness
-import pages.disposal_of_vehicle._
-import org.openqa.selenium.{By, WebElement, WebDriver}
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.tags.UiTag
+import helpers.webbrowser.TestHarness
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import helpers.disposal_of_vehicle.ProgressBar._
+import org.openqa.selenium.{By, WebDriver, WebElement}
+import pages.disposal_of_vehicle.VrmLockedPage.{exit, newDisposal}
+import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage, VehicleLookupPage, VrmLockedPage}
 
 final class VrmLockedUiSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -35,7 +35,6 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       csrf.getAttribute("name") should equal(services.csrf_prevention.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
-
   }
 
   "newDisposal button" should {
