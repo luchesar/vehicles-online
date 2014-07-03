@@ -1,7 +1,7 @@
 package views.disposal_of_vehicle
 
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
-import helpers.disposal_of_vehicle.ProgressBar.ProgressStep
+import helpers.disposal_of_vehicle.ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.UiSpec
 import helpers.webbrowser.TestHarness
@@ -45,7 +45,7 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposePage
 
-      page.source.contains(ProgressStep(5)) should equal(true)
+      page.source.contains(progressStep(5)) should equal(true)
     }
 
     "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new ProgressBarFalse {
@@ -54,7 +54,7 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposePage
 
-      page.source.contains(ProgressStep(5)) should equal(false)
+      page.source.contains(progressStep(5)) should equal(false)
     }
 
     "redirect when no vehicleDetailsModel is cached" taggedAs UiTag in new WebBrowser {
