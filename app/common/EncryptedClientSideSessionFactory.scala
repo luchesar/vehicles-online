@@ -1,8 +1,8 @@
 package common
 
-import java.security.SecureRandom
 import app.ConfigProperties.getProperty
 import com.google.inject.Inject
+import java.security.SecureRandom
 import org.apache.commons.codec.binary.Hex
 import play.api.mvc.Cookie
 import utils.helpers.{CookieEncryption, CookieNameHashGenerator}
@@ -11,7 +11,7 @@ class EncryptedClientSideSessionFactory @Inject()()
                                         (implicit cookieFlags: CookieFlags,
                                          encryption: CookieEncryption,
                                          cookieNameHashing: CookieNameHashGenerator) extends ClientSideSessionFactory {
-  import EncryptedClientSideSessionFactory._
+  import common.EncryptedClientSideSessionFactory._
 
   /**
    * Session secret key must not expire before any other cookie that relies on it.
@@ -93,5 +93,4 @@ class EncryptedClientSideSessionFactory @Inject()()
 object EncryptedClientSideSessionFactory {
   private final val SessionSecretKeySuffixKey = "sessionSecretKeySuffixKey"
   private final val SessionSecretKeySuffixDefaultValue = "FE291934-66BD-4500-B27F-517C7D77F26B"
-
 }

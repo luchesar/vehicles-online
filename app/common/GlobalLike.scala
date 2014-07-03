@@ -6,10 +6,10 @@ import com.typesafe.config.ConfigFactory
 import composition.Composition
 import filters.WithFilters
 import play.api.Play.current
-import play.api._
+import play.api.{Application, GlobalSettings, Configuration, Play, Logger, Mode}
 import play.api.i18n.Lang
 import play.api.mvc.Results.NotFound
-import play.api.mvc._
+import play.api.mvc.{RequestHeader, SimpleResult}
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -39,7 +39,10 @@ trait GlobalLike extends WithFilters with GlobalSettings with Composition {
     Logger.info("vehicles-online Started") // used for operations, do not remove
   }
 
-  override def onLoadConfig(configuration: Configuration, path: File, classloader: ClassLoader, mode: Mode.Mode): Configuration = {
+  override def onLoadConfig(configuration: Configuration,
+                            path: File,
+                            classloader: ClassLoader,
+                            mode: Mode.Mode): Configuration = {
     val dynamicConfig = Configuration.from(Map("session.cookieName" -> UUID.randomUUID().toString.substring(0, 16)))
     val applicationConf = System.getProperty("config.file", s"application.${mode.toString.toLowerCase}.conf")
     val environmentOverridingConfiguration = configuration ++

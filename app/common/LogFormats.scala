@@ -1,9 +1,9 @@
 package common
 
 object LogFormats {
+  private final val anonymousChar = "*"
 
   def anonymize(input: String): String = {
-    val anonymousChar = "*"
     val startOfNonAnonymizedText =
       if (input.length == 0) 0
       else if (input.length > 8) 4
