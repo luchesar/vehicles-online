@@ -2,7 +2,13 @@ package pages.disposal_of_vehicle
 
 import helpers.webbrowser.{Checkbox, Element, Page, SingleSel, TextField, WebBrowserDSL, WebDriverFactory}
 import mappings.common.DayMonthYear.{DayId, MonthId, YearId}
-import mappings.disposal_of_vehicle.Dispose.{BackId, ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId, SubmitId, TodaysDateOfDisposal}
+import mappings.disposal_of_vehicle.Dispose.BackId
+import mappings.disposal_of_vehicle.Dispose.ConsentId
+import mappings.disposal_of_vehicle.Dispose.DateOfDisposalId
+import mappings.disposal_of_vehicle.Dispose.LossOfRegistrationConsentId
+import mappings.disposal_of_vehicle.Dispose.MileageId
+import mappings.disposal_of_vehicle.Dispose.SubmitId
+import mappings.disposal_of_vehicle.Dispose.TodaysDateOfDisposal
 import org.openqa.selenium.WebDriver
 import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
 import services.fakes.FakeDisposeWebServiceImpl.MileageValid

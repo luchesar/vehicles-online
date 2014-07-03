@@ -1,7 +1,10 @@
 package pages.disposal_of_vehicle
 
 import helpers.webbrowser.{Element, Page, SingleSel, WebBrowserDSL, WebDriverFactory}
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress.{AddressSelectId, BackId, EnterAddressManuallyButtonId, SelectId}
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.AddressSelectId
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BackId
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.EnterAddressManuallyButtonId
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.SelectId
 import org.openqa.selenium.WebDriver
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 

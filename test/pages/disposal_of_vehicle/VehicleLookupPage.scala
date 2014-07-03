@@ -1,10 +1,14 @@
 package pages.disposal_of_vehicle
 
 import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
-import mappings.disposal_of_vehicle.VehicleLookup.{BackId, DocumentReferenceNumberId, ExitId, SubmitId, VehicleRegistrationNumberId}
+import mappings.disposal_of_vehicle.VehicleLookup.BackId
+import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
+import mappings.disposal_of_vehicle.VehicleLookup.ExitId
+import mappings.disposal_of_vehicle.VehicleLookup.SubmitId
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
 import org.openqa.selenium.WebDriver
-import services.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
+import services.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
 
 object VehicleLookupPage extends Page with WebBrowserDSL {
   final val address = "/disposal-of-vehicle/vehicle-lookup"

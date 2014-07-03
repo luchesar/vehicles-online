@@ -16,7 +16,9 @@ object SetupTradeDetailsPage extends Page with WebBrowserDSL {
 
   def lookup(implicit driver: WebDriver): Element = find(id(SubmitId)).get
 
-  def happyPath(traderBusinessName: String = TraderBusinessNameValid, traderBusinessPostcode: String = PostcodeValid)(implicit driver: WebDriver) = {
+  def happyPath(traderBusinessName: String = TraderBusinessNameValid,
+                traderBusinessPostcode: String = PostcodeValid)
+               (implicit driver: WebDriver) = {
     go to SetupTradeDetailsPage
     traderName enter traderBusinessName
     traderPostcode enter traderBusinessPostcode
