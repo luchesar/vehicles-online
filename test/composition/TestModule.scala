@@ -3,19 +3,22 @@ package composition
 import app.ConfigProperties.getProperty
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
+import common.{CookieFlags, NoCookieFlags, ClientSideSessionFactory, ClearTextClientSideSessionFactory}
 import filters.AccessLoggingFilter.AccessLoggerName
-import services.DateService
+import org.scalatest.mock.MockitoSugar
 import play.api.{LoggerLike, Logger}
-import services.fakes._
+import services.fakes.FakeVehicleLookupWebService
+import services.fakes.FakeDisposeWebServiceImpl
+import services.fakes.FakeDateServiceImpl
+import services.fakes.FakeAddressLookupWebServiceImpl
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebService}
 import services.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeService}
-import common.{CookieFlags, NoCookieFlags, ClientSideSessionFactory, ClearTextClientSideSessionFactory}
 import services.brute_force_prevention.BruteForcePreventionWebService
 import services.brute_force_prevention.BruteForcePreventionService
 import services.brute_force_prevention.BruteForcePreventionServiceImpl
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
-import org.scalatest.mock.MockitoSugar
+import services.DateService
 
 class TestModule() extends ScalaModule with MockitoSugar {
   /**

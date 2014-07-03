@@ -25,7 +25,8 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
 
   "address lines" should {
     "accept if form address lines contain hyphens" in {
-      val model = formWithValidDefaults(buildingNameOrNumber = buildingNameOrNumberHypthens,line2 = line2Hypthens,line3 = line3Hypthens, postTown = postTownHypthens)
+      val model = formWithValidDefaults(buildingNameOrNumber = buildingNameOrNumberHypthens,
+        line2 = line2Hypthens,line3 = line3Hypthens, postTown = postTownHypthens)
         .get.addressAndPostcodeModel
 
       model.addressLinesModel.buildingNameOrNumber should equal(buildingNameOrNumberHypthens.toUpperCase)
@@ -47,7 +48,8 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     }
 
     "accept if post town starts with spaces" in {
-      formWithValidDefaults(postTown = " Swansea").get.addressAndPostcodeModel.addressLinesModel.postTown should equal("SWANSEA")
+      formWithValidDefaults(postTown = " Swansea").get.addressAndPostcodeModel.addressLinesModel.
+        postTown should equal("SWANSEA")
     }
 
     "reject if buildingNameOrNumber is blank" in {
@@ -55,11 +57,13 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     }
 
     "reject if buildingNameOrNumber is less than min length" in {
-      formWithValidDefaults(buildingNameOrNumber = "abc", line2 = "", line3 = "", postTown = PostTownValid).errors should have length 1
+      formWithValidDefaults(buildingNameOrNumber = "abc", line2 = "", line3 = "", postTown = PostTownValid).
+        errors should have length 1
     }
 
     "reject if buildingNameOrNumber is more than max length" in {
-      formWithValidDefaults(buildingNameOrNumber = "a" * (LineMaxLength + 1), line2 = "", line3 = "", postTown = PostTownValid).errors should have length 1
+      formWithValidDefaults(buildingNameOrNumber = "a" * (LineMaxLength + 1),
+        line2 = "", line3 = "", postTown = PostTownValid).errors should have length 1
     }
 
     "reject if buildingNameOrNumber is greater than max length" in {
@@ -71,11 +75,13 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     }
 
     "reject if line2 is more than max length" in {
-      formWithValidDefaults(line2 = "a" * (LineMaxLength + 1), line3 = "", postTown = PostTownValid).errors should have length 1
+      formWithValidDefaults(line2 = "a" * (LineMaxLength + 1),
+        line3 = "", postTown = PostTownValid).errors should have length 1
     }
 
     "reject if line3 is more than max length" in {
-      formWithValidDefaults(line2 = "", line3 = "a" * (LineMaxLength + 1), postTown = PostTownValid).errors should have length 1
+      formWithValidDefaults(line2 = "", line3 = "a" * (LineMaxLength + 1),
+        postTown = PostTownValid).errors should have length 1
     }
 
     "reject if postTown is more than max length" in {
@@ -87,7 +93,12 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     }
 
     "reject if total length of all address lines is more than maxLengthOfLinesConcatenated" in {
-      formWithValidDefaults(buildingNameOrNumber = "a" * LineMaxLength + 1,line2 = "b" * LineMaxLength,line3 = "c" * LineMaxLength, postTown = "d" * LineMaxLength).errors should have length 1
+      formWithValidDefaults(
+        buildingNameOrNumber = "a" * LineMaxLength + 1,
+        line2 = "b" * LineMaxLength,
+        line3 = "c" * LineMaxLength,
+        postTown = "d" * LineMaxLength
+      ).errors should have length 1
     }
 
     "reject if any line contains html chevrons" in {

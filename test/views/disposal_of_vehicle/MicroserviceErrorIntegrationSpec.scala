@@ -5,6 +5,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
+import helpers.disposal_of_vehicle.ProgressBar._
 import pages.disposal_of_vehicle.MicroServiceErrorPage.{exit, tryAgain}
 import pages.disposal_of_vehicle.{BeforeYouStartPage, MicroServiceErrorPage, SetupTradeDetailsPage, VehicleLookupPage}
 
@@ -14,6 +15,12 @@ final class MicroserviceErrorIntegrationSpec extends UiSpec with TestHarness {
       go to MicroServiceErrorPage
 
       page.title should equal(MicroServiceErrorPage.title)
+    }
+
+    "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
+      go to MicroServiceErrorPage
+
+      page.title should not contain ProgressStep
     }
   }
 
