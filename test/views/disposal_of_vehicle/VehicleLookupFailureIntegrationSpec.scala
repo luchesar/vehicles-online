@@ -9,6 +9,7 @@ import pages.disposal_of_vehicle.VehicleLookupFailurePage._
 import pages.disposal_of_vehicle._
 import mappings.disposal_of_vehicle.VehicleLookup._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
+import helpers.disposal_of_vehicle.ProgressBar._
 
 final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -20,6 +21,15 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       go to VehicleLookupFailurePage
 
       page.title should equal(VehicleLookupFailurePage.title)
+    }
+
+    "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      go to VehicleLookupFailurePage
+
+      page.title should not contain ProgressStep
     }
 
     "redirect to setuptrade details if cache is empty on page load" taggedAs UiTag in new WebBrowser {

@@ -7,6 +7,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle._
+import helpers.disposal_of_vehicle.ProgressBar._
 
 final class DuplicateDisposalIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -14,6 +15,12 @@ final class DuplicateDisposalIntegrationSpec extends UiSpec with TestHarness {
       go to DuplicateDisposalErrorPage
 
       page.title should equal(DuplicateDisposalErrorPage.title)
+    }
+
+    "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
+      go to DuplicateDisposalErrorPage
+
+      page.title should not contain ProgressStep
     }
   }
 

@@ -6,6 +6,7 @@ import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import pages.disposal_of_vehicle.UprnNotFoundPage._
 import pages.disposal_of_vehicle._
+import helpers.disposal_of_vehicle.ProgressBar._
 
 final class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -13,6 +14,12 @@ final class UprnNotFoundIntegrationSpec extends UiSpec with TestHarness {
       go to UprnNotFoundPage
 
       page.title should equal(UprnNotFoundPage.title)
+    }
+
+    "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
+      go to UprnNotFoundPage
+
+      page.title should not contain ProgressStep
     }
   }
 

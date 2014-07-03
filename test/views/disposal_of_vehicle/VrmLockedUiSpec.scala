@@ -8,6 +8,7 @@ import pages.disposal_of_vehicle._
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import mappings.disposal_of_vehicle.RelatedCacheKeys
+import helpers.disposal_of_vehicle.ProgressBar._
 
 final class VrmLockedUiSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -17,6 +18,14 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       go to VrmLockedPage
 
       page.title should equal(VrmLockedPage.title)
+    }
+
+    "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs.bruteForcePreventionViewModel()
+      go to VrmLockedPage
+
+      page.title should not contain ProgressStep
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {

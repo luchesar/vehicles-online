@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.{VehicleLookupPage, BeforeYouStartPage, HelpPage}
 import pages.common.HelpPanel.help
 import pages.disposal_of_vehicle.HelpPage.{back, exit}
+import helpers.disposal_of_vehicle.ProgressBar._
 
 final class HelpIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -15,6 +16,12 @@ final class HelpIntegrationSpec extends UiSpec with TestHarness {
       go to HelpPage
 
       page.title should equal(HelpPage.title)
+    }
+
+    "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
+      go to HelpPage
+
+      page.title should not contain ProgressStep
     }
   }
 

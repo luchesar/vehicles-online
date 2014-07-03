@@ -7,6 +7,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle._
+import helpers.disposal_of_vehicle.ProgressBar._
 
 final class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -22,6 +23,12 @@ final class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
       go to DisposeFailurePage
 
       page.title should equal(SetupTradeDetailsPage.title)
+    }
+
+    "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new WebBrowser(app = fakeApplicationWithProgressBarTrue) {
+      go to DisposeFailurePage
+
+      page.title should not contain ProgressStep
     }
   }
 
