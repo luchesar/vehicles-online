@@ -57,7 +57,9 @@ object WebDriverFactory {
   }
 
   private def chromeDriver = {
-    systemProperties.setProperty("webdriver.chrome.driver", getProperty("webdriver.chrome.driver", "drivers/chromedriver-2.9_macosx"))
+    systemProperties.setProperty(
+      "webdriver.chrome.driver",
+      getProperty("webdriver.chrome.driver", s"test/resources/drivers/chromedriver-2.9_$driverSuffix"))
     new ChromeDriver()
   }
 
@@ -74,16 +76,28 @@ object WebDriverFactory {
   }
 
   private def phantomjsDriver(javascriptEnabled: Boolean) = {
-    systemProperties.setProperty("webdriver.phantomjs.binary", getProperty("webdriver.phantomjs.binary", "drivers/phantomjs-1.9.7_macosx"))
+    systemProperties.setProperty(
+      "webdriver.phantomjs.binary",
+      getProperty("webdriver.phantomjs.binary", s"test/resources/drivers/phantomjs-1.9.7_$driverSuffix")
+    )
 
     val capabilities = new DesiredCapabilities
     capabilities.setJavascriptEnabled(javascriptEnabled)
     capabilities.setCapability("takesScreenshot", false)
     capabilities.setCapability(
       PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
-      systemProperties.getProperty("webdriver.phantomjs.binary"))
-    capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, Array("--ignore-ssl-errors=yes", "--web-security=false", "--ssl-protocol=any"))
+      systemProperties.getProperty("webdriver.phantomjs.binary")
+    )
+    capabilities.setCapability(
+      PhantomJSDriverService.PHANTOMJS_CLI_ARGS,
+      Array("--ignore-ssl-errors=yes", "--web-security=false", "--ssl-protocol=any")
+    )
 
     new PhantomJSDriver(capabilities)
+  }
+
+  private val driverSuffix: String = sys.props.get("os.name") match {
+    case Some(os) if os.contains("mac") => "macosx"
+    case _ => "linux64"
   }
 }
