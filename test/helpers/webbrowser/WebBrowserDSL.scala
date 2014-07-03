@@ -34,7 +34,7 @@ import java.io.FileOutputStream
 import java.io.FileInputStream
 import java.util.Date
 import java.util.concurrent.TimeUnit
-import scala.collection.JavaConverters._
+import scala.collection.JavaConverters.{asScalaBufferConverter, asScalaSetConverter}
 import scala.language.implicitConversions
 
 trait WebBrowserDSL {
@@ -597,7 +597,7 @@ trait WebBrowserDSL {
 
   
   def setScriptTimeout(timeoutInNanos: Long)(implicit driver: WebDriver) {
-    driver.manage().timeouts().setScriptTimeout(timeoutInNanos, TimeUnit.NANOSECONDS);
+    driver.manage().timeouts().setScriptTimeout(timeoutInNanos, TimeUnit.NANOSECONDS)
   }
 
   // Clears the text field or area, then presses the passed keys
