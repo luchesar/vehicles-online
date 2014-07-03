@@ -1,8 +1,8 @@
 package utils.helpers
 
+import helpers.webbrowser.TestGlobal
 import helpers.{UnitSpec, WithApplication}
 import play.api.test.FakeApplication
-import helpers.webbrowser.TestGlobal
 
 final class AesEncryptionSpec extends UnitSpec {
   "encryptCookie" should {
@@ -40,8 +40,10 @@ final class AesEncryptionSpec extends UnitSpec {
   private final val ClearText = "qwerty"
   private val fakeAppWithCryptoConfig = FakeApplication(
     withGlobal = Some(TestGlobal),
-    additionalConfiguration = Map("application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo="))
+    additionalConfiguration = Map("application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo=")
+  )
   private val fakeAppWithWrongLengthAppSecretConfig = FakeApplication(
     withGlobal = Some(TestGlobal),
-    additionalConfiguration = Map("application.secret256Bit" -> "rubbish"))
+    additionalConfiguration = Map("application.secret256Bit" -> "rubbish")
+  )
 }

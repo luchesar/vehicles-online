@@ -1,15 +1,13 @@
 package utils.helpers
 
-import helpers.UnitSpec
-import helpers.common.CookieHelper
-import helpers.WithApplication
-import helpers.webbrowser.TestGlobal
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import helpers.webbrowser.TestGlobal
+import helpers.{UnitSpec, WithApplication}
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import pages.disposal_of_vehicle.BeforeYouStartPage
-import play.api.test.Helpers._
+import play.api.test.Helpers.LOCATION
 import play.api.test.{FakeApplication, FakeRequest}
-import CookieHelper._
 
 final class CryptoHelperSpec extends UnitSpec {
   "handleApplicationSecretChange" should {
@@ -51,8 +49,8 @@ final class CryptoHelperSpec extends UnitSpec {
 
       val result = CryptoHelper.handleApplicationSecretChange(request)
       
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
       }
     }
   }
