@@ -2,12 +2,12 @@ package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
 import helpers.{UnitSpec, WithApplication}
+import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.SetupTradeDetailsPage
-import play.api.test.{FakeApplication, FakeRequest}
+import play.api.test.FakeRequest
+import play.api.test.Helpers.{OK, LOCATION, status, contentAsString}
 import play.api.test.Helpers._
 import utils.helpers.Config
-import org.mockito.Mockito.when
-import helpers.webbrowser.TestGlobal
 
 final class BeforeYouStartUnitSpec extends UnitSpec {
   "present" should {
@@ -36,8 +36,8 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
   "submit" should {
     "redirect to next page after the button is clicked" in new WithApplication {
       val result = beforeYouStart.submit(FakeRequest())
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
   }

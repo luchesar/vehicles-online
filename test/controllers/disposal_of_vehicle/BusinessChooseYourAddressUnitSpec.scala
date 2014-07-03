@@ -4,11 +4,12 @@ import common.ClientSideSessionFactory
 import helpers.{UnitSpec, WithApplication}
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress._
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.{BusinessChooseYourAddressCacheKey, AddressSelectId}
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage, UprnNotFoundPage}
 import play.api.mvc.Cookies
-import play.api.test.{FakeApplication, FakeRequest}
+import play.api.test.FakeRequest
+import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, SET_COOKIE, contentAsString}
 import play.api.test.Helpers._
 import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
 import services.fakes.FakeAddressLookupWebServiceImpl
@@ -19,13 +20,12 @@ import FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
 import FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound
 import utils.helpers.Config
 import org.mockito.Mockito.when
-import helpers.webbrowser.TestGlobal
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
     "display the page if dealer details cached" in new WithApplication {
-      whenReady(present, timeout) {
-        r => r.header.status should equal(OK)
+      whenReady(present, timeout) { r =>
+        r.header.status should equal(OK)
       }
     }
 
@@ -48,8 +48,8 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "redirect to setupTradeDetails page when present with no dealer name cached" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = businessChooseYourAddressWithUprnFound.present(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
 
@@ -70,8 +70,8 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnFound.submit(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
 
@@ -79,24 +79,24 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest(traderUprn = "").
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnFound.submit(request)
-      whenReady(result) {
-        r => r.header.status should equal(BAD_REQUEST)
+      whenReady(result) { r =>
+        r.header.status should equal(BAD_REQUEST)
       }
     }
 
     "redirect to setupTradeDetails page when valid submit with no dealer name cached" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = businessChooseYourAddressWithUprnFound.submit(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
 
     "redirect to setupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(traderUprn = "")
       val result = businessChooseYourAddressWithUprnFound.submit(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
 
@@ -104,8 +104,8 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnNotFound.submit(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(UprnNotFoundPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(UprnNotFoundPage.address))
       }
     }
 
@@ -113,10 +113,9 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnFound.submit(request)
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain allOf(BusinessChooseYourAddressCacheKey, TraderDetailsCacheKey)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.map(_.name) should contain allOf(BusinessChooseYourAddressCacheKey, TraderDetailsCacheKey)
       }
     }
 
@@ -124,10 +123,9 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnNotFound.submit(request)
-      whenReady(result) {
-        r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          cookies.map(_.name) should contain noneOf(BusinessChooseYourAddressCacheKey, TraderDetailsCacheKey)
+      whenReady(result) { r =>
+        val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+        cookies.map(_.name) should contain noneOf(BusinessChooseYourAddressCacheKey, TraderDetailsCacheKey)
       }
     }
   }

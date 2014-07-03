@@ -15,26 +15,30 @@ import models.domain.disposal_of_vehicle.{EnterAddressManuallyModel, TraderDetai
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage}
 import play.api.mvc.SimpleResult
-import play.api.test.{FakeApplication, FakeRequest}
+import play.api.test.FakeRequest
+import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, contentAsString}
 import play.api.test.Helpers._
 import utils.helpers.Config
 import scala.concurrent.Future
-import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
-import helpers.webbrowser.TestGlobal
+import services.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
+import services.fakes.FakeAddressLookupService.Line2Valid
+import services.fakes.FakeAddressLookupService.Line3Valid
+import services.fakes.FakeAddressLookupService.PostTownValid
+import services.fakes.FakeAddressLookupService.PostcodeValid
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      whenReady(present) {
-        r => r.header.status should equal(OK)
+      whenReady(present) { r =>
+        r.header.status should equal(OK)
       }
     }
 
     "redirect to SetupTraderDetails page when present with no dealer name cached" in new WithApplication {
       val request = FakeRequest()
       val result = enterAddressManually.present(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
 
@@ -80,8 +84,8 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
 
       val result = enterAddressManually.submit(request)
-      whenReady(result) {
-        r => r.header.status should equal(BAD_REQUEST)
+      whenReady(result) { r =>
+        r.header.status should equal(BAD_REQUEST)
       }
     }
 
@@ -90,44 +94,44 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually.submit(request)
-      whenReady(result) {
-        r => r.header.status should equal(BAD_REQUEST)
+      whenReady(result) { r =>
+        r.header.status should equal(BAD_REQUEST)
       }
     }
 
     "redirect to Dispose after a valid submission of all fields" in new WithApplication {
       val request = requestWithValidDefaults()
       val result = enterAddressManually.submit(request)
-      whenReady(result) {
-        r =>
-          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
-          val cookies = fetchCookiesFromHeaders(r)
-          val enterAddressManuallyCookieName = "enterAddressManually"
-          cookies.find(_.name == enterAddressManuallyCookieName) match {
-            case Some(cookie) =>
-              val json = cookie.value
-              val model = deserializeJsonToModel[EnterAddressManuallyModel](json)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+        val cookies = fetchCookiesFromHeaders(r)
+        val enterAddressManuallyCookieName = "enterAddressManually"
+        cookies.find(_.name == enterAddressManuallyCookieName) match {
+          case Some(cookie) =>
+            val json = cookie.value
+            val model = deserializeJsonToModel[EnterAddressManuallyModel](json)
 
-              model.addressAndPostcodeModel.addressLinesModel.buildingNameOrNumber should equal(BuildingNameOrNumberValid.toUpperCase)
-              model.addressAndPostcodeModel.addressLinesModel.line2 should equal(Some(Line2Valid.toUpperCase))
-              model.addressAndPostcodeModel.addressLinesModel.line3 should equal(Some(Line3Valid.toUpperCase))
-              model.addressAndPostcodeModel.addressLinesModel.postTown should equal(PostTownValid.toUpperCase)
-            case None => fail(s"$enterAddressManuallyCookieName cookie not found")
-          }
+            model.addressAndPostcodeModel.addressLinesModel.buildingNameOrNumber should equal(
+              BuildingNameOrNumberValid.toUpperCase)
+            model.addressAndPostcodeModel.addressLinesModel.line2 should equal(Some(Line2Valid.toUpperCase))
+            model.addressAndPostcodeModel.addressLinesModel.line3 should equal(Some(Line3Valid.toUpperCase))
+            model.addressAndPostcodeModel.addressLinesModel.postTown should equal(PostTownValid.toUpperCase)
+          case None => fail(s"$enterAddressManuallyCookieName cookie not found")
+        }
 
-          cookies.find(_.name == traderDetailsCookieName) match {
-            case Some(cookie) =>
-              val json = cookie.value
-              val model = deserializeJsonToModel[TraderDetailsModel](json)
-              val expectedData = Seq(BuildingNameOrNumberValid.toUpperCase,
-                Line2Valid.toUpperCase,
-                Line3Valid.toUpperCase,
-                PostTownValid.toUpperCase,
-                PostcodeValid.toUpperCase)
-              expectedData should equal(model.traderAddress.address)
+        cookies.find(_.name == traderDetailsCookieName) match {
+          case Some(cookie) =>
+            val json = cookie.value
+            val model = deserializeJsonToModel[TraderDetailsModel](json)
+            val expectedData = Seq(BuildingNameOrNumberValid.toUpperCase,
+              Line2Valid.toUpperCase,
+              Line3Valid.toUpperCase,
+              PostTownValid.toUpperCase,
+              PostcodeValid.toUpperCase)
+            expectedData should equal(model.traderAddress.address)
 
-            case None => fail(s"$traderDetailsCookieName cookie not found")
-          }
+          case None => fail(s"$traderDetailsCookieName cookie not found")
+        }
       }
     }
 
@@ -138,8 +142,8 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = enterAddressManually.submit(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
 
@@ -196,8 +200,8 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val result = enterAddressManually.submit(requestWithValidDefaults(
         buildingName = "m...,,,,   "  // This should be a min length of 4 chars
       ))
-      whenReady(result) {
-        r => r.header.status should equal(BAD_REQUEST)
+      whenReady(result) { r =>
+        r.header.status should equal(BAD_REQUEST)
       }
     }
 
@@ -206,8 +210,8 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         buildingName = "...")
       )
 
-      whenReady(result) {
-        r => r.header.status should equal(BAD_REQUEST)
+      whenReady(result) { r =>
+        r.header.status should equal(BAD_REQUEST)
       }
     }
 
@@ -219,8 +223,8 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> PostTownValid,
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid)
       val result = enterAddressManually.submit(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
       }
     }
 
@@ -270,7 +274,8 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
 
   private val traderDetailsCookieName = "traderDetails"
 
-  private def validateAddressCookieValues(result: Future[SimpleResult], buildingName: String, line2: String, line3: String, postTown: String, postCode: String = PostcodeValid) = {
+  private def validateAddressCookieValues(result: Future[SimpleResult], buildingName: String, line2: String,
+                                          line3: String, postTown: String, postCode: String = PostcodeValid) = {
 
     whenReady(result) { r =>
       val cookies = fetchCookiesFromHeaders(r)

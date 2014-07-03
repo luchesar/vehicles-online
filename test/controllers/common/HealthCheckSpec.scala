@@ -13,5 +13,4 @@ class HealthCheckSpec extends UnitSpec {
       whenReady(result) (_.header.status should equal(OK))
     }
   }
-
 }
