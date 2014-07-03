@@ -16,8 +16,7 @@ import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage}
 import play.api.mvc.SimpleResult
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, contentAsString}
-import play.api.test.Helpers._
+import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, contentAsString, defaultAwaitTimeout}
 import utils.helpers.Config
 import scala.concurrent.Future
 import services.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
