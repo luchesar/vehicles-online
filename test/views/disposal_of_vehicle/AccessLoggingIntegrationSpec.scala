@@ -16,7 +16,6 @@ import pages.disposal_of_vehicle.{BeforeYouStartPage, BusinessChooseYourAddressP
 import play.api.LoggerLike
 import play.api.test.FakeApplication
 
-
 class AccessLoggingIntegrationSpec extends UiSpec with TestHarness with MockitoSugar  with WebBrowserDSL {
   val mockLogger = new MockLogger
 

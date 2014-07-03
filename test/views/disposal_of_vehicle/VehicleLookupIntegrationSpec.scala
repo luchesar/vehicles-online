@@ -20,7 +20,6 @@ import services.fakes.FakeAddressLookupService.addressWithUprn
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
-
   "go to page" should {
     "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
