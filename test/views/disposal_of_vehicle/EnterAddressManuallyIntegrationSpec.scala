@@ -44,9 +44,9 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
       cacheSetup()
 
       go to EnterAddressManuallyPage
-      val csrf: WebElement = webDriver.findElement(By.name(services.csrf_prevention.CsrfPreventionAction.TokenName))
+      val csrf: WebElement = webDriver.findElement(By.name(filters.csrf_prevention.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
-      csrf.getAttribute("name") should equal(services.csrf_prevention.CsrfPreventionAction.TokenName)
+      csrf.getAttribute("name") should equal(filters.csrf_prevention.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
 

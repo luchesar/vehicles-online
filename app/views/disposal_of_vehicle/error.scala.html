@@ -1,5 +1,5 @@
 @(exceptionDigest: String)(implicit lang: Lang,
-        token: services.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+        token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
 @import mappings.disposal_of_vehicle.Error.SubmitId
