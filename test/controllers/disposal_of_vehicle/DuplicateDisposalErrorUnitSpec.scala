@@ -4,6 +4,7 @@ import common.ClientSideSessionFactory
 import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito.when
 import play.api.test.FakeRequest
+import play.api.test.Helpers.{OK, status, contentAsString}
 import play.api.test.Helpers._
 import utils.helpers.Config
 

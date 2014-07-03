@@ -3,6 +3,7 @@ package controllers.disposal_of_vehicle
 import common.ClientSideSessionFactory
 import org.mockito.Mockito.when
 import play.api.test.FakeRequest
+import play.api.test.Helpers.{OK, contentAsString}
 import play.api.test.Helpers._
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.UnitSpec
@@ -12,8 +13,8 @@ import utils.helpers.Config
 final class DisposeFailureUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
-      whenReady(present) {
-        r => r.header.status should equal(OK)
+      whenReady(present) { r =>
+        r.header.status should equal(OK)
       }
     }
 
