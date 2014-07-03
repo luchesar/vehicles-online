@@ -1,14 +1,20 @@
 package common
 
-import play.api.test.FakeApplication
-import utils.helpers.{AesEncryption, CookieEncryption, NoEncryption, NoHashGenerator, CookieNameHashGenerator, Sha1HashGenerator}
 import helpers.webbrowser.TestGlobal
 import helpers.{UnitSpec, WithApplication}
+import play.api.test.FakeApplication
+import utils.helpers.AesEncryption
+import utils.helpers.CookieEncryption
+import utils.helpers.NoEncryption
+import utils.helpers.NoHashGenerator
+import utils.helpers.CookieNameHashGenerator
+import utils.helpers.Sha1HashGenerator
 
 final class EncryptedClientSideSessionSpec extends UnitSpec {
   "nameCookie" should {
     "return a new CookieName type consisting of the session secret key plus the cookie name that we can see in clear text when hashing is not used" in new WithApplication {
-      val encryptedClientSideSession = new EncryptedClientSideSession("trackingId", SessionSecretKey)(noCookieFlags, noEncryption, noHashing)
+      val encryptedClientSideSession =
+        new EncryptedClientSideSession("trackingId", SessionSecretKey)(noCookieFlags, noEncryption, noHashing)
       val encryptedCookieName = encryptedClientSideSession.nameCookie(CookieName)
       encryptedCookieName.value should equal(s"$SessionSecretKey$CookieName")
     }
@@ -21,7 +27,8 @@ final class EncryptedClientSideSessionSpec extends UnitSpec {
     }
 
     "return a cookie whose value is prefixed with the cookie name that we can see in clear text when hashing is not used" in new WithApplication {
-      val encryptedClientSideSession = new EncryptedClientSideSession("trackingId", SessionSecretKey)(noCookieFlags, noEncryption, noHashing)
+      val encryptedClientSideSession =
+        new EncryptedClientSideSession("trackingId", SessionSecretKey)(noCookieFlags, noEncryption, noHashing)
       val cookieNameType = encryptedClientSideSession.nameCookie(CookieName)
       val value = "value"
       val cookie = encryptedClientSideSession.newCookie(cookieNameType, value)
@@ -29,8 +36,10 @@ final class EncryptedClientSideSessionSpec extends UnitSpec {
     }
 
     "allow the client to extract the encrypted value from the cookie" in new WithApplication(app = fakeAppWithConfig) {
-      implicit val aesEncryption = new AesEncryption with CookieEncryption
-      val encryptedClientSideSession = new EncryptedClientSideSession("trackingId", SessionSecretKey)(noCookieFlags, aesEncryption, sha1Hashing)
+      implicit val aesEncryption =
+        new AesEncryption with CookieEncryption
+      val encryptedClientSideSession =
+        new EncryptedClientSideSession("trackingId", SessionSecretKey)(noCookieFlags, aesEncryption, sha1Hashing)
       val cookieNameType = encryptedClientSideSession.nameCookie(CookieName)
       val value = "value"
       val cookie = encryptedClientSideSession.newCookie(cookieNameType, value)
