@@ -2,6 +2,7 @@ package views.disposal_of_vehicle
 
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.disposal_of_vehicle.ProgressBar.ProgressStep
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
@@ -26,7 +27,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       go to EnterAddressManuallyPage
 
-      page.source.contains("Step 3 of 6") should equal(true)
+      page.source.contains(ProgressStep(3)) should equal(true)
     }
 
     "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new ProgressBarFalse {
@@ -35,7 +36,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       go to EnterAddressManuallyPage
 
-      page.source.contains("Step 3 of 6") should equal(false)
+      page.source.contains(ProgressStep(3)) should equal(false)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {

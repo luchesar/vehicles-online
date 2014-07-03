@@ -1,13 +1,14 @@
 package views.disposal_of_vehicle
 
 import helpers.UiSpec
+import helpers.disposal_of_vehicle.ProgressBar.ProgressStep
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import mappings.disposal_of_vehicle.SetupTradeDetails
 import org.openqa.selenium.{By, WebElement}
 import pages.common.{Accessibility, ErrorPanel}
 import pages.disposal_of_vehicle.SetupTradeDetailsPage.happyPath
-import pages.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetupTradeDetailsPage}
+import pages.disposal_of_vehicle._
 
 final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
   "got to page" should {
@@ -19,13 +20,13 @@ final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
     "display the progress of the page when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
       go to SetupTradeDetailsPage
 
-      page.source.contains("Step 2 of 6") should equal(true)
+      page.source.contains(ProgressStep(2)) should equal(true)
     }
 
     "display the progress of the page when progress bar is set to false" taggedAs UiTag in new ProgressBarFalse {
       go to SetupTradeDetailsPage
 
-      page.source.contains("Step 2 of 6") should equal(false)
+      page.source.contains(ProgressStep(2)) should equal(false)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {

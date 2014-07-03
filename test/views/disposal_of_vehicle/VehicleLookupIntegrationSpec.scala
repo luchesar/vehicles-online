@@ -1,7 +1,7 @@
 package views.disposal_of_vehicle
 
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
-import helpers.disposal_of_vehicle.ProgressBar.{fakeApplicationWithProgressBarTrue, fakeApplicationWithProgressBarFalse}
+import helpers.disposal_of_vehicle.ProgressBar.ProgressStep
 import helpers.tags.UiTag
 import helpers.UiSpec
 import helpers.webbrowser.TestHarness
@@ -37,7 +37,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       go to VehicleLookupPage
 
-      page.source.contains("Step 4 of 6") should equal(true)
+      page.source.contains(ProgressStep(4)) should equal(true)
     }
 
     "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new ProgressBarFalse {
@@ -46,7 +46,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       go to VehicleLookupPage
 
-      page.source.contains("Step 4 of 6") should equal(false)
+      page.source.contains(ProgressStep(4)) should equal(false)
     }
 
     "Redirect when no traderBusinessName is cached" taggedAs UiTag in new WebBrowser {

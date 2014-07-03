@@ -3,9 +3,10 @@ package views.disposal_of_vehicle
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.UiSpec
-import helpers.webbrowser.TestHarness
 import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
-import org.openqa.selenium.{By, WebDriver, WebElement}
+import helpers.webbrowser.TestHarness
+import helpers.disposal_of_vehicle.ProgressBar.ProgressStep
+import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.common.ErrorPanel
 import pages.disposal_of_vehicle.BeforeYouStartPage
 import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
@@ -30,7 +31,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       cacheSetup()
       go to BusinessChooseYourAddressPage
 
-      page.source.contains("Step 3 of 6") should equal(true)
+      page.source.contains(ProgressStep(3)) should equal(true)
     }
 
     "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new ProgressBarFalse {
@@ -38,7 +39,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       cacheSetup()
       go to BusinessChooseYourAddressPage
 
-      page.source.contains("Step 3 of 6") should equal(false)
+      page.source.contains(ProgressStep(3)) should equal(false)
     }
 
     "redirect when no traderBusinessName is cached" taggedAs UiTag in new WebBrowser {

@@ -1,10 +1,10 @@
 package common
 
+import helpers.UnitSpec
 import helpers.webbrowser.TestGlobal
 import play.api.test.{FakeApplication, WithApplication}
 import play.api.mvc.Cookie
 import scala.concurrent.duration.DurationInt
-import helpers.UnitSpec
 
 final class CookieFlagsSpec extends UnitSpec {
   "CookieFlagsFromConfig" should {

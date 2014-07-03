@@ -1,14 +1,15 @@
 package common
 
-import utils.helpers.{NoEncryption, CookieEncryption, NoHashGenerator, CookieNameHashGenerator}
 import helpers.UnitSpec
 import play.api.mvc.Cookie
+import utils.helpers.{NoEncryption, CookieEncryption, NoHashGenerator, CookieNameHashGenerator}
 
 final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
   implicit val noCookieFlags = new NoCookieFlags
   implicit val noEncryption = new NoEncryption with CookieEncryption
   implicit val noHashing = new NoHashGenerator with CookieNameHashGenerator
-  val encryptedClientSideSessionFactory = new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing)
+  val encryptedClientSideSessionFactory =
+    new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing)
 
   "newSessionCookiesIfNeeded" should {
 

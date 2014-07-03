@@ -1,8 +1,9 @@
 package views.disposal_of_vehicle
 
-import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.disposal_of_vehicle.ProgressBar.ProgressStep
 import helpers.tags.UiTag
+import helpers.UiSpec
 import helpers.webbrowser.TestHarness
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.WebDriver
@@ -20,13 +21,13 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
     "display the progress of the page when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
       go to BeforeYouStartPage
 
-      page.source.contains("Step 1 of 6") should equal(true)
+      page.source.contains(ProgressStep(1)) should equal(true)
     }
 
     "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new ProgressBarFalse {
       go to BeforeYouStartPage
 
-      page.source.contains("Step 1 of 6") should equal(false)
+      page.source.contains(ProgressStep(1)) should equal(false)
     }
 
     "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowser {

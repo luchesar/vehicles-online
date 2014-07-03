@@ -2,6 +2,7 @@ package views.disposal_of_vehicle
 
 import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import helpers.disposal_of_vehicle.ProgressBar.ProgressStep
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
@@ -27,7 +28,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposeSuccessPage
 
-      page.source.contains("Step 6 of 6") should equal(true)
+      page.source.contains(ProgressStep(6)) should equal(true)
     }
 
     "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new ProgressBarFalse {
@@ -36,7 +37,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
 
       go to DisposeSuccessPage
 
-      page.source.contains("Step 6 of 6") should equal(false)
+      page.source.contains(ProgressStep(6)) should equal(false)
     }
 
     "redirect when no details are cached" taggedAs UiTag in new WebBrowser {
