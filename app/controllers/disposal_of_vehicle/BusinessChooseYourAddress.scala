@@ -27,7 +27,8 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
     mapping(
       /* We cannot apply constraints to this drop down as it is populated by web call to an address lookup service.
       We would need the request here to get the cookie.
-      Validation is done when we make a second web call with the UPRN, so if a bad guy is injecting a non-existent UPRN then it will fail at that step instead */
+      Validation is done when we make a second web call with the UPRN,
+      so if a bad guy is injecting a non-existent UPRN then it will fail at that step instead */
       AddressSelectId -> addressDropDown
     )(BusinessChooseYourAddressModel.apply)(BusinessChooseYourAddressModel.unapply)
   )
@@ -94,8 +95,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
         val traderDetailsModel = TraderDetailsModel(traderName = traderName, traderAddress = addressViewModel)
         /* The redirect is done as the final step within the map so that:
          1) we are not blocking threads
-         2) the browser does not change page before the future has completed and written to the cache.
-         */
+         2) the browser does not change page before the future has completed and written to the cache. */
         Redirect(routes.VehicleLookup.present()).
           discardingCookie(EnterAddressManuallyCacheKey).
           withCookie(model).
