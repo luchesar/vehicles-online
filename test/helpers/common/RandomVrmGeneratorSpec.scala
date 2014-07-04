@@ -18,6 +18,5 @@ final class RandomVrmGeneratorSpec extends UnitSpec {
       // has the same character used multiple times and so the randomization is not enough
       vrm.distinct.size > 3 should equal(true)
     }
-
   }
 }

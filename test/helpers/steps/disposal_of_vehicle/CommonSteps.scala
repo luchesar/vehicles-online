@@ -1,6 +1,6 @@
 package helpers.steps.disposal_of_vehicle
 
-import app.ConfigProperties._
+import app.ConfigProperties.getProperty
 import common.{ClearTextClientSideSessionFactory, NoCookieFlags, EncryptedClientSideSessionFactory}
 import cucumber.api.java.en.{Given, When, Then}
 import helpers.common.RandomVrmGenerator

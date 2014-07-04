@@ -68,7 +68,6 @@ final class DisposeSteps(webBrowserDriver:WebBrowserDriverWIthJavaScript) extend
     dateOfDisposalYear.value should equal(DateOfDisposalYearValid)
   }
 
-
   private def buildDisposeSetup() {
     go to BeforeYouStartPage
 
