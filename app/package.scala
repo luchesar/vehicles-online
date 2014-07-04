@@ -34,5 +34,4 @@ package object app {
         case _ => default
       }
   }
-
 }
