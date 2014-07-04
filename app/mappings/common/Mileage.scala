@@ -11,5 +11,3 @@ object Mileage {
 
   def mileage (max: Int = Max): Mapping[Option[Int]] = optional(number(max = max))
 }
-
-
