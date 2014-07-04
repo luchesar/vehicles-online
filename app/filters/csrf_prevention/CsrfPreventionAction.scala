@@ -79,8 +79,8 @@ class CsrfPreventionAction(next: EssentialAction)
             //TODO name the tuple parts accordingly instead of referencing it by number
             val splitDecryptedExtractedSignedToken = splitToken(decryptedExtractedSignedToken)
             val splitTokenFromHeader = splitToken(headerToken)
-            ((splitDecryptedExtractedSignedToken._1 == splitTokenFromHeader._1) &&
-              (splitTokenFromHeader._2.contains(splitDecryptedExtractedSignedToken._2)))
+            (splitDecryptedExtractedSignedToken._1 == splitTokenFromHeader._1) &&
+              splitTokenFromHeader._2.contains(splitDecryptedExtractedSignedToken._2)
           }).getOrElse(false)
         )
 
