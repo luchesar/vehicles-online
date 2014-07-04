@@ -36,5 +36,6 @@ object HtmlArgsExtensions {
       }
   }
 
-  implicit def richHtmlArgs(htmlArgs: Map[Symbol, Any]) = new RichHtmlArgs(htmlArgs) // TODO can this be replaced with the way we use implicits in the EncryptedCookieImplicits
+  implicit def richHtmlArgs(htmlArgs: Map[Symbol, Any]) = new RichHtmlArgs(htmlArgs)
+  // TODO can this be replaced with the way we use implicits in the EncryptedCookieImplicits
 }
