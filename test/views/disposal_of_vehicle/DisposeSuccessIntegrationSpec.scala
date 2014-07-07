@@ -4,12 +4,12 @@ import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.disposal_of_vehicle.ProgressBar.progressStep
 import helpers.tags.UiTag
-import helpers.webbrowser.TestHarness
+import helpers.webbrowser.{WebDriverFactory, TestHarness}
 import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.disposal_of_vehicle.DisposeSuccessPage.{exitDisposal, newDisposal}
-import pages.disposal_of_vehicle.{BeforeYouStartPage, DisposeSuccessPage, SetupTradeDetailsPage, VehicleLookupPage}
+import pages.disposal_of_vehicle.{DisposePage, BeforeYouStartPage, DisposeSuccessPage, SetupTradeDetailsPage, VehicleLookupPage}
 
 final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -174,6 +174,21 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       RelatedCacheKeys.FullSet.foreach(cacheKey => {
         webDriver.manage().getCookieNamed(cacheKey) should equal(null)
       })
+    }
+
+    "browser back button" should {
+      "display VehicleLookup page when in firefox with javascript enabled" taggedAs UiTag in new WebBrowser(webDriver = WebDriverFactory.webDriver(targetBrowser = "firefox", javascriptEnabled = true)) {
+        go to BeforeYouStartPage
+        CookieFactoryForUISpecs.
+          dealerDetails().
+          vehicleLookupFormModel().
+          vehicleDetailsModel()
+        DisposePage.happyPath
+
+        webDriver.navigate().back()
+
+        page.title should equal(VehicleLookupPage.title)
+      }
     }
   }
 
