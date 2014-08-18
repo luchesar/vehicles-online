@@ -5,6 +5,7 @@ import net.litola.SassPlugin
 import de.johoop.jacoco4sbt.JacocoPlugin._
 import org.scalastyle.sbt.ScalastylePlugin
 import templemore.sbt.cucumber.CucumberPlugin
+import bintray.Plugin._
 
 object ApplicationBuild extends Build {
   val appName         = "vehicles-online"
@@ -59,7 +60,7 @@ object ApplicationBuild extends Build {
    */
   val jsConfig = "custom.js"
 
-  val myOrganization = Seq(organization := "Driver & Vehicle Licensing Agency")
+  val myOrganization = Seq(organization := "dvla")
 
   val compilerOptions = Seq(scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls", "-Xmax-classfile-name", "128"))
 
@@ -96,5 +97,7 @@ object ApplicationBuild extends Build {
     appDependencies,
     settings = play.Project.playScalaSettings ++ jacoco.settings ++ ScalastylePlugin.Settings
   ).settings(appSettings: _*)
+   .settings(bintraySettings:_*)
+   .settings(licenses := Seq(("MIT" -> url("http://opensource.org/licenses/MIT"))) )
    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
 }
